@@ -1,0 +1,952 @@
+[
+  {
+    "subjectCode": "COM",
+    "topicSlug": "introduction-to-commerce",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 1,
+    "questionText": "Which of the following contributed least to the evolution of commercial activities in Nigeria?",
+    "options": {
+      "A": "Development of banks",
+      "B": "Development of transportation",
+      "C": "Development of traders' unions",
+      "D": "Development of currencies"
+    },
+    "correctAnswer": "C",
+    "explanation": "Banks, transportation, and currencies were fundamental to commercial development. Traders' unions, while helpful, contributed the least to the evolution of commercial activities.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 2,
+    "questionText": "One of the factors which critically determines the choice of occupation is",
+    "options": {
+      "A": "training",
+      "B": "skill",
+      "C": "aptitude",
+      "D": "interest"
+    },
+    "correctAnswer": "C",
+    "explanation": "Aptitude (natural ability/talent) critically determines one's choice of occupation as it indicates innate suitability for particular work.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 3,
+    "questionText": "Extractive industries may also be denominated as",
+    "options": {
+      "A": "direct industries",
+      "B": "servicing industries",
+      "C": "primary industries",
+      "D": "indirect industries"
+    },
+    "correctAnswer": "C",
+    "explanation": "Extractive industries (mining, farming, fishing) are classified as primary industries because they extract raw materials directly from nature.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-organizations",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 4,
+    "questionText": "The primary objective of a business organization is to",
+    "options": {
+      "A": "cater for the needs of its owners",
+      "B": "work towards making returns",
+      "C": "assist the government to serve the citizens",
+      "D": "improve the standard of living of its proprietors"
+    },
+    "correctAnswer": "B",
+    "explanation": "The primary objective of any business is to work towards making returns (profit).",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-organizations",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 5,
+    "questionText": "Services which are of absolute monopoly can best be provided by",
+    "options": {
+      "A": "private companies",
+      "B": "limited liability companies",
+      "C": "public companies",
+      "D": "public enterprises"
+    },
+    "correctAnswer": "D",
+    "explanation": "Public enterprises (government-owned) are best suited to provide services that are natural monopolies, such as electricity and water supply.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-organizations",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 6,
+    "questionText": "One advantage the co-operative society has over the ordinary company is that the",
+    "options": {
+      "A": "latter pays tax while the former does not",
+      "B": "former attracts more capital than the latter",
+      "C": "membership of the former is usually more than that of the latter",
+      "D": "former, unlike the latter, has limited liabilities"
+    },
+    "correctAnswer": "A",
+    "explanation": "Co-operative societies enjoy tax exemptions, whereas ordinary companies must pay corporate taxes.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-organizations",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 7,
+    "questionText": "Mr Obi is a manager of Obi Agricultural Venture. He makes all the decisions and takes all profits from the business. He had agreed with Alhaji Musa (a farmer) to pool their resources together and expand their business. They invites Mr. Abayomi (a cotton grower) to join them. Mr Abayomi agreed on the condition that his liability in the new firm will be limited to his investment in it. They thus registered Obi, Musa & Abayomi Agricultural Ventures.\n\nIt can be deduced from the above that Obi Agricultural Ventures is a",
+    "options": {
+      "A": "sole proprietorship",
+      "B": "general partnership",
+      "C": "limited partnership",
+      "D": "joint venture"
+    },
+    "correctAnswer": "C",
+    "explanation": "Since Mr. Abayomi's liability is limited to his investment while the others have unlimited liability, this is a limited partnership.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-organizations",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 8,
+    "questionText": "Mr Obi is a manager of Obi Agricultural Venture. He makes all the decisions and takes all profits from the business. He had agreed with Alhaji Musa (a farmer) to pool their resources together and expand their business. They invites Mr. Abayomi (a cotton grower) to join them. Mr Abayomi agreed on the condition that his liability in the new firm will be limited to his investment in it. They thus registered Obi, Musa & Abayomi Agricultural Ventures.\n\nWhich of the statements below is true of Mr Abayomi?",
+    "options": {
+      "A": "He can assign his shares to another without consent of other partners",
+      "B": "He cannot take part in the management of the business.",
+      "C": "His actions as a limited partner can bind the firm.",
+      "D": "His death will authomatically dissolve the partnership."
+    },
+    "correctAnswer": "B",
+    "explanation": "As a limited partner, Mr. Abayomi cannot participate in the management of the business; doing so would make him liable as a general partner.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-finance",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 9,
+    "questionText": "A source of capital to private limited companies is shares issued to",
+    "options": {
+      "A": "the public",
+      "B": "selected persons",
+      "C": "members of the Board of Directors",
+      "D": "Dedicated members of staff"
+    },
+    "correctAnswer": "B",
+    "explanation": "Private limited companies raise capital by issuing shares to selected persons (family, friends, associates), not the general public.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-organizations",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 10,
+    "questionText": "Which of the following is an example of a conglomerate?",
+    "options": {
+      "A": "National Electric Power Authority",
+      "B": "United Africa Company Nigeria Plc",
+      "C": "The Nigerian Railway Corporation.",
+      "D": "First Bank Nigeria Plc."
+    },
+    "correctAnswer": "B",
+    "explanation": "United Africa Company (UAC) Nigeria Plc is a conglomerate with diverse business interests spanning multiple industries.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-finance",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 11,
+    "questionText": "Which of the following statements is true of preferred stockholders?",
+    "options": {
+      "A": "They have no voting rights at annual general meetings",
+      "B": "They have first claim to company assets before creditors",
+      "C": "They have first claim to company assets after all debts have been settled.",
+      "D": "They share dividends equally with common stockholders."
+    },
+    "correctAnswer": "C",
+    "explanation": "Preference shareholders have priority over ordinary shareholders in claiming assets after all debts and liabilities have been settled during liquidation.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-finance",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 12,
+    "questionText": "A provision in the charter of a company which gives holders of common stock the first option to purchase additional issues of the firms' common stock is the",
+    "options": {
+      "A": "pre emptive right",
+      "B": "shareholders right",
+      "C": "ex-dividend right",
+      "D": "oversubscription right"
+    },
+    "correctAnswer": "A",
+    "explanation": "Pre-emptive rights give existing shareholders the first opportunity to buy new shares in proportion to their current holdings, protecting them from dilution.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "accounting-basics",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 13,
+    "questionText": "SONU Enterprises Balance Sheet as at 31/3/98:\nLiabilities: Capital N6,000.00 | Net profit N2,000.00 | Drawings (N137.50) | Creditors N1,000.00 | Accruals N187.50 | Total N9,050.00\nAssets: Plant/Machinery N2,300.00 | Motor van N2,000.00 | Stock N1,250.00 | Debtors N480.00 | Bank N3,000.00 | Cash N20.00 | Total N9,050.00\n\nWhat is the current ratio?",
+    "options": {
+      "A": "4:1",
+      "B": "4.5:1",
+      "C": "5:1",
+      "D": "25.5:1"
+    },
+    "correctAnswer": "A",
+    "explanation": "Current Assets (Stock 1,250 + Debtors 480 + Bank 3,000 + Cash 20) = 4,750. Current Liabilities (Creditors 1,000 + Accruals 187.50) = 1,187.50. Current Ratio = 4,750 / 1,187.50 = 4:1.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "accounting-basics",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 14,
+    "questionText": "SONU Enterprises Balance Sheet as at 31/3/98:\nLiabilities: Capital N6,000.00 | Net profit N2,000.00 | Drawings (N137.50) | Creditors N1,000.00 | Accruals N187.50 | Total N9,050.00\nAssets: Plant/Machinery N2,300.00 | Motor van N2,000.00 | Stock N1,250.00 | Debtors N480.00 | Bank N3,000.00 | Cash N20.00 | Total N9,050.00\n\nWhat is the acid ratio?",
+    "options": {
+      "A": "2.95:1",
+      "B": "4.25:1",
+      "C": "4.75:1",
+      "D": "5.55:1"
+    },
+    "correctAnswer": "A",
+    "explanation": "Quick Assets (Current Assets minus Stock) = 4,750 - 1,250 = 3,500. Acid Test Ratio = 3,500 / 1,187.50 = 2.95:1.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-finance",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 15,
+    "questionText": "The form of capital which is easily transferred into the form desired is known as",
+    "options": {
+      "A": "working capital",
+      "B": "liquid capital",
+      "C": "circulating capital",
+      "D": "capital employed"
+    },
+    "correctAnswer": "B",
+    "explanation": "Liquid capital consists of assets that can be easily and quickly converted into any desired form, such as cash and near-cash assets.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "accounting-basics",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 16,
+    "questionText": "If a firm's turnover is N15,000 and the cost of goods sold is N10,000, what is the percentage of gross profit on sales?",
+    "options": {
+      "A": "23.3%",
+      "B": "33.3%",
+      "C": "50.0%",
+      "D": "66.6%"
+    },
+    "correctAnswer": "B",
+    "explanation": "Gross Profit = Turnover - Cost of Goods Sold = N15,000 - N10,000 = N5,000. Percentage = (5,000 / 15,000) x 100 = 33.3%.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "trade",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 17,
+    "questionText": "A machine which enables sales without the physical presence of a sales attendant is a",
+    "options": {
+      "A": "computer machine",
+      "B": "vending machine",
+      "C": "telex machine",
+      "D": "fax machine"
+    },
+    "correctAnswer": "B",
+    "explanation": "A vending machine dispenses products automatically when payment is inserted, requiring no sales attendant.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 18,
+    "questionText": "What document is required when a country imposes and valorem import duties on goods?",
+    "options": {
+      "A": "A mail transfer",
+      "B": "A shipping note",
+      "C": "A bill of lading",
+      "D": "A consular invoice"
+    },
+    "correctAnswer": "D",
+    "explanation": "A consular invoice, certified by the importing country's consul in the exporting country, states the value of goods and is required for assessing ad valorem (value-based) duties.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 19,
+    "questionText": "Entrepot trade is said to have taken place when goods are",
+    "options": {
+      "A": "held at the port pending payment of custom duty",
+      "B": "sold in the ship under special regulation",
+      "C": "imported and then re-exported",
+      "D": "kept for further processing before sales"
+    },
+    "correctAnswer": "C",
+    "explanation": "Entrepot trade (re-export trade) involves importing goods into a country and then re-exporting them to another country.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 20,
+    "questionText": "When a price is quoted at F.O.B. it means that the price",
+    "options": {
+      "A": "excludes loading charges incurred in bringing the goods to the dock",
+      "B": "excludes all necessary shipping charges payable for insurance",
+      "C": "includes all charges payable on shipping a consignment to the port of destination",
+      "D": "includes charges payable for loading goods onto the ship"
+    },
+    "correctAnswer": "D",
+    "explanation": "FOB (Free on Board) means the seller's price includes all costs up to and including loading the goods onto the ship at the port of departure.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "trade",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 21,
+    "questionText": "Emeka ordered goods for his retail shop. The manufacturer sells the goods at retail price of N500 but would give it to Emeka at N400. What kind of discount did he get?",
+    "options": {
+      "A": "Cash discount",
+      "B": "Trade discount",
+      "C": "Quantity discount",
+      "D": "Seasonal discount"
+    },
+    "correctAnswer": "B",
+    "explanation": "A trade discount is a reduction from the list/retail price given to traders (retailers, wholesalers) for buying goods for resale.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "communication",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 22,
+    "questionText": "Nigerian Postal Services (NIPOST) facilitates commerce in all the following ways except through",
+    "options": {
+      "A": "cash on delivery service",
+      "B": "recorded delivery service",
+      "C": "express service",
+      "D": "free on board service"
+    },
+    "correctAnswer": "D",
+    "explanation": "Free on Board (FOB) is a shipping/trade term, not a postal service. NIPOST offers COD, recorded delivery, and express services.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "warehousing",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 23,
+    "questionText": "The document with which a manufacturing enterprise releases stock of raw materials to the factory for production is called",
+    "options": {
+      "A": "stock release form",
+      "B": "goods received note",
+      "C": "store issues voucher",
+      "D": "materials release note"
+    },
+    "correctAnswer": "D",
+    "explanation": "A materials release note authorizes the release of raw materials from the store to the production/factory floor.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "insurance",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 24,
+    "questionText": "The two main categories under which marine losses fall into are",
+    "options": {
+      "A": "particular loss and average loss",
+      "B": "actual loss and general loss",
+      "C": "total loss and partial loss",
+      "D": "voyage policy loss and time policy loss"
+    },
+    "correctAnswer": "C",
+    "explanation": "Marine losses are broadly classified into total loss (where the entire cargo/ship is lost) and partial loss (where only part is damaged or lost).",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "insurance",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 25,
+    "questionText": "Insurance companies operate on the principle of indemnity. This means that an insured person or firm collects",
+    "options": {
+      "A": "only half of the loss suffered",
+      "B": "double the value of the loss suffered",
+      "C": "the total sum of the premiums paid prior to the loss",
+      "D": "damage claims equal to the loss suffered"
+    },
+    "correctAnswer": "D",
+    "explanation": "The principle of indemnity states that the insured should be compensated exactly for the actual loss suffered — no more, no less.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "banking-and-finance",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 26,
+    "questionText": "The most important difference between community banks and peoples' bank is that the",
+    "options": {
+      "A": "latter is owned solely by government while the former are not",
+      "B": "former cater for rural dwellers while the latter caters for both rural and urban dwellers",
+      "C": "former are service oriented while the latter is profit oriented",
+      "D": "latter advances loans to the public while the former advance loans to rural dwellers only"
+    },
+    "correctAnswer": "A",
+    "explanation": "People's Bank of Nigeria was wholly owned by the government, while community banks were owned and managed by local communities.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "banking-and-finance",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 27,
+    "questionText": "The assets, liabilities and general management of a distressed bank may be taken over by",
+    "options": {
+      "A": "International Bank for Reconstruction and Development",
+      "B": "Nigerian Industrial Development Bank",
+      "C": "Nigerian Deposit Insurance Corporation",
+      "D": "Nigerian Bank for Commerce and Industry"
+    },
+    "correctAnswer": "C",
+    "explanation": "The Nigerian Deposit Insurance Corporation (NDIC) is responsible for managing and taking over distressed banks to protect depositors.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "stock-exchange",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 28,
+    "questionText": "The type of securities that the stock exchange deals with are",
+    "options": {
+      "A": "warrants, currency notes, money orders and postal orders",
+      "B": "cheques, bank drafts, warrants and promissory notes",
+      "C": "bonds ivory, treasury bills, debentures and warrants",
+      "D": "stocks, shares, bonds and warrants"
+    },
+    "correctAnswer": "D",
+    "explanation": "The stock exchange deals primarily in stocks, shares, bonds, and warrants — these are securities (financial instruments).",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "stock-exchange",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 29,
+    "questionText": "I. Companies must be registered as private limited liability companies\nII. Companies must have less than 100 shareholders.\nIII. No shareholder may have more than 75% of issued share capital.\n\nWhat of the above are requirements for admission into the second-tier securities market?",
+    "options": {
+      "A": "I and II only",
+      "B": "I and III only",
+      "C": "I, II and III",
+      "D": "II and III only"
+    },
+    "correctAnswer": "D",
+    "explanation": "For the second-tier securities market, companies need fewer than 100 shareholders and no single shareholder holding more than 75% of issued capital. They must be public (not private) companies, so statement I is incorrect.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "marketing",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 30,
+    "questionText": "An underlying principle in the marketing of goods is that firms should",
+    "options": {
+      "A": "train their personnel",
+      "B": "be consumer oriented",
+      "C": "advertise the goods",
+      "D": "sell through outlets"
+    },
+    "correctAnswer": "B",
+    "explanation": "The fundamental marketing concept is that businesses should be consumer-oriented, focusing on identifying and satisfying customer needs.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "marketing",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 31,
+    "questionText": "Product X was introduced to the market at N4.00 with its cost of production at N3.90 while competing products are selling at N4.50. What pricing policy are producers of X adopting?",
+    "options": {
+      "A": "Market skimming",
+      "B": "Market penetration",
+      "C": "Product live promotion",
+      "D": "Above the market pricing"
+    },
+    "correctAnswer": "B",
+    "explanation": "Market penetration pricing involves setting a low price (below competitors) to quickly gain market share. Product X at N4.00 is priced below the N4.50 competitor price.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "marketing",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 32,
+    "questionText": "The oral presentation in a conversation with one or more prospective buyers for all purpose of making sales is",
+    "options": {
+      "A": "branding of goods",
+      "B": "personal selling",
+      "C": "packaging",
+      "D": "publicity"
+    },
+    "correctAnswer": "B",
+    "explanation": "Personal selling is the face-to-face, oral presentation to prospective buyers for the purpose of making a sale.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "advertising-and-sales-promotion",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 33,
+    "questionText": "Personnel activities that promote the general image of an organisation are part of",
+    "options": {
+      "A": "advertising",
+      "B": "sales promotion",
+      "C": "public relations",
+      "D": "business correspondence"
+    },
+    "correctAnswer": "C",
+    "explanation": "Public relations involves activities that build and maintain a positive image of an organization among the public and stakeholders.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-law",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 34,
+    "questionText": "An agent must not make any secret profits in the performance of his duties but can only be rewarded by his principal through",
+    "options": {
+      "A": "remuneration and indemnity",
+      "B": "payment of commission and salary",
+      "C": "granting of business concessions",
+      "D": "forwarding of business links"
+    },
+    "correctAnswer": "B",
+    "explanation": "An agent is legally entitled to be rewarded through commission and/or salary as agreed with the principal, not through secret profits.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-law",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 35,
+    "questionText": "Sabo and Gambo entered into a contract for the sale of two baskets of tomatoes belonging to Gambo before the date of delivery and without any default by Gambo, the tomatoes were stolen. This is an example of termination of contract by",
+    "options": {
+      "A": "breach",
+      "B": "performance",
+      "C": "fault",
+      "D": "frustration"
+    },
+    "correctAnswer": "D",
+    "explanation": "Frustration occurs when an unforeseen event (the theft) beyond the control of either party makes it impossible to fulfil the contract.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-law",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 36,
+    "questionText": "A minor is not permitted to enter into a valid contract because he",
+    "options": {
+      "A": "cannot pay the consideration",
+      "B": "is too young to interprete the law",
+      "C": "is young in the eye of the law",
+      "D": "may not be able to write the contract"
+    },
+    "correctAnswer": "C",
+    "explanation": "A minor lacks legal capacity to enter into a valid contract because the law considers them too young to make binding legal commitments.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-law",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 37,
+    "questionText": "A person who is cheated in a business transaction can seek legal remedy",
+    "options": {
+      "A": "even if the agreement is verbal and the amount involved is large",
+      "B": "only if the business is a sole proprietorship whose owner is known",
+      "C": "regardless of the form of business organization",
+      "D": "only if the transaction is documented in contract"
+    },
+    "correctAnswer": "C",
+    "explanation": "Legal remedy is available to any person cheated in a business transaction regardless of the form of business organization involved.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "marketing",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 38,
+    "questionText": "The most essential element of a product is the",
+    "options": {
+      "A": "price",
+      "B": "utility",
+      "C": "design",
+      "D": "colour"
+    },
+    "correctAnswer": "B",
+    "explanation": "Utility (the ability to satisfy a want or need) is the most essential element of any product — without it, the product has no value.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "government-and-business",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 39,
+    "questionText": "Which of the following is a disadvantage of nationalization?",
+    "options": {
+      "A": "It promotes poor economic planning",
+      "B": "The cost of services is not determined by market forces.",
+      "C": "It may lead to rationalization or resources",
+      "D": "The development of local skills and technologies is retarded."
+    },
+    "correctAnswer": "B",
+    "explanation": "Under nationalization, prices and costs are set by government rather than by market forces of supply and demand, leading to potential inefficiency.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "consumer-protection",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 40,
+    "questionText": "An example of a consumer protection agency is the",
+    "options": {
+      "A": "Nigerian Bar Association",
+      "B": "Nigerian Medical Association",
+      "C": "Federal Environmental Protection",
+      "D": "Manufacturers Association of Nigeria"
+    },
+    "correctAnswer": "C",
+    "explanation": "The Federal Environmental Protection Agency protects consumers from environmental hazards. NBA and NMA are professional bodies, while MAN represents manufacturers.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "trade",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 41,
+    "questionText": "The body that organizes, promotes and participates in local and foreign trade fairs is the",
+    "options": {
+      "A": "Ministry of Commercial and Tourism",
+      "B": "Ministry of Finance",
+      "C": "Chambers of Commerce",
+      "D": "Export Promotion Council"
+    },
+    "correctAnswer": "C",
+    "explanation": "Chambers of Commerce actively organize, promote, and participate in both local and international trade fairs to boost business activities.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "transportation",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 42,
+    "questionText": "The Continental West African Conference is a",
+    "options": {
+      "A": "group of West African countries trading in the same products",
+      "B": "conference to foster unity among the West African countries",
+      "C": "group of shipping lines operating on the same West African route",
+      "D": "trust with shareholders from all West African countries"
+    },
+    "correctAnswer": "C",
+    "explanation": "The Continental West African Conference is a shipping conference — a cartel of shipping lines that operate on the same West African shipping routes.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-organizations",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 43,
+    "questionText": "The main function of thrift, credit and loans co-operative societies is to",
+    "options": {
+      "A": "educate their members",
+      "B": "collect money from their members",
+      "C": "disburse money to their members",
+      "D": "raise investment finance among their members"
+    },
+    "correctAnswer": "D",
+    "explanation": "Thrift, credit, and loan co-operative societies primarily pool members' savings to raise investment finance that members can access as loans.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "management-and-organization",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 44,
+    "questionText": "Management is described as",
+    "options": {
+      "A": "getting things done through people",
+      "B": "implementation of business decisions",
+      "C": "the number of levels in an organization",
+      "D": "the people in authority in an organization"
+    },
+    "correctAnswer": "A",
+    "explanation": "Management is classically defined as the art of getting things done through people — coordinating resources and people to achieve organizational goals.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "management-and-organization",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 45,
+    "questionText": "Under normal circumstance, a business enterprise can be ideally structured",
+    "options": {
+      "A": "by products, function or territories",
+      "B": "around the personalities in the enterprise",
+      "C": "on the rulling of the management",
+      "D": "on the basis of an order from stockholders"
+    },
+    "correctAnswer": "A",
+    "explanation": "Organizations are ideally structured by products (product departmentalization), functions (functional structure), or territories (geographic divisions).",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "management-and-organization",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 46,
+    "questionText": "A diagram shows a flow: EXTERNAL ENVIRONMENT -> INTERNAL ENVIRONMENT -> EXTERNAL ENVIRONMENT. Which of the following sequences can best fit into the structure above?",
+    "options": {
+      "A": "People, control, ideas",
+      "B": "Material, production, ideas",
+      "C": "Finance, marketing, product",
+      "D": "Materia, production, product"
+    },
+    "correctAnswer": "D",
+    "explanation": "The systems approach shows inputs from external environment (materials), processed in internal environment (production), and outputs to external environment (products).",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-environment",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 47,
+    "questionText": "When a business enterprises provides free service to its environment, the services is said to be a",
+    "options": {
+      "A": "civic responsibility",
+      "B": "philanthropic",
+      "C": "consideration",
+      "D": "social responsibility"
+    },
+    "correctAnswer": "D",
+    "explanation": "When businesses provide free services to their environment/community, it is termed social responsibility — voluntary actions for the benefit of society.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "management-and-organization",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 48,
+    "questionText": "Inventory control is an aspect of",
+    "options": {
+      "A": "operations research",
+      "B": "materials management",
+      "C": "the organizing functions",
+      "D": "span of control"
+    },
+    "correctAnswer": "B",
+    "explanation": "Inventory control is a key function within materials management, which deals with planning, procuring, storing, and distributing materials.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "economic-integration",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 49,
+    "questionText": "The reduction of import duties among the member countries of ECOWAS is an example of",
+    "options": {
+      "A": "preference duties",
+      "B": "preferential treatment",
+      "C": "preference tariffs",
+      "D": "preferential excise"
+    },
+    "correctAnswer": "C",
+    "explanation": "Preference tariffs are reduced import duties granted to goods from member countries of a trading bloc like ECOWAS.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "economic-integration",
+    "examType": "JAMB",
+    "examYear": 1998,
+    "questionNumber": 50,
+    "questionText": "In a common market, member countries agree basically to",
+    "options": {
+      "A": "place bans on other countries' products",
+      "B": "wage war against other countries",
+      "C": "establish common barriers against countries outside the market",
+      "D": "negotiate with countries outside the market for favourable terms of trade"
+    },
+    "correctAnswer": "C",
+    "explanation": "A common market involves member countries establishing common external tariffs and trade barriers against non-member countries while allowing free trade internally.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  }
+]

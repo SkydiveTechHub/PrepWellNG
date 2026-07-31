@@ -1,0 +1,952 @@
+[
+  {
+    "subjectCode": "COM",
+    "topicSlug": "introduction-to-commerce",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 1,
+    "questionText": "What are the factors with which commercial undertakings can be distinguished? I. Size of the undertakings. II. Profits generated. III. Forms of ownership. IV. Location of the undertakings.",
+    "options": {
+      "A": "I and II only",
+      "B": "I and III only",
+      "C": "II and III only",
+      "D": "III and IV only"
+    },
+    "correctAnswer": "B",
+    "explanation": "Commercial undertakings are distinguished primarily by their size (small, medium, or large scale) and their forms of ownership (sole proprietorship, partnership, limited liability company, etc.). Profits generated and location are not primary distinguishing factors.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "introduction-to-commerce",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 2,
+    "questionText": "The development of commercial activities in Nigeria was facilitated largely by",
+    "options": {
+      "A": "a good transport system",
+      "B": "the indigenization decree",
+      "C": "a convenient medium of exchange",
+      "D": "a high level of production"
+    },
+    "correctAnswer": "C",
+    "explanation": "The development of commercial activities in Nigeria was largely facilitated by a convenient medium of exchange (money). The introduction of money replaced the cumbersome barter system and made buying and selling much easier, thereby boosting commercial activities.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 3,
+    "questionText": "In which of the following sets of occupations can an industrial worker be found?",
+    "options": {
+      "A": "Extraction, commerce and construction",
+      "B": "Manufacturing, extraction and banking",
+      "C": "Construction, quarrying and insurance",
+      "D": "Manufacturing, extraction and construction"
+    },
+    "correctAnswer": "D",
+    "explanation": "Industrial workers are found in manufacturing, extraction, and construction. These are all productive/industrial activities. Commerce, banking, and insurance are commercial (service) activities, not industrial ones.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 4,
+    "questionText": "Construction activities include the building of houses and roads as well as",
+    "options": {
+      "A": "bricklaying",
+      "B": "shoemaking",
+      "C": "blacksmithing",
+      "D": "car assembling"
+    },
+    "correctAnswer": "A",
+    "explanation": "Bricklaying is a construction activity as it involves building structures. Shoemaking and blacksmithing are manufacturing activities, and car assembling is an assembling/manufacturing activity.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-organizations",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 5,
+    "questionText": "If a partnership deed is silent on how profits are to be shared, partners share profits",
+    "options": {
+      "A": "in the ratio of the value of business secured by each partner for the partnership",
+      "B": "in the ratio of partners' capital contributions",
+      "C": "in an equal proportion, irrespective of partners' capital contributions",
+      "D": "according to duties performed by each partner"
+    },
+    "correctAnswer": "C",
+    "explanation": "According to the Partnership Act, where the partnership deed is silent on how profits are to be shared, all partners share profits equally regardless of their capital contributions or duties performed.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-organizations",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 6,
+    "questionText": "Which of the following information is contained in the Articles of Association of a limited liability company?",
+    "options": {
+      "A": "Rights and obligations of directors",
+      "B": "Objectives of the company",
+      "C": "Amount of share capital",
+      "D": "Limitation of liability of shareholders"
+    },
+    "correctAnswer": "A",
+    "explanation": "The Articles of Association contains the internal rules and regulations of a company, including the rights and obligations of directors, voting procedures, and meeting protocols. The Memorandum of Association contains the objectives, share capital, and liability limitations.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-organizations",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 7,
+    "questionText": "The merger of two companies producing the same type of products is an example of",
+    "options": {
+      "A": "vertical integration",
+      "B": "horizontal integration",
+      "C": "lateral merger",
+      "D": "an acquisition"
+    },
+    "correctAnswer": "B",
+    "explanation": "Horizontal integration occurs when two companies producing the same type of products at the same stage of production merge. Vertical integration involves firms at different stages, while lateral merger involves related but not identical products.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-organizations",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 8,
+    "questionText": "One of the implications of the incorporation of a company is that",
+    "options": {
+      "A": "it is more difficult for the company to raise loans",
+      "B": "the company can sue but cannot be sued",
+      "C": "the company's property becomes distinguished from that of its member",
+      "D": "its members become liable for all the debts of the company"
+    },
+    "correctAnswer": "C",
+    "explanation": "Incorporation gives a company a separate legal personality, meaning the company's property and assets are distinct and separate from those of its individual members. This is the principle of corporate personality established in the Salomon v Salomon case.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-organizations",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 9,
+    "questionText": "The main advantage of a sole trader is the freedom to",
+    "options": {
+      "A": "employ anyone he likes",
+      "B": "seek advice from any source",
+      "C": "take quick decisions",
+      "D": "plough all the profits back into the business"
+    },
+    "correctAnswer": "C",
+    "explanation": "The main advantage of a sole trader is the freedom to take quick decisions without consulting partners or shareholders. This flexibility allows the business to respond rapidly to changing market conditions.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-organizations",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 10,
+    "questionText": "In the case of voluntary liquidation of a business, the receiver is appointed by the",
+    "options": {
+      "A": "creditors",
+      "B": "debtors",
+      "C": "directors",
+      "D": "shareholders"
+    },
+    "correctAnswer": "D",
+    "explanation": "In a voluntary liquidation (members' voluntary winding up), the shareholders pass a resolution to wind up the company and appoint a liquidator/receiver. This is different from compulsory liquidation where the court appoints the liquidator.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-finance",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 11,
+    "questionText": "When a company uses more of loans than equity to finance its business, the company is said to be",
+    "options": {
+      "A": "bankrupt",
+      "B": "solvent",
+      "C": "highly geared",
+      "D": "in a strong liquid position"
+    },
+    "correctAnswer": "C",
+    "explanation": "A company is said to be highly geared when it uses more loan capital (debt) than equity (owners' capital) to finance its operations. High gearing increases financial risk because the company has higher fixed interest payments to meet.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-finance",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 12,
+    "questionText": "The nominal value of a share as specified in the Memorandum of Association and the share certificate is the",
+    "options": {
+      "A": "discounted value",
+      "B": "stock value",
+      "C": "face value",
+      "D": "par value"
+    },
+    "correctAnswer": "D",
+    "explanation": "The nominal value of a share as stated in the Memorandum of Association and the share certificate is known as the par value. It is the original value at which the share was issued, as distinguished from its market value which may fluctuate.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-finance",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 13,
+    "questionText": "A public limited company can raise long-term loans through",
+    "options": {
+      "A": "the capital market",
+      "B": "the money market",
+      "C": "bank overdrafts",
+      "D": "discount houses"
+    },
+    "correctAnswer": "A",
+    "explanation": "The capital market is where long-term funds are raised through the issue of shares and debentures. The money market deals with short-term funds, bank overdrafts are short-term borrowing, and discount houses deal in short-term securities.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "trade",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 14,
+    "questionText": "Factoring is a trade debt term used when the agent buys all the trade debts of the",
+    "options": {
+      "A": "importers",
+      "B": "exporters",
+      "C": "nations",
+      "D": "customers"
+    },
+    "correctAnswer": "D",
+    "explanation": "Factoring involves a factor (agent) purchasing all the trade debts owed by customers (accounts receivable) from a business. The factor then collects the debts from the customers and earns a commission for the service.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "accounting-basics",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 15,
+    "questionText": "The financial index which compares current assets directly with current liabilities is known as current",
+    "options": {
+      "A": "turnover",
+      "B": "capital",
+      "C": "ratio",
+      "D": "balance"
+    },
+    "correctAnswer": "C",
+    "explanation": "The current ratio is the financial index that compares current assets directly with current liabilities. It is calculated as Current Assets divided by Current Liabilities and measures a company's ability to meet its short-term obligations.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "stock-exchange",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 16,
+    "questionText": "Rights issue means the",
+    "options": {
+      "A": "issue of shares to the directors of a company on favourable terms",
+      "B": "issue of shares by a company only to the founders of the company",
+      "C": "right of shareholders to vote on any issue",
+      "D": "issue of shares to shareholders on favourable terms"
+    },
+    "correctAnswer": "D",
+    "explanation": "A rights issue is the issue of new shares to existing shareholders on favourable terms, usually at a price below the current market price. This gives existing shareholders the right to purchase additional shares in proportion to their current holdings.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "accounting-basics",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 17,
+    "questionText": "Profit that is expressed as a percentage of the cost of goods sold is referred to as",
+    "options": {
+      "A": "margin",
+      "B": "mark-up",
+      "C": "gain percent",
+      "D": "gross profit"
+    },
+    "correctAnswer": "B",
+    "explanation": "Mark-up is profit expressed as a percentage of the cost of goods sold. For example, if an item costs N100 and is sold for N120, the mark-up is 20%. Margin, on the other hand, is profit expressed as a percentage of the selling price.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "accounting-basics",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 18,
+    "questionText": "Given the following data: Opening stock N40,000; Purchases N115,000; Closing stock N60,000; Sales N250,000. What is the cost of goods sold?",
+    "options": {
+      "A": "N155,000",
+      "B": "N95,000",
+      "C": "N50,000",
+      "D": "N30,000"
+    },
+    "correctAnswer": "B",
+    "explanation": "Cost of Goods Sold = Opening Stock + Purchases - Closing Stock = N40,000 + N115,000 - N60,000 = N95,000. The closing stock is subtracted because these goods were not sold during the period.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "trade",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 19,
+    "questionText": "In the channel of distribution, which of the following sets is entirely made up of middlemen?",
+    "options": {
+      "A": "Wholesalers, retailers and agents",
+      "B": "Manufacturers, consumers and retailers",
+      "C": "Wholesalers, agent and consumers",
+      "D": "Retailers, manufacturers and wholesalers"
+    },
+    "correctAnswer": "A",
+    "explanation": "Wholesalers, retailers, and agents are all middlemen in the channel of distribution. They act as intermediaries between the producer and the final consumer. Manufacturers and consumers are not middlemen.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 20,
+    "questionText": "Goods imported into a country for the purpose of re-exporting attracts a rebate known as",
+    "options": {
+      "A": "customs draw back",
+      "B": "export royalty",
+      "C": "incentive",
+      "D": "export rebate"
+    },
+    "correctAnswer": "A",
+    "explanation": "Customs drawback is a rebate or refund of import duties paid on goods that are subsequently re-exported. This encourages entrepot trade by ensuring importers are not disadvantaged when re-exporting goods.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 21,
+    "questionText": "Most foreign trade transactions are paid for through the use of",
+    "options": {
+      "A": "Central Bank cheques",
+      "B": "bank drafts drawn by commercial banks on their foreign branches",
+      "C": "irrevocable and confirmed letters of credit",
+      "D": "letters of credit authenticated by the embassies of the respective countries"
+    },
+    "correctAnswer": "C",
+    "explanation": "Most foreign trade transactions are paid for through irrevocable and confirmed letters of credit. These provide the highest level of security for both the exporter and importer, as the payment is guaranteed by both the issuing bank and a confirming bank.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "banking-and-finance",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 22,
+    "questionText": "RRF as a scheme introduced by the Central Bank of Nigeria means",
+    "options": {
+      "A": "Recording and Rediscounting Facility",
+      "B": "Refinancing and Recording Facility",
+      "C": "Refinancing and Rediscounting Facility",
+      "D": "Refinancing and Reinvesting Facility"
+    },
+    "correctAnswer": "C",
+    "explanation": "RRF stands for Refinancing and Rediscounting Facility. It is a scheme introduced by the Central Bank of Nigeria to provide liquidity to commercial banks and support lending to the real sector of the economy.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "trade",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 23,
+    "questionText": "Which of the following gives the correct order in which the listed documents are used?",
+    "options": {
+      "A": "Debit note, order, delivery note, invoice and statement",
+      "B": "Order, delivery note, invoice, debit note and statement",
+      "C": "Statement, order, invoice, delivery note and statement",
+      "D": "Invoice, order, statement, debit note and delivery note"
+    },
+    "correctAnswer": "B",
+    "explanation": "The correct sequence of trade documents is: Order (buyer places an order) -> Delivery note (accompanies goods) -> Invoice (sent to buyer for payment) -> Debit note (for additional charges if any) -> Statement (summary of all transactions over a period).",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "transportation",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 24,
+    "questionText": "Freight note is a document",
+    "options": {
+      "A": "used by government to transport goods from one country to another",
+      "B": "issued by a shipping company giving details of charges",
+      "C": "used for payment for imported goods",
+      "D": "given by an importer to pay for goods at a future period"
+    },
+    "correctAnswer": "B",
+    "explanation": "A freight note is a document issued by a shipping company to the shipper giving details of the freight charges for transporting goods. It specifies the cost of shipping based on the weight, volume, or value of the cargo.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "trade",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 25,
+    "questionText": "An invoice of N600 is marked 5% 1 month, 2½% 3 months and 1% 5 months. If a customer pays in the second month of purchase, how much will he remit to the seller?",
+    "options": {
+      "A": "N570.00",
+      "B": "N585.00",
+      "C": "N594.00",
+      "D": "N600.00"
+    },
+    "correctAnswer": "B",
+    "explanation": "Since the customer pays in the second month, they qualify for the 2½% discount (available for payment within 3 months) but not the 5% discount (which requires payment within 1 month). Discount = 2.5% of N600 = N15. Amount to remit = N600 - N15 = N585.00.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "trade",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 26,
+    "questionText": "Spot market goods are those which are available for",
+    "options": {
+      "A": "immediate delivery",
+      "B": "short-term delivery",
+      "C": "long-term delivery",
+      "D": "end of year delivery"
+    },
+    "correctAnswer": "A",
+    "explanation": "Spot market goods are those available for immediate delivery. In a spot market, transactions are settled 'on the spot', meaning goods are delivered and payment is made immediately or within a very short time.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "transportation",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 27,
+    "questionText": "The main advantage of road transport is that it is",
+    "options": {
+      "A": "convenient and flexible",
+      "B": "cheap and direct",
+      "C": "common and fast",
+      "D": "safe and available"
+    },
+    "correctAnswer": "A",
+    "explanation": "The main advantage of road transport is its convenience and flexibility. It offers door-to-door delivery service, can access remote areas, and can be used for both short and long distances with flexible schedules.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "insurance",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 28,
+    "questionText": "The practice by which an insurance company accepts a very large risk and later shares it with other insurance companies are called",
+    "options": {
+      "A": "subrogation",
+      "B": "contribution",
+      "C": "re-insurance",
+      "D": "indemnity"
+    },
+    "correctAnswer": "C",
+    "explanation": "Re-insurance is the practice by which an insurance company that has accepted a very large risk transfers part of that risk to other insurance companies. This allows the original insurer to spread the risk and reduce potential losses.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "insurance",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 29,
+    "questionText": "The insurance policy which provides full cover against all risks at sea is known as",
+    "options": {
+      "A": "Policy with Particular Average",
+      "B": "Policy Free of Particular Average",
+      "C": "Marine Freight Insurance",
+      "D": "Marine Voyage Policy Insurance"
+    },
+    "correctAnswer": "A",
+    "explanation": "A Policy with Particular Average (WPA) provides full cover against all risks at sea, including both total and partial losses. A Policy Free of Particular Average (FPA) only covers total loss and does not cover partial losses.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 30,
+    "questionText": "Berne Union is also known as",
+    "options": {
+      "A": "International Credit Union",
+      "B": "International Documentary Credit Union",
+      "C": "International Union of Credit and Investment Insurers",
+      "D": "Export Credit Guarantee Scheme"
+    },
+    "correctAnswer": "C",
+    "explanation": "The Berne Union is officially known as the International Union of Credit and Investment Insurers. It is an international organization of export credit agencies and investment insurers that promotes cross-border trade.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "banking-and-finance",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 31,
+    "questionText": "Which of the following sets of items was used for exchange in Nigeria before money was introduced?",
+    "options": {
+      "A": "Cowries, iron rods, brass rods and copper wires",
+      "B": "Iron rods, copper rods, manilla and cowries",
+      "C": "Cowries, manilla, brass rods and copper wires",
+      "D": "Copper wires, brass wires, cowries, and iron rods"
+    },
+    "correctAnswer": "C",
+    "explanation": "Before the introduction of modern currency, Nigerians used cowries (shells), manilla (metal bracelets), brass rods, and copper wires as mediums of exchange. These commodity money items facilitated trade in pre-colonial Nigeria.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "banking-and-finance",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 32,
+    "questionText": "A major liability of a commercial bank arises from",
+    "options": {
+      "A": "customers' deposits",
+      "B": "loans and advances",
+      "C": "overdrafts",
+      "D": "staff allowances"
+    },
+    "correctAnswer": "A",
+    "explanation": "Customers' deposits are the major liability of a commercial bank because the bank owes this money to its depositors and must repay it on demand or at the agreed time. Loans and advances are assets of the bank, not liabilities.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "banking-and-finance",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 33,
+    "questionText": "A bank statement is a document",
+    "options": {
+      "A": "ordering a bank to pay on demand a stated sum of money",
+      "B": "containing records of receipts, payments and balance on an account",
+      "C": "used for paying money into a bank account",
+      "D": "used for regular withdrawal of money from a savings account"
+    },
+    "correctAnswer": "B",
+    "explanation": "A bank statement is a document issued by the bank containing records of all receipts (credits), payments (debits), and the balance on a customer's account over a specified period. Option A describes a cheque, C describes a deposit slip, and D describes a withdrawal slip.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "stock-exchange",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 34,
+    "questionText": "Which of the following is NOT a function of the stock exchange market?",
+    "options": {
+      "A": "Providing long-term loans to large scale enterprises",
+      "B": "Encouraging people to buy shares and thereby providing capital for investment",
+      "C": "Providing means of assessing the value of a firm's assets",
+      "D": "Enabling firms to wind-up quickly in times of difficulties"
+    },
+    "correctAnswer": "A",
+    "explanation": "The stock exchange does NOT provide long-term loans. It is a marketplace for buying and selling securities. Its functions include facilitating capital raising through share sales (B), providing price discovery for valuation (C), and providing liquidity enabling firms to mobilize funds quickly (D).",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "marketing",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 35,
+    "questionText": "The marketing approach by which a firm carries out a detailed analysis of itself, the consumers and its competitors is known as",
+    "options": {
+      "A": "market analysis",
+      "B": "marketing mix analysis",
+      "C": "marketing opportunities analysis",
+      "D": "market survey"
+    },
+    "correctAnswer": "A",
+    "explanation": "Market analysis is a comprehensive marketing approach that involves a detailed examination of the firm itself, its consumers, and its competitors. It helps the firm understand its position in the market and identify opportunities and threats.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "marketing",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 36,
+    "questionText": "The breaking down of a market into separate and identifiable elements each with its own special product requirements is known as market",
+    "options": {
+      "A": "differentiation",
+      "B": "segmentation",
+      "C": "penetration",
+      "D": "identification"
+    },
+    "correctAnswer": "B",
+    "explanation": "Market segmentation is the process of dividing a broad market into distinct sub-groups (segments) of consumers who have similar needs, characteristics, or behaviours, each requiring different products or marketing strategies.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "marketing",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 37,
+    "questionText": "Taking a new product to a particular part of a country to test the reaction of consumers to the product is referred to as",
+    "options": {
+      "A": "sales promotion",
+      "B": "sampling",
+      "C": "merchandizing",
+      "D": "advertising"
+    },
+    "correctAnswer": "B",
+    "explanation": "Sampling (test marketing) involves introducing a new product in a limited geographic area to test consumer reactions before a full-scale launch. It helps the company gauge demand and make adjustments before committing to a nationwide rollout.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "marketing",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 38,
+    "questionText": "A manufacturer can make his product distinguishable from those of other competitors by",
+    "options": {
+      "A": "providing catalogues for his wholesalers",
+      "B": "aggressive sales promotion",
+      "C": "branding and packaging the product",
+      "D": "selling the product at a much lower price"
+    },
+    "correctAnswer": "C",
+    "explanation": "Branding and packaging are the most effective ways to make a product distinguishable from competitors' products. A unique brand name, logo, and attractive packaging create product identity and help consumers recognize and differentiate the product.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "advertising-and-sales-promotion",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 39,
+    "questionText": "Which of the following are forms of sales promotion?",
+    "options": {
+      "A": "Advertising, personal selling and publicity",
+      "B": "Advertising, market skimming and publicity",
+      "C": "Personal selling, packaging and publicity",
+      "D": "Advertising, packaging and publicity"
+    },
+    "correctAnswer": "A",
+    "explanation": "Advertising, personal selling, and publicity are all forms of sales promotion (elements of the promotional mix). Market skimming is a pricing strategy and packaging is a product element, so they are not forms of sales promotion.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "advertising-and-sales-promotion",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 40,
+    "questionText": "A disadvantage of personal selling is that it",
+    "options": {
+      "A": "increases a company's operating costs",
+      "B": "decreases a company's operating costs",
+      "C": "increases a company's number of customers",
+      "D": "reduces a company's area of patronage"
+    },
+    "correctAnswer": "A",
+    "explanation": "A major disadvantage of personal selling is that it increases a company's operating costs. The company must hire, train, pay salaries, and cover travel expenses for sales personnel, making it one of the most expensive forms of promotion.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-law",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 41,
+    "questionText": "Chinyere agreed to make a dress for Halima with September 20, 1995 as the delivery date. If the dress was not ready on that date, Halima could",
+    "options": {
+      "A": "sue Chinyere for damages",
+      "B": "sue Chinyere for specific performance",
+      "C": "seize another gown from Chinyere's shop",
+      "D": "regard the contract between them as terminated"
+    },
+    "correctAnswer": "A",
+    "explanation": "When a party fails to perform their contractual obligation by the agreed date, the aggrieved party can sue for damages (monetary compensation for the loss suffered). Specific performance is usually for unique items, and self-help remedies like seizure are not legal.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "consumer-protection",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 42,
+    "questionText": "Consumer sovereignty means that the consumer is",
+    "options": {
+      "A": "a citizen",
+      "B": "always independent",
+      "C": "always wrong",
+      "D": "always right"
+    },
+    "correctAnswer": "D",
+    "explanation": "Consumer sovereignty means the consumer is 'king' or 'always right'. It is the concept that consumers have the power to determine what is produced in the market through their purchasing decisions. Producers must cater to consumer preferences.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "government-and-business",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 43,
+    "questionText": "When an industry or company is nationalized, the state becomes",
+    "options": {
+      "A": "the majority shareholder",
+      "B": "the minority shareholder",
+      "C": "the only shareholder",
+      "D": "an equal shareholder with other individuals"
+    },
+    "correctAnswer": "C",
+    "explanation": "When an industry is nationalized, the state takes over complete ownership and becomes the only shareholder. All private ownership is transferred to the government, giving it full control over the industry.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "government-and-business",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 44,
+    "questionText": "The Federal Government made efforts at rendering public enterprises more efficient and profit-oriented through the process of",
+    "options": {
+      "A": "privatization",
+      "B": "commercialization",
+      "C": "indigenization",
+      "D": "nationalization"
+    },
+    "correctAnswer": "B",
+    "explanation": "Commercialization is the process of making public enterprises operate more efficiently and become profit-oriented while remaining under government ownership. Privatization involves selling to private owners, while commercialization retains government ownership but introduces commercial principles.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "labour-and-trade-unions",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 45,
+    "questionText": "Which of the following organizations represents those who engage labour in Nigeria?",
+    "options": {
+      "A": "Nigerian Labour Congress",
+      "B": "Nigerian Employers Consultative Association",
+      "C": "Manufacturers Association of Nigeria",
+      "D": "Nigerian Union of Local Government Employees"
+    },
+    "correctAnswer": "B",
+    "explanation": "The Nigerian Employers Consultative Association (NECA) represents employers who engage labour in Nigeria. It serves as the umbrella body for employers and represents their interests in labour relations. The Nigerian Labour Congress (NLC) represents workers/employees.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "management-and-organization",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 46,
+    "questionText": "The practice of assessing employees for payment or advancement according to their observed achievement is called",
+    "options": {
+      "A": "employee ranking",
+      "B": "merit rating",
+      "C": "job grading",
+      "D": "employee evaluation"
+    },
+    "correctAnswer": "B",
+    "explanation": "Merit rating is the practice of assessing and evaluating employees for payment or promotion based on their observed achievements and performance. It rewards employees according to their individual merit and contribution to the organization.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "management-and-organization",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 47,
+    "questionText": "Motivation is an essential element in management because it",
+    "options": {
+      "A": "leads to the improvement of staff welfare",
+      "B": "encourages individuals to work towards achieving the organisation's objectives",
+      "C": "reduces friction among employees in the process of achieving the organization's objectives",
+      "D": "helps to eliminate industrial disharmony"
+    },
+    "correctAnswer": "B",
+    "explanation": "Motivation is essential in management primarily because it encourages individuals to work willingly and enthusiastically towards achieving the organization's objectives. While it may also improve welfare and reduce friction, its primary purpose is driving goal-directed behaviour.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "management-and-organization",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 48,
+    "questionText": "The direct authority of a superior over his subordinate is known as",
+    "options": {
+      "A": "staff authority",
+      "B": "line authority",
+      "C": "line and staff authority",
+      "D": "lateral authority"
+    },
+    "correctAnswer": "B",
+    "explanation": "Line authority is the direct authority that a superior has over subordinates in the chain of command. It flows vertically from top to bottom in the organization. Staff authority is advisory in nature, and lateral authority operates across the same level.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "management-and-organization",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 49,
+    "questionText": "A firm's organisational structure would change if",
+    "options": {
+      "A": "one of the major partners dies",
+      "B": "there is excessive competition",
+      "C": "there is seasonal variation in demand",
+      "D": "the scope of business operation changes"
+    },
+    "correctAnswer": "D",
+    "explanation": "A firm's organizational structure would change when the scope of business operations changes, such as expansion into new product lines, markets, or geographic areas. This requires restructuring to accommodate new departments, divisions, or management levels.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "economic-integration",
+    "examType": "JAMB",
+    "examYear": 1995,
+    "questionNumber": 50,
+    "questionText": "The secretariat of the Niger Basin Commission is located at",
+    "options": {
+      "A": "Ouagadougou, Burkina Faso",
+      "B": "Abuja, Nigeria",
+      "C": "Niamey, Niger",
+      "D": "Bamako, Mali"
+    },
+    "correctAnswer": "C",
+    "explanation": "The secretariat of the Niger Basin Authority (formerly Niger Basin Commission) is located in Niamey, the capital of Niger Republic. The organization coordinates the management of the Niger River basin shared by nine West African countries.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  }
+]

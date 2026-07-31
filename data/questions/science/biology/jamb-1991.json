@@ -1,0 +1,1002 @@
+[
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 1,
+    "questionText": "The instrument used for viewing very small organisms not visible to the naked eye is the",
+    "options": {
+      "A": "telescope",
+      "B": "stethoscope",
+      "C": "microscope",
+      "D": "periscope",
+      "E": "hand lens"
+    },
+    "correctAnswer": "C",
+    "explanation": "The microscope is the instrument used for viewing very small organisms (microorganisms) that are not visible to the naked eye. There are different types of microscopes including the light (optical) microscope and the electron microscope, which provides even greater magnification.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 2,
+    "questionText": "The nucleus of a cell is important because it",
+    "options": {
+      "A": "is the largest organelle",
+      "B": "controls all the activities of the cell",
+      "C": "contains chloroplasts",
+      "D": "is found only in plant cells",
+      "E": "produces energy for the cell"
+    },
+    "correctAnswer": "B",
+    "explanation": "The nucleus is the control centre of the cell. It contains the genetic material (DNA) organized into chromosomes, which carry the instructions for all cellular activities including growth, metabolism, reproduction, and protein synthesis.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 3,
+    "questionText": "Which of the following is an example of a prokaryotic organism?",
+    "options": {
+      "A": "Amoeba",
+      "B": "Yeast",
+      "C": "Bacterium",
+      "D": "Paramecium",
+      "E": "Spirogyra"
+    },
+    "correctAnswer": "C",
+    "explanation": "Bacteria are prokaryotic organisms, meaning they lack a membrane-bound nucleus and other membrane-bound organelles. Their genetic material (DNA) is found in the cytoplasm in a region called the nucleoid. All the other options (Amoeba, Yeast, Paramecium, Spirogyra) are eukaryotic organisms with membrane-bound nuclei.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-division",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 4,
+    "questionText": "The type of cell division that results in the formation of gametes is",
+    "options": {
+      "A": "mitosis",
+      "B": "meiosis",
+      "C": "binary fission",
+      "D": "budding",
+      "E": "fragmentation"
+    },
+    "correctAnswer": "B",
+    "explanation": "Meiosis is the type of cell division that produces gametes (sex cells: sperm and eggs). It involves two successive divisions resulting in four haploid daughter cells, each containing half the chromosome number of the parent cell. This is essential for sexual reproduction to maintain the species' chromosome number.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-division",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 5,
+    "questionText": "Crossing over during meiosis results in",
+    "options": {
+      "A": "reduction in chromosome number",
+      "B": "identical daughter cells",
+      "C": "genetic recombination",
+      "D": "increase in chromosome number",
+      "E": "cell death"
+    },
+    "correctAnswer": "C",
+    "explanation": "Crossing over is the exchange of genetic material between homologous chromosomes during prophase I of meiosis. This process results in genetic recombination, producing new combinations of alleles on the chromosomes. This contributes to genetic variation in the offspring.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-plants",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 6,
+    "questionText": "The green pigment in plants that traps light energy for photosynthesis is",
+    "options": {
+      "A": "haemoglobin",
+      "B": "chlorophyll",
+      "C": "carotene",
+      "D": "xanthophyll",
+      "E": "anthocyanin"
+    },
+    "correctAnswer": "B",
+    "explanation": "Chlorophyll is the green pigment found in the chloroplasts of plant cells that absorbs light energy (mainly red and blue wavelengths) needed for photosynthesis. It reflects green light, which is why plants appear green. There are several types, with chlorophyll a and chlorophyll b being the most common.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-plants",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 7,
+    "questionText": "A plant that traps and digests insects to supplement its nitrogen supply is called a",
+    "options": {
+      "A": "saprophyte",
+      "B": "parasite",
+      "C": "carnivorous plant",
+      "D": "epiphyte",
+      "E": "symbiont"
+    },
+    "correctAnswer": "C",
+    "explanation": "Carnivorous (insectivorous) plants such as Venus flytrap, sundew, and pitcher plant trap and digest insects to obtain nitrogen and other nutrients that are deficient in their soil. These plants still carry out photosynthesis but supplement their mineral nutrition by digesting insects.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 8,
+    "questionText": "The enzyme ptyalin in saliva acts on",
+    "options": {
+      "A": "proteins",
+      "B": "fats",
+      "C": "cooked starch",
+      "D": "cellulose",
+      "E": "vitamins"
+    },
+    "correctAnswer": "C",
+    "explanation": "Ptyalin (salivary amylase) is an enzyme found in saliva that begins the digestion of cooked starch, converting it to maltose (a disaccharide). Ptyalin works best at a slightly alkaline pH (about 6.8-7.0). It acts specifically on starch and does not digest proteins, fats, or cellulose.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 9,
+    "questionText": "Kwashiorkor in children is caused by a deficiency of",
+    "options": {
+      "A": "carbohydrates",
+      "B": "proteins",
+      "C": "fats",
+      "D": "vitamins",
+      "E": "minerals"
+    },
+    "correctAnswer": "B",
+    "explanation": "Kwashiorkor is a form of severe malnutrition caused by protein deficiency in the diet, particularly common in children after weaning. Symptoms include a swollen belly (oedema), retarded growth, skin lesions, reddish discoloration of the hair, lethargy, and poor immunity.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 10,
+    "questionText": "The function of hydrochloric acid in the stomach is to",
+    "options": {
+      "A": "digest proteins",
+      "B": "emulsify fats",
+      "C": "provide an acidic medium for pepsin activity and kill bacteria",
+      "D": "neutralize the food",
+      "E": "absorb digested food"
+    },
+    "correctAnswer": "C",
+    "explanation": "Hydrochloric acid (HCl) in the stomach serves several functions: it provides the acidic pH (1.5-2.0) needed for the enzyme pepsin to function optimally, it kills most bacteria and other pathogens in food, and it activates pepsinogen to its active form pepsin.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-plants",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 11,
+    "questionText": "Transpiration in plants mainly occurs through the",
+    "options": {
+      "A": "roots",
+      "B": "stem",
+      "C": "flowers",
+      "D": "stomata on leaves",
+      "E": "bark"
+    },
+    "correctAnswer": "D",
+    "explanation": "Transpiration is the loss of water vapour from the aerial parts of a plant, and it mainly occurs through the stomata (tiny pores) on the surfaces of leaves. A small amount also occurs through the cuticle (cuticular transpiration) and lenticels on the stem.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-plants",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 12,
+    "questionText": "The xylem tissue in plants is responsible for the transport of",
+    "options": {
+      "A": "manufactured food",
+      "B": "hormones",
+      "C": "water and dissolved mineral salts",
+      "D": "amino acids",
+      "E": "oxygen"
+    },
+    "correctAnswer": "C",
+    "explanation": "The xylem tissue transports water and dissolved mineral salts from the roots upward through the stem to the leaves. Xylem vessels are dead, hollow tubes with thickened lignified walls that provide both structural support and a pathway for water transport.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 13,
+    "questionText": "The heart chamber that pumps oxygenated blood to all parts of the body is the",
+    "options": {
+      "A": "right atrium",
+      "B": "right ventricle",
+      "C": "left atrium",
+      "D": "left ventricle",
+      "E": "pulmonary artery"
+    },
+    "correctAnswer": "D",
+    "explanation": "The left ventricle pumps oxygenated blood through the aorta to all parts of the body (systemic circulation). It has the thickest muscular wall of all the heart chambers because it needs to generate sufficient pressure to pump blood throughout the entire body.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 14,
+    "questionText": "Which of the following is a function of white blood cells?",
+    "options": {
+      "A": "Transport of oxygen",
+      "B": "Blood clotting",
+      "C": "Defence against pathogens",
+      "D": "Transport of carbon dioxide",
+      "E": "Production of haemoglobin"
+    },
+    "correctAnswer": "C",
+    "explanation": "White blood cells (leucocytes) are part of the body's immune system and defend the body against pathogens (disease-causing organisms). They do this through phagocytosis (engulfing and destroying pathogens) and the production of antibodies and antitoxins.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "respiration",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 15,
+    "questionText": "The gaseous exchange in the lungs takes place in the",
+    "options": {
+      "A": "bronchi",
+      "B": "bronchioles",
+      "C": "trachea",
+      "D": "alveoli",
+      "E": "pleural cavity"
+    },
+    "correctAnswer": "D",
+    "explanation": "Gaseous exchange in the lungs takes place in the alveoli (air sacs). The alveoli are adapted for efficient gas exchange by having a very large total surface area, thin walls (one cell thick), moist surfaces for dissolving gases, and a rich network of blood capillaries.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "respiration",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 16,
+    "questionText": "The energy currency of the cell is",
+    "options": {
+      "A": "ADP",
+      "B": "ATP",
+      "C": "DNA",
+      "D": "RNA",
+      "E": "NADP"
+    },
+    "correctAnswer": "B",
+    "explanation": "ATP (adenosine triphosphate) is the energy currency of the cell. It stores and provides energy for cellular activities. When ATP is broken down into ADP (adenosine diphosphate) and inorganic phosphate, energy is released for use in cellular processes such as muscle contraction, active transport, and protein synthesis.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "excretion",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 17,
+    "questionText": "Which of the following organs is NOT an excretory organ?",
+    "options": {
+      "A": "Kidney",
+      "B": "Lung",
+      "C": "Skin",
+      "D": "Liver",
+      "E": "Stomach"
+    },
+    "correctAnswer": "E",
+    "explanation": "The stomach is a digestive organ, not an excretory organ. The main excretory organs are: the kidneys (excrete urea, excess water, and salts in urine), the lungs (excrete carbon dioxide and water vapour), the skin (excretes water, salts, and small amounts of urea in sweat), and the liver (produces urea from amino acid deamination and excretes bile pigments).",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "excretion",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 18,
+    "questionText": "The process by which the kidney filters blood to remove waste products is called",
+    "options": {
+      "A": "absorption",
+      "B": "secretion",
+      "C": "ultrafiltration",
+      "D": "osmosis",
+      "E": "diffusion"
+    },
+    "correctAnswer": "C",
+    "explanation": "Ultrafiltration is the process by which blood is filtered under high pressure in the glomerulus of the Bowman's capsule. Small molecules such as water, glucose, amino acids, urea, and salts pass through the capillary walls into the Bowman's capsule, while large molecules like proteins and blood cells are retained in the blood.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-plants",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 19,
+    "questionText": "The part of a flower that develops into the fruit after fertilization is the",
+    "options": {
+      "A": "stigma",
+      "B": "style",
+      "C": "ovary",
+      "D": "petal",
+      "E": "sepal"
+    },
+    "correctAnswer": "C",
+    "explanation": "After fertilization, the ovary of a flower develops into the fruit. The ovary wall becomes the pericarp (fruit wall), and the ovules inside the ovary develop into seeds. Other parts of the flower usually wither and fall off after fertilization.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-plants",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 20,
+    "questionText": "An example of vegetative propagation in plants is",
+    "options": {
+      "A": "seed germination",
+      "B": "pollination",
+      "C": "budding in yeast",
+      "D": "stem cutting",
+      "E": "spore formation"
+    },
+    "correctAnswer": "D",
+    "explanation": "Stem cutting is a form of artificial vegetative (asexual) propagation in which a portion of the stem is cut from the parent plant and planted to grow into a new plant. Other examples of vegetative propagation include the use of runners, rhizomes, tubers, bulbs, and grafting.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-animals",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 21,
+    "questionText": "In the male reproductive system, sperm cells are produced in the",
+    "options": {
+      "A": "prostate gland",
+      "B": "seminal vesicle",
+      "C": "epididymis",
+      "D": "testes",
+      "E": "vas deferens"
+    },
+    "correctAnswer": "D",
+    "explanation": "Sperm cells are produced in the testes (singular: testis) through the process of spermatogenesis. The testes are located in the scrotal sac outside the body to maintain a temperature slightly lower than body temperature, which is necessary for sperm production.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-animals",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 22,
+    "questionText": "Identical twins are produced when",
+    "options": {
+      "A": "two eggs are fertilized by two sperms",
+      "B": "one fertilized egg splits into two",
+      "C": "two eggs are fertilized by one sperm",
+      "D": "the mother releases two eggs at once",
+      "E": "the father produces special sperm cells"
+    },
+    "correctAnswer": "B",
+    "explanation": "Identical (monozygotic) twins are produced when a single fertilized egg (zygote) splits into two separate embryos during early development. Since they come from the same zygote, identical twins have the same genetic makeup and are always the same sex. Fraternal twins result from two separate eggs being fertilized by two different sperms.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 23,
+    "questionText": "A community of organisms and their physical environment interacting as a unit is called",
+    "options": {
+      "A": "a population",
+      "B": "a habitat",
+      "C": "an ecosystem",
+      "D": "a niche",
+      "E": "a biome"
+    },
+    "correctAnswer": "C",
+    "explanation": "An ecosystem is a community of living organisms (biotic factors) interacting with their physical (non-living/abiotic) environment as a functional unit. It includes all the organisms in a given area together with the non-living factors such as climate, soil, water, and light.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 24,
+    "questionText": "Which of the following is an abiotic factor in an ecosystem?",
+    "options": {
+      "A": "Predators",
+      "B": "Parasites",
+      "C": "Temperature",
+      "D": "Decomposers",
+      "E": "Competitors"
+    },
+    "correctAnswer": "C",
+    "explanation": "Temperature is an abiotic (non-living) factor in an ecosystem. Abiotic factors are the physical and chemical conditions that affect organisms, including temperature, light intensity, rainfall, humidity, wind, pH, and soil type. Predators, parasites, decomposers, and competitors are all biotic (living) factors.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 25,
+    "questionText": "In a pyramid of energy, the greatest amount of energy is found at the",
+    "options": {
+      "A": "tertiary consumer level",
+      "B": "secondary consumer level",
+      "C": "primary consumer level",
+      "D": "producer level",
+      "E": "decomposer level"
+    },
+    "correctAnswer": "D",
+    "explanation": "In a pyramid of energy, the greatest amount of energy is at the producer (first trophic) level. Energy decreases at each successive trophic level because approximately 90% of energy is lost at each level through respiration, heat, and undigested material. Only about 10% is transferred to the next level.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 26,
+    "questionText": "The sex of a child is determined by the",
+    "options": {
+      "A": "mother's chromosomes",
+      "B": "father's chromosomes",
+      "C": "number of autosomes",
+      "D": "environment",
+      "E": "age of the mother"
+    },
+    "correctAnswer": "B",
+    "explanation": "The sex of a child is determined by the father's sex chromosome. The mother always contributes an X chromosome, while the father can contribute either an X or a Y chromosome. If the sperm carries an X chromosome, the child will be female (XX); if it carries a Y chromosome, the child will be male (XY).",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 27,
+    "questionText": "A test cross is used to determine",
+    "options": {
+      "A": "the phenotype of an organism",
+      "B": "the genotype of an organism showing a dominant trait",
+      "C": "the sex of an organism",
+      "D": "whether mutation has occurred",
+      "E": "the number of chromosomes"
+    },
+    "correctAnswer": "B",
+    "explanation": "A test cross (back cross) is used to determine the genotype of an organism showing a dominant phenotype. The organism is crossed with a homozygous recessive individual. If any offspring show the recessive phenotype, the organism being tested is heterozygous; if all offspring show the dominant phenotype, it is likely homozygous dominant.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 28,
+    "questionText": "Colour blindness is a sex-linked trait that is",
+    "options": {
+      "A": "carried on the Y chromosome only",
+      "B": "carried on the X chromosome and is recessive",
+      "C": "carried on the autosomes",
+      "D": "dominant on the X chromosome",
+      "E": "not hereditary"
+    },
+    "correctAnswer": "B",
+    "explanation": "Colour blindness is a sex-linked recessive trait carried on the X chromosome. Since males have only one X chromosome (XY), they are more commonly affected by colour blindness than females. Females need two copies of the recessive allele (one on each X chromosome) to be colour blind, while males need only one.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "evolution",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 29,
+    "questionText": "Lamarck's theory of evolution is based on the idea of",
+    "options": {
+      "A": "natural selection",
+      "B": "survival of the fittest",
+      "C": "use and disuse and inheritance of acquired characters",
+      "D": "mutation",
+      "E": "genetic drift"
+    },
+    "correctAnswer": "C",
+    "explanation": "Lamarck's theory of evolution (Lamarckism) is based on two main ideas: the law of use and disuse (organs that are used extensively become larger and stronger, while those not used deteriorate) and the inheritance of acquired characteristics (changes acquired during an organism's lifetime can be passed to offspring). This theory has been largely disproved.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "evolution",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 30,
+    "questionText": "Adaptive radiation refers to",
+    "options": {
+      "A": "the ability of organisms to adapt to radiation",
+      "B": "the evolution of different species from a common ancestor to fill different ecological niches",
+      "C": "the movement of organisms from one habitat to another",
+      "D": "the gradual change in gene frequency",
+      "E": "the extinction of species"
+    },
+    "correctAnswer": "B",
+    "explanation": "Adaptive radiation is the evolutionary process by which organisms diversify rapidly from an ancestral species into a multitude of new forms, particularly when a change in the environment makes new resources available or opens new ecological niches. A classic example is the diversification of Darwin's finches on the Galapagos Islands.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "classification-of-living-things",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 31,
+    "questionText": "Which of the following is the correct hierarchy of classification from the largest to the smallest group?",
+    "options": {
+      "A": "Species, Genus, Family, Order, Class, Phylum, Kingdom",
+      "B": "Kingdom, Phylum, Class, Order, Family, Genus, Species",
+      "C": "Kingdom, Class, Phylum, Order, Family, Genus, Species",
+      "D": "Phylum, Kingdom, Class, Order, Family, Species, Genus",
+      "E": "Genus, Species, Family, Order, Class, Phylum, Kingdom"
+    },
+    "correctAnswer": "B",
+    "explanation": "The correct hierarchy of biological classification from the largest to the smallest group is: Kingdom, Phylum (Division for plants), Class, Order, Family, Genus, Species. A useful mnemonic is 'King Philip Came Over For Good Spaghetti.'",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "classification-of-living-things",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 32,
+    "questionText": "Organisms that can manufacture their own food from inorganic substances are called",
+    "options": {
+      "A": "heterotrophs",
+      "B": "autotrophs",
+      "C": "saprophytes",
+      "D": "parasites",
+      "E": "decomposers"
+    },
+    "correctAnswer": "B",
+    "explanation": "Autotrophs are organisms that can synthesize their own food from inorganic substances using energy from sunlight (photoautotrophs, e.g., green plants) or chemical reactions (chemoautotrophs, e.g., some bacteria). Heterotrophs, in contrast, cannot make their own food and must obtain it from other organisms.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "microorganisms-and-disease",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 33,
+    "questionText": "Tuberculosis is caused by a",
+    "options": {
+      "A": "virus",
+      "B": "protozoan",
+      "C": "fungus",
+      "D": "bacterium",
+      "E": "worm"
+    },
+    "correctAnswer": "D",
+    "explanation": "Tuberculosis (TB) is caused by the bacterium Mycobacterium tuberculosis. It primarily affects the lungs but can also affect other parts of the body. It is transmitted through airborne droplets when an infected person coughs or sneezes.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "microorganisms-and-disease",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 34,
+    "questionText": "The vector for sleeping sickness (trypanosomiasis) is the",
+    "options": {
+      "A": "mosquito",
+      "B": "tsetse fly",
+      "C": "housefly",
+      "D": "blackfly",
+      "E": "sandfly"
+    },
+    "correctAnswer": "B",
+    "explanation": "The tsetse fly (Glossina species) is the vector for African sleeping sickness (trypanosomiasis), which is caused by the protozoan Trypanosoma. When an infected tsetse fly bites a person, it transmits the Trypanosoma parasites into the bloodstream.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nervous-system-and-sense-organs",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 35,
+    "questionText": "The gap between two adjacent neurons where transmission of impulse occurs is called the",
+    "options": {
+      "A": "axon",
+      "B": "dendrite",
+      "C": "synapse",
+      "D": "myelin sheath",
+      "E": "node of Ranvier"
+    },
+    "correctAnswer": "C",
+    "explanation": "The synapse is the tiny gap (junction) between two adjacent neurons where nerve impulse transmission occurs. When a nerve impulse reaches the end of one neuron, it triggers the release of chemical neurotransmitters (such as acetylcholine) which diffuse across the synaptic cleft and stimulate the next neuron.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nervous-system-and-sense-organs",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 36,
+    "questionText": "The part of the eye that controls the amount of light entering it is the",
+    "options": {
+      "A": "cornea",
+      "B": "retina",
+      "C": "lens",
+      "D": "iris",
+      "E": "optic nerve"
+    },
+    "correctAnswer": "D",
+    "explanation": "The iris is the coloured part of the eye that controls the amount of light entering the eye by adjusting the size of the pupil. In bright light, the circular muscles of the iris contract to make the pupil smaller, reducing light entry. In dim light, the radial muscles contract to dilate the pupil, allowing more light in.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "endocrine-system",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 37,
+    "questionText": "The hormone responsible for the 'fight or flight' response is",
+    "options": {
+      "A": "insulin",
+      "B": "thyroxine",
+      "C": "adrenaline",
+      "D": "oestrogen",
+      "E": "testosterone"
+    },
+    "correctAnswer": "C",
+    "explanation": "Adrenaline (epinephrine) is the hormone responsible for the 'fight or flight' response. It is produced by the adrenal medulla and released in response to stress or danger. It increases heart rate, blood pressure, breathing rate, blood sugar level, and diverts blood to the muscles, preparing the body for action.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "endocrine-system",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 38,
+    "questionText": "A deficiency of iodine in the diet leads to",
+    "options": {
+      "A": "diabetes",
+      "B": "rickets",
+      "C": "simple goitre",
+      "D": "anaemia",
+      "E": "scurvy"
+    },
+    "correctAnswer": "C",
+    "explanation": "A deficiency of iodine in the diet leads to simple (endemic) goitre, which is an enlargement of the thyroid gland. Iodine is essential for the production of the thyroid hormone thyroxine. When iodine is deficient, the thyroid gland enlarges in an attempt to produce more thyroxine.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "skeletal-and-muscular-systems",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 39,
+    "questionText": "The vertebral column in humans is made up of how many vertebrae?",
+    "options": {
+      "A": "26",
+      "B": "30",
+      "C": "33",
+      "D": "35",
+      "E": "40"
+    },
+    "correctAnswer": "C",
+    "explanation": "The human vertebral column (spine) consists of 33 vertebrae: 7 cervical (neck), 12 thoracic (chest), 5 lumbar (lower back), 5 sacral (fused into the sacrum), and 4 coccygeal (fused into the coccyx/tailbone). The vertebral column protects the spinal cord and provides support for the body.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "skeletal-and-muscular-systems",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 40,
+    "questionText": "The type of joint that allows movement in all directions is the",
+    "options": {
+      "A": "hinge joint",
+      "B": "pivot joint",
+      "C": "ball and socket joint",
+      "D": "gliding joint",
+      "E": "fixed joint"
+    },
+    "correctAnswer": "C",
+    "explanation": "The ball and socket joint allows movement in all directions (360 degrees), including flexion, extension, abduction, adduction, and rotation. Examples include the shoulder joint and the hip joint. The rounded head (ball) of one bone fits into the cup-shaped socket of another bone.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "homeostasis-and-coordination",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 41,
+    "questionText": "The regulation of blood sugar level in the body involves the hormones",
+    "options": {
+      "A": "thyroxine and adrenaline",
+      "B": "insulin and glucagon",
+      "C": "oestrogen and progesterone",
+      "D": "testosterone and adrenaline",
+      "E": "growth hormone and insulin"
+    },
+    "correctAnswer": "B",
+    "explanation": "The regulation of blood sugar level primarily involves two hormones from the pancreas: insulin and glucagon. Insulin lowers blood sugar by stimulating the uptake of glucose by cells and its conversion to glycogen. Glucagon raises blood sugar by stimulating the conversion of glycogen back to glucose in the liver.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "homeostasis-and-coordination",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 42,
+    "questionText": "When the body temperature rises above normal, the skin responds by",
+    "options": {
+      "A": "constricting blood vessels and reducing sweat production",
+      "B": "dilating blood vessels and increasing sweat production",
+      "C": "shivering to generate heat",
+      "D": "raising the body hairs",
+      "E": "decreasing metabolic rate and blood flow"
+    },
+    "correctAnswer": "B",
+    "explanation": "When body temperature rises above normal, the skin responds by vasodilation (dilating blood vessels near the skin surface to increase heat loss by radiation) and increasing sweat production (evaporation of sweat cools the body). These are thermoregulatory mechanisms to bring body temperature back to normal.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "growth-and-development",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 43,
+    "questionText": "The conditions necessary for seed germination include",
+    "options": {
+      "A": "water, oxygen, and sunlight",
+      "B": "water, oxygen, and suitable temperature",
+      "C": "water, carbon dioxide, and sunlight",
+      "D": "sunlight, soil, and oxygen",
+      "E": "water, soil, and fertilizer"
+    },
+    "correctAnswer": "B",
+    "explanation": "The three essential conditions for seed germination are water (to activate enzymes and soften the seed coat), oxygen (for aerobic respiration to provide energy for growth), and a suitable temperature (enzymes work best within a specific temperature range). Sunlight and soil are NOT essential for germination, though they become important for subsequent growth.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "growth-and-development",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 44,
+    "questionText": "The type of germination in which the cotyledons remain below the soil surface is called",
+    "options": {
+      "A": "epigeal germination",
+      "B": "hypogeal germination",
+      "C": "vivipary",
+      "D": "sporulation",
+      "E": "vegetative growth"
+    },
+    "correctAnswer": "B",
+    "explanation": "Hypogeal germination is the type of germination in which the cotyledons remain below the soil surface. The epicotyl elongates and pushes the plumule above the soil. Examples include maize and other monocots. In epigeal germination, the hypocotyl elongates and brings the cotyledons above the soil surface, as in beans.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 45,
+    "questionText": "Nitrogen fixation in the soil is carried out by",
+    "options": {
+      "A": "earthworms",
+      "B": "fungi",
+      "C": "Rhizobium bacteria",
+      "D": "protozoa",
+      "E": "algae"
+    },
+    "correctAnswer": "C",
+    "explanation": "Nitrogen fixation is carried out by certain bacteria, particularly Rhizobium bacteria that live in root nodules of leguminous plants (e.g., beans, groundnuts). These bacteria convert atmospheric nitrogen (N2) into ammonia/ammonium compounds that plants can absorb and use for growth. Free-living bacteria like Azotobacter also fix nitrogen.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "microorganisms-and-disease",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 46,
+    "questionText": "Which of the following diseases is caused by a virus?",
+    "options": {
+      "A": "Cholera",
+      "B": "Typhoid fever",
+      "C": "Measles",
+      "D": "Tuberculosis",
+      "E": "Gonorrhoea"
+    },
+    "correctAnswer": "C",
+    "explanation": "Measles is caused by the measles virus (a paramyxovirus). It is highly contagious and spread through respiratory droplets. Cholera and typhoid are caused by bacteria (Vibrio cholerae and Salmonella typhi respectively), tuberculosis by Mycobacterium tuberculosis, and gonorrhoea by Neisseria gonorrhoeae.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 47,
+    "questionText": "The process by which a cell placed in a hypotonic solution absorbs water and swells is called",
+    "options": {
+      "A": "plasmolysis",
+      "B": "crenation",
+      "C": "turgidity",
+      "D": "haemolysis",
+      "E": "deplasmolysis"
+    },
+    "correctAnswer": "C",
+    "explanation": "When a plant cell is placed in a hypotonic solution (a solution with a lower solute concentration than the cell), water enters the cell by osmosis, causing it to swell and become turgid. This state is called turgidity. The cell wall prevents the plant cell from bursting. In animal cells, the equivalent process can lead to haemolysis (bursting).",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 48,
+    "questionText": "The lymphatic system is important because it",
+    "options": {
+      "A": "produces red blood cells",
+      "B": "transports oxygen to tissues",
+      "C": "returns tissue fluid to the blood circulatory system",
+      "D": "produces digestive enzymes",
+      "E": "regulates body temperature"
+    },
+    "correctAnswer": "C",
+    "explanation": "The lymphatic system collects excess tissue fluid (lymph) that has leaked out of blood capillaries and returns it to the blood circulatory system via the thoracic duct. It also plays an important role in immunity (lymph nodes filter pathogens) and in the absorption of fats from the small intestine.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 49,
+    "questionText": "A sudden change in the structure or number of chromosomes of an organism is called",
+    "options": {
+      "A": "variation",
+      "B": "mutation",
+      "C": "evolution",
+      "D": "adaptation",
+      "E": "recombination"
+    },
+    "correctAnswer": "B",
+    "explanation": "A mutation is a sudden, random, and usually permanent change in the genetic material (DNA) of an organism. Mutations can involve changes in the structure of chromosomes (chromosomal mutations) or changes in individual genes (gene/point mutations). They can be caused by mutagens such as radiation, chemicals, or errors in DNA replication.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "excretion",
+    "examType": "JAMB",
+    "examYear": 1991,
+    "questionNumber": 50,
+    "questionText": "The part of the nephron where selective reabsorption of useful substances occurs is the",
+    "options": {
+      "A": "Bowman's capsule",
+      "B": "glomerulus",
+      "C": "proximal convoluted tubule",
+      "D": "loop of Henle",
+      "E": "collecting duct"
+    },
+    "correctAnswer": "C",
+    "explanation": "The proximal convoluted tubule is the main site of selective reabsorption in the nephron. Useful substances such as glucose, amino acids, water, and some salts are reabsorbed from the filtrate back into the blood. This ensures that valuable substances are not lost in the urine. The process involves both active transport and osmosis.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  }
+]

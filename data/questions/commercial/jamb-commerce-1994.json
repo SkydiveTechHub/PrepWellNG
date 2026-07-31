@@ -1,0 +1,952 @@
+[
+  {
+    "subjectCode": "COM",
+    "topicSlug": "introduction-to-commerce",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 1,
+    "questionText": "Commerce is defined as the study of how",
+    "options": {
+      "A": "man utilizes the resources in his physical environment",
+      "B": "man produces, distributes and consumes his goods and services",
+      "C": "man buys, sells and distributes goods and services",
+      "D": "raw materials are changed into finished goods"
+    },
+    "correctAnswer": "C",
+    "explanation": "Commerce is the study of how man buys, sells, and distributes goods and services. It deals with trade and the auxiliaries to trade such as banking, insurance, warehousing, and transportation.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 2,
+    "questionText": "The type of activity which turns processed raw materials into consumer and industrial goods is described as",
+    "options": {
+      "A": "extractive",
+      "B": "manufacturing",
+      "C": "constructive",
+      "D": "processing"
+    },
+    "correctAnswer": "B",
+    "explanation": "Manufacturing is the type of production activity that converts processed raw materials into finished consumer and industrial goods. Extractive involves obtaining raw materials from nature, constructive involves building, and processing involves initial transformation of raw materials.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 3,
+    "questionText": "The production process that combines two or more raw materials into one end product is",
+    "options": {
+      "A": "conditioning",
+      "B": "blending",
+      "C": "merging",
+      "D": "synthesis"
+    },
+    "correctAnswer": "B",
+    "explanation": "Blending is the production process of combining or mixing two or more raw materials to produce a single end product. Examples include blending different types of tea or coffee to create a final product.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-environment",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 4,
+    "questionText": "A demonstration of social responsibility by a business is the payment of",
+    "options": {
+      "A": "taxes to government",
+      "B": "dividends to shareholders",
+      "C": "interest on loans",
+      "D": "premium for insurance"
+    },
+    "correctAnswer": "A",
+    "explanation": "Payment of taxes to government is a demonstration of social responsibility because it contributes to the development of society. Dividends, interest on loans, and insurance premiums are normal business obligations, not social responsibilities.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-organizations",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 5,
+    "questionText": "A distinguishing characteristic of a limited liability company is that it",
+    "options": {
+      "A": "is a collection of many sole proprietors",
+      "B": "is a multiple partnership",
+      "C": "can sue and be sued",
+      "D": "has limited resources"
+    },
+    "correctAnswer": "C",
+    "explanation": "A distinguishing characteristic of a limited liability company is that it has a separate legal personality, meaning it can sue and be sued in its own name. This is because incorporation gives the company a legal identity separate from its members.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-organizations",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 6,
+    "questionText": "Which of the following takes place when firms producing at different stages in the same industry combine?",
+    "options": {
+      "A": "Conglomeration",
+      "B": "Vertical integration",
+      "C": "Horizontal integration",
+      "D": "Cartel"
+    },
+    "correctAnswer": "B",
+    "explanation": "Vertical integration occurs when firms operating at different stages of production in the same industry combine. For example, a cocoa farmer merging with a chocolate manufacturer. Horizontal integration involves firms at the same stage, a cartel is a price-fixing agreement, and conglomeration involves unrelated industries.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-finance",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 7,
+    "questionText": "Which of the following groups is paid first when a firm liquidates?",
+    "options": {
+      "A": "Preference shareholders",
+      "B": "Debenture holders",
+      "C": "Ordinary shareholders",
+      "D": "Cumulative preference shareholders"
+    },
+    "correctAnswer": "B",
+    "explanation": "Debenture holders are creditors of the company and have the first claim on the company's assets during liquidation. The order of payment is: debenture holders, then preference shareholders (including cumulative preference shareholders), and finally ordinary shareholders.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-organizations",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 8,
+    "questionText": "Compulsory dissolution of a business can arise from",
+    "options": {
+      "A": "an agreement by the owners",
+      "B": "a declaration by a court of law",
+      "C": "the termination of its life",
+      "D": "an unfavourable economic climate"
+    },
+    "correctAnswer": "B",
+    "explanation": "Compulsory dissolution occurs when a court of law orders a business to be wound up. This can happen when the business cannot pay its debts or engages in illegal activities. Agreement by owners is voluntary dissolution, not compulsory.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "accounting-basics",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 9,
+    "questionText": "Use the following data to answer this question: MBV Enterprises Balance Sheet as at 31st December, 1992. Liabilities: Capital (Balance as at Jan. 1, 1992) N60,000; Add Net Profit N5,250; Total N65,250; Less Drawings N6,600; Net Capital N58,650. Current Liabilities: Creditors N9,730. Total Liabilities N68,380. Assets: Fixed Assets: Fittings N9,200; Vehicles N7,500; Total Fixed Assets N16,700. Current Assets: Stock in hand N8,800; Debtors N15,500; Cash at Bank N21,000; Cash in hand N6,380; Total Current Assets N51,680. Total Assets N68,380. What is the circulating capital of the sole proprietor?",
+    "options": {
+      "A": "N27,380",
+      "B": "N34,980",
+      "C": "N36,180",
+      "D": "N51,680"
+    },
+    "correctAnswer": "D",
+    "explanation": "Circulating capital refers to the current assets of a business, which are assets that change form in the course of business operations. Current Assets = Stock in hand (N8,800) + Debtors (N15,500) + Cash at Bank (N21,000) + Cash in hand (N6,380) = N51,680.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "accounting-basics",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 10,
+    "questionText": "Use the following data to answer this question: MBV Enterprises Balance Sheet as at 31st December, 1992. Liabilities: Capital (Balance as at Jan. 1, 1992) N60,000; Add Net Profit N5,250; Total N65,250; Less Drawings N6,600; Net Capital N58,650. Current Liabilities: Creditors N9,730. Total Liabilities N68,380. Assets: Fixed Assets: Fittings N9,200; Vehicles N7,500; Total Fixed Assets N16,700. Current Assets: Stock in hand N8,800; Debtors N15,500; Cash at Bank N21,000; Cash in hand N6,380; Total Current Assets N51,680. Total Assets N68,380. What is the working capital as at December 31, 1992?",
+    "options": {
+      "A": "N65,250",
+      "B": "N60,000",
+      "C": "N48,650",
+      "D": "N41,950"
+    },
+    "correctAnswer": "D",
+    "explanation": "Working capital = Current Assets - Current Liabilities = N51,680 - N9,730 = N41,950. Working capital represents the net liquid resources available for the day-to-day running of the business.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "accounting-basics",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 11,
+    "questionText": "A company earned a total revenue of N108 million with a total cost of N91 million in 1991. If it paid 45% tax on its gross profit for that year, determine its net profit.",
+    "options": {
+      "A": "N24.65 million",
+      "B": "N17.00 million",
+      "C": "N9.35 million",
+      "D": "N7.65 million"
+    },
+    "correctAnswer": "C",
+    "explanation": "Gross Profit = Total Revenue - Total Cost = N108 million - N91 million = N17 million. Tax = 45% of N17 million = N7.65 million. Net Profit = Gross Profit - Tax = N17 million - N7.65 million = N9.35 million.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "accounting-basics",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 12,
+    "questionText": "What are fixtures and fittings in a balance sheet?",
+    "options": {
+      "A": "Liquid capital",
+      "B": "Current assets",
+      "C": "Fixed assets",
+      "D": "Working capital"
+    },
+    "correctAnswer": "C",
+    "explanation": "Fixtures and fittings are classified as fixed assets in a balance sheet. They are long-term assets used in the business over several years, such as shelves, counters, and display units, and are not intended for resale.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 13,
+    "questionText": "Government impose import duties for the following reasons EXCEPT",
+    "options": {
+      "A": "to raise revenue for other services",
+      "B": "to act as a retaliatory measure against other governments",
+      "C": "to discourage the redistribution of income at home",
+      "D": "to protect home industries from external competition"
+    },
+    "correctAnswer": "C",
+    "explanation": "Import duties are imposed to raise revenue (A), retaliate against unfair trade practices (B), and protect domestic industries (D). Discouraging the redistribution of income at home is NOT a reason for imposing import duties.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-organizations",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 14,
+    "questionText": "Sole enterprise may flourish best in",
+    "options": {
+      "A": "a mining business",
+      "B": "a retailing business",
+      "C": "an oil exploration business",
+      "D": "a car assembly business"
+    },
+    "correctAnswer": "B",
+    "explanation": "Sole enterprise flourishes best in retailing because it requires relatively small capital, allows for personal attention to customers, and benefits from the quick decision-making of a sole proprietor. Mining, oil exploration, and car assembly require large capital and resources beyond a sole trader.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "trade",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 15,
+    "questionText": "The use of coin-operated machines to sell goods is a form of",
+    "options": {
+      "A": "personal selling",
+      "B": "retailing",
+      "C": "wholesaling",
+      "D": "mail-order selling"
+    },
+    "correctAnswer": "B",
+    "explanation": "Coin-operated vending machines are a form of retailing because they sell goods directly to the final consumer in small quantities. It is an automatic form of retail trade that does not require personal interaction.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "trade",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 16,
+    "questionText": "What is the major function of the wholesaler?",
+    "options": {
+      "A": "Buying from small-scale producers and selling to exporters",
+      "B": "Buying in bulk and selling in small quantities",
+      "C": "Granting of credit facilities to retailers",
+      "D": "Providing information to manufacturers on market situation"
+    },
+    "correctAnswer": "B",
+    "explanation": "The major function of a wholesaler is buying goods in bulk from manufacturers and breaking them into smaller quantities for sale to retailers. While wholesalers may also grant credit and provide market information, their primary function is bulk-breaking.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 17,
+    "questionText": "The rate at which a country's exports exchange for its imports is called",
+    "options": {
+      "A": "balance of payments",
+      "B": "balance of trade",
+      "C": "terms of payment",
+      "D": "terms of trade"
+    },
+    "correctAnswer": "D",
+    "explanation": "Terms of trade refers to the rate at which a country's exports exchange for its imports. It is expressed as the ratio of export prices to import prices. Balance of payments is a record of all transactions, and balance of trade is the difference between exports and imports.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 18,
+    "questionText": "The difference between the total payments for imports and the receipts from exports within a given period is referred to as",
+    "options": {
+      "A": "balance of payments",
+      "B": "balance of trade",
+      "C": "comparative cost advantage",
+      "D": "comparative advantage"
+    },
+    "correctAnswer": "A",
+    "explanation": "The balance of payments is the difference between the total payments a country makes for imports and the total receipts it receives from exports within a given period. It includes both visible and invisible trade items.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "trade",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 19,
+    "questionText": "A pro forma invoice is NOT required when",
+    "options": {
+      "A": "quoting for the supply of goods",
+      "B": "goods are sent on approval",
+      "C": "dealing regularly with a customer",
+      "D": "final prices are uncertain"
+    },
+    "correctAnswer": "C",
+    "explanation": "A pro forma invoice is not required when dealing regularly with a customer because the terms of trade are already established. Pro forma invoices are needed for quotations (A), goods on approval (B), and when prices are uncertain (D) to provide an estimate before the actual transaction.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "transportation",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 20,
+    "questionText": "Which of the following statements is TRUE about sea transport?",
+    "options": {
+      "A": "All ships have specific routes to ply.",
+      "B": "All ships must be insured at every journey",
+      "C": "All ships are insured separately from the crew",
+      "D": "All ships normally arrive at their destination with goods."
+    },
+    "correctAnswer": "A",
+    "explanation": "Ships have specific sea routes (shipping lanes) that they follow for navigation and safety purposes. Not all ships must necessarily be insured at every journey (B), ships and crew insurance arrangements vary (C), and ships do not always arrive at their destination with goods intact due to maritime risks (D).",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "communication",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 21,
+    "questionText": "The postal organization which preceded Nigerian Postal Service is",
+    "options": {
+      "A": "Post and Telecommunications",
+      "B": "Post and Telephone",
+      "C": "Post and Teleprinter",
+      "D": "Post and Telegraph"
+    },
+    "correctAnswer": "D",
+    "explanation": "The Post and Telegraph department was the postal organization that preceded the Nigerian Postal Service (NIPOST). It handled both postal and telegraph services before the separation and reorganization of postal services in Nigeria.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "warehousing",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 22,
+    "questionText": "Goods discharged from ships on which import duties have not been paid are kept in the",
+    "options": {
+      "A": "ordinary warehouse",
+      "B": "public warehouse",
+      "C": "private warehouse",
+      "D": "bonded warehouse"
+    },
+    "correctAnswer": "D",
+    "explanation": "A bonded warehouse is a warehouse where imported goods are stored until the import duties on them are paid. The goods are held under bond (a guarantee) by customs authorities until the duties are settled.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "insurance",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 23,
+    "questionText": "A sole proprietor insured his goods worth N200,000 for half the value. There was a fire incident in which goods valued at N80,000 were destroyed. The value of compensation expected from the insurer is",
+    "options": {
+      "A": "N40,000",
+      "B": "N80,000",
+      "C": "N100,000",
+      "D": "N200,000"
+    },
+    "correctAnswer": "A",
+    "explanation": "By the principle of average clause (contribution), since the goods were under-insured (insured for N100,000 instead of actual value N200,000), compensation is calculated as: (Sum Insured / Actual Value) x Loss = (N100,000 / N200,000) x N80,000 = N40,000.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 24,
+    "questionText": "One of the effects of the devaluation of the Naira is that the",
+    "options": {
+      "A": "goods that can be imported with the Naira have become cheaper",
+      "B": "value of other currencies relative to the Naira have become cheaper",
+      "C": "goods that can be exported from Nigeria have become costlier",
+      "D": "imports that can be bought with the Naira have become costlier"
+    },
+    "correctAnswer": "D",
+    "explanation": "When the Naira is devalued, its value falls relative to other currencies. This means more Naira is needed to buy foreign currencies, making imports more expensive. Conversely, Nigerian exports become cheaper to foreign buyers.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "banking-and-finance",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 25,
+    "questionText": "Drawing two parallel lines across a cheque means that it has to be paid into the account of the",
+    "options": {
+      "A": "payee",
+      "B": "drawer",
+      "C": "drawee",
+      "D": "payer"
+    },
+    "correctAnswer": "A",
+    "explanation": "Crossing a cheque by drawing two parallel lines across its face means the cheque cannot be cashed over the counter. It must be paid into the bank account of the payee (the person to whom the cheque is made out).",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "banking-and-finance",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 26,
+    "questionText": "The financial institution established to boost Nigeria's trade with the rest of the world is called",
+    "options": {
+      "A": "Nigerian Deposit Insurance Corporation",
+      "B": "Nigeria Economist Reconstruction Fund",
+      "C": "Nigerian Industrial Development Bank",
+      "D": "Nigerian Export-Import Bank"
+    },
+    "correctAnswer": "D",
+    "explanation": "The Nigerian Export-Import Bank (NEXIM) was established to boost Nigeria's international trade by providing export credit facilities, guarantees, and trade information to Nigerian exporters and importers.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-organizations",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 27,
+    "questionText": "Which of the following is both direct and indirect credit enterprises?",
+    "options": {
+      "A": "Co-operative and thrifts society",
+      "B": "Retail co-operative society",
+      "C": "Consumer co-operative society",
+      "D": "Wholesaler co-operative society"
+    },
+    "correctAnswer": "A",
+    "explanation": "Co-operative and thrift societies provide both direct credit (giving loans directly to members) and indirect credit (accepting savings/thrift from members which are then used to fund loans). Other types of co-operatives provide either direct or indirect credit but not both.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "stock-exchange",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 28,
+    "questionText": "The business in the stock exchange is characterized essentially by",
+    "options": {
+      "A": "dealing",
+      "B": "brokerage",
+      "C": "speculations",
+      "D": "transactions"
+    },
+    "correctAnswer": "A",
+    "explanation": "The stock exchange is essentially characterized by dealing, which involves the buying and selling of securities. Dealers (jobbers) buy and sell securities on their own account, and this dealing activity is the core business of the stock exchange.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "stock-exchange",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 29,
+    "questionText": "The Second-Tier Securities Market is",
+    "options": {
+      "A": "an appendage to the Nigerian Stock Exchange",
+      "B": "a member of the Nigeria Stock Exchange",
+      "C": "meant for the shares of the quoted private companies",
+      "D": "a regulating arm of the Nigeria Stock Exchange"
+    },
+    "correctAnswer": "A",
+    "explanation": "The Second-Tier Securities Market (SSM) is an appendage to the Nigerian Stock Exchange. It was created to enable small and medium-sized companies that cannot meet the stringent listing requirements of the main exchange to have their securities traded.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "marketing",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 30,
+    "questionText": "The elements of the marketing mix are",
+    "options": {
+      "A": "product, promotion, place and price",
+      "B": "personal selling, advertising and research",
+      "C": "promotion, production, place and price",
+      "D": "procurement, price, product and place"
+    },
+    "correctAnswer": "A",
+    "explanation": "The marketing mix consists of the 4Ps: Product, Price, Place, and Promotion. These are the controllable variables that a business combines to satisfy its target market.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "marketing",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 31,
+    "questionText": "Which of the following items has the shortest effect on the consumer?",
+    "options": {
+      "A": "Fashion",
+      "B": "Innovation",
+      "C": "Fad",
+      "D": "Attribute"
+    },
+    "correctAnswer": "C",
+    "explanation": "A fad is a temporary fashion or trend that gains quick popularity but fades away rapidly. It has the shortest effect on consumers compared to fashion (which lasts longer), innovation (which creates lasting change), and product attributes (which are permanent features).",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "advertising-and-sales-promotion",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 32,
+    "questionText": "Which of the following is a form of sales promotion?",
+    "options": {
+      "A": "Advertising on radio",
+      "B": "Offering free samples",
+      "C": "Distributing printed materials",
+      "D": "Advertising on Television"
+    },
+    "correctAnswer": "B",
+    "explanation": "Offering free samples is a form of sales promotion. Sales promotion involves short-term incentives to encourage purchase, such as free samples, coupons, discounts, and contests. Advertising on radio and television are forms of advertising, not sales promotion.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "advertising-and-sales-promotion",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 33,
+    "questionText": "One advantage of personal selling over all other elements of promotion is that",
+    "options": {
+      "A": "it can provide instant feedback",
+      "B": "it is very cheap in terms of cost per contract",
+      "C": "it does not need to use mass media",
+      "D": "sales people are well trained"
+    },
+    "correctAnswer": "A",
+    "explanation": "The key advantage of personal selling over other promotional elements is that it allows for instant feedback. The salesperson can immediately gauge the customer's reaction, answer questions, and adjust the sales approach accordingly.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-law",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 34,
+    "questionText": "Which of the following must be present in an agency agreement?",
+    "options": {
+      "A": "Intentions",
+      "B": "Will",
+      "C": "Consent",
+      "D": "Authority"
+    },
+    "correctAnswer": "C",
+    "explanation": "Consent is the fundamental requirement in an agency agreement. Both the principal and the agent must mutually consent to the arrangement. Without the consent of both parties, no valid agency relationship can be established.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-law",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 35,
+    "questionText": "An agreement to sell is distinguishable from a sale because in the former, the transfer of goods is",
+    "options": {
+      "A": "not anticipated",
+      "B": "not discussed",
+      "C": "deferred",
+      "D": "immediate"
+    },
+    "correctAnswer": "C",
+    "explanation": "In an agreement to sell, the transfer of goods is deferred to a future date or subject to certain conditions being met. In a sale, the transfer of goods is immediate. This is the key distinction between the two.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-law",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 36,
+    "questionText": "Mr. Amusa says to Mr Bello 'I will sell you this hat for N30'. And Mr Bello replied 'I will pay N29'. The contract is",
+    "options": {
+      "A": "an offer and acceptance",
+      "B": "an implied contract",
+      "C": "a complete simple contract",
+      "D": "an offer but no acceptance"
+    },
+    "correctAnswer": "D",
+    "explanation": "Mr. Amusa made an offer to sell the hat for N30. Mr. Bello's reply of N29 is a counter-offer, not an acceptance. A counter-offer destroys the original offer. Therefore, there is an offer but no acceptance, and no contract has been formed.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "government-and-business",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 37,
+    "questionText": "Nationalization of an industry means that its ownership becomes that of",
+    "options": {
+      "A": "government",
+      "B": "shareholders",
+      "C": "taxpayers",
+      "D": "indigenes"
+    },
+    "correctAnswer": "A",
+    "explanation": "Nationalization is the process by which the government takes over the ownership and control of a privately owned industry or business. The ownership transfers from private individuals to the government.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 38,
+    "questionText": "The Comprehensive Import Supervision Scheme was set up by the federal government in order to",
+    "options": {
+      "A": "reverse Nigeria's unfavourable balance",
+      "B": "promote fair trade between Nigeria and other countries",
+      "C": "counteract all fraudulent business deals of Nigerians with other nationals",
+      "D": "ensure that imports into Nigeria are of the correct quality, value and quantity"
+    },
+    "correctAnswer": "D",
+    "explanation": "The Comprehensive Import Supervision Scheme (CISS) was established to ensure that goods imported into Nigeria are of the correct quality, value, and quantity as specified in the import documents. This was to prevent dumping of substandard goods and over-invoicing.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "consumer-protection",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 39,
+    "questionText": "Which of the following has powers to order withdrawal of a particular food item from circulation?",
+    "options": {
+      "A": "Standards Organisation of Nigeria",
+      "B": "Federal High Courts in Nigeria",
+      "C": "Food and Drugs Department of the Federal Ministry of Health",
+      "D": "Local government health inspectors"
+    },
+    "correctAnswer": "A",
+    "explanation": "The Standards Organisation of Nigeria (SON) has the power to order the withdrawal of substandard products, including food items, from circulation. SON is responsible for setting and enforcing quality standards for products in Nigeria.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "labour-and-trade-unions",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 40,
+    "questionText": "Which of the following maxims negates the principle of collective bargaining?",
+    "options": {
+      "A": "Individual employees have weak bargaining base.",
+      "B": "Individual employees attain strength when they come together in a union.",
+      "C": "Only members of the union can benefit from agreements negotiated by the union.",
+      "D": "Collective bargaining covers the vast majority of employees, whether union members or not."
+    },
+    "correctAnswer": "C",
+    "explanation": "The principle of collective bargaining is that agreements reached benefit ALL workers in the bargaining unit, not just union members. The statement that only union members can benefit negates this principle by restricting the benefits to a select group.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-environment",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 41,
+    "questionText": "NACCIMA stands for",
+    "options": {
+      "A": "Nigerian-American Centre for Culture Industries, Mines and Arts",
+      "B": "Nigerian Association for Culture, Civics, Industries, Minerals and Arts",
+      "C": "National Agency for Culture, Civilization, Investments, Manufacturing and Agriculture",
+      "D": "Nigerian Association of Chambers of Commerce, Industries, Mines and Agriculture"
+    },
+    "correctAnswer": "D",
+    "explanation": "NACCIMA stands for Nigerian Association of Chambers of Commerce, Industries, Mines and Agriculture. It is the umbrella body for chambers of commerce and industry in Nigeria, promoting business interests and trade.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "consumer-protection",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 42,
+    "questionText": "For the establishment of a powerful consumers' association in Nigeria to exist, there must be",
+    "options": {
+      "A": "financial and moral support from the public",
+      "B": "honest and committed leadership",
+      "C": "allocation of goods from the producers",
+      "D": "freedom from external influence"
+    },
+    "correctAnswer": "A",
+    "explanation": "For a powerful consumers' association to exist in Nigeria, financial and moral support from the public is essential. Without public support in terms of funding and moral backing, such an association cannot be sustained or effective.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 43,
+    "questionText": "Which of the following is the most important business resources?",
+    "options": {
+      "A": "Money",
+      "B": "Management",
+      "C": "Materials",
+      "D": "Manpower"
+    },
+    "correctAnswer": "D",
+    "explanation": "Manpower (human resources) is considered the most important business resource because it is the human element that manages, coordinates, and utilizes all other resources such as money, materials, and machinery. Without people, no business activity can take place.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "management-and-organization",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 44,
+    "questionText": "The harmonious relationship among the various units in an organization is ensured through",
+    "options": {
+      "A": "co-ordination",
+      "B": "motivation",
+      "C": "planning",
+      "D": "leadership"
+    },
+    "correctAnswer": "A",
+    "explanation": "Co-ordination is the management function that ensures a harmonious relationship among the various units and departments in an organization. It brings together different activities and resources to work towards common objectives.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "management-and-organization",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 45,
+    "questionText": "The principle of span of control stipulates that",
+    "options": {
+      "A": "an employee should report to only one superior",
+      "B": "managers must demand accountability from their subordinates",
+      "C": "resources have to be economized within the various divisions",
+      "D": "the number of employees reporting to one superior should be kept to a workable maximum"
+    },
+    "correctAnswer": "D",
+    "explanation": "The principle of span of control states that the number of subordinates reporting to one superior should be kept to a workable (manageable) maximum. This ensures effective supervision and control. Option A describes the principle of unity of command, not span of control.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "marketing",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 46,
+    "questionText": "Which of the following makes other functions of business its appendages?",
+    "options": {
+      "A": "Production",
+      "B": "Marketing",
+      "C": "Finance",
+      "D": "Personnel"
+    },
+    "correctAnswer": "B",
+    "explanation": "Marketing makes all other business functions its appendages because it is the link between the business and the consumer. All other functions including production, finance, and personnel ultimately serve the marketing objective of satisfying customer needs.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "information-technology",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 47,
+    "questionText": "The use of computers in modern banking industry is a reflection of",
+    "options": {
+      "A": "competitive development",
+      "B": "scientific development",
+      "C": "economic development",
+      "D": "technological development"
+    },
+    "correctAnswer": "D",
+    "explanation": "The use of computers in modern banking is a reflection of technological development. Technology has transformed banking operations, enabling electronic banking, ATMs, online transactions, and faster data processing.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-environment",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 48,
+    "questionText": "When an oil exploring and mining company builds a health centre in one of the communities where it operates, such a company is",
+    "options": {
+      "A": "currying favour from local people",
+      "B": "finding a way to spend excess profits",
+      "C": "fulfilling part of its social responsibility",
+      "D": "investing its idle funds"
+    },
+    "correctAnswer": "C",
+    "explanation": "Building a health centre in the host community is an example of corporate social responsibility. Businesses have a responsibility to contribute to the welfare of the communities in which they operate, beyond just making profits.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "economic-integration",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 49,
+    "questionText": "The West African Clearing House became legally operational on",
+    "options": {
+      "A": "1st July, 1976",
+      "B": "25th June, 1975",
+      "C": "14th March, 1975",
+      "D": "3rd May, 1974"
+    },
+    "correctAnswer": "A",
+    "explanation": "The West African Clearing House (WACH) became legally operational on 1st July, 1976. It was established to facilitate multilateral payments among West African countries and reduce the use of foreign currencies in intra-regional trade.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "economic-integration",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 50,
+    "questionText": "The Lake Chad Basin Commission was founded to enable member states",
+    "options": {
+      "A": "expand the volume of water in the Lake for fishing activity",
+      "B": "increase navigational activities on the lake",
+      "C": "dam the lake for electricity and agricultural purposes",
+      "D": "co-ordinate their efforts in managing the use of the lake's resources"
+    },
+    "correctAnswer": "D",
+    "explanation": "The Lake Chad Basin Commission was founded to coordinate the efforts of member states in managing and utilizing the resources of Lake Chad and its basin. This includes water management, environmental protection, and sustainable development.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  }
+]

@@ -1,0 +1,1002 @@
+[
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 1,
+    "questionText": "Which of the following organelles is responsible for the synthesis of proteins in a cell?",
+    "options": {
+      "A": "Mitochondria",
+      "B": "Ribosomes",
+      "C": "Golgi apparatus",
+      "D": "Lysosomes",
+      "E": "Endoplasmic reticulum"
+    },
+    "correctAnswer": "B",
+    "explanation": "Ribosomes are the organelles responsible for protein synthesis. They can be found free in the cytoplasm or attached to the rough endoplasmic reticulum. They translate mRNA into polypeptide chains (proteins).",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 2,
+    "questionText": "The cell membrane is described as selectively permeable because it",
+    "options": {
+      "A": "allows all substances to pass through freely",
+      "B": "does not allow any substance to pass through",
+      "C": "allows only certain substances to pass through",
+      "D": "is made up of cellulose",
+      "E": "is rigid and inflexible"
+    },
+    "correctAnswer": "C",
+    "explanation": "The cell membrane is selectively permeable (also called semi-permeable) because it allows only certain substances to pass through while preventing others. This selective permeability is due to its phospholipid bilayer structure and the presence of specific transport proteins.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 3,
+    "questionText": "Which of the following is NOT found in an animal cell?",
+    "options": {
+      "A": "Mitochondria",
+      "B": "Cell wall",
+      "C": "Nucleus",
+      "D": "Cytoplasm",
+      "E": "Cell membrane"
+    },
+    "correctAnswer": "B",
+    "explanation": "Animal cells do not have a cell wall. The cell wall is a rigid structure found in plant cells, fungi, and bacteria. Animal cells are bounded only by the cell membrane (plasma membrane).",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-division",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 4,
+    "questionText": "During mitosis, the number of chromosomes in the daughter cells is",
+    "options": {
+      "A": "half the number in the parent cell",
+      "B": "the same as in the parent cell",
+      "C": "double the number in the parent cell",
+      "D": "triple the number in the parent cell",
+      "E": "a quarter of the number in the parent cell"
+    },
+    "correctAnswer": "B",
+    "explanation": "In mitosis, the daughter cells produced have the same number of chromosomes (diploid number) as the parent cell. This is because the chromosomes are duplicated and then equally divided between the two daughter cells, maintaining the chromosome number.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-division",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 5,
+    "questionText": "Meiosis is important in sexual reproduction because it",
+    "options": {
+      "A": "increases the number of chromosomes in offspring",
+      "B": "ensures that offspring are identical to parents",
+      "C": "reduces the chromosome number by half",
+      "D": "produces cells that are larger than the parent cells",
+      "E": "prevents genetic variation"
+    },
+    "correctAnswer": "C",
+    "explanation": "Meiosis reduces the chromosome number by half (from diploid to haploid). This is essential in sexual reproduction so that when two gametes fuse during fertilization, the resulting zygote has the correct diploid number of chromosomes for the species.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-plants",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 6,
+    "questionText": "The process by which green plants manufacture their food using sunlight is called",
+    "options": {
+      "A": "chemosynthesis",
+      "B": "photosynthesis",
+      "C": "respiration",
+      "D": "transpiration",
+      "E": "osmosis"
+    },
+    "correctAnswer": "B",
+    "explanation": "Photosynthesis is the process by which green plants use sunlight energy, carbon dioxide, and water to manufacture glucose (food). The reaction takes place mainly in the chloroplasts of leaf cells, with chlorophyll absorbing the light energy.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-plants",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 7,
+    "questionText": "Which of the following is a product of the light-dependent reactions of photosynthesis?",
+    "options": {
+      "A": "Glucose",
+      "B": "Carbon dioxide",
+      "C": "ATP and NADPH",
+      "D": "Starch",
+      "E": "Protein"
+    },
+    "correctAnswer": "C",
+    "explanation": "The light-dependent reactions of photosynthesis produce ATP and NADPH (along with oxygen as a by-product). These energy-rich molecules are then used in the light-independent reactions (Calvin cycle) to fix carbon dioxide into glucose.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-plants",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 8,
+    "questionText": "A plant that lacks nitrogen in its soil is likely to show",
+    "options": {
+      "A": "yellowing of leaves",
+      "B": "excessive growth",
+      "C": "increased fruit production",
+      "D": "deeper green coloration",
+      "E": "thicker stems"
+    },
+    "correctAnswer": "A",
+    "explanation": "Nitrogen deficiency in plants causes chlorosis (yellowing of leaves), particularly in older leaves first. Nitrogen is essential for the synthesis of chlorophyll, amino acids, and proteins. Without adequate nitrogen, chlorophyll production decreases, leading to yellowing.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 9,
+    "questionText": "The enzyme pepsin acts on proteins in the stomach. It works best in",
+    "options": {
+      "A": "alkaline medium",
+      "B": "neutral medium",
+      "C": "acidic medium",
+      "D": "any medium",
+      "E": "slightly alkaline medium"
+    },
+    "correctAnswer": "C",
+    "explanation": "Pepsin is a proteolytic enzyme secreted by the gastric glands in the stomach. It works best in an acidic medium (pH around 1.5-2.0), which is provided by hydrochloric acid (HCl) also secreted by the stomach lining.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 10,
+    "questionText": "Which of the following vitamins is required for proper blood clotting?",
+    "options": {
+      "A": "Vitamin A",
+      "B": "Vitamin B",
+      "C": "Vitamin C",
+      "D": "Vitamin D",
+      "E": "Vitamin K"
+    },
+    "correctAnswer": "E",
+    "explanation": "Vitamin K is essential for the synthesis of prothrombin and other clotting factors in the liver. Without adequate Vitamin K, blood clotting is impaired, which can lead to excessive bleeding from wounds.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 11,
+    "questionText": "The end products of the digestion of proteins are",
+    "options": {
+      "A": "fatty acids and glycerol",
+      "B": "glucose and fructose",
+      "C": "amino acids",
+      "D": "maltose and sucrose",
+      "E": "nucleotides"
+    },
+    "correctAnswer": "C",
+    "explanation": "Proteins are digested by proteolytic enzymes (pepsin, trypsin, peptidases) into their simplest units called amino acids. These amino acids are then absorbed through the walls of the small intestine into the bloodstream.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-plants",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 12,
+    "questionText": "The upward movement of water through the xylem vessels of a plant is mainly due to",
+    "options": {
+      "A": "root pressure only",
+      "B": "capillarity only",
+      "C": "transpiration pull",
+      "D": "photosynthesis",
+      "E": "active transport"
+    },
+    "correctAnswer": "C",
+    "explanation": "The transpiration pull (cohesion-tension theory) is the main force driving the upward movement of water through the xylem. As water evaporates from the leaf surfaces during transpiration, it creates a tension (negative pressure) that pulls water up through the xylem vessels in a continuous column.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-plants",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 13,
+    "questionText": "The tissue responsible for the transport of manufactured food in plants is the",
+    "options": {
+      "A": "xylem",
+      "B": "phloem",
+      "C": "cambium",
+      "D": "epidermis",
+      "E": "cortex"
+    },
+    "correctAnswer": "B",
+    "explanation": "The phloem is the vascular tissue responsible for translocating manufactured food (mainly sucrose) from the leaves (source) to other parts of the plant (sinks) such as roots, fruits, and growing tips. This process is called translocation.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 14,
+    "questionText": "Which of the following blood vessels carries deoxygenated blood from the heart to the lungs?",
+    "options": {
+      "A": "Pulmonary vein",
+      "B": "Aorta",
+      "C": "Pulmonary artery",
+      "D": "Vena cava",
+      "E": "Hepatic vein"
+    },
+    "correctAnswer": "C",
+    "explanation": "The pulmonary artery carries deoxygenated blood from the right ventricle of the heart to the lungs for oxygenation. It is the only artery in the body that carries deoxygenated blood.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 15,
+    "questionText": "The component of blood responsible for transporting oxygen is",
+    "options": {
+      "A": "white blood cells",
+      "B": "platelets",
+      "C": "plasma",
+      "D": "red blood cells",
+      "E": "lymph"
+    },
+    "correctAnswer": "D",
+    "explanation": "Red blood cells (erythrocytes) contain haemoglobin, an iron-containing protein that binds with oxygen to form oxyhaemoglobin. This enables red blood cells to transport oxygen from the lungs to the body tissues.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "respiration",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 16,
+    "questionText": "The end products of aerobic respiration are",
+    "options": {
+      "A": "carbon dioxide and ethanol",
+      "B": "carbon dioxide and water",
+      "C": "lactic acid and water",
+      "D": "ethanol and water",
+      "E": "carbon dioxide and lactic acid"
+    },
+    "correctAnswer": "B",
+    "explanation": "Aerobic respiration is the complete breakdown of glucose in the presence of oxygen to produce carbon dioxide, water, and energy (ATP). The overall equation is: C6H12O6 + 6O2 → 6CO2 + 6H2O + energy (ATP).",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "respiration",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 17,
+    "questionText": "Anaerobic respiration in yeast produces",
+    "options": {
+      "A": "carbon dioxide and water",
+      "B": "lactic acid and energy",
+      "C": "ethanol and carbon dioxide",
+      "D": "oxygen and glucose",
+      "E": "amino acids and water"
+    },
+    "correctAnswer": "C",
+    "explanation": "Anaerobic respiration in yeast (fermentation) produces ethanol (alcohol) and carbon dioxide. This process is used commercially in brewing and baking. The equation is: C6H12O6 → 2C2H5OH + 2CO2 + energy.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "respiration",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 18,
+    "questionText": "The site of aerobic respiration in a cell is the",
+    "options": {
+      "A": "nucleus",
+      "B": "ribosome",
+      "C": "mitochondrion",
+      "D": "chloroplast",
+      "E": "Golgi body"
+    },
+    "correctAnswer": "C",
+    "explanation": "The mitochondrion is the organelle where aerobic respiration takes place. It is often called the 'powerhouse of the cell' because it produces most of the cell's ATP through the Krebs cycle and oxidative phosphorylation.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "excretion",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 19,
+    "questionText": "The main excretory organ in humans is the",
+    "options": {
+      "A": "liver",
+      "B": "skin",
+      "C": "kidney",
+      "D": "lung",
+      "E": "large intestine"
+    },
+    "correctAnswer": "C",
+    "explanation": "The kidney is the main excretory organ in humans. It filters blood to remove nitrogenous waste products (mainly urea), excess water, and salts, forming urine which is then stored in the bladder before being excreted.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "excretion",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 20,
+    "questionText": "The functional unit of the kidney is the",
+    "options": {
+      "A": "glomerulus",
+      "B": "nephron",
+      "C": "Bowman's capsule",
+      "D": "collecting duct",
+      "E": "renal pelvis"
+    },
+    "correctAnswer": "B",
+    "explanation": "The nephron is the functional unit of the kidney. Each kidney contains about one million nephrons. Each nephron consists of a Bowman's capsule (containing the glomerulus), proximal convoluted tubule, loop of Henle, distal convoluted tubule, and a collecting duct.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-plants",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 21,
+    "questionText": "Pollination is the transfer of pollen grains from the",
+    "options": {
+      "A": "stigma to the ovary",
+      "B": "anther to the stigma",
+      "C": "ovary to the anther",
+      "D": "filament to the style",
+      "E": "petal to the sepal"
+    },
+    "correctAnswer": "B",
+    "explanation": "Pollination is the transfer of pollen grains from the anther (male part) to the stigma (female part) of a flower. This can occur within the same flower (self-pollination) or between different flowers (cross-pollination).",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-plants",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 22,
+    "questionText": "Which of the following is an advantage of cross-pollination over self-pollination?",
+    "options": {
+      "A": "It is more economical in pollen production",
+      "B": "It always leads to faster seed production",
+      "C": "It promotes genetic variation in offspring",
+      "D": "It does not require external agents",
+      "E": "It ensures pollination in all cases"
+    },
+    "correctAnswer": "C",
+    "explanation": "Cross-pollination promotes genetic variation in offspring because pollen comes from a different plant with potentially different genetic makeup. This genetic diversity increases the chances of producing offspring that can adapt to changing environmental conditions.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-animals",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 23,
+    "questionText": "The fusion of a male gamete with a female gamete is known as",
+    "options": {
+      "A": "pollination",
+      "B": "germination",
+      "C": "fertilization",
+      "D": "ovulation",
+      "E": "implantation"
+    },
+    "correctAnswer": "C",
+    "explanation": "Fertilization is the fusion of a male gamete (sperm) with a female gamete (ovum/egg) to form a zygote. In humans, this process typically occurs in the fallopian tube (oviduct).",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-animals",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 24,
+    "questionText": "The placenta in mammals is important because it",
+    "options": {
+      "A": "produces the baby's blood",
+      "B": "allows direct mixing of maternal and fetal blood",
+      "C": "facilitates exchange of nutrients and waste between mother and fetus",
+      "D": "produces milk for the baby",
+      "E": "determines the sex of the baby"
+    },
+    "correctAnswer": "C",
+    "explanation": "The placenta facilitates the exchange of nutrients, oxygen, and waste products between the mother and the fetus without direct mixing of their blood. It also produces hormones such as progesterone and oestrogen to maintain pregnancy.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "growth-and-development",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 25,
+    "questionText": "Metamorphosis is a characteristic feature of the life cycle of",
+    "options": {
+      "A": "birds",
+      "B": "mammals",
+      "C": "reptiles",
+      "D": "insects",
+      "E": "fish"
+    },
+    "correctAnswer": "D",
+    "explanation": "Metamorphosis is a marked change in form and structure during the development of an organism. It is a characteristic feature of many insects (such as butterflies, moths, and beetles) and amphibians (such as frogs). The question refers to the most classic example, insects.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "growth-and-development",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 26,
+    "questionText": "The part of a seed that develops into the shoot system is the",
+    "options": {
+      "A": "radicle",
+      "B": "plumule",
+      "C": "testa",
+      "D": "cotyledon",
+      "E": "hilum"
+    },
+    "correctAnswer": "B",
+    "explanation": "The plumule is the embryonic shoot found in a seed. During germination, it develops into the shoot system (stem and leaves) of the plant. The radicle, on the other hand, develops into the root system.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 27,
+    "questionText": "A community of living organisms interacting with their non-living environment is called",
+    "options": {
+      "A": "a population",
+      "B": "a biome",
+      "C": "an ecosystem",
+      "D": "a habitat",
+      "E": "a niche"
+    },
+    "correctAnswer": "C",
+    "explanation": "An ecosystem is a community of living organisms (biotic factors) interacting with their non-living environment (abiotic factors) as a functional unit. It includes all the organisms in an area and the physical and chemical factors of their environment.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 28,
+    "questionText": "In an ecological food chain, the organisms that occupy the first trophic level are",
+    "options": {
+      "A": "primary consumers",
+      "B": "secondary consumers",
+      "C": "decomposers",
+      "D": "producers",
+      "E": "tertiary consumers"
+    },
+    "correctAnswer": "D",
+    "explanation": "Producers (green plants and other autotrophs) occupy the first trophic level in an ecological food chain. They convert solar energy into chemical energy through photosynthesis, forming the base of all food chains.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 29,
+    "questionText": "The relationship between a tick and a dog is an example of",
+    "options": {
+      "A": "mutualism",
+      "B": "commensalism",
+      "C": "parasitism",
+      "D": "saprophytism",
+      "E": "predation"
+    },
+    "correctAnswer": "C",
+    "explanation": "The relationship between a tick and a dog is parasitism. The tick (parasite) feeds on the blood of the dog (host) and benefits from the relationship, while the dog is harmed. In parasitism, one organism benefits at the expense of the other.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 30,
+    "questionText": "Which of the following is an abiotic factor in an ecosystem?",
+    "options": {
+      "A": "Bacteria",
+      "B": "Fungi",
+      "C": "Temperature",
+      "D": "Insects",
+      "E": "Grasses"
+    },
+    "correctAnswer": "C",
+    "explanation": "Temperature is an abiotic (non-living) factor in an ecosystem. Abiotic factors include physical and chemical factors such as temperature, light, water, humidity, pH, and soil minerals. All the other options are biotic (living) factors.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 31,
+    "questionText": "When a heterozygous tall plant (Tt) is crossed with a homozygous short plant (tt), the expected ratio of tall to short offspring is",
+    "options": {
+      "A": "3:1",
+      "B": "1:1",
+      "C": "2:1",
+      "D": "1:3",
+      "E": "4:0"
+    },
+    "correctAnswer": "B",
+    "explanation": "When Tt is crossed with tt (test cross), the offspring are Tt and tt in equal proportions. This gives a phenotypic ratio of 1 tall : 1 short (1:1). The Punnett square shows: Tt x tt produces Tt, Tt, tt, tt (but since gametes from Tt are T and t, crossing with tt gives Tt and tt in 1:1 ratio).",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 32,
+    "questionText": "The chromosomes that determine sex in humans are",
+    "options": {
+      "A": "autosomes",
+      "B": "sex chromosomes",
+      "C": "homologous chromosomes",
+      "D": "chromatids",
+      "E": "centromeres"
+    },
+    "correctAnswer": "B",
+    "explanation": "Sex chromosomes (X and Y) determine the sex of an individual in humans. Females have two X chromosomes (XX), while males have one X and one Y chromosome (XY). The remaining 22 pairs are called autosomes and do not determine sex.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 33,
+    "questionText": "A man with blood group AB marries a woman with blood group O. What are the possible blood groups of their children?",
+    "options": {
+      "A": "A and B only",
+      "B": "AB and O only",
+      "C": "A, B, AB, and O",
+      "D": "O only",
+      "E": "AB only"
+    },
+    "correctAnswer": "A",
+    "explanation": "A man with blood group AB has genotype IAIB, and a woman with blood group O has genotype IOIO (or ii). Their children can receive either IA or IB from the father and IO from the mother, giving genotypes IAIO (blood group A) or IBIO (blood group B). Therefore, the possible blood groups are A and B only.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "evolution",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 34,
+    "questionText": "The theory of evolution by natural selection was proposed by",
+    "options": {
+      "A": "Gregor Mendel",
+      "B": "Jean Baptiste Lamarck",
+      "C": "Charles Darwin",
+      "D": "Louis Pasteur",
+      "E": "Robert Hooke"
+    },
+    "correctAnswer": "C",
+    "explanation": "Charles Darwin proposed the theory of evolution by natural selection in his book 'On the Origin of Species' (1859). He proposed that organisms with favorable variations are more likely to survive and reproduce, passing these traits to their offspring.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "evolution",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 35,
+    "questionText": "Structures that have the same basic plan but are adapted for different functions are said to be",
+    "options": {
+      "A": "analogous",
+      "B": "homologous",
+      "C": "vestigial",
+      "D": "adaptive",
+      "E": "convergent"
+    },
+    "correctAnswer": "B",
+    "explanation": "Homologous structures have the same basic structural plan (origin) but are modified for different functions. For example, the forelimbs of humans, whales, bats, and horses all have the same basic bone structure but are adapted for grasping, swimming, flying, and running respectively.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "classification-of-living-things",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 36,
+    "questionText": "The binomial system of naming organisms was introduced by",
+    "options": {
+      "A": "Charles Darwin",
+      "B": "Carolus Linnaeus",
+      "C": "Gregor Mendel",
+      "D": "Robert Hooke",
+      "E": "Louis Pasteur"
+    },
+    "correctAnswer": "B",
+    "explanation": "Carolus Linnaeus (Carl von Linne) introduced the binomial system of nomenclature in the 18th century. In this system, each organism is given a two-part Latin name consisting of the genus name (capitalized) and the species name (lowercase), e.g., Homo sapiens.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "classification-of-living-things",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 37,
+    "questionText": "Which of the following organisms belongs to the phylum Arthropoda?",
+    "options": {
+      "A": "Earthworm",
+      "B": "Snail",
+      "C": "Mosquito",
+      "D": "Tapeworm",
+      "E": "Starfish"
+    },
+    "correctAnswer": "C",
+    "explanation": "The mosquito belongs to the phylum Arthropoda, which is characterized by jointed appendages, a segmented body, and an exoskeleton made of chitin. Earthworms belong to Annelida, snails to Mollusca, tapeworms to Platyhelminthes, and starfish to Echinodermata.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "microorganisms-and-disease",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 38,
+    "questionText": "Malaria in humans is caused by",
+    "options": {
+      "A": "a virus",
+      "B": "a bacterium",
+      "C": "Plasmodium",
+      "D": "a fungus",
+      "E": "Trypanosoma"
+    },
+    "correctAnswer": "C",
+    "explanation": "Malaria is caused by the protozoan parasite Plasmodium (species include P. falciparum, P. vivax, P. ovale, and P. malariae). It is transmitted to humans through the bite of an infected female Anopheles mosquito.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "microorganisms-and-disease",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 39,
+    "questionText": "Which of the following diseases is caused by a virus?",
+    "options": {
+      "A": "Cholera",
+      "B": "Tuberculosis",
+      "C": "Measles",
+      "D": "Typhoid",
+      "E": "Gonorrhoea"
+    },
+    "correctAnswer": "C",
+    "explanation": "Measles is caused by the measles virus (a paramyxovirus). Cholera is caused by the bacterium Vibrio cholerae, tuberculosis by Mycobacterium tuberculosis, typhoid by Salmonella typhi, and gonorrhoea by Neisseria gonorrhoeae.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nervous-system-and-sense-organs",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 40,
+    "questionText": "The part of the brain responsible for coordination of body movements is the",
+    "options": {
+      "A": "cerebrum",
+      "B": "cerebellum",
+      "C": "medulla oblongata",
+      "D": "hypothalamus",
+      "E": "thalamus"
+    },
+    "correctAnswer": "B",
+    "explanation": "The cerebellum is the part of the brain responsible for coordinating voluntary muscular movements, maintaining posture, and balance. Damage to the cerebellum results in uncoordinated and jerky movements.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nervous-system-and-sense-organs",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 41,
+    "questionText": "A reflex action is one that is",
+    "options": {
+      "A": "learned through practice",
+      "B": "voluntary and deliberate",
+      "C": "automatic and involuntary",
+      "D": "controlled by the cerebrum",
+      "E": "always slow in response"
+    },
+    "correctAnswer": "C",
+    "explanation": "A reflex action is an automatic, rapid, and involuntary response to a stimulus. It is controlled by the spinal cord (spinal reflexes) or the brainstem (cranial reflexes) and does not involve conscious thought. Examples include blinking and the knee-jerk reflex.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "endocrine-system",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 42,
+    "questionText": "The hormone insulin is produced by the",
+    "options": {
+      "A": "adrenal glands",
+      "B": "thyroid gland",
+      "C": "pituitary gland",
+      "D": "pancreas",
+      "E": "liver"
+    },
+    "correctAnswer": "D",
+    "explanation": "Insulin is produced by the beta cells of the Islets of Langerhans in the pancreas. Insulin regulates blood sugar levels by promoting the uptake of glucose from the blood into cells and the conversion of glucose to glycogen in the liver.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "endocrine-system",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 43,
+    "questionText": "An excessive secretion of thyroxine from the thyroid gland leads to",
+    "options": {
+      "A": "cretinism",
+      "B": "diabetes mellitus",
+      "C": "exophthalmic goitre",
+      "D": "dwarfism",
+      "E": "gigantism"
+    },
+    "correctAnswer": "C",
+    "explanation": "Excessive secretion of thyroxine (hyperthyroidism) leads to exophthalmic goitre (Graves' disease), characterized by increased metabolic rate, weight loss, nervousness, rapid heartbeat, and protruding eyeballs. Cretinism results from thyroid deficiency in children.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "skeletal-and-muscular-systems",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 44,
+    "questionText": "The type of joint found at the elbow is a",
+    "options": {
+      "A": "ball and socket joint",
+      "B": "hinge joint",
+      "C": "pivot joint",
+      "D": "gliding joint",
+      "E": "fixed joint"
+    },
+    "correctAnswer": "B",
+    "explanation": "The elbow joint is a hinge joint, which allows movement in only one plane (flexion and extension). It works like a door hinge. Ball and socket joints (found at the hip and shoulder) allow movement in multiple directions.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "skeletal-and-muscular-systems",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 45,
+    "questionText": "Which of the following is a function of the skeleton in vertebrates?",
+    "options": {
+      "A": "Secretion of hormones",
+      "B": "Production of enzymes",
+      "C": "Support and protection of vital organs",
+      "D": "Absorption of digested food",
+      "E": "Regulation of body temperature"
+    },
+    "correctAnswer": "C",
+    "explanation": "The skeleton provides support for the body and protection for vital organs (e.g., the skull protects the brain, the ribcage protects the heart and lungs). Other functions include providing attachment points for muscles, blood cell production (in bone marrow), and mineral storage.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "homeostasis-and-coordination",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 46,
+    "questionText": "The maintenance of a constant internal environment in living organisms is called",
+    "options": {
+      "A": "metabolism",
+      "B": "homeostasis",
+      "C": "catabolism",
+      "D": "irritability",
+      "E": "excretion"
+    },
+    "correctAnswer": "B",
+    "explanation": "Homeostasis is the maintenance of a relatively constant internal environment despite changes in external conditions. It involves the regulation of factors such as body temperature, blood sugar levels, water balance, and pH through feedback mechanisms.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "homeostasis-and-coordination",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 47,
+    "questionText": "The organ responsible for the regulation of body temperature in mammals is the",
+    "options": {
+      "A": "liver",
+      "B": "kidney",
+      "C": "skin",
+      "D": "heart",
+      "E": "brain"
+    },
+    "correctAnswer": "C",
+    "explanation": "The skin is the primary organ responsible for regulating body temperature in mammals. It does this through sweating (evaporative cooling), vasodilation (increasing blood flow to the skin surface to lose heat), and vasoconstriction (reducing blood flow to conserve heat). The hypothalamus in the brain acts as the thermostat, but the skin is the effector organ.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 48,
+    "questionText": "The gradual change in species composition of a community over time is known as",
+    "options": {
+      "A": "migration",
+      "B": "ecological succession",
+      "C": "adaptation",
+      "D": "competition",
+      "E": "speciation"
+    },
+    "correctAnswer": "B",
+    "explanation": "Ecological succession is the gradual and orderly process of change in species composition of a community over time. It involves a series of stages (seral stages) from pioneer communities to the final stable community called the climax community.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 49,
+    "questionText": "A sudden change in the structure of a gene or chromosome is called",
+    "options": {
+      "A": "variation",
+      "B": "evolution",
+      "C": "mutation",
+      "D": "adaptation",
+      "E": "hybridization"
+    },
+    "correctAnswer": "C",
+    "explanation": "A mutation is a sudden, random, and permanent change in the structure of a gene (gene mutation) or chromosome (chromosomal mutation). Mutations can be caused by mutagens such as radiation, certain chemicals, or can occur spontaneously during DNA replication.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "microorganisms-and-disease",
+    "examType": "JAMB",
+    "examYear": 1988,
+    "questionNumber": 50,
+    "questionText": "The type of immunity obtained after vaccination is called",
+    "options": {
+      "A": "natural active immunity",
+      "B": "natural passive immunity",
+      "C": "artificial active immunity",
+      "D": "artificial passive immunity",
+      "E": "innate immunity"
+    },
+    "correctAnswer": "C",
+    "explanation": "Vaccination provides artificial active immunity. It is 'artificial' because the antigen is deliberately introduced into the body, and 'active' because the body's immune system actively produces its own antibodies and memory cells in response to the vaccine.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  }
+]

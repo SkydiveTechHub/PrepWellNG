@@ -1,0 +1,952 @@
+[
+  {
+    "subjectCode": "COM",
+    "topicSlug": "introduction-to-commerce",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 1,
+    "questionText": "Which of the following are the components of commerce?\nI Trading and advertising\nII Warehousing and transportation\nIII Packaging and branding\nIV Insurance and banking.",
+    "options": {
+      "A": "I and II",
+      "B": "I and III",
+      "C": "I, II and IV",
+      "D": "II, III and IV"
+    },
+    "correctAnswer": "C",
+    "explanation": "Components of commerce include trade and aids to trade (transport, warehousing, insurance, banking, advertising). I, II and IV are correct; packaging/branding is production, not commerce.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "introduction-to-commerce",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 2,
+    "questionText": "A royal charter was granted to the Royal Niger Company to do business in Nigeria in",
+    "options": {
+      "A": "December, 1888",
+      "B": "May, 1887",
+      "C": "July, 1886",
+      "D": "August, 1885"
+    },
+    "correctAnswer": "C",
+    "explanation": "The Royal Niger Company received its charter on July 10, 1886.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "insurance",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 3,
+    "questionText": "Transportation, retailing and wholesaling industries rely heavily on",
+    "options": {
+      "A": "banking",
+      "B": "insurance",
+      "C": "manufacturing",
+      "D": "railway"
+    },
+    "correctAnswer": "B",
+    "explanation": "These industries rely heavily on insurance to protect goods and assets against risks during transit and storage.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 4,
+    "questionText": "An example of indirect service is rendered by",
+    "options": {
+      "A": "civil servants",
+      "B": "family doctors",
+      "C": "household servants",
+      "D": "entertainers"
+    },
+    "correctAnswer": "A",
+    "explanation": "Civil servants render indirect services because they do not produce goods or provide direct personal services to consumers.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-organizations",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 5,
+    "questionText": "The objectives of a business are determined by the",
+    "options": {
+      "A": "workers",
+      "B": "government",
+      "C": "society",
+      "D": "promoters"
+    },
+    "correctAnswer": "D",
+    "explanation": "Promoters are the founders who establish the business and set its objectives.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-organizations",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 6,
+    "questionText": "Partnerships are most suitable where",
+    "options": {
+      "A": "the partners are family friends",
+      "B": "professional are involved",
+      "C": "members can easily raise enough capital",
+      "D": "government regulations are favourable"
+    },
+    "correctAnswer": "B",
+    "explanation": "Partnerships are most suitable in professional settings such as law, medicine, and accounting where professionals collaborate.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-organizations",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 7,
+    "questionText": "Use the following conversation to answer this question.\n\nMUSA: Taiwo, why you are in business?\nTAIWO: To optimize profit, provide quality products and discharge my social responsibilities. What of you?\nMUSA: I am in business to minimize cost, provide products at low prices and as you said, discharge my social responsibilities. What of you, Okon and Kalu?\nOKON: I am in business to cater for the need of the consumers at all costs.\nKALU: I am in business to make profit, provide quality products at reasonable prices and establish a good reputation for myself.\n\nThe businessman that may end up not discharging his social responsibility is",
+    "options": {
+      "A": "Musa",
+      "B": "Okon",
+      "C": "Taiwo",
+      "D": "Kalu"
+    },
+    "correctAnswer": "D",
+    "explanation": "Kalu's objectives focus on personal gain (\"establish a good reputation for myself\") without mentioning social responsibility, unlike Musa and Taiwo who explicitly mention it.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-organizations",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 8,
+    "questionText": "Use the following conversation to answer this question.\n\nMUSA: Taiwo, why you are in business?\nTAIWO: To optimize profit, provide quality products and discharge my social responsibilities. What of you?\nMUSA: I am in business to minimize cost, provide products at low prices and as you said, discharge my social responsibilities. What of you, Okon and Kalu?\nOKON: I am in business to cater for the need of the consumers at all costs.\nKALU: I am in business to make profit, provide quality products at reasonable prices and establish a good reputation for myself.\n\nThe business with the best objectives is",
+    "options": {
+      "A": "Okon",
+      "B": "Taiwo",
+      "C": "Kalu",
+      "D": "Musa"
+    },
+    "correctAnswer": "B",
+    "explanation": "Taiwo's objectives are the most balanced — optimizing profit, providing quality products, AND discharging social responsibilities — covering business success and societal obligation.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-organizations",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 9,
+    "questionText": "The business organization in which shareholders have equal votes is",
+    "options": {
+      "A": "sole proprietorship",
+      "B": "partnership",
+      "C": "co-operative",
+      "D": "limited liability company"
+    },
+    "correctAnswer": "C",
+    "explanation": "In co-operative societies, each member has one vote regardless of the number of shares held (one man, one vote principle).",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-organizations",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 10,
+    "questionText": "The major objective of corporate mergers is to",
+    "options": {
+      "A": "minimize the effects of taxation",
+      "B": "increase financial advantage",
+      "C": "facilitate profit maximization",
+      "D": "enhance economies of scale"
+    },
+    "correctAnswer": "D",
+    "explanation": "The primary objective of mergers is to achieve economies of scale through combined operations, reducing average costs.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-organizations",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 11,
+    "questionText": "When it becomes necessary to liquidate a company, the first step to be taken is the appointment of",
+    "options": {
+      "A": "a receiver",
+      "B": "an auditor",
+      "C": "an accountant",
+      "D": "a liquidator"
+    },
+    "correctAnswer": "D",
+    "explanation": "A liquidator is appointed to manage the winding up process of a company.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-organizations",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 12,
+    "questionText": "In which of the following circumstances is a court order NOT necessary for the winding up of a company?",
+    "options": {
+      "A": "Suspension of business for one year.",
+      "B": "Special resolution of members.",
+      "C": "Reduction in the number of members below the legal minimum.",
+      "D": "Inability to pay its debts."
+    },
+    "correctAnswer": "B",
+    "explanation": "A voluntary winding up requires only a special resolution of members, not a court order.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-finance",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 13,
+    "questionText": "One type of investment that has a variable income is",
+    "options": {
+      "A": "debentures",
+      "B": "preferred shares",
+      "C": "government bonds",
+      "D": "ordinary shares"
+    },
+    "correctAnswer": "D",
+    "explanation": "Ordinary shares yield variable dividends that depend on company performance, unlike debentures and government bonds which have fixed returns.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "stock-exchange",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 14,
+    "questionText": "A term which indicate that a share is temporarily suspended is",
+    "options": {
+      "A": "ex-dividend",
+      "B": "cum-dividend",
+      "C": "bond",
+      "D": "stock"
+    },
+    "correctAnswer": "A",
+    "explanation": "Ex-dividend means the share is temporarily trading without the right to the declared dividend.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-finance",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 15,
+    "questionText": "Leasing is the right to use assets for an agreed period in return for",
+    "options": {
+      "A": "profit",
+      "B": "interest",
+      "C": "wages",
+      "D": "rents"
+    },
+    "correctAnswer": "D",
+    "explanation": "Leasing involves paying rent for the use of an asset over an agreed period.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-finance",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 16,
+    "questionText": "The form of business financing which involves pledging of a specific asset is",
+    "options": {
+      "A": "debenture",
+      "B": "mortgage",
+      "C": "loan",
+      "D": "bond"
+    },
+    "correctAnswer": "B",
+    "explanation": "A mortgage specifically involves pledging a particular asset (usually property) as security for a loan.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-finance",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 17,
+    "questionText": "The total amount that a company is allowed to raise according to its memorandum of association is known as",
+    "options": {
+      "A": "issued capital",
+      "B": "authorized capital",
+      "C": "called-up capital",
+      "D": "paid-up capital"
+    },
+    "correctAnswer": "B",
+    "explanation": "Authorized capital (also called nominal capital) is the maximum amount a company can raise as stated in its memorandum of association.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-finance",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 18,
+    "questionText": "A public limited liability company having a nominal capital made up of 200 000 ordinary shares of 50k each decided to issue 50% of it to the public. What is the authorized capital?",
+    "options": {
+      "A": "N40 000",
+      "B": "N50 000",
+      "C": "N100 000",
+      "D": "N200 000"
+    },
+    "correctAnswer": "C",
+    "explanation": "Authorized capital = 200,000 shares x 50 kobo (N0.50) = N100,000. The 50% issue is the issued capital, not the authorized capital.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "trade",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 19,
+    "questionText": "The turnover of a firm may be affected by",
+    "options": {
+      "A": "the demand for its product",
+      "B": "the cost of its goods sold",
+      "C": "its closing stock",
+      "D": "its net assets"
+    },
+    "correctAnswer": "A",
+    "explanation": "Turnover (total sales revenue) is directly affected by the level of demand for the firm's products.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "trade",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 20,
+    "questionText": "The cost of transporting goods to customers is called",
+    "options": {
+      "A": "carriage inward",
+      "B": "carriage forward",
+      "C": "carriage paid",
+      "D": "carriage outward"
+    },
+    "correctAnswer": "D",
+    "explanation": "Carriage outward refers to the cost of delivering goods from the seller to the customer.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "trade",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 21,
+    "questionText": "The main aim of selling directly to consumers by manufacturers is to",
+    "options": {
+      "A": "discourage the activities of middlemen",
+      "B": "make contact with consumers",
+      "C": "eliminate transportation cost",
+      "D": "maximize the profit margin"
+    },
+    "correctAnswer": "D",
+    "explanation": "By selling directly, manufacturers eliminate middlemen's margins and retain a higher profit margin.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 22,
+    "questionText": "In foreign trade, document of title is known as",
+    "options": {
+      "A": "bill of lading",
+      "B": "bill at sight",
+      "C": "certificate of origin",
+      "D": "declaration form"
+    },
+    "correctAnswer": "A",
+    "explanation": "The bill of lading serves as the document of title to goods in foreign/international trade.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 23,
+    "questionText": "Excise duties are paid on goods that are",
+    "options": {
+      "A": "imported into the country",
+      "B": "manufactured within the country",
+      "C": "exported to other countries",
+      "D": "kept in bonded warehouses"
+    },
+    "correctAnswer": "B",
+    "explanation": "Excise duties are taxes levied on goods manufactured or produced within a country.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 24,
+    "questionText": "Stevedores as a term in foreign trade means men who",
+    "options": {
+      "A": "inspect goods in ships",
+      "B": "import goods by ships",
+      "C": "collect duties in ships",
+      "D": "load and unload ships"
+    },
+    "correctAnswer": "D",
+    "explanation": "Stevedores are dock workers who load and unload cargo from ships at the port.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 25,
+    "questionText": "A close indent is an instruction to an agent to",
+    "options": {
+      "A": "order goods from a particular manufacturer",
+      "B": "order goods from any manufacturer",
+      "C": "sell goods to any firm",
+      "D": "sell goods to a certain firm"
+    },
+    "correctAnswer": "A",
+    "explanation": "A close indent specifies the exact manufacturer or supplier from which goods should be ordered, unlike an open indent.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "trade",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 26,
+    "questionText": "The basic distinction between cash discount and trade discount is that while trade discount is",
+    "options": {
+      "A": "for a period of 30 days, cash discount is for a period of 3 months",
+      "B": "given by a wholesaler, cash discount is given by a bank",
+      "C": "a reduction in the catalogue price of an article, cash discount is a reduction in the invoice value",
+      "D": "a reduction in value of sales, cash discount is a reduction in price of goods"
+    },
+    "correctAnswer": "C",
+    "explanation": "Trade discount is deducted from the catalogue/list price, while cash discount is deducted from the invoice value as an incentive for prompt payment.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "transportation",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 27,
+    "questionText": "The cost that arises from failure to load or unload a ship at the port within a stipulated period is known as",
+    "options": {
+      "A": "excess charges",
+      "B": "demurrage charges",
+      "C": "premium charges",
+      "D": "trade charges"
+    },
+    "correctAnswer": "B",
+    "explanation": "Demurrage is a charge imposed when a ship is delayed beyond the agreed time for loading or unloading at port.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "transportation",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 28,
+    "questionText": "The mode of transportation that is noted for ontime dependability and low cost per unit on goods carried is",
+    "options": {
+      "A": "pipeline",
+      "B": "air",
+      "C": "rail",
+      "D": "road"
+    },
+    "correctAnswer": "C",
+    "explanation": "Rail transport offers reliable schedules and low cost per unit, making it ideal for bulk goods over long distances.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "insurance",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 29,
+    "questionText": "A person who undertakes any risk in insurance business is known as",
+    "options": {
+      "A": "a broker",
+      "B": "an underwriter",
+      "C": "an insurer",
+      "D": "an actuary"
+    },
+    "correctAnswer": "B",
+    "explanation": "An underwriter assesses and accepts risks on behalf of the insurance company.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "insurance",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 30,
+    "questionText": "The main purpose of insurance is to",
+    "options": {
+      "A": "encourage business to survive and grow",
+      "B": "ensure that facilities are available for operations",
+      "C": "accept risks and extend credits to policy holders",
+      "D": "spread individual losses over all covered participants"
+    },
+    "correctAnswer": "D",
+    "explanation": "Insurance pools risks among many participants so that individual losses are shared across all policyholders.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "banking-and-finance",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 31,
+    "questionText": "Bank giro is a system where",
+    "options": {
+      "A": "Commercial banks can give loans to all customers",
+      "B": "a central bank opens accounts for commercial banks",
+      "C": "a customer uses a cheque to pay several bills",
+      "D": "a customer closes his account by writing a cheque"
+    },
+    "correctAnswer": "C",
+    "explanation": "Bank giro (credit transfer) enables a customer to make multiple payments to different payees using a single cheque or instruction.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "banking-and-finance",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 32,
+    "questionText": "Commercial banks are referred to as departmental stores of banking because they",
+    "options": {
+      "A": "have many branches",
+      "B": "have many customers",
+      "C": "are found in the cities",
+      "D": "offer many types of services"
+    },
+    "correctAnswer": "D",
+    "explanation": "Just as departmental stores offer a wide variety of products, commercial banks are called \"departmental stores of banking\" because they offer many types of financial services.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "stock-exchange",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 33,
+    "questionText": "A market where new shares are traded is known as",
+    "options": {
+      "A": "primary market",
+      "B": "stock exchange",
+      "C": "secondary market",
+      "D": "money market"
+    },
+    "correctAnswer": "A",
+    "explanation": "The primary market (new issues market) is where newly issued shares are first sold to investors.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "accounting-basics",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 34,
+    "questionText": "When a firm speaks of stock appreciation, it refers to",
+    "options": {
+      "A": "changes in the value of its stock resulting from price movements",
+      "B": "increase in the price of its shares quoted on the stock exchange",
+      "C": "an unexpected increase in the demand for its stocks",
+      "D": "the value of its stocks in the stock exchange"
+    },
+    "correctAnswer": "A",
+    "explanation": "Stock appreciation refers to an increase in the value of a firm's inventory (stock) due to rising prices in the market.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "marketing",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 35,
+    "questionText": "The process of creating more market for a product is called",
+    "options": {
+      "A": "advertising",
+      "B": "marketing",
+      "C": "promotion",
+      "D": "consumerism"
+    },
+    "correctAnswer": "B",
+    "explanation": "Marketing encompasses all activities involved in creating, expanding, and serving markets for products.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "marketing",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 36,
+    "questionText": "When a vendor supplies newspapers from house to house and across the streets, the element of marketing mix involved is",
+    "options": {
+      "A": "product",
+      "B": "price",
+      "C": "promotion",
+      "D": "place"
+    },
+    "correctAnswer": "D",
+    "explanation": "Place (distribution) involves getting the product to the customer, which is what house-to-house delivery achieves.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "advertising-and-sales-promotion",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 37,
+    "questionText": "The main advantage of using cinema as an advertising medium is that it is",
+    "options": {
+      "A": "cheap",
+      "B": "accurate",
+      "C": "accessible",
+      "D": "informative"
+    },
+    "correctAnswer": "D",
+    "explanation": "Cinema advertising combines audio and visual elements, making it highly informative and impactful.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "marketing",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 38,
+    "questionText": "When old customers stick to the old place to buy goods and services, it is known as",
+    "options": {
+      "A": "goodwill",
+      "B": "personal factor",
+      "C": "window shopping",
+      "D": "patronage"
+    },
+    "correctAnswer": "D",
+    "explanation": "Patronage describes the loyalty of customers who consistently return to the same place to purchase goods and services.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-law",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 39,
+    "questionText": "The most important piece of legislation governing business and commercial activities in Nigeria currently is the",
+    "options": {
+      "A": "Companies Decree, 1968",
+      "B": "Trade Dispute Decree, 1976",
+      "C": "Companies and Allied Matters Decree, 1990",
+      "D": "Banks and Other Financial Institutions Decree, 1991"
+    },
+    "correctAnswer": "C",
+    "explanation": "The Companies and Allied Matters Decree (CAMA) 1990 is the principal legislation governing the formation, management, and winding up of companies in Nigeria.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "marketing",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 40,
+    "questionText": "One of the criteria for differentiating consumer markets from industrial ones is the",
+    "options": {
+      "A": "type of demand",
+      "B": "type of supply",
+      "C": "nature of the services rendered",
+      "D": "price of the goods"
+    },
+    "correctAnswer": "A",
+    "explanation": "Consumer markets have direct demand while industrial markets have derived demand, making the type of demand a key differentiator.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "consumer-protection",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 41,
+    "questionText": "The over-riding objective of the food and drug act in Nigeria is to prevent the",
+    "options": {
+      "A": "importation of food and drugs that can be locally manufactured",
+      "B": "consumption of food and drugs not tested by the ministries of health",
+      "C": "adulteration of food and drugs sold in the country",
+      "D": "manufacturers of food and drugs from charging excessive prices"
+    },
+    "correctAnswer": "C",
+    "explanation": "The Food and Drug Act primarily aims to prevent the adulteration and sale of unwholesome food and drugs.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "consumer-protection",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 42,
+    "questionText": "The activities of consumers association in Nigeria have not been effective because",
+    "options": {
+      "A": "the consumers are too many",
+      "B": "the government is not favourably disposed towards consumerism",
+      "C": "there is poor enlightenment about consumer rights",
+      "D": "the consumers have no medium for expressing their feelings"
+    },
+    "correctAnswer": "C",
+    "explanation": "Consumer associations in Nigeria have been largely ineffective due to poor public awareness and enlightenment about consumer rights.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "government-and-business",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 43,
+    "questionText": "The least of the advantages of indigenization is that",
+    "options": {
+      "A": "the standard of living of the indigenes is improved",
+      "B": "the economy is controlled by the nationals",
+      "C": "entrepreneurial skill is developed",
+      "D": "foreigners' domination is avoided"
+    },
+    "correctAnswer": "A",
+    "explanation": "While indigenization controls the economy nationally, develops entrepreneurial skills, and reduces foreign domination, improving living standards is the least direct advantage.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "labour-and-trade-unions",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 44,
+    "questionText": "The main objective of a trade association can best be described as promoting and protecting",
+    "options": {
+      "A": "the products",
+      "B": "common interest",
+      "C": "the market",
+      "D": "customer's interest"
+    },
+    "correctAnswer": "B",
+    "explanation": "Trade associations primarily exist to promote and protect the common interests of their members.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "management-and-organization",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 45,
+    "questionText": "The management function of evaluating whether objectives are being achieved is",
+    "options": {
+      "A": "planning",
+      "B": "directing",
+      "C": "organizing",
+      "D": "controlling"
+    },
+    "correctAnswer": "D",
+    "explanation": "Controlling involves monitoring, evaluating, and comparing actual performance with set objectives and taking corrective action.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "management-and-organization",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 46,
+    "questionText": "In a business organization, the annual operation plan or budget is a form of",
+    "options": {
+      "A": "casual plan",
+      "B": "medium-term plan",
+      "C": "long-term plan",
+      "D": "short-term plan"
+    },
+    "correctAnswer": "D",
+    "explanation": "An annual budget or operation plan covers one year, which classifies it as a short-term plan.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "management-and-organization",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 47,
+    "questionText": "A key advantage of delegation is that",
+    "options": {
+      "A": "workers are prepared for higher responsibilities",
+      "B": "the manager has less work to do",
+      "C": "the manager spends less time on planning",
+      "D": "the organizing grows larger in size"
+    },
+    "correctAnswer": "A",
+    "explanation": "Delegation develops subordinates by preparing them for higher responsibilities and building their skills and confidence.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-environment",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 48,
+    "questionText": "Social responsibility of business requires enterprises to",
+    "options": {
+      "A": "hold annual social parties for the public",
+      "B": "draw their workers only from the immediate environment",
+      "C": "address themselves to issues relating to the society",
+      "D": "set up social welfare centres in their areas of operation"
+    },
+    "correctAnswer": "C",
+    "explanation": "Social responsibility requires businesses to actively address social issues and contribute positively to society.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-environment",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 49,
+    "questionText": "The existing system of governance and the administrative sub-divisions of a country which affect the operations of business in the country is described as",
+    "options": {
+      "A": "economic environment",
+      "B": "legal environment",
+      "C": "political environment",
+      "D": "social environment"
+    },
+    "correctAnswer": "C",
+    "explanation": "The political environment encompasses the system of governance, administrative structures, and political stability that affect business operations.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-environment",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 50,
+    "questionText": "Sudden technological changes can have the effect of making",
+    "options": {
+      "A": "a company's management style ineffective",
+      "B": "a company's product obsolete",
+      "C": "the control mechanism difficult to implement",
+      "D": "the motivational factors in the company difficult to monitor"
+    },
+    "correctAnswer": "B",
+    "explanation": "Rapid technological changes can render a company's existing products outdated or obsolete.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  }
+]

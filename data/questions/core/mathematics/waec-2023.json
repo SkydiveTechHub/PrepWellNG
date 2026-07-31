@@ -1,0 +1,382 @@
+[
+  {
+    "subjectCode": "MTH",
+    "topicSlug": "number-bases",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 1,
+    "questionText": "Convert 110101₂ to base 10",
+    "options": {
+      "A": "45",
+      "B": "51",
+      "C": "53",
+      "D": "55"
+    },
+    "correctAnswer": "C",
+    "explanation": "110101₂ = 1×2⁵ + 1×2⁴ + 0×2³ + 1×2² + 0×2¹ + 1×2⁰ = 32 + 16 + 0 + 4 + 0 + 1 = 53.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "MTH",
+    "topicSlug": "indices-and-logarithms",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 2,
+    "questionText": "Simplify: 27^(2/3) × 16^(3/4)",
+    "options": {
+      "A": "36",
+      "B": "54",
+      "C": "72",
+      "D": "108"
+    },
+    "correctAnswer": "C",
+    "explanation": "27^(2/3) = (3³)^(2/3) = 3² = 9. 16^(3/4) = (2⁴)^(3/4) = 2³ = 8. So 9 × 8 = 72.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "MTH",
+    "topicSlug": "indices-and-logarithms",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 3,
+    "questionText": "If log₁₀ 2 = 0.3010 and log₁₀ 3 = 0.4771, find the value of log₁₀ 12",
+    "options": {
+      "A": "1.0791",
+      "B": "1.0781",
+      "C": "0.9791",
+      "D": "0.7781"
+    },
+    "correctAnswer": "A",
+    "explanation": "12 = 4 × 3 = 2² × 3. log₁₀ 12 = log₁₀ (2² × 3) = 2 log₁₀ 2 + log₁₀ 3 = 2(0.3010) + 0.4771 = 0.6020 + 0.4771 = 1.0791.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "MTH",
+    "topicSlug": "sets",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 4,
+    "questionText": "In a class of 50 students, 30 study Physics and 25 study Chemistry. If each student studies at least one subject, the number of students who study both subjects is",
+    "options": {
+      "A": "3",
+      "B": "5",
+      "C": "10",
+      "D": "15"
+    },
+    "correctAnswer": "B",
+    "explanation": "Using n(A ∪ B) = n(A) + n(B) - n(A ∩ B): 50 = 30 + 25 - n(A ∩ B) → n(A ∩ B) = 55 - 50 = 5.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "MTH",
+    "topicSlug": "algebraic-expressions-factorization",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 5,
+    "questionText": "Factorize: 6x² + 7x - 20",
+    "options": {
+      "A": "(2x + 5)(3x - 4)",
+      "B": "(2x - 5)(3x + 4)",
+      "C": "(6x + 5)(x - 4)",
+      "D": "(6x - 5)(x + 4)"
+    },
+    "correctAnswer": "A",
+    "explanation": "To factorize 6x² + 7x - 20: Product = 6 × (-20) = -120. We need two numbers that multiply to -120 and add to 7: these are 15 and -8. Rewrite: 6x² + 15x - 8x - 20 = 3x(2x + 5) - 4(2x + 5) = (2x + 5)(3x - 4).",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 120
+  },
+  {
+    "subjectCode": "MTH",
+    "topicSlug": "quadratic-equations",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 6,
+    "questionText": "The roots of the equation 2x² - 5x + 3 = 0 are",
+    "options": {
+      "A": "1 and 3/2",
+      "B": "-1 and -3/2",
+      "C": "1 and -3/2",
+      "D": "-1 and 3/2"
+    },
+    "correctAnswer": "A",
+    "explanation": "2x² - 5x + 3 = 0 can be factored as (2x - 3)(x - 1) = 0. So x = 3/2 or x = 1.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "MTH",
+    "topicSlug": "surds",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 7,
+    "questionText": "Simplify: (√75 - √27) / √3",
+    "options": {
+      "A": "2",
+      "B": "2√3",
+      "C": "3",
+      "D": "3√3"
+    },
+    "correctAnswer": "A",
+    "explanation": "√75 = √(25×3) = 5√3. √27 = √(9×3) = 3√3. So (5√3 - 3√3)/√3 = 2√3/√3 = 2.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "MTH",
+    "topicSlug": "trigonometric-ratios",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 8,
+    "questionText": "If sin θ = 3/5, where 0° < θ < 90°, find the value of tan θ",
+    "options": {
+      "A": "3/4",
+      "B": "4/3",
+      "C": "4/5",
+      "D": "5/3"
+    },
+    "correctAnswer": "A",
+    "explanation": "sin θ = 3/5. Using Pythagoras: cos θ = 4/5. tan θ = sin θ / cos θ = (3/5)/(4/5) = 3/4. Alternatively, if opposite = 3 and hypotenuse = 5, adjacent = √(25 - 9) = 4, so tan θ = 3/4.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "MTH",
+    "topicSlug": "circle-theorems",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 9,
+    "questionText": "A chord of a circle subtends an angle of 60° at the centre. If the radius of the circle is 14 cm, the length of the chord is",
+    "options": {
+      "A": "7 cm",
+      "B": "14 cm",
+      "C": "7√3 cm",
+      "D": "14√3 cm"
+    },
+    "correctAnswer": "B",
+    "explanation": "The triangle formed by the two radii and the chord is isosceles with the angle at the centre = 60°. Since the base angles are each (180° - 60°)/2 = 60°, the triangle is equilateral. Therefore, the chord length equals the radius = 14 cm.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "MTH",
+    "topicSlug": "statistics-mean-median-mode",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 10,
+    "questionText": "The mean of five numbers is 12. If one of the numbers is removed, the mean of the remaining four numbers becomes 11. The number removed is",
+    "options": {
+      "A": "14",
+      "B": "15",
+      "C": "16",
+      "D": "18"
+    },
+    "correctAnswer": "C",
+    "explanation": "Sum of 5 numbers = 5 × 12 = 60. Sum of remaining 4 numbers = 4 × 11 = 44. Number removed = 60 - 44 = 16.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "MTH",
+    "topicSlug": "probability",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 11,
+    "questionText": "A bag contains 5 red balls and 3 blue balls. If two balls are drawn at random without replacement, the probability that both are red is",
+    "options": {
+      "A": "5/14",
+      "B": "5/16",
+      "C": "25/64",
+      "D": "15/56"
+    },
+    "correctAnswer": "A",
+    "explanation": "P(both red) = 5/8 × 4/7 = 20/56 = 5/14. After drawing the first red ball (5/8 probability), there are 4 red balls left out of 7 total.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "MTH",
+    "topicSlug": "mensuration-perimeter-area",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 12,
+    "questionText": "The area of a sector of a circle with radius 21 cm and angle 120° is [Take π = 22/7]",
+    "options": {
+      "A": "231 cm²",
+      "B": "462 cm²",
+      "C": "693 cm²",
+      "D": "1386 cm²"
+    },
+    "correctAnswer": "B",
+    "explanation": "Area of sector = (θ/360) × πr² = (120/360) × (22/7) × 21² = (1/3) × (22/7) × 441 = (1/3) × 22 × 63 = (1/3) × 1386 = 462 cm².",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "MTH",
+    "topicSlug": "mensuration-volume-and-surface-area",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 13,
+    "questionText": "The volume of a cylinder with radius 7 cm and height 10 cm is [Take π = 22/7]",
+    "options": {
+      "A": "1540 cm³",
+      "B": "1232 cm³",
+      "C": "770 cm³",
+      "D": "440 cm³"
+    },
+    "correctAnswer": "A",
+    "explanation": "V = πr²h = (22/7) × 7² × 10 = (22/7) × 49 × 10 = 22 × 7 × 10 = 1540 cm³.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "MTH",
+    "topicSlug": "simultaneous-linear-and-quadratic-equations",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 14,
+    "questionText": "If x + y = 5 and x² + y² = 17, find the value of xy",
+    "options": {
+      "A": "3",
+      "B": "4",
+      "C": "6",
+      "D": "8"
+    },
+    "correctAnswer": "B",
+    "explanation": "(x + y)² = x² + 2xy + y². So 5² = 17 + 2xy → 25 = 17 + 2xy → 2xy = 8 → xy = 4.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "MTH",
+    "topicSlug": "arithmetic-and-geometric-progressions",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 15,
+    "questionText": "The 3rd and 6th terms of a geometric progression are 48 and 6 respectively. The common ratio is",
+    "options": {
+      "A": "1/4",
+      "B": "1/2",
+      "C": "2",
+      "D": "4"
+    },
+    "correctAnswer": "B",
+    "explanation": "ar² = 48 (3rd term) and ar⁵ = 6 (6th term). Dividing: ar⁵/ar² = 6/48 → r³ = 1/8 → r = 1/2.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "MTH",
+    "topicSlug": "variation-direct-inverse-joint-partial",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 16,
+    "questionText": "If y varies inversely as x and y = 6 when x = 3, find y when x = 9",
+    "options": {
+      "A": "1",
+      "B": "2",
+      "C": "3",
+      "D": "18"
+    },
+    "correctAnswer": "B",
+    "explanation": "y = k/x. When y = 6 and x = 3: 6 = k/3 → k = 18. When x = 9: y = 18/9 = 2.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "MTH",
+    "topicSlug": "matrices-and-determinants",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 17,
+    "questionText": "Find the determinant of the matrix |2  3| |4  1|",
+    "options": {
+      "A": "-14",
+      "B": "-10",
+      "C": "10",
+      "D": "14"
+    },
+    "correctAnswer": "B",
+    "explanation": "Determinant = (2)(1) - (3)(4) = 2 - 12 = -10.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "MTH",
+    "topicSlug": "introduction-to-calculus-differentiation",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 18,
+    "questionText": "If y = 3x³ - 2x² + 5x - 1, find dy/dx",
+    "options": {
+      "A": "9x² - 4x + 5",
+      "B": "9x² - 2x + 5",
+      "C": "3x² - 4x + 5",
+      "D": "x⁴ - x³ + 5x²"
+    },
+    "correctAnswer": "A",
+    "explanation": "dy/dx = 3(3x²) - 2(2x) + 5(1) - 0 = 9x² - 4x + 5. Each term is differentiated using the power rule: d/dx(axⁿ) = naxⁿ⁻¹.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "MTH",
+    "topicSlug": "integration",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 19,
+    "questionText": "Evaluate: ∫(6x² + 4x - 3)dx",
+    "options": {
+      "A": "2x³ + 2x² - 3x + C",
+      "B": "3x³ + 2x² - 3x + C",
+      "C": "2x³ + 4x² - 3x + C",
+      "D": "12x + 4 + C"
+    },
+    "correctAnswer": "A",
+    "explanation": "∫(6x² + 4x - 3)dx = 6x³/3 + 4x²/2 - 3x + C = 2x³ + 2x² - 3x + C. Each term is integrated using the power rule: ∫axⁿdx = axⁿ⁺¹/(n+1).",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "MTH",
+    "topicSlug": "coordinate-geometry-straight-lines",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 20,
+    "questionText": "Find the gradient of the line joining the points (2, 3) and (5, 9)",
+    "options": {
+      "A": "1",
+      "B": "2",
+      "C": "3",
+      "D": "6"
+    },
+    "correctAnswer": "B",
+    "explanation": "Gradient = (y₂ - y₁)/(x₂ - x₁) = (9 - 3)/(5 - 2) = 6/3 = 2.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  }
+]

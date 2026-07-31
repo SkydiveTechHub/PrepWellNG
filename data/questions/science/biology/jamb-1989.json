@@ -1,0 +1,1002 @@
+[
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 1,
+    "questionText": "The cell organelle that controls all the activities of the cell is the",
+    "options": {
+      "A": "mitochondrion",
+      "B": "ribosome",
+      "C": "nucleus",
+      "D": "endoplasmic reticulum",
+      "E": "lysosome"
+    },
+    "correctAnswer": "C",
+    "explanation": "The nucleus is the control centre of the cell. It contains the chromosomes which carry DNA, the genetic material that controls all cell activities including growth, metabolism, and reproduction. The nucleus directs protein synthesis and cell division.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 2,
+    "questionText": "A distinguishing feature of a plant cell from an animal cell is the presence of",
+    "options": {
+      "A": "nucleus",
+      "B": "cell wall",
+      "C": "mitochondria",
+      "D": "ribosomes",
+      "E": "cell membrane"
+    },
+    "correctAnswer": "B",
+    "explanation": "A cell wall is a distinguishing feature of plant cells that is absent in animal cells. The cell wall is made of cellulose and provides rigidity, support, and protection to the plant cell. Other features unique to plant cells include chloroplasts, large central vacuole, and starch granules as storage products.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 3,
+    "questionText": "The movement of water molecules from a region of higher concentration to a region of lower concentration through a semi-permeable membrane is called",
+    "options": {
+      "A": "diffusion",
+      "B": "osmosis",
+      "C": "active transport",
+      "D": "plasmolysis",
+      "E": "turgidity"
+    },
+    "correctAnswer": "B",
+    "explanation": "Osmosis is the movement of water molecules from a region of higher water concentration (lower solute concentration) to a region of lower water concentration (higher solute concentration) through a semi-permeable membrane. This process does not require energy and is a special type of diffusion specific to water molecules across a membrane.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 4,
+    "questionText": "When a red blood cell is placed in a hypotonic solution, it will",
+    "options": {
+      "A": "shrink",
+      "B": "remain the same",
+      "C": "swell and burst",
+      "D": "become flaccid",
+      "E": "become plasmolysed"
+    },
+    "correctAnswer": "C",
+    "explanation": "When a red blood cell is placed in a hypotonic solution (a solution with lower solute concentration than the cell), water enters the cell by osmosis. Since red blood cells lack a cell wall, the cell swells and eventually bursts (haemolysis). In contrast, plant cells placed in hypotonic solution become turgid but do not burst because the cell wall prevents over-expansion.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-division",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 5,
+    "questionText": "The type of cell division that results in the formation of gametes is",
+    "options": {
+      "A": "mitosis",
+      "B": "meiosis",
+      "C": "amitosis",
+      "D": "binary fission",
+      "E": "budding"
+    },
+    "correctAnswer": "B",
+    "explanation": "Meiosis is the type of cell division that results in the formation of gametes (sex cells). It is a reduction division that produces four haploid daughter cells from a single diploid parent cell. This ensures that when two gametes fuse during fertilization, the diploid chromosome number is restored in the offspring.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-division",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 6,
+    "questionText": "If a cell with 24 chromosomes undergoes meiosis, the number of chromosomes in each daughter cell will be",
+    "options": {
+      "A": "6",
+      "B": "12",
+      "C": "24",
+      "D": "48",
+      "E": "36"
+    },
+    "correctAnswer": "B",
+    "explanation": "During meiosis, the chromosome number is halved. A cell with 24 chromosomes (diploid number, 2n = 24) will produce daughter cells with 12 chromosomes each (haploid number, n = 12). This halving ensures that when two gametes fuse at fertilization, the original diploid number of 24 is restored.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-plants",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 7,
+    "questionText": "The raw materials for photosynthesis are",
+    "options": {
+      "A": "oxygen and glucose",
+      "B": "carbon dioxide and water",
+      "C": "carbon dioxide and oxygen",
+      "D": "water and glucose",
+      "E": "glucose and starch"
+    },
+    "correctAnswer": "B",
+    "explanation": "The raw materials for photosynthesis are carbon dioxide (absorbed from the atmosphere through stomata) and water (absorbed from the soil through roots). In the presence of sunlight and chlorophyll, these are converted to glucose and oxygen. The overall equation is: 6CO2 + 6H2O -> C6H12O6 + 6O2.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-plants",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 8,
+    "questionText": "The part of a leaf through which gaseous exchange takes place is the",
+    "options": {
+      "A": "cuticle",
+      "B": "epidermis",
+      "C": "mesophyll",
+      "D": "stomata",
+      "E": "vascular bundle"
+    },
+    "correctAnswer": "D",
+    "explanation": "Stomata (singular: stoma) are the tiny pores found mainly on the lower surface of leaves through which gaseous exchange takes place. Carbon dioxide enters the leaf and oxygen exits through the stomata. Each stoma is surrounded by two guard cells that control the opening and closing of the pore, regulating gas exchange and water loss.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-plants",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 9,
+    "questionText": "Which of the following is NOT a factor affecting the rate of photosynthesis?",
+    "options": {
+      "A": "Light intensity",
+      "B": "Carbon dioxide concentration",
+      "C": "Temperature",
+      "D": "Oxygen concentration",
+      "E": "Water availability"
+    },
+    "correctAnswer": "D",
+    "explanation": "Oxygen concentration is not a major factor affecting the rate of photosynthesis. The main factors (limiting factors) are light intensity, carbon dioxide concentration, temperature, and water availability. While oxygen is a product of photosynthesis, its concentration in the environment does not significantly limit the rate of the process.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 10,
+    "questionText": "The enzyme ptyalin in saliva acts on",
+    "options": {
+      "A": "proteins",
+      "B": "fats",
+      "C": "starch",
+      "D": "cellulose",
+      "E": "vitamins"
+    },
+    "correctAnswer": "C",
+    "explanation": "Ptyalin (salivary amylase) is an enzyme found in saliva that acts on cooked starch, breaking it down into maltose (a disaccharide). This is the beginning of chemical digestion in the mouth. Ptyalin works best at a slightly alkaline pH (around 6.8) and is inactivated by the acidic conditions in the stomach.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 11,
+    "questionText": "The function of bile in digestion is to",
+    "options": {
+      "A": "digest proteins",
+      "B": "digest carbohydrates",
+      "C": "emulsify fats",
+      "D": "neutralize stomach acid only",
+      "E": "digest cellulose"
+    },
+    "correctAnswer": "C",
+    "explanation": "The primary function of bile in digestion is to emulsify fats. Bile salts break large fat globules into smaller droplets, increasing the surface area for the action of lipase enzymes. Bile also helps to neutralize the acidic chyme from the stomach, creating an alkaline environment suitable for the action of intestinal and pancreatic enzymes.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 12,
+    "questionText": "The end products of the digestion of proteins are",
+    "options": {
+      "A": "fatty acids and glycerol",
+      "B": "glucose and fructose",
+      "C": "amino acids",
+      "D": "maltose and sucrose",
+      "E": "peptides"
+    },
+    "correctAnswer": "C",
+    "explanation": "The end products of protein digestion are amino acids. Proteins are first broken down into polypeptides by pepsin in the stomach, then into shorter peptides by trypsin and other pancreatic proteases, and finally into individual amino acids by peptidases in the small intestine. These amino acids are then absorbed into the bloodstream through the villi.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-plants",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 13,
+    "questionText": "The tissue responsible for the transport of water and mineral salts from the roots to the leaves is the",
+    "options": {
+      "A": "phloem",
+      "B": "xylem",
+      "C": "cambium",
+      "D": "cortex",
+      "E": "pith"
+    },
+    "correctAnswer": "B",
+    "explanation": "The xylem is the vascular tissue responsible for transporting water and dissolved mineral salts from the roots to the leaves and other parts of the plant. Xylem vessels are made up of dead, hollow cells with lignified walls that provide structural support as well as a pathway for water transport.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-plants",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 14,
+    "questionText": "Transpiration is important to plants because it",
+    "options": {
+      "A": "provides energy for photosynthesis",
+      "B": "helps in the upward pull of water from the roots",
+      "C": "produces glucose for the plant",
+      "D": "breaks down food molecules",
+      "E": "fixes carbon dioxide"
+    },
+    "correctAnswer": "B",
+    "explanation": "Transpiration is important because it helps in the upward pull of water from the roots to the leaves through the xylem. As water evaporates from the leaf surfaces (transpiration), it creates a pull (transpiration pull) that draws water upward through the xylem. Transpiration also helps in cooling the plant and in the transport of mineral salts.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 15,
+    "questionText": "The function of white blood cells in the body is to",
+    "options": {
+      "A": "transport oxygen",
+      "B": "transport carbon dioxide",
+      "C": "defend the body against infections",
+      "D": "aid blood clotting",
+      "E": "transport food nutrients"
+    },
+    "correctAnswer": "C",
+    "explanation": "White blood cells (leucocytes) defend the body against infections and diseases. They do this through phagocytosis (engulfing and destroying pathogens) and by producing antibodies that neutralize toxins and destroy foreign organisms. Different types of white blood cells (neutrophils, lymphocytes, monocytes, etc.) play different roles in the immune response.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 16,
+    "questionText": "The blood vessel that carries oxygenated blood from the lungs to the heart is the",
+    "options": {
+      "A": "pulmonary artery",
+      "B": "pulmonary vein",
+      "C": "aorta",
+      "D": "vena cava",
+      "E": "hepatic vein"
+    },
+    "correctAnswer": "B",
+    "explanation": "The pulmonary vein carries oxygenated blood from the lungs to the left atrium of the heart. This is the only vein in the body that carries oxygenated blood. Similarly, the pulmonary artery is the only artery that carries deoxygenated blood (from the right ventricle to the lungs).",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 17,
+    "questionText": "The blood component responsible for blood clotting is",
+    "options": {
+      "A": "red blood cells",
+      "B": "white blood cells",
+      "C": "platelets",
+      "D": "plasma",
+      "E": "haemoglobin"
+    },
+    "correctAnswer": "C",
+    "explanation": "Platelets (thrombocytes) are the blood component primarily responsible for blood clotting. When a blood vessel is damaged, platelets aggregate at the wound site and release thromboplastin, which initiates a cascade of reactions involving prothrombin, thrombin, fibrinogen, and fibrin, ultimately forming a clot that seals the wound and prevents excessive blood loss.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "respiration",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 18,
+    "questionText": "The process by which energy is released from food substances in cells is called",
+    "options": {
+      "A": "photosynthesis",
+      "B": "digestion",
+      "C": "respiration",
+      "D": "excretion",
+      "E": "assimilation"
+    },
+    "correctAnswer": "C",
+    "explanation": "Respiration is the process by which energy is released from food substances (mainly glucose) in cells. This energy is used for all life processes including growth, movement, reproduction, and active transport. Respiration can be aerobic (using oxygen) or anaerobic (without oxygen).",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "respiration",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 19,
+    "questionText": "Glycolysis occurs in the",
+    "options": {
+      "A": "mitochondria",
+      "B": "nucleus",
+      "C": "cytoplasm",
+      "D": "ribosomes",
+      "E": "chloroplast"
+    },
+    "correctAnswer": "C",
+    "explanation": "Glycolysis occurs in the cytoplasm of the cell. It is the first stage of both aerobic and anaerobic respiration, in which one molecule of glucose (6-carbon) is broken down into two molecules of pyruvate (3-carbon), yielding a net gain of 2 ATP molecules. Glycolysis does not require oxygen.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "respiration",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 20,
+    "questionText": "Compared to aerobic respiration, anaerobic respiration produces",
+    "options": {
+      "A": "more ATP per glucose molecule",
+      "B": "the same amount of ATP per glucose molecule",
+      "C": "less ATP per glucose molecule",
+      "D": "no ATP at all",
+      "E": "ATP only in plant cells"
+    },
+    "correctAnswer": "C",
+    "explanation": "Anaerobic respiration produces much less ATP per glucose molecule compared to aerobic respiration. Anaerobic respiration produces only 2 ATP molecules per glucose molecule (from glycolysis alone), while aerobic respiration produces approximately 36-38 ATP molecules per glucose molecule through glycolysis, the Krebs cycle, and the electron transport chain.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "excretion",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 21,
+    "questionText": "Which of the following organs is the main excretory organ in humans?",
+    "options": {
+      "A": "Liver",
+      "B": "Kidney",
+      "C": "Skin",
+      "D": "Lungs",
+      "E": "Large intestine"
+    },
+    "correctAnswer": "B",
+    "explanation": "The kidney is the main excretory organ in humans. It filters blood to remove metabolic waste products, particularly urea, excess water, and excess salts, producing urine. The kidney also plays a crucial role in osmoregulation (maintaining water and salt balance) and in regulating blood pH.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "excretion",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 22,
+    "questionText": "The part of the nephron where selective reabsorption mainly occurs is the",
+    "options": {
+      "A": "Bowman's capsule",
+      "B": "glomerulus",
+      "C": "proximal convoluted tubule",
+      "D": "collecting duct",
+      "E": "loop of Henle"
+    },
+    "correctAnswer": "C",
+    "explanation": "Selective reabsorption mainly occurs in the proximal convoluted tubule of the nephron. Here, useful substances such as glucose, amino acids, vitamins, and most of the water and salts are reabsorbed back into the blood by active transport and osmosis. This ensures that essential nutrients are not lost in the urine.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-plants",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 23,
+    "questionText": "The male reproductive part of a flower is the",
+    "options": {
+      "A": "pistil",
+      "B": "stamen",
+      "C": "sepal",
+      "D": "petal",
+      "E": "receptacle"
+    },
+    "correctAnswer": "B",
+    "explanation": "The stamen is the male reproductive part of a flower. It consists of the anther (which produces pollen grains containing male gametes) and the filament (which supports the anther). The pistil (or carpel) is the female reproductive part, consisting of the stigma, style, and ovary.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-plants",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 24,
+    "questionText": "Double fertilization is a characteristic feature of",
+    "options": {
+      "A": "bryophytes",
+      "B": "pteridophytes",
+      "C": "gymnosperms",
+      "D": "angiosperms",
+      "E": "algae"
+    },
+    "correctAnswer": "D",
+    "explanation": "Double fertilization is a characteristic feature of angiosperms (flowering plants). In this process, one male gamete fuses with the egg cell to form the zygote (which develops into the embryo), while the second male gamete fuses with the two polar nuclei to form the triploid primary endosperm nucleus (which develops into the endosperm that nourishes the developing embryo).",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-animals",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 25,
+    "questionText": "The hormone responsible for the development of secondary sexual characteristics in males is",
+    "options": {
+      "A": "oestrogen",
+      "B": "progesterone",
+      "C": "testosterone",
+      "D": "prolactin",
+      "E": "oxytocin"
+    },
+    "correctAnswer": "C",
+    "explanation": "Testosterone is the male sex hormone responsible for the development of secondary sexual characteristics in males. These include deepening of the voice, growth of facial and body hair, broadening of shoulders, increased muscle mass, and maturation of the reproductive organs. Testosterone is produced by the interstitial cells (cells of Leydig) in the testes.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-animals",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 26,
+    "questionText": "The process by which an egg is released from the ovary is known as",
+    "options": {
+      "A": "menstruation",
+      "B": "ovulation",
+      "C": "fertilization",
+      "D": "implantation",
+      "E": "gestation"
+    },
+    "correctAnswer": "B",
+    "explanation": "Ovulation is the process by which a mature egg (ovum) is released from the ovary. In the human female menstrual cycle, ovulation typically occurs around day 14 of the 28-day cycle. The released egg travels through the fallopian tube where it may be fertilized by a sperm cell. Ovulation is triggered by a surge in luteinizing hormone (LH).",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "growth-and-development",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 27,
+    "questionText": "Epigeal germination is characterized by the",
+    "options": {
+      "A": "cotyledons remaining below the soil surface",
+      "B": "cotyledons being pushed above the soil surface",
+      "C": "plumule growing downward",
+      "D": "radicle growing upward",
+      "E": "seeds germinating inside the fruit"
+    },
+    "correctAnswer": "B",
+    "explanation": "In epigeal germination, the cotyledons (seed leaves) are pushed above the soil surface by the rapid elongation of the hypocotyl. Examples include beans and castor oil plant. In contrast, hypogeal germination occurs when the cotyledons remain below the soil surface while the epicotyl pushes the plumule above the ground, as in maize and mango.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "growth-and-development",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 28,
+    "questionText": "The conditions necessary for seed germination include",
+    "options": {
+      "A": "water, oxygen, and suitable temperature",
+      "B": "water, sunlight, and carbon dioxide",
+      "C": "oxygen, chlorophyll, and light",
+      "D": "carbon dioxide, water, and sunlight",
+      "E": "water, soil, and sunlight"
+    },
+    "correctAnswer": "A",
+    "explanation": "The three essential conditions necessary for seed germination are water (to activate enzymes and soften the seed coat), oxygen (for aerobic respiration to provide energy for growth), and suitable temperature (enzymes work best within specific temperature ranges). Light is not essential for germination of most seeds, though some seeds may require light or darkness.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 29,
+    "questionText": "All the living organisms in a particular area together with their non-living environment constitute an",
+    "options": {
+      "A": "ecosystem",
+      "B": "community",
+      "C": "population",
+      "D": "biome",
+      "E": "habitat"
+    },
+    "correctAnswer": "A",
+    "explanation": "An ecosystem is the sum total of all living organisms (biotic community) and their non-living (abiotic) environment in a particular area, including all the interactions between them. A community includes only the living organisms, while a population refers to organisms of the same species in an area. A habitat is the specific place where an organism lives.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 30,
+    "questionText": "In a food chain, the trophic level occupied by herbivores is that of",
+    "options": {
+      "A": "producers",
+      "B": "primary consumers",
+      "C": "secondary consumers",
+      "D": "tertiary consumers",
+      "E": "decomposers"
+    },
+    "correctAnswer": "B",
+    "explanation": "In a food chain, herbivores occupy the trophic level of primary consumers (second trophic level). They feed directly on producers (green plants, the first trophic level). Secondary consumers are carnivores that feed on herbivores, and tertiary consumers feed on secondary consumers. Decomposers break down dead organic matter at all levels.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 31,
+    "questionText": "The primary source of energy in an ecosystem is",
+    "options": {
+      "A": "water",
+      "B": "producers",
+      "C": "the sun",
+      "D": "consumers",
+      "E": "decomposers"
+    },
+    "correctAnswer": "C",
+    "explanation": "The sun is the primary (ultimate) source of energy in an ecosystem. Solar energy is captured by producers (green plants) through photosynthesis and converted to chemical energy stored in organic molecules. This energy is then transferred through the ecosystem via food chains and food webs as organisms feed on one another.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 32,
+    "questionText": "The biological process by which bacteria convert ammonium compounds to nitrites and then to nitrates is called",
+    "options": {
+      "A": "nitrogen fixation",
+      "B": "nitrification",
+      "C": "denitrification",
+      "D": "ammonification",
+      "E": "decomposition"
+    },
+    "correctAnswer": "B",
+    "explanation": "Nitrification is the process by which nitrifying bacteria convert ammonium compounds to nitrites (by Nitrosomonas bacteria) and then nitrites to nitrates (by Nitrobacter bacteria). Nitrates are the form of nitrogen most readily absorbed by plant roots. This process is an important step in the nitrogen cycle and requires aerobic conditions.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 33,
+    "questionText": "The physical appearance of an organism as determined by its genetic makeup is its",
+    "options": {
+      "A": "genotype",
+      "B": "phenotype",
+      "C": "genome",
+      "D": "karyotype",
+      "E": "allele"
+    },
+    "correctAnswer": "B",
+    "explanation": "The phenotype is the physical (observable) appearance of an organism, which is determined by its genetic makeup (genotype) and environmental influences. The genotype is the genetic constitution of an organism (the combination of alleles it carries). For example, a plant may have the genotype Tt (heterozygous tall) and the phenotype of being tall.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 34,
+    "questionText": "Mendel's law of segregation states that",
+    "options": {
+      "A": "genes for different traits are inherited together",
+      "B": "alleles of a gene separate during gamete formation",
+      "C": "dominant traits always appear in the offspring",
+      "D": "genes are located on different chromosomes",
+      "E": "mutations always occur during cell division"
+    },
+    "correctAnswer": "B",
+    "explanation": "Mendel's law of segregation (first law) states that the two alleles of a gene separate (segregate) from each other during gamete formation (meiosis), so that each gamete carries only one allele for each trait. When gametes fuse during fertilization, the offspring receives one allele from each parent, restoring the pair.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 35,
+    "questionText": "In humans, the sex of a child is determined by the",
+    "options": {
+      "A": "mother's chromosomes",
+      "B": "father's chromosomes",
+      "C": "number of autosomes",
+      "D": "mother's blood group",
+      "E": "father's blood group"
+    },
+    "correctAnswer": "B",
+    "explanation": "In humans, the sex of a child is determined by the father's sex chromosome contributed through the sperm. The mother always contributes an X chromosome, while the father can contribute either an X or a Y chromosome. If the sperm carries an X chromosome, the child will be female (XX); if it carries a Y chromosome, the child will be male (XY).",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "evolution",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 36,
+    "questionText": "Lamarck's theory of evolution is based on the principle of",
+    "options": {
+      "A": "natural selection",
+      "B": "use and disuse of organs and inheritance of acquired characteristics",
+      "C": "mutation",
+      "D": "genetic drift",
+      "E": "survival of the fittest"
+    },
+    "correctAnswer": "B",
+    "explanation": "Lamarck's theory of evolution is based on two main principles: the use and disuse of organs (organs that are used extensively become larger and stronger, while those not used degenerate) and the inheritance of acquired characteristics (changes acquired during an organism's lifetime can be passed on to offspring). Although largely disproven, Lamarck was one of the first scientists to propose a mechanism for evolution.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "evolution",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 37,
+    "questionText": "Fossils provide evidence for evolution because they show",
+    "options": {
+      "A": "how organisms reproduce",
+      "B": "the types of food organisms ate",
+      "C": "how organisms have changed over time",
+      "D": "the colour of ancient organisms",
+      "E": "the behaviour of extinct organisms"
+    },
+    "correctAnswer": "C",
+    "explanation": "Fossils provide evidence for evolution because they show how organisms have changed over time. By studying fossils in different rock layers (strata), scientists can trace the gradual changes in body structure and form of organisms from simpler to more complex forms. Fossils also reveal transitional forms that link different groups of organisms, supporting the theory of common ancestry.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "classification-of-living-things",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 38,
+    "questionText": "The correct hierarchy of classification from the largest to the smallest group is",
+    "options": {
+      "A": "Kingdom, Phylum, Class, Order, Family, Genus, Species",
+      "B": "Kingdom, Class, Phylum, Order, Family, Genus, Species",
+      "C": "Kingdom, Phylum, Order, Class, Family, Genus, Species",
+      "D": "Species, Genus, Family, Order, Class, Phylum, Kingdom",
+      "E": "Kingdom, Family, Phylum, Class, Order, Genus, Species"
+    },
+    "correctAnswer": "A",
+    "explanation": "The correct hierarchy of biological classification from the largest (most inclusive) to the smallest (least inclusive) group is: Kingdom, Phylum (Division for plants), Class, Order, Family, Genus, Species. This system was developed by Carolus Linnaeus and is still used today, though it has been expanded to include domains above kingdoms.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "classification-of-living-things",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 39,
+    "questionText": "Organisms that can manufacture their own food from inorganic substances are called",
+    "options": {
+      "A": "heterotrophs",
+      "B": "autotrophs",
+      "C": "saprophytes",
+      "D": "parasites",
+      "E": "decomposers"
+    },
+    "correctAnswer": "B",
+    "explanation": "Autotrophs are organisms that can manufacture their own food from inorganic substances using energy from sunlight (photoautotrophs, like green plants) or chemical reactions (chemoautotrophs, like some bacteria). Heterotrophs cannot make their own food and must obtain it from other organisms. Saprophytes feed on dead organic matter, and parasites feed on living hosts.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "microorganisms-and-disease",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 40,
+    "questionText": "Cholera is caused by",
+    "options": {
+      "A": "a virus",
+      "B": "a protozoan",
+      "C": "a bacterium",
+      "D": "a fungus",
+      "E": "a worm"
+    },
+    "correctAnswer": "C",
+    "explanation": "Cholera is caused by the bacterium Vibrio cholerae. It is transmitted through contaminated water and food. The bacteria produce toxins that cause severe watery diarrhoea and dehydration, which can be fatal if untreated. Prevention involves proper sanitation, clean water supply, and good personal hygiene.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "microorganisms-and-disease",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 41,
+    "questionText": "Which of the following diseases is caused by a virus?",
+    "options": {
+      "A": "Tuberculosis",
+      "B": "Cholera",
+      "C": "Measles",
+      "D": "Typhoid fever",
+      "E": "Gonorrhoea"
+    },
+    "correctAnswer": "C",
+    "explanation": "Measles is caused by a virus (measles virus, a paramyxovirus). It is a highly contagious disease spread through respiratory droplets. Tuberculosis is caused by Mycobacterium tuberculosis (bacterium), cholera by Vibrio cholerae (bacterium), typhoid by Salmonella typhi (bacterium), and gonorrhoea by Neisseria gonorrhoeae (bacterium).",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nervous-system-and-sense-organs",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 42,
+    "questionText": "The gap between two successive neurons is called a",
+    "options": {
+      "A": "dendrite",
+      "B": "synapse",
+      "C": "axon",
+      "D": "node of Ranvier",
+      "E": "myelin sheath"
+    },
+    "correctAnswer": "B",
+    "explanation": "The synapse is the gap (junction) between two successive neurons. Nerve impulses are transmitted across the synapse by chemical substances called neurotransmitters (e.g., acetylcholine). When a nerve impulse reaches the end of one neuron, it triggers the release of neurotransmitters into the synaptic cleft, which then bind to receptors on the next neuron, continuing the impulse.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nervous-system-and-sense-organs",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 43,
+    "questionText": "The part of the human eye that controls the amount of light entering is the",
+    "options": {
+      "A": "cornea",
+      "B": "retina",
+      "C": "iris",
+      "D": "lens",
+      "E": "optic nerve"
+    },
+    "correctAnswer": "C",
+    "explanation": "The iris controls the amount of light entering the eye. It is the coloured part of the eye that contains circular and radial muscles. In bright light, the circular muscles contract and the pupil becomes smaller, reducing the amount of light entering. In dim light, the radial muscles contract and the pupil becomes larger, allowing more light to enter.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "endocrine-system",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 44,
+    "questionText": "The hormone thyroxine is produced by the",
+    "options": {
+      "A": "pituitary gland",
+      "B": "thyroid gland",
+      "C": "adrenal gland",
+      "D": "pancreas",
+      "E": "gonads"
+    },
+    "correctAnswer": "B",
+    "explanation": "Thyroxine is produced by the thyroid gland, located in the neck. Thyroxine regulates the basal metabolic rate of the body. It contains iodine, and deficiency of iodine in the diet leads to goitre (enlargement of the thyroid gland). Overproduction of thyroxine causes hyperthyroidism, while underproduction causes hypothyroidism.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "endocrine-system",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 45,
+    "questionText": "Which of the following is referred to as the master gland because it controls other endocrine glands?",
+    "options": {
+      "A": "Thyroid gland",
+      "B": "Adrenal gland",
+      "C": "Pituitary gland",
+      "D": "Pancreas",
+      "E": "Parathyroid gland"
+    },
+    "correctAnswer": "C",
+    "explanation": "The pituitary gland is referred to as the master gland because it produces hormones that control the activities of other endocrine glands. For example, thyroid-stimulating hormone (TSH) controls the thyroid gland, adrenocorticotrophic hormone (ACTH) controls the adrenal cortex, and follicle-stimulating hormone (FSH) controls the gonads. The pituitary gland is located at the base of the brain.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "skeletal-and-muscular-systems",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 46,
+    "questionText": "The type of joint that allows movement in all directions is the",
+    "options": {
+      "A": "hinge joint",
+      "B": "ball and socket joint",
+      "C": "pivot joint",
+      "D": "gliding joint",
+      "E": "fixed joint"
+    },
+    "correctAnswer": "B",
+    "explanation": "The ball and socket joint allows movement in all directions (multiaxial movement), including flexion, extension, abduction, adduction, rotation, and circumduction. Examples are found at the shoulder and hip joints. The rounded head (ball) of one bone fits into the cup-shaped socket of another bone, allowing the widest range of movement of any joint type.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "skeletal-and-muscular-systems",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 47,
+    "questionText": "The function of the skeletal system includes all of the following EXCEPT",
+    "options": {
+      "A": "support",
+      "B": "protection of internal organs",
+      "C": "production of hormones",
+      "D": "movement in conjunction with muscles",
+      "E": "production of blood cells"
+    },
+    "correctAnswer": "C",
+    "explanation": "Production of hormones is not a function of the skeletal system. The skeletal system provides support for the body, protection of internal organs (e.g., the rib cage protects the heart and lungs, the skull protects the brain), movement in conjunction with muscles, and production of blood cells in the bone marrow (haematopoiesis). Hormones are produced by the endocrine system.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "homeostasis-and-coordination",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 48,
+    "questionText": "The regulation of body temperature in mammals is an example of",
+    "options": {
+      "A": "osmoregulation",
+      "B": "thermoregulation",
+      "C": "excretion",
+      "D": "reproduction",
+      "E": "nutrition"
+    },
+    "correctAnswer": "B",
+    "explanation": "The regulation of body temperature in mammals is called thermoregulation, which is an aspect of homeostasis. Mammals are endothermic (warm-blooded) and maintain a relatively constant body temperature regardless of the environmental temperature. This involves mechanisms such as sweating, vasodilation, and vasoconstriction of blood vessels in the skin, shivering, and changes in metabolic rate.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "homeostasis-and-coordination",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 49,
+    "questionText": "The hormone that works antagonistically with insulin to regulate blood sugar level is",
+    "options": {
+      "A": "adrenaline",
+      "B": "glucagon",
+      "C": "thyroxine",
+      "D": "oestrogen",
+      "E": "cortisol"
+    },
+    "correctAnswer": "B",
+    "explanation": "Glucagon works antagonistically with insulin to regulate blood sugar levels. When blood sugar falls below normal, the alpha cells of the islets of Langerhans in the pancreas secrete glucagon, which stimulates the liver to convert stored glycogen back to glucose, raising the blood sugar level. This is the opposite action of insulin, which lowers blood sugar. Together they maintain blood glucose homeostasis.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "microorganisms-and-disease",
+    "examType": "JAMB",
+    "examYear": 1989,
+    "questionNumber": 50,
+    "questionText": "The organism responsible for the fermentation of sugar to produce alcohol is",
+    "options": {
+      "A": "Lactobacillus",
+      "B": "Rhizopus",
+      "C": "Saccharomyces (yeast)",
+      "D": "Penicillium",
+      "E": "Escherichia coli"
+    },
+    "correctAnswer": "C",
+    "explanation": "Saccharomyces cerevisiae (yeast) is the organism responsible for the fermentation of sugar to produce alcohol (ethanol) and carbon dioxide. This process, known as alcoholic fermentation, is widely used in the brewing industry (beer and wine production) and baking (the carbon dioxide produced causes bread to rise). Yeast carries out anaerobic respiration to break down glucose.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  }
+]

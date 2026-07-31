@@ -1,0 +1,1002 @@
+[
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 1,
+    "questionText": "Which of the following organelles is responsible for the synthesis of proteins in a cell?",
+    "options": {
+      "A": "Mitochondria",
+      "B": "Ribosomes",
+      "C": "Golgi apparatus",
+      "D": "Lysosomes",
+      "E": "Endoplasmic reticulum"
+    },
+    "correctAnswer": "B",
+    "explanation": "Ribosomes are the organelles responsible for protein synthesis. They can be found free in the cytoplasm or attached to the rough endoplasmic reticulum. They read mRNA and translate the genetic code into amino acid sequences to form proteins.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 2,
+    "questionText": "The organelle that is regarded as the powerhouse of the cell is the",
+    "options": {
+      "A": "nucleus",
+      "B": "ribosome",
+      "C": "mitochondrion",
+      "D": "chloroplast",
+      "E": "Golgi body"
+    },
+    "correctAnswer": "C",
+    "explanation": "The mitochondrion is known as the powerhouse of the cell because it is the site where aerobic respiration occurs, producing ATP (adenosine triphosphate) which is the energy currency of the cell.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 3,
+    "questionText": "The cell membrane is described as selectively permeable because it",
+    "options": {
+      "A": "allows all substances to pass through",
+      "B": "does not allow any substance to pass through",
+      "C": "allows only certain substances to pass through",
+      "D": "allows only gases to pass through",
+      "E": "allows only water to pass through"
+    },
+    "correctAnswer": "C",
+    "explanation": "The cell membrane is selectively permeable (also called semi-permeable) because it allows only certain substances to pass through while preventing others. This selective permeability helps the cell maintain its internal environment and regulate the movement of materials in and out of the cell.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 4,
+    "questionText": "Which of the following is NOT a function of the Golgi apparatus?",
+    "options": {
+      "A": "Packaging of secretory products",
+      "B": "Formation of lysosomes",
+      "C": "Modification of proteins",
+      "D": "Photosynthesis",
+      "E": "Transport of materials within the cell"
+    },
+    "correctAnswer": "D",
+    "explanation": "Photosynthesis is not a function of the Golgi apparatus. Photosynthesis occurs in the chloroplasts. The Golgi apparatus is responsible for packaging, modifying, and sorting proteins and lipids for transport within or outside the cell, and it also forms lysosomes.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-division",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 5,
+    "questionText": "During mitosis, the number of chromosomes in the daughter cells is",
+    "options": {
+      "A": "half the number in the parent cell",
+      "B": "the same as in the parent cell",
+      "C": "double the number in the parent cell",
+      "D": "triple the number in the parent cell",
+      "E": "a quarter of the number in the parent cell"
+    },
+    "correctAnswer": "B",
+    "explanation": "During mitosis, the daughter cells produced have the same number of chromosomes as the parent cell. This is because mitosis involves the exact replication and equal division of chromosomes, maintaining the diploid number. This is in contrast to meiosis, where the chromosome number is halved.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-division",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 6,
+    "questionText": "Crossing over in meiosis occurs during",
+    "options": {
+      "A": "prophase I",
+      "B": "metaphase I",
+      "C": "anaphase I",
+      "D": "telophase I",
+      "E": "prophase II"
+    },
+    "correctAnswer": "A",
+    "explanation": "Crossing over occurs during prophase I of meiosis. During this phase, homologous chromosomes pair up (synapsis) and exchange genetic material between non-sister chromatids. This process increases genetic variation in the resulting gametes.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-division",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 7,
+    "questionText": "The significance of meiosis in sexually reproducing organisms is that it",
+    "options": {
+      "A": "increases the number of body cells",
+      "B": "maintains the diploid number of chromosomes from generation to generation",
+      "C": "produces cells for growth and repair",
+      "D": "doubles the chromosome number in each generation",
+      "E": "produces identical offspring"
+    },
+    "correctAnswer": "B",
+    "explanation": "Meiosis is significant because it halves the chromosome number, producing haploid gametes. When two haploid gametes fuse during fertilization, the diploid number is restored. This ensures that the chromosome number remains constant from generation to generation in sexually reproducing organisms.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-plants",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 8,
+    "questionText": "Which of the following elements is a component of chlorophyll?",
+    "options": {
+      "A": "Calcium",
+      "B": "Iron",
+      "C": "Magnesium",
+      "D": "Sodium",
+      "E": "Potassium"
+    },
+    "correctAnswer": "C",
+    "explanation": "Magnesium is a central component of the chlorophyll molecule. Each chlorophyll molecule has a magnesium atom at the centre of its porphyrin ring. Without magnesium, plants cannot produce chlorophyll and will show chlorosis (yellowing of leaves).",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-plants",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 9,
+    "questionText": "The products of the light-dependent reactions of photosynthesis include",
+    "options": {
+      "A": "glucose and water",
+      "B": "ATP and NADPH",
+      "C": "carbon dioxide and water",
+      "D": "starch and oxygen",
+      "E": "amino acids and fatty acids"
+    },
+    "correctAnswer": "B",
+    "explanation": "The light-dependent reactions of photosynthesis produce ATP (adenosine triphosphate) and NADPH (reduced nicotinamide adenine dinucleotide phosphate). These energy-rich molecules are then used in the light-independent reactions (Calvin cycle) to fix carbon dioxide into glucose. Oxygen is also released as a by-product from the splitting of water molecules.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-plants",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 10,
+    "questionText": "An insectivorous plant traps insects in order to obtain",
+    "options": {
+      "A": "carbon",
+      "B": "nitrogen",
+      "C": "phosphorus",
+      "D": "water",
+      "E": "oxygen"
+    },
+    "correctAnswer": "B",
+    "explanation": "Insectivorous (carnivorous) plants such as sundew and Venus flytrap trap and digest insects primarily to obtain nitrogen. These plants typically grow in nitrogen-poor soils (like bogs and marshes), so they supplement their nitrogen supply by digesting the proteins in insects.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 11,
+    "questionText": "The enzyme pepsin is secreted in the",
+    "options": {
+      "A": "mouth",
+      "B": "oesophagus",
+      "C": "stomach",
+      "D": "duodenum",
+      "E": "ileum"
+    },
+    "correctAnswer": "C",
+    "explanation": "Pepsin is secreted in the stomach. It is produced by the chief cells (peptic cells) of the gastric glands as its inactive form pepsinogen, which is activated by hydrochloric acid in the stomach. Pepsin is a protease enzyme that breaks down proteins into peptides in the acidic environment of the stomach.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 12,
+    "questionText": "The part of the alimentary canal where most absorption of digested food occurs is the",
+    "options": {
+      "A": "stomach",
+      "B": "duodenum",
+      "C": "ileum",
+      "D": "colon",
+      "E": "rectum"
+    },
+    "correctAnswer": "C",
+    "explanation": "The ileum (small intestine) is where most absorption of digested food takes place. Its inner surface is lined with numerous villi and microvilli which greatly increase the surface area for absorption. The villi are also richly supplied with blood capillaries and lacteals for efficient absorption of nutrients.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 13,
+    "questionText": "Bile is produced by the liver and stored in the",
+    "options": {
+      "A": "pancreas",
+      "B": "gall bladder",
+      "C": "duodenum",
+      "D": "spleen",
+      "E": "appendix"
+    },
+    "correctAnswer": "B",
+    "explanation": "Bile is produced by the hepatocytes (liver cells) and stored in the gall bladder. When food enters the duodenum, bile is released from the gall bladder through the bile duct into the duodenum, where it emulsifies fats (breaks large fat globules into smaller droplets) to increase the surface area for lipase action.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-plants",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 14,
+    "questionText": "The upward movement of water through the xylem vessels of a plant is mainly due to",
+    "options": {
+      "A": "root pressure only",
+      "B": "osmosis only",
+      "C": "transpiration pull",
+      "D": "capillarity only",
+      "E": "diffusion"
+    },
+    "correctAnswer": "C",
+    "explanation": "The upward movement of water through the xylem is mainly due to transpiration pull (also called the cohesion-tension theory). As water evaporates from the leaf surfaces during transpiration, it creates a tension (negative pressure) that pulls water upward through the xylem vessels. The cohesive and adhesive properties of water help maintain a continuous water column.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-plants",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 15,
+    "questionText": "Translocation of manufactured food substances in flowering plants occurs through the",
+    "options": {
+      "A": "xylem vessels",
+      "B": "phloem sieve tubes",
+      "C": "companion cells",
+      "D": "cortex",
+      "E": "root hairs"
+    },
+    "correctAnswer": "B",
+    "explanation": "Translocation of manufactured food substances (mainly sucrose and amino acids) in flowering plants occurs through the phloem sieve tubes. The phloem transports food from the source (usually leaves where photosynthesis occurs) to the sink (growing regions, roots, storage organs) through a process explained by the mass flow hypothesis.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 16,
+    "questionText": "The blood vessels that carry blood away from the heart are called",
+    "options": {
+      "A": "veins",
+      "B": "arteries",
+      "C": "capillaries",
+      "D": "venules",
+      "E": "lymph vessels"
+    },
+    "correctAnswer": "B",
+    "explanation": "Arteries are blood vessels that carry blood away from the heart. They have thick, muscular, elastic walls to withstand the high pressure of blood pumped from the heart. The only exception is the pulmonary artery, which carries deoxygenated blood from the heart to the lungs.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 17,
+    "questionText": "The component of blood that is responsible for the transport of oxygen is",
+    "options": {
+      "A": "white blood cells",
+      "B": "blood platelets",
+      "C": "haemoglobin in red blood cells",
+      "D": "blood plasma",
+      "E": "lymphocytes"
+    },
+    "correctAnswer": "C",
+    "explanation": "Haemoglobin, a red iron-containing pigment found in red blood cells (erythrocytes), is responsible for the transport of oxygen. Haemoglobin combines with oxygen in the lungs to form oxyhaemoglobin, which is transported to body tissues where the oxygen is released for cellular respiration.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 18,
+    "questionText": "In mammals, the heart chamber that pumps deoxygenated blood to the lungs is the",
+    "options": {
+      "A": "left atrium",
+      "B": "right atrium",
+      "C": "left ventricle",
+      "D": "right ventricle",
+      "E": "aorta"
+    },
+    "correctAnswer": "D",
+    "explanation": "The right ventricle pumps deoxygenated blood to the lungs through the pulmonary artery. Blood enters the right atrium from the body via the vena cava, passes into the right ventricle, and is then pumped to the lungs for oxygenation. The left ventricle pumps oxygenated blood to the rest of the body.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "respiration",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 19,
+    "questionText": "The end products of aerobic respiration are",
+    "options": {
+      "A": "carbon dioxide and ethanol",
+      "B": "carbon dioxide and water",
+      "C": "lactic acid and water",
+      "D": "ethanol and water",
+      "E": "carbon dioxide and lactic acid"
+    },
+    "correctAnswer": "B",
+    "explanation": "The end products of aerobic respiration are carbon dioxide, water, and energy (ATP). The overall equation is: C6H12O6 + 6O2 -> 6CO2 + 6H2O + 38ATP. The carbon dioxide is exhaled, and the water is used in metabolic processes or excreted.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "respiration",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 20,
+    "questionText": "Anaerobic respiration in yeast produces",
+    "options": {
+      "A": "lactic acid and carbon dioxide",
+      "B": "ethanol and carbon dioxide",
+      "C": "ethanol and water",
+      "D": "lactic acid and water",
+      "E": "carbon dioxide and water"
+    },
+    "correctAnswer": "B",
+    "explanation": "Anaerobic respiration in yeast (fermentation) produces ethanol (alcohol) and carbon dioxide. This process is used in brewing and baking industries. The equation is: C6H12O6 -> 2C2H5OH + 2CO2 + 2ATP. This differs from anaerobic respiration in animals, which produces lactic acid.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "respiration",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 21,
+    "questionText": "The part of the cell where the Krebs cycle takes place is the",
+    "options": {
+      "A": "cytoplasm",
+      "B": "nucleus",
+      "C": "ribosome",
+      "D": "matrix of the mitochondria",
+      "E": "cell membrane"
+    },
+    "correctAnswer": "D",
+    "explanation": "The Krebs cycle (citric acid cycle) takes place in the matrix of the mitochondria. Glycolysis occurs in the cytoplasm, but the pyruvate produced enters the mitochondria where it is converted to acetyl CoA and enters the Krebs cycle. The electron transport chain occurs on the inner mitochondrial membrane (cristae).",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "excretion",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 22,
+    "questionText": "The functional unit of the kidney is the",
+    "options": {
+      "A": "neuron",
+      "B": "nephron",
+      "C": "glomerulus",
+      "D": "Bowman's capsule",
+      "E": "loop of Henle"
+    },
+    "correctAnswer": "B",
+    "explanation": "The nephron is the functional unit of the kidney. Each kidney contains approximately one million nephrons. Each nephron consists of a Bowman's capsule (containing the glomerulus), proximal convoluted tubule, loop of Henle, distal convoluted tubule, and collecting duct. The nephron is responsible for filtering blood and producing urine.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "excretion",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 23,
+    "questionText": "The main nitrogenous waste product excreted by mammals is",
+    "options": {
+      "A": "ammonia",
+      "B": "urea",
+      "C": "uric acid",
+      "D": "creatinine",
+      "E": "amino acids"
+    },
+    "correctAnswer": "B",
+    "explanation": "The main nitrogenous waste product excreted by mammals is urea. Urea is produced in the liver through the ornithine cycle (urea cycle) from the deamination of excess amino acids. It is less toxic than ammonia and requires less water for excretion, making it suitable for terrestrial mammals. Urea is filtered from the blood by the kidneys and excreted in urine.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "excretion",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 24,
+    "questionText": "The process by which the kidney filters blood under pressure in the Bowman's capsule is called",
+    "options": {
+      "A": "osmosis",
+      "B": "active transport",
+      "C": "ultrafiltration",
+      "D": "selective reabsorption",
+      "E": "diffusion"
+    },
+    "correctAnswer": "C",
+    "explanation": "Ultrafiltration is the process by which blood is filtered under pressure in the Bowman's capsule of the nephron. The high blood pressure in the glomerular capillaries forces small molecules (water, glucose, amino acids, urea, salts) through the capillary walls and the inner wall of the Bowman's capsule into the capsular space, while large molecules like proteins and blood cells are retained.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-plants",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 25,
+    "questionText": "The transfer of pollen grains from the anther to the stigma of the same flower is known as",
+    "options": {
+      "A": "cross-pollination",
+      "B": "self-pollination",
+      "C": "fertilization",
+      "D": "germination",
+      "E": "dispersal"
+    },
+    "correctAnswer": "B",
+    "explanation": "Self-pollination is the transfer of pollen grains from the anther to the stigma of the same flower or another flower on the same plant. Cross-pollination involves the transfer of pollen from the anther of one flower to the stigma of a flower on a different plant of the same species.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-plants",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 26,
+    "questionText": "After fertilization in a flowering plant, the ovule develops into the",
+    "options": {
+      "A": "fruit",
+      "B": "seed",
+      "C": "embryo",
+      "D": "endosperm",
+      "E": "pollen tube"
+    },
+    "correctAnswer": "B",
+    "explanation": "After fertilization in a flowering plant, the ovule develops into the seed. The ovary wall develops into the fruit. Inside the seed, the zygote develops into the embryo, and the primary endosperm nucleus develops into the endosperm which provides nourishment for the developing embryo.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-animals",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 27,
+    "questionText": "The site of fertilization in the human female reproductive system is the",
+    "options": {
+      "A": "uterus",
+      "B": "vagina",
+      "C": "ovary",
+      "D": "fallopian tube",
+      "E": "cervix"
+    },
+    "correctAnswer": "D",
+    "explanation": "Fertilization in the human female reproductive system normally occurs in the fallopian tube (oviduct). After ovulation, the egg is released from the ovary and travels through the fallopian tube. If sperm are present, fertilization occurs in the upper third of the fallopian tube. The resulting zygote then travels to the uterus for implantation.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-animals",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 28,
+    "questionText": "The structure that connects the developing foetus to the mother's uterus is the",
+    "options": {
+      "A": "umbilical cord",
+      "B": "amnion",
+      "C": "placenta",
+      "D": "chorion",
+      "E": "fallopian tube"
+    },
+    "correctAnswer": "C",
+    "explanation": "The placenta is the structure that connects the developing foetus to the mother's uterus. It is the organ through which exchange of nutrients, gases, and waste products occurs between the mother and the foetus. The umbilical cord connects the foetus to the placenta, but the placenta itself is attached to the uterine wall.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "growth-and-development",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 29,
+    "questionText": "Metamorphosis is a feature of the development of",
+    "options": {
+      "A": "birds",
+      "B": "mammals",
+      "C": "reptiles",
+      "D": "insects",
+      "E": "fish"
+    },
+    "correctAnswer": "D",
+    "explanation": "Metamorphosis is a feature of the development of insects (and also amphibians). In insects, metamorphosis involves distinct stages of development from egg to adult. Complete metamorphosis (holometabolous) includes egg, larva, pupa, and adult stages, while incomplete metamorphosis (hemimetabolous) includes egg, nymph, and adult stages.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 30,
+    "questionText": "An association between two organisms in which both benefit is called",
+    "options": {
+      "A": "parasitism",
+      "B": "commensalism",
+      "C": "mutualism",
+      "D": "saprophytism",
+      "E": "predation"
+    },
+    "correctAnswer": "C",
+    "explanation": "Mutualism (also called symbiosis in a strict sense) is an association between two organisms in which both benefit. Examples include the relationship between nitrogen-fixing bacteria (Rhizobium) and leguminous plants, and the relationship between termites and the protozoa in their guts that help digest cellulose.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 31,
+    "questionText": "In an ecosystem, the organisms that convert light energy to chemical energy are the",
+    "options": {
+      "A": "primary consumers",
+      "B": "secondary consumers",
+      "C": "producers",
+      "D": "decomposers",
+      "E": "tertiary consumers"
+    },
+    "correctAnswer": "C",
+    "explanation": "Producers (autotrophs), mainly green plants, convert light energy from the sun to chemical energy through photosynthesis. They form the first trophic level in a food chain and are the foundation of all ecosystems. The chemical energy stored in the organic molecules they produce is passed on to consumers through feeding.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 32,
+    "questionText": "Which of the following is an abiotic factor in an ecosystem?",
+    "options": {
+      "A": "Predators",
+      "B": "Parasites",
+      "C": "Temperature",
+      "D": "Competition",
+      "E": "Decomposers"
+    },
+    "correctAnswer": "C",
+    "explanation": "Temperature is an abiotic (non-living) factor in an ecosystem. Abiotic factors include temperature, rainfall, light intensity, humidity, wind, pH, and soil type. Predators, parasites, competition, and decomposers are all biotic (living) factors that influence organisms in an ecosystem.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 33,
+    "questionText": "The process by which nitrogen in the atmosphere is converted to nitrates by bacteria is called",
+    "options": {
+      "A": "denitrification",
+      "B": "nitrogen fixation",
+      "C": "nitrification",
+      "D": "putrefaction",
+      "E": "ammonification"
+    },
+    "correctAnswer": "B",
+    "explanation": "Nitrogen fixation is the process by which atmospheric nitrogen (N2) is converted into forms usable by plants, primarily by nitrogen-fixing bacteria. These include free-living bacteria like Azotobacter and symbiotic bacteria like Rhizobium found in root nodules of leguminous plants. Lightning can also fix small amounts of atmospheric nitrogen.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 34,
+    "questionText": "An organism with the genotype Aa is said to be",
+    "options": {
+      "A": "homozygous dominant",
+      "B": "homozygous recessive",
+      "C": "heterozygous",
+      "D": "a mutant",
+      "E": "pure breeding"
+    },
+    "correctAnswer": "C",
+    "explanation": "An organism with the genotype Aa is heterozygous because it has two different alleles for a particular gene - one dominant (A) and one recessive (a). Homozygous organisms have two identical alleles (AA or aa). Heterozygous organisms are also described as hybrid or impure for that particular trait.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 35,
+    "questionText": "If a tall plant (TT) is crossed with a short plant (tt), what proportion of the F2 generation will be short?",
+    "options": {
+      "A": "All",
+      "B": "3/4",
+      "C": "1/2",
+      "D": "1/4",
+      "E": "None"
+    },
+    "correctAnswer": "D",
+    "explanation": "When TT is crossed with tt, the F1 generation will all be Tt (tall). When the F1 (Tt x Tt) are crossed, the F2 generation will have a genotypic ratio of 1TT:2Tt:1tt. Therefore, 1/4 of the F2 generation will be short (tt). This follows Mendel's law of segregation.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 36,
+    "questionText": "A colour-blind man marries a carrier woman. What percentage of their sons will be colour-blind?",
+    "options": {
+      "A": "100%",
+      "B": "75%",
+      "C": "50%",
+      "D": "25%",
+      "E": "0%"
+    },
+    "correctAnswer": "C",
+    "explanation": "Colour blindness is a sex-linked recessive trait carried on the X chromosome. A colour-blind man (XbY) married to a carrier woman (XBXb) will produce: sons - 50% XBY (normal) and 50% XbY (colour-blind); daughters - 50% XBXb (carrier) and 50% XbXb (colour-blind). Therefore, 50% of their sons will be colour-blind.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "evolution",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 37,
+    "questionText": "The theory of natural selection was proposed by",
+    "options": {
+      "A": "Jean Baptiste de Lamarck",
+      "B": "Gregor Mendel",
+      "C": "Charles Darwin",
+      "D": "Hugo de Vries",
+      "E": "Louis Pasteur"
+    },
+    "correctAnswer": "C",
+    "explanation": "The theory of natural selection was proposed by Charles Darwin. He published his theory in 'On the Origin of Species' in 1859. Darwin proposed that organisms with favourable variations are better adapted to their environment and are more likely to survive and reproduce, passing these traits to their offspring. This process drives evolution over time.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "evolution",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 38,
+    "questionText": "Structures that have different functions but similar evolutionary origin are said to be",
+    "options": {
+      "A": "analogous",
+      "B": "homologous",
+      "C": "vestigial",
+      "D": "adaptive",
+      "E": "convergent"
+    },
+    "correctAnswer": "B",
+    "explanation": "Homologous structures have the same evolutionary origin (similar basic structure) but may have different functions. For example, the forelimbs of humans (for grasping), whales (flippers for swimming), bats (wings for flying), and horses (legs for running) all share the same basic bone structure but serve different functions. This is evidence of divergent evolution from a common ancestor.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "classification-of-living-things",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 39,
+    "questionText": "The binomial system of naming organisms was introduced by",
+    "options": {
+      "A": "Charles Darwin",
+      "B": "Carolus Linnaeus",
+      "C": "Robert Hooke",
+      "D": "Louis Pasteur",
+      "E": "Gregor Mendel"
+    },
+    "correctAnswer": "B",
+    "explanation": "The binomial system of naming organisms (binomial nomenclature) was introduced by Carolus Linnaeus, a Swedish botanist. In this system, each organism is given a two-part scientific name consisting of the genus name (capitalized) and the species name (lowercase), both written in italics or underlined. For example, Homo sapiens for humans.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "classification-of-living-things",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 40,
+    "questionText": "Which of the following organisms belongs to the phylum Arthropoda?",
+    "options": {
+      "A": "Earthworm",
+      "B": "Snail",
+      "C": "Mosquito",
+      "D": "Tapeworm",
+      "E": "Hydra"
+    },
+    "correctAnswer": "C",
+    "explanation": "The mosquito belongs to the phylum Arthropoda. Arthropods are characterized by jointed appendages, an exoskeleton made of chitin, and segmented bodies. The earthworm belongs to Annelida, the snail to Mollusca, the tapeworm to Platyhelminthes, and Hydra to Cnidaria (Coelenterata).",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "microorganisms-and-disease",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 41,
+    "questionText": "Malaria is transmitted by the",
+    "options": {
+      "A": "male Anopheles mosquito",
+      "B": "female Anopheles mosquito",
+      "C": "male Culex mosquito",
+      "D": "female Culex mosquito",
+      "E": "male Aedes mosquito"
+    },
+    "correctAnswer": "B",
+    "explanation": "Malaria is transmitted by the female Anopheles mosquito. The female mosquito needs blood meals for egg development and in the process, it transmits the Plasmodium parasite (the causative organism of malaria) from an infected person to a healthy person. Male mosquitoes feed on plant nectar and do not bite humans.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "microorganisms-and-disease",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 42,
+    "questionText": "The type of immunity acquired through vaccination is called",
+    "options": {
+      "A": "natural active immunity",
+      "B": "artificial active immunity",
+      "C": "natural passive immunity",
+      "D": "artificial passive immunity",
+      "E": "innate immunity"
+    },
+    "correctAnswer": "B",
+    "explanation": "The immunity acquired through vaccination is artificial active immunity. It is 'artificial' because the antigen is deliberately introduced into the body, and 'active' because the body's immune system actively produces its own antibodies in response to the weakened or dead pathogens in the vaccine. This provides long-lasting protection as the body retains memory cells.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nervous-system-and-sense-organs",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 43,
+    "questionText": "The part of the brain responsible for coordination of muscular activities and balance is the",
+    "options": {
+      "A": "cerebrum",
+      "B": "cerebellum",
+      "C": "medulla oblongata",
+      "D": "hypothalamus",
+      "E": "thalamus"
+    },
+    "correctAnswer": "B",
+    "explanation": "The cerebellum is the part of the brain responsible for coordination of muscular activities and maintenance of body balance and posture. Damage to the cerebellum results in uncoordinated movements (ataxia). The cerebrum is responsible for intelligence and voluntary actions, while the medulla oblongata controls involuntary functions like heartbeat and breathing.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nervous-system-and-sense-organs",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 44,
+    "questionText": "A reflex action is one in which the response is",
+    "options": {
+      "A": "slow and voluntary",
+      "B": "fast and involuntary",
+      "C": "slow and involuntary",
+      "D": "fast and voluntary",
+      "E": "controlled by the cerebrum"
+    },
+    "correctAnswer": "B",
+    "explanation": "A reflex action is a rapid, automatic (involuntary) response to a stimulus. It does not involve conscious thought and is controlled by the spinal cord (spinal reflex) or brainstem, not the cerebrum. Examples include the knee-jerk reflex, blinking when an object approaches the eye, and withdrawing the hand from a hot object.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "endocrine-system",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 45,
+    "questionText": "The hormone insulin is produced by the",
+    "options": {
+      "A": "adrenal gland",
+      "B": "thyroid gland",
+      "C": "pituitary gland",
+      "D": "islets of Langerhans in the pancreas",
+      "E": "parathyroid gland"
+    },
+    "correctAnswer": "D",
+    "explanation": "Insulin is produced by the beta cells of the islets of Langerhans in the pancreas. Insulin regulates blood sugar levels by promoting the uptake of glucose from the blood into cells and the conversion of excess glucose to glycogen for storage in the liver and muscles. Deficiency of insulin leads to diabetes mellitus.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "endocrine-system",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 46,
+    "questionText": "The hormone responsible for the 'fight or flight' response is",
+    "options": {
+      "A": "thyroxine",
+      "B": "insulin",
+      "C": "adrenaline",
+      "D": "oestrogen",
+      "E": "testosterone"
+    },
+    "correctAnswer": "C",
+    "explanation": "Adrenaline (epinephrine) is the hormone responsible for the 'fight or flight' response. It is produced by the adrenal medulla and is released in response to stress, danger, or excitement. It increases heart rate, blood pressure, breathing rate, and blood sugar levels, preparing the body for rapid action.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "skeletal-and-muscular-systems",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 47,
+    "questionText": "The type of joint found at the elbow is a",
+    "options": {
+      "A": "ball and socket joint",
+      "B": "hinge joint",
+      "C": "pivot joint",
+      "D": "gliding joint",
+      "E": "fixed joint"
+    },
+    "correctAnswer": "B",
+    "explanation": "The elbow has a hinge joint, which allows movement in only one plane (flexion and extension), similar to a door hinge. Ball and socket joints (found at the shoulder and hip) allow movement in multiple directions. Pivot joints (found at the neck) allow rotational movement.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "skeletal-and-muscular-systems",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 48,
+    "questionText": "Muscles are attached to bones by",
+    "options": {
+      "A": "ligaments",
+      "B": "tendons",
+      "C": "cartilage",
+      "D": "synovial membrane",
+      "E": "periosteum"
+    },
+    "correctAnswer": "B",
+    "explanation": "Muscles are attached to bones by tendons, which are tough, inelastic bands of connective tissue. Ligaments, on the other hand, connect bones to other bones at joints. Tendons transmit the force generated by muscle contraction to the bones, causing movement at joints.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "homeostasis-and-coordination",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 49,
+    "questionText": "The maintenance of a constant internal environment in living organisms is known as",
+    "options": {
+      "A": "metabolism",
+      "B": "homeostasis",
+      "C": "excretion",
+      "D": "osmoregulation",
+      "E": "thermoregulation"
+    },
+    "correctAnswer": "B",
+    "explanation": "Homeostasis is the maintenance of a constant internal environment in living organisms despite changes in the external environment. It involves the regulation of body temperature, blood sugar level, water balance, pH of blood, and other physiological variables. Homeostasis uses negative feedback mechanisms to maintain conditions within narrow limits.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "homeostasis-and-coordination",
+    "examType": "JAMB",
+    "examYear": 1990,
+    "questionNumber": 50,
+    "questionText": "When the blood sugar level rises above normal, the pancreas secretes insulin which",
+    "options": {
+      "A": "converts glycogen to glucose",
+      "B": "converts glucose to glycogen",
+      "C": "converts proteins to glucose",
+      "D": "prevents absorption of glucose",
+      "E": "increases blood pressure"
+    },
+    "correctAnswer": "B",
+    "explanation": "When blood sugar level rises above normal (e.g., after a meal), the pancreas secretes insulin which promotes the conversion of excess glucose to glycogen for storage in the liver and muscles. This lowers the blood sugar level back to normal. When blood sugar drops too low, glucagon (also from the pancreas) converts glycogen back to glucose. This is an example of homeostatic regulation by negative feedback.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  }
+]

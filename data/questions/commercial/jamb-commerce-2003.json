@@ -1,0 +1,952 @@
+[
+  {
+    "subjectCode": "COM",
+    "topicSlug": "labour-and-trade-unions",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 1,
+    "questionText": "An example of service rendering trade association is",
+    "options": {
+      "A": "Nigerian Bar Association",
+      "B": "Association of Nigerian Miners",
+      "C": "Cocoa Farmers Association",
+      "D": "Manufacturers Association of Nigeria"
+    },
+    "correctAnswer": "D",
+    "explanation": "The Manufacturers Association of Nigeria (MAN) is a service rendering trade association. It provides various services to its member manufacturers, including advocacy, research, and information dissemination. The Nigerian Bar Association is a professional body, not a trade association.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 2,
+    "questionText": "An obstacle to international trade is",
+    "options": {
+      "A": "Trade imbalance between countries",
+      "B": "Availability of local market",
+      "C": "Quantity and quality of labour",
+      "D": "Cost of finance"
+    },
+    "correctAnswer": "A",
+    "explanation": "Trade imbalance between countries is an obstacle to international trade because it creates situations where one country consistently imports more than it exports from another, leading to balance of payments problems and potential trade restrictions.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-law",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 3,
+    "questionText": "The right of ownership with respect to goods or property is",
+    "options": {
+      "A": "right of occupancy",
+      "B": "proxy",
+      "C": "title",
+      "D": "certificate of occupancy"
+    },
+    "correctAnswer": "C",
+    "explanation": "Title refers to the legal right of ownership with respect to goods or property. It represents the legal evidence of a person's ownership rights. Right of occupancy and certificate of occupancy relate to land use, while proxy is the authority to act on behalf of another.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "labour-and-trade-unions",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 4,
+    "questionText": "The main motive of chambers of commerce and trade association is to",
+    "options": {
+      "A": "assist the government in achieving its objectives",
+      "B": "protect the interest of consumers",
+      "C": "maximize profit",
+      "D": "protect and promote the interests of members"
+    },
+    "correctAnswer": "D",
+    "explanation": "The primary motive of chambers of commerce and trade associations is to protect and promote the interests of their members. They serve as advocacy groups that represent the collective interests of businesses in a particular trade or industry.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "trade",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 5,
+    "questionText": "A pattern that shows the kinds of participants involved in the production distribution and ultimate use of a product is referred to as",
+    "options": {
+      "A": "selection",
+      "B": "strategy",
+      "C": "structure",
+      "D": "synergy"
+    },
+    "correctAnswer": "C",
+    "explanation": "A channel structure is the pattern that shows the kinds of participants involved in the production, distribution, and ultimate use of a product. It maps out the flow of goods from producer through intermediaries to the final consumer.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-law",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 6,
+    "questionText": "Goods that are manufactured or acquired by the seller after the contract of sale are",
+    "options": {
+      "A": "Specialty goods",
+      "B": "Future goods",
+      "C": "Specific goods",
+      "D": "General goods"
+    },
+    "correctAnswer": "B",
+    "explanation": "Future goods are goods that are manufactured or acquired by the seller after the contract of sale has been made. Under the Sale of Goods Act, future goods are goods to be manufactured or acquired by the seller after the making of the contract of sale.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "trade",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 7,
+    "questionText": "Ojo purchased the following items from Sani at the specified prices on credit: 200 cartons of milk at N1000 per carton, 150 bags of sugar at N500 per bag, 50 bags of rice at N3000 per bag. Sani allowed 10% trade discount and 5% cash discount if payment is made within the agreed period. Ojo paid within the agreed period.\n\nWhat was the amount paid by Ojo?",
+    "options": {
+      "A": "N382,500",
+      "B": "N425,000",
+      "C": "N363,375",
+      "D": "N61,625"
+    },
+    "correctAnswer": "C",
+    "explanation": "Total purchase: (200 x N1,000) + (150 x N500) + (50 x N3,000) = N200,000 + N75,000 + N150,000 = N425,000. Trade discount: 10% of N425,000 = N42,500. Amount after trade discount: N425,000 - N42,500 = N382,500. Cash discount: 5% of N382,500 = N19,125. Amount paid: N382,500 - N19,125 = N363,375.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "trade",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 8,
+    "questionText": "Ojo purchased the following items from Sani at the specified prices on credit: 200 cartons of milk at N1000 per carton, 150 bags of sugar at N500 per bag, 50 bags of rice at N3000 per bag. Sani allowed 10% trade discount and 5% cash discount if payment is made within the agreed period. Ojo paid within the agreed period.\n\nHow much was the trade discount?",
+    "options": {
+      "A": "N42,500",
+      "B": "N27,500",
+      "C": "N22,500",
+      "D": "N20,000"
+    },
+    "correctAnswer": "A",
+    "explanation": "Total purchase: (200 x N1,000) + (150 x N500) + (50 x N3,000) = N200,000 + N75,000 + N150,000 = N425,000. Trade discount is 10% of N425,000 = N42,500.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "transportation",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 9,
+    "questionText": "The basic function of the Nigerian Ports Authority is to",
+    "options": {
+      "A": "Ensure that the right calibre of personnel is employed at the ports",
+      "B": "Coordinate and regulate the activities of shipping lines",
+      "C": "Facilitate and control the movement of goods and services into and out of the country",
+      "D": "Coordinate the activities of all the seaports in the country"
+    },
+    "correctAnswer": "C",
+    "explanation": "The basic function of the Nigerian Ports Authority (NPA) is to facilitate and control the movement of goods and services into and out of the country through the nation's seaports. This includes managing port operations and ensuring efficient cargo handling.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "introduction-to-commerce",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 10,
+    "questionText": "The concept that refers to the sale, transfer or exchange of goods and services is",
+    "options": {
+      "A": "Industry",
+      "B": "Trade",
+      "C": "Tariff",
+      "D": "Marketing"
+    },
+    "correctAnswer": "B",
+    "explanation": "Trade is the concept that refers to the sale, transfer or exchange of goods and services between individuals, businesses, or countries. Industry relates to production, tariff is a tax on imports, and marketing involves promoting and distributing goods.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "insurance",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 11,
+    "questionText": "A guarantee given by one person or party to another in which the integrity of the person is assured is",
+    "options": {
+      "A": "Fidelity",
+      "B": "Term assurance",
+      "C": "Subrogation",
+      "D": "Indemnity"
+    },
+    "correctAnswer": "A",
+    "explanation": "A fidelity guarantee is a type of insurance or guarantee given by one person or party to another in which the integrity and honesty of the person is assured. It protects employers against dishonesty or fraud by employees.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "marketing",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 12,
+    "questionText": "A firm that adapts itself to delivering the desired satisfaction more and effectively and efficiently than its competitors is said to be practicing",
+    "options": {
+      "A": "Price concept",
+      "B": "Distribution concept",
+      "C": "Product concept",
+      "D": "Marketing concept"
+    },
+    "correctAnswer": "D",
+    "explanation": "The marketing concept holds that achieving organizational goals depends on determining the needs and wants of target markets and delivering the desired satisfaction more effectively and efficiently than competitors. This is the essence of customer-oriented business philosophy.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "insurance",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 13,
+    "questionText": "The payment made periodically in respect of an insurance policy entered into is known as",
+    "options": {
+      "A": "Bond",
+      "B": "Commission",
+      "C": "Premium",
+      "D": "Surrender value"
+    },
+    "correctAnswer": "C",
+    "explanation": "A premium is the periodic payment made by the insured to the insurer in respect of an insurance policy. It is the price paid for insurance coverage. A bond is a debt instrument, commission is an agent's fee, and surrender value is the amount payable when a policy is terminated early.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "communication",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 14,
+    "questionText": "An example of service rendered by NIPOST is",
+    "options": {
+      "A": "Electronic mail",
+      "B": "Telephone",
+      "C": "Mail",
+      "D": "Delivery"
+    },
+    "correctAnswer": "C",
+    "explanation": "Mail delivery is the primary service rendered by NIPOST (Nigerian Postal Service). NIPOST handles the collection, sorting, and delivery of letters, parcels, and other postal items. Electronic mail is an internet service, and telephone is a telecommunications service.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "marketing",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 15,
+    "questionText": "The focal point of marketing is",
+    "options": {
+      "A": "The competitor",
+      "B": "The buyer",
+      "C": "Profit-making",
+      "D": "Sales"
+    },
+    "correctAnswer": "B",
+    "explanation": "The focal point of marketing is the buyer (consumer). Modern marketing is customer-oriented, meaning all marketing activities are centered around identifying and satisfying the needs and wants of the buyer. Profit-making and sales are outcomes, not the focal point.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "insurance",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 16,
+    "questionText": "The type of marine insurance which covers either damage or loss to the vessel and such as caused by it to other vessels is",
+    "options": {
+      "A": "Hull insurance",
+      "B": "Time insurance",
+      "C": "Freight insurance",
+      "D": "Cargo insurance"
+    },
+    "correctAnswer": "A",
+    "explanation": "Hull insurance covers damage or loss to the vessel (ship) itself and damage caused by it to other vessels. It protects the ship owner against risks to the physical structure of the ship. Cargo insurance covers goods being transported, and freight insurance covers the cost of transporting goods.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "management-and-organization",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 17,
+    "questionText": "The management function that makes the difference in intensity of behaviour is",
+    "options": {
+      "A": "Coordinating",
+      "B": "Controlling",
+      "C": "Motivation",
+      "D": "Planning"
+    },
+    "correctAnswer": "C",
+    "explanation": "Motivation is the management function that makes the difference in the intensity of behaviour. It involves inspiring and encouraging workers to put in greater effort and commitment. Motivated employees show higher intensity in their work behaviour compared to unmotivated ones.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "transportation",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 18,
+    "questionText": "One of the function of seaports is the provision of",
+    "options": {
+      "A": "Berthing and landing facilities",
+      "B": "Loading and offloading facilities",
+      "C": "Control room for relaying radio messages",
+      "D": "Ware houses for storage of cargo"
+    },
+    "correctAnswer": "A",
+    "explanation": "One of the primary functions of seaports is the provision of berthing and landing facilities for ships. Berthing facilities allow ships to dock safely at the port for loading and unloading of cargo and passengers.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "management-and-organization",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 19,
+    "questionText": "The process of dividing task into jobs and departments and of delegating authority is known as",
+    "options": {
+      "A": "Staffing",
+      "B": "Leading",
+      "C": "Directing",
+      "D": "Organizing"
+    },
+    "correctAnswer": "D",
+    "explanation": "Organizing is the management function that involves dividing tasks into jobs and departments and delegating authority. It creates a structure through which work activities are defined, grouped, and coordinated to achieve organizational objectives.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "communication",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 20,
+    "questionText": "Communication process involves the transmission of a message over a selected channel to the",
+    "options": {
+      "A": "Receiver",
+      "B": "Audience",
+      "C": "Sender",
+      "D": "Encoder"
+    },
+    "correctAnswer": "A",
+    "explanation": "The communication process involves the transmission of a message over a selected channel to the receiver. The receiver is the person or group for whom the message is intended. The sender initiates the message, and the encoder converts the message into a transmittable form.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "advertising-and-sales-promotion",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 21,
+    "questionText": "Stimulation of demand is a kind of communication in marketing which connotes",
+    "options": {
+      "A": "Personal selling",
+      "B": "Sales promotion",
+      "C": "Advertising",
+      "D": "Merchandising"
+    },
+    "correctAnswer": "C",
+    "explanation": "Advertising is a paid form of non-personal communication designed to stimulate demand for goods and services. It is the kind of marketing communication most associated with the stimulation of demand through mass media channels such as television, radio, newspapers, and the internet.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "management-and-organization",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 22,
+    "questionText": "A functional structure is an organizational structure in which",
+    "options": {
+      "A": "Abstract rules are applied",
+      "B": "Equity prevails",
+      "C": "A Specialist enforces his directives",
+      "D": "There is no hierarchy"
+    },
+    "correctAnswer": "C",
+    "explanation": "In a functional organizational structure, departments are organized by function or specialization (e.g., marketing, finance, production), and a specialist heads each department and enforces his directives within that functional area. This allows for expertise-based management.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 23,
+    "questionText": "Entrepreneurship mainly involves",
+    "options": {
+      "A": "Risk-taking",
+      "B": "Initiating",
+      "C": "Skilled manpower",
+      "D": "Knowledge"
+    },
+    "correctAnswer": "A",
+    "explanation": "Entrepreneurship mainly involves risk-taking. An entrepreneur is someone who organizes, manages, and assumes the risks of a business enterprise. The willingness to take calculated risks in pursuit of profit is the defining characteristic of entrepreneurship.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-finance",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 24,
+    "questionText": "In the event of the liquidation of a company, the first to be settled are:",
+    "options": {
+      "A": "Debenture holders",
+      "B": "Members of the board",
+      "C": "Preference shareholders",
+      "D": "Ordinary shareholders"
+    },
+    "correctAnswer": "A",
+    "explanation": "In the event of liquidation, debenture holders are the first to be settled because they are creditors of the company, not owners. The order of payment is: secured creditors (debenture holders), unsecured creditors, preference shareholders, and finally ordinary shareholders.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-organizations",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 25,
+    "questionText": "The business organization established mainly for the purpose of carrying out specific assignments for a specific duration is a",
+    "options": {
+      "A": "Joint venture",
+      "B": "Cooperative society",
+      "C": "Partnership",
+      "D": "Company"
+    },
+    "correctAnswer": "A",
+    "explanation": "A joint venture is a business organization established for the purpose of carrying out specific assignments or projects for a specific duration. Once the project is completed, the joint venture is dissolved. It is a temporary partnership between two or more parties.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 26,
+    "questionText": "Which of these factors of production is relatively fixed in supply?",
+    "options": {
+      "A": "Capital",
+      "B": "Entrepreneur",
+      "C": "Human resources",
+      "D": "Natural resources"
+    },
+    "correctAnswer": "D",
+    "explanation": "Natural resources (land) is the factor of production that is relatively fixed in supply. Land, including all natural resources such as minerals, water, and soil, cannot be significantly increased by human effort. Capital, entrepreneurs, and human resources can all be increased over time.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "trade",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 27,
+    "questionText": "The location of a business is mostly influenced by",
+    "options": {
+      "A": "Market outlet",
+      "B": "Management decision",
+      "C": "Capital",
+      "D": "Environment"
+    },
+    "correctAnswer": "A",
+    "explanation": "The location of a business is mostly influenced by market outlet, which refers to the proximity to customers and market for the products. Businesses tend to locate where they can easily access and serve their target market to maximize sales and minimize distribution costs.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "introduction-to-commerce",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 28,
+    "questionText": "The evolution of commerce in Nigeria is traceable to the",
+    "options": {
+      "A": "Period of barter economy as human needs became limitless",
+      "B": "Desire by human beings to satisfy their needs through the services of other people in the society",
+      "C": "Development of human civilization and the desire to meet their needs",
+      "D": "Primitive stage of existence of human beings"
+    },
+    "correctAnswer": "B",
+    "explanation": "The evolution of commerce in Nigeria is traceable to the desire by human beings to satisfy their needs through the services of other people in the society. Since no individual could produce everything they needed, people began exchanging goods and services, which gave rise to commerce.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-organizations",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 29,
+    "questionText": "One of the requirements necessary for setting up a business is",
+    "options": {
+      "A": "Registration",
+      "B": "Advertisement",
+      "C": "Knowledge of the business",
+      "D": "Documentation"
+    },
+    "correctAnswer": "C",
+    "explanation": "Knowledge of the business is one of the fundamental requirements for setting up a business. An entrepreneur must understand the nature of the business, the market, and the industry before venturing into it. While registration and documentation are also important, knowledge of the business is the most essential starting point.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 30,
+    "questionText": "The assembling of products into usable form is known as",
+    "options": {
+      "A": "Construction",
+      "B": "Manufacturing",
+      "C": "Formation",
+      "D": "Creation"
+    },
+    "correctAnswer": "B",
+    "explanation": "Manufacturing is the process of assembling raw materials or components into usable finished products. It involves converting inputs into outputs through various production processes, making goods ready for use by consumers.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "government-and-business",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 31,
+    "questionText": "The government's policy thrust on the business environment is to",
+    "options": {
+      "A": "Promote exports",
+      "B": "Attract investors",
+      "C": "Be self-sufficient",
+      "D": "Increase production"
+    },
+    "correctAnswer": "A",
+    "explanation": "The government's policy thrust on the business environment is to promote exports. Export promotion is a key government policy aimed at increasing foreign exchange earnings, improving the balance of trade, and fostering economic growth through international trade.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-environment",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 32,
+    "questionText": "Social responsibility is the ability of an organization to",
+    "options": {
+      "A": "Tackle the socio-economic problem of its community",
+      "B": "Meet the needs of its community",
+      "C": "Contribute to sustaining and developing its community",
+      "D": "Operate without disrupting the very essence of the environment"
+    },
+    "correctAnswer": "C",
+    "explanation": "Social responsibility is the ability of an organization to contribute to sustaining and developing its community. It goes beyond just making profits to include making positive contributions to the welfare, development, and sustainability of the community in which the business operates.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-law",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 33,
+    "questionText": "The act of a person employing another to enter into a contract on his behalf is known as",
+    "options": {
+      "A": "Business",
+      "B": "Sale of goods",
+      "C": "Bilateral agreement",
+      "D": "Agency"
+    },
+    "correctAnswer": "D",
+    "explanation": "Agency is the act of a person (the principal) employing another person (the agent) to enter into a contract or perform business transactions on his behalf. The agent acts as a representative of the principal in dealings with third parties.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "economic-integration",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 34,
+    "questionText": "The ECOBANK is the initiative of",
+    "options": {
+      "A": "Some well-meeting Nigerian shareholders",
+      "B": "The federal government of Nigeria",
+      "C": "West African states to foster trade",
+      "D": "The Lagos state government to enhance capital mobilization"
+    },
+    "correctAnswer": "C",
+    "explanation": "ECOBANK is the initiative of West African states to foster trade. It was established in 1985 as a pan-African banking initiative backed by ECOWAS (Economic Community of West African States) and the Federation of West African Chambers of Commerce to promote regional trade and economic integration.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "government-and-business",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 35,
+    "questionText": "Privatization is concerned with",
+    "options": {
+      "A": "Capital ownership between the public and the government",
+      "B": "The dilution of ownership among the public",
+      "C": "The individual ownership of companies",
+      "D": "Government ownership of companies"
+    },
+    "correctAnswer": "C",
+    "explanation": "Privatization is concerned with the individual (private) ownership of companies. It involves the transfer of ownership and control of government-owned enterprises to private individuals or organizations. This is the opposite of nationalization, which is government ownership.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "information-technology",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 36,
+    "questionText": "Electronic computers differ from human beings in that they process data and minimize errors in a",
+    "options": {
+      "A": "Faster and more accurate manner",
+      "B": "More organized manner",
+      "C": "Faster but less accurate manner",
+      "D": "Slower but more accurate manner"
+    },
+    "correctAnswer": "A",
+    "explanation": "Electronic computers differ from human beings in that they process data and minimize errors in a faster and more accurate manner. Computers can perform millions of calculations per second with very high precision, making them both faster and more accurate than humans in data processing.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "government-and-business",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 37,
+    "questionText": "A major benefit derivable from the privatization and commercialization of public enterprises in Nigeria is",
+    "options": {
+      "A": "Increase in wages",
+      "B": "Employment generation",
+      "C": "Information technology",
+      "D": "Revenue generation"
+    },
+    "correctAnswer": "D",
+    "explanation": "Revenue generation is a major benefit derivable from the privatization and commercialization of public enterprises in Nigeria. The government earns revenue from the sale of its shares in public enterprises, and commercialized enterprises become more efficient and profitable, contributing more to government revenue through taxes.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "information-technology",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 38,
+    "questionText": "The device which interprets and carries out the instructions presented to it by the computer program is known as",
+    "options": {
+      "A": "Software",
+      "B": "Micro-processor",
+      "C": "Mouse",
+      "D": "Hard-disk"
+    },
+    "correctAnswer": "B",
+    "explanation": "The micro-processor (CPU - Central Processing Unit) is the device that interprets and carries out the instructions presented to it by the computer program. It is the brain of the computer that processes data and executes program instructions.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-environment",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 39,
+    "questionText": "The market structure, business conditions and financial systems in Nigeria constitute the",
+    "options": {
+      "A": "Economic environment",
+      "B": "Political environment",
+      "C": "Cultural environment",
+      "D": "Technological environment"
+    },
+    "correctAnswer": "A",
+    "explanation": "The market structure, business conditions, and financial systems constitute the economic environment. The economic environment encompasses all economic factors that affect business operations, including market conditions, inflation, interest rates, and the financial system.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "consumer-protection",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 40,
+    "questionText": "The protection of consumers against exploitation by manufacturers is to ensure",
+    "options": {
+      "A": "That there are varieties of products",
+      "B": "That the right quality of goods and services is sold",
+      "C": "Increase in production capacity",
+      "D": "Increase in the level of consumer awareness"
+    },
+    "correctAnswer": "B",
+    "explanation": "The protection of consumers against exploitation by manufacturers is to ensure that the right quality of goods and services is sold. Consumer protection laws and agencies exist to safeguard consumers from substandard products, fraud, and unfair trade practices.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "information-technology",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 41,
+    "questionText": "The most widely used computer language that focuses on solving science-oriented problems is",
+    "options": {
+      "A": "FORTRAN",
+      "B": "BASIC",
+      "C": "ADA",
+      "D": "COBOL"
+    },
+    "correctAnswer": "A",
+    "explanation": "FORTRAN (Formula Translation) is the most widely used computer programming language for solving science-oriented and mathematical problems. It was specifically designed for scientific and engineering computations. COBOL is used for business applications, BASIC is a general-purpose language, and ADA is used in defense systems.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "banking-and-finance",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 42,
+    "questionText": "Banks are engaged in the business of buying and selling of",
+    "options": {
+      "A": "Bills of exchange",
+      "B": "Investment of credit",
+      "C": "Intangible products",
+      "D": "Land"
+    },
+    "correctAnswer": "A",
+    "explanation": "Banks are engaged in the business of buying and selling of bills of exchange. Banks discount (buy) bills of exchange from holders who need immediate cash, and they can sell these bills to other financial institutions. This is a core banking activity in the money market.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-finance",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 43,
+    "questionText": "A source of short-term finance to companies is",
+    "options": {
+      "A": "Share capital",
+      "B": "Debentures",
+      "C": "Retained earnings",
+      "D": "Corporate tax"
+    },
+    "correctAnswer": "C",
+    "explanation": "Retained earnings can serve as a source of short-term finance to companies. They are profits that have been kept back in the business rather than distributed as dividends, and they are readily available for use without the need for external borrowing. Share capital and debentures are long-term sources, while corporate tax is an expense, not a source of finance.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "stock-exchange",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 44,
+    "questionText": "The body charged with the responsibility to register shares for subscription on the stock market in Nigeria is the",
+    "options": {
+      "A": "Securities and exchange commission",
+      "B": "Nigerian stock-exchange",
+      "C": "Nigerian deposit insurance corporation",
+      "D": "Central bank of Nigeria"
+    },
+    "correctAnswer": "A",
+    "explanation": "The Securities and Exchange Commission (SEC) is the body charged with the responsibility to register shares for subscription on the stock market in Nigeria. SEC is the apex regulatory body for the Nigerian capital market and must approve all securities before they are offered to the public.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-finance",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 45,
+    "questionText": "An essential factor for evaluating the different sources of funds for a business is the",
+    "options": {
+      "A": "Decree establishing the business",
+      "B": "Ownership structure of the business",
+      "C": "Size and the type of the bank",
+      "D": "Burden of cost and repayment"
+    },
+    "correctAnswer": "D",
+    "explanation": "The burden of cost and repayment is an essential factor for evaluating the different sources of funds for a business. When choosing between sources of finance, businesses must consider the cost of borrowing (interest rates, fees) and the repayment terms to ensure they can meet their financial obligations.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "accounting-basics",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 46,
+    "questionText": "Use the following balance sheet to answer this question:\n\nLiabilities | N | Assets | N\nPaid-up capital | 200,000 | Buildings | 50,000\nRetained earnings | 50,000 | Plant & Machinery | 35,000\nCreditors | 50,000 | Debtors | 50,000\nBills payable | 50,000 | Fixtures | 20,000\nDividends payable | 70,000 | Stocks | 145,000\n | | Banks | 120,000\nTotal | 420,000 | Total | 420,000\n\nWhat is the owner's equity?",
+    "options": {
+      "A": "N250,000",
+      "B": "N300,000",
+      "C": "N420,000",
+      "D": "N200,000"
+    },
+    "correctAnswer": "A",
+    "explanation": "Owner's equity equals Paid-up capital plus Retained earnings. Owner's equity = N200,000 + N50,000 = N250,000. Creditors, bills payable, and dividends payable are liabilities owed to external parties, not part of the owner's equity.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "accounting-basics",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 47,
+    "questionText": "Use the following balance sheet to answer this question:\n\nLiabilities | N | Assets | N\nPaid-up capital | 200,000 | Buildings | 50,000\nRetained earnings | 50,000 | Plant & Machinery | 35,000\nCreditors | 50,000 | Debtors | 50,000\nBills payable | 50,000 | Fixtures | 20,000\nDividends payable | 70,000 | Stocks | 145,000\n | | Banks | 120,000\nTotal | 420,000 | Total | 420,000\n\nFind the current ratio",
+    "options": {
+      "A": "1.53:1",
+      "B": "1.85:1",
+      "C": "0.87:1",
+      "D": "0.50:1"
+    },
+    "correctAnswer": "B",
+    "explanation": "Current ratio = Current Assets / Current Liabilities. Current Assets = Debtors (N50,000) + Stocks (N145,000) + Banks (N120,000) = N315,000. Current Liabilities = Creditors (N50,000) + Bills payable (N50,000) + Dividends payable (N70,000) = N170,000. Current ratio = N315,000 / N170,000 = 1.85:1.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "banking-and-finance",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 48,
+    "questionText": "Money can simply be referred to as a",
+    "options": {
+      "A": "Medium of exchange",
+      "B": "Means for the settlement of debts",
+      "C": "Durable asset for doing business",
+      "D": "Standard of value"
+    },
+    "correctAnswer": "A",
+    "explanation": "Money can simply be referred to as a medium of exchange. This is the most basic and widely recognized function of money - it serves as an intermediary in the exchange of goods and services, eliminating the need for barter. While money also serves as a standard of value and a means of settling debts, its simplest definition is as a medium of exchange.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-finance",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 49,
+    "questionText": "A type of long-term loan granted to companies with fixed interest as well as with redeemable and irredeemable features is referred to as",
+    "options": {
+      "A": "A debenture",
+      "B": "A bond",
+      "C": "A term loan",
+      "D": "An overdraft"
+    },
+    "correctAnswer": "A",
+    "explanation": "A debenture is a type of long-term loan granted to companies with a fixed rate of interest. Debentures can be redeemable (repaid at a specified date) or irredeemable (no fixed repayment date). They are a form of corporate debt secured against the company's assets.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "banking-and-finance",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 50,
+    "questionText": "Public debt management is one of the function of a",
+    "options": {
+      "A": "Merchant bank",
+      "B": "Central bank",
+      "C": "Commercial bank",
+      "D": "Development bank"
+    },
+    "correctAnswer": "B",
+    "explanation": "Public debt management is one of the functions of the Central bank. The Central Bank of Nigeria manages the government's debt portfolio, including issuing government securities (treasury bills, bonds), managing debt repayment schedules, and advising the government on borrowing strategies.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  }
+]

@@ -1,0 +1,952 @@
+[
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 1,
+    "questionText": "Which of the following organelles is responsible for the synthesis of proteins in the cell?",
+    "options": {
+      "A": "Mitochondria",
+      "B": "Ribosomes",
+      "C": "Golgi apparatus",
+      "D": "Lysosomes"
+    },
+    "correctAnswer": "B",
+    "explanation": "Ribosomes are the organelles responsible for protein synthesis. They translate messenger RNA (mRNA) into polypeptide chains, which fold into functional proteins. Ribosomes can be found free in the cytoplasm or attached to the rough endoplasmic reticulum.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 2,
+    "questionText": "The cell organelle that is described as the 'powerhouse of the cell' is the",
+    "options": {
+      "A": "nucleus",
+      "B": "ribosome",
+      "C": "mitochondrion",
+      "D": "endoplasmic reticulum"
+    },
+    "correctAnswer": "C",
+    "explanation": "The mitochondrion is called the powerhouse of the cell because it is the site of aerobic respiration where ATP (adenosine triphosphate), the energy currency of the cell, is produced in large quantities through oxidative phosphorylation.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 3,
+    "questionText": "A distinguishing feature between a plant cell and an animal cell is that the plant cell has",
+    "options": {
+      "A": "a nucleus and cytoplasm",
+      "B": "a cell wall and chloroplasts",
+      "C": "mitochondria and ribosomes",
+      "D": "a cell membrane and vacuoles"
+    },
+    "correctAnswer": "B",
+    "explanation": "Plant cells are distinguished from animal cells by the presence of a rigid cell wall made of cellulose and chloroplasts which contain chlorophyll for photosynthesis. While both cell types have nuclei, cytoplasm, mitochondria, ribosomes, and cell membranes, only plant cells possess cell walls and chloroplasts.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-division",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 4,
+    "questionText": "During meiosis, the chromosome number is",
+    "options": {
+      "A": "doubled",
+      "B": "maintained",
+      "C": "halved",
+      "D": "tripled"
+    },
+    "correctAnswer": "C",
+    "explanation": "Meiosis is a type of cell division that reduces the chromosome number by half. A diploid (2n) cell undergoes two successive divisions to produce four haploid (n) daughter cells. This is essential for the production of gametes (sex cells) so that when fertilization occurs, the normal diploid number is restored.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-division",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 5,
+    "questionText": "Crossing over during meiosis is significant because it",
+    "options": {
+      "A": "reduces chromosome number",
+      "B": "leads to genetic variation",
+      "C": "increases chromosome number",
+      "D": "prevents mutation"
+    },
+    "correctAnswer": "B",
+    "explanation": "Crossing over occurs during prophase I of meiosis when homologous chromosomes exchange segments of genetic material. This recombination of alleles produces new combinations of genes on chromosomes, leading to genetic variation in the offspring. This is one of the key sources of genetic diversity in sexually reproducing organisms.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-plants",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 6,
+    "questionText": "Which of the following is NOT required for photosynthesis?",
+    "options": {
+      "A": "Carbon dioxide",
+      "B": "Water",
+      "C": "Oxygen",
+      "D": "Sunlight"
+    },
+    "correctAnswer": "C",
+    "explanation": "Photosynthesis requires carbon dioxide, water, sunlight (light energy), and chlorophyll. Oxygen is not a requirement but rather a by-product of photosynthesis. The overall equation is: 6CO2 + 6H2O → C6H12O6 + 6O2 (in the presence of sunlight and chlorophyll).",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-plants",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 7,
+    "questionText": "The compensation point in a plant is reached when",
+    "options": {
+      "A": "the rate of photosynthesis exceeds the rate of respiration",
+      "B": "the rate of respiration exceeds the rate of photosynthesis",
+      "C": "the rate of photosynthesis equals the rate of respiration",
+      "D": "photosynthesis stops completely"
+    },
+    "correctAnswer": "C",
+    "explanation": "The compensation point is the light intensity at which the rate of photosynthesis exactly equals the rate of respiration. At this point, the amount of carbon dioxide released by respiration equals the amount absorbed for photosynthesis, and the amount of oxygen produced by photosynthesis equals the amount consumed by respiration.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 8,
+    "questionText": "The enzyme responsible for the digestion of starch in the mouth is",
+    "options": {
+      "A": "pepsin",
+      "B": "ptyalin",
+      "C": "trypsin",
+      "D": "lipase"
+    },
+    "correctAnswer": "B",
+    "explanation": "Ptyalin (salivary amylase) is the enzyme found in saliva that begins the digestion of starch in the mouth. It breaks down starch into maltose in an alkaline medium. Pepsin digests proteins in the stomach, trypsin digests proteins in the duodenum, and lipase digests fats.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 9,
+    "questionText": "The part of the alimentary canal where most absorption of digested food occurs is the",
+    "options": {
+      "A": "stomach",
+      "B": "duodenum",
+      "C": "ileum",
+      "D": "colon"
+    },
+    "correctAnswer": "C",
+    "explanation": "The ileum (the longest part of the small intestine) is where most absorption of digested food takes place. It is specially adapted for this function with villi and microvilli that greatly increase the surface area for absorption. The villi also have a rich blood supply and lacteals for absorbing nutrients efficiently.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 10,
+    "questionText": "Kwashiorkor in children is caused by deficiency of",
+    "options": {
+      "A": "vitamins",
+      "B": "carbohydrates",
+      "C": "proteins",
+      "D": "mineral salts"
+    },
+    "correctAnswer": "C",
+    "explanation": "Kwashiorkor is a severe form of malnutrition caused by a deficiency of protein in the diet. It commonly affects children and is characterized by edema (swelling especially of the abdomen), skin lesions, irritability, and retarded growth. It is prevalent in areas where diets are high in carbohydrates but deficient in protein.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-plants",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 11,
+    "questionText": "The upward movement of water through the xylem vessels is mainly due to",
+    "options": {
+      "A": "root pressure only",
+      "B": "transpiration pull",
+      "C": "capillarity only",
+      "D": "osmotic pressure only"
+    },
+    "correctAnswer": "B",
+    "explanation": "The main force responsible for the upward movement of water through the xylem vessels is transpiration pull (also called the cohesion-tension theory). As water evaporates from the leaves during transpiration, it creates a negative pressure (tension) that pulls water upward through the xylem vessels. The cohesive properties of water molecules maintain a continuous column of water.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-plants",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 12,
+    "questionText": "Translocation in plants refers to the movement of",
+    "options": {
+      "A": "water from roots to leaves",
+      "B": "manufactured food substances from leaves to other parts",
+      "C": "minerals from the soil to the leaves",
+      "D": "gases in and out of the stomata"
+    },
+    "correctAnswer": "B",
+    "explanation": "Translocation is the transport of manufactured food substances (mainly sucrose and amino acids) from the leaves (where they are made during photosynthesis) to other parts of the plant through the phloem. This is different from the transport of water and minerals through the xylem.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 13,
+    "questionText": "The component of blood responsible for clotting is",
+    "options": {
+      "A": "red blood cells",
+      "B": "white blood cells",
+      "C": "platelets",
+      "D": "plasma"
+    },
+    "correctAnswer": "C",
+    "explanation": "Platelets (thrombocytes) are the blood components primarily responsible for blood clotting. When a blood vessel is injured, platelets aggregate at the site and release thromboplastin, which initiates a cascade of reactions leading to the conversion of fibrinogen to fibrin, forming a clot that seals the wound.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 14,
+    "questionText": "Which blood vessel carries deoxygenated blood from the heart to the lungs?",
+    "options": {
+      "A": "Pulmonary vein",
+      "B": "Pulmonary artery",
+      "C": "Aorta",
+      "D": "Vena cava"
+    },
+    "correctAnswer": "B",
+    "explanation": "The pulmonary artery carries deoxygenated blood from the right ventricle of the heart to the lungs for oxygenation. This is an exception to the general rule that arteries carry oxygenated blood. The pulmonary vein carries oxygenated blood from the lungs back to the left atrium of the heart.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 15,
+    "questionText": "A person with blood group AB can receive blood from",
+    "options": {
+      "A": "group A only",
+      "B": "group B only",
+      "C": "group O only",
+      "D": "all blood groups"
+    },
+    "correctAnswer": "D",
+    "explanation": "A person with blood group AB is a universal recipient. They have both A and B antigens on their red blood cells and do not produce anti-A or anti-B antibodies in their plasma. Therefore, they can receive blood from donors of all blood groups (A, B, AB, and O) without agglutination occurring.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "respiration",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 16,
+    "questionText": "The end products of anaerobic respiration in yeast are",
+    "options": {
+      "A": "carbon dioxide and water",
+      "B": "ethanol and carbon dioxide",
+      "C": "lactic acid and water",
+      "D": "ethanol and water"
+    },
+    "correctAnswer": "B",
+    "explanation": "In yeast, anaerobic respiration (fermentation) produces ethanol (alcohol) and carbon dioxide. The equation is: C6H12O6 → 2C2H5OH + 2CO2 + energy. This process is exploited in brewing and bread-making. In contrast, anaerobic respiration in animal muscles produces lactic acid.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "respiration",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 17,
+    "questionText": "The Krebs cycle takes place in the",
+    "options": {
+      "A": "cytoplasm",
+      "B": "nucleus",
+      "C": "mitochondria",
+      "D": "ribosomes"
+    },
+    "correctAnswer": "C",
+    "explanation": "The Krebs cycle (citric acid cycle) takes place in the matrix of the mitochondria. It is the second stage of aerobic respiration that follows glycolysis (which occurs in the cytoplasm). In the Krebs cycle, acetyl CoA is broken down to release carbon dioxide, hydrogen atoms, and energy in the form of ATP.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "excretion",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 18,
+    "questionText": "The functional unit of the kidney is the",
+    "options": {
+      "A": "neuron",
+      "B": "nephron",
+      "C": "glomerulus",
+      "D": "Bowman's capsule"
+    },
+    "correctAnswer": "B",
+    "explanation": "The nephron is the functional unit of the kidney. Each kidney contains over a million nephrons. A nephron consists of the Bowman's capsule (which encloses the glomerulus), the proximal convoluted tubule, the loop of Henle, the distal convoluted tubule, and the collecting duct. Together, these structures filter blood and produce urine.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "excretion",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 19,
+    "questionText": "The main excretory product of mammals is",
+    "options": {
+      "A": "ammonia",
+      "B": "uric acid",
+      "C": "urea",
+      "D": "creatinine"
+    },
+    "correctAnswer": "C",
+    "explanation": "Urea is the main nitrogenous excretory product of mammals. It is formed in the liver from the deamination of excess amino acids. Ammonia, which is highly toxic, is converted to the less toxic urea in the liver through the ornithine cycle, and then transported to the kidneys for excretion in urine.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-plants",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 20,
+    "questionText": "Pollination is the transfer of pollen grains from the",
+    "options": {
+      "A": "anther to the stigma",
+      "B": "stigma to the ovary",
+      "C": "ovary to the anther",
+      "D": "filament to the style"
+    },
+    "correctAnswer": "A",
+    "explanation": "Pollination is defined as the transfer of pollen grains from the anther (male part of the flower where pollen is produced) to the stigma (the receptive surface of the female part). Pollination can be self-pollination (within the same flower or plant) or cross-pollination (between different plants of the same species).",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-plants",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 21,
+    "questionText": "After fertilization in a flowering plant, the ovule develops into the",
+    "options": {
+      "A": "fruit",
+      "B": "seed",
+      "C": "embryo",
+      "D": "endosperm"
+    },
+    "correctAnswer": "B",
+    "explanation": "After fertilization in flowering plants, the ovule develops into the seed. The ovule contains the embryo sac where fertilization takes place. The integuments of the ovule become the seed coat (testa), and the ovary wall develops into the fruit. The fertilized egg (zygote) develops into the embryo within the seed.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-animals",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 22,
+    "questionText": "The part of the female reproductive system where fertilization normally takes place is the",
+    "options": {
+      "A": "uterus",
+      "B": "ovary",
+      "C": "oviduct (Fallopian tube)",
+      "D": "vagina"
+    },
+    "correctAnswer": "C",
+    "explanation": "Fertilization in mammals normally takes place in the oviduct (Fallopian tube). After ovulation, the egg is released from the ovary and travels through the oviduct. If sperm are present, fertilization occurs in the upper part of the oviduct. The fertilized egg (zygote) then travels to the uterus where it implants.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-animals",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 23,
+    "questionText": "Which of the following hormones is responsible for the development of secondary sexual characteristics in males?",
+    "options": {
+      "A": "Oestrogen",
+      "B": "Progesterone",
+      "C": "Testosterone",
+      "D": "Follicle-stimulating hormone"
+    },
+    "correctAnswer": "C",
+    "explanation": "Testosterone is the male sex hormone produced by the testes (specifically the interstitial cells of Leydig). It is responsible for the development of male secondary sexual characteristics such as deepening of the voice, growth of facial hair, broadening of shoulders, and increased muscle mass during puberty.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "growth-and-development",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 24,
+    "questionText": "Metamorphosis in insects involves",
+    "options": {
+      "A": "gradual increase in size only",
+      "B": "a drastic change in body form during development",
+      "C": "development without any change in form",
+      "D": "regeneration of lost body parts"
+    },
+    "correctAnswer": "B",
+    "explanation": "Metamorphosis is a biological process by which an insect undergoes a drastic change in body form during its development from larva to adult. Complete metamorphosis (holometabolous) involves four stages: egg, larva, pupa, and adult (e.g., in butterflies and beetles). Incomplete metamorphosis (hemimetabolous) involves egg, nymph, and adult (e.g., in grasshoppers and cockroaches).",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "growth-and-development",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 25,
+    "questionText": "The type of germination in which the cotyledons are brought above the soil is called",
+    "options": {
+      "A": "hypogeal germination",
+      "B": "epigeal germination",
+      "C": "vivipary",
+      "D": "dormancy"
+    },
+    "correctAnswer": "B",
+    "explanation": "Epigeal germination is the type of germination in which the cotyledons are carried above the soil surface. This occurs due to the rapid elongation of the hypocotyl (the part of the stem below the cotyledons). Examples include germination in beans and groundnuts. In hypogeal germination, the cotyledons remain below the soil (e.g., in maize).",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 26,
+    "questionText": "A food chain always begins with",
+    "options": {
+      "A": "decomposers",
+      "B": "primary consumers",
+      "C": "secondary consumers",
+      "D": "producers (green plants)"
+    },
+    "correctAnswer": "D",
+    "explanation": "A food chain always begins with producers, which are green plants (autotrophs). Producers capture light energy from the sun and convert it into chemical energy through photosynthesis. This energy is then passed to primary consumers (herbivores), then to secondary consumers (carnivores), and so on through the food chain.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 27,
+    "questionText": "An association between two organisms in which both benefit is called",
+    "options": {
+      "A": "parasitism",
+      "B": "commensalism",
+      "C": "mutualism",
+      "D": "saprophytism"
+    },
+    "correctAnswer": "C",
+    "explanation": "Mutualism (also called symbiosis in the strict sense) is a type of association between two different organisms in which both partners benefit. An example is the relationship between nitrogen-fixing bacteria (Rhizobium) and leguminous plants, where the bacteria fix atmospheric nitrogen for the plant while the plant provides shelter and nutrients for the bacteria.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 28,
+    "questionText": "The term 'ecosystem' refers to",
+    "options": {
+      "A": "a community of organisms only",
+      "B": "the physical environment only",
+      "C": "a community of organisms interacting with their physical environment",
+      "D": "the climate of an area"
+    },
+    "correctAnswer": "C",
+    "explanation": "An ecosystem is a functional unit of nature that includes the community of living organisms (biotic components) interacting with each other and with the non-living physical environment (abiotic components such as soil, water, temperature, and light). Examples include a pond ecosystem, a forest ecosystem, and a desert ecosystem.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 29,
+    "questionText": "Which of the following is an example of a density-dependent factor affecting population growth?",
+    "options": {
+      "A": "Flooding",
+      "B": "Drought",
+      "C": "Disease",
+      "D": "Bush fire"
+    },
+    "correctAnswer": "C",
+    "explanation": "Disease is a density-dependent factor because its effect on a population increases as the population density increases. When organisms are crowded together, diseases spread more easily. Density-independent factors such as flooding, drought, and bush fire affect populations regardless of their density.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 30,
+    "questionText": "If a tall plant (TT) is crossed with a short plant (tt), the phenotypic ratio of the F1 generation will be",
+    "options": {
+      "A": "all tall",
+      "B": "all short",
+      "C": "3 tall : 1 short",
+      "D": "1 tall : 1 short"
+    },
+    "correctAnswer": "A",
+    "explanation": "When a homozygous tall plant (TT) is crossed with a homozygous short plant (tt), all offspring in the F1 generation will have the genotype Tt. Since tallness (T) is dominant over shortness (t), all F1 plants will be tall in phenotype. The 3:1 ratio only appears in the F2 generation when F1 plants are crossed with each other.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 31,
+    "questionText": "A sex-linked trait is one that is",
+    "options": {
+      "A": "determined by genes on the autosomes",
+      "B": "carried on the X or Y chromosome",
+      "C": "always dominant",
+      "D": "expressed equally in males and females"
+    },
+    "correctAnswer": "B",
+    "explanation": "Sex-linked traits are determined by genes located on the sex chromosomes (X or Y). Most sex-linked traits in humans are X-linked (carried on the X chromosome) because the Y chromosome carries very few genes. Examples include haemophilia and colour blindness. These conditions are more commonly expressed in males because males have only one X chromosome.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 32,
+    "questionText": "In humans, colour blindness is more common in males than in females because",
+    "options": {
+      "A": "the gene is carried on the Y chromosome",
+      "B": "males have only one X chromosome, so a single recessive allele will be expressed",
+      "C": "females cannot carry the gene",
+      "D": "the trait is dominant in males"
+    },
+    "correctAnswer": "B",
+    "explanation": "Colour blindness is caused by a recessive gene carried on the X chromosome. Males (XY) have only one X chromosome, so if that X chromosome carries the recessive allele for colour blindness, the trait will be expressed since there is no corresponding allele on the Y chromosome to mask it. Females (XX) would need two copies of the recessive allele to express colour blindness.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "evolution",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 33,
+    "questionText": "The theory of natural selection was proposed by",
+    "options": {
+      "A": "Gregor Mendel",
+      "B": "Jean Baptiste de Lamarck",
+      "C": "Charles Darwin",
+      "D": "Louis Pasteur"
+    },
+    "correctAnswer": "C",
+    "explanation": "The theory of evolution by natural selection was proposed by Charles Darwin. According to this theory, organisms with favourable variations are better adapted to their environment and are more likely to survive and reproduce (survival of the fittest). Over time, these favourable traits become more common in the population, leading to evolution.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "evolution",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 34,
+    "questionText": "Fossils provide evidence for evolution because they",
+    "options": {
+      "A": "are found only in certain rocks",
+      "B": "show that organisms have changed over time",
+      "C": "are made of the same materials as living things",
+      "D": "are found on all continents"
+    },
+    "correctAnswer": "B",
+    "explanation": "Fossils provide evidence for evolution because they show how organisms have changed over time. By studying fossils in different rock layers (strata), scientists can observe the gradual changes in body forms and structures of organisms from the simplest in the oldest rocks to the most complex in more recent rocks, demonstrating the progression of life over millions of years.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "classification-of-living-things",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 35,
+    "questionText": "The binomial system of naming organisms was introduced by",
+    "options": {
+      "A": "Charles Darwin",
+      "B": "Carolus Linnaeus",
+      "C": "Robert Hooke",
+      "D": "Gregor Mendel"
+    },
+    "correctAnswer": "B",
+    "explanation": "The binomial system of nomenclature (naming organisms with two names - genus and species) was introduced by Carolus Linnaeus, a Swedish botanist. In this system, every organism is given a unique two-part Latin name: the first part is the genus name (capitalized) and the second is the species name (lowercase), e.g., Homo sapiens for humans.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "classification-of-living-things",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 36,
+    "questionText": "Which of the following organisms belongs to the kingdom Fungi?",
+    "options": {
+      "A": "Amoeba",
+      "B": "Spirogyra",
+      "C": "Mucor",
+      "D": "Euglena"
+    },
+    "correctAnswer": "C",
+    "explanation": "Mucor (bread mould) belongs to the kingdom Fungi. Fungi are organisms that are eukaryotic, heterotrophic (they cannot carry out photosynthesis), and obtain their nutrition by secreting enzymes to digest organic matter externally and then absorbing the products. Amoeba and Euglena are protists, while Spirogyra is a green alga (sometimes classified under Protista or Plantae).",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "microorganisms-and-disease",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 37,
+    "questionText": "Malaria is caused by",
+    "options": {
+      "A": "a virus",
+      "B": "a bacterium",
+      "C": "a protozoan (Plasmodium)",
+      "D": "a fungus"
+    },
+    "correctAnswer": "C",
+    "explanation": "Malaria is caused by a protozoan parasite of the genus Plasmodium. The most dangerous species is Plasmodium falciparum. The parasite is transmitted to humans through the bite of an infected female Anopheles mosquito. The parasite invades and destroys red blood cells, causing fever, chills, and anaemia.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "microorganisms-and-disease",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 38,
+    "questionText": "The type of immunity obtained by vaccination is called",
+    "options": {
+      "A": "natural active immunity",
+      "B": "artificial active immunity",
+      "C": "natural passive immunity",
+      "D": "artificial passive immunity"
+    },
+    "correctAnswer": "B",
+    "explanation": "Vaccination provides artificial active immunity. It is 'artificial' because the antigens are deliberately introduced into the body (as weakened or dead pathogens or their products), and 'active' because the body's own immune system produces antibodies in response. This type of immunity is usually long-lasting because memory cells are produced.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "microorganisms-and-disease",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 39,
+    "questionText": "Which of the following diseases is caused by a virus?",
+    "options": {
+      "A": "Cholera",
+      "B": "Tuberculosis",
+      "C": "Measles",
+      "D": "Typhoid fever"
+    },
+    "correctAnswer": "C",
+    "explanation": "Measles is caused by the measles virus (a paramyxovirus). It is a highly contagious disease spread through airborne droplets and is characterized by fever, cough, and a distinctive skin rash. Cholera is caused by the bacterium Vibrio cholerae, tuberculosis by Mycobacterium tuberculosis, and typhoid fever by Salmonella typhi — all bacterial diseases.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nervous-system-and-sense-organs",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 40,
+    "questionText": "The part of the brain responsible for coordinating body movements and maintaining balance is the",
+    "options": {
+      "A": "cerebrum",
+      "B": "cerebellum",
+      "C": "medulla oblongata",
+      "D": "hypothalamus"
+    },
+    "correctAnswer": "B",
+    "explanation": "The cerebellum is the part of the brain responsible for coordinating voluntary body movements, maintaining posture, and balance. It receives information from the sensory systems and other parts of the brain and integrates this to fine-tune motor activity. Damage to the cerebellum results in uncoordinated movements and loss of balance.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nervous-system-and-sense-organs",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 41,
+    "questionText": "A reflex action is one that is",
+    "options": {
+      "A": "learned through experience",
+      "B": "voluntary and controlled by the cerebrum",
+      "C": "automatic, rapid, and involuntary",
+      "D": "slow and deliberate"
+    },
+    "correctAnswer": "C",
+    "explanation": "A reflex action is an automatic, rapid, and involuntary response to a stimulus. It does not require conscious thought and is controlled by the spinal cord (spinal reflexes) or the brainstem (cranial reflexes). The pathway involved is called a reflex arc, consisting of a receptor, sensory neurone, relay neurone, motor neurone, and effector. Examples include the knee-jerk reflex and blinking.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nervous-system-and-sense-organs",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 42,
+    "questionText": "The part of the eye that controls the amount of light entering is the",
+    "options": {
+      "A": "cornea",
+      "B": "lens",
+      "C": "iris",
+      "D": "retina"
+    },
+    "correctAnswer": "C",
+    "explanation": "The iris is the coloured part of the eye that controls the amount of light entering the eye by adjusting the size of the pupil. In bright light, the circular muscles of the iris contract to make the pupil smaller, reducing the amount of light entering. In dim light, the radial muscles contract to dilate the pupil, allowing more light to enter.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "endocrine-system",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 43,
+    "questionText": "Insulin is produced by the",
+    "options": {
+      "A": "adrenal gland",
+      "B": "pituitary gland",
+      "C": "thyroid gland",
+      "D": "islets of Langerhans in the pancreas"
+    },
+    "correctAnswer": "D",
+    "explanation": "Insulin is a hormone produced by the beta cells of the islets of Langerhans in the pancreas. Insulin regulates blood sugar levels by promoting the uptake of glucose by cells and the conversion of glucose to glycogen for storage in the liver and muscles. A deficiency in insulin production or function leads to diabetes mellitus.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "endocrine-system",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 44,
+    "questionText": "Adrenaline is produced by the",
+    "options": {
+      "A": "thyroid gland",
+      "B": "pituitary gland",
+      "C": "adrenal gland",
+      "D": "pancreas"
+    },
+    "correctAnswer": "C",
+    "explanation": "Adrenaline (also called epinephrine) is produced by the medulla of the adrenal gland, located on top of each kidney. Adrenaline is often called the 'fight or flight' hormone because it is released in response to stress or danger. It increases heart rate, raises blood sugar level, dilates the pupils, and redirects blood to the muscles, preparing the body for emergency action.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "skeletal-and-muscular-systems",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 45,
+    "questionText": "The type of joint found at the elbow is a",
+    "options": {
+      "A": "ball-and-socket joint",
+      "B": "hinge joint",
+      "C": "pivot joint",
+      "D": "gliding joint"
+    },
+    "correctAnswer": "B",
+    "explanation": "The elbow joint is a hinge joint. A hinge joint allows movement in only one plane (back and forth), similar to a door hinge. The humerus (upper arm bone) articulates with the ulna and radius (forearm bones) at the elbow. A ball-and-socket joint (e.g., at the hip and shoulder) allows movement in multiple planes.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "skeletal-and-muscular-systems",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 46,
+    "questionText": "Muscles are attached to bones by means of",
+    "options": {
+      "A": "cartilage",
+      "B": "ligaments",
+      "C": "tendons",
+      "D": "joints"
+    },
+    "correctAnswer": "C",
+    "explanation": "Tendons are tough, inelastic, white fibrous cords of connective tissue that attach muscles to bones. They transmit the force generated by muscle contraction to the bones, causing movement. Ligaments, on the other hand, connect bones to other bones at joints. Cartilage is a flexible connective tissue found at the ends of bones in joints.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "homeostasis-and-coordination",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 47,
+    "questionText": "The maintenance of a constant internal environment in living organisms is called",
+    "options": {
+      "A": "metabolism",
+      "B": "homeostasis",
+      "C": "osmosis",
+      "D": "diffusion"
+    },
+    "correctAnswer": "B",
+    "explanation": "Homeostasis is the maintenance of a constant or stable internal environment in living organisms despite changes in the external environment. It involves the regulation of body temperature, blood sugar level, water and salt balance, pH, and other physiological parameters. Homeostasis is achieved through negative feedback mechanisms involving receptors, control centres, and effectors.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "homeostasis-and-coordination",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 48,
+    "questionText": "The regulation of blood sugar level in the body involves the hormones",
+    "options": {
+      "A": "adrenaline and thyroxine",
+      "B": "insulin and glucagon",
+      "C": "oestrogen and progesterone",
+      "D": "growth hormone and prolactin"
+    },
+    "correctAnswer": "B",
+    "explanation": "Blood sugar regulation involves two hormones produced by the pancreas: insulin and glucagon. Insulin (from beta cells) lowers blood sugar by promoting glucose uptake and glycogen storage when blood sugar is too high. Glucagon (from alpha cells) raises blood sugar by stimulating the conversion of glycogen back to glucose when blood sugar is too low. Together, they maintain blood glucose homeostasis.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 49,
+    "questionText": "In an ecological succession, the first set of organisms to colonize a bare habitat are called",
+    "options": {
+      "A": "climax community",
+      "B": "pioneer species",
+      "C": "secondary colonizers",
+      "D": "decomposers"
+    },
+    "correctAnswer": "B",
+    "explanation": "Pioneer species are the first organisms to colonize a bare or previously uninhabited environment during ecological succession. They are typically hardy organisms such as lichens, mosses, and certain bacteria that can survive in harsh conditions. They help to modify the environment (e.g., by breaking down rock to form soil), making it suitable for the next set of organisms to colonize.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 50,
+    "questionText": "The process by which water molecules move from a region of lower solute concentration to a region of higher solute concentration through a semi-permeable membrane is called",
+    "options": {
+      "A": "diffusion",
+      "B": "active transport",
+      "C": "osmosis",
+      "D": "plasmolysis"
+    },
+    "correctAnswer": "C",
+    "explanation": "Osmosis is the movement of water molecules from a region of lower solute concentration (higher water potential) to a region of higher solute concentration (lower water potential) through a selectively permeable membrane. It is a special type of diffusion that involves only water molecules and requires a semi-permeable membrane. Plasmolysis is the result of osmosis in plant cells placed in hypertonic solutions.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  }
+]

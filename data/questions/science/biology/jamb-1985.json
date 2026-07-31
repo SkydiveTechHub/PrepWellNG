@@ -1,0 +1,962 @@
+[
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 1,
+    "questionText": "In Spirogyra, the pyrenoid",
+    "options": {
+      "A": "excretes waste products",
+      "B": "is suspended by cytoplasmic strands",
+      "C": "is mainly used for respiration",
+      "D": "usually contains starch",
+      "E": "makes the plant slimy to touch"
+    },
+    "correctAnswer": "D",
+    "explanation": "The pyrenoid in Spirogyra is a protein body found within the chloroplast that serves as a centre for starch formation and storage. It is surrounded by starch granules and plays an important role in carbon fixation. The cytoplasmic strands suspend the nucleus (not the pyrenoid), and the slimy texture of Spirogyra is due to its mucilaginous sheath, not the pyrenoid.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "classification-of-living-things",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 2,
+    "questionText": "In which of the following groups of animals are flagella and cilia found?",
+    "options": {
+      "A": "Flatworms",
+      "B": "Annelids",
+      "C": "Coelenterates",
+      "D": "Protozoa",
+      "E": "Nematodes"
+    },
+    "correctAnswer": "D",
+    "explanation": "Protozoa are unicellular organisms that use flagella and cilia as locomotory organelles. Examples include Trypanosoma (flagellate) and Paramecium (ciliate). Flatworms move using cilia on their ventral surface but are not the primary group associated with both structures. Annelids use chaetae/setae, coelenterates use tentacles, and nematodes move by muscular contractions.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "classification-of-living-things",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 3,
+    "questionText": "Which of the following is seed bearing?",
+    "options": {
+      "A": "Mosses",
+      "B": "Whistling pine",
+      "C": "Algal filaments",
+      "D": "Liverwort",
+      "E": "Fern fronds"
+    },
+    "correctAnswer": "B",
+    "explanation": "Whistling pine (Casuarina) is a spermatophyte (seed-bearing plant) belonging to the gymnosperms/angiosperms. Mosses and liverworts are bryophytes that reproduce by spores, algae reproduce by fragmentation or spores, and ferns are pteridophytes that reproduce by spores found in sori on the underside of fronds. Only seed plants (gymnosperms and angiosperms) produce seeds.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "classification-of-living-things",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 4,
+    "questionText": "Each of the following is an arthropod EXCEPT the",
+    "options": {
+      "A": "crab",
+      "B": "spider",
+      "C": "snail",
+      "D": "millipede",
+      "E": "cockroach"
+    },
+    "correctAnswer": "C",
+    "explanation": "A snail belongs to the phylum Mollusca, not Arthropoda. Snails have a soft body, a muscular foot, and a shell, which are characteristics of molluscs. Crabs (Crustacea), spiders (Arachnida), millipedes (Myriapoda), and cockroaches (Insecta) are all arthropods characterised by jointed appendages, an exoskeleton made of chitin, and segmented bodies.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nervous-system-and-sense-organs",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 5,
+    "questionText": "In fish, the sense organs which detect movements in the water are located within the",
+    "options": {
+      "A": "gills",
+      "B": "operculum",
+      "C": "nostrils",
+      "D": "median fins",
+      "E": "lateral line"
+    },
+    "correctAnswer": "E",
+    "explanation": "The lateral line system in fish is a sensory organ that runs along each side of the body from head to tail. It contains neuromast cells (mechanoreceptors) that detect vibrations, water currents, and pressure changes in the surrounding water. This helps fish detect predators, prey, and obstacles. The gills are for respiration, the operculum covers the gills, nostrils detect chemical stimuli, and fins are for locomotion.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-plants",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 6,
+    "questionText": "Euglena is an autotrophic organism because it",
+    "options": {
+      "A": "has flagella",
+      "B": "has plant and animal features",
+      "C": "is found in water",
+      "D": "can manufacture its food",
+      "E": "moves fast"
+    },
+    "correctAnswer": "D",
+    "explanation": "An autotrophic organism is one that can manufacture its own food from simple inorganic substances. Euglena contains chloroplasts with chlorophyll, enabling it to carry out photosynthesis and produce its own food from carbon dioxide and water in the presence of sunlight. Having flagella relates to locomotion, having dual features makes it a protist, its habitat is irrelevant to its nutrition mode, and speed of movement has nothing to do with autotrophy.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "classification-of-living-things",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 7,
+    "questionText": "Which of the following is NOT true of Mucor? It",
+    "options": {
+      "A": "contains chlorophyll",
+      "B": "grows saprophytically",
+      "C": "bears spores in sporangium",
+      "D": "consists of hyphae",
+      "E": "reproduces by conjugation"
+    },
+    "correctAnswer": "A",
+    "explanation": "Mucor is a saprophytic fungus that does NOT contain chlorophyll. Since it lacks chlorophyll, it cannot carry out photosynthesis and must obtain nutrients by decomposing dead organic matter (saprophytic nutrition). Mucor does grow saprophytically on decaying organic matter, produces asexual spores in a sporangium, has a body made up of thread-like hyphae forming a mycelium, and can reproduce sexually by conjugation.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "classification-of-living-things",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 8,
+    "questionText": "Bryophytes are different from flowering plants because they",
+    "options": {
+      "A": "live in moist habitats",
+      "B": "are small plants",
+      "C": "reproduce sexually and asexually",
+      "D": "have small leaves",
+      "E": "have no vascular tissues"
+    },
+    "correctAnswer": "E",
+    "explanation": "The key distinguishing feature of bryophytes (mosses, liverworts, hornworts) from flowering plants is the absence of vascular tissues (xylem and phloem). This is why bryophytes are classified as non-vascular plants. While bryophytes do tend to live in moist habitats and are generally small, these are not the defining taxonomic differences. Both bryophytes and flowering plants can reproduce sexually and asexually, and leaf size alone is not a distinguishing characteristic.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "respiration",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 9,
+    "questionText": "At what stage in the life history of a toad is its mode of breathing similar to that of a fish?",
+    "options": {
+      "A": "Tadpole stage",
+      "B": "External gills stage",
+      "C": "Adult stage",
+      "D": "Internal gill stage",
+      "E": "Larval stage"
+    },
+    "correctAnswer": "D",
+    "explanation": "During the internal gill stage of the tadpole, breathing is most similar to that of a fish. At this stage, the external gills become covered by a fold of skin (the operculum), forming internal gills through which water flows, just as in fish. Fish breathe through internal gills covered by opercula where water passes over the gill filaments for gaseous exchange. The external gill stage is different from fish breathing because fish gills are internal, not external.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "classification-of-living-things",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 10,
+    "questionText": "In lower plants like mosses, the structure which performs the functions of roots of higher plants is called",
+    "options": {
+      "A": "root hairs",
+      "B": "rootlets",
+      "C": "hyphae",
+      "D": "rhizoids",
+      "E": "thalli"
+    },
+    "correctAnswer": "D",
+    "explanation": "Rhizoids are simple, root-like structures found in mosses and other bryophytes that anchor the plant to the substrate and absorb water and mineral salts, performing functions similar to roots in higher plants. Unlike true roots, rhizoids lack vascular tissue. Root hairs are found on true roots of higher plants, rootlets are small roots, hyphae are the filamentous structures of fungi, and thallus refers to the undifferentiated body of lower plants like liverworts.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-plants",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 11,
+    "questionText": "In an angiosperm leaf, the xylem is",
+    "options": {
+      "A": "beside the phloem",
+      "B": "surrounded by the phloem",
+      "C": "above the phloem",
+      "D": "around the phloem",
+      "E": "in separate bundles from the phloem"
+    },
+    "correctAnswer": "C",
+    "explanation": "In the vascular bundles of an angiosperm leaf, the xylem is positioned on the upper (adaxial) side while the phloem is on the lower (abaxial) side. This means the xylem is above the phloem in the leaf veins. This arrangement ensures efficient transport: xylem brings water and mineral salts from the roots upward, while phloem translocates manufactured food (sugars) from the leaf to other parts of the plant.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 12,
+    "questionText": "A group of similar cells performing the same function is",
+    "options": {
+      "A": "an organ",
+      "B": "a system",
+      "C": "a tissue",
+      "D": "an organelle",
+      "E": "an enzyme"
+    },
+    "correctAnswer": "C",
+    "explanation": "A tissue is defined as a group of similar cells that are specialised to perform the same function. Examples include epithelial tissue, muscle tissue, and nervous tissue. An organ is made up of different tissues working together, a system is a group of organs, an organelle is a structure within a cell (e.g., mitochondria), and an enzyme is a biological catalyst (a protein that speeds up chemical reactions).",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 13,
+    "questionText": "Which of the following is common to a dicotyledonous stem and a monocotyledonous root?",
+    "options": {
+      "A": "Medullary rays",
+      "B": "Central pith",
+      "C": "Wide cortex",
+      "D": "Narrow cortex",
+      "E": "Pericyclic fibres"
+    },
+    "correctAnswer": "E",
+    "explanation": "Pericyclic fibres are found in both the dicotyledonous stem and the monocotyledonous root. The pericycle is a layer of cells found just inside the endodermis in both structures. Medullary rays are characteristic of dicot stems but not monocot roots. Central pith is found in dicot stems but monocot roots typically have a solid central core of xylem. Wide cortex is typical of monocot roots, while dicot stems have a narrow cortex.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 14,
+    "questionText": "Which of the following represents the correct sequence of protein hydrolysis?\n1. Polypeptides  2. Amino acids  3. Proteins  4. Peptones",
+    "options": {
+      "A": "3 -> 1 -> 2 -> 4",
+      "B": "3 -> 2 -> 4 -> 1",
+      "C": "3 -> 4 -> 2 -> 1",
+      "D": "3 -> 4 -> 1 -> 2",
+      "E": "3 -> 1 -> 4 -> 2"
+    },
+    "correctAnswer": "D",
+    "explanation": "The correct sequence of protein hydrolysis (digestion) is: Proteins -> Peptones -> Polypeptides -> Amino acids (3 -> 4 -> 1 -> 2). Pepsin in the stomach first breaks proteins down into peptones. Peptones are further broken down into polypeptides by trypsin in the small intestine. Finally, erepsin (peptidases) breaks polypeptides into individual amino acids which can be absorbed into the bloodstream.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 15,
+    "questionText": "A food substance which produces red colouration with Sudan III contains",
+    "options": {
+      "A": "protein",
+      "B": "sugar",
+      "C": "starch",
+      "D": "cellulose",
+      "E": "fat"
+    },
+    "correctAnswer": "E",
+    "explanation": "Sudan III is a fat-soluble dye used as a standard food test for lipids (fats and oils). When Sudan III is added to a food sample containing fat, it produces a red or reddish-orange colouration, confirming the presence of lipids. Proteins are tested using Biuret reagent (purple colour), sugars with Benedict's solution (brick-red precipitate for reducing sugars), and starch with iodine solution (blue-black colour).",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 16,
+    "questionText": "If calcium is deficient in food this may cause",
+    "options": {
+      "A": "anaemia",
+      "B": "retarded growth",
+      "C": "sterility",
+      "D": "goitre",
+      "E": "beri-beri"
+    },
+    "correctAnswer": "B",
+    "explanation": "Calcium deficiency in the diet leads to retarded growth, especially in children, as calcium is essential for the formation and development of strong bones and teeth. In severe cases, it can cause rickets in children and osteoporosis in adults. Anaemia is caused by iron deficiency, sterility can result from deficiency of certain vitamins, goitre is caused by iodine deficiency, and beri-beri is caused by vitamin B1 (thiamine) deficiency.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 17,
+    "questionText": "Partially digested food ready to leave the stomach is referred to as",
+    "options": {
+      "A": "chyme",
+      "B": "curd",
+      "C": "glycogen",
+      "D": "paste",
+      "E": "roughage"
+    },
+    "correctAnswer": "A",
+    "explanation": "Chyme is the semi-fluid, partially digested food that forms in the stomach after mechanical churning and chemical digestion by gastric juice (containing pepsin and hydrochloric acid). Chyme passes through the pyloric sphincter into the duodenum for further digestion. Curd is coagulated milk protein, glycogen is a storage form of glucose in the liver and muscles, paste is not a biological term, and roughage refers to dietary fibre.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 18,
+    "questionText": "The function of lymph nodes is to",
+    "options": {
+      "A": "supply oxygen",
+      "B": "filter out bacteria",
+      "C": "form red blood cells",
+      "D": "supply amino acids",
+      "E": "supply simple sugars"
+    },
+    "correctAnswer": "B",
+    "explanation": "Lymph nodes are small, bean-shaped structures located along the lymphatic vessels. Their primary function is to filter lymph and remove bacteria, viruses, and other foreign particles from the body. They contain lymphocytes (white blood cells) that help fight infection by producing antibodies and destroying pathogens. Oxygen is supplied by red blood cells, red blood cells are formed in the bone marrow, and amino acids and sugars are supplied through the blood plasma.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 19,
+    "questionText": "The vein which returns blood from the head and arms to the heart is called",
+    "options": {
+      "A": "aorta",
+      "B": "inferior vena cava",
+      "C": "superior vena cava",
+      "D": "pulmonary vein",
+      "E": "pulmonary artery"
+    },
+    "correctAnswer": "C",
+    "explanation": "The superior vena cava is the large vein that returns deoxygenated blood from the head, neck, upper limbs, and upper thorax to the right atrium of the heart. The inferior vena cava returns blood from the lower body. The aorta is the main artery carrying oxygenated blood away from the heart. The pulmonary vein carries oxygenated blood from the lungs to the left atrium, and the pulmonary artery carries deoxygenated blood from the heart to the lungs.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 20,
+    "questionText": "Blood platelets are important because they",
+    "options": {
+      "A": "are amoeboid and nucleated",
+      "B": "produce antitoxins",
+      "C": "produce antibodies",
+      "D": "digest harmful bacteria",
+      "E": "release thrombin for blood clotting"
+    },
+    "correctAnswer": "E",
+    "explanation": "Blood platelets (thrombocytes) are essential for blood clotting (haemostasis). When a blood vessel is injured, platelets aggregate at the wound site and release thromboplastin, which initiates a cascade leading to the conversion of prothrombin to thrombin. Thrombin then converts fibrinogen to fibrin, forming a mesh that traps blood cells and creates a clot. Platelets are not nucleated in mammals, antitoxins and antibodies are produced by white blood cells, and bacteria are digested by phagocytic white blood cells.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 21,
+    "questionText": "If a child can receive blood from all donors, he belongs to the blood group",
+    "options": {
+      "A": "O",
+      "B": "A",
+      "C": "B",
+      "D": "AB",
+      "E": "AS"
+    },
+    "correctAnswer": "D",
+    "explanation": "Blood group AB is known as the universal recipient because individuals with this blood group have both A and B antigens on their red blood cells and no anti-A or anti-B antibodies in their plasma. Therefore, they can receive blood from donors of all blood groups (A, B, AB, and O) without agglutination occurring. Blood group O is the universal donor because it has no A or B antigens. Groups A and B can only receive from compatible donors.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "respiration",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 22,
+    "questionText": "Which of the following events does NOT occur during anaerobic respiration of glucose?",
+    "options": {
+      "A": "Muscle cells produce lactic acid",
+      "B": "Carbon dioxide is produced",
+      "C": "Milk bacteria produce lactic acid",
+      "D": "Energy is not produced",
+      "E": "Germinating seeds produce alcohol"
+    },
+    "correctAnswer": "D",
+    "explanation": "The statement 'Energy is not produced' is false for anaerobic respiration. Anaerobic respiration does produce energy (ATP), although much less than aerobic respiration (2 ATP vs 38 ATP per glucose molecule). All other options are valid events: muscle cells produce lactic acid during vigorous exercise, yeast and germinating seeds produce ethanol (alcohol) and CO2 during fermentation, and lactic acid bacteria (Lactobacillus) produce lactic acid during milk fermentation.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "respiration",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 23,
+    "questionText": "Identify which of the following are characteristics of the vertebrate respiratory surface:\n1. Moist  2. Vascularized  3. Semipermeable  4. Freely permeable  5. Dry",
+    "options": {
+      "A": "1, 2, 3",
+      "B": "1, 2, 5",
+      "C": "2, 3, 5",
+      "D": "2, 4, 5",
+      "E": "1, 3, 5"
+    },
+    "correctAnswer": "A",
+    "explanation": "The vertebrate respiratory surface must have three key characteristics: it must be moist (to allow gases to dissolve before diffusion), highly vascularized (rich blood supply to maintain a concentration gradient for efficient gas exchange), and semipermeable (to allow selective passage of respiratory gases - oxygen and carbon dioxide). A dry surface would prevent gas dissolution, and a freely permeable surface would allow unrestricted passage of all substances, which is not desirable.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "excretion",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 24,
+    "questionText": "In mammals, the function of the sebaceous gland is to",
+    "options": {
+      "A": "produce sweat",
+      "B": "secrete sodium",
+      "C": "secrete water",
+      "D": "produce an oily substance",
+      "E": "manufacture vitamin D for the skin"
+    },
+    "correctAnswer": "D",
+    "explanation": "The sebaceous glands in mammalian skin produce sebum, an oily substance that lubricates and waterproofs the skin and hair, preventing them from drying out and cracking. Sebum also has mild antimicrobial properties. Sweat is produced by the sweat glands (sudoriferous glands), not sebaceous glands. Sodium and water are excreted through sweat glands. Vitamin D synthesis in the skin requires ultraviolet light acting on a precursor in the epidermis, not the sebaceous gland.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "homeostasis-and-coordination",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 25,
+    "questionText": "Which of the following organs regulates the amount of amino acids and glucose in the body?",
+    "options": {
+      "A": "Kidney",
+      "B": "Liver",
+      "C": "Pancreas",
+      "D": "Spleen",
+      "E": "Stomach"
+    },
+    "correctAnswer": "B",
+    "explanation": "The liver is the organ responsible for regulating amino acid and glucose levels in the body. It converts excess glucose to glycogen for storage (glycogenesis) and can break glycogen back to glucose when needed (glycogenolysis). The liver also deaminates excess amino acids, removing the amino group to form urea (which is excreted by the kidneys) and converting the remaining carbon skeleton for energy production. The kidney filters blood and excretes waste, the pancreas produces insulin and digestive enzymes, and the spleen destroys old red blood cells.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nervous-system-and-sense-organs",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 26,
+    "questionText": "Movements and positions of the head in man are detected by the",
+    "options": {
+      "A": "cochlea",
+      "B": "malleus",
+      "C": "utriculus",
+      "D": "semicircular canals",
+      "E": "outer ear"
+    },
+    "correctAnswer": "D",
+    "explanation": "The semicircular canals are three fluid-filled, loop-shaped structures in the inner ear that detect rotational movements and changes in the position of the head. They are oriented in three different planes (horizontal, anterior, and posterior) and contain sensory hair cells that detect the movement of endolymph fluid when the head rotates. The cochlea is responsible for hearing, the malleus is one of the ear ossicles that transmits sound vibrations, the utriculus detects linear acceleration and gravity, and the outer ear collects sound waves.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "skeletal-and-muscular-systems",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 27,
+    "questionText": "The appendicular skeleton is made up of the",
+    "options": {
+      "A": "limbs",
+      "B": "skull and limbs",
+      "C": "phalanges",
+      "D": "ulna and radius",
+      "E": "girdles and limbs"
+    },
+    "correctAnswer": "E",
+    "explanation": "The appendicular skeleton consists of the limb bones and the girdles (pectoral and pelvic girdles) that attach the limbs to the axial skeleton. The pectoral girdle includes the scapula and clavicle, while the pelvic girdle includes the ilium, ischium, and pubis. The limbs include all upper limb bones (humerus, radius, ulna, carpals, metacarpals, phalanges) and lower limb bones (femur, tibia, fibula, tarsals, metatarsals, phalanges). The skull is part of the axial skeleton, not the appendicular skeleton.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-plants",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 28,
+    "questionText": "The maize grain is a fruit and not a seed because it",
+    "options": {
+      "A": "has a large endosperm",
+      "B": "is formed from an ovary",
+      "C": "is a monocotyledon",
+      "D": "has no plumule and radicle",
+      "E": "has a hypogeal germination"
+    },
+    "correctAnswer": "B",
+    "explanation": "The maize grain (caryopsis) is classified as a fruit, not just a seed, because it is formed from the entire ovary wall (pericarp) which is fused with the seed coat (testa). In a true fruit, the ovary wall develops into the fruit wall after fertilisation. In maize, the pericarp and testa are so closely fused that they cannot be separated, making the entire structure a fruit containing a single seed. Having a large endosperm, being a monocotyledon, or the type of germination does not determine whether a structure is a fruit or seed.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-plants",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 29,
+    "questionText": "If a flower is protandrous then it",
+    "options": {
+      "A": "must be unisexual",
+      "B": "has an undeveloped androecium",
+      "C": "has no androecium",
+      "D": "must be insect pollinated",
+      "E": "can prevent self-pollination"
+    },
+    "correctAnswer": "E",
+    "explanation": "A protandrous flower is one in which the stamens (male parts) mature and release pollen before the pistil (female part) of the same flower becomes receptive. This temporal separation of male and female maturity is a mechanism that prevents self-pollination and promotes cross-pollination, thus increasing genetic variation. Protandrous flowers are bisexual (not unisexual) since they have both male and female parts. They do have a developed androecium, and they can be pollinated by wind or insects.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-plants",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 30,
+    "questionText": "For pollen to be released in Crotalaria, the insect must depress the",
+    "options": {
+      "A": "wing",
+      "B": "keel",
+      "C": "standard",
+      "D": "antepetalous stamen",
+      "E": "antesepalous stamen"
+    },
+    "correctAnswer": "B",
+    "explanation": "In Crotalaria (a leguminous plant with a papilionaceous flower), the stamens and pistil are enclosed within the keel petals. When a visiting insect lands on the flower and depresses the keel, the stamens are exposed and pollen is released onto the insect's body. This is an explosive pollination mechanism characteristic of many legumes. The standard is the large upper petal that serves as a flag to attract insects, and the wings are lateral petals that provide a landing platform.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-plants",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 31,
+    "questionText": "Irish potato is a",
+    "options": {
+      "A": "bulb",
+      "B": "taproot",
+      "C": "rhizome",
+      "D": "root tuber",
+      "E": "stem tuber"
+    },
+    "correctAnswer": "E",
+    "explanation": "The Irish potato (Solanum tuberosum) is a stem tuber, which is a swollen underground stem that stores food (mainly starch). It can be identified as a stem because it has nodes (eyes) from which new shoots and roots can grow, internodes, scale leaves, and axillary buds. A bulb (e.g., onion) has fleshy scale leaves, a taproot is a main root, a rhizome (e.g., ginger) is a horizontal underground stem, and a root tuber (e.g., sweet potato) is a swollen root without nodes or buds.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 32,
+    "questionText": "The characters by which an organism is recognized are termed its",
+    "options": {
+      "A": "phenotype",
+      "B": "genotype",
+      "C": "morphology",
+      "D": "anatomy",
+      "E": "physiology"
+    },
+    "correctAnswer": "A",
+    "explanation": "The phenotype of an organism refers to its observable physical characteristics or traits by which it can be recognized, such as height, skin colour, eye colour, and blood group. The phenotype results from the interaction between the genotype (genetic makeup) and the environment. The genotype is the genetic constitution of an organism, morphology is the study of form and structure, anatomy is the study of internal structures, and physiology is the study of how organs function.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 33,
+    "questionText": "The hereditary material in a cell is known as",
+    "options": {
+      "A": "ADP",
+      "B": "CNS",
+      "C": "RNA",
+      "D": "ATP",
+      "E": "DNA"
+    },
+    "correctAnswer": "E",
+    "explanation": "DNA (Deoxyribonucleic Acid) is the hereditary material found in the nucleus of cells. It carries the genetic information that determines the characteristics of an organism and is passed from parents to offspring during reproduction. DNA is a double-stranded helical molecule made up of nucleotides. ADP (Adenosine Diphosphate) and ATP (Adenosine Triphosphate) are involved in energy transfer, CNS stands for Central Nervous System, and RNA (Ribonucleic Acid) is involved in protein synthesis but is not the primary hereditary material.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-plants",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 34,
+    "questionText": "A young plant showing yellow leaves is likely to be deficient in",
+    "options": {
+      "A": "calcium",
+      "B": "magnesium",
+      "C": "potassium",
+      "D": "boron",
+      "E": "molybdenum"
+    },
+    "correctAnswer": "B",
+    "explanation": "Magnesium deficiency causes yellowing of leaves (chlorosis) because magnesium is a central component of the chlorophyll molecule. Without sufficient magnesium, the plant cannot produce adequate chlorophyll, leading to a loss of green colour and the leaves turning yellow, especially in older leaves first. Calcium deficiency causes stunted root growth and distorted new leaves, potassium deficiency causes brown leaf edges, boron deficiency affects growing tips, and molybdenum deficiency affects nitrogen metabolism.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "growth-and-development",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 35,
+    "questionText": "Germination which results in the cotyledons being brought above the ground is called",
+    "options": {
+      "A": "hypocotyl",
+      "B": "epicotyl",
+      "C": "epigeal",
+      "D": "hypogeal",
+      "E": "plumule"
+    },
+    "correctAnswer": "C",
+    "explanation": "Epigeal germination is the type of seed germination in which the cotyledons are brought above the soil surface. This occurs because the hypocotyl elongates rapidly, forming an arch that pulls the cotyledons above ground, where they may become photosynthetic temporarily. Examples include beans and groundnuts. In contrast, hypogeal germination (e.g., maize) keeps the cotyledons below the soil surface. Hypocotyl and epicotyl are parts of the seedling axis, and plumule is the embryonic shoot.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "endocrine-system",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 36,
+    "questionText": "The mammalian endocrine system is responsible for",
+    "options": {
+      "A": "transmitting impulses",
+      "B": "regulating body temperature",
+      "C": "regulating osmotic pressure of blood",
+      "D": "chemical co-ordination",
+      "E": "the manufacture of blood"
+    },
+    "correctAnswer": "D",
+    "explanation": "The endocrine system is responsible for chemical co-ordination of body functions through the secretion of hormones directly into the bloodstream. Hormones act as chemical messengers that regulate various body processes such as growth, metabolism, reproduction, and homeostasis. Transmitting impulses is the function of the nervous system. While hormones may be involved in temperature regulation and osmotic pressure control, the primary function of the endocrine system as a whole is chemical co-ordination. Blood manufacture occurs in the bone marrow.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nervous-system-and-sense-organs",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 37,
+    "questionText": "An old man is likely to be long-sighted because age affects the",
+    "options": {
+      "A": "optic nerves",
+      "B": "retina",
+      "C": "ciliary muscles",
+      "D": "cornea",
+      "E": "aqueous humour"
+    },
+    "correctAnswer": "C",
+    "explanation": "Long-sightedness (hypermetropia or presbyopia) in old age occurs because the ciliary muscles lose their elasticity with age, reducing their ability to contract and change the shape of the lens for focusing on near objects. This condition, called presbyopia, makes it difficult to focus on close objects because the lens cannot become sufficiently convex. The optic nerve transmits visual signals to the brain, the retina contains photoreceptors, the cornea refracts light, and the aqueous humour maintains eye pressure.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nervous-system-and-sense-organs",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 38,
+    "questionText": "In a mammal, stimulus is transferred from the receptor to the central nervous system through the",
+    "options": {
+      "A": "motor neurons",
+      "B": "effector muscles",
+      "C": "dendrites",
+      "D": "sensory neurons",
+      "E": "synapses"
+    },
+    "correctAnswer": "D",
+    "explanation": "Sensory neurons (afferent neurons) transmit nerve impulses from receptors (sense organs) to the central nervous system (brain and spinal cord). The pathway is: stimulus -> receptor -> sensory neuron -> CNS -> motor neuron -> effector (muscle or gland). Motor neurons (efferent neurons) carry impulses from the CNS to the effectors. Dendrites are parts of a neuron that receive impulses, effector muscles carry out responses, and synapses are junctions between neurons.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 39,
+    "questionText": "A relationship between living organisms which is of mutual benefit is",
+    "options": {
+      "A": "parasitism",
+      "B": "saprophytism",
+      "C": "ecosystem",
+      "D": "symbiosis",
+      "E": "commensalism"
+    },
+    "correctAnswer": "D",
+    "explanation": "Symbiosis (mutualism) is an ecological relationship between two different organisms in which both partners benefit from the association. Examples include nitrogen-fixing bacteria (Rhizobium) in the root nodules of legumes (bacteria get food, plant gets nitrogen), and lichens (algae provide food through photosynthesis, fungi provide shelter and moisture). Parasitism benefits one organism at the expense of the other, saprophytism involves feeding on dead matter, an ecosystem is a community and its environment, and commensalism benefits one organism while the other is unaffected.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 40,
+    "questionText": "Which of the following food chains is in the correct sequence?",
+    "options": {
+      "A": "Weeds -> Tadpoles -> Beetles -> Fish -> Man",
+      "B": "Weeds -> Tadpoles -> Fish -> Beetles -> Man",
+      "C": "Tadpoles -> Beetles -> Weeds -> Man -> Fish",
+      "D": "Man -> Fish -> Beetles -> Tadpoles -> Weeds",
+      "E": "Fish -> Beetles -> Tadpoles -> Weeds -> Tadpoles"
+    },
+    "correctAnswer": "A",
+    "explanation": "A food chain shows the transfer of energy from one trophic level to the next, starting with a producer. The correct sequence is: Weeds (producer/autotroph) -> Tadpoles (primary consumer/herbivore that feeds on weeds) -> Beetles (secondary consumer that feeds on tadpoles) -> Fish (tertiary consumer that feeds on beetles) -> Man (quaternary consumer/top predator). Energy flows from producers to consumers in a unidirectional manner. The other options either start with consumers or have incorrect predator-prey relationships.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "microorganisms-and-disease",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 41,
+    "questionText": "The primary and secondary hosts respectively of bilharzia are",
+    "options": {
+      "A": "fish and man",
+      "B": "man and dog",
+      "C": "snail and man",
+      "D": "man and snail",
+      "E": "fish and snail"
+    },
+    "correctAnswer": "D",
+    "explanation": "In the life cycle of the bilharzia parasite (Schistosoma), man is the primary (definitive) host where the adult worms live in the blood vessels and reproduce sexually. The snail is the secondary (intermediate) host where the larval stages (miracidium to cercaria) undergo asexual development. The life cycle involves: eggs released in human urine/faeces -> miracidia hatch in water -> penetrate snail -> develop into cercariae -> cercariae leave snail -> penetrate human skin -> develop into adult worms in blood vessels.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "microorganisms-and-disease",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 42,
+    "questionText": "Which of the following is NOT caused by bacteria?",
+    "options": {
+      "A": "Cholera",
+      "B": "Gonorrhoea",
+      "C": "Tuberculosis",
+      "D": "Onchocerciasis",
+      "E": "Typhoid"
+    },
+    "correctAnswer": "D",
+    "explanation": "Onchocerciasis (river blindness) is NOT caused by bacteria; it is caused by a parasitic filarial worm called Onchocerca volvulus, which is transmitted by the bite of blackflies (Simulium species). All the other diseases are caused by bacteria: Cholera by Vibrio cholerae, Gonorrhoea by Neisseria gonorrhoeae, Tuberculosis by Mycobacterium tuberculosis, and Typhoid fever by Salmonella typhi.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "microorganisms-and-disease",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 43,
+    "questionText": "Tsetse fly is harmful to man because it is associated with the spread of",
+    "options": {
+      "A": "river blindness",
+      "B": "malaria",
+      "C": "sleeping sickness",
+      "D": "leprosy",
+      "E": "dysentery"
+    },
+    "correctAnswer": "C",
+    "explanation": "The tsetse fly (Glossina species) is the vector that transmits the protozoan parasite Trypanosoma, which causes sleeping sickness (African trypanosomiasis) in humans. When an infected tsetse fly bites a person, it injects Trypanosoma into the bloodstream. The parasite eventually invades the central nervous system, causing lethargy, confusion, and sleep disturbances. River blindness is spread by blackflies, malaria by female Anopheles mosquitoes, leprosy by direct contact with Mycobacterium leprae, and dysentery by contaminated food and water.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 44,
+    "questionText": "Soil erosion CANNOT be controlled by",
+    "options": {
+      "A": "planting cover crops",
+      "B": "contouring of sloping ground",
+      "C": "terracing of slopes",
+      "D": "laying of mulch",
+      "E": "burning of bush"
+    },
+    "correctAnswer": "E",
+    "explanation": "Bush burning does NOT control soil erosion; instead, it promotes and worsens erosion. Burning destroys the vegetation cover that protects the soil from the direct impact of rain and wind, leaving the soil bare and vulnerable to erosion. All other options are effective erosion control methods: cover crops protect the soil surface, contour ploughing slows water runoff on slopes, terracing creates steps that reduce the speed and volume of water flowing downhill, and mulching covers the soil to reduce water impact and evaporation.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 45,
+    "questionText": "Water retention is highest in soils which are rich in",
+    "options": {
+      "A": "sand, poor in humus and devoid of clay",
+      "B": "clay and sand, but poor in humus",
+      "C": "clay and humus, but poor in sand",
+      "D": "clay, poor in humus and devoid of sand",
+      "E": "sand and humus, but poor in clay"
+    },
+    "correctAnswer": "C",
+    "explanation": "Water retention is highest in soils rich in both clay and humus but poor in sand. Clay particles are very fine with small pore spaces between them, which hold water tightly by capillary action. Humus (decomposed organic matter) acts like a sponge, absorbing and retaining large amounts of water. Sand has large particles with large pore spaces that allow water to drain through quickly, so a soil poor in sand would retain more water. The combination of clay and humus maximises water-holding capacity.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 46,
+    "questionText": "The origin of mineral particles in the soil is",
+    "options": {
+      "A": "humus",
+      "B": "water",
+      "C": "micro-organisms",
+      "D": "weathered rock",
+      "E": "organic matter"
+    },
+    "correctAnswer": "D",
+    "explanation": "Mineral particles in the soil originate from the weathering (breakdown) of parent rock material. Weathering can be physical (due to temperature changes, frost action, wind, and water), chemical (due to reactions with water, oxygen, and acids), or biological (due to the activities of plant roots and burrowing organisms). Over time, rocks are broken down into increasingly smaller particles: boulders -> gravel -> sand -> silt -> clay, which form the mineral component of soil. Humus and organic matter come from decomposed plant and animal remains, not from rock.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 47,
+    "questionText": "Atmospheric nitrogen is directly replenished in nature through",
+    "options": {
+      "A": "the activities of denitrifying bacteria",
+      "B": "the breakdown of ammonium salts in the soil",
+      "C": "the activities of nitrifying bacteria",
+      "D": "the activities of nitrogen-fixing bacteria in root nodules",
+      "E": "egestion, death and decay"
+    },
+    "correctAnswer": "A",
+    "explanation": "Denitrifying bacteria (such as Pseudomonas and Thiobacillus denitrificans) are responsible for directly replenishing atmospheric nitrogen. They convert nitrates (NO3-) in the soil back into free nitrogen gas (N2), which is released into the atmosphere. This process is called denitrification. Nitrogen-fixing bacteria do the opposite: they remove nitrogen from the atmosphere and convert it into ammonium compounds in the soil. Nitrifying bacteria convert ammonium salts to nitrites and nitrates in the soil. Death and decay release nitrogen as ammonium compounds, not as atmospheric nitrogen.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1985,
+    "questionNumber": 48,
+    "questionText": "The initial volume of water poured into a bag of dry soil was 50ml and the amount that drained through was 35ml. The percentage of water retained by the soil is therefore",
+    "options": {
+      "A": "46.7",
+      "B": "25.0",
+      "C": "20.0",
+      "D": "30.0",
+      "E": "58.3"
+    },
+    "correctAnswer": "D",
+    "explanation": "The percentage of water retained by the soil is calculated as follows: Water retained = Volume poured in - Volume drained out = 50ml - 35ml = 15ml. Percentage water retained = (Volume of water retained / Total volume of water added) x 100 = (15/50) x 100 = 30.0%. This means the soil absorbed and held 30% of the water that was poured through it, while 70% drained through due to gravity.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  }
+]

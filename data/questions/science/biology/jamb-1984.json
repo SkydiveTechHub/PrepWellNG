@@ -1,0 +1,1202 @@
+[
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 1,
+    "questionText": "The basic unit of life is the",
+    "options": {
+      "A": "tissue",
+      "B": "organ",
+      "C": "cell",
+      "D": "system",
+      "E": "organism"
+    },
+    "correctAnswer": "C",
+    "explanation": "The cell is the basic structural and functional unit of life. All living organisms are made up of one or more cells. The cell theory, proposed by Schleiden and Schwann, states that all living things are composed of cells, which are the fundamental units of life.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 2,
+    "questionText": "Which of the following structures is found in plant cells but not in animal cells?",
+    "options": {
+      "A": "Mitochondria",
+      "B": "Cell wall",
+      "C": "Ribosomes",
+      "D": "Cell membrane",
+      "E": "Nucleus"
+    },
+    "correctAnswer": "B",
+    "explanation": "The cell wall is a rigid structure made of cellulose that is found in plant cells but absent in animal cells. It provides structural support, protection, and gives plant cells their characteristic rectangular shape. Mitochondria, ribosomes, cell membrane, and nucleus are found in both plant and animal cells.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 3,
+    "questionText": "The process by which water molecules move from a region of lower solute concentration to a region of higher solute concentration through a semi-permeable membrane is called",
+    "options": {
+      "A": "diffusion",
+      "B": "osmosis",
+      "C": "plasmolysis",
+      "D": "active transport",
+      "E": "pinocytosis"
+    },
+    "correctAnswer": "B",
+    "explanation": "Osmosis is the movement of water molecules from a region of lower solute concentration (higher water potential) to a region of higher solute concentration (lower water potential) through a semi-permeable membrane. This is a special type of diffusion that involves only water molecules moving across a selectively permeable membrane.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 4,
+    "questionText": "The movement of molecules from a region of high concentration to a region of low concentration without the expenditure of energy is known as",
+    "options": {
+      "A": "osmosis",
+      "B": "active transport",
+      "C": "diffusion",
+      "D": "endocytosis",
+      "E": "exocytosis"
+    },
+    "correctAnswer": "C",
+    "explanation": "Diffusion is the passive movement of molecules from a region of high concentration to a region of low concentration along a concentration gradient. It does not require the expenditure of metabolic energy (ATP). Active transport, on the other hand, moves molecules against the concentration gradient and requires energy.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-division",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 5,
+    "questionText": "The type of cell division that results in the formation of four haploid daughter cells is",
+    "options": {
+      "A": "mitosis",
+      "B": "meiosis",
+      "C": "amitosis",
+      "D": "binary fission",
+      "E": "budding"
+    },
+    "correctAnswer": "B",
+    "explanation": "Meiosis is the type of cell division that produces four haploid daughter cells from a single diploid parent cell. It involves two successive divisions (meiosis I and meiosis II) and is essential for the production of gametes (sex cells). Mitosis, in contrast, produces two identical diploid daughter cells.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-division",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 6,
+    "questionText": "Crossing over during meiosis occurs in the",
+    "options": {
+      "A": "prophase I",
+      "B": "metaphase I",
+      "C": "anaphase I",
+      "D": "telophase I",
+      "E": "prophase II"
+    },
+    "correctAnswer": "A",
+    "explanation": "Crossing over occurs during prophase I of meiosis, specifically during the pachytene stage. Homologous chromosomes pair up to form bivalents, and non-sister chromatids exchange segments of genetic material at points called chiasmata. This process increases genetic variation in the offspring.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-plants",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 7,
+    "questionText": "The green pigment in plants that absorbs light energy for photosynthesis is",
+    "options": {
+      "A": "haemoglobin",
+      "B": "xanthophyll",
+      "C": "chlorophyll",
+      "D": "carotene",
+      "E": "anthocyanin"
+    },
+    "correctAnswer": "C",
+    "explanation": "Chlorophyll is the green pigment found in the chloroplasts of plant cells that absorbs light energy, primarily in the red and blue wavelengths, for photosynthesis. It reflects green light, which is why plants appear green. While xanthophyll and carotene are also plant pigments, chlorophyll is the primary pigment for photosynthesis.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-plants",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 8,
+    "questionText": "The raw materials required for photosynthesis are",
+    "options": {
+      "A": "oxygen and glucose",
+      "B": "carbon dioxide and water",
+      "C": "oxygen and water",
+      "D": "carbon dioxide and glucose",
+      "E": "nitrogen and water"
+    },
+    "correctAnswer": "B",
+    "explanation": "The raw materials for photosynthesis are carbon dioxide (CO2) and water (H2O). In the presence of light energy and chlorophyll, these are converted into glucose (C6H12O6) and oxygen (O2). The balanced equation is: 6CO2 + 6H2O → C6H12O6 + 6O2.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-plants",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 9,
+    "questionText": "A plant which traps and digests insects to supplement its nitrogen supply is described as",
+    "options": {
+      "A": "a parasite",
+      "B": "a saprophyte",
+      "C": "an epiphyte",
+      "D": "an insectivorous plant",
+      "E": "a symbiont"
+    },
+    "correctAnswer": "D",
+    "explanation": "Insectivorous (carnivorous) plants such as the sundew (Drosera) and Venus flytrap trap and digest insects to obtain nitrogen and other minerals that are deficient in the poor soils where they grow. They are still autotrophic as they carry out photosynthesis, but supplement their mineral nutrition by digesting insects.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 10,
+    "questionText": "The enzyme responsible for the digestion of starch in the mouth is",
+    "options": {
+      "A": "pepsin",
+      "B": "trypsin",
+      "C": "ptyalin",
+      "D": "lipase",
+      "E": "maltase"
+    },
+    "correctAnswer": "C",
+    "explanation": "Ptyalin (salivary amylase) is the enzyme found in saliva that begins the digestion of starch in the mouth. It breaks down starch into maltose in the slightly alkaline conditions of the mouth. Pepsin works in the stomach on proteins, trypsin digests proteins in the duodenum, lipase acts on fats, and maltase converts maltose to glucose.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 11,
+    "questionText": "The end products of protein digestion are",
+    "options": {
+      "A": "fatty acids and glycerol",
+      "B": "amino acids",
+      "C": "glucose and fructose",
+      "D": "maltose",
+      "E": "peptides"
+    },
+    "correctAnswer": "B",
+    "explanation": "The end products of protein digestion are amino acids. Proteins are first broken down into polypeptides by pepsin in the stomach, then into shorter peptides by trypsin and chymotrypsin in the small intestine, and finally into individual amino acids by peptidases (erepsin). These amino acids are then absorbed into the bloodstream.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 12,
+    "questionText": "Bile is produced by the liver and stored in the",
+    "options": {
+      "A": "pancreas",
+      "B": "spleen",
+      "C": "gall bladder",
+      "D": "duodenum",
+      "E": "appendix"
+    },
+    "correctAnswer": "C",
+    "explanation": "Bile is produced by the liver cells (hepatocytes) and stored in the gall bladder. When fatty food enters the duodenum, the gall bladder contracts and releases bile through the bile duct into the duodenum. Bile contains bile salts that emulsify fats, breaking them into smaller droplets to increase the surface area for lipase action.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 13,
+    "questionText": "The deficiency of vitamin C in the diet causes",
+    "options": {
+      "A": "rickets",
+      "B": "beriberi",
+      "C": "scurvy",
+      "D": "pellagra",
+      "E": "night blindness"
+    },
+    "correctAnswer": "C",
+    "explanation": "Scurvy is caused by a deficiency of vitamin C (ascorbic acid). Symptoms include bleeding gums, loose teeth, poor wound healing, and general weakness. Rickets is caused by vitamin D deficiency, beriberi by vitamin B1 (thiamine) deficiency, pellagra by niacin (vitamin B3) deficiency, and night blindness by vitamin A deficiency.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-plants",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 14,
+    "questionText": "The tissue responsible for the transport of water and mineral salts from the roots to the leaves in plants is the",
+    "options": {
+      "A": "phloem",
+      "B": "xylem",
+      "C": "cambium",
+      "D": "cortex",
+      "E": "epidermis"
+    },
+    "correctAnswer": "B",
+    "explanation": "The xylem is the vascular tissue responsible for the transport of water and dissolved mineral salts from the roots upward to the stems and leaves. Xylem vessels are dead, hollow, lignified tubes that provide a continuous pathway for water movement by transpiration pull. The phloem, in contrast, transports manufactured food (sucrose) from the leaves to other parts of the plant.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-plants",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 15,
+    "questionText": "Transpiration is the loss of water vapour from plants mainly through the",
+    "options": {
+      "A": "lenticels",
+      "B": "cuticle",
+      "C": "stomata",
+      "D": "root hairs",
+      "E": "bark"
+    },
+    "correctAnswer": "C",
+    "explanation": "Transpiration is the loss of water vapour from the aerial parts of a plant, and it occurs mainly through the stomata on the leaf surfaces. Stomata are tiny pores surrounded by guard cells that regulate their opening and closing. While some transpiration occurs through the cuticle (cuticular transpiration) and lenticels (lenticular transpiration), stomatal transpiration accounts for about 90% of total water loss.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 16,
+    "questionText": "The component of blood responsible for transporting oxygen is",
+    "options": {
+      "A": "white blood cells",
+      "B": "platelets",
+      "C": "plasma",
+      "D": "red blood cells",
+      "E": "lymph"
+    },
+    "correctAnswer": "D",
+    "explanation": "Red blood cells (erythrocytes) are responsible for transporting oxygen from the lungs to the body tissues. They contain haemoglobin, an iron-containing protein that binds reversibly with oxygen to form oxyhaemoglobin. The biconcave disc shape of red blood cells increases their surface area for efficient gas exchange.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 17,
+    "questionText": "The blood vessel that carries deoxygenated blood from the heart to the lungs is the",
+    "options": {
+      "A": "aorta",
+      "B": "pulmonary artery",
+      "C": "pulmonary vein",
+      "D": "vena cava",
+      "E": "hepatic vein"
+    },
+    "correctAnswer": "B",
+    "explanation": "The pulmonary artery carries deoxygenated blood from the right ventricle of the heart to the lungs for oxygenation. It is the only artery in the body that carries deoxygenated blood. The pulmonary vein carries oxygenated blood back from the lungs to the left atrium of the heart, making it the only vein that carries oxygenated blood.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 18,
+    "questionText": "A person with blood group O can donate blood to persons of",
+    "options": {
+      "A": "blood group A only",
+      "B": "blood group B only",
+      "C": "blood group AB only",
+      "D": "blood group O only",
+      "E": "all blood groups"
+    },
+    "correctAnswer": "E",
+    "explanation": "A person with blood group O is called a universal donor because their red blood cells have no A or B antigens on their surface, so they can donate to all blood groups (A, B, AB, and O) without causing agglutination. However, a person with blood group O can only receive blood from another group O donor.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "respiration",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 19,
+    "questionText": "The process by which glucose is broken down in the absence of oxygen to produce ethanol and carbon dioxide is called",
+    "options": {
+      "A": "aerobic respiration",
+      "B": "anaerobic respiration",
+      "C": "photosynthesis",
+      "D": "decomposition",
+      "E": "oxidation"
+    },
+    "correctAnswer": "B",
+    "explanation": "Anaerobic respiration (fermentation) is the breakdown of glucose in the absence of oxygen. In yeast and plants, it produces ethanol (alcohol) and carbon dioxide. The equation is: C6H12O6 → 2C2H5OH + 2CO2 + energy (2ATP). In animals, anaerobic respiration produces lactic acid instead of ethanol.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "respiration",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 20,
+    "questionText": "The site of aerobic respiration in the cell is the",
+    "options": {
+      "A": "nucleus",
+      "B": "ribosome",
+      "C": "mitochondrion",
+      "D": "chloroplast",
+      "E": "endoplasmic reticulum"
+    },
+    "correctAnswer": "C",
+    "explanation": "The mitochondrion is the site of aerobic respiration in the cell. It is where the Krebs cycle and oxidative phosphorylation take place, producing the majority of ATP. The inner membrane of the mitochondrion is folded into cristae, which increase the surface area for the electron transport chain. Glycolysis, the first stage of respiration, occurs in the cytoplasm.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "excretion",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 21,
+    "questionText": "The functional unit of the kidney is the",
+    "options": {
+      "A": "glomerulus",
+      "B": "Bowman's capsule",
+      "C": "nephron",
+      "D": "loop of Henle",
+      "E": "collecting duct"
+    },
+    "correctAnswer": "C",
+    "explanation": "The nephron is the functional unit of the kidney. Each human kidney contains about one million nephrons. A nephron consists of the Bowman's capsule (which encloses the glomerulus), the proximal convoluted tubule, the loop of Henle, the distal convoluted tubule, and the collecting duct. Together, these structures filter blood and produce urine.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "excretion",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 22,
+    "questionText": "The main excretory product in mammals is",
+    "options": {
+      "A": "ammonia",
+      "B": "uric acid",
+      "C": "urea",
+      "D": "creatinine",
+      "E": "carbon dioxide"
+    },
+    "correctAnswer": "C",
+    "explanation": "The main nitrogenous excretory product in mammals is urea, which is produced in the liver from the deamination of excess amino acids. Urea is less toxic than ammonia and is soluble in water, making it suitable for excretion by the kidneys. Aquatic organisms excrete ammonia directly, while reptiles and birds excrete uric acid.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "excretion",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 23,
+    "questionText": "The organ of excretion in an earthworm is the",
+    "options": {
+      "A": "Malpighian tubule",
+      "B": "nephridium",
+      "C": "flame cell",
+      "D": "kidney",
+      "E": "contractile vacuole"
+    },
+    "correctAnswer": "B",
+    "explanation": "The nephridium is the excretory organ of the earthworm. Each segment of the earthworm contains a pair of nephridia that filter coelomic fluid and remove nitrogenous waste. Malpighian tubules are found in insects, flame cells in flatworms, kidneys in vertebrates, and contractile vacuoles in protozoa such as Amoeba.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-plants",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 24,
+    "questionText": "The transfer of pollen grains from the anther to the stigma of a flower is known as",
+    "options": {
+      "A": "fertilization",
+      "B": "pollination",
+      "C": "germination",
+      "D": "dispersal",
+      "E": "conjugation"
+    },
+    "correctAnswer": "B",
+    "explanation": "Pollination is the transfer of pollen grains from the anther (male part) to the stigma (female part) of a flower. It can be self-pollination (within the same flower or plant) or cross-pollination (between different plants of the same species). Agents of pollination include wind, insects, birds, and water. Fertilization occurs after pollination when the pollen tube grows down to the ovule.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-plants",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 25,
+    "questionText": "Which of the following is an example of vegetative propagation?",
+    "options": {
+      "A": "Seed germination in maize",
+      "B": "Budding in yeast",
+      "C": "Production of runners in grasses",
+      "D": "Spore formation in Rhizopus",
+      "E": "Binary fission in Amoeba"
+    },
+    "correctAnswer": "C",
+    "explanation": "The production of runners in grasses is an example of vegetative (asexual) propagation in plants. Runners are horizontal stems that grow along the soil surface and produce new plants at the nodes. Other examples include budding in Bryophyllum, stem tubers in potatoes, and corm formation in cocoyam. Budding in yeast and binary fission in Amoeba are asexual reproduction in non-plants.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-animals",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 26,
+    "questionText": "The union of a male gamete with a female gamete to form a zygote is known as",
+    "options": {
+      "A": "pollination",
+      "B": "ovulation",
+      "C": "fertilization",
+      "D": "implantation",
+      "E": "gestation"
+    },
+    "correctAnswer": "C",
+    "explanation": "Fertilization is the fusion of a male gamete (sperm) with a female gamete (ovum or egg) to form a zygote. In mammals, fertilization typically occurs in the fallopian tube (oviduct). The resulting zygote is diploid, containing a full set of chromosomes from both parents, and it develops into an embryo through repeated cell divisions.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-animals",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 27,
+    "questionText": "The structure in the mammalian female reproductive system where the foetus develops is the",
+    "options": {
+      "A": "ovary",
+      "B": "fallopian tube",
+      "C": "vagina",
+      "D": "uterus",
+      "E": "cervix"
+    },
+    "correctAnswer": "D",
+    "explanation": "The uterus (womb) is the organ in the female reproductive system where the foetus develops during pregnancy. After fertilization in the fallopian tube, the zygote divides and forms a blastocyst that implants in the endometrium (lining) of the uterus. The placenta develops to nourish the growing foetus throughout the gestation period.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "growth-and-development",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 28,
+    "questionText": "Metamorphosis is a feature of the life cycle of",
+    "options": {
+      "A": "birds",
+      "B": "mammals",
+      "C": "insects",
+      "D": "reptiles",
+      "E": "fish"
+    },
+    "correctAnswer": "C",
+    "explanation": "Metamorphosis is a biological process involving a marked change in form during the development of an organism. It is characteristic of insects (such as butterflies, mosquitoes, and houseflies) and amphibians (such as frogs and toads). In complete metamorphosis in insects, the stages are egg, larva, pupa, and adult. Birds, mammals, and reptiles do not undergo metamorphosis.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "growth-and-development",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 29,
+    "questionText": "The part of a seed that develops into the shoot system of a plant is the",
+    "options": {
+      "A": "radicle",
+      "B": "plumule",
+      "C": "testa",
+      "D": "hilum",
+      "E": "cotyledon"
+    },
+    "correctAnswer": "B",
+    "explanation": "The plumule is the embryonic shoot in a seed that develops into the shoot system (stem and leaves) of the plant upon germination. The radicle develops into the root system. The testa is the seed coat, the hilum is the scar where the seed was attached to the fruit, and the cotyledon(s) store food for the developing embryo.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 30,
+    "questionText": "An association between two organisms in which both partners benefit is called",
+    "options": {
+      "A": "parasitism",
+      "B": "commensalism",
+      "C": "mutualism",
+      "D": "saprophytism",
+      "E": "predation"
+    },
+    "correctAnswer": "C",
+    "explanation": "Mutualism (symbiosis) is a type of association between two organisms in which both partners benefit from the relationship. An example is the association between nitrogen-fixing bacteria (Rhizobium) and the root nodules of leguminous plants, where the bacteria receive shelter and nutrients while the plant receives usable nitrogen compounds. In parasitism, only one benefits while the other is harmed.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 31,
+    "questionText": "In a food chain, the organism that feeds directly on the producer is called the",
+    "options": {
+      "A": "secondary consumer",
+      "B": "tertiary consumer",
+      "C": "decomposer",
+      "D": "primary consumer",
+      "E": "producer"
+    },
+    "correctAnswer": "D",
+    "explanation": "In a food chain, the primary consumer is the organism that feeds directly on the producer (green plants). Primary consumers are herbivores. For example, in the food chain: grass → grasshopper → lizard → hawk, the grasshopper is the primary consumer. The lizard is the secondary consumer, and the hawk is the tertiary consumer.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 32,
+    "questionText": "The biome characterized by very low temperatures, permafrost, and lichens as dominant vegetation is the",
+    "options": {
+      "A": "tropical rainforest",
+      "B": "savanna",
+      "C": "desert",
+      "D": "tundra",
+      "E": "temperate forest"
+    },
+    "correctAnswer": "D",
+    "explanation": "The tundra biome is characterized by extremely low temperatures, permafrost (permanently frozen subsoil), and sparse vegetation dominated by lichens, mosses, and low-growing shrubs. It is found in the Arctic regions. The tropical rainforest has high temperatures and rainfall, the savanna has distinct wet and dry seasons with grasses, and the desert has very low rainfall.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 33,
+    "questionText": "The conversion of atmospheric nitrogen to nitrates by bacteria in the soil is called",
+    "options": {
+      "A": "denitrification",
+      "B": "nitrogen fixation",
+      "C": "putrefaction",
+      "D": "nitrification",
+      "E": "ammonification"
+    },
+    "correctAnswer": "B",
+    "explanation": "Nitrogen fixation is the process by which atmospheric nitrogen (N2) is converted into forms usable by plants, such as nitrates or ammonium compounds. This is carried out by nitrogen-fixing bacteria such as Rhizobium (in root nodules of legumes) and Azotobacter (free-living in soil). Nitrification is the conversion of ammonium to nitrites and then nitrates by Nitrosomonas and Nitrobacter bacteria. Denitrification is the conversion of nitrates back to atmospheric nitrogen.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 34,
+    "questionText": "The phenotypic ratio of offspring from a cross between two heterozygous parents (Aa x Aa) is",
+    "options": {
+      "A": "1:1",
+      "B": "3:1",
+      "C": "1:2:1",
+      "D": "2:1",
+      "E": "4:0"
+    },
+    "correctAnswer": "B",
+    "explanation": "When two heterozygous parents (Aa x Aa) are crossed, the genotypic ratio of the offspring is 1 AA : 2 Aa : 1 aa. Since the dominant allele A masks the recessive allele a, both AA and Aa show the dominant phenotype. Therefore, the phenotypic ratio is 3 dominant : 1 recessive (3:1). This is Mendel's monohybrid ratio.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 35,
+    "questionText": "An organism with the genotype Aa is said to be",
+    "options": {
+      "A": "homozygous dominant",
+      "B": "homozygous recessive",
+      "C": "heterozygous",
+      "D": "haploid",
+      "E": "polyploid"
+    },
+    "correctAnswer": "C",
+    "explanation": "An organism with the genotype Aa is heterozygous because it carries two different alleles for a particular gene — one dominant (A) and one recessive (a). A homozygous organism carries two identical alleles (AA or aa). Haploid refers to having a single set of chromosomes, and polyploid refers to having more than two sets of chromosomes.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 36,
+    "questionText": "A colour-blind man marries a carrier woman. What proportion of their sons will be colour-blind?",
+    "options": {
+      "A": "All",
+      "B": "Three-quarters",
+      "C": "One-half",
+      "D": "One-quarter",
+      "E": "None"
+    },
+    "correctAnswer": "C",
+    "explanation": "Colour blindness is a sex-linked recessive trait carried on the X chromosome. A colour-blind man has the genotype XcY, and a carrier woman has the genotype XCXc. Their sons receive the Y from the father and one X from the mother: half will be XCY (normal vision) and half will be XcY (colour-blind). Therefore, one-half of their sons will be colour-blind.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 37,
+    "questionText": "A change in the base sequence of DNA that may result in a new characteristic in an organism is called",
+    "options": {
+      "A": "variation",
+      "B": "mutation",
+      "C": "adaptation",
+      "D": "evolution",
+      "E": "natural selection"
+    },
+    "correctAnswer": "B",
+    "explanation": "A mutation is a sudden change in the base sequence of DNA that can result in the appearance of a new characteristic in an organism. Mutations can be gene mutations (point mutations affecting a single gene) or chromosomal mutations (affecting whole chromosomes). They can be caused by mutagens such as radiation, chemicals, or can occur spontaneously during DNA replication.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "evolution",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 38,
+    "questionText": "The theory of evolution by natural selection was proposed by",
+    "options": {
+      "A": "Gregor Mendel",
+      "B": "Jean Baptiste Lamarck",
+      "C": "Charles Darwin",
+      "D": "Louis Pasteur",
+      "E": "Robert Hooke"
+    },
+    "correctAnswer": "C",
+    "explanation": "Charles Darwin proposed the theory of evolution by natural selection in his book 'On the Origin of Species' published in 1859. The theory states that organisms with favourable variations are better adapted to survive and reproduce, passing these advantageous traits to their offspring. Lamarck proposed the theory of inheritance of acquired characteristics, which is different from Darwin's theory.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "evolution",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 39,
+    "questionText": "Fossil records provide evidence for",
+    "options": {
+      "A": "blood grouping",
+      "B": "organic evolution",
+      "C": "genetic engineering",
+      "D": "artificial selection",
+      "E": "vegetative propagation"
+    },
+    "correctAnswer": "B",
+    "explanation": "Fossil records provide evidence for organic evolution by showing a progressive change in the forms of organisms over geological time. Fossils are the preserved remains or impressions of organisms that lived in the past. By comparing fossils from different geological periods, scientists can trace the evolutionary history of organisms and establish relationships between ancient and modern species.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "classification-of-living-things",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 40,
+    "questionText": "The binomial system of naming organisms was introduced by",
+    "options": {
+      "A": "Charles Darwin",
+      "B": "Carolus Linnaeus",
+      "C": "Gregor Mendel",
+      "D": "Louis Pasteur",
+      "E": "Robert Hooke"
+    },
+    "correctAnswer": "B",
+    "explanation": "Carolus Linnaeus (Carl von Linne), a Swedish botanist, introduced the binomial system of nomenclature for naming organisms. In this system, each organism is given a two-part Latin name: the first part is the genus name (capitalized) and the second is the species name (lowercase). For example, Homo sapiens for humans. Linnaeus published this system in his work 'Systema Naturae'.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "classification-of-living-things",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 41,
+    "questionText": "Which of the following organisms belongs to the phylum Arthropoda?",
+    "options": {
+      "A": "Earthworm",
+      "B": "Snail",
+      "C": "Mosquito",
+      "D": "Tapeworm",
+      "E": "Hydra"
+    },
+    "correctAnswer": "C",
+    "explanation": "The mosquito belongs to the phylum Arthropoda, which is characterized by organisms with jointed appendages, segmented bodies, and an exoskeleton made of chitin. Earthworms belong to Annelida, snails to Mollusca, tapeworms to Platyhelminthes, and Hydra to Cnidaria (Coelenterata).",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "classification-of-living-things",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 42,
+    "questionText": "Organisms that can manufacture their own food from inorganic substances are called",
+    "options": {
+      "A": "heterotrophs",
+      "B": "autotrophs",
+      "C": "saprophytes",
+      "D": "parasites",
+      "E": "decomposers"
+    },
+    "correctAnswer": "B",
+    "explanation": "Autotrophs are organisms that can manufacture their own food from simple inorganic substances such as carbon dioxide and water, using energy from sunlight (photoautotrophs) or chemical reactions (chemoautotrophs). Green plants are the most common photoautotrophs. Heterotrophs, on the other hand, cannot make their own food and must obtain it from other organisms.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "microorganisms-and-disease",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 43,
+    "questionText": "Malaria is caused by a protozoan belonging to the genus",
+    "options": {
+      "A": "Trypanosoma",
+      "B": "Plasmodium",
+      "C": "Entamoeba",
+      "D": "Paramecium",
+      "E": "Euglena"
+    },
+    "correctAnswer": "B",
+    "explanation": "Malaria is caused by protozoan parasites of the genus Plasmodium. The four species that infect humans are P. falciparum (the most dangerous), P. vivax, P. malariae, and P. ovale. The parasite is transmitted through the bite of an infected female Anopheles mosquito. Trypanosoma causes sleeping sickness, and Entamoeba causes amoebic dysentery.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "microorganisms-and-disease",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 44,
+    "questionText": "The disease caused by Trypanosoma and transmitted by the tsetse fly is",
+    "options": {
+      "A": "malaria",
+      "B": "cholera",
+      "C": "sleeping sickness",
+      "D": "typhoid fever",
+      "E": "yellow fever"
+    },
+    "correctAnswer": "C",
+    "explanation": "Sleeping sickness (African trypanosomiasis) is caused by the protozoan Trypanosoma brucei and is transmitted by the tsetse fly (Glossina species). The disease is endemic to tropical Africa and affects the central nervous system, causing lethargy, confusion, and eventually coma and death if untreated. Malaria is transmitted by the Anopheles mosquito, and yellow fever by the Aedes mosquito.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "microorganisms-and-disease",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 45,
+    "questionText": "The introduction of weakened or dead pathogens into the body to stimulate immunity is known as",
+    "options": {
+      "A": "vaccination",
+      "B": "sterilization",
+      "C": "pasteurization",
+      "D": "chemotherapy",
+      "E": "quarantine"
+    },
+    "correctAnswer": "A",
+    "explanation": "Vaccination (immunization) involves introducing weakened (attenuated), dead, or parts of pathogens into the body to stimulate the immune system to produce antibodies without causing the disease. This results in active immunity, as the body's memory cells can quickly produce antibodies if the person is later exposed to the actual pathogen. Examples include vaccines against smallpox, polio, and measles.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nervous-system-and-sense-organs",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 46,
+    "questionText": "The part of the brain responsible for coordinating muscular activities and maintaining balance is the",
+    "options": {
+      "A": "cerebrum",
+      "B": "cerebellum",
+      "C": "medulla oblongata",
+      "D": "hypothalamus",
+      "E": "thalamus"
+    },
+    "correctAnswer": "B",
+    "explanation": "The cerebellum is the part of the brain responsible for coordinating muscular activities, maintaining balance, and ensuring smooth voluntary movements. It receives sensory input from the muscles, joints, and inner ear to fine-tune motor activities. The cerebrum controls higher mental functions, the medulla oblongata controls involuntary activities like breathing and heart rate, and the hypothalamus regulates body temperature and hormones.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nervous-system-and-sense-organs",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 47,
+    "questionText": "A reflex action is one that is",
+    "options": {
+      "A": "learned through practice",
+      "B": "controlled by the cerebrum",
+      "C": "automatic and involuntary",
+      "D": "slow and deliberate",
+      "E": "performed only during sleep"
+    },
+    "correctAnswer": "C",
+    "explanation": "A reflex action is an automatic, rapid, and involuntary response to a stimulus that does not involve conscious thought. The pathway for a reflex action is called a reflex arc, which consists of a receptor, sensory neuron, relay neuron (in the spinal cord), motor neuron, and effector. Examples include the knee-jerk reflex, blinking, and withdrawing the hand from a hot object.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "endocrine-system",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 48,
+    "questionText": "The hormone responsible for regulating the blood sugar level is",
+    "options": {
+      "A": "thyroxine",
+      "B": "adrenaline",
+      "C": "insulin",
+      "D": "testosterone",
+      "E": "oestrogen"
+    },
+    "correctAnswer": "C",
+    "explanation": "Insulin is a hormone produced by the beta cells of the islets of Langerhans in the pancreas. It regulates blood sugar (glucose) level by promoting the uptake of glucose by body cells and its conversion to glycogen for storage in the liver and muscles. A deficiency of insulin leads to diabetes mellitus, characterized by high blood sugar levels. Thyroxine regulates metabolic rate, adrenaline prepares the body for fight-or-flight, and testosterone and oestrogen are sex hormones.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "endocrine-system",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 49,
+    "questionText": "An excessive secretion of thyroxine leads to",
+    "options": {
+      "A": "cretinism",
+      "B": "goitre",
+      "C": "exophthalmic goitre",
+      "D": "diabetes mellitus",
+      "E": "dwarfism"
+    },
+    "correctAnswer": "C",
+    "explanation": "Exophthalmic goitre (Graves' disease) is caused by excessive secretion of thyroxine (hyperthyroidism). It is characterized by an enlarged thyroid gland, protruding eyeballs (exophthalmos), increased metabolic rate, rapid heartbeat, weight loss, and nervousness. Cretinism results from thyroxine deficiency in children, simple goitre from iodine deficiency, and diabetes mellitus from insulin deficiency.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "skeletal-and-muscular-systems",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 50,
+    "questionText": "The type of joint found at the elbow is a",
+    "options": {
+      "A": "ball and socket joint",
+      "B": "hinge joint",
+      "C": "pivot joint",
+      "D": "gliding joint",
+      "E": "suture"
+    },
+    "correctAnswer": "B",
+    "explanation": "The elbow has a hinge joint, which allows movement in only one plane (flexion and extension). It works like the hinge on a door. The knee is another example of a hinge joint. A ball and socket joint (found at the shoulder and hip) allows movement in all directions. A pivot joint (found between the atlas and axis vertebrae) allows rotational movement.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "skeletal-and-muscular-systems",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 51,
+    "questionText": "The type of skeleton found in an earthworm is known as",
+    "options": {
+      "A": "exoskeleton",
+      "B": "endoskeleton",
+      "C": "hydrostatic skeleton",
+      "D": "cartilaginous skeleton",
+      "E": "bony skeleton"
+    },
+    "correctAnswer": "C",
+    "explanation": "The earthworm has a hydrostatic skeleton, which consists of fluid-filled body cavities (coelom) surrounded by muscles. When the circular and longitudinal muscles contract alternately against the incompressible coelomic fluid, the body changes shape, enabling the earthworm to move. Insects have an exoskeleton, and vertebrates have an endoskeleton (bony or cartilaginous).",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "homeostasis-and-coordination",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 52,
+    "questionText": "The maintenance of a constant internal environment in living organisms is called",
+    "options": {
+      "A": "excretion",
+      "B": "osmoregulation",
+      "C": "homeostasis",
+      "D": "thermoregulation",
+      "E": "metabolism"
+    },
+    "correctAnswer": "C",
+    "explanation": "Homeostasis is the maintenance of a constant internal environment within narrow limits despite changes in the external environment. It involves the regulation of body temperature, blood sugar level, water and salt balance, pH, and other physiological parameters. Osmoregulation and thermoregulation are specific aspects of homeostasis dealing with water balance and temperature control respectively.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "homeostasis-and-coordination",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 53,
+    "questionText": "When the body temperature rises above normal, the skin responds by",
+    "options": {
+      "A": "constricting blood vessels and reducing sweating",
+      "B": "dilating blood vessels and increasing sweating",
+      "C": "constricting blood vessels and increasing sweating",
+      "D": "shivering and raising body hairs",
+      "E": "reducing blood flow to the skin surface"
+    },
+    "correctAnswer": "B",
+    "explanation": "When body temperature rises above normal (37°C), the skin responds by dilating (vasodilation) the blood vessels near the surface, allowing more blood to flow close to the skin where heat can be lost by radiation. Sweating also increases, and the evaporation of sweat from the skin surface cools the body. When body temperature falls, blood vessels constrict (vasoconstriction), sweating decreases, and shivering generates heat.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 54,
+    "questionText": "The organelle responsible for the destruction of worn-out cell components is the",
+    "options": {
+      "A": "ribosome",
+      "B": "lysosome",
+      "C": "Golgi apparatus",
+      "D": "mitochondrion",
+      "E": "nucleus"
+    },
+    "correctAnswer": "B",
+    "explanation": "Lysosomes are membrane-bound organelles that contain hydrolytic (digestive) enzymes capable of breaking down worn-out cell components, foreign particles, and cellular debris. They are sometimes called 'suicide bags' of the cell because they can destroy the cell itself if their membranes rupture and release their enzymes into the cytoplasm. They play a key role in intracellular digestion and autophagy.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 55,
+    "questionText": "The part of the alimentary canal where most absorption of digested food occurs is the",
+    "options": {
+      "A": "stomach",
+      "B": "oesophagus",
+      "C": "small intestine",
+      "D": "large intestine",
+      "E": "rectum"
+    },
+    "correctAnswer": "C",
+    "explanation": "The small intestine, particularly the ileum, is the part of the alimentary canal where most absorption of digested food takes place. Its inner surface is lined with numerous finger-like projections called villi, which greatly increase the surface area for absorption. Each villus contains blood capillaries and a lacteal (lymph vessel) for absorbing nutrients into the bloodstream.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 56,
+    "questionText": "The instrument used for sampling small crawling animals from leaf litter is the",
+    "options": {
+      "A": "sweep net",
+      "B": "pitfall trap",
+      "C": "quadrat",
+      "D": "Tullgren funnel",
+      "E": "plankton net"
+    },
+    "correctAnswer": "D",
+    "explanation": "The Tullgren funnel (or Berlese funnel) is used for extracting small crawling animals (such as mites, springtails, and small insects) from leaf litter or soil samples. A light source is placed above the funnel, and as the sample dries from the top, the organisms move downward away from the heat and light, eventually falling through a sieve into a collecting jar. A pitfall trap catches ground-dwelling animals, and a quadrat is used for estimating population density of plants.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 57,
+    "questionText": "The sex of a child is determined by the",
+    "options": {
+      "A": "mother's chromosomes",
+      "B": "father's chromosomes",
+      "C": "age of the mother",
+      "D": "diet of the mother during pregnancy",
+      "E": "time of conception"
+    },
+    "correctAnswer": "B",
+    "explanation": "The sex of a child is determined by the father's sex chromosomes. The mother always contributes an X chromosome to the offspring, while the father can contribute either an X or a Y chromosome. If the sperm carries an X chromosome, the child will be female (XX); if it carries a Y chromosome, the child will be male (XY). Therefore, it is the father's contribution that determines the sex of the child.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-plants",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 58,
+    "questionText": "Wind-pollinated flowers are characterized by",
+    "options": {
+      "A": "brightly coloured petals and scent",
+      "B": "large sticky stigmas and light pollen grains",
+      "C": "presence of nectaries and scent",
+      "D": "heavy sticky pollen grains and small stigma",
+      "E": "large brightly coloured petals"
+    },
+    "correctAnswer": "B",
+    "explanation": "Wind-pollinated (anemophilous) flowers are characterized by large feathery or sticky stigmas to catch pollen from the air, light and smooth pollen grains produced in large quantities, pendulous stamens that hang outside the flower, and small or absent petals with no scent or nectar. Insect-pollinated flowers, in contrast, have brightly coloured petals, scent, nectar, and sticky pollen grains.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 59,
+    "questionText": "The component of blood that is responsible for clotting is",
+    "options": {
+      "A": "red blood cells",
+      "B": "white blood cells",
+      "C": "platelets",
+      "D": "plasma",
+      "E": "lymph"
+    },
+    "correctAnswer": "C",
+    "explanation": "Platelets (thrombocytes) are the blood components responsible for blood clotting. When a blood vessel is injured, platelets adhere to the damaged area and release thromboplastin, which initiates a cascade of reactions. Prothrombin is converted to thrombin, which then converts soluble fibrinogen to insoluble fibrin threads that form a mesh to trap blood cells and seal the wound.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nervous-system-and-sense-organs",
+    "examType": "JAMB",
+    "examYear": 1984,
+    "questionNumber": 60,
+    "questionText": "The part of the eye that controls the amount of light entering the eye is the",
+    "options": {
+      "A": "cornea",
+      "B": "lens",
+      "C": "retina",
+      "D": "iris",
+      "E": "optic nerve"
+    },
+    "correctAnswer": "D",
+    "explanation": "The iris is the coloured part of the eye that controls the amount of light entering the eye by adjusting the size of the pupil. In bright light, the circular muscles of the iris contract, making the pupil smaller and reducing the amount of light entering. In dim light, the radial muscles contract, dilating the pupil to allow more light to reach the retina. The retina contains photoreceptor cells (rods and cones) that detect light.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  }
+]

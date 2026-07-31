@@ -1,0 +1,922 @@
+[
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-plants",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 1,
+    "questionText": "Root hairs are developed from the",
+    "options": {
+      "A": "root apex",
+      "B": "epidermis of root",
+      "C": "vascular bundles",
+      "D": "endodermis",
+      "E": "pericycle"
+    },
+    "correctAnswer": "B",
+    "explanation": "Root hairs are tubular extensions of the epidermal cells of the root. They develop from the epidermis in the zone of maturation, just behind the root tip. Their primary function is to increase the surface area available for the absorption of water and mineral salts from the soil.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 2,
+    "questionText": "In a dicot leaf, guard cells differ from other epidermal cells because they",
+    "options": {
+      "A": "have no definite shape",
+      "B": "lack nuclei",
+      "C": "are smaller",
+      "D": "contain chloroplasts",
+      "E": "lack vacuole"
+    },
+    "correctAnswer": "D",
+    "explanation": "Guard cells are unique among epidermal cells because they contain chloroplasts, which give them the ability to photosynthesize. Other epidermal cells are typically transparent and lack chloroplasts. The chloroplasts in guard cells play a role in starch-sugar interconversion and the regulation of stomatal opening and closing through changes in turgor pressure.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-animals",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 3,
+    "questionText": "Which of the following structures is NOT found in the female agama lizard?",
+    "options": {
+      "A": "Pre-anal pads",
+      "B": "Eardrum",
+      "C": "Gular fold",
+      "D": "Nasal scale",
+      "E": "Nuchal crest"
+    },
+    "correctAnswer": "A",
+    "explanation": "Pre-anal pads (or pre-anal pores) are structures found only in male agama lizards. They are used during mating and are one of the key features that distinguish male from female agama lizards. The eardrum (tympanic membrane), gular fold, nasal scale, and nuchal crest are all structures found in both male and female agama lizards.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "classification-of-living-things",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 4,
+    "questionText": "Herbs differ from shrubs because they",
+    "options": {
+      "A": "do not produce fruit",
+      "B": "are useful to herbalists",
+      "C": "do not become woody",
+      "D": "are only annual",
+      "E": "are only perennials"
+    },
+    "correctAnswer": "C",
+    "explanation": "The fundamental difference between herbs and shrubs is that herbs have soft, green, non-woody stems (herbaceous stems), while shrubs develop hard, woody stems. Herbs can be annual, biennial, or perennial, and they do produce fruits and seeds. The term 'herb' in biology refers to the growth form of the plant and has nothing to do with medicinal or culinary use by herbalists.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 5,
+    "questionText": "If an isolated living cell is left in distilled water for two hours, it is likely to",
+    "options": {
+      "A": "lose some of its water to the surrounding water",
+      "B": "lose all of its water to the surrounding water",
+      "C": "reproduce by binary fission",
+      "D": "become more turgid",
+      "E": "die due to excess water"
+    },
+    "correctAnswer": "D",
+    "explanation": "Distilled water is hypotonic relative to the cell sap, meaning it has a lower solute concentration. Water molecules move into the cell by osmosis, from the region of higher water potential (distilled water) to the region of lower water potential (cell sap). This influx of water causes the cell to swell and become more turgid. In a plant cell, the rigid cell wall prevents the cell from bursting, maintaining the turgid state.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 6,
+    "questionText": "If an organic compound has its hydrogen to oxygen ratio as 2:1, it is likely to be",
+    "options": {
+      "A": "a protein",
+      "B": "a carbohydrate",
+      "C": "a fat",
+      "D": "a fatty acid and glycerol",
+      "E": "an amino acid"
+    },
+    "correctAnswer": "B",
+    "explanation": "Carbohydrates have the general molecular formula Cn(H2O)n, which means the hydrogen to oxygen ratio is always 2:1. For example, glucose (C6H12O6) has 12 hydrogen atoms and 6 oxygen atoms, giving a ratio of 2:1. This characteristic ratio is a defining feature of carbohydrates and distinguishes them from proteins, fats, and amino acids, which have different hydrogen to oxygen ratios.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-plants",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 7,
+    "questionText": "Which of the following elements are necessary for the formation of chlorophyll in a plant?",
+    "options": {
+      "A": "Magnesium and iron",
+      "B": "Calcium and potassium",
+      "C": "Calcium and sulphur",
+      "D": "Potassium and sulphur",
+      "E": "Phosphorus and potassium"
+    },
+    "correctAnswer": "A",
+    "explanation": "Magnesium is a central atom in the chlorophyll molecule, forming the core of the porphyrin ring structure. Without magnesium, chlorophyll cannot be synthesized. Iron, while not a structural component of the chlorophyll molecule itself, is an essential cofactor for several enzymes involved in chlorophyll biosynthesis. A deficiency in either magnesium or iron leads to chlorosis (yellowing of leaves).",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 8,
+    "questionText": "Which of the following statements is NOT true of mammalian erythrocytes?",
+    "options": {
+      "A": "They have haemoglobin",
+      "B": "They appear yellow when looked at singly",
+      "C": "They are disc-shaped",
+      "D": "The cells are more numerous than leucocytes",
+      "E": "They have nuclei at maturity"
+    },
+    "correctAnswer": "E",
+    "explanation": "Mature mammalian red blood cells (erythrocytes) do not have a nucleus. They lose their nucleus during the maturation process in the bone marrow, which creates more internal space for haemoglobin and increases their oxygen-carrying capacity. All other statements are true: erythrocytes contain haemoglobin, appear yellowish when viewed individually under a microscope, are biconcave disc-shaped, and vastly outnumber leucocytes (white blood cells) in the blood.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-plants",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 9,
+    "questionText": "In woody plants, gases and water vapour are transported across the stems by the",
+    "options": {
+      "A": "xylem fibres",
+      "B": "medullary fibres",
+      "C": "medullary rays",
+      "D": "phloem fibres",
+      "E": "phloem parenchyma"
+    },
+    "correctAnswer": "C",
+    "explanation": "Medullary rays (also called pith rays or vascular rays) are radial sheets of parenchyma cells that extend horizontally from the pith to the cortex in woody stems. They function in the lateral (radial) transport of gases, water vapour, and food materials across the stem. While xylem transports water and minerals vertically upward and phloem transports organic food vertically, medullary rays handle horizontal transport.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "excretion",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 10,
+    "questionText": "Which of the following substances is NOT found in urine?",
+    "options": {
+      "A": "Water",
+      "B": "Sodium chloride",
+      "C": "Nitrogenous compounds",
+      "D": "Calcium chloride",
+      "E": "Nitrogenous salts"
+    },
+    "correctAnswer": "D",
+    "explanation": "Calcium chloride is not a normal component of urine. Normal urine is composed of approximately 95% water, along with urea and other nitrogenous waste compounds, sodium chloride, potassium salts, phosphates, sulphates, and various nitrogenous salts such as ammonium salts. While trace amounts of calcium ions may be excreted, calcium chloride as a compound is not a typical constituent of urine.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "excretion",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 11,
+    "questionText": "The kidneys of all vertebrates act as osmoregulators. This means that they",
+    "options": {
+      "A": "keep the composition of the plasma constant",
+      "B": "regulate osmotic processes",
+      "C": "control the volume of blood entering the kidneys",
+      "D": "decrease the osmotic pressure of the blood",
+      "E": "increase the osmotic pressure of blood"
+    },
+    "correctAnswer": "A",
+    "explanation": "As osmoregulators, the kidneys maintain the water and solute balance of body fluids, effectively keeping the composition of blood plasma constant. They achieve this by selectively filtering the blood, reabsorbing essential substances like glucose, amino acids, and water, while excreting metabolic wastes like urea. This homeostatic function ensures that the osmotic pressure and ionic composition of the internal environment remain stable.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "homeostasis-and-coordination",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 12,
+    "questionText": "The movement of part of a plant in response to external stimulus of no particular direction is",
+    "options": {
+      "A": "taxism",
+      "B": "tropism",
+      "C": "haptotropic movement",
+      "D": "nastic movement",
+      "E": "phototropism"
+    },
+    "correctAnswer": "D",
+    "explanation": "Nastic movement is a non-directional response of a plant to an external stimulus. Unlike tropism, where the direction of the response is determined by the direction of the stimulus, nastic movements occur regardless of the direction from which the stimulus comes. Examples include the closing of Mimosa pudica leaves when touched (thigmonasty), the opening of flowers in response to temperature changes (thermonasty), and the folding of leaves at night (nyctinasty).",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nervous-system-and-sense-organs",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 13,
+    "questionText": "The part of the mammalian brain responsible for maintaining balance is the",
+    "options": {
+      "A": "medulla oblongata",
+      "B": "olfactory lobe",
+      "C": "cerebellum",
+      "D": "cerebrum",
+      "E": "frontal lobe"
+    },
+    "correctAnswer": "C",
+    "explanation": "The cerebellum is the part of the brain primarily responsible for coordinating voluntary movements and maintaining balance, posture, and muscle tone. It receives sensory information from the vestibular system (inner ear), proprioceptors in muscles and joints, and the visual system, integrating these inputs to fine-tune motor activity and maintain equilibrium. The medulla oblongata controls involuntary functions like breathing and heartbeat.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-plants",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 14,
+    "questionText": "In the onion bulb, food is stored in the",
+    "options": {
+      "A": "stem",
+      "B": "lateral buds",
+      "C": "cotyledons",
+      "D": "outer scale leaves",
+      "E": "leaf bases"
+    },
+    "correctAnswer": "E",
+    "explanation": "In an onion bulb, food (mainly sugars and starches) is stored in the fleshy leaf bases, also known as the fleshy scale leaves. These are the thick, succulent inner layers of the bulb that become juicy when cut. The outer dry, papery scale leaves serve a protective function, while the stem is reduced to a small, flattened disc (called the stem plate) at the base of the bulb from which roots grow.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-plants",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 15,
+    "questionText": "Groundnut is not really a 'nut' in the biological sense because",
+    "options": {
+      "A": "it is harvested from inside the ground",
+      "B": "its pericarp is not hard and tough",
+      "C": "the fruit is not as hard as coconut",
+      "D": "the fruit is not succulent",
+      "E": "it is an achene"
+    },
+    "correctAnswer": "B",
+    "explanation": "In botanical classification, a true nut is a type of dry, indehiscent fruit with a single seed enclosed in a hard, tough, woody pericarp (fruit wall) that does not split open at maturity. Examples of true nuts include hazelnuts and acorns. The groundnut (Arachis hypogaea) does not qualify as a true nut because its pericarp (shell) is relatively soft and not hard or tough. Botanically, the groundnut is classified as a legume.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-plants",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 16,
+    "questionText": "What type of fruit is formed from a single flower having several free carpels?",
+    "options": {
+      "A": "Multiple fruit",
+      "B": "Simple fruit",
+      "C": "Aggregate fruit",
+      "D": "Dehiscent fruit",
+      "E": "Indehiscent fruit"
+    },
+    "correctAnswer": "C",
+    "explanation": "An aggregate fruit (also called an etaerio) develops from a single flower that contains multiple free (unfused) carpels. Each carpel develops into a small individual fruitlet, and together they form the aggregate fruit. Examples include strawberry, raspberry, and blackberry. A multiple fruit, by contrast, develops from the fused ovaries of multiple separate flowers in an inflorescence (e.g., pineapple). A simple fruit develops from a single carpel or fused carpels of one flower.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 17,
+    "questionText": "A 28g soil sample was heated to a constant weight of 24g. When further heated to red hot and cooled, it weighed 18g. What is the percentage of humus in the soil?",
+    "options": {
+      "A": "22.2",
+      "B": "55.6",
+      "C": "75.0",
+      "D": "25.9",
+      "E": "35.7"
+    },
+    "correctAnswer": "A",
+    "explanation": "When the soil sample is first heated to constant weight, moisture is driven off: water content = 28g - 24g = 4g. When the dried soil is further heated to red hot, the organic matter (humus) is burned off: humus content = 24g - 18g = 6g. The percentage of humus in the soil is calculated as (mass of humus / mass of soil sample) x 100 = (6/27) x 100 = 22.2%. The remaining 18g represents the mineral (inorganic) content of the soil.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "microorganisms-and-disease",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 18,
+    "questionText": "Which of the following diseases is NOT caused by a virus?",
+    "options": {
+      "A": "Rinderpest",
+      "B": "Maize rust",
+      "C": "Newcastle disease",
+      "D": "Swine fever",
+      "E": "Cassava mosaic disease"
+    },
+    "correctAnswer": "B",
+    "explanation": "Maize rust is caused by a fungus (Puccinia spp.), not a virus. It is a fungal disease that produces characteristic rust-colored pustules on the leaves of maize plants. The other diseases listed are all caused by viruses: Rinderpest is a viral disease of cattle, Newcastle disease is a viral disease of poultry, Swine fever (Classical Swine Fever) is caused by a pestivirus, and Cassava mosaic disease is caused by geminiviruses.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "classification-of-living-things",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 19,
+    "questionText": "A centipede differs from a millipede by its",
+    "options": {
+      "A": "colour",
+      "B": "numerous abdominal segments",
+      "C": "paired legs on each abdominal segment",
+      "D": "poison claws",
+      "E": "cylindrical body"
+    },
+    "correctAnswer": "D",
+    "explanation": "The most distinctive feature that differentiates centipedes from millipedes is the presence of poison claws (forcipules or maxillipeds) in centipedes. These are modified first pair of legs located just behind the head that are used to inject venom into prey. Millipedes do not possess poison claws. Additionally, centipedes have one pair of legs per body segment while millipedes have two pairs per segment, but the poison claws are the most distinguishing feature.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 20,
+    "questionText": "An organism having one pair of identical genes is",
+    "options": {
+      "A": "a heterozygote",
+      "B": "a hybrid",
+      "C": "an allelomorph",
+      "D": "a homozygote",
+      "E": "a diploid"
+    },
+    "correctAnswer": "D",
+    "explanation": "A homozygote is an organism that possesses two identical alleles (genes) for a particular trait at the same locus on homologous chromosomes. For example, an organism with genotype TT or tt is homozygous. A heterozygote has two different alleles (e.g., Tt), a hybrid is the offspring of parents with different characteristics, an allelomorph refers to alternative forms of a gene, and a diploid simply means having two sets of chromosomes.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 21,
+    "questionText": "Plants which can survive in places where the water supply is limited are",
+    "options": {
+      "A": "bryophytes",
+      "B": "mesophytes",
+      "C": "xerophytes",
+      "D": "hydrophytes",
+      "E": "pteridophytes"
+    },
+    "correctAnswer": "C",
+    "explanation": "Xerophytes are plants that are adapted to survive in dry environments where water supply is limited, such as deserts and arid regions. They possess various adaptations including thick, waxy cuticles, reduced leaf surface area (or leaves modified into spines), deep root systems, sunken stomata, and the ability to store water in succulent tissues. Examples include cacti, agave, and euphorbia. Hydrophytes live in water, mesophytes in moderate moisture, and bryophytes require moist environments.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-plants",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 22,
+    "questionText": "Banana, plantain and pineapple can be grouped together because they",
+    "options": {
+      "A": "produce small seeds",
+      "B": "are multiple fruits",
+      "C": "produce suckers",
+      "D": "have runners",
+      "E": "have bulbils"
+    },
+    "correctAnswer": "C",
+    "explanation": "Banana, plantain, and pineapple can all be grouped together because they reproduce vegetatively through suckers. Suckers are shoots that develop from the base of the parent plant or from underground stems (rhizomes or corms). This is the primary method of vegetative propagation for these crops commercially. While pineapple is a multiple fruit, banana and plantain are not, so option B is incorrect. They do not have runners or bulbils.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "microorganisms-and-disease",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 23,
+    "questionText": "One disease NOT caused directly by bacteria is",
+    "options": {
+      "A": "malaria",
+      "B": "tuberculosis",
+      "C": "pneumonia",
+      "D": "tetanus",
+      "E": "cholera"
+    },
+    "correctAnswer": "A",
+    "explanation": "Malaria is caused by a protozoan parasite of the genus Plasmodium (P. falciparum, P. vivax, P. ovale, P. malariae), which is transmitted to humans through the bite of infected female Anopheles mosquitoes. It is not caused by bacteria. All the other diseases listed are bacterial: tuberculosis is caused by Mycobacterium tuberculosis, pneumonia can be caused by Streptococcus pneumoniae, tetanus by Clostridium tetani, and cholera by Vibrio cholerae.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "growth-and-development",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 24,
+    "questionText": "In what order do the following structures develop during the metamorphosis of the toad? 1. External gills 2. Internal gills 3. Forelimbs 4. Hindlimbs 5. Mouth",
+    "options": {
+      "A": "1, 2, 3, 4, 5",
+      "B": "5, 1, 2, 4, 3",
+      "C": "1, 3, 4, 5, 2",
+      "D": "5, 3, 4, 1, 2",
+      "E": "5, 4, 3, 2, 1"
+    },
+    "correctAnswer": "B",
+    "explanation": "During the metamorphosis of the toad, the developmental sequence is: the mouth develops first (5) in the early tadpole stage, followed by external gills (1) for aquatic respiration. The external gills are then replaced by internal gills (2) as the operculum grows over them. Hindlimbs (4) develop before forelimbs (3), which emerge last as the tadpole transitions to the adult form. This gives the sequence 5, 1, 2, 4, 3.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "skeletal-and-muscular-systems",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 25,
+    "questionText": "The dental formula i3/3, c1/1, pm4/4, m2/3 = 42 represents that of a",
+    "options": {
+      "A": "rabbit",
+      "B": "full grown man",
+      "C": "young child",
+      "D": "dog",
+      "E": "sheep"
+    },
+    "correctAnswer": "D",
+    "explanation": "The dental formula i3/3, c1/1, pm4/4, m2/3 = 42 is characteristic of a dog. This gives a total of 42 teeth: (3+1+4+2) x 2 = 20 upper teeth and (3+1+4+3) x 2 = 22 lower teeth. Dogs are heterodont carnivores with well-developed canines for tearing flesh. A full-grown human has 32 teeth (i2/2, c1/1, pm2/2, m3/3), a rabbit has 28 teeth, and a sheep has 32 teeth with a different formula.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-plants",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 26,
+    "questionText": "Which of the following statements is NOT true of insectivorous plants?",
+    "options": {
+      "A": "They obtain part of their food by trapping and feeding on insects",
+      "B": "They attract insects simply because of pollination",
+      "C": "They can grow in soils poor in nitrogenous salts",
+      "D": "They can supplement the nitrogen supply by feeding on insects",
+      "E": "Examples include butterworts, sundews and pitcher plants"
+    },
+    "correctAnswer": "B",
+    "explanation": "The statement that insectivorous plants attract insects 'simply because of pollination' is NOT true. While all flowering plants may attract insects for pollination, insectivorous (carnivorous) plants specifically attract, trap, and digest insects primarily to obtain nitrogen and other nutrients that are scarce in the nutrient-poor soils where they grow. They use modified leaves with specialized mechanisms such as sticky surfaces (sundews), snap traps (Venus flytrap), and pitcher-shaped traps (pitcher plants) to capture and digest insects.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 27,
+    "questionText": "Which of these worms is beneficial to man?",
+    "options": {
+      "A": "Hookworm",
+      "B": "Tapeworm",
+      "C": "Roundworm",
+      "D": "Earthworm",
+      "E": "Guinea worm"
+    },
+    "correctAnswer": "D",
+    "explanation": "The earthworm is the only worm in the list that is beneficial to man. Earthworms improve soil fertility by burrowing through the soil, which aerates it and improves drainage. They also decompose organic matter, recycling nutrients back into the soil through their castings (excreta), which are rich in nitrogen, phosphorus, and potassium. All other worms listed are parasites that cause diseases in humans: hookworm causes anaemia, tapeworm causes taeniasis, roundworm (Ascaris) causes ascariasis, and guinea worm causes dracunculiasis.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "skeletal-and-muscular-systems",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 28,
+    "questionText": "Starting from the skull end, the vertebrae are arranged in the following order:",
+    "options": {
+      "A": "axis, atlas, cervical, thoracic and lumbar",
+      "B": "atlas, cervical, axis, thoracic and lumbar",
+      "C": "atlas, axis, thoracic, cervical and lumbar",
+      "D": "atlas, axis, cervical, thoracic and lumbar",
+      "E": "atlas, thoracic, cervical, axis and lumbar"
+    },
+    "correctAnswer": "D",
+    "explanation": "Starting from the skull, the vertebral column is arranged as: atlas (first cervical vertebra, C1, which supports the skull and allows nodding), axis (second cervical vertebra, C2, which allows rotation of the head), followed by the remaining cervical vertebrae (C3-C7), then thoracic vertebrae (which articulate with the ribs), and finally lumbar vertebrae (in the lower back). This continues with sacral and caudal vertebrae further down.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "microorganisms-and-disease",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 29,
+    "questionText": "Which of the following diseases could be exclusively associated with a river basin?",
+    "options": {
+      "A": "Malaria",
+      "B": "Syphilis",
+      "C": "Onchocerciasis",
+      "D": "Cholera",
+      "E": "Poliomyelitis"
+    },
+    "correctAnswer": "C",
+    "explanation": "Onchocerciasis (river blindness) is exclusively associated with river basins because its vector, the blackfly (Simulium species), breeds specifically in fast-flowing rivers and streams. The blackfly larvae attach to rocks and vegetation in turbulent, oxygen-rich water. The disease is caused by the parasitic worm Onchocerca volvulus, transmitted through blackfly bites. While malaria mosquitoes may breed near water, they are not exclusively associated with river basins.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "evolution",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 30,
+    "questionText": "Which of the following represents the evolutionary sequence in these plants? 1. Flowering plants 2. Ferns 3. Mosses 4. Algae 5. Conifers",
+    "options": {
+      "A": "2, 1, 4, 3, 5",
+      "B": "5, 4, 3, 2, 1",
+      "C": "2, 4, 5, 1, 3",
+      "D": "3, 2, 4, 5, 1",
+      "E": "4, 3, 2, 5, 1"
+    },
+    "correctAnswer": "E",
+    "explanation": "The correct evolutionary sequence of plants from the most primitive to the most advanced is: Algae (4) - the simplest and earliest plants, mostly aquatic; Mosses (3) - early land plants (bryophytes) without true vascular tissue; Ferns (2) - vascular plants that reproduce by spores (pteridophytes); Conifers (5) - gymnosperms that produce naked seeds in cones; Flowering plants (1) - angiosperms, the most recently evolved and most advanced, producing seeds enclosed in fruits. This gives the sequence 4, 3, 2, 5, 1.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 31,
+    "questionText": "Which of the following will NOT allow osmosis to take place?",
+    "options": {
+      "A": "Pig's bladder",
+      "B": "Cellophane",
+      "C": "Parchment paper",
+      "D": "Transparent polythene",
+      "E": "Cow's bladder"
+    },
+    "correctAnswer": "D",
+    "explanation": "Transparent polythene (polyethylene) is a non-porous synthetic material that does not function as a semi-permeable membrane. Osmosis requires a selectively permeable membrane that allows the passage of water (solvent) molecules but restricts the passage of solute molecules. Pig's bladder, cellophane, parchment paper, and cow's bladder are all selectively permeable membranes that can be used in osmosis experiments. Polythene is impermeable to water molecules.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 32,
+    "questionText": "Which of the following statements on the mammalian circulatory system is NOT true?",
+    "options": {
+      "A": "Blood in the pulmonary artery is richer in oxygen content than blood in the pulmonary vein",
+      "B": "The blood in the hepatic portal vein is the richest in food substances",
+      "C": "Blood flow is controlled by valves in the veins",
+      "D": "Arteries are generally thicker and larger than veins",
+      "E": "Fibrin helps in the formation of blood clot"
+    },
+    "correctAnswer": "A",
+    "explanation": "The statement that blood in the pulmonary artery is richer in oxygen than blood in the pulmonary vein is NOT true. It is the opposite: the pulmonary artery carries deoxygenated blood FROM the heart TO the lungs for oxygenation, while the pulmonary vein carries oxygenated blood FROM the lungs BACK to the heart. The pulmonary circulation is unique because the artery carries deoxygenated blood and the vein carries oxygenated blood, which is the reverse of systemic circulation.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "homeostasis-and-coordination",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 33,
+    "questionText": "In a positive phototropic response of a coleoptile, the region of greatest curvature is brought about by the",
+    "options": {
+      "A": "movement of auxins away from the region of curvature",
+      "B": "even distribution of auxins in all parts of the coleoptile",
+      "C": "inhibition of growth by auxins in the region of smaller curvature",
+      "D": "concentration of auxins in the region of curvature",
+      "E": "absence of auxins in the coleoptile"
+    },
+    "correctAnswer": "D",
+    "explanation": "In positive phototropism, when light hits a coleoptile from one side, the growth hormone auxin (indoleacetic acid, IAA) migrates from the illuminated side to the shaded side. This results in a higher concentration of auxins on the shaded side, which is the region of greatest curvature. The higher auxin concentration stimulates greater cell elongation on the shaded side, causing the coleoptile to bend toward the light source. This mechanism was demonstrated by the Cholodny-Went model.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "growth-and-development",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 34,
+    "questionText": "The tuber of cassava is NOT a stem tuber because it",
+    "options": {
+      "A": "is distended with food reserve",
+      "B": "has an aerial shoot portion",
+      "C": "has other structures that could be called roots",
+      "D": "lacks axillary buds",
+      "E": "has a bark over its stored food"
+    },
+    "correctAnswer": "D",
+    "explanation": "The cassava tuber is a root tuber, not a stem tuber, because it lacks axillary buds (also called lateral buds or eyes). Stem tubers, such as the Irish potato (Solanum tuberosum), bear axillary buds on their surface from which new shoots can grow. The cassava tuber, being a swollen root, does not possess nodes, internodes, or axillary buds. New cassava plants are propagated from stem cuttings, not from the tubers themselves.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nervous-system-and-sense-organs",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 35,
+    "questionText": "The function of the ossicles (malleus, incus and stapes) in the mammalian ear is the",
+    "options": {
+      "A": "transmission of vibrations",
+      "B": "regulation of pressures",
+      "C": "support of the inner ear",
+      "D": "maintenance of balance during motion",
+      "E": "secretion of oil"
+    },
+    "correctAnswer": "A",
+    "explanation": "The three ear ossicles (malleus/hammer, incus/anvil, and stapes/stirrup) are the smallest bones in the human body, located in the middle ear. Their primary function is to transmit and amplify sound vibrations from the eardrum (tympanic membrane) to the oval window of the inner ear (cochlea). They act as a mechanical lever system that amplifies the pressure of sound waves by about 20 times, compensating for the energy loss that occurs when sound waves pass from air to the fluid-filled inner ear.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 36,
+    "questionText": "Which of the following instruments is used for determining turbidity of water?",
+    "options": {
+      "A": "Thermometer",
+      "B": "Secchi disc",
+      "C": "Rain gauge",
+      "D": "Hydrometer",
+      "E": "Wind vane"
+    },
+    "correctAnswer": "B",
+    "explanation": "A Secchi disc is a circular black-and-white disc that is lowered into water to measure its turbidity (clarity). It is lowered until it can no longer be seen from the surface, and the depth at which it disappears is recorded as the Secchi depth. The shallower the Secchi depth, the more turbid (cloudy) the water. A thermometer measures temperature, a rain gauge measures rainfall, a hydrometer measures the specific gravity (density) of liquids, and a wind vane indicates wind direction.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "classification-of-living-things",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 37,
+    "questionText": "Which of the following is NOT a characteristic of monocot plants?",
+    "options": {
+      "A": "Occurrence of secondary thickening",
+      "B": "Parallel venation",
+      "C": "Scattered vascular bundles",
+      "D": "Floral parts arranged in threes",
+      "E": "Perianth is usually insignificant"
+    },
+    "correctAnswer": "A",
+    "explanation": "Secondary thickening (secondary growth) is NOT a characteristic of monocotyledonous plants. Monocots generally lack a vascular cambium and therefore do not undergo secondary growth to increase stem girth. Secondary thickening is characteristic of dicotyledonous plants and gymnosperms. The true characteristics of monocots include parallel leaf venation, scattered vascular bundles in the stem, floral parts in multiples of three, and usually an insignificant perianth (sepals and petals not easily distinguishable).",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 38,
+    "questionText": "Which sequence represents the correct order of organisms in a food chain? 1. Toad 2. Mucuna 3. Grasshopper 4. Snake 5. Hawk",
+    "options": {
+      "A": "5, 4, 1, 3, 2",
+      "B": "1, 2, 3, 4, 5",
+      "C": "2, 1, 3, 4, 5",
+      "D": "2, 3, 1, 5, 4",
+      "E": "2, 3, 1, 4, 5"
+    },
+    "correctAnswer": "E",
+    "explanation": "The correct food chain sequence is: Mucuna (2, a green plant/producer) is eaten by Grasshopper (3, a primary consumer/herbivore), which is eaten by Toad (1, a secondary consumer), which is eaten by Snake (4, a tertiary consumer), which is eaten by Hawk (5, a quaternary consumer/top predator). This follows the flow of energy from producers through successive trophic levels: Plant -> Herbivore -> Carnivore -> Carnivore -> Top Carnivore, giving the sequence 2, 3, 1, 4, 5.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "microorganisms-and-disease",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 39,
+    "questionText": "In Rhizopus, carbohydrate is stored in the form of",
+    "options": {
+      "A": "glucose",
+      "B": "paramylon",
+      "C": "glycogen",
+      "D": "starch",
+      "E": "oil"
+    },
+    "correctAnswer": "C",
+    "explanation": "In Rhizopus (bread mold) and other fungi, carbohydrate is stored in the form of glycogen, not starch. Glycogen is sometimes called 'animal starch' because it is also the storage carbohydrate in animals. This is one of the features that distinguishes fungi from plants, which store carbohydrates as starch. Paramylon is a storage carbohydrate found in Euglena, and glucose is a simple sugar rather than a storage form.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-plants",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 40,
+    "questionText": "Which of the following statements about the rate of transpiration is INCORRECT? It is",
+    "options": {
+      "A": "dependent on temperature",
+      "B": "affected by changes in light intensity",
+      "C": "unaffected by humidity",
+      "D": "dependent on air movement",
+      "E": "affected by availability of water"
+    },
+    "correctAnswer": "C",
+    "explanation": "The statement that transpiration rate is 'unaffected by humidity' is INCORRECT. Humidity significantly affects the rate of transpiration. When the surrounding air is humid (high relative humidity), the water potential gradient between the leaf's internal air spaces and the external atmosphere is reduced, which decreases the rate of transpiration. Conversely, in dry air (low humidity), the steeper water potential gradient increases transpiration rate. All other factors listed (temperature, light intensity, air movement, and water availability) do affect transpiration rate.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "classification-of-living-things",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 41,
+    "questionText": "'Jointed skeleton' is absent in the",
+    "options": {
+      "A": "cockroach",
+      "B": "spider",
+      "C": "millipede",
+      "D": "snail",
+      "E": "dragonfly"
+    },
+    "correctAnswer": "D",
+    "explanation": "A snail is a mollusk and does not possess a jointed skeleton (arthropod exoskeleton). Snails have a soft, unsegmented body protected by a hard calcareous shell, but they lack the jointed exoskeleton characteristic of arthropods. All the other organisms listed (cockroach, spider, millipede, and dragonfly) are arthropods, which by definition have a segmented body with a jointed exoskeleton made of chitin.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "skeletal-and-muscular-systems",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 42,
+    "questionText": "Which of the following statements about the dentition of man is INCORRECT? Man has",
+    "options": {
+      "A": "more molars than incisors",
+      "B": "no diastema",
+      "C": "the same number of teeth on upper and lower jaws",
+      "D": "a total of thirty-two teeth",
+      "E": "a total of six molars"
+    },
+    "correctAnswer": "E",
+    "explanation": "The statement that man has 'a total of six molars' is INCORRECT. The adult human dental formula is i2/2, c1/1, pm2/2, m3/3, giving a total of 32 teeth. The number of molars is 3 on each side of both the upper and lower jaws: 3 x 4 = 12 molars in total, not 6. All other statements are correct: man has 12 molars and 8 incisors (more molars), has no diastema (gap between teeth), has 16 teeth in each jaw, and has 32 teeth in total.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 43,
+    "questionText": "When a Spirogyra cell is immersed in a salt solution more concentrated than its cell sap, it",
+    "options": {
+      "A": "remains unchanged",
+      "B": "takes up water and bursts",
+      "C": "absorbs a little water",
+      "D": "loses water and shrivels",
+      "E": "becomes turgid"
+    },
+    "correctAnswer": "D",
+    "explanation": "When a Spirogyra cell is placed in a hypertonic salt solution (more concentrated than its cell sap), water moves out of the cell by osmosis, from the region of higher water potential (cell sap) to the region of lower water potential (concentrated salt solution). This causes the cell to lose water, leading to plasmolysis - the shrinking of the protoplasm away from the cell wall as the cell becomes flaccid and shrivelled. The cell wall remains intact but the cytoplasm contracts.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "excretion",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 44,
+    "questionText": "Urea is produced in the",
+    "options": {
+      "A": "liver",
+      "B": "bladder",
+      "C": "spleen",
+      "D": "kidneys",
+      "E": "gall bladder"
+    },
+    "correctAnswer": "A",
+    "explanation": "Urea is produced in the liver through a metabolic process called the ornithine cycle (urea cycle). During deamination, excess amino acids are broken down in the liver, and the toxic ammonia produced is converted to the less toxic urea by combining with carbon dioxide. The urea is then transported in the blood to the kidneys, where it is filtered out and excreted in urine. The kidneys excrete urea but do not produce it; the bladder merely stores urine.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 45,
+    "questionText": "In a monohybrid cross, if members of the F1 generation which are all heterozygous tall plants are allowed to self-pollinate, what is the genetic ratio of the F2 generation?",
+    "options": {
+      "A": "1 tall : 3 short",
+      "B": "3 tall : 1 short",
+      "C": "1 tall : 1 short",
+      "D": "4 short : 0 tall",
+      "E": "4 tall : 0 short"
+    },
+    "correctAnswer": "B",
+    "explanation": "When heterozygous tall plants (Tt) from the F1 generation are crossed (Tt x Tt), the F2 generation shows a phenotypic ratio of 3 tall : 1 short. Using a Punnett square: TT (homozygous tall), Tt (heterozygous tall), Tt (heterozygous tall), and tt (homozygous short). This gives a genotypic ratio of 1 TT : 2 Tt : 1 tt, which translates to a phenotypic ratio of 3 tall (TT + Tt + Tt) : 1 short (tt). This is the classic Mendelian monohybrid ratio.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 1983,
+    "questionNumber": 46,
+    "questionText": "The path taken by glucose from the ileum to the heart is",
+    "options": {
+      "A": "ileum - hepatic portal vein - hepatic artery - vena cava - heart",
+      "B": "ileum - hepatic portal artery - hepatic artery - vena cava - heart",
+      "C": "ileum - hepatic portal vein - vena cava - heart",
+      "D": "ileum - hepatic vein - vena cava - heart",
+      "E": "ileum - hepatic portal vein - hepatic vein - vena cava - heart"
+    },
+    "correctAnswer": "E",
+    "explanation": "After digestion and absorption in the ileum (part of the small intestine), glucose is transported through the following pathway: from the ileum, glucose enters the hepatic portal vein, which carries nutrient-rich blood to the liver. In the liver, glucose may be stored as glycogen or passed through. Blood then leaves the liver via the hepatic vein, which empties into the inferior vena cava, and finally reaches the heart (right atrium). This hepatic portal system ensures that absorbed nutrients are processed by the liver before entering general circulation.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  }
+]

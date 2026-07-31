@@ -1,0 +1,1002 @@
+[
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 1,
+    "questionText": "Which of the following organelles is responsible for the synthesis of proteins in a cell?",
+    "options": {
+      "A": "Mitochondria",
+      "B": "Ribosomes",
+      "C": "Golgi apparatus",
+      "D": "Lysosomes",
+      "E": "Endoplasmic reticulum"
+    },
+    "correctAnswer": "B",
+    "explanation": "Ribosomes are the organelles responsible for protein synthesis. They can be found free in the cytoplasm or attached to the rough endoplasmic reticulum. Mitochondria are for energy production, the Golgi apparatus packages and modifies proteins, lysosomes contain digestive enzymes, and the endoplasmic reticulum transports materials within the cell.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 2,
+    "questionText": "The cell membrane is described as selectively permeable because it",
+    "options": {
+      "A": "allows all substances to pass through freely",
+      "B": "prevents all substances from passing through",
+      "C": "allows only certain substances to pass through",
+      "D": "is made up of cellulose",
+      "E": "is found only in plant cells"
+    },
+    "correctAnswer": "C",
+    "explanation": "The cell membrane is described as selectively permeable (or semi-permeable) because it allows only certain substances to pass through while restricting others. This selective permeability is due to the phospholipid bilayer structure and the presence of transport proteins that regulate the movement of molecules in and out of the cell.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 3,
+    "questionText": "The organelle that is referred to as the 'powerhouse' of the cell is the",
+    "options": {
+      "A": "nucleus",
+      "B": "ribosome",
+      "C": "mitochondrion",
+      "D": "chloroplast",
+      "E": "Golgi body"
+    },
+    "correctAnswer": "C",
+    "explanation": "The mitochondrion is referred to as the powerhouse of the cell because it is the site of aerobic respiration where ATP (adenosine triphosphate) is produced. ATP is the main energy currency of the cell. The process involves the Krebs cycle and the electron transport chain, which occur within the mitochondria.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 4,
+    "questionText": "Which of the following is NOT a characteristic of living organisms?",
+    "options": {
+      "A": "Respiration",
+      "B": "Growth",
+      "C": "Combustion",
+      "D": "Reproduction",
+      "E": "Irritability"
+    },
+    "correctAnswer": "C",
+    "explanation": "Combustion is a chemical process of burning and is not a characteristic of living organisms. The characteristics of living organisms include nutrition, respiration, growth, excretion, reproduction, irritability (sensitivity), movement, and death. Combustion occurs in non-living systems such as engines and fires.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-division",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 5,
+    "questionText": "During mitosis, the chromatids separate and move to opposite poles of the cell at",
+    "options": {
+      "A": "prophase",
+      "B": "metaphase",
+      "C": "anaphase",
+      "D": "telophase",
+      "E": "interphase"
+    },
+    "correctAnswer": "C",
+    "explanation": "Anaphase is the stage of mitosis during which the centromeres split and the sister chromatids separate, moving to opposite poles of the cell. This movement is facilitated by the shortening of the spindle fibres. Prophase involves chromosome condensation, metaphase is alignment at the equator, telophase involves nuclear membrane reformation, and interphase is the resting stage.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-division",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 6,
+    "questionText": "Meiosis differs from mitosis in that meiosis",
+    "options": {
+      "A": "produces cells with the same chromosome number as the parent cell",
+      "B": "results in four haploid daughter cells",
+      "C": "occurs only in somatic cells",
+      "D": "involves only one division",
+      "E": "produces two identical daughter cells"
+    },
+    "correctAnswer": "B",
+    "explanation": "Meiosis results in four haploid daughter cells, each with half the chromosome number of the parent cell. This is a key difference from mitosis, which produces two diploid daughter cells identical to the parent cell. Meiosis involves two successive divisions (meiosis I and meiosis II) and occurs in reproductive cells to produce gametes.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-plants",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 7,
+    "questionText": "The by-products of photosynthesis are",
+    "options": {
+      "A": "carbon dioxide and water",
+      "B": "oxygen and water",
+      "C": "glucose and carbon dioxide",
+      "D": "oxygen and glucose",
+      "E": "starch and oxygen"
+    },
+    "correctAnswer": "B",
+    "explanation": "The by-products of photosynthesis are oxygen and water. The equation for photosynthesis is: 6CO2 + 12H2O -> C6H12O6 + 6O2 + 6H2O. While glucose is the main product used by the plant, oxygen is released as a by-product through the stomata, and water is also produced. Carbon dioxide and water are reactants, not products.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-plants",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 8,
+    "questionText": "The part of the leaf where most photosynthesis takes place is the",
+    "options": {
+      "A": "upper epidermis",
+      "B": "palisade mesophyll",
+      "C": "spongy mesophyll",
+      "D": "lower epidermis",
+      "E": "vascular bundle"
+    },
+    "correctAnswer": "B",
+    "explanation": "The palisade mesophyll is the main site of photosynthesis in a leaf. This layer is located just below the upper epidermis and contains elongated cells packed with numerous chloroplasts. The palisade cells are positioned to receive maximum sunlight, making them the most efficient photosynthetic tissue in the leaf.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-plants",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 9,
+    "questionText": "An insectivorous plant traps insects in order to obtain",
+    "options": {
+      "A": "carbohydrates",
+      "B": "fats and oils",
+      "C": "nitrogen",
+      "D": "carbon dioxide",
+      "E": "water"
+    },
+    "correctAnswer": "C",
+    "explanation": "Insectivorous plants like Venus flytrap, sundew, and pitcher plants trap and digest insects primarily to obtain nitrogen. These plants typically grow in nitrogen-poor soils such as bogs and marshes. While they can photosynthesize to produce carbohydrates, they supplement their nitrogen supply by digesting insects.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 10,
+    "questionText": "The enzyme that acts on proteins in the stomach is",
+    "options": {
+      "A": "ptyalin",
+      "B": "pepsin",
+      "C": "lipase",
+      "D": "trypsin",
+      "E": "amylase"
+    },
+    "correctAnswer": "B",
+    "explanation": "Pepsin is the enzyme that digests proteins in the stomach. It is secreted as inactive pepsinogen by the chief cells and activated by hydrochloric acid (HCl) in the stomach. Pepsin works in an acidic medium (pH 2) to break down proteins into peptides. Ptyalin and amylase act on starch, lipase on fats, and trypsin acts on proteins in the duodenum.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 11,
+    "questionText": "The main function of bile in digestion is to",
+    "options": {
+      "A": "digest proteins",
+      "B": "emulsify fats",
+      "C": "digest carbohydrates",
+      "D": "neutralize stomach acid only",
+      "E": "break down cellulose"
+    },
+    "correctAnswer": "B",
+    "explanation": "The main function of bile in digestion is to emulsify fats, breaking large fat globules into smaller droplets to increase the surface area for lipase action. Bile is produced by the liver and stored in the gall bladder. While bile also helps to neutralize the acidic chyme from the stomach, its primary digestive role is fat emulsification. Bile does not contain digestive enzymes.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 12,
+    "questionText": "The end product of the digestion of starch is",
+    "options": {
+      "A": "sucrose",
+      "B": "maltose",
+      "C": "glucose",
+      "D": "fructose",
+      "E": "galactose"
+    },
+    "correctAnswer": "C",
+    "explanation": "The final end product of starch digestion is glucose, a monosaccharide. Starch is first broken down by salivary amylase (ptyalin) into maltose in the mouth. In the duodenum, pancreatic amylase continues this process. Maltase then converts maltose into glucose. Glucose is the form in which carbohydrates are absorbed into the bloodstream through the villi of the small intestine.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-plants",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 13,
+    "questionText": "Translocation of manufactured food substances in plants occurs through the",
+    "options": {
+      "A": "xylem",
+      "B": "phloem",
+      "C": "cambium",
+      "D": "epidermis",
+      "E": "cortex"
+    },
+    "correctAnswer": "B",
+    "explanation": "Translocation of manufactured food (organic solutes such as sucrose and amino acids) in plants occurs through the phloem tissue, specifically through the sieve tubes. The xylem transports water and dissolved mineral salts from the roots to the leaves. The cambium is a meristematic tissue, the epidermis is a protective layer, and the cortex is a storage tissue.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-plants",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 14,
+    "questionText": "The process by which water moves from a region of lower concentration of solutes to a region of higher concentration of solutes through a semi-permeable membrane is called",
+    "options": {
+      "A": "diffusion",
+      "B": "osmosis",
+      "C": "active transport",
+      "D": "plasmolysis",
+      "E": "transpiration"
+    },
+    "correctAnswer": "B",
+    "explanation": "Osmosis is the movement of water molecules from a region of lower solute concentration (higher water potential) to a region of higher solute concentration (lower water potential) through a semi-permeable membrane. Diffusion does not require a membrane, active transport requires energy against a concentration gradient, plasmolysis is the shrinking of cell contents, and transpiration is water loss from leaves.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 15,
+    "questionText": "The blood vessel that carries deoxygenated blood from the heart to the lungs is the",
+    "options": {
+      "A": "aorta",
+      "B": "pulmonary artery",
+      "C": "pulmonary vein",
+      "D": "vena cava",
+      "E": "hepatic artery"
+    },
+    "correctAnswer": "B",
+    "explanation": "The pulmonary artery carries deoxygenated blood from the right ventricle of the heart to the lungs for oxygenation. It is the only artery that carries deoxygenated blood. The aorta carries oxygenated blood from the heart to the body, the pulmonary vein returns oxygenated blood from the lungs to the heart, and the vena cava returns deoxygenated blood from the body to the heart.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 16,
+    "questionText": "The component of blood responsible for the transport of oxygen is",
+    "options": {
+      "A": "white blood cells",
+      "B": "platelets",
+      "C": "plasma",
+      "D": "red blood cells",
+      "E": "lymphocytes"
+    },
+    "correctAnswer": "D",
+    "explanation": "Red blood cells (erythrocytes) are responsible for oxygen transport. They contain haemoglobin, an iron-containing protein that binds with oxygen to form oxyhaemoglobin. This gives blood its red colour. Red blood cells are biconcave in shape, which increases their surface area for efficient gas exchange. They lack a nucleus in mammals, providing more space for haemoglobin.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 17,
+    "questionText": "The heart chamber that pumps oxygenated blood to all parts of the body is the",
+    "options": {
+      "A": "right auricle",
+      "B": "left auricle",
+      "C": "right ventricle",
+      "D": "left ventricle",
+      "E": "right atrium"
+    },
+    "correctAnswer": "D",
+    "explanation": "The left ventricle pumps oxygenated blood through the aorta to all parts of the body. It has the thickest muscular wall of all the heart chambers because it needs to generate enough pressure to push blood through the entire systemic circulation. The right ventricle pumps deoxygenated blood to the lungs only, which requires less pressure.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "respiration",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 18,
+    "questionText": "The process of anaerobic respiration in yeast produces",
+    "options": {
+      "A": "lactic acid and carbon dioxide",
+      "B": "ethanol and carbon dioxide",
+      "C": "ethanol and oxygen",
+      "D": "lactic acid and water",
+      "E": "carbon dioxide and water"
+    },
+    "correctAnswer": "B",
+    "explanation": "Anaerobic respiration in yeast (fermentation) produces ethanol (alcohol) and carbon dioxide. The equation is: C6H12O6 -> 2C2H5OH + 2CO2 + Energy. This process is used in brewing and baking. In animals and some bacteria, anaerobic respiration produces lactic acid instead. Aerobic respiration produces carbon dioxide and water.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "respiration",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 19,
+    "questionText": "The part of the respiratory system where gaseous exchange takes place in humans is the",
+    "options": {
+      "A": "trachea",
+      "B": "bronchus",
+      "C": "bronchiole",
+      "D": "alveolus",
+      "E": "nasal cavity"
+    },
+    "correctAnswer": "D",
+    "explanation": "Gaseous exchange in humans takes place in the alveoli (singular: alveolus). The alveoli are tiny air sacs at the end of the bronchioles in the lungs. They have thin walls (one cell thick), a moist surface, a rich blood supply, and a large surface area, all of which facilitate the efficient diffusion of oxygen into the blood and carbon dioxide out of the blood.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "excretion",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 20,
+    "questionText": "The functional unit of the kidney is the",
+    "options": {
+      "A": "glomerulus",
+      "B": "nephron",
+      "C": "Bowman's capsule",
+      "D": "loop of Henle",
+      "E": "collecting duct"
+    },
+    "correctAnswer": "B",
+    "explanation": "The nephron is the functional unit of the kidney. Each kidney contains about one million nephrons. A nephron consists of the Bowman's capsule (containing the glomerulus), the proximal convoluted tubule, the loop of Henle, the distal convoluted tubule, and the collecting duct. The nephron carries out ultrafiltration, selective reabsorption, and secretion to produce urine.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "excretion",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 21,
+    "questionText": "The main excretory product of the mammalian liver is",
+    "options": {
+      "A": "carbon dioxide",
+      "B": "water",
+      "C": "urea",
+      "D": "ammonia",
+      "E": "uric acid"
+    },
+    "correctAnswer": "C",
+    "explanation": "The main excretory product of the mammalian liver is urea. Urea is formed through the deamination of excess amino acids in the liver. The amino group is removed and converted to ammonia, which is then combined with carbon dioxide in the ornithine cycle to form the less toxic urea. Urea is then transported by the blood to the kidneys for excretion in urine.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-plants",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 22,
+    "questionText": "Pollination is best defined as the transfer of pollen grains from",
+    "options": {
+      "A": "the anther to the stigma",
+      "B": "the anther to the ovary",
+      "C": "the stamen to the ovule",
+      "D": "the stigma to the ovary",
+      "E": "the pollen sac to the style"
+    },
+    "correctAnswer": "A",
+    "explanation": "Pollination is defined as the transfer of pollen grains from the anther (male part) to the stigma (female part) of a flower. This can occur within the same flower (self-pollination) or between flowers of the same species (cross-pollination). Pollination agents include wind, insects, birds, water, and other animals. After pollination, the pollen grain germinates on the stigma and grows a pollen tube to reach the ovule for fertilization.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-plants",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 23,
+    "questionText": "The part of the flower that develops into a fruit after fertilization is the",
+    "options": {
+      "A": "stigma",
+      "B": "style",
+      "C": "ovary",
+      "D": "ovule",
+      "E": "petal"
+    },
+    "correctAnswer": "C",
+    "explanation": "The ovary of the flower develops into the fruit after fertilization. The ovary wall becomes the fruit wall (pericarp), while the ovules within the ovary develop into seeds. The seed contains the embryo, which develops from the fertilized egg (zygote). Other floral parts such as the petals, sepals, stamens, and style usually wither after fertilization.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-animals",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 24,
+    "questionText": "The placenta in mammals functions to",
+    "options": {
+      "A": "protect the foetus from mechanical shock",
+      "B": "allow exchange of nutrients, gases, and waste between mother and foetus",
+      "C": "produce spermatozoa",
+      "D": "store food for the foetus only",
+      "E": "directly mix the blood of mother and foetus"
+    },
+    "correctAnswer": "B",
+    "explanation": "The placenta functions as the site of exchange of nutrients, dissolved oxygen, and waste products between the mother and the foetus. The maternal and foetal blood do not mix directly; instead, exchange occurs across the thin placental membrane by diffusion. The placenta also produces hormones such as progesterone and oestrogen to maintain pregnancy. The amniotic fluid, not the placenta, protects the foetus from mechanical shock.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-animals",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 25,
+    "questionText": "The fusion of male and female gametes is known as",
+    "options": {
+      "A": "pollination",
+      "B": "fertilization",
+      "C": "germination",
+      "D": "ovulation",
+      "E": "conjugation"
+    },
+    "correctAnswer": "B",
+    "explanation": "The fusion of male and female gametes (sex cells) is called fertilization. In animals, this involves the union of a sperm cell and an egg cell to form a zygote. Pollination is the transfer of pollen to the stigma, germination is the sprouting of a seed, ovulation is the release of an egg from the ovary, and conjugation is a form of sexual reproduction in some unicellular organisms.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "growth-and-development",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 26,
+    "questionText": "Metamorphosis is a type of development that occurs in",
+    "options": {
+      "A": "mammals",
+      "B": "birds",
+      "C": "reptiles",
+      "D": "insects",
+      "E": "fish"
+    },
+    "correctAnswer": "D",
+    "explanation": "Metamorphosis is a type of development that occurs in insects (and also amphibians). It involves a series of distinct developmental stages where the organism undergoes dramatic physical changes. In complete metamorphosis (holometabolous), insects pass through four stages: egg, larva, pupa, and adult (e.g., butterflies). In incomplete metamorphosis (hemimetabolous), the stages are egg, nymph, and adult (e.g., grasshoppers).",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "growth-and-development",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 27,
+    "questionText": "The part of a seed that develops into the shoot system is the",
+    "options": {
+      "A": "radicle",
+      "B": "plumule",
+      "C": "testa",
+      "D": "cotyledon",
+      "E": "hilum"
+    },
+    "correctAnswer": "B",
+    "explanation": "The plumule is the embryonic shoot in a seed that develops into the shoot system (stem and leaves) of the plant. The radicle develops into the root system. The testa is the seed coat that provides protection, the cotyledon stores food for the developing embryo, and the hilum is the scar on the seed coat where the seed was attached to the fruit.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 28,
+    "questionText": "An association between two organisms in which both benefit is known as",
+    "options": {
+      "A": "parasitism",
+      "B": "commensalism",
+      "C": "mutualism",
+      "D": "saprophytism",
+      "E": "predation"
+    },
+    "correctAnswer": "C",
+    "explanation": "Mutualism is a symbiotic association between two organisms in which both benefit. Examples include nitrogen-fixing bacteria (Rhizobium) in the root nodules of legumes, where the bacteria fix nitrogen for the plant while the plant provides sugars and shelter. In parasitism, one benefits at the expense of the other. In commensalism, one benefits while the other is neither helped nor harmed.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 29,
+    "questionText": "In an ecological food chain, the organisms that occupy the first trophic level are",
+    "options": {
+      "A": "primary consumers",
+      "B": "secondary consumers",
+      "C": "producers",
+      "D": "decomposers",
+      "E": "tertiary consumers"
+    },
+    "correctAnswer": "C",
+    "explanation": "Producers (autotrophs), mainly green plants, occupy the first trophic level in an ecological food chain. They manufacture their own food through photosynthesis using sunlight, water, and carbon dioxide. Primary consumers (herbivores) occupy the second trophic level, secondary consumers (carnivores that eat herbivores) the third, and tertiary consumers the fourth. Decomposers break down dead organic matter at all levels.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 30,
+    "questionText": "The cycling of nitrogen in nature involves all of the following EXCEPT",
+    "options": {
+      "A": "nitrogen fixation by bacteria",
+      "B": "denitrification",
+      "C": "nitrification",
+      "D": "photolysis",
+      "E": "decomposition of organic matter"
+    },
+    "correctAnswer": "D",
+    "explanation": "Photolysis (the splitting of water molecules by light during photosynthesis) is not part of the nitrogen cycle. The nitrogen cycle involves nitrogen fixation (conversion of atmospheric N2 to ammonia by bacteria like Rhizobium and Azotobacter), nitrification (conversion of ammonia to nitrites and nitrates by Nitrosomonas and Nitrobacter), denitrification (conversion of nitrates back to N2 by Pseudomonas), and decomposition of organic matter releasing ammonia.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 31,
+    "questionText": "The total number of organisms that an environment can support is called its",
+    "options": {
+      "A": "population density",
+      "B": "carrying capacity",
+      "C": "biomass",
+      "D": "birth rate",
+      "E": "biotic community"
+    },
+    "correctAnswer": "B",
+    "explanation": "Carrying capacity is the maximum number of organisms of a particular species that an environment can sustain indefinitely given the available resources such as food, water, shelter, and space. When a population exceeds the carrying capacity, limiting factors such as food shortage, disease, and competition cause the population to decline. Population density is the number of individuals per unit area.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 32,
+    "questionText": "If a tall plant (TT) is crossed with a short plant (tt), the phenotypic ratio of the F2 generation would be",
+    "options": {
+      "A": "1 tall : 1 short",
+      "B": "3 tall : 1 short",
+      "C": "1 tall : 3 short",
+      "D": "all tall",
+      "E": "2 tall : 2 short"
+    },
+    "correctAnswer": "B",
+    "explanation": "When TT is crossed with tt, the F1 generation is all Tt (heterozygous tall). When F1 plants (Tt x Tt) are crossed, the F2 generation gives a genotypic ratio of 1 TT : 2 Tt : 1 tt, and a phenotypic ratio of 3 tall : 1 short. This is because tallness (T) is dominant over shortness (t), so both TT and Tt individuals appear tall. This follows Mendel's law of segregation.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 33,
+    "questionText": "A person with blood group AB has the genotype",
+    "options": {
+      "A": "IAIA",
+      "B": "IBIB",
+      "C": "IAIB",
+      "D": "IAi",
+      "E": "ii"
+    },
+    "correctAnswer": "C",
+    "explanation": "A person with blood group AB has the genotype IAIB. This is an example of co-dominance, where both the IA and IB alleles are expressed simultaneously, producing both A and B antigens on the surface of the red blood cells. Blood group A can be IAIA or IAi, blood group B can be IBIB or IBi, and blood group O is ii. People with blood group AB are universal recipients.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 34,
+    "questionText": "Colour blindness in humans is a sex-linked character because the gene for it is located on the",
+    "options": {
+      "A": "Y chromosome only",
+      "B": "X chromosome only",
+      "C": "autosome",
+      "D": "both X and Y chromosomes",
+      "E": "mitochondrial DNA"
+    },
+    "correctAnswer": "B",
+    "explanation": "Colour blindness is a sex-linked (X-linked) recessive character because the gene responsible is located on the X chromosome. Males (XY) are more frequently affected because they have only one X chromosome, so a single recessive allele will cause the condition. Females (XX) need two copies of the recessive allele to be colour-blind; with one copy they are carriers. This is why colour blindness is more common in males.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 35,
+    "questionText": "A sudden change in the gene or chromosome structure of an organism is called",
+    "options": {
+      "A": "variation",
+      "B": "adaptation",
+      "C": "mutation",
+      "D": "evolution",
+      "E": "selection"
+    },
+    "correctAnswer": "C",
+    "explanation": "A mutation is a sudden, random, and permanent change in the gene or chromosome structure of an organism. Mutations can occur at the gene level (point mutations) or at the chromosome level (chromosomal mutations involving changes in number or structure). Mutations can be caused by mutagens such as radiation, chemicals, and certain viruses. Most mutations are harmful, but some may be beneficial and contribute to evolution.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "evolution",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 36,
+    "questionText": "The theory of natural selection was proposed by",
+    "options": {
+      "A": "Gregor Mendel",
+      "B": "Jean Baptiste de Lamarck",
+      "C": "Charles Darwin",
+      "D": "Louis Pasteur",
+      "E": "Hugo de Vries"
+    },
+    "correctAnswer": "C",
+    "explanation": "The theory of natural selection was proposed by Charles Darwin in his book 'On the Origin of Species' published in 1859. Darwin proposed that organisms with favourable variations are better adapted to survive and reproduce in their environment (survival of the fittest). Lamarck proposed the theory of inheritance of acquired characteristics, Mendel is known for genetics, Pasteur for germ theory, and de Vries for the mutation theory.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "evolution",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 37,
+    "questionText": "Lamarck's theory of evolution is based on the principle of",
+    "options": {
+      "A": "survival of the fittest",
+      "B": "natural selection",
+      "C": "use and disuse of body parts",
+      "D": "mutation",
+      "E": "genetic drift"
+    },
+    "correctAnswer": "C",
+    "explanation": "Lamarck's theory of evolution is based on the principle of use and disuse of body parts and the inheritance of acquired characteristics. Lamarck proposed that organs that are used extensively become better developed and stronger, while those that are not used gradually deteriorate (atrophy). He believed that these acquired characteristics could be passed on to offspring. This theory has largely been disproven by modern genetics.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "classification-of-living-things",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 38,
+    "questionText": "The correct hierarchy of classification from the highest to the lowest is",
+    "options": {
+      "A": "Kingdom, Phylum, Order, Class, Family, Genus, Species",
+      "B": "Kingdom, Phylum, Class, Order, Family, Genus, Species",
+      "C": "Kingdom, Class, Phylum, Order, Family, Genus, Species",
+      "D": "Kingdom, Phylum, Class, Family, Order, Genus, Species",
+      "E": "Kingdom, Order, Phylum, Class, Family, Genus, Species"
+    },
+    "correctAnswer": "B",
+    "explanation": "The correct hierarchy of biological classification from the highest (most inclusive) to the lowest (least inclusive) is: Kingdom, Phylum (or Division for plants), Class, Order, Family, Genus, Species. A helpful mnemonic is 'King Philip Came Over For Good Spaghetti.' Each successive level groups organisms more closely related to each other.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "classification-of-living-things",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 39,
+    "questionText": "Organisms that are capable of manufacturing their own food from inorganic substances are called",
+    "options": {
+      "A": "heterotrophs",
+      "B": "autotrophs",
+      "C": "saprophytes",
+      "D": "parasites",
+      "E": "decomposers"
+    },
+    "correctAnswer": "B",
+    "explanation": "Autotrophs are organisms that can manufacture their own food from inorganic substances. They include photoautotrophs (such as green plants and algae) that use light energy for photosynthesis, and chemoautotrophs (such as nitrifying bacteria) that use chemical energy. Heterotrophs cannot make their own food and depend on other organisms. Saprophytes feed on dead organic matter, and parasites feed on living hosts.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "microorganisms-and-disease",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 40,
+    "questionText": "Malaria in humans is caused by",
+    "options": {
+      "A": "a virus",
+      "B": "a bacterium",
+      "C": "a protozoan",
+      "D": "a fungus",
+      "E": "a worm"
+    },
+    "correctAnswer": "C",
+    "explanation": "Malaria is caused by a protozoan parasite of the genus Plasmodium. The four species that infect humans are P. falciparum (the most dangerous), P. vivax, P. ovale, and P. malariae. The parasite is transmitted by the female Anopheles mosquito, which serves as the vector. The parasite attacks and destroys red blood cells, causing symptoms such as fever, chills, and anaemia.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "microorganisms-and-disease",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 41,
+    "questionText": "The vector of sleeping sickness is the",
+    "options": {
+      "A": "female Anopheles mosquito",
+      "B": "tsetse fly",
+      "C": "housefly",
+      "D": "blackfly",
+      "E": "sand fly"
+    },
+    "correctAnswer": "B",
+    "explanation": "The tsetse fly (Glossina species) is the vector that transmits sleeping sickness (African trypanosomiasis), caused by the protozoan Trypanosoma. The tsetse fly transmits the parasite when it bites humans. The female Anopheles mosquito transmits malaria, the blackfly transmits river blindness (onchocerciasis), and the sand fly transmits kala-azar (leishmaniasis).",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "microorganisms-and-disease",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 42,
+    "questionText": "Which of the following diseases is caused by a virus?",
+    "options": {
+      "A": "Cholera",
+      "B": "Tuberculosis",
+      "C": "Measles",
+      "D": "Gonorrhoea",
+      "E": "Typhoid fever"
+    },
+    "correctAnswer": "C",
+    "explanation": "Measles is caused by the measles virus (a paramyxovirus). It is a highly contagious disease spread through respiratory droplets. Cholera is caused by the bacterium Vibrio cholerae, tuberculosis by Mycobacterium tuberculosis, gonorrhoea by the bacterium Neisseria gonorrhoeae, and typhoid fever by Salmonella typhi. These are all bacterial diseases.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nervous-system-and-sense-organs",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 43,
+    "questionText": "The part of the brain that controls balance and coordination of body movements is the",
+    "options": {
+      "A": "cerebrum",
+      "B": "cerebellum",
+      "C": "medulla oblongata",
+      "D": "hypothalamus",
+      "E": "thalamus"
+    },
+    "correctAnswer": "B",
+    "explanation": "The cerebellum controls balance, posture, and coordination of voluntary body movements. It is located at the back of the brain below the cerebrum. The cerebrum controls intelligence, memory, reasoning, and voluntary actions. The medulla oblongata controls involuntary activities such as heartbeat, breathing, and peristalsis. The hypothalamus regulates body temperature, hunger, and thirst, while the thalamus relays sensory information.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nervous-system-and-sense-organs",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 44,
+    "questionText": "A reflex action is one that is",
+    "options": {
+      "A": "voluntary and learned",
+      "B": "involuntary, automatic, and rapid",
+      "C": "controlled by the cerebrum",
+      "D": "always a conditioned response",
+      "E": "initiated by the brain only"
+    },
+    "correctAnswer": "B",
+    "explanation": "A reflex action is an involuntary, automatic, and rapid response to a stimulus. It does not involve conscious thought and is controlled by the spinal cord through a reflex arc. Examples include the knee-jerk reflex, withdrawal of the hand from a hot object, and blinking. The reflex arc consists of a receptor, sensory neurone, relay neurone (in the spinal cord), motor neurone, and effector.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "endocrine-system",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 45,
+    "questionText": "The hormone responsible for controlling the level of sugar in the blood is",
+    "options": {
+      "A": "thyroxine",
+      "B": "adrenaline",
+      "C": "insulin",
+      "D": "testosterone",
+      "E": "oestrogen"
+    },
+    "correctAnswer": "C",
+    "explanation": "Insulin, produced by the beta cells of the islets of Langerhans in the pancreas, is the primary hormone responsible for controlling blood sugar levels. Insulin lowers blood glucose by stimulating cells to take up glucose and promoting the conversion of glucose to glycogen for storage in the liver and muscles. A deficiency of insulin leads to diabetes mellitus. Glucagon, produced by alpha cells, has the opposite effect.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "endocrine-system",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 46,
+    "questionText": "The hormone that prepares the body for 'fight or flight' response is",
+    "options": {
+      "A": "insulin",
+      "B": "thyroxine",
+      "C": "adrenaline",
+      "D": "progesterone",
+      "E": "growth hormone"
+    },
+    "correctAnswer": "C",
+    "explanation": "Adrenaline (epinephrine), produced by the adrenal medulla of the adrenal glands, prepares the body for the 'fight or flight' response during emergencies. It increases heart rate, dilates blood vessels to muscles, increases blood sugar level, dilates the pupils, and increases breathing rate. These responses prepare the body to either confront or flee from danger. Thyroxine controls metabolic rate, and insulin controls blood sugar.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "skeletal-and-muscular-systems",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 47,
+    "questionText": "The type of joint found at the elbow is a",
+    "options": {
+      "A": "ball and socket joint",
+      "B": "hinge joint",
+      "C": "pivot joint",
+      "D": "gliding joint",
+      "E": "fixed joint"
+    },
+    "correctAnswer": "B",
+    "explanation": "The elbow has a hinge joint, which allows movement in only one plane (flexion and extension), like the hinge of a door. Ball and socket joints (found at the hip and shoulder) allow movement in all directions. Pivot joints (found between the atlas and axis vertebrae) allow rotational movement. Gliding joints (found in the wrist and ankle) allow sliding movements. Fixed joints (found in the skull) allow no movement.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "skeletal-and-muscular-systems",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 48,
+    "questionText": "The skeletal system performs all of the following functions EXCEPT",
+    "options": {
+      "A": "support and shape",
+      "B": "protection of internal organs",
+      "C": "production of blood cells",
+      "D": "secretion of hormones",
+      "E": "attachment for muscles"
+    },
+    "correctAnswer": "D",
+    "explanation": "Secretion of hormones is NOT a function of the skeletal system. The functions of the skeletal system include providing support and shape to the body, protection of delicate internal organs (e.g., the skull protects the brain, the ribcage protects the heart and lungs), production of blood cells in the bone marrow (haematopoiesis), provision of attachment points for muscles, and storage of minerals like calcium and phosphorus.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "homeostasis-and-coordination",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 49,
+    "questionText": "The maintenance of a constant internal environment in living organisms is known as",
+    "options": {
+      "A": "metabolism",
+      "B": "homeostasis",
+      "C": "osmoregulation",
+      "D": "thermoregulation",
+      "E": "excretion"
+    },
+    "correctAnswer": "B",
+    "explanation": "Homeostasis is the maintenance of a constant internal environment within narrow limits despite changes in the external environment. It involves the regulation of body temperature, blood sugar level, water and salt balance, pH, and other physiological variables. Osmoregulation and thermoregulation are specific aspects of homeostasis. Metabolism refers to all the chemical reactions in the body, and excretion is the removal of metabolic waste.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "homeostasis-and-coordination",
+    "examType": "JAMB",
+    "examYear": 1996,
+    "questionNumber": 50,
+    "questionText": "When the body temperature of a mammal rises above normal, the body responds by",
+    "options": {
+      "A": "constricting blood vessels in the skin and shivering",
+      "B": "dilating blood vessels in the skin and increasing sweating",
+      "C": "increasing metabolic rate",
+      "D": "raising the body hairs",
+      "E": "reducing blood flow to the skin"
+    },
+    "correctAnswer": "B",
+    "explanation": "When body temperature rises above normal, the hypothalamus triggers cooling mechanisms: vasodilation (dilation of blood vessels near the skin surface to increase heat loss by radiation), increased sweating (evaporation of sweat from the skin absorbs latent heat), and flattening of body hairs. Vasoconstriction, shivering, raising body hairs, and increased metabolic rate are responses to a drop in body temperature.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  }
+]

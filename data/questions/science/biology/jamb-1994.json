@@ -1,0 +1,802 @@
+[
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 1,
+    "questionText": "The membrane surrounding the vacuole in a plant cell is called the",
+    "options": {
+      "A": "plasmalemma",
+      "B": "tonoplast",
+      "C": "nuclear membrane",
+      "D": "endoplasmic reticulum",
+      "E": "cell wall"
+    },
+    "correctAnswer": "B",
+    "explanation": "The tonoplast is the membrane that surrounds the central vacuole in plant cells. It is a selectively permeable membrane that regulates the movement of substances into and out of the vacuole. The plasmalemma (cell membrane) surrounds the entire cell, the nuclear membrane encloses the nucleus, and the endoplasmic reticulum is a network of membranes involved in protein and lipid synthesis.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "classification-of-living-things",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 2,
+    "questionText": "The smallest living organisms which share the characteristics of both living and non-living matter are",
+    "options": {
+      "A": "bacteria",
+      "B": "fungi",
+      "C": "viruses",
+      "D": "protozoa",
+      "E": "algae"
+    },
+    "correctAnswer": "C",
+    "explanation": "Viruses are the smallest organisms that exhibit characteristics of both living and non-living things. They can reproduce and mutate (living characteristics) but cannot carry out metabolic activities on their own and can be crystallized (non-living characteristics). They are obligate intracellular parasites, meaning they require a host cell to replicate.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-plants",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 3,
+    "questionText": "Green plants are distinguished from other living organisms by their ability to",
+    "options": {
+      "A": "make use of water",
+      "B": "make use of oxygen",
+      "C": "respond to sunlight",
+      "D": "manufacture their own food",
+      "E": "excrete carbon dioxide"
+    },
+    "correctAnswer": "D",
+    "explanation": "Green plants are autotrophs, meaning they can manufacture their own food through the process of photosynthesis using sunlight, carbon dioxide, water, and chlorophyll. This ability to synthesize organic food from inorganic substances is the distinguishing feature of green plants. While other organisms also use water, oxygen, and respond to environmental stimuli, only green plants (and some other autotrophs) can produce their own food.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 4,
+    "questionText": "The soil swallowed by the earthworm to form the worm cast is ground up in the",
+    "options": {
+      "A": "clitellum",
+      "B": "prostomium",
+      "C": "mouth",
+      "D": "gizzard",
+      "E": "pharynx"
+    },
+    "correctAnswer": "D",
+    "explanation": "The gizzard is the muscular part of the earthworm's digestive system where soil and food particles are ground up into smaller pieces. The clitellum is a glandular structure involved in reproduction, the prostomium is a fleshy lip-like projection above the mouth used for sensing, the mouth is the opening through which soil enters, and the pharynx is involved in sucking in food material.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "evolution",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 5,
+    "questionText": "Which is the correct order in an evolutionary sequence for the following plant groups?",
+    "options": {
+      "A": "Bacteria, ferns, algae, mosses, seed plants",
+      "B": "Bacteria, ferns, mosses, algae, seed plants",
+      "C": "Bacteria, algae, mosses, ferns, seed plants",
+      "D": "Bacteria, mosses, algae, ferns, seed plants",
+      "E": "Bacteria, mosses, ferns, algae, seed plants"
+    },
+    "correctAnswer": "C",
+    "explanation": "The correct evolutionary sequence of plant groups from the most primitive to the most advanced is: Bacteria (prokaryotes, earliest life forms), Algae (simple photosynthetic eukaryotes), Mosses (bryophytes, first land plants without vascular tissue), Ferns (pteridophytes, first vascular plants without seeds), and Seed plants (spermatophytes, most advanced with seeds for reproduction). This sequence reflects increasing complexity in plant evolution.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "homeostasis-and-coordination",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 6,
+    "questionText": "In Amoeba, osmoregulation is carried out by the",
+    "options": {
+      "A": "pseudopodium",
+      "B": "food vacuole",
+      "C": "contractile vacuole",
+      "D": "nucleus",
+      "E": "cell membrane"
+    },
+    "correctAnswer": "C",
+    "explanation": "The contractile vacuole in Amoeba is responsible for osmoregulation. It collects excess water that enters the cell by osmosis and periodically contracts to expel this water out of the cell, thereby maintaining the correct water balance. The pseudopodium is used for movement and feeding, the food vacuole for digestion, the nucleus for controlling cell activities, and the cell membrane for general selective permeability.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "classification-of-living-things",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 7,
+    "questionText": "Which of the following combinations differentiates a bony fish from a cartilaginous fish? I. Presence of gills II. Absence of gill slits III. Possession of bony skeleton IV. Possession of laterally compressed body V. Possession of dorso-ventrally compressed body",
+    "options": {
+      "A": "I, II and III",
+      "B": "I, III and IV",
+      "C": "II, III and IV",
+      "D": "II, III and V",
+      "E": "I, IV and V"
+    },
+    "correctAnswer": "C",
+    "explanation": "Bony fish (Osteichthyes) are differentiated from cartilaginous fish (Chondrichthyes) by: the absence of exposed gill slits (they have an operculum covering their gills instead), the possession of a bony skeleton (as opposed to cartilage), and a laterally compressed body. Both bony and cartilaginous fish have gills (I is not a distinguishing feature), and dorso-ventral compression is characteristic of cartilaginous fish like rays.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "classification-of-living-things",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 8,
+    "questionText": "Which is the most important adaptation of a bony fish to life in water?",
+    "options": {
+      "A": "The possession of a streamlined shape",
+      "B": "The presence of overlapping scales",
+      "C": "The covering of the body by a thin film of slime",
+      "D": "The possession of a caudal fin",
+      "E": "The presence of paired fins"
+    },
+    "correctAnswer": "A",
+    "explanation": "The streamlined (fusiform) shape of a bony fish is its most important adaptation to aquatic life. This shape reduces water resistance (drag) and allows the fish to move efficiently through water. While scales, slime, the caudal fin, and paired fins are all adaptations to aquatic life, the streamlined shape is considered the most fundamental adaptation for locomotion in water.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-plants",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 9,
+    "questionText": "The failure of transport and respiratory systems in plants as well as the presence of reddish colour in stems and leaves result from the deficiency of",
+    "options": {
+      "A": "magnesium",
+      "B": "nitrogen",
+      "C": "potassium",
+      "D": "phosphorus",
+      "E": "calcium"
+    },
+    "correctAnswer": "D",
+    "explanation": "Phosphorus deficiency in plants causes purple or reddish discoloration of stems and leaves due to the accumulation of anthocyanin pigments. Phosphorus is a key component of ATP (adenosine triphosphate), which is essential for energy transfer in respiration and active transport processes. Its deficiency therefore impairs both respiratory and transport systems. Magnesium deficiency causes chlorosis, nitrogen deficiency causes general yellowing, and potassium deficiency causes browning of leaf margins.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 10,
+    "questionText": "The dental formula I 3/3 C 1/1 PM 4/4 M 2/3 is that of a",
+    "options": {
+      "A": "goat",
+      "B": "rabbit",
+      "C": "man",
+      "D": "dog",
+      "E": "cat"
+    },
+    "correctAnswer": "D",
+    "explanation": "The dental formula I 3/3 C 1/1 PM 4/4 M 2/3 belongs to the dog. This gives a total of 42 teeth. Dogs are carnivores with well-developed canines for tearing meat and sharp premolars (carnassial teeth) for shearing. Man has I 2/2 C 1/1 PM 2/2 M 3/3 (32 teeth), rabbit has I 2/1 C 0/0 PM 3/2 M 3/3, and goat has I 0/3 C 0/1 PM 3/3 M 3/3.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 11,
+    "questionText": "The nitrifying bacteria, Nitrosomonas, convert ammonia to",
+    "options": {
+      "A": "nitrites",
+      "B": "nitric acid",
+      "C": "nitrates",
+      "D": "nitrous oxide",
+      "E": "nitrogen gas"
+    },
+    "correctAnswer": "A",
+    "explanation": "Nitrosomonas is a nitrifying bacterium that converts ammonia (NH3) to nitrites (NO2-) in the first step of nitrification. The second step involves another bacterium, Nitrobacter, which converts nitrites to nitrates (NO3-). Nitrates are the form of nitrogen most readily absorbed by plant roots. This two-step process is an important part of the nitrogen cycle in ecosystems.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 12,
+    "questionText": "The activity of ptyalin is likely to decrease with an increase in the concentration of",
+    "options": {
+      "A": "oxygen",
+      "B": "starch",
+      "C": "protein",
+      "D": "acid",
+      "E": "maltose"
+    },
+    "correctAnswer": "D",
+    "explanation": "Ptyalin (salivary amylase) is an enzyme that works optimally in a slightly alkaline or neutral pH (around pH 6.8-7.0) in the mouth. An increase in acid concentration lowers the pH, which denatures the enzyme and reduces its activity. This is why ptyalin stops working when food reaches the acidic environment of the stomach (pH 1.5-2.0). The other substances listed would not significantly inhibit ptyalin activity.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-plants",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 13,
+    "questionText": "The phloem parenchyma is sometimes used for",
+    "options": {
+      "A": "food storage",
+      "B": "supporting the stem",
+      "C": "production of the sieve tube",
+      "D": "transporting water",
+      "E": "gaseous exchange"
+    },
+    "correctAnswer": "A",
+    "explanation": "Phloem parenchyma cells are living cells found in the phloem tissue that serve as storage cells for food substances such as starch and fats. While the phloem's primary function is the translocation of manufactured food (sugars), the parenchyma cells within the phloem specifically serve a storage role. Water transport is the function of xylem, and stem support is provided by sclerenchyma and collenchyma tissues.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 14,
+    "questionText": "The process by which a red blood cell placed in distilled water absorbs water until it bursts and releases its contents into the surrounding is known as",
+    "options": {
+      "A": "osmosis",
+      "B": "plasmolysis",
+      "C": "turgidity",
+      "D": "haemolysis",
+      "E": "crenation"
+    },
+    "correctAnswer": "D",
+    "explanation": "Haemolysis is the bursting of red blood cells when placed in a hypotonic solution (such as distilled water). Water enters the red blood cell by osmosis because the concentration of water is higher outside the cell. Since red blood cells lack a cell wall, they swell and eventually burst, releasing haemoglobin. Osmosis is the general process of water movement, plasmolysis is the shrinking of plant cell contents, turgidity refers to a swollen plant cell, and crenation is the shrinking of animal cells in hypertonic solution.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 15,
+    "questionText": "A circulatory system that does not allow mixing of oxygenated and deoxygenated blood in the mammalian heart is referred to as",
+    "options": {
+      "A": "open",
+      "B": "haemocoelic",
+      "C": "single",
+      "D": "closed",
+      "E": "pulmonary"
+    },
+    "correctAnswer": "D",
+    "explanation": "Mammals have a closed circulatory system with a four-chambered heart (two atria and two ventricles) that completely separates oxygenated blood from deoxygenated blood. The septum divides the heart into left and right sides, preventing the mixing of blood. An open circulatory system (found in insects) allows blood to flow freely in body cavities. A single circulatory system (as in fish) passes blood through the heart only once per circuit.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "excretion",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 16,
+    "questionText": "Which of the following waste products in plants is excreted through the stomata and lenticels?",
+    "options": {
+      "A": "Carbon dioxide",
+      "B": "Alkaloids",
+      "C": "Tannins",
+      "D": "Anthocyanins",
+      "E": "Resins"
+    },
+    "correctAnswer": "A",
+    "explanation": "Carbon dioxide, a gaseous waste product of respiration in plants, is excreted through the stomata (pores on leaves) and lenticels (pores on stems and bark). Alkaloids, tannins, anthocyanins, and resins are organic waste products that are typically stored in plant tissues such as vacuoles, bark, or leaves rather than being actively excreted through stomata and lenticels.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-division",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 17,
+    "questionText": "In animals, meiosis comes",
+    "options": {
+      "A": "after fertilization",
+      "B": "after every mitotic division",
+      "C": "before fertilization",
+      "D": "before every mitotic division",
+      "E": "during embryonic development only"
+    },
+    "correctAnswer": "C",
+    "explanation": "In animals, meiosis occurs before fertilization during the formation of gametes (sex cells). In males, meiosis occurs in the testes to produce sperm cells, and in females, it occurs in the ovaries to produce egg cells. This reduction division halves the chromosome number so that when fertilization occurs, the resulting zygote has the correct diploid number of chromosomes.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-plants",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 18,
+    "questionText": "The fleshy base of a flower to which the different floral parts are attached is known as",
+    "options": {
+      "A": "calyx",
+      "B": "sepals",
+      "C": "thalamus",
+      "D": "hypothalamus",
+      "E": "peduncle"
+    },
+    "correctAnswer": "C",
+    "explanation": "The thalamus (also called the receptacle) is the fleshy, enlarged tip of the flower stalk to which the different floral parts (sepals, petals, stamens, and carpels) are attached. The calyx is the collective term for all sepals, sepals are the outermost leaf-like structures that protect the flower bud, the hypothalamus is a part of the brain (not a flower part), and the peduncle is the stalk that supports the flower.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nervous-system-and-sense-organs",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 19,
+    "questionText": "When a short-sighted person views a distant object without spectacles, the image is formed",
+    "options": {
+      "A": "on the retina",
+      "B": "in front of the retina",
+      "C": "behind the retina",
+      "D": "on the blind spot",
+      "E": "on the iris"
+    },
+    "correctAnswer": "B",
+    "explanation": "In short-sightedness (myopia), the eyeball is too long or the lens is too curved, causing light rays from distant objects to converge and form an image in front of the retina rather than on it. This results in distant objects appearing blurred. Myopia is corrected using concave (diverging) lenses. Long-sightedness (hypermetropia) is the condition where the image forms behind the retina.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nervous-system-and-sense-organs",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 20,
+    "questionText": "The part of the brain that controls heart beat and breathing is the",
+    "options": {
+      "A": "olfactory lobe",
+      "B": "cerebellum",
+      "C": "cerebral hemisphere",
+      "D": "medulla oblongata",
+      "E": "hypothalamus"
+    },
+    "correctAnswer": "D",
+    "explanation": "The medulla oblongata, located at the base of the brainstem, controls vital involuntary functions including heart rate, breathing rate, and blood pressure. It contains the cardiac centre and respiratory centre. The olfactory lobe is responsible for the sense of smell, the cerebellum coordinates balance and movement, the cerebral hemisphere handles higher mental functions like thinking and memory, and the hypothalamus regulates body temperature and hormonal functions.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 21,
+    "questionText": "Which of the following sets is made up of decomposers?",
+    "options": {
+      "A": "Rhizopus, earthworm and protozoa",
+      "B": "Mushroom, Rhizopus and bacteria",
+      "C": "Bacteria, earthworm and nematodes",
+      "D": "Earthworm, sedges and platyhelminthes",
+      "E": "Protozoa, algae and mushroom"
+    },
+    "correctAnswer": "B",
+    "explanation": "Decomposers are organisms that break down dead organic matter into simpler substances. Mushroom (a fungus), Rhizopus (bread mould, also a fungus), and bacteria are all true decomposers that secrete enzymes to break down dead organic material externally and absorb the nutrients. Earthworms are detritivores (not decomposers), protozoa are consumers, sedges are plants, and nematodes are parasites or detritivores.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 22,
+    "questionText": "The correct order in a food chain involving the organisms (1) Grasses, (2) Hawks, (3) Snakes, (4) Grasshoppers, (5) Lizards is",
+    "options": {
+      "A": "1, 2, 3, 4, 5",
+      "B": "5, 4, 3, 2, 1",
+      "C": "1, 4, 5, 3, 2",
+      "D": "3, 2, 4, 5, 1",
+      "E": "1, 4, 3, 5, 2"
+    },
+    "correctAnswer": "C",
+    "explanation": "The correct food chain is: Grasses (1, producer) are eaten by Grasshoppers (4, primary consumer), which are eaten by Lizards (5, secondary consumer), which are eaten by Snakes (3, tertiary consumer), which are eaten by Hawks (2, quaternary consumer). This gives the sequence 1, 4, 5, 3, 2. Energy flows from the producer through successive trophic levels to the top predator.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 23,
+    "questionText": "The organisms with the least number of individuals in a pyramid of numbers are the",
+    "options": {
+      "A": "secondary consumers",
+      "B": "tertiary consumers",
+      "C": "primary producers",
+      "D": "primary consumers",
+      "E": "decomposers"
+    },
+    "correctAnswer": "B",
+    "explanation": "In a pyramid of numbers, the number of individuals decreases from the base (producers) to the top (highest-level consumers). Tertiary consumers (top predators) occupy the apex of the pyramid and therefore have the fewest individuals. This is because energy is lost at each trophic level, so fewer organisms can be supported at higher levels. Primary producers are the most numerous at the base of the pyramid.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 24,
+    "questionText": "Ecological succession ends with the formation of a stable",
+    "options": {
+      "A": "niche",
+      "B": "population",
+      "C": "pioneer community",
+      "D": "climax community",
+      "E": "biosphere"
+    },
+    "correctAnswer": "D",
+    "explanation": "Ecological succession is the gradual and orderly replacement of one community by another over time until a stable, self-sustaining community is established. This final stable community is called the climax community. It is in dynamic equilibrium with its environment and does not undergo further successional changes under normal conditions. A pioneer community is the first community to colonize a bare area, not the final one.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 25,
+    "questionText": "In a drought situation, plants suffer from water stress which could result in",
+    "options": {
+      "A": "reduced biochemical activities",
+      "B": "enhanced chemical activities",
+      "C": "enhanced microbial activities",
+      "D": "reduced phototropic activities",
+      "E": "increased transpiration rate"
+    },
+    "correctAnswer": "A",
+    "explanation": "Water stress caused by drought leads to reduced biochemical activities in plants. Water is essential for photosynthesis, enzyme reactions, and metabolic processes. When water is scarce, stomata close to conserve water, which reduces carbon dioxide intake and consequently reduces photosynthesis. Enzyme-catalyzed reactions slow down, and overall metabolic activity decreases. This can lead to wilting, reduced growth, and eventually plant death if prolonged.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 26,
+    "questionText": "The water-retention capacity of a soil indicates its",
+    "options": {
+      "A": "fertility",
+      "B": "capillarity",
+      "C": "aeration level",
+      "D": "pH level",
+      "E": "mineral content"
+    },
+    "correctAnswer": "B",
+    "explanation": "The water-retention capacity of soil is directly related to its capillarity, which is the ability of the soil to hold and draw up water through tiny spaces between soil particles. Clay soils with very small particles have high capillarity and retain more water, while sandy soils with large particles have low capillarity and drain quickly. Capillarity depends on the size of the pore spaces between soil particles.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 27,
+    "questionText": "People who suck petrol with their mouths run the risk of increasing in their blood the concentration of",
+    "options": {
+      "A": "iron",
+      "B": "lead",
+      "C": "calcium",
+      "D": "magnesium",
+      "E": "sodium"
+    },
+    "correctAnswer": "B",
+    "explanation": "Petrol (gasoline) historically contained tetraethyl lead as an anti-knock additive. People who suck petrol with their mouths risk absorbing lead into their bloodstream, which can cause lead poisoning (plumbism). Lead is a toxic heavy metal that can damage the nervous system, kidneys, and blood-forming organs. This was a particularly relevant public health concern in Nigeria during the 1990s before the transition to unleaded petrol.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "classification-of-living-things",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 28,
+    "questionText": "The differences and similarities among living things account for",
+    "options": {
+      "A": "diversity",
+      "B": "stability",
+      "C": "competition",
+      "D": "evolution",
+      "E": "adaptation"
+    },
+    "correctAnswer": "A",
+    "explanation": "Biological diversity (biodiversity) refers to the variety of life forms in an ecosystem or on Earth. The differences and similarities among living organisms are what constitute this diversity. Diversity encompasses variation at genetic, species, and ecosystem levels. While evolution is the process that produces diversity over time, the differences and similarities themselves directly define and account for the diversity we observe among living things.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 29,
+    "questionText": "People with sickle-cell anaemia have haemoglobin",
+    "options": {
+      "A": "S and are homozygous recessive",
+      "B": "A and are heterozygous recessive",
+      "C": "S and are heterozygous recessive",
+      "D": "A and are homozygous recessive",
+      "E": "S and are homozygous dominant"
+    },
+    "correctAnswer": "A",
+    "explanation": "People with sickle-cell anaemia have haemoglobin S (HbS) and are homozygous recessive (HbSS). The sickle-cell allele is recessive, meaning both copies of the gene must carry the sickle-cell mutation for the full disease to manifest. Individuals who are heterozygous (HbAS) have the sickle-cell trait but do not have the full disease; they carry one normal haemoglobin A allele and one sickle-cell S allele.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 30,
+    "questionText": "In the gene locus for eye colour in humans, the allele for brown eyes is dominant over the allele for blue eyes. If a homozygous brown-eyed girl has a brother with blue eyes, what are the likely phenotypes of their parents' eye colour?",
+    "options": {
+      "A": "Both parents have blue eyes",
+      "B": "Their father has blue eyes and their mother has brown eyes",
+      "C": "Both parents have brown eyes",
+      "D": "Their mother has blue eyes and their father has brown eyes",
+      "E": "One parent has brown eyes and the other has green eyes"
+    },
+    "correctAnswer": "C",
+    "explanation": "Since the brother has blue eyes, his genotype must be bb (homozygous recessive), meaning both parents must carry at least one recessive allele (b). Since brown is dominant over blue, for both parents to have a blue-eyed child, they must both be heterozygous (Bb) and therefore both have brown eyes phenotypically. The girl being BB (homozygous brown-eyed) is consistent with both parents being Bb (Bb x Bb can produce BB, Bb, and bb offspring).",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 31,
+    "questionText": "If a woman's genotype is TtQqRr, what would be the gene content of her eggs?",
+    "options": {
+      "A": "TQr, tqr",
+      "B": "TQR, tqr",
+      "C": "TqR, tQr",
+      "D": "tQr, TQR",
+      "E": "Tqr, tQR"
+    },
+    "correctAnswer": "B",
+    "explanation": "According to Mendel's law of segregation and independent assortment, each gamete (egg) receives one allele from each gene pair. From TtQqRr, the possible gamete combinations include TQR, TQr, TqR, Tqr, tQR, tQr, tqR, and tqr (8 types). Option B (TQR, tqr) correctly represents two valid gamete types that could be produced, showing that each egg receives one allele from each heterozygous locus.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 32,
+    "questionText": "The sex-linked defect in which a very slight cut produces severe bleeding is known as",
+    "options": {
+      "A": "anaemia",
+      "B": "anorexia",
+      "C": "haemophilia",
+      "D": "haemolysis",
+      "E": "thrombosis"
+    },
+    "correctAnswer": "C",
+    "explanation": "Haemophilia is a sex-linked (X-linked recessive) genetic disorder in which blood fails to clot properly due to a deficiency in clotting factors. Even a slight cut can lead to prolonged and severe bleeding. The gene for haemophilia is carried on the X chromosome, making it more common in males. Anaemia is a deficiency of red blood cells, anorexia is an eating disorder, haemolysis is the bursting of red blood cells, and thrombosis is the formation of blood clots in blood vessels.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 33,
+    "questionText": "A man who has the trait for colour blindness marries a normal woman who is a carrier. What percentage of their children would be sufferers, carriers and normal respectively?",
+    "options": {
+      "A": "25%, 25% and 50%",
+      "B": "25%, 50% and 25%",
+      "C": "50%, 25% and 25%",
+      "D": "25%, 37.5% and 37.5%",
+      "E": "0%, 50% and 50%"
+    },
+    "correctAnswer": "C",
+    "explanation": "A colour blind man (XcY) married to a carrier woman (XcX) produces: XcXc (colour blind daughter, 25%), XcX (carrier daughter, 25%), XcY (colour blind son, 25%), and XY (normal son, 25%). Therefore, 50% are sufferers (XcXc daughter + XcY son), 25% are carriers (XcX daughter), and 25% are completely normal (XY son). This gives the ratio 50%, 25%, 25% respectively.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 34,
+    "questionText": "Breathing roots are an adaptation for survival in the",
+    "options": {
+      "A": "mangrove swamp",
+      "B": "desert",
+      "C": "arboreal habitat",
+      "D": "savanna",
+      "E": "tropical rainforest"
+    },
+    "correctAnswer": "A",
+    "explanation": "Breathing roots (pneumatophores) are specialized aerial roots found in mangrove swamp plants such as Avicennia and Rhizophora. These roots grow upward out of the waterlogged, oxygen-poor soil to absorb oxygen from the air through small pores called lenticels. This is an essential adaptation because the muddy, waterlogged soil of mangrove swamps is anaerobic (lacks oxygen), making normal root respiration impossible.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-animals",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 35,
+    "questionText": "Red coloration on the head of a male lizard helps it to",
+    "options": {
+      "A": "mark its territory",
+      "B": "camouflage in the environment",
+      "C": "secure its mate",
+      "D": "defend itself",
+      "E": "regulate body temperature"
+    },
+    "correctAnswer": "C",
+    "explanation": "The red or orange coloration on the head of a male Agama lizard serves as a sexual signal to attract females and secure a mate during the breeding season. This bright coloration is a form of sexual dimorphism and is used in courtship displays. The male bobs its head to display the bright colours to females, indicating fitness and readiness to mate. This is an example of sexual selection in animals.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 36,
+    "questionText": "A phenomenon by which an animal goes into a state of dormancy during the dry season is called",
+    "options": {
+      "A": "hibernation",
+      "B": "aestivation",
+      "C": "incubation",
+      "D": "deactivation",
+      "E": "migration"
+    },
+    "correctAnswer": "B",
+    "explanation": "Aestivation (also spelled estivation) is the state of dormancy that some animals enter during hot, dry periods to conserve water and energy. Examples include the African lungfish and some snails. Hibernation is dormancy during cold winter periods, incubation is the process of keeping eggs warm for development, deactivation is not a standard biological term for dormancy, and migration is the seasonal movement of animals from one region to another.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "evolution",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 37,
+    "questionText": "The anatomical evidence usually used in support of evolutionary relationship among whales, humans, birds and dogs is the possession of",
+    "options": {
+      "A": "thick skin",
+      "B": "pentadactyl limb",
+      "C": "tail",
+      "D": "epidermal structures",
+      "E": "vertebral column"
+    },
+    "correctAnswer": "B",
+    "explanation": "The pentadactyl limb (five-fingered limb) is a key piece of anatomical evidence for evolution. Despite being adapted for different functions (swimming in whales, grasping in humans, flying in birds, running in dogs), the basic bone structure of the forelimb is the same in all these vertebrates: one upper bone (humerus), two lower bones (radius and ulna), carpals, metacarpals, and phalanges. These are homologous structures that indicate a common ancestor.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "respiration",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 38,
+    "questionText": "During anaerobic respiration in yeast, the products formed are",
+    "options": {
+      "A": "carbon dioxide and water",
+      "B": "carbon dioxide and ethanol",
+      "C": "carbon dioxide and lactic acid",
+      "D": "lactic acid and water",
+      "E": "ethanol and water"
+    },
+    "correctAnswer": "B",
+    "explanation": "During anaerobic respiration (fermentation) in yeast, glucose is broken down in the absence of oxygen to produce carbon dioxide and ethanol (alcohol), along with a small amount of energy (2 ATP). The equation is: C6H12O6 -> 2C2H5OH + 2CO2 + Energy. This process is the basis of baking (CO2 causes bread to rise) and brewing (ethanol is the alcohol in beer and wine). In animals, anaerobic respiration produces lactic acid instead.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "growth-and-development",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 39,
+    "questionText": "The type of growth that involves a complete change in body form from larval stage to adult is known as",
+    "options": {
+      "A": "partial metamorphosis",
+      "B": "complete metamorphosis",
+      "C": "epigeal germination",
+      "D": "vegetative growth",
+      "E": "primary growth"
+    },
+    "correctAnswer": "B",
+    "explanation": "Complete metamorphosis involves a dramatic transformation in body form through four distinct stages: egg, larva, pupa, and adult. During this process, the organism undergoes a total change in appearance and structure. Examples include butterflies (caterpillar to butterfly), mosquitoes, and houseflies. Partial (incomplete) metamorphosis involves a gradual change through egg, nymph, and adult stages (as in grasshoppers and cockroaches), where the nymph resembles a small adult.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "microorganisms-and-disease",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 40,
+    "questionText": "Which of the following diseases is caused by a protozoan?",
+    "options": {
+      "A": "Measles",
+      "B": "Cholera",
+      "C": "Malaria",
+      "D": "Ringworm",
+      "E": "Tuberculosis"
+    },
+    "correctAnswer": "C",
+    "explanation": "Malaria is caused by a protozoan parasite of the genus Plasmodium (such as Plasmodium falciparum and Plasmodium vivax), which is transmitted by the female Anopheles mosquito. Measles is caused by a virus (paramyxovirus), cholera is caused by a bacterium (Vibrio cholerae), ringworm is caused by a fungus (dermatophytes), and tuberculosis is caused by a bacterium (Mycobacterium tuberculosis).",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  }
+]

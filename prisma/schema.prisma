@@ -1,0 +1,548 @@
+// PrepWell NG — Database Schema
+// Run: npx prisma migrate dev --name init
+// Run: npx prisma generate
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ─── Enums ────────────────────────────────────────────────
+
+enum Role {
+  STUDENT
+  TEACHER
+  ADMIN
+}
+
+enum ClassLevel {
+  SS1
+  SS2
+  SS3
+}
+
+enum Track {
+  SCIENCE
+  ARTS
+  COMMERCIAL
+}
+
+enum Term {
+  FIRST
+  SECOND
+  THIRD
+}
+
+enum ExamType {
+  WAEC
+  JAMB
+  NECO
+  CUSTOM
+}
+
+enum QuestionType {
+  OBJECTIVE
+  THEORY
+  FILL_IN_BLANK
+}
+
+enum Difficulty {
+  BASIC
+  INTERMEDIATE
+  ADVANCED
+}
+
+enum AssessmentType {
+  TOPIC_QUIZ
+  SUBJECT_TEST
+  PAST_PAPER
+  MOCK_EXAM
+  CBT_PRACTICE
+  CUSTOM
+}
+
+enum ProgressStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum AttemptStatus {
+  IN_PROGRESS
+  COMPLETED
+  ABANDONED
+  TIMED_OUT
+}
+
+enum PlanItemActivity {
+  LESSON
+  PRACTICE
+  REVISION
+  MOCK_EXAM
+  PAST_QUESTIONS
+}
+
+enum PlanItemStatus {
+  PENDING
+  COMPLETED
+  SKIPPED
+}
+
+enum TrackCategory {
+  CORE
+  SCIENCE
+  ARTS
+  COMMERCIAL
+  VOCATIONAL
+}
+
+enum SchoolType {
+  PUBLIC
+  PRIVATE
+}
+
+enum MasteryLevel {
+  WEAK
+  DEVELOPING
+  COMPETENT
+  STRONG
+}
+
+// ─── User & Auth ──────────────────────────────────────────
+
+model User {
+  id            String    @id @default(cuid())
+  email         String?   @unique
+  phone         String?   @unique
+  emailVerified DateTime?
+  passwordHash  String?
+  firstName     String
+  lastName      String
+  image         String?
+  role          Role      @default(STUDENT)
+  classLevel    ClassLevel?
+  track         Track?
+  state         String?
+  schoolId      String?
+  school        School?   @relation(fields: [schoolId], references: [id])
+
+  // Relations
+  progress      StudentProgress[]
+  attempts      AssessmentAttempt[]
+  studyPlans    StudyPlan[]
+  metrics       PerformanceMetric[]
+  achievements  StudentAchievement[]
+  accounts      Account[]
+  sessions      Session[]
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([classLevel, track])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model School {
+  id        String     @id @default(cuid())
+  name      String
+  state     String
+  lga       String?
+  type      SchoolType @default(PUBLIC)
+  users     User[]
+  createdAt DateTime   @default(now())
+
+  @@index([state])
+}
+
+// ─── Curriculum & Content ─────────────────────────────────
+
+model Subject {
+  id            String        @id @default(cuid())
+  name          String        @unique
+  slug          String        @unique
+  code          String        @unique
+  description   String
+  iconUrl       String?
+  isWaec        Boolean       @default(false)
+  isJamb        Boolean       @default(false)
+  isNeco        Boolean       @default(false)
+  trackCategory TrackCategory
+
+  curriculumLevels CurriculumLevel[]
+  topics           Topic[]
+  questions        Question[]
+  assessments      Assessment[]
+  progress         StudentProgress[]
+  metrics          PerformanceMetric[]
+  studyPlanItems   StudyPlanItem[]
+  resources        SubjectResource[]
+
+  createdAt DateTime @default(now())
+}
+
+model SubjectResource {
+  id           String   @id @default(cuid())
+  subjectId    String
+  subject      Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  title        String
+  description  String?
+  resourceType String   // textbook, video, pdf, link, worksheet, past_paper
+  url          String
+  author       String?
+  isFree       Boolean  @default(true)
+  orderIndex   Int      @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([subjectId])
+}
+
+model CurriculumLevel {
+  id           String     @id @default(cuid())
+  subjectId    String
+  subject      Subject    @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  classLevel   ClassLevel
+  term         Term
+  description  String?
+
+  topics Topic[]
+
+  @@unique([subjectId, classLevel, term])
+  @@index([classLevel])
+}
+
+model Topic {
+  id                  String          @id @default(cuid())
+  subjectId           String
+  subject             Subject         @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  curriculumLevelId   String
+  curriculumLevel     CurriculumLevel @relation(fields: [curriculumLevelId], references: [id], onDelete: Cascade)
+  title               String
+  slug                String
+  description         String?
+  orderIndex          Int
+  estimatedMinutes    Int             @default(45)
+  prerequisiteTopicId String?
+  prerequisiteTopic   Topic?          @relation("PrerequisiteChain", fields: [prerequisiteTopicId], references: [id])
+  dependentTopics     Topic[]         @relation("PrerequisiteChain")
+  waecWeight          Float           @default(0)
+  jambWeight          Float           @default(0)
+
+  subtopics      Subtopic[]
+  questions      Question[]
+  progress       StudentProgress[]
+  metrics        PerformanceMetric[]
+  studyPlanItems StudyPlanItem[]
+
+  @@unique([subjectId, slug])
+  @@index([subjectId, orderIndex])
+  @@index([curriculumLevelId])
+}
+
+model Subtopic {
+  id          String   @id @default(cuid())
+  topicId     String
+  topic       Topic    @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  orderIndex  Int
+
+  lessons  Lesson[]
+
+  @@index([topicId, orderIndex])
+}
+
+model Lesson {
+  id              String     @id @default(cuid())
+  subtopicId      String
+  subtopic        Subtopic   @relation(fields: [subtopicId], references: [id], onDelete: Cascade)
+  title           String
+  content         String     @db.Text  // MDX content
+  summary         String?    @db.Text
+  keyPoints       Json?      // ["point1", "point2", ...]
+  workedExamples  Json?      // [{ problem: "...", solution: "..." }, ...]
+  difficulty      Difficulty @default(INTERMEDIATE)
+  estimatedMinutes Int       @default(20)
+  createdBy       String?
+
+  progress StudentProgress[]
+  resources LessonResource[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([subtopicId])
+}
+
+model LessonResource {
+  id           String @id @default(cuid())
+  lessonId     String
+  lesson       Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  resourceType String // image, video, pdf, diagram
+  url          String
+  caption      String?
+  orderIndex   Int    @default(0)
+}
+
+// ─── Question Bank ────────────────────────────────────────
+
+model Question {
+  id                  String       @id @default(cuid())
+  subjectId           String
+  subject             Subject      @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  topicId             String?
+  topic               Topic?       @relation(fields: [topicId], references: [id])
+  examType            ExamType
+  examYear            Int?
+  questionNumber      Int?
+  questionText        String       @db.Text
+  questionImageUrl    String?
+  questionType        QuestionType @default(OBJECTIVE)
+  options             Json?        // { "A": "...", "B": "...", "C": "...", "D": "..." }
+  correctAnswer       String
+  explanation         String       @db.Text
+  explanationImageUrl String?
+  difficulty          Difficulty   @default(INTERMEDIATE)
+  marks               Int          @default(1)
+  timeEstimateSeconds Int          @default(90)
+
+  responses          QuestionResponse[]
+  assessmentQuestions AssessmentQuestion[]
+
+  createdAt DateTime @default(now())
+
+  @@index([subjectId, topicId])
+  @@index([examType, examYear])
+  @@index([subjectId, difficulty])
+  @@index([subjectId, examType, examYear])
+}
+
+// ─── Assessments ──────────────────────────────────────────
+
+model Assessment {
+  id              String         @id @default(cuid())
+  title           String
+  description     String?
+  assessmentType  AssessmentType
+  subjectId       String?
+  subject         Subject?       @relation(fields: [subjectId], references: [id])
+  examType        ExamType?
+  examYear        Int?
+  timeLimitMinutes Int?
+  totalMarks      Int
+  passMarkPercent Int            @default(50)
+
+  questions AssessmentQuestion[]
+  attempts  AssessmentAttempt[]
+
+  createdBy String?
+  createdAt DateTime @default(now())
+
+  @@index([assessmentType])
+  @@index([subjectId, assessmentType])
+}
+
+model AssessmentQuestion {
+  id           String     @id @default(cuid())
+  assessmentId String
+  assessment   Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  questionId   String
+  question     Question   @relation(fields: [questionId], references: [id])
+  orderIndex   Int
+
+  @@unique([assessmentId, questionId])
+  @@index([assessmentId, orderIndex])
+}
+
+model AssessmentAttempt {
+  id               String        @id @default(cuid())
+  studentId        String
+  student          User          @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  assessmentId     String
+  assessment       Assessment    @relation(fields: [assessmentId], references: [id])
+  startedAt        DateTime      @default(now())
+  completedAt      DateTime?
+  timeSpentSeconds Int?
+  score            Float?
+  totalMarks       Int?
+  percentage       Float?
+  grade            String?
+  status           AttemptStatus @default(IN_PROGRESS)
+
+  responses QuestionResponse[]
+
+  @@index([studentId, assessmentId])
+  @@index([studentId, status])
+}
+
+model QuestionResponse {
+  id               String            @id @default(cuid())
+  attemptId        String
+  attempt          AssessmentAttempt  @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  questionId       String
+  question         Question          @relation(fields: [questionId], references: [id])
+  selectedAnswer   String?
+  isCorrect        Boolean?
+  timeSpentSeconds Int?
+  flaggedForReview Boolean           @default(false)
+
+  @@unique([attemptId, questionId])
+  @@index([attemptId])
+}
+
+// ─── Progress & Performance ───────────────────────────────
+
+model StudentProgress {
+  id                String         @id @default(cuid())
+  studentId         String
+  student           User           @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  subjectId         String
+  subject           Subject        @relation(fields: [subjectId], references: [id])
+  topicId           String?
+  topic             Topic?         @relation(fields: [topicId], references: [id])
+  lessonId          String?
+  lesson            Lesson?        @relation(fields: [lessonId], references: [id])
+  status            ProgressStatus @default(NOT_STARTED)
+  completionPercent Float          @default(0)
+  timeSpentMinutes  Int            @default(0)
+  lastAccessedAt    DateTime?
+
+  @@unique([studentId, subjectId, topicId, lessonId])
+  @@index([studentId, subjectId])
+  @@index([studentId, status])
+}
+
+model PerformanceMetric {
+  id                    String       @id @default(cuid())
+  studentId             String
+  student               User         @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  subjectId             String
+  subject               Subject      @relation(fields: [subjectId], references: [id])
+  topicId               String?
+  topic                 Topic?       @relation(fields: [topicId], references: [id])
+  totalAttempted        Int          @default(0)
+  totalCorrect          Int          @default(0)
+  accuracy              Float        @default(0)
+  averageTimePerQuestion Float?
+  masteryLevel          MasteryLevel @default(WEAK)
+  lastUpdated           DateTime     @default(now())
+
+  @@unique([studentId, subjectId, topicId])
+  @@index([studentId, subjectId])
+  @@index([studentId, masteryLevel])
+}
+
+// ─── Study Planning ───────────────────────────────────────
+
+model StudyPlan {
+  id              String   @id @default(cuid())
+  studentId       String
+  student         User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  targetExam      ExamType
+  targetDate      DateTime
+  subjectIds      Json     // String[] of subject IDs
+  dailyStudyHours Float    @default(2)
+  isActive        Boolean  @default(true)
+
+  items StudyPlanItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([studentId, isActive])
+}
+
+model StudyPlanItem {
+  id            String           @id @default(cuid())
+  studyPlanId   String
+  studyPlan     StudyPlan        @relation(fields: [studyPlanId], references: [id], onDelete: Cascade)
+  scheduledDate DateTime         @db.Date
+  subjectId     String
+  subject       Subject          @relation(fields: [subjectId], references: [id])
+  topicId       String?
+  topic         Topic?           @relation(fields: [topicId], references: [id])
+  activityType  PlanItemActivity
+  durationMinutes Int
+  status        PlanItemStatus   @default(PENDING)
+  notes         String?
+
+  @@index([studyPlanId, scheduledDate])
+  @@index([studyPlanId, status])
+}
+
+// ─── Gamification ─────────────────────────────────────────
+
+model Achievement {
+  id            String @id @default(cuid())
+  title         String @unique
+  description   String
+  iconUrl       String?
+  criteriaType  String // e.g., "streak_days", "questions_answered", "subject_mastery"
+  criteriaValue Int    // e.g., 7 for 7-day streak
+
+  students StudentAchievement[]
+}
+
+model StudentAchievement {
+  id            String      @id @default(cuid())
+  studentId     String
+  student       User        @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  achievementId String
+  achievement   Achievement @relation(fields: [achievementId], references: [id])
+  earnedAt      DateTime    @default(now())
+
+  @@unique([studentId, achievementId])
+}
+
+// ─── JAMB Subject Combinations Reference ──────────────────
+
+model JambCombination {
+  id               String @id @default(cuid())
+  courseOfStudy     String
+  faculty          String
+  requiredSubjects Json   // ["Physics", "Chemistry", "Mathematics"]
+  alternateSubjects Json? // ["Biology OR Agricultural Science"]
+  notes            String?
+
+  @@index([faculty])
+}

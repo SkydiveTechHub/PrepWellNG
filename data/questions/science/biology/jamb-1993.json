@@ -1,0 +1,1002 @@
+[
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 1,
+    "questionText": "Which of the following organelles is responsible for the synthesis of proteins in a cell?",
+    "options": {
+      "A": "Mitochondria",
+      "B": "Ribosomes",
+      "C": "Golgi apparatus",
+      "D": "Lysosomes",
+      "E": "Endoplasmic reticulum"
+    },
+    "correctAnswer": "B",
+    "explanation": "Ribosomes are the organelles responsible for protein synthesis. They can be found free in the cytoplasm or attached to the rough endoplasmic reticulum. They translate messenger RNA (mRNA) into polypeptide chains that fold into functional proteins.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 2,
+    "questionText": "The organelle referred to as the 'powerhouse of the cell' is the",
+    "options": {
+      "A": "nucleus",
+      "B": "ribosome",
+      "C": "mitochondrion",
+      "D": "chloroplast",
+      "E": "lysosome"
+    },
+    "correctAnswer": "C",
+    "explanation": "The mitochondrion is called the powerhouse of the cell because it is the site of aerobic respiration where ATP (adenosine triphosphate), the energy currency of the cell, is produced in large quantities through oxidative phosphorylation.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 3,
+    "questionText": "Which of the following is NOT a characteristic of living things?",
+    "options": {
+      "A": "Respiration",
+      "B": "Irritability",
+      "C": "Combustion",
+      "D": "Reproduction",
+      "E": "Growth"
+    },
+    "correctAnswer": "C",
+    "explanation": "Combustion is a chemical process of burning and is not a characteristic of living things. The characteristics of living things include respiration, irritability (response to stimuli), reproduction, growth, nutrition, excretion, and movement.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-division",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 4,
+    "questionText": "During which stage of mitosis do chromosomes line up at the equator of the cell?",
+    "options": {
+      "A": "Prophase",
+      "B": "Metaphase",
+      "C": "Anaphase",
+      "D": "Telophase",
+      "E": "Interphase"
+    },
+    "correctAnswer": "B",
+    "explanation": "During metaphase, the chromosomes align along the metaphase plate (equator) of the cell. The spindle fibres attach to the centromeres of the chromosomes, arranging them in a single plane at the centre of the cell before they are pulled apart in anaphase.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-division",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 5,
+    "questionText": "Meiosis is important because it",
+    "options": {
+      "A": "produces cells that are identical to the parent cell",
+      "B": "results in the doubling of chromosome number",
+      "C": "ensures genetic variation in offspring",
+      "D": "occurs only in somatic cells",
+      "E": "repairs damaged tissues"
+    },
+    "correctAnswer": "C",
+    "explanation": "Meiosis is important because it ensures genetic variation in offspring through crossing over and independent assortment of chromosomes. It also reduces the chromosome number by half (from diploid to haploid), which is essential for maintaining the chromosome number of a species across generations.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-plants",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 6,
+    "questionText": "The process by which green plants manufacture their food using carbon dioxide and water in the presence of sunlight is called",
+    "options": {
+      "A": "chemosynthesis",
+      "B": "photosynthesis",
+      "C": "respiration",
+      "D": "transpiration",
+      "E": "decomposition"
+    },
+    "correctAnswer": "B",
+    "explanation": "Photosynthesis is the process by which green plants use chlorophyll to trap light energy from the sun and convert carbon dioxide and water into glucose and oxygen. The equation is: 6CO2 + 6H2O -> C6H12O6 + 6O2. This process occurs mainly in the leaves of plants.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-plants",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 7,
+    "questionText": "Which of the following mineral elements is needed by plants for the formation of chlorophyll?",
+    "options": {
+      "A": "Calcium",
+      "B": "Potassium",
+      "C": "Magnesium",
+      "D": "Phosphorus",
+      "E": "Sulphur"
+    },
+    "correctAnswer": "C",
+    "explanation": "Magnesium is a central atom in the chlorophyll molecule. Without adequate magnesium, plants cannot synthesize chlorophyll, leading to chlorosis (yellowing of leaves). Magnesium is therefore essential for photosynthesis in green plants.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-plants",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 8,
+    "questionText": "An insectivorous plant such as the sundew traps insects primarily to supplement its supply of",
+    "options": {
+      "A": "carbohydrates",
+      "B": "nitrogen",
+      "C": "carbon dioxide",
+      "D": "water",
+      "E": "oxygen"
+    },
+    "correctAnswer": "B",
+    "explanation": "Insectivorous plants like the sundew (Drosera) trap and digest insects to supplement their nitrogen supply. These plants typically grow in nitrogen-poor soils such as bogs and marshes, and digesting insects provides the amino acids and nitrogen compounds they cannot obtain sufficiently from the soil.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 9,
+    "questionText": "The enzyme pepsin in the human stomach acts on",
+    "options": {
+      "A": "fats",
+      "B": "carbohydrates",
+      "C": "proteins",
+      "D": "vitamins",
+      "E": "minerals"
+    },
+    "correctAnswer": "C",
+    "explanation": "Pepsin is a proteolytic enzyme found in gastric juice in the stomach. It breaks down proteins into peptones and proteoses. Pepsin works optimally in an acidic environment (pH 1.5-2.0), which is provided by the hydrochloric acid also secreted in the stomach.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 10,
+    "questionText": "Bile is produced by the liver and stored in the",
+    "options": {
+      "A": "pancreas",
+      "B": "gall bladder",
+      "C": "duodenum",
+      "D": "appendix",
+      "E": "spleen"
+    },
+    "correctAnswer": "B",
+    "explanation": "Bile is produced by the liver and stored in the gall bladder. When food enters the duodenum, bile is released from the gall bladder through the bile duct. Bile contains bile salts which emulsify fats, breaking them into smaller droplets to increase the surface area for lipase action.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 11,
+    "questionText": "The deficiency of vitamin C in the diet leads to",
+    "options": {
+      "A": "rickets",
+      "B": "beri-beri",
+      "C": "scurvy",
+      "D": "pellagra",
+      "E": "night blindness"
+    },
+    "correctAnswer": "C",
+    "explanation": "Scurvy is caused by a deficiency of vitamin C (ascorbic acid). Symptoms include bleeding gums, poor wound healing, and general weakness. Rickets is caused by vitamin D deficiency, beri-beri by vitamin B1 (thiamine) deficiency, pellagra by niacin (vitamin B3) deficiency, and night blindness by vitamin A deficiency.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-plants",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 12,
+    "questionText": "The movement of water from the soil into the root hair cells of a plant occurs by",
+    "options": {
+      "A": "diffusion",
+      "B": "osmosis",
+      "C": "active transport",
+      "D": "transpiration",
+      "E": "plasmolysis"
+    },
+    "correctAnswer": "B",
+    "explanation": "Water moves from the soil into root hair cells by osmosis. The cell sap in the root hair cells has a higher solute concentration than the soil water, so water moves from the region of higher water concentration (soil) to the region of lower water concentration (root hair cell) through the semi-permeable cell membrane.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-plants",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 13,
+    "questionText": "The tissue responsible for the transport of manufactured food from the leaves to other parts of the plant is the",
+    "options": {
+      "A": "xylem",
+      "B": "phloem",
+      "C": "cambium",
+      "D": "cortex",
+      "E": "epidermis"
+    },
+    "correctAnswer": "B",
+    "explanation": "The phloem is the vascular tissue responsible for translocation, which is the transport of manufactured food (organic solutes such as sucrose) from the leaves where they are made to other parts of the plant. The xylem, on the other hand, transports water and dissolved mineral salts from the roots upward.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 14,
+    "questionText": "In mammals, the blood vessel that carries deoxygenated blood from the heart to the lungs is the",
+    "options": {
+      "A": "pulmonary vein",
+      "B": "pulmonary artery",
+      "C": "aorta",
+      "D": "vena cava",
+      "E": "hepatic vein"
+    },
+    "correctAnswer": "B",
+    "explanation": "The pulmonary artery carries deoxygenated blood from the right ventricle of the heart to the lungs for oxygenation. It is the only artery in the body that carries deoxygenated blood. The pulmonary vein, conversely, carries oxygenated blood from the lungs back to the left atrium of the heart.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 15,
+    "questionText": "Which component of blood is responsible for the clotting process?",
+    "options": {
+      "A": "Red blood cells",
+      "B": "White blood cells",
+      "C": "Platelets",
+      "D": "Plasma",
+      "E": "Lymph"
+    },
+    "correctAnswer": "C",
+    "explanation": "Platelets (thrombocytes) are responsible for blood clotting. When a blood vessel is damaged, platelets aggregate at the site and release thromboplastin, which triggers a cascade of reactions converting prothrombin to thrombin and then fibrinogen to fibrin, forming a mesh that traps blood cells to create a clot.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 16,
+    "questionText": "A person with blood group AB can receive blood from persons with blood group",
+    "options": {
+      "A": "AB only",
+      "B": "A and B only",
+      "C": "O only",
+      "D": "A, B, AB and O",
+      "E": "A and O only"
+    },
+    "correctAnswer": "D",
+    "explanation": "A person with blood group AB is called a universal recipient because they have both A and B antigens on their red blood cells and no antibodies (anti-A or anti-B) in their plasma. Therefore, they can receive blood from donors of all blood groups: A, B, AB, and O without agglutination occurring.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "respiration",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 17,
+    "questionText": "The end products of anaerobic respiration in yeast are",
+    "options": {
+      "A": "carbon dioxide and water",
+      "B": "ethanol and carbon dioxide",
+      "C": "lactic acid and water",
+      "D": "carbon dioxide and lactic acid",
+      "E": "ethanol and water"
+    },
+    "correctAnswer": "B",
+    "explanation": "In yeast, anaerobic respiration (fermentation) produces ethanol (alcohol) and carbon dioxide. The equation is: C6H12O6 -> 2C2H5OH + 2CO2. This process is exploited in brewing and baking. In contrast, anaerobic respiration in animal muscles produces lactic acid.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "respiration",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 18,
+    "questionText": "Which of the following structures is used for gaseous exchange in bony fish?",
+    "options": {
+      "A": "Lungs",
+      "B": "Skin",
+      "C": "Gills",
+      "D": "Spiracles",
+      "E": "Tracheae"
+    },
+    "correctAnswer": "C",
+    "explanation": "Bony fish use gills for gaseous exchange. The gills are highly vascularized structures with thin filaments that provide a large surface area. Water passes over the gill filaments, and dissolved oxygen diffuses into the blood while carbon dioxide diffuses out. This is aided by the counter-current flow mechanism.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "excretion",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 19,
+    "questionText": "The functional unit of the kidney is the",
+    "options": {
+      "A": "neurone",
+      "B": "nephron",
+      "C": "glomerulus",
+      "D": "Bowman's capsule",
+      "E": "loop of Henle"
+    },
+    "correctAnswer": "B",
+    "explanation": "The nephron is the functional unit of the kidney. Each kidney contains about one million nephrons. A nephron consists of the Bowman's capsule, glomerulus, proximal convoluted tubule, loop of Henle, distal convoluted tubule, and collecting duct. It carries out ultrafiltration and selective reabsorption to produce urine.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "excretion",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 20,
+    "questionText": "The main excretory product of insects is",
+    "options": {
+      "A": "urea",
+      "B": "ammonia",
+      "C": "uric acid",
+      "D": "carbon dioxide",
+      "E": "creatinine"
+    },
+    "correctAnswer": "C",
+    "explanation": "Insects excrete uric acid as their main nitrogenous waste product. Uric acid is relatively non-toxic and insoluble in water, so it can be excreted as a semi-solid paste with very little water loss. This is an adaptation to terrestrial life and helps in water conservation, which is crucial for small organisms.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-plants",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 21,
+    "questionText": "The part of a flower that develops into a fruit after fertilization is the",
+    "options": {
+      "A": "stigma",
+      "B": "style",
+      "C": "ovary",
+      "D": "anther",
+      "E": "receptacle"
+    },
+    "correctAnswer": "C",
+    "explanation": "After fertilization, the ovary of the flower develops into the fruit. The ovules inside the ovary develop into seeds. The ovary wall becomes the pericarp (fruit wall). Other parts of the flower usually wither and fall off, although in some cases the receptacle may also contribute to fruit formation (as in apples).",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-plants",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 22,
+    "questionText": "Which of the following is an example of vegetative reproduction in plants?",
+    "options": {
+      "A": "Seed germination",
+      "B": "Budding in yeast",
+      "C": "Fragmentation in Spirogyra",
+      "D": "Production of runners in grasses",
+      "E": "Conjugation in bacteria"
+    },
+    "correctAnswer": "D",
+    "explanation": "The production of runners (stolons) in grasses is an example of vegetative (asexual) reproduction in plants. A runner is a horizontal stem that grows along the surface of the soil, producing new plants at nodes. Other examples include production of rhizomes, bulbs, corms, and stem tubers.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-animals",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 23,
+    "questionText": "The part of the female reproductive system where fertilization normally takes place is the",
+    "options": {
+      "A": "ovary",
+      "B": "uterus",
+      "C": "cervix",
+      "D": "oviduct (fallopian tube)",
+      "E": "vagina"
+    },
+    "correctAnswer": "D",
+    "explanation": "Fertilization in mammals normally takes place in the oviduct (fallopian tube), specifically in the upper third (ampulla) of the oviduct. The sperm meets and fuses with the ovum here. The resulting zygote then travels down the oviduct to the uterus where it implants in the uterine wall for further development.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-animals",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 24,
+    "questionText": "Which of the following hormones is responsible for the development of secondary sexual characteristics in human males?",
+    "options": {
+      "A": "Oestrogen",
+      "B": "Progesterone",
+      "C": "Testosterone",
+      "D": "Insulin",
+      "E": "Thyroxine"
+    },
+    "correctAnswer": "C",
+    "explanation": "Testosterone is the male sex hormone produced by the interstitial cells (cells of Leydig) in the testes. It is responsible for the development of male secondary sexual characteristics such as deepening of the voice, growth of facial and body hair, broadening of shoulders, and development of muscular physique.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "growth-and-development",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 25,
+    "questionText": "The type of metamorphosis exhibited by houseflies, in which the larval form is completely different from the adult, is known as",
+    "options": {
+      "A": "incomplete metamorphosis",
+      "B": "complete metamorphosis",
+      "C": "gradual metamorphosis",
+      "D": "partial metamorphosis",
+      "E": "simple metamorphosis"
+    },
+    "correctAnswer": "B",
+    "explanation": "Houseflies undergo complete metamorphosis (holometabolous development), which involves four distinct stages: egg, larva (maggot), pupa, and adult. The larva looks completely different from the adult. In contrast, incomplete metamorphosis (as in grasshoppers and cockroaches) involves egg, nymph, and adult, where the nymph resembles the adult.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "growth-and-development",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 26,
+    "questionText": "Germination of seeds in which the cotyledons are brought above the soil surface is called",
+    "options": {
+      "A": "hypogeal germination",
+      "B": "epigeal germination",
+      "C": "viviparous germination",
+      "D": "ovoviviparous germination",
+      "E": "parthenogenetic germination"
+    },
+    "correctAnswer": "B",
+    "explanation": "Epigeal germination is the type of germination where the cotyledons are carried above the soil surface by the elongation of the hypocotyl. Examples include the germination of beans and groundnuts. In hypogeal germination, the cotyledons remain below the soil surface, as seen in maize and rice.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 27,
+    "questionText": "A community of organisms and their physical environment interacting as an ecological unit is called",
+    "options": {
+      "A": "a biome",
+      "B": "an ecosystem",
+      "C": "a population",
+      "D": "a habitat",
+      "E": "a niche"
+    },
+    "correctAnswer": "B",
+    "explanation": "An ecosystem is a community of living organisms (biotic components) interacting with their non-living physical environment (abiotic components) as an integrated unit. It includes the flow of energy and cycling of nutrients. Examples include a pond ecosystem, a forest ecosystem, and a savanna ecosystem.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 28,
+    "questionText": "In a food chain, organisms that feed directly on green plants are known as",
+    "options": {
+      "A": "producers",
+      "B": "primary consumers",
+      "C": "secondary consumers",
+      "D": "tertiary consumers",
+      "E": "decomposers"
+    },
+    "correctAnswer": "B",
+    "explanation": "Primary consumers are organisms that feed directly on green plants (producers). They are also known as herbivores. They occupy the second trophic level in a food chain. Examples include grasshoppers, rabbits, and cattle. Secondary consumers feed on primary consumers, and they are usually carnivores or omnivores.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 29,
+    "questionText": "The relationship between a tick feeding on a dog is an example of",
+    "options": {
+      "A": "commensalism",
+      "B": "mutualism",
+      "C": "parasitism",
+      "D": "saprophytism",
+      "E": "predation"
+    },
+    "correctAnswer": "C",
+    "explanation": "The relationship between a tick and a dog is parasitism. The tick (parasite) benefits by feeding on the blood of the dog (host) while the dog is harmed. In parasitism, one organism benefits at the expense of the other. Unlike predation, the parasite does not usually kill the host immediately.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 30,
+    "questionText": "The conversion of atmospheric nitrogen into nitrates by soil bacteria is known as",
+    "options": {
+      "A": "denitrification",
+      "B": "nitrogen fixation",
+      "C": "nitrification",
+      "D": "ammonification",
+      "E": "putrefaction"
+    },
+    "correctAnswer": "B",
+    "explanation": "Nitrogen fixation is the process by which atmospheric nitrogen (N2) is converted into forms usable by plants, such as ammonia and nitrates. This is carried out by nitrogen-fixing bacteria such as Rhizobium (in root nodules of legumes) and free-living bacteria like Azotobacter. Nitrification is the conversion of ammonia to nitrites and then nitrates.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 31,
+    "questionText": "If a homozygous tall plant (TT) is crossed with a homozygous short plant (tt), the phenotype of the F1 generation will be",
+    "options": {
+      "A": "all short",
+      "B": "all tall",
+      "C": "half tall and half short",
+      "D": "three tall and one short",
+      "E": "all intermediate height"
+    },
+    "correctAnswer": "B",
+    "explanation": "When a homozygous tall plant (TT) is crossed with a homozygous short plant (tt), all the F1 offspring will be heterozygous (Tt). Since tallness is dominant over shortness, all the F1 plants will be phenotypically tall. This demonstrates Mendel's law of dominance.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 32,
+    "questionText": "An organism with the genotype Aa is said to be",
+    "options": {
+      "A": "homozygous dominant",
+      "B": "homozygous recessive",
+      "C": "heterozygous",
+      "D": "a mutant",
+      "E": "pure breeding"
+    },
+    "correctAnswer": "C",
+    "explanation": "An organism with the genotype Aa is heterozygous because it possesses two different alleles for the same gene, one dominant (A) and one recessive (a). Homozygous organisms have identical alleles (AA or aa). Heterozygous organisms are also called hybrids and are not pure breeding.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 33,
+    "questionText": "Colour blindness in humans is a sex-linked trait carried on the",
+    "options": {
+      "A": "Y chromosome",
+      "B": "X chromosome",
+      "C": "autosome",
+      "D": "mitochondrial DNA",
+      "E": "both X and Y chromosomes"
+    },
+    "correctAnswer": "B",
+    "explanation": "Colour blindness is a sex-linked recessive trait carried on the X chromosome. Since males have only one X chromosome (XY), a single recessive allele will cause colour blindness. Females (XX) need two copies of the recessive allele to be colour blind, making the condition more common in males than in females.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "evolution",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 34,
+    "questionText": "The theory of evolution by natural selection was proposed by",
+    "options": {
+      "A": "Gregor Mendel",
+      "B": "Jean Baptiste Lamarck",
+      "C": "Charles Darwin",
+      "D": "Louis Pasteur",
+      "E": "Robert Hooke"
+    },
+    "correctAnswer": "C",
+    "explanation": "Charles Darwin proposed the theory of evolution by natural selection in his book 'On the Origin of Species' published in 1859. The theory states that organisms with favourable variations are better adapted to survive and reproduce (survival of the fittest), passing these traits to their offspring.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "evolution",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 35,
+    "questionText": "Structures in different organisms that have similar functions but different origins are called",
+    "options": {
+      "A": "homologous structures",
+      "B": "analogous structures",
+      "C": "vestigial structures",
+      "D": "rudimentary structures",
+      "E": "adaptive structures"
+    },
+    "correctAnswer": "B",
+    "explanation": "Analogous structures are structures in different organisms that perform similar functions but have different embryological origins and structural plans. Examples include the wings of birds and wings of insects. Homologous structures, by contrast, have the same embryological origin but may perform different functions, such as the forelimbs of mammals.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "classification-of-living-things",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 36,
+    "questionText": "The binomial system of naming organisms was introduced by",
+    "options": {
+      "A": "Charles Darwin",
+      "B": "Carolus Linnaeus",
+      "C": "Gregor Mendel",
+      "D": "Robert Hooke",
+      "E": "Louis Pasteur"
+    },
+    "correctAnswer": "B",
+    "explanation": "Carolus Linnaeus (Carl Linnaeus), a Swedish botanist, introduced the binomial system of nomenclature in the 18th century. Under this system, every organism is given a two-part scientific name consisting of the genus name (capitalised) and the species name (lowercase), both written in italics. For example, Homo sapiens for humans.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "classification-of-living-things",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 37,
+    "questionText": "Which of the following organisms belongs to the phylum Arthropoda?",
+    "options": {
+      "A": "Earthworm",
+      "B": "Snail",
+      "C": "Crab",
+      "D": "Tapeworm",
+      "E": "Starfish"
+    },
+    "correctAnswer": "C",
+    "explanation": "A crab belongs to the phylum Arthropoda. Arthropods are characterized by having jointed appendages, an exoskeleton made of chitin, segmented bodies, and a haemocoel. The crab specifically belongs to the class Crustacea. Earthworms are annelids, snails are molluscs, tapeworms are platyhelminths, and starfish are echinoderms.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "microorganisms-and-disease",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 38,
+    "questionText": "Malaria in humans is caused by",
+    "options": {
+      "A": "a virus",
+      "B": "a bacterium",
+      "C": "a protozoan",
+      "D": "a fungus",
+      "E": "a worm"
+    },
+    "correctAnswer": "C",
+    "explanation": "Malaria is caused by a protozoan parasite of the genus Plasmodium. The species that cause malaria in humans include Plasmodium falciparum, P. vivax, P. ovale, and P. malariae. The parasite is transmitted to humans through the bite of an infected female Anopheles mosquito, which serves as the vector.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "microorganisms-and-disease",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 39,
+    "questionText": "Which of the following diseases is caused by a virus?",
+    "options": {
+      "A": "Cholera",
+      "B": "Tuberculosis",
+      "C": "Measles",
+      "D": "Typhoid fever",
+      "E": "Gonorrhoea"
+    },
+    "correctAnswer": "C",
+    "explanation": "Measles is caused by the measles virus (a paramyxovirus). It is a highly contagious disease spread through respiratory droplets. Cholera is caused by the bacterium Vibrio cholerae, tuberculosis by Mycobacterium tuberculosis, typhoid fever by Salmonella typhi, and gonorrhoea by Neisseria gonorrhoeae.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "microorganisms-and-disease",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 40,
+    "questionText": "The type of immunity acquired through vaccination is known as",
+    "options": {
+      "A": "natural active immunity",
+      "B": "artificial active immunity",
+      "C": "natural passive immunity",
+      "D": "artificial passive immunity",
+      "E": "innate immunity"
+    },
+    "correctAnswer": "B",
+    "explanation": "Vaccination provides artificial active immunity. In vaccination, a weakened or killed form of the pathogen (or its toxin) is introduced into the body, stimulating the immune system to produce antibodies and memory cells without causing the disease. This is 'artificial' because it involves deliberate human intervention, and 'active' because the body produces its own antibodies.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nervous-system-and-sense-organs",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 41,
+    "questionText": "The part of the brain that controls balance and muscular coordination is the",
+    "options": {
+      "A": "cerebrum",
+      "B": "cerebellum",
+      "C": "medulla oblongata",
+      "D": "hypothalamus",
+      "E": "thalamus"
+    },
+    "correctAnswer": "B",
+    "explanation": "The cerebellum is the part of the brain responsible for coordinating muscular activities and maintaining body balance and posture. It receives information from the muscles, joints, and sense organs about the position of the body and makes adjustments to ensure smooth, coordinated movements.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nervous-system-and-sense-organs",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 42,
+    "questionText": "A reflex action is characterized by being",
+    "options": {
+      "A": "slow and voluntary",
+      "B": "rapid and involuntary",
+      "C": "slow and involuntary",
+      "D": "rapid and voluntary",
+      "E": "learned and voluntary"
+    },
+    "correctAnswer": "B",
+    "explanation": "A reflex action is an automatic, rapid, and involuntary response to a stimulus. It does not involve conscious thought by the brain. Examples include the knee-jerk reflex, blinking when an object approaches the eye, and withdrawing the hand from a hot object. The reflex arc is the pathway involved: receptor, sensory neurone, relay neurone, motor neurone, and effector.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "endocrine-system",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 43,
+    "questionText": "The hormone insulin is produced by the",
+    "options": {
+      "A": "thyroid gland",
+      "B": "adrenal gland",
+      "C": "pituitary gland",
+      "D": "islets of Langerhans in the pancreas",
+      "E": "parathyroid gland"
+    },
+    "correctAnswer": "D",
+    "explanation": "Insulin is produced by the beta cells of the islets of Langerhans in the pancreas. Insulin lowers blood sugar level by promoting the conversion of glucose to glycogen in the liver and muscles, and by facilitating the uptake of glucose by body cells. A deficiency of insulin leads to diabetes mellitus.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "endocrine-system",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 44,
+    "questionText": "The hormone adrenaline prepares the body for",
+    "options": {
+      "A": "sleep and rest",
+      "B": "digestion of food",
+      "C": "emergency situations (fight or flight)",
+      "D": "growth and development",
+      "E": "reproduction"
+    },
+    "correctAnswer": "C",
+    "explanation": "Adrenaline (epinephrine) is produced by the adrenal medulla and prepares the body for emergency situations, known as the 'fight or flight' response. It increases heart rate, blood pressure, and breathing rate, dilates the pupils, diverts blood from the gut to the skeletal muscles, and stimulates the conversion of glycogen to glucose for quick energy.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "skeletal-and-muscular-systems",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 45,
+    "questionText": "The type of joint found at the elbow is a",
+    "options": {
+      "A": "ball and socket joint",
+      "B": "hinge joint",
+      "C": "pivot joint",
+      "D": "gliding joint",
+      "E": "suture joint"
+    },
+    "correctAnswer": "B",
+    "explanation": "The elbow is a hinge joint, which allows movement in only one plane (flexion and extension). It works like the hinge of a door. Ball and socket joints (found at the hip and shoulder) allow movement in multiple planes. Pivot joints (found between the atlas and axis vertebrae) allow rotational movement.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "skeletal-and-muscular-systems",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 46,
+    "questionText": "Muscles that work in opposing pairs are called",
+    "options": {
+      "A": "cardiac muscles",
+      "B": "smooth muscles",
+      "C": "voluntary muscles",
+      "D": "antagonistic muscles",
+      "E": "skeletal muscles"
+    },
+    "correctAnswer": "D",
+    "explanation": "Antagonistic muscles are pairs of muscles that work in opposition to each other. When one contracts, the other relaxes, and vice versa. A classic example is the biceps and triceps of the upper arm: when the biceps contracts to flex the arm, the triceps relaxes, and when the triceps contracts to extend the arm, the biceps relaxes.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "homeostasis-and-coordination",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 47,
+    "questionText": "The maintenance of a constant internal environment in living organisms is known as",
+    "options": {
+      "A": "metabolism",
+      "B": "homeostasis",
+      "C": "catabolism",
+      "D": "anabolism",
+      "E": "irritability"
+    },
+    "correctAnswer": "B",
+    "explanation": "Homeostasis is the maintenance of a relatively constant internal environment despite changes in the external environment. It involves the regulation of body temperature, blood sugar level, water and salt balance, blood pH, and other physiological variables. The liver, kidneys, skin, and endocrine system all play key roles in homeostasis.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "homeostasis-and-coordination",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 48,
+    "questionText": "When the body temperature of a mammal rises above normal, the skin responds by",
+    "options": {
+      "A": "constricting blood vessels and raising body hairs",
+      "B": "dilating blood vessels and increasing sweating",
+      "C": "increasing metabolic rate",
+      "D": "shivering to generate heat",
+      "E": "constricting sweat pores"
+    },
+    "correctAnswer": "B",
+    "explanation": "When body temperature rises above normal, the skin responds by vasodilation (dilating blood vessels near the surface) to allow more blood flow near the surface for heat loss, and by increasing sweating so that the evaporation of sweat from the skin surface cools the body. The erector pili muscles also relax, causing body hairs to lie flat.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 49,
+    "questionText": "The gradual change in the composition of species in a community over time is known as",
+    "options": {
+      "A": "migration",
+      "B": "ecological succession",
+      "C": "adaptation",
+      "D": "competition",
+      "E": "colonization"
+    },
+    "correctAnswer": "B",
+    "explanation": "Ecological succession is the gradual and orderly replacement of one community of organisms by another in an area over a period of time until a stable climax community is established. Primary succession occurs on bare, previously unoccupied surfaces, while secondary succession occurs in areas where a previous community has been disturbed or destroyed.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1993,
+    "questionNumber": 50,
+    "questionText": "A sudden change in the structure of a gene or chromosome resulting in a new characteristic that can be inherited is called",
+    "options": {
+      "A": "variation",
+      "B": "adaptation",
+      "C": "mutation",
+      "D": "evolution",
+      "E": "recombination"
+    },
+    "correctAnswer": "C",
+    "explanation": "A mutation is a sudden, random, and inheritable change in the genetic material (DNA) of an organism. Mutations can occur at the gene level (gene mutations or point mutations) or at the chromosome level (chromosomal mutations). They can be caused by mutagenic agents such as radiation, chemicals, and certain viruses. Most mutations are harmful, but some can be beneficial and drive evolution.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  }
+]

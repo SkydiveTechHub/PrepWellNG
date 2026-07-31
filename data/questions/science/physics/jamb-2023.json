@@ -1,0 +1,287 @@
+[
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "measurement-and-units",
+    "examType": "JAMB",
+    "examYear": 2023,
+    "questionNumber": 1,
+    "questionText": "Which of the following is the correct SI unit of luminous intensity?",
+    "options": {
+      "A": "Lumen",
+      "B": "Candela",
+      "C": "Lux",
+      "D": "Watt"
+    },
+    "correctAnswer": "B",
+    "explanation": "The candela (cd) is the SI base unit of luminous intensity. Lumen is the unit of luminous flux, lux is the unit of illuminance, and watt is the unit of power.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "distance-displacement-speed-velocity-and-acceleration",
+    "examType": "JAMB",
+    "examYear": 2023,
+    "questionNumber": 2,
+    "questionText": "A body moves along a circular path of radius 7 m. After going halfway around the circle, the ratio of the distance to the displacement is",
+    "options": {
+      "A": "π/2",
+      "B": "11/7",
+      "C": "22/14",
+      "D": "π/1"
+    },
+    "correctAnswer": "A",
+    "explanation": "Halfway around means the body travels half the circumference. Distance = πr = 7π m. Displacement = diameter = 2r = 14 m. Ratio = 7π/14 = π/2.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "equations-of-motion",
+    "examType": "JAMB",
+    "examYear": 2023,
+    "questionNumber": 3,
+    "questionText": "A ball is projected vertically upward with a velocity of 40 m/s. The total time of flight is [g = 10 m/s²]",
+    "options": {
+      "A": "2 s",
+      "B": "4 s",
+      "C": "6 s",
+      "D": "8 s"
+    },
+    "correctAnswer": "D",
+    "explanation": "Time to reach maximum height: v = u - gt → 0 = 40 - 10t → t = 4 s. Total time of flight = 2 × 4 = 8 s (time up equals time down for a symmetric trajectory).",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "force",
+    "examType": "JAMB",
+    "examYear": 2023,
+    "questionNumber": 4,
+    "questionText": "A body of mass 5 kg is acted upon by two perpendicular forces of 12 N and 5 N. The acceleration of the body is",
+    "options": {
+      "A": "1.0 m/s²",
+      "B": "2.4 m/s²",
+      "C": "2.6 m/s²",
+      "D": "3.4 m/s²"
+    },
+    "correctAnswer": "C",
+    "explanation": "Resultant force = √(12² + 5²) = √(144 + 25) = √169 = 13 N. Acceleration = F/m = 13/5 = 2.6 m/s².",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "friction",
+    "examType": "JAMB",
+    "examYear": 2023,
+    "questionNumber": 5,
+    "questionText": "A block of mass 10 kg is placed on a rough horizontal surface. If the coefficient of static friction is 0.4, the minimum horizontal force required to just move the block is [g = 10 m/s²]",
+    "options": {
+      "A": "4 N",
+      "B": "25 N",
+      "C": "40 N",
+      "D": "100 N"
+    },
+    "correctAnswer": "C",
+    "explanation": "Limiting friction = μR = μmg = 0.4 × 10 × 10 = 40 N. The applied force must equal the limiting friction to just move the block.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "work-energy-and-power",
+    "examType": "JAMB",
+    "examYear": 2023,
+    "questionNumber": 6,
+    "questionText": "A pump raises water through a height of 20 m at the rate of 5 kg/s. The power of the pump is [g = 10 m/s²]",
+    "options": {
+      "A": "100 W",
+      "B": "500 W",
+      "C": "1000 W",
+      "D": "2000 W"
+    },
+    "correctAnswer": "C",
+    "explanation": "Power = work/time = mgh/t = (mass rate) × g × h = 5 × 10 × 20 = 1000 W = 1 kW.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "simple-machines",
+    "examType": "JAMB",
+    "examYear": 2023,
+    "questionNumber": 7,
+    "questionText": "An inclined plane of length 5 m has a height of 1 m. Its velocity ratio is",
+    "options": {
+      "A": "0.2",
+      "B": "1.0",
+      "C": "4.0",
+      "D": "5.0"
+    },
+    "correctAnswer": "D",
+    "explanation": "For an inclined plane, the velocity ratio (VR) = length of plane / height = 5/1 = 5.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "specific-heat-capacity-and-latent-heat",
+    "examType": "JAMB",
+    "examYear": 2023,
+    "questionNumber": 8,
+    "questionText": "How much heat energy is required to convert 2 kg of ice at 0°C to water at 0°C? [Specific latent heat of fusion of ice = 3.36 × 10⁵ J/kg]",
+    "options": {
+      "A": "1.68 × 10⁵ J",
+      "B": "3.36 × 10⁵ J",
+      "C": "6.72 × 10⁵ J",
+      "D": "1.01 × 10⁶ J"
+    },
+    "correctAnswer": "C",
+    "explanation": "Q = mL = 2 × 3.36 × 10⁵ = 6.72 × 10⁵ J. Since the ice is melting (phase change at constant temperature), we use the latent heat of fusion.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "wave-motion-and-types-of-waves",
+    "examType": "JAMB",
+    "examYear": 2023,
+    "questionNumber": 9,
+    "questionText": "A tuning fork of frequency 340 Hz produces sound waves of wavelength 1.0 m in air. The speed of sound in air is",
+    "options": {
+      "A": "170 m/s",
+      "B": "340 m/s",
+      "C": "510 m/s",
+      "D": "680 m/s"
+    },
+    "correctAnswer": "B",
+    "explanation": "v = fλ = 340 × 1.0 = 340 m/s.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "light-reflection-at-plane-and-curved-surfaces",
+    "examType": "JAMB",
+    "examYear": 2023,
+    "questionNumber": 10,
+    "questionText": "An object is placed 15 cm from a concave mirror of focal length 10 cm. The image distance is",
+    "options": {
+      "A": "6 cm",
+      "B": "15 cm",
+      "C": "25 cm",
+      "D": "30 cm"
+    },
+    "correctAnswer": "D",
+    "explanation": "Using the mirror formula: 1/f = 1/u + 1/v → 1/10 = 1/15 + 1/v → 1/v = 1/10 - 1/15 = (3-2)/30 = 1/30 → v = 30 cm.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "electrostatics-electric-charges-and-fields",
+    "examType": "JAMB",
+    "examYear": 2023,
+    "questionNumber": 11,
+    "questionText": "Two point charges of +3 μC and -3 μC are placed 30 cm apart. The electric field at the midpoint is [k = 9 × 10⁹ Nm²/C²]",
+    "options": {
+      "A": "1.2 × 10⁶ N/C towards the negative charge",
+      "B": "2.4 × 10⁶ N/C towards the negative charge",
+      "C": "zero",
+      "D": "2.4 × 10⁶ N/C towards the positive charge"
+    },
+    "correctAnswer": "B",
+    "explanation": "At the midpoint (r = 0.15 m from each charge), the field from the positive charge points towards the negative charge, and the field from the negative charge also points towards the negative charge. E = kq/r² = 9×10⁹ × 3×10⁻⁶/0.15² = 1.2 × 10⁶ N/C from each. Total = 2 × 1.2 × 10⁶ = 2.4 × 10⁶ N/C towards the negative charge.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 120
+  },
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "current-electricity-ohms-law",
+    "examType": "JAMB",
+    "examYear": 2023,
+    "questionNumber": 12,
+    "questionText": "A cell of e.m.f. 1.5 V and internal resistance 0.5 Ω is connected to an external resistance of 2.5 Ω. The current flowing in the circuit is",
+    "options": {
+      "A": "0.3 A",
+      "B": "0.5 A",
+      "C": "0.6 A",
+      "D": "3.0 A"
+    },
+    "correctAnswer": "B",
+    "explanation": "I = E/(R + r) = 1.5/(2.5 + 0.5) = 1.5/3.0 = 0.5 A.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "electromagnetic-induction",
+    "examType": "JAMB",
+    "examYear": 2023,
+    "questionNumber": 13,
+    "questionText": "Lenz's law is a consequence of the law of conservation of",
+    "options": {
+      "A": "charge",
+      "B": "energy",
+      "C": "momentum",
+      "D": "mass"
+    },
+    "correctAnswer": "B",
+    "explanation": "Lenz's law states that the direction of an induced e.m.f. is such that it opposes the change causing it. This is a direct consequence of the conservation of energy — if the induced current aided the change, it would create energy from nothing, violating energy conservation.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "photoelectric-effect",
+    "examType": "JAMB",
+    "examYear": 2023,
+    "questionNumber": 14,
+    "questionText": "In the photoelectric effect, the kinetic energy of emitted electrons depends on the",
+    "options": {
+      "A": "intensity of the incident light",
+      "B": "frequency of the incident light",
+      "C": "area of the metal surface",
+      "D": "angle of incidence of the light"
+    },
+    "correctAnswer": "B",
+    "explanation": "According to Einstein's photoelectric equation, KE = hf - φ, where h is Planck's constant, f is the frequency of incident light, and φ is the work function. The kinetic energy depends on frequency, not intensity. Increasing intensity increases the number of electrons emitted, not their energy.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "capacitors-and-capacitance",
+    "examType": "JAMB",
+    "examYear": 2023,
+    "questionNumber": 15,
+    "questionText": "Three capacitors of capacitance 2 μF, 3 μF and 6 μF are connected in series. The effective capacitance is",
+    "options": {
+      "A": "1 μF",
+      "B": "2 μF",
+      "C": "6 μF",
+      "D": "11 μF"
+    },
+    "correctAnswer": "A",
+    "explanation": "For series connection: 1/C = 1/2 + 1/3 + 1/6 = 3/6 + 2/6 + 1/6 = 6/6 = 1. So C = 1 μF.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  }
+]

@@ -1,0 +1,1002 @@
+[
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 1,
+    "questionText": "The organelle that is responsible for energy production in cells is the",
+    "options": {
+      "A": "ribosome",
+      "B": "nucleus",
+      "C": "mitochondrion",
+      "D": "Golgi apparatus",
+      "E": "lysosome"
+    },
+    "correctAnswer": "C",
+    "explanation": "The mitochondrion is the organelle responsible for energy production in cells. It is often called the 'powerhouse of the cell' because it generates ATP (adenosine triphosphate) through aerobic respiration, which is used as the main energy currency of the cell.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 2,
+    "questionText": "The process by which water molecules move from a region of higher concentration to a region of lower concentration through a semi-permeable membrane is known as",
+    "options": {
+      "A": "diffusion",
+      "B": "osmosis",
+      "C": "active transport",
+      "D": "plasmolysis",
+      "E": "turgidity"
+    },
+    "correctAnswer": "B",
+    "explanation": "Osmosis is the movement of water molecules from a region of higher water concentration (dilute solution) to a region of lower water concentration (concentrated solution) through a semi-permeable (selectively permeable) membrane.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 3,
+    "questionText": "Which of the following structures is present in plant cells but absent in animal cells?",
+    "options": {
+      "A": "Mitochondria",
+      "B": "Cell membrane",
+      "C": "Chloroplast",
+      "D": "Ribosome",
+      "E": "Nucleus"
+    },
+    "correctAnswer": "C",
+    "explanation": "Chloroplasts are found in plant cells but are absent in animal cells. Chloroplasts contain chlorophyll, the green pigment that absorbs light energy for photosynthesis. Other structures unique to plant cells include cell walls and large central vacuoles.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-division",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 4,
+    "questionText": "The type of cell division that produces gametes is",
+    "options": {
+      "A": "mitosis",
+      "B": "meiosis",
+      "C": "binary fission",
+      "D": "budding",
+      "E": "fragmentation"
+    },
+    "correctAnswer": "B",
+    "explanation": "Meiosis is the type of cell division that produces gametes (sex cells). It involves two successive divisions resulting in four haploid daughter cells, each with half the chromosome number of the parent cell. This is essential for maintaining the chromosome number across generations during sexual reproduction.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-division",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 5,
+    "questionText": "During cell division, the stage at which chromosomes line up along the equator of the spindle is called",
+    "options": {
+      "A": "prophase",
+      "B": "metaphase",
+      "C": "anaphase",
+      "D": "telophase",
+      "E": "interphase"
+    },
+    "correctAnswer": "B",
+    "explanation": "Metaphase is the stage of cell division during which chromosomes line up along the equatorial plane (metaphase plate) of the spindle. The chromosomes are attached to spindle fibres at their centromeres and are arranged in a single plane.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-plants",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 6,
+    "questionText": "The part of the leaf where most photosynthesis takes place is the",
+    "options": {
+      "A": "upper epidermis",
+      "B": "palisade mesophyll",
+      "C": "spongy mesophyll",
+      "D": "lower epidermis",
+      "E": "vascular bundle"
+    },
+    "correctAnswer": "B",
+    "explanation": "The palisade mesophyll layer is where most photosynthesis takes place. It is located just beneath the upper epidermis and contains tightly packed columnar cells with numerous chloroplasts. Its position ensures maximum absorption of light entering from the upper surface of the leaf.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-plants",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 7,
+    "questionText": "Which of the following mineral elements is essential for the formation of chlorophyll?",
+    "options": {
+      "A": "Calcium",
+      "B": "Potassium",
+      "C": "Magnesium",
+      "D": "Phosphorus",
+      "E": "Sulphur"
+    },
+    "correctAnswer": "C",
+    "explanation": "Magnesium is an essential component of the chlorophyll molecule. It occupies the central position in the porphyrin ring of the chlorophyll structure. Without adequate magnesium, plants cannot produce sufficient chlorophyll, leading to chlorosis (yellowing of leaves).",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-plants",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 8,
+    "questionText": "An insectivorous plant such as the sundew traps insects primarily to obtain",
+    "options": {
+      "A": "carbohydrates",
+      "B": "water",
+      "C": "nitrogen",
+      "D": "carbon dioxide",
+      "E": "oxygen"
+    },
+    "correctAnswer": "C",
+    "explanation": "Insectivorous (carnivorous) plants such as the sundew trap and digest insects primarily to obtain nitrogen. These plants typically grow in nitrogen-poor soils (such as bogs and swamps) and supplement their nitrogen supply by digesting insects.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 9,
+    "questionText": "The enzyme ptyalin in human saliva acts on",
+    "options": {
+      "A": "proteins",
+      "B": "fats",
+      "C": "starch",
+      "D": "cellulose",
+      "E": "vitamins"
+    },
+    "correctAnswer": "C",
+    "explanation": "Ptyalin (salivary amylase) is the enzyme found in human saliva that breaks down starch (a polysaccharide) into maltose (a disaccharide). It works optimally at a slightly alkaline pH (around 6.8-7.0) and initiates the chemical digestion of carbohydrates in the mouth.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 10,
+    "questionText": "The part of the alimentary canal where most absorption of digested food occurs is the",
+    "options": {
+      "A": "stomach",
+      "B": "duodenum",
+      "C": "ileum",
+      "D": "colon",
+      "E": "rectum"
+    },
+    "correctAnswer": "C",
+    "explanation": "The ileum (part of the small intestine) is where most absorption of digested food takes place. It has a large surface area due to the presence of villi and microvilli, which increase the absorptive surface. The villi are richly supplied with blood capillaries and lacteals for efficient absorption.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nutrition-in-animals",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 11,
+    "questionText": "Deficiency of Vitamin C in humans leads to",
+    "options": {
+      "A": "rickets",
+      "B": "scurvy",
+      "C": "beri-beri",
+      "D": "night blindness",
+      "E": "pellagra"
+    },
+    "correctAnswer": "B",
+    "explanation": "Deficiency of Vitamin C (ascorbic acid) causes scurvy, which is characterized by bleeding gums, loose teeth, poor wound healing, and weakened blood vessels. Rickets is caused by Vitamin D deficiency, beri-beri by Vitamin B1, night blindness by Vitamin A, and pellagra by Vitamin B3 (niacin).",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-plants",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 12,
+    "questionText": "The loss of water vapour from the aerial parts of a plant is called",
+    "options": {
+      "A": "guttation",
+      "B": "transpiration",
+      "C": "evaporation",
+      "D": "translocation",
+      "E": "absorption"
+    },
+    "correctAnswer": "B",
+    "explanation": "Transpiration is the loss of water vapour from the aerial parts (leaves, stems, and flowers) of a plant. Most transpiration occurs through the stomata on the leaf surfaces (stomatal transpiration). It helps in the upward movement of water and minerals, and in cooling the plant.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-plants",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 13,
+    "questionText": "Which of the following factors does NOT affect the rate of transpiration?",
+    "options": {
+      "A": "Light intensity",
+      "B": "Temperature",
+      "C": "Humidity",
+      "D": "Soil pH",
+      "E": "Wind speed"
+    },
+    "correctAnswer": "D",
+    "explanation": "Soil pH does not directly affect the rate of transpiration. The main factors affecting transpiration rate include light intensity (causes stomata to open), temperature (increases evaporation rate), humidity (lower humidity increases transpiration), and wind speed (removes water vapour from around leaves).",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 14,
+    "questionText": "The heart chamber that pumps oxygenated blood to the rest of the body is the",
+    "options": {
+      "A": "right atrium",
+      "B": "right ventricle",
+      "C": "left atrium",
+      "D": "left ventricle",
+      "E": "vena cava"
+    },
+    "correctAnswer": "D",
+    "explanation": "The left ventricle pumps oxygenated blood through the aorta to all parts of the body (systemic circulation). It has the thickest muscular walls of all the heart chambers because it needs to generate enough pressure to pump blood throughout the entire body.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 15,
+    "questionText": "Which of the following blood cells are involved in the defence of the body against infection?",
+    "options": {
+      "A": "Red blood cells",
+      "B": "White blood cells",
+      "C": "Platelets",
+      "D": "Plasma proteins",
+      "E": "Haemoglobin molecules"
+    },
+    "correctAnswer": "B",
+    "explanation": "White blood cells (leucocytes) are involved in defending the body against infection and disease. They do this through phagocytosis (engulfing and digesting pathogens) and by producing antibodies that neutralize or destroy foreign organisms and their toxins.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "transport-system-in-animals",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 16,
+    "questionText": "The blood vessel that carries blood from the intestine to the liver is the",
+    "options": {
+      "A": "hepatic artery",
+      "B": "hepatic vein",
+      "C": "hepatic portal vein",
+      "D": "mesenteric artery",
+      "E": "renal vein"
+    },
+    "correctAnswer": "C",
+    "explanation": "The hepatic portal vein carries nutrient-rich blood from the small intestine (and other abdominal organs) to the liver. This is part of the hepatic portal system, which ensures that absorbed nutrients are processed by the liver before entering the general circulation.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "respiration",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 17,
+    "questionText": "Which of the following is the first stage of aerobic respiration?",
+    "options": {
+      "A": "Krebs cycle",
+      "B": "Glycolysis",
+      "C": "Electron transport chain",
+      "D": "Oxidative phosphorylation",
+      "E": "Fermentation"
+    },
+    "correctAnswer": "B",
+    "explanation": "Glycolysis is the first stage of aerobic respiration. It occurs in the cytoplasm and involves the breakdown of glucose (a 6-carbon sugar) into two molecules of pyruvate (3-carbon compound), producing a net gain of 2 ATP and 2 NADH molecules.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "respiration",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 18,
+    "questionText": "Anaerobic respiration in muscles produces",
+    "options": {
+      "A": "ethanol and carbon dioxide",
+      "B": "lactic acid",
+      "C": "carbon dioxide and water",
+      "D": "acetic acid and water",
+      "E": "glucose and oxygen"
+    },
+    "correctAnswer": "B",
+    "explanation": "Anaerobic respiration in muscles (such as during vigorous exercise when oxygen supply is insufficient) produces lactic acid. The accumulation of lactic acid causes muscle fatigue and cramp. This lactic acid is later transported to the liver where it is converted back to glucose.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "excretion",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 19,
+    "questionText": "The process by which the liver converts excess amino acids to urea is called",
+    "options": {
+      "A": "assimilation",
+      "B": "deamination",
+      "C": "transamination",
+      "D": "excretion",
+      "E": "secretion"
+    },
+    "correctAnswer": "B",
+    "explanation": "Deamination is the process by which the liver removes the amino group (-NH2) from excess amino acids. The amino group is converted to ammonia, which is then combined with carbon dioxide to form urea (a less toxic substance) through the ornithine cycle. The urea is then excreted by the kidneys.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "excretion",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 20,
+    "questionText": "The part of the nephron where ultrafiltration takes place is the",
+    "options": {
+      "A": "loop of Henle",
+      "B": "distal convoluted tubule",
+      "C": "collecting duct",
+      "D": "Bowman's capsule",
+      "E": "proximal convoluted tubule"
+    },
+    "correctAnswer": "D",
+    "explanation": "Ultrafiltration takes place in the Bowman's capsule (renal capsule). Blood entering the glomerulus under high pressure is filtered through the walls of the glomerular capillaries into the Bowman's capsule. Small molecules like water, glucose, urea, and salts pass through, while large molecules like proteins and blood cells are retained.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-plants",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 21,
+    "questionText": "The male reproductive organ of a flower is the",
+    "options": {
+      "A": "pistil",
+      "B": "stigma",
+      "C": "ovary",
+      "D": "stamen",
+      "E": "style"
+    },
+    "correctAnswer": "D",
+    "explanation": "The stamen is the male reproductive organ of a flower. It consists of the anther (which produces pollen grains) and the filament (which supports the anther). The pistil (carpel) is the female reproductive organ, consisting of the stigma, style, and ovary.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-plants",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 22,
+    "questionText": "After fertilization in a flowering plant, the ovule develops into the",
+    "options": {
+      "A": "fruit",
+      "B": "seed",
+      "C": "embryo",
+      "D": "endosperm",
+      "E": "pollen tube"
+    },
+    "correctAnswer": "B",
+    "explanation": "After fertilization, the ovule develops into the seed. The seed contains the embryo (which develops from the zygote), the seed coat (testa, which develops from the integuments of the ovule), and food reserves. The ovary wall develops into the fruit.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-animals",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 23,
+    "questionText": "The structure in which the human fetus develops is the",
+    "options": {
+      "A": "ovary",
+      "B": "fallopian tube",
+      "C": "uterus",
+      "D": "vagina",
+      "E": "cervix"
+    },
+    "correctAnswer": "C",
+    "explanation": "The uterus (womb) is the organ in which the human fetus develops during pregnancy. The fertilized egg (zygote) implants into the uterine wall (endometrium), where it develops into an embryo and later a fetus, receiving nourishment through the placenta.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "reproduction-in-animals",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 24,
+    "questionText": "Which of the following is a method of asexual reproduction?",
+    "options": {
+      "A": "Conjugation",
+      "B": "Budding",
+      "C": "Cross-fertilization",
+      "D": "Pollination",
+      "E": "Copulation"
+    },
+    "correctAnswer": "B",
+    "explanation": "Budding is a method of asexual reproduction in which a new organism develops from an outgrowth (bud) on the parent organism. It is commonly seen in Hydra and yeast. The bud eventually detaches to become a new independent organism genetically identical to the parent.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "growth-and-development",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 25,
+    "questionText": "The type of germination in which the cotyledons are carried above the soil surface is called",
+    "options": {
+      "A": "hypogeal germination",
+      "B": "epigeal germination",
+      "C": "vivipary",
+      "D": "dormancy",
+      "E": "vernalization"
+    },
+    "correctAnswer": "B",
+    "explanation": "Epigeal germination is the type of germination in which the hypocotyl elongates rapidly, pushing the cotyledons above the soil surface. Examples include bean and groundnut. In hypogeal germination, the cotyledons remain below the soil (e.g., maize and mango).",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "growth-and-development",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 26,
+    "questionText": "The growth pattern in insects is described as",
+    "options": {
+      "A": "continuous growth",
+      "B": "intermittent growth",
+      "C": "linear growth",
+      "D": "exponential growth",
+      "E": "sigmoid growth"
+    },
+    "correctAnswer": "B",
+    "explanation": "Growth in insects is intermittent (discontinuous) because they have a rigid exoskeleton that limits continuous growth. Growth occurs in spurts during moulting (ecdysis), when the old exoskeleton is shed and replaced by a larger one. Between moults, there is no increase in size.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 27,
+    "questionText": "All the organisms of the same species living in a particular area at a given time constitute a",
+    "options": {
+      "A": "community",
+      "B": "population",
+      "C": "biome",
+      "D": "habitat",
+      "E": "niche"
+    },
+    "correctAnswer": "B",
+    "explanation": "A population is a group of organisms of the same species living in a particular area at a given time. A community consists of all the populations of different species in an area, while a habitat is the physical place where an organism lives.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 28,
+    "questionText": "In a food chain, the amount of energy available decreases as one moves from",
+    "options": {
+      "A": "consumers to producers",
+      "B": "one trophic level to the next higher level",
+      "C": "decomposers to producers",
+      "D": "secondary consumers to primary consumers",
+      "E": "higher trophic levels to lower ones"
+    },
+    "correctAnswer": "B",
+    "explanation": "Energy decreases as one moves from one trophic level to the next higher level. At each trophic level, approximately 90% of energy is lost through metabolic activities (respiration, heat), and only about 10% is passed on to the next level. This is known as the 10% rule of energy transfer.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 29,
+    "questionText": "The role of decomposers in an ecosystem is to",
+    "options": {
+      "A": "produce food for other organisms",
+      "B": "break down dead organic matter and recycle nutrients",
+      "C": "consume primary producers",
+      "D": "produce oxygen for respiration",
+      "E": "regulate the population of herbivores"
+    },
+    "correctAnswer": "B",
+    "explanation": "Decomposers (such as bacteria and fungi) break down dead organic matter (plants, animals, and their waste products) into simpler inorganic substances. This process releases nutrients back into the soil and atmosphere, making them available for reuse by producers. Decomposers are essential for nutrient cycling.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 30,
+    "questionText": "A relationship in which both organisms benefit is called",
+    "options": {
+      "A": "parasitism",
+      "B": "commensalism",
+      "C": "mutualism",
+      "D": "predation",
+      "E": "competition"
+    },
+    "correctAnswer": "C",
+    "explanation": "Mutualism (also called symbiosis in its strictest sense) is a relationship in which both organisms involved benefit from the association. For example, the relationship between nitrogen-fixing bacteria (Rhizobium) and leguminous plants: the bacteria fix nitrogen for the plant, and the plant provides the bacteria with food and shelter.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 31,
+    "questionText": "The father of genetics is",
+    "options": {
+      "A": "Charles Darwin",
+      "B": "Gregor Mendel",
+      "C": "Robert Hooke",
+      "D": "Louis Pasteur",
+      "E": "Thomas Morgan"
+    },
+    "correctAnswer": "B",
+    "explanation": "Gregor Mendel is known as the 'father of genetics.' Through his experiments with garden peas (Pisum sativum) in the 1860s, he discovered the fundamental laws of inheritance (Law of Segregation and Law of Independent Assortment), which form the basis of modern genetics.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 32,
+    "questionText": "If both parents are carriers of the sickle cell trait (HbAS), the probability that their child will have sickle cell disease (HbSS) is",
+    "options": {
+      "A": "1/2",
+      "B": "1/4",
+      "C": "3/4",
+      "D": "1/3",
+      "E": "0"
+    },
+    "correctAnswer": "B",
+    "explanation": "When both parents are carriers (HbAS x HbAS), the cross produces offspring in the ratio: 1 HbAA : 2 HbAS : 1 HbSS. Therefore, the probability of having a child with sickle cell disease (HbSS) is 1 out of 4, or 1/4 (25%).",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "genetics-and-heredity",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 33,
+    "questionText": "An organism's observable physical characteristics are referred to as its",
+    "options": {
+      "A": "genotype",
+      "B": "phenotype",
+      "C": "genome",
+      "D": "karyotype",
+      "E": "allele"
+    },
+    "correctAnswer": "B",
+    "explanation": "The phenotype refers to the observable physical characteristics of an organism, such as height, eye color, blood group, and skin color. The genotype is the genetic makeup or the combination of alleles an organism carries. The phenotype results from the interaction between the genotype and the environment.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "evolution",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 34,
+    "questionText": "Lamarck's theory of evolution is based on the principle of",
+    "options": {
+      "A": "natural selection",
+      "B": "survival of the fittest",
+      "C": "use and disuse of organs and inheritance of acquired characteristics",
+      "D": "genetic drift",
+      "E": "mutation"
+    },
+    "correctAnswer": "C",
+    "explanation": "Lamarck's theory of evolution is based on two main principles: (1) the use and disuse of organs - organs that are used extensively become better developed, while those not used degenerate; and (2) inheritance of acquired characteristics - these changes acquired during an organism's lifetime are passed on to offspring. This theory has been largely discredited.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "evolution",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 35,
+    "questionText": "Fossils provide evidence of evolution because they",
+    "options": {
+      "A": "show the DNA sequence of ancient organisms",
+      "B": "reveal preserved remains or impressions of organisms that lived in the past",
+      "C": "demonstrate how organisms adapt to their environment",
+      "D": "show the process of natural selection in action",
+      "E": "prove that all organisms have a common ancestor"
+    },
+    "correctAnswer": "B",
+    "explanation": "Fossils provide evidence of evolution because they are preserved remains, impressions, or traces of organisms that lived in the past. By studying fossils in different rock layers (strata), scientists can trace changes in organisms over millions of years, showing gradual transitions between different forms of life.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "classification-of-living-things",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 36,
+    "questionText": "The correct hierarchy of classification from the largest to the smallest group is",
+    "options": {
+      "A": "Kingdom, Phylum, Order, Class, Family, Genus, Species",
+      "B": "Kingdom, Phylum, Class, Order, Family, Genus, Species",
+      "C": "Kingdom, Class, Phylum, Order, Family, Genus, Species",
+      "D": "Kingdom, Phylum, Class, Family, Order, Genus, Species",
+      "E": "Kingdom, Order, Phylum, Class, Family, Genus, Species"
+    },
+    "correctAnswer": "B",
+    "explanation": "The correct hierarchy of biological classification from the largest to smallest group is: Kingdom, Phylum (Division for plants), Class, Order, Family, Genus, Species. This can be remembered using the mnemonic: King Philip Came Over For Good Spaghetti.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "classification-of-living-things",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 37,
+    "questionText": "Organisms that can manufacture their own food from inorganic substances are called",
+    "options": {
+      "A": "heterotrophs",
+      "B": "autotrophs",
+      "C": "saprophytes",
+      "D": "parasites",
+      "E": "decomposers"
+    },
+    "correctAnswer": "B",
+    "explanation": "Autotrophs are organisms that can manufacture their own food from inorganic substances using energy from sunlight (photoautotrophs, e.g., green plants) or from chemical reactions (chemoautotrophs, e.g., nitrifying bacteria). Heterotrophs cannot make their own food and depend on other organisms.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "microorganisms-and-disease",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 38,
+    "questionText": "Cholera is transmitted mainly through",
+    "options": {
+      "A": "air droplets",
+      "B": "mosquito bites",
+      "C": "contaminated water and food",
+      "D": "direct body contact",
+      "E": "tsetse fly bites"
+    },
+    "correctAnswer": "C",
+    "explanation": "Cholera, caused by the bacterium Vibrio cholerae, is transmitted mainly through contaminated water and food. The bacteria enter the body through the ingestion of food or water contaminated with faecal matter from an infected person. It causes severe diarrhoea and dehydration.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "microorganisms-and-disease",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 39,
+    "questionText": "The vector of sleeping sickness is the",
+    "options": {
+      "A": "female Anopheles mosquito",
+      "B": "tsetse fly",
+      "C": "housefly",
+      "D": "blackfly",
+      "E": "sandfly"
+    },
+    "correctAnswer": "B",
+    "explanation": "Sleeping sickness (African trypanosomiasis) is transmitted by the tsetse fly (Glossina species). The tsetse fly injects the protozoan parasite Trypanosoma into the bloodstream when it bites. The disease affects the central nervous system, causing lethargy, confusion, and eventually coma if untreated.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nervous-system-and-sense-organs",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 40,
+    "questionText": "The gap between two successive neurons across which nerve impulses are transmitted is called",
+    "options": {
+      "A": "dendrite",
+      "B": "axon",
+      "C": "synapse",
+      "D": "myelin sheath",
+      "E": "node of Ranvier"
+    },
+    "correctAnswer": "C",
+    "explanation": "A synapse is the junction (gap) between two successive neurons across which nerve impulses are transmitted. The impulse is transmitted across the synapse by chemical substances called neurotransmitters (such as acetylcholine), which are released from the synaptic knob of the presynaptic neuron.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "nervous-system-and-sense-organs",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 41,
+    "questionText": "The part of the eye that controls the amount of light entering is the",
+    "options": {
+      "A": "cornea",
+      "B": "lens",
+      "C": "retina",
+      "D": "iris",
+      "E": "optic nerve"
+    },
+    "correctAnswer": "D",
+    "explanation": "The iris is the coloured part of the eye that controls the amount of light entering the eye by adjusting the size of the pupil. In bright light, the circular muscles of the iris contract to make the pupil smaller. In dim light, the radial muscles contract to make the pupil larger.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "endocrine-system",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 42,
+    "questionText": "The hormone that regulates the metabolic rate in humans is",
+    "options": {
+      "A": "insulin",
+      "B": "adrenaline",
+      "C": "thyroxine",
+      "D": "oestrogen",
+      "E": "testosterone"
+    },
+    "correctAnswer": "C",
+    "explanation": "Thyroxine, produced by the thyroid gland, regulates the basal metabolic rate in humans. It controls the rate at which cells use oxygen and nutrients to produce energy. Deficiency leads to low metabolic rate (hypothyroidism), while excess leads to high metabolic rate (hyperthyroidism).",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "endocrine-system",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 43,
+    "questionText": "The hormone responsible for the 'fight or flight' response is",
+    "options": {
+      "A": "insulin",
+      "B": "glucagon",
+      "C": "adrenaline",
+      "D": "thyroxine",
+      "E": "progesterone"
+    },
+    "correctAnswer": "C",
+    "explanation": "Adrenaline (epinephrine), produced by the adrenal medulla, is responsible for the 'fight or flight' response. When a person is frightened or stressed, adrenaline is released into the bloodstream, causing increased heart rate, dilated pupils, increased blood sugar levels, and redirected blood flow to muscles.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "skeletal-and-muscular-systems",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 44,
+    "questionText": "The type of joint found at the hip is a",
+    "options": {
+      "A": "hinge joint",
+      "B": "pivot joint",
+      "C": "ball and socket joint",
+      "D": "gliding joint",
+      "E": "fixed joint"
+    },
+    "correctAnswer": "C",
+    "explanation": "The hip joint is a ball and socket joint, where the rounded head of the femur fits into the cup-shaped acetabulum of the pelvic girdle. Ball and socket joints allow movement in many directions (flexion, extension, rotation, abduction, adduction). The shoulder is another example.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "skeletal-and-muscular-systems",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 45,
+    "questionText": "Muscles are attached to bones by",
+    "options": {
+      "A": "ligaments",
+      "B": "tendons",
+      "C": "cartilage",
+      "D": "synovial fluid",
+      "E": "periosteum"
+    },
+    "correctAnswer": "B",
+    "explanation": "Tendons are tough, inelastic, fibrous connective tissues that attach muscles to bones. Ligaments, on the other hand, connect bones to other bones at joints. Tendons transmit the force generated by muscle contraction to the bone, causing movement.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "homeostasis-and-coordination",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 46,
+    "questionText": "When the blood sugar level rises above normal, the pancreas secretes",
+    "options": {
+      "A": "glucagon",
+      "B": "insulin",
+      "C": "adrenaline",
+      "D": "thyroxine",
+      "E": "bile"
+    },
+    "correctAnswer": "B",
+    "explanation": "When blood sugar levels rise above normal (e.g., after a meal), the beta cells of the Islets of Langerhans in the pancreas secrete insulin. Insulin stimulates the uptake of glucose by body cells and the conversion of excess glucose to glycogen in the liver and muscles, thereby lowering blood sugar levels.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "homeostasis-and-coordination",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 47,
+    "questionText": "The hormone ADH (antidiuretic hormone) acts on the kidney to",
+    "options": {
+      "A": "increase urine production",
+      "B": "increase water reabsorption",
+      "C": "decrease blood pressure",
+      "D": "increase salt excretion",
+      "E": "decrease glucose reabsorption"
+    },
+    "correctAnswer": "B",
+    "explanation": "ADH (antidiuretic hormone), also known as vasopressin, is produced by the hypothalamus and released from the posterior pituitary gland. It acts on the collecting ducts and distal convoluted tubules of the kidneys, making them more permeable to water, thereby increasing water reabsorption and producing more concentrated urine.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "ecology",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 48,
+    "questionText": "The process by which nitrogen in the atmosphere is converted to forms usable by plants is called",
+    "options": {
+      "A": "denitrification",
+      "B": "nitrification",
+      "C": "nitrogen fixation",
+      "D": "ammonification",
+      "E": "putrefaction"
+    },
+    "correctAnswer": "C",
+    "explanation": "Nitrogen fixation is the process by which atmospheric nitrogen (N2) is converted into forms that can be used by plants, such as ammonia (NH3) or nitrates (NO3-). This is carried out by nitrogen-fixing bacteria such as Rhizobium (in root nodules of legumes) and free-living bacteria like Azotobacter.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "cell-structure-and-organization",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 49,
+    "questionText": "The movement of molecules from a region of higher concentration to a region of lower concentration without the use of energy is called",
+    "options": {
+      "A": "osmosis",
+      "B": "active transport",
+      "C": "diffusion",
+      "D": "endocytosis",
+      "E": "pinocytosis"
+    },
+    "correctAnswer": "C",
+    "explanation": "Diffusion is the passive movement of molecules from a region of higher concentration to a region of lower concentration along a concentration gradient, without the expenditure of energy. It is a physical process that continues until equilibrium is reached. Examples include gas exchange in the lungs and the spreading of perfume in a room.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "BIO",
+    "topicSlug": "microorganisms-and-disease",
+    "examType": "JAMB",
+    "examYear": 1987,
+    "questionNumber": 50,
+    "questionText": "Which of the following is used in the production of bread?",
+    "options": {
+      "A": "Lactobacillus",
+      "B": "Saccharomyces (yeast)",
+      "C": "Rhizopus",
+      "D": "Penicillium",
+      "E": "Streptococcus"
+    },
+    "correctAnswer": "B",
+    "explanation": "Saccharomyces cerevisiae (baker's yeast) is used in bread making. The yeast carries out anaerobic respiration (fermentation) in the dough, producing carbon dioxide gas which causes the dough to rise (leaven). The ethanol produced evaporates during baking.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  }
+]

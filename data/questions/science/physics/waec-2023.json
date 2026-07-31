@@ -1,0 +1,382 @@
+[
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "measurement-and-units",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 1,
+    "questionText": "The fundamental quantities in Physics include all of the following EXCEPT",
+    "options": {
+      "A": "Length",
+      "B": "Mass",
+      "C": "Weight",
+      "D": "Time"
+    },
+    "correctAnswer": "C",
+    "explanation": "The fundamental (base) quantities in Physics are length, mass, time, temperature, electric current, luminous intensity, and amount of substance. Weight is a derived quantity — it is the product of mass and acceleration due to gravity (W = mg).",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "measurement-and-units",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 2,
+    "questionText": "The dimension of pressure is",
+    "options": {
+      "A": "MLT⁻²",
+      "B": "ML⁻¹T⁻²",
+      "C": "ML²T⁻²",
+      "D": "ML⁻²T⁻²"
+    },
+    "correctAnswer": "B",
+    "explanation": "Pressure = Force/Area = (MLT⁻²)/(L²) = ML⁻¹T⁻². Force has dimensions MLT⁻² and area has dimensions L², so dividing gives ML⁻¹T⁻².",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "scalar-and-vector-quantities",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 3,
+    "questionText": "Which of the following is a scalar quantity?",
+    "options": {
+      "A": "Momentum",
+      "B": "Acceleration",
+      "C": "Displacement",
+      "D": "Speed"
+    },
+    "correctAnswer": "D",
+    "explanation": "Speed is a scalar quantity — it has magnitude only. Momentum, acceleration, and displacement are all vector quantities as they have both magnitude and direction.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "equations-of-motion",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 4,
+    "questionText": "A body starts from rest and accelerates uniformly at 3 m/s². The distance covered by the body in 4 seconds is",
+    "options": {
+      "A": "6 m",
+      "B": "12 m",
+      "C": "24 m",
+      "D": "48 m"
+    },
+    "correctAnswer": "C",
+    "explanation": "Using s = ut + ½at², where u = 0 (starts from rest), a = 3 m/s², t = 4 s: s = 0 + ½(3)(4²) = ½(3)(16) = 24 m.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "equations-of-motion",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 5,
+    "questionText": "A car travelling at 20 m/s decelerates uniformly at 4 m/s². How long does it take to come to rest?",
+    "options": {
+      "A": "3 s",
+      "B": "5 s",
+      "C": "8 s",
+      "D": "10 s"
+    },
+    "correctAnswer": "B",
+    "explanation": "Using v = u + at, where v = 0, u = 20 m/s, a = -4 m/s²: 0 = 20 + (-4)t → 4t = 20 → t = 5 s.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "motion-under-gravity",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 6,
+    "questionText": "A stone is thrown vertically upward with a velocity of 30 m/s. What is the maximum height reached? [Take g = 10 m/s²]",
+    "options": {
+      "A": "30 m",
+      "B": "45 m",
+      "C": "60 m",
+      "D": "90 m"
+    },
+    "correctAnswer": "B",
+    "explanation": "At maximum height, v = 0. Using v² = u² - 2gh: 0 = 30² - 2(10)h → 20h = 900 → h = 45 m.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "force",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 7,
+    "questionText": "Newton's first law of motion is also known as the law of",
+    "options": {
+      "A": "acceleration",
+      "B": "inertia",
+      "C": "reaction",
+      "D": "momentum"
+    },
+    "correctAnswer": "B",
+    "explanation": "Newton's first law states that a body remains at rest or moves with uniform velocity unless acted upon by an external force. This tendency of a body to resist change in its state of motion is called inertia, hence the law is also called the law of inertia.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "force",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 8,
+    "questionText": "A force of 20 N acts on a body of mass 4 kg initially at rest. The velocity of the body after 5 seconds is",
+    "options": {
+      "A": "4 m/s",
+      "B": "15 m/s",
+      "C": "20 m/s",
+      "D": "25 m/s"
+    },
+    "correctAnswer": "D",
+    "explanation": "From F = ma: a = F/m = 20/4 = 5 m/s². Using v = u + at: v = 0 + 5(5) = 25 m/s.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "work-energy-and-power",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 9,
+    "questionText": "A machine with a velocity ratio of 5 requires an effort of 100 N to raise a load of 400 N. The efficiency of the machine is",
+    "options": {
+      "A": "50%",
+      "B": "60%",
+      "C": "75%",
+      "D": "80%"
+    },
+    "correctAnswer": "D",
+    "explanation": "Mechanical advantage = Load/Effort = 400/100 = 4. Efficiency = (MA/VR) × 100 = (4/5) × 100 = 80%.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "work-energy-and-power",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 10,
+    "questionText": "The kinetic energy of a body of mass 2 kg moving with a velocity of 10 m/s is",
+    "options": {
+      "A": "20 J",
+      "B": "50 J",
+      "C": "100 J",
+      "D": "200 J"
+    },
+    "correctAnswer": "C",
+    "explanation": "Kinetic energy = ½mv² = ½(2)(10²) = ½(2)(100) = 100 J.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "pressure",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 11,
+    "questionText": "A hydraulic press has a narrow piston of area 5 cm² and a wide piston of area 50 cm². If a force of 20 N is applied on the narrow piston, the force on the wide piston is",
+    "options": {
+      "A": "2 N",
+      "B": "100 N",
+      "C": "200 N",
+      "D": "500 N"
+    },
+    "correctAnswer": "C",
+    "explanation": "By Pascal's principle, pressure is transmitted equally: F₁/A₁ = F₂/A₂. So F₂ = F₁ × (A₂/A₁) = 20 × (50/5) = 20 × 10 = 200 N.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "elasticity-hookes-law",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 12,
+    "questionText": "A spring of force constant 200 N/m is compressed by 0.05 m. The energy stored in the spring is",
+    "options": {
+      "A": "0.25 J",
+      "B": "0.50 J",
+      "C": "5.0 J",
+      "D": "10.0 J"
+    },
+    "correctAnswer": "A",
+    "explanation": "Elastic potential energy = ½ke² = ½(200)(0.05²) = ½(200)(0.0025) = 0.25 J.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "wave-motion-and-types-of-waves",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 13,
+    "questionText": "Which of the following types of waves requires a material medium for propagation?",
+    "options": {
+      "A": "Radio waves",
+      "B": "Light waves",
+      "C": "Sound waves",
+      "D": "X-rays"
+    },
+    "correctAnswer": "C",
+    "explanation": "Sound waves are mechanical waves and require a material medium (solid, liquid, or gas) for propagation. Radio waves, light waves, and X-rays are electromagnetic waves that can travel through a vacuum.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "properties-of-waves",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 14,
+    "questionText": "A wave has a frequency of 500 Hz and a wavelength of 0.6 m. The speed of the wave is",
+    "options": {
+      "A": "83.3 m/s",
+      "B": "300 m/s",
+      "C": "500 m/s",
+      "D": "833 m/s"
+    },
+    "correctAnswer": "B",
+    "explanation": "Wave speed v = fλ = 500 × 0.6 = 300 m/s.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "current-electricity-ohms-law",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 15,
+    "questionText": "The resistance of a wire is 5 Ω. If the length of the wire is doubled and its cross-sectional area is halved, the new resistance is",
+    "options": {
+      "A": "2.5 Ω",
+      "B": "5 Ω",
+      "C": "10 Ω",
+      "D": "20 Ω"
+    },
+    "correctAnswer": "D",
+    "explanation": "R = ρL/A. If L is doubled and A is halved: R' = ρ(2L)/(A/2) = 4ρL/A = 4R = 4 × 5 = 20 Ω.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "electrical-circuits-series-and-parallel",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 16,
+    "questionText": "Three resistors of 2 Ω, 3 Ω and 6 Ω are connected in parallel. The effective resistance is",
+    "options": {
+      "A": "0.5 Ω",
+      "B": "1.0 Ω",
+      "C": "3.0 Ω",
+      "D": "11.0 Ω"
+    },
+    "correctAnswer": "B",
+    "explanation": "For parallel connection: 1/R = 1/2 + 1/3 + 1/6 = 3/6 + 2/6 + 1/6 = 6/6 = 1. So R = 1 Ω.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "electrical-energy-and-power",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 17,
+    "questionText": "An electric heater rated 1000 W is used for 2 hours. The energy consumed in kilowatt-hours is",
+    "options": {
+      "A": "0.5 kWh",
+      "B": "1.0 kWh",
+      "C": "2.0 kWh",
+      "D": "4.0 kWh"
+    },
+    "correctAnswer": "C",
+    "explanation": "Energy = Power × Time = 1000 W × 2 h = 1 kW × 2 h = 2.0 kWh.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "refraction-of-light",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 18,
+    "questionText": "The refractive index of glass is 1.5. The critical angle of the glass is approximately",
+    "options": {
+      "A": "30°",
+      "B": "42°",
+      "C": "48°",
+      "D": "60°"
+    },
+    "correctAnswer": "B",
+    "explanation": "sin(c) = 1/n = 1/1.5 = 0.667. Therefore c = sin⁻¹(0.667) ≈ 42°.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "gas-laws",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 19,
+    "questionText": "A gas occupies 500 cm³ at 27°C and normal atmospheric pressure. What volume will it occupy at 127°C if the pressure remains constant?",
+    "options": {
+      "A": "233 cm³",
+      "B": "500 cm³",
+      "C": "667 cm³",
+      "D": "1000 cm³"
+    },
+    "correctAnswer": "C",
+    "explanation": "Using Charles's Law: V₁/T₁ = V₂/T₂. Convert to Kelvin: T₁ = 27 + 273 = 300 K, T₂ = 127 + 273 = 400 K. V₂ = V₁ × T₂/T₁ = 500 × 400/300 = 667 cm³.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "PHY",
+    "topicSlug": "atomic-structure-and-radioactivity",
+    "examType": "WAEC",
+    "examYear": 2023,
+    "questionNumber": 20,
+    "questionText": "The half-life of a radioactive substance is 6 hours. What fraction of the original atoms will remain after 18 hours?",
+    "options": {
+      "A": "1/2",
+      "B": "1/4",
+      "C": "1/8",
+      "D": "1/16"
+    },
+    "correctAnswer": "C",
+    "explanation": "Number of half-lives = 18/6 = 3. Fraction remaining = (1/2)³ = 1/8.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  }
+]

@@ -1,0 +1,914 @@
+[
+  {
+    "subjectCode": "COM",
+    "topicSlug": "transportation",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 1,
+    "questionText": "Ships that sail across the ocean and operate on scheduled timetables are",
+    "options": {
+      "A": "ferries",
+      "B": "ocean liners",
+      "C": "tramp steamers",
+      "D": "coastal liners"
+    },
+    "correctAnswer": "B",
+    "explanation": "Ocean liners are ships that sail across the ocean and operate on scheduled timetables along fixed routes. Tramp steamers have no fixed routes or schedules, ferries operate on short inland or coastal routes, and coastal liners operate along the coast.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "insurance",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 2,
+    "questionText": "Non-insurable risks include",
+    "options": {
+      "A": "gambling",
+      "B": "damage to property",
+      "C": "death",
+      "D": "marine problems"
+    },
+    "correctAnswer": "A",
+    "explanation": "Gambling is a non-insurable risk because it is a speculative risk that is deliberately taken for profit or loss. Insurance only covers pure risks (risks involving the chance of loss only, not gain). Damage to property, death, and marine problems are all pure risks that can be insured.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "information-technology",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 3,
+    "questionText": "The program that makes up the operating system in a computer is",
+    "options": {
+      "A": "microprogram",
+      "B": "system flowchart",
+      "C": "system software",
+      "D": "syntax"
+    },
+    "correctAnswer": "C",
+    "explanation": "System software is the program that makes up the operating system in a computer. It manages the computer's hardware and provides a platform for running application software. A system flowchart is a diagram, a microprogram is firmware-level instructions, and syntax refers to programming language rules.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "marketing",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 4,
+    "questionText": "When an organization studies a market that is underserved by others and creates a product or service for the segment, it is engaged in",
+    "options": {
+      "A": "market integration",
+      "B": "market positioning",
+      "C": "market orchestration",
+      "D": "product differentiation"
+    },
+    "correctAnswer": "B",
+    "explanation": "Market positioning involves studying the market to identify underserved segments and creating products or services specifically for those segments. It is the process of establishing a distinct place in the market by targeting a specific group of consumers whose needs are not adequately met by competitors.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "insurance",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 5,
+    "questionText": "Coverage against unexpected events is called",
+    "options": {
+      "A": "insurance",
+      "B": "assurance",
+      "C": "warranty",
+      "D": "reinsurance"
+    },
+    "correctAnswer": "A",
+    "explanation": "Insurance is coverage against unexpected events (uncertain risks that may or may not occur). Assurance covers certain events like death (which is inevitable), warranty is a guarantee on products, and reinsurance is insurance taken by insurance companies to spread their own risk.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "insurance",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 6,
+    "questionText": "An insured risk which occurs accidentally as a result of defects in a ship is",
+    "options": {
+      "A": "a voyage policy",
+      "B": "a total loss",
+      "C": "an emergency",
+      "D": "a particular average"
+    },
+    "correctAnswer": "D",
+    "explanation": "A particular average is a partial loss in marine insurance that occurs accidentally as a result of defects in the ship or perils of the sea. It is borne solely by the owner of the goods or vessel affected. A total loss means the entire subject matter is destroyed, and a voyage policy is a type of policy, not a type of loss.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "communication",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 7,
+    "questionText": "Communication enhances business activities by",
+    "options": {
+      "A": "facilitating interaction between producers and consumers",
+      "B": "facilitating interaction among media houses",
+      "C": "ensuring the movement of goods from the producer to the consumer",
+      "D": "keeping the goods safe until they are needed"
+    },
+    "correctAnswer": "A",
+    "explanation": "Communication enhances business activities by facilitating interaction between producers and consumers. It enables businesses to inform consumers about their products and services, receive feedback, process orders, and maintain business relationships. Movement of goods is transportation, and keeping goods safe is warehousing.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "information-technology",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 8,
+    "questionText": "In business, the computer is very important especially in",
+    "options": {
+      "A": "financial management",
+      "B": "marketing management",
+      "C": "educational management",
+      "D": "information management"
+    },
+    "correctAnswer": "D",
+    "explanation": "In business, the computer is very important especially in information management. Computers are primarily designed to process, store, retrieve, and manage information. Information management is the core function of computers in business, enabling efficient data processing, record keeping, and decision-making.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "advertising-and-sales-promotion",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 9,
+    "questionText": "What is the most important use of promotion in marketing?",
+    "options": {
+      "A": "Persuasion",
+      "B": "Conviction",
+      "C": "Information",
+      "D": "Education"
+    },
+    "correctAnswer": "A",
+    "explanation": "Persuasion is the most important use of promotion in marketing. The ultimate goal of promotional activities is to persuade consumers to purchase goods and services. While promotion also informs and educates, its primary purpose is to convince potential buyers to take action.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "government-and-business",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 10,
+    "questionText": "The current highest decision-making body on privatization and commercialization of public enterprises in Nigeria is the",
+    "options": {
+      "A": "National Council on Privatization",
+      "B": "Securities and Exchange Commission",
+      "C": "Nigeria Investment Promotion Commission",
+      "D": "Bureau of Public Enterprises"
+    },
+    "correctAnswer": "A",
+    "explanation": "The National Council on Privatization (NCP) is the highest decision-making body on privatization and commercialization of public enterprises in Nigeria. It sets policies and guidelines for the privatization programme, while the Bureau of Public Enterprises (BPE) serves as its secretariat and implements its decisions.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "economic-integration",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 11,
+    "questionText": "The members of the Niger Basin Commission include",
+    "options": {
+      "A": "Guinea, Ghana and Niger Republic",
+      "B": "Burkina Faso, Guinea and Nigeria",
+      "C": "The Gambia, Benin Republic and Chad Republic",
+      "D": "Nigeria, the Gambia and Cameroun"
+    },
+    "correctAnswer": "B",
+    "explanation": "The members of the Niger Basin Commission include Burkina Faso, Guinea, and Nigeria, among others. The Niger Basin Commission comprises countries through which the River Niger and its tributaries flow. Ghana and The Gambia are not members as the River Niger does not flow through them.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-environment",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 12,
+    "questionText": "Business environment refers to all elements that are",
+    "options": {
+      "A": "outside an organization but relevant to its operations",
+      "B": "inside an organization but irrelevant to its operations",
+      "C": "internal to an organization and relevant to its operations",
+      "D": "external to an organization but indirectly related to its operations"
+    },
+    "correctAnswer": "A",
+    "explanation": "Business environment refers to all elements that are outside an organization but relevant to its operations. These external factors include economic conditions, government policies, social trends, technological changes, and competitive forces that influence how a business operates and performs.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "consumer-protection",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 13,
+    "questionText": "Consumer rights include the right to",
+    "options": {
+      "A": "credit",
+      "B": "free samples of a product",
+      "C": "redress",
+      "D": "a share of profits"
+    },
+    "correctAnswer": "C",
+    "explanation": "Consumer rights include the right to redress, which means the right to seek compensation or remedy when goods or services purchased are defective, unsatisfactory, or do not meet the terms of the contract. Other consumer rights include the right to safety, information, choice, and to be heard.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "economic-integration",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 14,
+    "questionText": "One important requirement for the membership of the ECOWAS is",
+    "options": {
+      "A": "integrity",
+      "B": "independence",
+      "C": "landmass",
+      "D": "population"
+    },
+    "correctAnswer": "B",
+    "explanation": "Independence (sovereignty) is an important requirement for membership of ECOWAS (Economic Community of West African States). Only independent, sovereign West African nations can become members of the organization. Factors like landmass, population, and integrity are not membership criteria.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "labour-and-trade-unions",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 15,
+    "questionText": "In Nigeria, the body that ensures that its members operate according to their professional ethics is the",
+    "options": {
+      "A": "SON",
+      "B": "NPF",
+      "C": "MAN",
+      "D": "NAFDAC"
+    },
+    "correctAnswer": "C",
+    "explanation": "MAN (Manufacturers Association of Nigeria) is the body that ensures its members operate according to their professional ethics. As a trade association, MAN sets ethical standards and codes of conduct for its member manufacturers. SON sets product standards, NAFDAC regulates food and drugs, and NPF is the Nigeria Police Force.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-law",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 16,
+    "questionText": "A transporter who had to sell some perishable goods without the prior authority of the owner becomes an agent by",
+    "options": {
+      "A": "conduct",
+      "B": "necessity",
+      "C": "ratification",
+      "D": "estoppel"
+    },
+    "correctAnswer": "B",
+    "explanation": "An agent of necessity is created when a person has to act on behalf of another in an emergency situation without prior authority. A transporter selling perishable goods to prevent total loss acts as an agent of necessity. Agency by ratification occurs when the principal later approves unauthorized acts, and agency by estoppel arises from the principal's conduct.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-environment",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 17,
+    "questionText": "Poor sewage disposal, oil spill and indiscriminate refuse dumping all lead to",
+    "options": {
+      "A": "land pollution",
+      "B": "water pollution",
+      "C": "land and water pollution",
+      "D": "air and water pollution"
+    },
+    "correctAnswer": "C",
+    "explanation": "Poor sewage disposal, oil spills, and indiscriminate refuse dumping all lead to land and water pollution. Sewage and refuse contaminate both the land where they are dumped and water bodies through runoff and seepage. Oil spills pollute both water surfaces and shorelines.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "government-and-business",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 18,
+    "questionText": "One of the advantages of commercialization is that it",
+    "options": {
+      "A": "encourages entrepreneurship",
+      "B": "increases the salaries of workers",
+      "C": "motivates government to establish more businesses",
+      "D": "gives workers on-the-job training"
+    },
+    "correctAnswer": "A",
+    "explanation": "One of the advantages of commercialization is that it encourages entrepreneurship. When public enterprises are run on commercial principles (profit-oriented), it creates a more competitive business environment that fosters entrepreneurial spirit and private sector participation in the economy.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-law",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 19,
+    "questionText": "A common element in all contracts is",
+    "options": {
+      "A": "offer",
+      "B": "consideration",
+      "C": "acceptance",
+      "D": "agreement"
+    },
+    "correctAnswer": "D",
+    "explanation": "Agreement is a common element in all contracts. An agreement, which comprises both offer and acceptance, is present in every valid contract. While offer and acceptance are individual elements, agreement encompasses both and is the foundation of all contracts. Some contracts (like deeds under seal) may not require consideration, but all require agreement.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-finance",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 20,
+    "questionText": "Sources of finance to a business include personal savings, shares, debentures and",
+    "options": {
+      "A": "loans from IMF",
+      "B": "bank overdrafts",
+      "C": "central bank loans",
+      "D": "money from political parties"
+    },
+    "correctAnswer": "B",
+    "explanation": "Bank overdrafts are a legitimate source of finance to a business, alongside personal savings, shares, and debentures. An overdraft allows a business to withdraw more money than is in its account up to an agreed limit. Loans from IMF go to governments, central bank loans go to commercial banks, and money from political parties is not a recognized business finance source.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "banking-and-finance",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 21,
+    "questionText": "Charges for loans paid by commercial banks to the Central Bank of Nigeria are called",
+    "options": {
+      "A": "bank rates",
+      "B": "credit charges",
+      "C": "interest rates",
+      "D": "bank charges"
+    },
+    "correctAnswer": "A",
+    "explanation": "Bank rate (also called discount rate) is the rate of interest charged by the Central Bank of Nigeria on loans and advances to commercial banks. It is a monetary policy tool used to control the supply of money in the economy. Interest rate is a general term, while bank charges are fees for banking services.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "stock-exchange",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 22,
+    "questionText": "In the primary market, new shares are issued through",
+    "options": {
+      "A": "personal selling, publicity and advertising",
+      "B": "a prospectus, an offer for sale and a bill of exchange",
+      "C": "advertising, a prospectus and a bill of exchange",
+      "D": "a prospectus, an offer for sale and placing"
+    },
+    "correctAnswer": "D",
+    "explanation": "In the primary market, new shares are issued through a prospectus (public offer), an offer for sale, and placing (private placement). A bill of exchange is a credit instrument used in trade, not a method of issuing shares. These three methods are the standard ways companies raise new capital in the primary market.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "banking-and-finance",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 23,
+    "questionText": "The instruments of credit include",
+    "options": {
+      "A": "billboards and postal stamps",
+      "B": "payment vouchers and statement of account",
+      "C": "bills of exchange and promissory notes",
+      "D": "bills of exchange and salary vouchers"
+    },
+    "correctAnswer": "C",
+    "explanation": "Bills of exchange and promissory notes are instruments of credit. These are negotiable instruments used to facilitate credit transactions in business. A bill of exchange is an order to pay, while a promissory note is a promise to pay a specified amount at a future date.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "stock-exchange",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 24,
+    "questionText": "The shares of a company listed on the stock exchange for sale are referred to as",
+    "options": {
+      "A": "registered shares",
+      "B": "deferred shares",
+      "C": "issued shares",
+      "D": "quoted shares"
+    },
+    "correctAnswer": "D",
+    "explanation": "Quoted shares are shares of a company that are listed on the stock exchange for sale and trading. When a company's shares are admitted to the stock exchange and can be bought and sold by the public, they are said to be quoted or listed shares.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "stock-exchange",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 25,
+    "questionText": "What is the role of the capital market in the privatization exercise in Nigeria?",
+    "options": {
+      "A": "Selling the shares and stocks of the companies to be privatized",
+      "B": "Encouraging private companies to participate in the exercise",
+      "C": "Negotiating with individuals who want to buy public companies",
+      "D": "Advertising for government"
+    },
+    "correctAnswer": "A",
+    "explanation": "The role of the capital market in the privatization exercise in Nigeria is selling the shares and stocks of the companies to be privatized. The Nigerian Stock Exchange provides the platform through which government shares in public enterprises are offered and sold to the public during privatization.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 26,
+    "questionText": "In international trade, documentary credit is also known as",
+    "options": {
+      "A": "credit note",
+      "B": "letters of credit",
+      "C": "bankers' drafts",
+      "D": "letter of hypothecation"
+    },
+    "correctAnswer": "B",
+    "explanation": "In international trade, documentary credit is also known as letters of credit. A letter of credit is a document issued by a bank guaranteeing payment to a seller on behalf of the buyer, provided the seller meets the specified terms and conditions. It is the most common method of payment in international trade.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "stock-exchange",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 27,
+    "questionText": "A specialized institution in Nigeria that deals in capital investments in the form of stocks, shares, bonds and debentures is the",
+    "options": {
+      "A": "Securities and Exchange Commission",
+      "B": "commodity market",
+      "C": "Nigerian Stock Exchange",
+      "D": "Central Bank of Nigeria"
+    },
+    "correctAnswer": "C",
+    "explanation": "The Nigerian Stock Exchange is the specialized institution that deals in capital investments in the form of stocks, shares, bonds, and debentures. It provides the marketplace for buying and selling securities. The Securities and Exchange Commission is the regulatory body, not the trading institution itself.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "accounting-basics",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 28,
+    "questionText": "A group of assets which a business acquires with the intention of reselling them are referred to as",
+    "options": {
+      "A": "current assets",
+      "B": "investment assets",
+      "C": "fixed assets",
+      "D": "intangible assets"
+    },
+    "correctAnswer": "A",
+    "explanation": "Current assets include goods and assets that a business acquires with the intention of reselling them or converting them to cash within a short period. This includes stock/inventory, which are goods bought specifically for resale. Fixed assets are held for long-term use, not for resale.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-finance",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 29,
+    "questionText": "Authorized share capital is also known as",
+    "options": {
+      "A": "called-up share capital",
+      "B": "paid-up share capital",
+      "C": "registered share capital",
+      "D": "issued share capital"
+    },
+    "correctAnswer": "C",
+    "explanation": "Authorized share capital is also known as registered share capital (or nominal capital). It is the maximum amount of share capital that a company is authorized to issue as stated in its memorandum of association and registered with the Corporate Affairs Commission.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-law",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 30,
+    "questionText": "An action taken by a company outside its object clause is regarded as",
+    "options": {
+      "A": "ultra vires",
+      "B": "a trespass",
+      "C": "uberrima fides",
+      "D": "caveat emptor"
+    },
+    "correctAnswer": "A",
+    "explanation": "Ultra vires (Latin for 'beyond the powers') refers to an action taken by a company that is outside or beyond the scope of its object clause as stated in the memorandum of association. Such actions are void and cannot be ratified. Uberrima fides means utmost good faith (an insurance principle), and caveat emptor means buyer beware.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "management-and-organization",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 31,
+    "questionText": "The strategy adopted by a firm that ceases to operate at one or more locations because of inactivity is",
+    "options": {
+      "A": "rejuvenation",
+      "B": "focus",
+      "C": "diversification",
+      "D": "consolidation"
+    },
+    "correctAnswer": "D",
+    "explanation": "Consolidation is the strategy adopted by a firm that ceases to operate at one or more locations because of inactivity. It involves concentrating resources and operations on fewer, more productive locations or activities. Diversification is the opposite - expanding into new areas. Rejuvenation means revitalizing operations.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-organizations",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 32,
+    "questionText": "A written partnership contract is known as",
+    "options": {
+      "A": "an invoice",
+      "B": "a deed",
+      "C": "a prospectus",
+      "D": "a proposal"
+    },
+    "correctAnswer": "B",
+    "explanation": "A written partnership contract is known as a deed (deed of partnership or partnership deed). It is a legal document that outlines the terms and conditions of the partnership, including profit-sharing ratios, responsibilities, and procedures for dissolution. A prospectus is used by companies to invite the public to buy shares.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-organizations",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 33,
+    "questionText": "The merger of a textile mill, a cement company and a tannery is referred to as",
+    "options": {
+      "A": "conglomerate merger",
+      "B": "horizontal merger",
+      "C": "lateral merger",
+      "D": "vertical merger"
+    },
+    "correctAnswer": "A",
+    "explanation": "A conglomerate merger involves the combination of companies from different and unrelated industries. A textile mill, a cement company, and a tannery are in completely different industries, making this a conglomerate merger. A horizontal merger combines firms in the same industry, and a vertical merger combines firms at different stages of the same production chain.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "information-technology",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 36,
+    "questionText": "The most important of computer is",
+    "options": {
+      "A": "helping people to improve their profits",
+      "B": "facilitating exchanges among individuals and firms",
+      "C": "assisting trade through banking and insurance",
+      "D": "enhancing business relationships"
+    },
+    "correctAnswer": "A",
+    "explanation": "The most important use of the computer in business is helping people to improve their profits. Computers enhance business efficiency, reduce costs, speed up operations, improve accuracy, and enable better decision-making, all of which contribute to improved profitability for businesses.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "business-organizations",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 37,
+    "questionText": "The acronym PLC is used to identify a",
+    "options": {
+      "A": "company limited by shares",
+      "B": "private company limited by shares",
+      "C": "public company limited by shares",
+      "D": "company limited by guarantee"
+    },
+    "correctAnswer": "C",
+    "explanation": "The acronym PLC stands for Public Limited Company, which is a public company limited by shares. A PLC can offer its shares for sale to the general public through the stock exchange. It is different from a private limited company (Ltd), which restricts the transfer of shares.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "introduction-to-commerce",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 38,
+    "questionText": "Commerce includes all the occupations concerned with",
+    "options": {
+      "A": "sales",
+      "B": "production",
+      "C": "marketing",
+      "D": "distribution"
+    },
+    "correctAnswer": "D",
+    "explanation": "Commerce includes all the occupations concerned with the distribution of goods and services from the producer to the final consumer. It encompasses trade (buying and selling) and aids to trade (banking, insurance, transportation, warehousing, communication, and advertising). Production is part of industry, not commerce.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 39,
+    "questionText": "Factors of production can be described as the",
+    "options": {
+      "A": "resources required for the provision of goods and services",
+      "B": "skills involved in deciding and directing the flow of goods",
+      "C": "monetary tools employed by government to ensure stable production",
+      "D": "elements involved in the process of formulating policies on production"
+    },
+    "correctAnswer": "A",
+    "explanation": "Factors of production are the resources required for the provision of goods and services. They include land (natural resources), labour (human effort), capital (man-made resources), and the entrepreneur (organizer and risk-taker). These are the basic inputs needed for any production process.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "warehousing",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 40,
+    "questionText": "Fluctuations in the supply of goods may be eliminated if the distribution system maintains",
+    "options": {
+      "A": "modern technology",
+      "B": "a team of retailers",
+      "C": "warehouse services",
+      "D": "sufficient middlemen"
+    },
+    "correctAnswer": "C",
+    "explanation": "Fluctuations in the supply of goods may be eliminated if the distribution system maintains warehouse services. Warehouses store goods during periods of surplus and release them during periods of scarcity, thereby ensuring a steady and continuous supply of goods to the market regardless of seasonal production patterns.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "banking-and-finance",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 41,
+    "questionText": "Loan schemes by thrift societies are",
+    "options": {
+      "A": "mortgage schemes",
+      "B": "conventional schemes",
+      "C": "mutual schemes",
+      "D": "unconventional schemes"
+    },
+    "correctAnswer": "C",
+    "explanation": "Loan schemes by thrift societies are mutual schemes. Thrift societies operate on the principle of mutuality, where members contribute regular savings and can borrow from the pool of funds. The loans are granted on mutual terms and are funded by the collective contributions of all members.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "trade",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 42,
+    "questionText": "An internal demand for goods to be purchased or drawn from stock is",
+    "options": {
+      "A": "a quotation",
+      "B": "a requisition",
+      "C": "a tender",
+      "D": "an order"
+    },
+    "correctAnswer": "B",
+    "explanation": "A requisition is an internal demand or request for goods to be purchased or drawn from stock within an organization. It is an internal document used by departments to request supplies from the stores or purchasing department. A quotation is a price statement from a supplier, and a tender is a formal bid.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "trade",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 43,
+    "questionText": "The term 4 net 7 on an invoice means that",
+    "options": {
+      "A": "4% surcharge will be made unless payment is made within seven days",
+      "B": "4% discount will be allowed on the price charged only if the goods are bought within seven days",
+      "C": "4% discount will be allowed on the price charged if payment is made after seven days",
+      "D": "4% discount will be allowed on the price charge if payment is made within seven days"
+    },
+    "correctAnswer": "D",
+    "explanation": "The term '4 net 7' on an invoice means that a 4% cash discount will be allowed on the price charged if payment is made within seven days. This is a common trade term used to encourage prompt payment. If payment is not made within the specified period, the full (net) amount is due.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 44,
+    "questionText": "An order sent by an importer to an overseas supplier stating the details of goods required is known as",
+    "options": {
+      "A": "export invoice",
+      "B": "ship's manifest",
+      "C": "an indent",
+      "D": "bill of lading"
+    },
+    "correctAnswer": "C",
+    "explanation": "An indent is an order sent by an importer to an overseas supplier stating the details of goods required, including description, quantity, quality, and price. An export invoice is issued by the exporter, a ship's manifest lists all cargo on board, and a bill of lading is a receipt for goods shipped.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "trade",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 45,
+    "questionText": "Organising trade fairs in Nigeria is the responsibility of",
+    "options": {
+      "A": "National Directorate of Employment",
+      "B": "Federal Ministry of Commerce",
+      "C": "Trade Association",
+      "D": "Chambers of Commerce"
+    },
+    "correctAnswer": "D",
+    "explanation": "Organizing trade fairs in Nigeria is the responsibility of Chambers of Commerce. Chambers of Commerce promote trade and business by organizing trade fairs, exhibitions, and business events that bring together buyers, sellers, and investors to facilitate commercial activities.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 46,
+    "questionText": "International trade takes place as a result of",
+    "options": {
+      "A": "uniformity in costs of production",
+      "B": "inequitable distribution of natural resources",
+      "C": "parity in the level of industrialization",
+      "D": "similarities in climatic conditions"
+    },
+    "correctAnswer": "B",
+    "explanation": "International trade takes place as a result of the inequitable (uneven) distribution of natural resources across countries. Since no country has all the resources it needs, countries trade with each other to obtain resources and products they cannot produce efficiently. This is the basis of the theory of comparative advantage.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "trade",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 47,
+    "questionText": "The use of vending machines in retailing is hindered in a developing economy owing to",
+    "options": {
+      "A": "industrial policy and harmony",
+      "B": "low level of education",
+      "C": "ineffective communication system",
+      "D": "lack of steady power supply"
+    },
+    "correctAnswer": "D",
+    "explanation": "The use of vending machines in retailing is hindered in developing economies primarily due to the lack of steady power supply. Vending machines require constant electricity to operate, and the frequent power outages common in developing countries make their use impractical and unreliable.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "labour-and-trade-unions",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 48,
+    "questionText": "Manufacturers' Association of Nigeria contributes to development by advising the government on",
+    "options": {
+      "A": "industrial policy and harmony",
+      "B": "budget and budgetary control",
+      "C": "budget and industrial policy",
+      "D": "environmental protection policy"
+    },
+    "correctAnswer": "C",
+    "explanation": "The Manufacturers' Association of Nigeria (MAN) contributes to national development by advising the government on budget and industrial policy. MAN provides input on fiscal policies that affect manufacturing, industrial development strategies, and budget allocations that impact the manufacturing sector.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "trade",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 49,
+    "questionText": "Discounts offered by firms to middlemen for bulk purchases are",
+    "options": {
+      "A": "trade discounts",
+      "B": "sales bonanza",
+      "C": "cash discounts",
+      "D": "seasonal discounts"
+    },
+    "correctAnswer": "A",
+    "explanation": "Trade discounts are discounts offered by manufacturers or wholesalers to middlemen (retailers, wholesalers) for buying goods in bulk. They are deducted from the list price and are given to encourage large orders. Cash discounts are for prompt payment, and seasonal discounts are for buying during off-peak periods.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "COM",
+    "topicSlug": "consumer-protection",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 50,
+    "questionText": "Goods are of merchantable quality if they",
+    "options": {
+      "A": "conform to description",
+      "B": "are of equal weight",
+      "C": "are of the same quality",
+      "D": "conform to buyers' purpose"
+    },
+    "correctAnswer": "A",
+    "explanation": "Goods are of merchantable quality if they conform to description. Under the Sale of Goods Act, merchantable quality means goods are of the standard that a reasonable buyer would find acceptable, taking into account any description applied to them, the price, and all other relevant circumstances.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  }
+]
