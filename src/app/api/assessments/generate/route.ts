@@ -3,6 +3,8 @@ import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
 import { generateQuizSchema } from "@/lib/validators";
 
+export const dynamic = "force-dynamic";
+
 // POST /api/assessments/generate — generate a quiz from question bank
 export async function POST(req: NextRequest) {
   try {

@@ -4,6 +4,8 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { updateProfileSchema } from "@/lib/validators";
 
+export const dynamic = "force-dynamic";
+
 export async function PATCH(req: NextRequest) {
   const session = await auth();
   if (!session?.user?.id) {

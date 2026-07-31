@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
+export const dynamic = "force-dynamic";
+
 // GET /api/subjects — list all subjects, optionally filtered
 export async function GET(req: NextRequest) {
   try {

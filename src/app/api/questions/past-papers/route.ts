@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
+export const dynamic = "force-dynamic";
+
 // GET /api/questions/past-papers — list available past papers (grouped by exam/year/subject)
 export async function GET(req: NextRequest) {
   try {

@@ -3,6 +3,8 @@ import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
 import { getGrade } from "@/lib/utils";
 
+export const dynamic = "force-dynamic";
+
 // GET /api/assessments/attempts/[attemptId] — fetch attempt results
 export async function GET(
   req: NextRequest,

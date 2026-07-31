@@ -4,6 +4,8 @@ import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
 import { bulkImportSchema } from "@/lib/validators";
 
+export const dynamic = "force-dynamic";
+
 // POST /api/admin/questions/import — bulk import questions
 export async function POST(req: NextRequest) {
   try {

@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
 
+export const dynamic = "force-dynamic";
+
 const CRITERIA_TYPES = [
   "questions_answered",
   "perfect_score",

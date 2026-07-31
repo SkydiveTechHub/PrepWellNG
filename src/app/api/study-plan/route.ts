@@ -3,6 +3,8 @@ import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
 import { generateStudyPlanSchema } from "@/lib/validators";
 
+export const dynamic = "force-dynamic";
+
 const ACTIVITY_TYPES = [
   "LESSON",
   "PRACTICE",

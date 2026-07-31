@@ -3,6 +3,8 @@ import { getToken } from "next-auth/jwt";
 import { db } from "@/lib/db";
 import { relevantTrackCategories } from "@/lib/subjects";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(request: Request) {
   // Fast JWT check — avoids the heavy auth() session enrichment round-trip.
   const token = await getToken({

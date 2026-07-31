@@ -3,6 +3,8 @@ import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
 import { mockExamSchema } from "@/lib/validators";
 
+export const dynamic = "force-dynamic";
+
 // POST /api/assessments/mock-exam/generate — generate a multi-subject mock exam
 export async function POST(req: NextRequest) {
   try {

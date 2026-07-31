@@ -7,6 +7,8 @@ import {
   uploadAvatar,
 } from "@/lib/cloudinary";
 
+export const dynamic = "force-dynamic";
+
 const MAX_BYTES = 2 * 1024 * 1024; // 2MB
 const ALLOWED = ["image/jpeg", "image/png", "image/webp"];
 

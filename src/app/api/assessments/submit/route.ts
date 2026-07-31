@@ -4,6 +4,8 @@ import { auth } from "@/lib/auth";
 import { submitAssessmentSchema } from "@/lib/validators";
 import { getGrade } from "@/lib/utils";
 
+export const dynamic = "force-dynamic";
+
 // POST /api/assessments/submit — submit answers and get results
 export async function POST(req: NextRequest) {
   try {
