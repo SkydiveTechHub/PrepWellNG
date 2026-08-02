@@ -31,6 +31,7 @@ export type PlanItemStatus = "PENDING" | "COMPLETED" | "SKIPPED";
 export type TrackCategory = "CORE" | "SCIENCE" | "ARTS" | "COMMERCIAL" | "VOCATIONAL";
 export type SchoolType = "PUBLIC" | "PRIVATE";
 export type MasteryLevel = "WEAK" | "DEVELOPING" | "COMPETENT" | "STRONG";
+export type EdgeKind = "PREREQUISITE" | "STRONG_RELATED" | "RELATED";
 
 // ─── Models ───────────────────────────────────────────────
 
@@ -68,6 +69,15 @@ export type Topic = {
   prerequisiteTopicId: string | null;
   waecWeight: number;
   jambWeight: number;
+};
+
+export type TopicEdge = {
+  id: string;
+  prereqTopicId: string;
+  topicId: string;
+  kind: EdgeKind;
+  strength: number;
+  rationale: string | null;
 };
 
 export type Subtopic = {
@@ -162,5 +172,21 @@ export type StudentProgress = {
   lastAccessedAt: Date | null;
   checkpointData: unknown;
   masteryScore: number | null;
+  revisionDueAt: Date | null;
+};
+
+export type PerformanceMetric = {
+  id: string;
+  studentId: string;
+  subjectId: string;
+  topicId: string | null;
+  totalAttempted: number;
+  totalCorrect: number;
+  accuracy: number;
+  averageTimePerQuestion: number | null;
+  masteryLevel: MasteryLevel;
+  lastUpdated: Date;
+  masteryScore: number | null;
+  lastStudiedAt: Date | null;
   revisionDueAt: Date | null;
 };

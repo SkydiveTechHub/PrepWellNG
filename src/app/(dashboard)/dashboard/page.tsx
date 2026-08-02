@@ -12,6 +12,8 @@ import {
   LuBook,
   LuAward,
   LuSparkles,
+  LuCompass,
+  LuTriangleAlert,
 } from "react-icons/lu";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
@@ -19,6 +21,11 @@ import { Greeting } from "@/components/ui/greeting";
 import { Progress } from "@/components/ui/progress";
 import { EmptyState } from "@/components/ui/empty-state";
 import { cn } from "@/lib/utils";
+import { computePathState, loadStudentSubjectIds } from "@/lib/learning-path";
+import { recommendNext } from "@/engines/learning/recommend";
+import { gapQueue } from "@/engines/learning/gaps";
+import { NextTopics } from "@/components/path/next-topics";
+import { GapList } from "@/components/path/gap-list";
 
 async function getDashboardStats(userId: string) {
   const [
@@ -146,6 +153,20 @@ export default async function DashboardPage() {
   const stats = await getDashboardStats(session.user.id);
   const firstName = session.user.name?.split(" ")[0];
 
+  // Learning Path Engine — next-topic recommendations and learning gaps,
+  // derived on read from the student's live progress across their subjects.
+  const subjectIds = await loadStudentSubjectIds(db, session.user.id);
+  const subjectRows = await db.subject.findMany({
+    where: { id: { in: subjectIds } },
+    select: { id: true, slug: true, name: true, code: true },
+  });
+  const subjects: Record<string, { slug: string; name: string; code: string }> = {};
+  for (const row of subjectRows) subjects[row.id] = row;
+
+  const { state, graph } = await computePathState(db, session.user.id, subjectIds);
+  const nextTopics = recommendNext(state, graph, { k: 3 });
+  const gaps = gapQueue(state, graph);
+
   const bestScore = stats.recentAttempts.length
     ? Math.max(...stats.recentAttempts.map((a) => a.percentage ?? 0))
     : null;
@@ -239,6 +260,57 @@ export default async function DashboardPage() {
               )}
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Learning path — next for you */}
+      <section>
+        <h2 className="mb-3 section-label">Next for you</h2>
+        <div className="grid gap-6 lg:grid-cols-2 lg:gap-4">
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-soft text-primary">
+                <LuCompass className="h-4 w-4" />
+              </span>
+              <div>
+                <h3 className="text-sm font-bold text-foreground">Keep learning</h3>
+                <p className="text-xs text-muted">
+                  Ranked by what helps most next
+                </p>
+              </div>
+            </div>
+            {nextTopics.length > 0 ? (
+              <NextTopics items={nextTopics} subjects={subjects} />
+            ) : (
+              <div className="card p-4 text-sm text-muted">
+                Nothing to learn right now — try a subject quiz to keep the
+                momentum going.
+              </div>
+            )}
+          </div>
+
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-red-50 text-red-700">
+                <LuTriangleAlert className="h-4 w-4" />
+              </span>
+              <div>
+                <h3 className="text-sm font-bold text-foreground">
+                  Tighten your gaps
+                </h3>
+                <p className="text-xs text-muted">
+                  Weak spots ranked by how much they unlock
+                </p>
+              </div>
+            </div>
+            {gaps.length > 0 ? (
+              <GapList items={gaps.slice(0, 4)} subjects={subjects} />
+            ) : (
+              <div className="card p-4 text-sm text-muted">
+                No gaps detected — every topic is at your target mastery.
+              </div>
+            )}
+          </div>
         </div>
       </section>
 

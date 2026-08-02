@@ -145,6 +145,12 @@ enum ReviewRating {
   EASY
 }
 
+enum EdgeKind {
+  PREREQUISITE
+  STRONG_RELATED
+  RELATED
+}
+
 // ─── User & Auth ──────────────────────────────────────────
 
 model User {
@@ -314,9 +320,27 @@ model Topic {
   studyPlanItems StudyPlanItem[]
   flashcardDecks FlashcardDeck[]
 
+  // Learning Path Engine (see docs/superpowers/specs/2026-08-02-learning-path-engine-design.md)
+  prereqEdges    TopicEdge[] @relation("GraphDependent")
+  dependentEdges TopicEdge[] @relation("GraphPrereq")
+
   @@unique([subjectId, slug])
   @@index([subjectId, orderIndex])
   @@index([curriculumLevelId])
+}
+
+model TopicEdge {
+  id            String   @id @default(cuid())
+  prereqTopicId String
+  prereqTopic   Topic    @relation("GraphPrereq", fields: [prereqTopicId], references: [id], onDelete: Cascade)
+  topicId       String
+  topic         Topic    @relation("GraphDependent", fields: [topicId], references: [id], onDelete: Cascade)
+  kind          EdgeKind @default(PREREQUISITE)
+  strength      Float    @default(1) // fraction of GATE a prereq must reach to unlock
+  rationale     String? // author-facing "why", shown in the UI
+
+  @@unique([prereqTopicId, topicId])
+  @@index([topicId])
 }
 
 model Subtopic {
@@ -523,6 +547,11 @@ model PerformanceMetric {
   averageTimePerQuestion Float?
   masteryLevel           MasteryLevel @default(WEAK)
   lastUpdated            DateTime     @default(now())
+
+  // Learning Path Engine (see docs/superpowers/specs/2026-08-02-learning-path-engine-design.md)
+  masteryScore  Float?    // composite 0..100 (practice + lesson + SRS)
+  lastStudiedAt DateTime? // latest evidence timestamp, drives retention decay
+  revisionDueAt DateTime? // next merged revision due date
 
   @@unique([studentId, subjectId, topicId])
   @@index([studentId, subjectId])

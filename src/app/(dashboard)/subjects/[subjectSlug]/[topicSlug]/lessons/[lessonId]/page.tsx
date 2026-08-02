@@ -5,11 +5,11 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import {
   deriveObjectives,
-  hasCompletedAnyLessonInTopic,
   parseBlocks,
   parsePrerequisiteLabels,
   type LessonBlock,
 } from "@/lib/lesson-engine";
+import { computeLessonAccess } from "@/engines/learning/availability";
 import { LessonPlayer } from "@/components/lesson/lesson-player";
 
 export default async function LessonPage({
@@ -48,30 +48,24 @@ export default async function LessonPage({
 
   const blocks = parseBlocks(lesson.blocks);
 
-  // Prerequisite gating — the topic's prerequisite must have at least one
-  // completed lesson before this lesson unlocks. Lesson-level prerequisites
-  // from the authoring metadata are informational for now.
-  let locked = false;
-  if (topic.prerequisiteTopicId) {
-    const prereqMet = await hasCompletedAnyLessonInTopic(
-      db,
-      session.user.id,
-      topic.prerequisiteTopicId,
-    );
-    locked = !prereqMet;
-  }
+  // Learning Path Engine — graph-derived per-lesson unlock (algorithm B).
+  // A lesson opens when its topic's PREREQUISITE gates are met, the authoring
+  // prerequisites are satisfied, and earlier lessons in the subtopic are done.
+  const { lessonReady, prereqs } = await computeLessonAccess(
+    db,
+    session.user.id,
+    subject.id,
+    topic.id,
+    lesson.id,
+  );
+  const locked = !lessonReady;
+  const unmetPrereqs = prereqs.filter((prereq) => !prereq.met);
 
   const prerequisiteLabels = parsePrerequisiteLabels(lesson.prerequisites);
-  if (topic.prerequisiteTopicId) {
-    const prereqTopic = await db.topic.findUnique({
-      where: { id: topic.prerequisiteTopicId },
-      select: { title: true },
-    });
-    if (prereqTopic) {
-      prerequisiteLabels.push(
-        `Complete: ${prereqTopic.title} (prerequisite)`,
-      );
-    }
+  for (const prereq of unmetPrereqs) {
+    prerequisiteLabels.push(
+      `Master ${prereq.title} (${prereq.need}% mastery) to unlock`,
+    );
   }
 
   const keyPoints = Array.isArray(lesson.keyPoints)
@@ -102,7 +96,11 @@ export default async function LessonPage({
         locked={locked}
         lockedReason={
           locked
-            ? `"${topic.title}" builds on its prerequisite topic. Complete the prerequisite lesson, then return to unlock this one.`
+            ? unmetPrereqs.length > 0
+              ? `"${topic.title}" builds on ${unmetPrereqs
+                  .map((p) => `"${p.title}" (${p.need}% mastery)`)
+                  .join(" and ")}. Reach those milestones, then return to unlock this lesson.`
+              : `Finish the earlier lessons in this topic, then return to unlock this one.`
             : null
         }
         legacy={{

@@ -6,6 +6,8 @@ import {
   LuBookOpen,
   LuCheck,
   LuClock,
+  LuLink,
+  LuLock,
   LuPlay,
   LuTarget,
   LuSparkles,
@@ -13,7 +15,11 @@ import {
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { formatDuration } from "@/lib/utils";
-import { hasCompletedAnyLessonInTopic } from "@/lib/lesson-engine";
+import {
+  computeTopicReadiness,
+  lessonUnlockState,
+  resolvePrerequisiteEntries,
+} from "@/engines/learning/availability";
 import { Badge } from "@/components/ui/badge";
 import { buttonClass } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -23,6 +29,20 @@ const TERM_LABELS: Record<string, string> = {
   FIRST: "First Term",
   SECOND: "Second Term",
   THIRD: "Third Term",
+};
+
+const LEVEL_LABELS: Record<string, string> = {
+  STRONG: "Strong",
+  COMPETENT: "Competent",
+  DEVELOPING: "Developing",
+  WEAK: "Weak",
+};
+
+const MASTERY_VARIANT: Record<string, "green" | "amber" | "neutral"> = {
+  STRONG: "green",
+  COMPETENT: "green",
+  DEVELOPING: "amber",
+  WEAK: "neutral",
 };
 
 const CLASS_COLORS: Record<string, string> = {
@@ -83,16 +103,61 @@ export default async function TopicDetailPage({
     studentProgress.map((p) => [p.lessonId, p]),
   );
 
-  // Prerequisite gating: if the topic has a prerequisite, the lesson hub shows
-  // a lock until at least one lesson under the prerequisite topic is completed.
-  let prerequisiteMet = true;
-  if (topic.prerequisiteTopicId) {
-    prerequisiteMet = await hasCompletedAnyLessonInTopic(
-      db,
-      session.user.id,
-      topic.prerequisiteTopicId,
-    );
+  // Learning Path Engine — graph-derived availability (algorithm B). The old
+  // "any lesson completed under the prereq" gate is superseded by composite
+  // mastery over every PREREQUISITE edge.
+  const { ready: topicReady, graph, state, prereqs } = await computeTopicReadiness({
+    prisma: db,
+    studentId: session.user.id,
+    subjectId: subject.id,
+    topicId: topic.id,
+  });
+  const topicState = state.get(topic.id);
+
+  const completedLessonIds = new Set(
+    studentProgress
+      .filter((p) => p.status === "COMPLETED" && p.lessonId)
+      .map((p) => p.lessonId as string),
+  );
+
+  const subjectLessons = await db.lesson.findMany({
+    where: { subtopic: { topic: { subjectId: subject.id } } },
+    select: { id: true, title: true },
+  });
+  const lessonIdByTitle = new Map(subjectLessons.map((l) => [l.title, l.id]));
+  const topicIdByTitle = new Map(
+    [...graph.nodes.values()].map((n) => [n.title, n.id]),
+  );
+
+  // Prior lessons live in the same subtopic, earlier in the authored order.
+  const priorByLesson = new Map<string, string[]>();
+  for (const subtopic of topic.subtopics) {
+    subtopic.lessons.forEach((lesson, index) => {
+      priorByLesson.set(
+        lesson.id,
+        subtopic.lessons.slice(0, index).map((l) => l.id),
+      );
+    });
   }
+
+  const lessonViews = lessons.map((lesson) => {
+    const unlocked = lessonUnlockState({
+      topicReady,
+      prerequisites: resolvePrerequisiteEntries(
+        lesson.prerequisites,
+        lessonIdByTitle,
+        topicIdByTitle,
+      ),
+      completedLessonIds,
+      state,
+      priorLessonIds: priorByLesson.get(lesson.id) ?? [],
+    });
+    return { lesson, unlocked };
+  });
+  const firstStartableLessonId =
+    lessonViews.find(
+      (view) => view.unlocked && !completedLessonIds.has(view.lesson.id),
+    )?.lesson.id ?? null;
 
   const { classLevel, term } = topic.curriculumLevel;
   const classColor = CLASS_COLORS[classLevel] ?? "bg-gray-50 text-gray-700 border-gray-200";
@@ -136,6 +201,23 @@ export default async function TopicDetailPage({
               </Badge>
               {topic.waecWeight > 0 && <Badge variant="blue">WAEC weight {topic.waecWeight}</Badge>}
               {topic.jambWeight > 0 && <Badge variant="green">JAMB weight {topic.jambWeight}</Badge>}
+              {topicState && (
+                <>
+                  <Badge variant={MASTERY_VARIANT[topicState.level] ?? "neutral"}>
+                    <LuTarget className="h-3 w-3" />
+                    {topicState.mastery}% mastery ·{" "}
+                    {LEVEL_LABELS[topicState.level] ?? topicState.level}
+                  </Badge>
+                  {topicState.retention != null && (
+                    <Badge
+                      variant={topicState.retention < 0.8 ? "amber" : "blue"}
+                    >
+                      <LuClock className="h-3 w-3" />
+                      Retention {Math.round(topicState.retention * 100)}%
+                    </Badge>
+                  )}
+                </>
+              )}
             </div>
           </div>
 
@@ -149,6 +231,59 @@ export default async function TopicDetailPage({
         </div>
       </div>
 
+      {prereqs.length > 0 && (
+        <div className="card mt-6 p-5">
+          <h2 className="mb-3 flex items-center gap-2 text-sm font-bold tracking-tight text-foreground">
+            <LuLink className="h-4 w-4 text-primary" />
+            Prerequisites
+          </h2>
+          <div className="flex flex-wrap gap-2">
+            {prereqs.map((prereq) => {
+              const chip = (
+                <span
+                  className={cn(
+                    "chip border",
+                    prereq.met
+                      ? "border-success/30 bg-success-soft text-success"
+                      : "border-amber-200 bg-amber-50 text-amber-700",
+                  )}
+                >
+                  {prereq.met ? (
+                    <LuCheck className="h-3.5 w-3.5" />
+                  ) : (
+                    <LuLock className="h-3.5 w-3.5" />
+                  )}
+                  {prereq.title}
+                  {prereq.met
+                    ? " — ready"
+                    : ` — needs ${prereq.need}% mastery (${Math.round(
+                        prereq.mastery,
+                      )}%)`}
+                </span>
+              );
+              if (prereq.subjectId === subject.id && prereq.slug) {
+                return (
+                  <Link
+                    key={prereq.topicId}
+                    href={`/subjects/${subjectSlug}/${prereq.slug}`}
+                    className="transition-opacity hover:opacity-80"
+                  >
+                    {chip}
+                  </Link>
+                );
+              }
+              return <span key={prereq.topicId}>{chip}</span>;
+            })}
+          </div>
+          {!topicReady && (
+            <p className="mt-3 text-xs text-muted">
+              Complete the prerequisites above to unlock this topic&apos;s
+              lessons.
+            </p>
+          )}
+        </div>
+      )}
+
       <div className="mt-8 space-y-6">
         <div>
           <h2 className="mb-4 flex items-center gap-2 text-lg font-bold tracking-tight text-foreground">
@@ -157,14 +292,15 @@ export default async function TopicDetailPage({
           </h2>
           {lessons.length > 0 ? (
             <div className="space-y-4">
-              {lessons.map((lesson) => {
+              {lessonViews.map(({ lesson, unlocked }) => {
                 const difficulty = DIFFICULTY[lesson.difficulty] ?? {
                   label: lesson.difficulty,
                   variant: "neutral" as const,
                 };
                 const progress = progressByLesson.get(lesson.id);
-                const isLocked = !prerequisiteMet;
+                const isLocked = !unlocked;
                 const isCompleted = progress?.status === "COMPLETED";
+                const isStartHere = lesson.id === firstStartableLessonId;
 
                 return (
                   <article
@@ -185,6 +321,8 @@ export default async function TopicDetailPage({
                       >
                         {isCompleted ? (
                           <LuCheck className="h-5 w-5" />
+                        ) : isLocked ? (
+                          <LuLock className="h-5 w-5" />
                         ) : (
                           <LuBookOpen className="h-5 w-5" />
                         )}
@@ -211,6 +349,11 @@ export default async function TopicDetailPage({
                             </span>
                           ) : (
                             <span className="text-muted">Not started</span>
+                          )}
+                          {isStartHere && (
+                            <span className="font-semibold text-primary">
+                              Start here
+                            </span>
                           )}
                         </div>
                       </div>
