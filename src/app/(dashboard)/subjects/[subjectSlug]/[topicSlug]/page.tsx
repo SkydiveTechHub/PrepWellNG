@@ -18,8 +18,10 @@ import { formatDuration } from "@/lib/utils";
 import {
   computeTopicReadiness,
   lessonUnlockState,
+  loadPretestPassed,
   resolvePrerequisiteEntries,
 } from "@/engines/learning/availability";
+import { PretestDialog } from "@/components/path/pretest-dialog";
 import { Badge } from "@/components/ui/badge";
 import { buttonClass } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -105,12 +107,16 @@ export default async function TopicDetailPage({
 
   // Learning Path Engine — graph-derived availability (algorithm B). The old
   // "any lesson completed under the prereq" gate is superseded by composite
-  // mastery over every PREREQUISITE edge.
+  // mastery over every PREREQUISITE edge. A readiness pretest (≥80% on 5
+  // questions) self-certifies a topic and satisfies its incoming gates.
+  const pretestPassed = await loadPretestPassed(db, session.user.id, subject.id);
+  const pretestCertified = pretestPassed.has(topic.id);
   const { ready: topicReady, graph, state, prereqs } = await computeTopicReadiness({
     prisma: db,
     studentId: session.user.id,
     subjectId: subject.id,
     topicId: topic.id,
+    pretestPassed,
   });
   const topicState = state.get(topic.id);
 
@@ -218,6 +224,12 @@ export default async function TopicDetailPage({
                   )}
                 </>
               )}
+              {pretestCertified && (
+                <Badge variant="green">
+                  <LuCheck className="h-3 w-3" />
+                  Certified by pretest
+                </Badge>
+              )}
             </div>
           </div>
 
@@ -286,10 +298,17 @@ export default async function TopicDetailPage({
 
       <div className="mt-8 space-y-6">
         <div>
-          <h2 className="mb-4 flex items-center gap-2 text-lg font-bold tracking-tight text-foreground">
-            <LuBookOpen className="h-5 w-5 text-primary" />
-            Lessons
-          </h2>
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+            <h2 className="flex items-center gap-2 text-lg font-bold tracking-tight text-foreground">
+              <LuBookOpen className="h-5 w-5 text-primary" />
+              Lessons
+            </h2>
+            <PretestDialog
+              topicId={topic.id}
+              topicTitle={topic.title}
+              alreadyPassed={pretestCertified}
+            />
+          </div>
           {lessons.length > 0 ? (
             <div className="space-y-4">
               {lessonViews.map(({ lesson, unlocked }) => {

@@ -70,6 +70,7 @@ export function classifyTopic(
   state: TopicStateMap,
   graph: KnowledgeGraph,
   topicId: string,
+  pretestPassed: ReadonlySet<string> = new Set(),
 ): GapCategory | null {
   const topic = state.get(topicId);
   if (!topic || !graph.nodes.has(topicId)) return null;
@@ -78,11 +79,11 @@ export function classifyTopic(
   if (topic.retention != null && topic.retention < GAP_RETENTION) {
     return "DECAYED";
   }
-  if (isAvailable(topicId, state, graph) && topic.lastStudy == null) {
+  if (isAvailable(topicId, state, graph, pretestPassed) && topic.lastStudy == null) {
     return "UNTOUCHED";
   }
   const blocked = unmasteredDependents(state, graph, topicId);
-  if (!isAvailable(topicId, state, graph) && blocked.length >= 2) {
+  if (!isAvailable(topicId, state, graph, pretestPassed) && blocked.length >= 2) {
     return "BOTTLENECK";
   }
   return null;
@@ -95,10 +96,11 @@ export function classifyTopic(
 export function gapQueue(
   state: TopicStateMap,
   graph: KnowledgeGraph,
+  pretestPassed: ReadonlySet<string> = new Set(),
 ): TopicGap[] {
   const gaps: TopicGap[] = [];
   for (const [topicId] of state) {
-    const category = classifyTopic(state, graph, topicId);
+    const category = classifyTopic(state, graph, topicId, pretestPassed);
     if (category !== "WEAK" && category !== "DECAYED" && category !== "BOTTLENECK") {
       continue;
     }

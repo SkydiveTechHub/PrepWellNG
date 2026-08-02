@@ -17,6 +17,8 @@ import {
 export interface PathState {
   graph: KnowledgeGraph;
   state: TopicStateMap;
+  /** Topic ids self-certified via a readiness pretest, across the chosen subjects. */
+  pretestPassed: ReadonlySet<string>;
 }
 
 /**
@@ -95,11 +97,16 @@ export async function loadStudentSubjectIds(
   return [...subjectIds];
 }
 
-/** One call: combined graph + derived per-topic state. */
+/** One call: combined graph + derived per-topic state + self-certified pretests. */
 export async function computePathState(
   prisma: Pick<
     PrismaClient,
-    "topic" | "topicEdge" | "questionResponse" | "studentProgress" | "flashcardReview"
+    | "topic"
+    | "topicEdge"
+    | "questionResponse"
+    | "studentProgress"
+    | "flashcardReview"
+    | "performanceMetric"
   >,
   studentId: string,
   subjectIds: readonly string[],
@@ -107,5 +114,21 @@ export async function computePathState(
 ): Promise<PathState> {
   const graph = await loadCombinedGraph(prisma, subjectIds);
   const state = await computeTopicState(prisma, studentId, graph, now);
-  return { graph, state };
+
+  const metricRows = await prisma.performanceMetric.findMany({
+    where: {
+      studentId,
+      subjectId: { in: [...subjectIds] },
+      topicId: { not: null },
+      pretestPassedAt: { not: null },
+    },
+    select: { topicId: true },
+  });
+  const pretestPassed = new Set(
+    metricRows
+      .map((row) => row.topicId)
+      .filter((id): id is string => id !== null),
+  );
+
+  return { graph, state, pretestPassed };
 }

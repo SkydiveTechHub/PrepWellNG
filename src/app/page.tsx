@@ -33,11 +33,11 @@ export default function LandingPage() {
         <Journey />
         <Subjects />
         <DeepDive />
-        <Users />
+        {/* <Users /> */}
         <Testimonials />
         <StatsBand />
         <Pricing />
-        <MobileApp />
+        {/* <MobileApp /> */}
         <Faq />
         <FinalCta />
       </main>

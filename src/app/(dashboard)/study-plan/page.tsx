@@ -38,6 +38,7 @@ type StudyPlan = {
   targetExam: string;
   targetDate: string;
   dailyStudyHours: number;
+  runwayStart?: string;
   items: PlanItem[];
 };
 
@@ -402,6 +403,9 @@ export default function StudyPlanPage() {
               const dayCompleted = day.items.filter(
                 (i) => i.status === "COMPLETED"
               ).length;
+              const isRunway =
+                plan.runwayStart != null &&
+                day.date >= plan.runwayStart.slice(0, 10);
 
               return (
                 <div key={day.date} className="card p-4">
@@ -412,9 +416,12 @@ export default function StudyPlanPage() {
                       </span>
                       <span className="text-xs text-muted">{dateStr}</span>
                     </div>
-                    <Badge variant={dayCompleted === day.items.length ? "green" : "neutral"}>
-                      {dayCompleted}/{day.items.length}
-                    </Badge>
+                    <div className="flex items-center gap-2">
+                      {isRunway && <Badge variant="amber">Runway</Badge>}
+                      <Badge variant={dayCompleted === day.items.length ? "green" : "neutral"}>
+                        {dayCompleted}/{day.items.length}
+                      </Badge>
+                    </div>
                   </div>
                   <div className="space-y-2">
                     {day.items.map((item) => {
@@ -443,6 +450,11 @@ export default function StudyPlanPage() {
                             >
                               {item.subject.code} — {item.activityType.replace(/_/g, " ")}
                             </p>
+                            {item.notes && (
+                              <p className="truncate text-xs text-muted">
+                                {item.notes}
+                              </p>
+                            )}
                           </div>
                           <span className="flex-shrink-0 text-xs text-muted">
                             {item.durationMinutes}min

@@ -228,19 +228,19 @@ const DEEP_DIVES = [
     panel: <LessonsPanel />,
     icon: LuBookOpen,
   },
-  {
-    eyebrow: "AI Tutor",
-    title: "Your personal tutor, available 24/7",
-    text: "Stuck on a question at midnight? Ask PrepWell’s AI tutor in plain English and get a patient, step-by-step explanation — instantly, with zero judgement.",
-    bullets: [
-      "Explains any topic in the way you understand",
-      "Always patient, never tired, always available",
-      "Turns your mistakes into learning moments",
-    ],
-    cta: { label: "Meet the tutor", href: "/register" },
-    panel: <TutorPanel />,
-    icon: LuWandSparkles,
-  },
+  // {
+  //   eyebrow: "AI Tutor",
+  //   title: "Your personal tutor, available 24/7",
+  //   text: "Stuck on a question at midnight? Ask PrepWell’s AI tutor in plain English and get a patient, step-by-step explanation — instantly, with zero judgement.",
+  //   bullets: [
+  //     "Explains any topic in the way you understand",
+  //     "Always patient, never tired, always available",
+  //     "Turns your mistakes into learning moments",
+  //   ],
+  //   cta: { label: "Meet the tutor", href: "/register" },
+  //   panel: <TutorPanel />,
+  //   icon: LuWandSparkles,
+  // },
   {
     eyebrow: "Exam Practice",
     title: "Mock exams that feel like the real thing",

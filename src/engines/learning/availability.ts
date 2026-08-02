@@ -18,7 +18,12 @@ export const PRETEST_PASS = 80;
 export type TopicReadyCheck = {
   prisma: Pick<
     PrismaClient,
-    "topic" | "topicEdge" | "questionResponse" | "studentProgress" | "flashcardReview"
+    | "topic"
+    | "topicEdge"
+    | "questionResponse"
+    | "studentProgress"
+    | "flashcardReview"
+    | "performanceMetric"
   >;
   studentId: string;
   subjectId: string;
@@ -26,6 +31,30 @@ export type TopicReadyCheck = {
   now?: Date;
   pretestPassed?: ReadonlySet<string>;
 };
+
+/**
+ * Topic ids the student self-certified with a readiness pretest (≥80% on 5
+ * questions) within a subject. Earned once — `PerformanceMetric.pretestPassedAt`
+ * is written on the pass and never cleared, so the dependent gate stays open.
+ */
+export async function loadPretestPassed(
+  prisma: Pick<PrismaClient, "performanceMetric">,
+  studentId: string,
+  subjectId: string,
+): Promise<ReadonlySet<string>> {
+  const rows = await prisma.performanceMetric.findMany({
+    where: {
+      studentId,
+      subjectId,
+      topicId: { not: null },
+      pretestPassedAt: { not: null },
+    },
+    select: { topicId: true },
+  });
+  return new Set(
+    rows.map((row) => row.topicId).filter((id): id is string => id !== null),
+  );
+}
 
 /**
  * True when every incoming PREREQUISITE edge's mastery gate is met (or the
@@ -154,12 +183,17 @@ export interface TopicReadiness {
   graph: KnowledgeGraph;
   state: TopicStateMap;
   prereqs: PrereqStatus[];
+  /** Topic ids in this subject the student self-certified via a readiness pretest. */
+  pretestPassed: ReadonlySet<string>;
 }
 
 /** One-shot read helper: load the subject graph, derive state, evaluate the gate. */
 export async function computeTopicReadiness(
   input: TopicReadyCheck,
 ): Promise<TopicReadiness> {
+  const pretestPassed =
+    input.pretestPassed ??
+    (await loadPretestPassed(input.prisma, input.studentId, input.subjectId));
   const graph = await loadGraph(input.prisma, input.subjectId);
   const state = await computeTopicState(
     input.prisma,
@@ -171,9 +205,15 @@ export async function computeTopicReadiness(
     input.topicId,
     state,
     graph,
-    input.pretestPassed,
+    pretestPassed,
   );
-  return { ready, graph, state, prereqs: prereqStatuses(input.topicId, graph, state, input.pretestPassed) };
+  return {
+    ready,
+    graph,
+    state,
+    prereqs: prereqStatuses(input.topicId, graph, state, pretestPassed),
+    pretestPassed,
+  };
 }
 
 export interface LessonAccess extends TopicReadiness {
@@ -193,6 +233,7 @@ export async function computeLessonAccess(
     | "studentProgress"
     | "flashcardReview"
     | "lesson"
+    | "performanceMetric"
   >,
   studentId: string,
   subjectId: string,

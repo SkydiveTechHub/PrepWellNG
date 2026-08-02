@@ -220,16 +220,17 @@ function masteredButDecayed(
 export function recommendNext(
   state: TopicStateMap,
   graph: KnowledgeGraph,
-  options: { k?: number; now?: Date } = {},
+  options: { k?: number; now?: Date; pretestPassed?: ReadonlySet<string> } = {},
 ): NextTopicRecommendation[] {
   const k = options.k ?? 3;
   const now = options.now ?? new Date();
+  const pretestPassed = options.pretestPassed ?? new Set<string>();
 
   const candidates: NextTopicRecommendation[] = [];
   for (const [topicId, topic] of state) {
     const node = graph.nodes.get(topicId);
     if (!node) continue;
-    if (!isAvailable(topicId, state, graph)) continue;
+    if (!isAvailable(topicId, state, graph, pretestPassed)) continue;
     if (topic.mastery >= TARGET) continue;
     const ranked = rankCandidate(topicId, state, graph, now);
     candidates.push(

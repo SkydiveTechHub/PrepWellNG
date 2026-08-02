@@ -14,6 +14,7 @@ import {
   LuSparkles,
   LuCompass,
   LuTriangleAlert,
+  LuRotateCcw,
 } from "react-icons/lu";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
@@ -24,8 +25,14 @@ import { cn } from "@/lib/utils";
 import { computePathState, loadStudentSubjectIds } from "@/lib/learning-path";
 import { recommendNext } from "@/engines/learning/recommend";
 import { gapQueue } from "@/engines/learning/gaps";
+import {
+  loadRevisionExtras,
+  revisionItemToRecommendation,
+  revisionQueue,
+} from "@/engines/learning/revision";
 import { NextTopics } from "@/components/path/next-topics";
 import { GapList } from "@/components/path/gap-list";
+import { RevisionQueue } from "@/components/path/revision-queue";
 
 async function getDashboardStats(userId: string) {
   const [
@@ -163,9 +170,23 @@ export default async function DashboardPage() {
   const subjects: Record<string, { slug: string; name: string; code: string }> = {};
   for (const row of subjectRows) subjects[row.id] = row;
 
-  const { state, graph } = await computePathState(db, session.user.id, subjectIds);
-  const nextTopics = recommendNext(state, graph, { k: 3 });
-  const gaps = gapQueue(state, graph);
+  const { state, graph, pretestPassed } = await computePathState(
+    db,
+    session.user.id,
+    subjectIds,
+  );
+  const now = new Date();
+  const revisionExtras = await loadRevisionExtras(db, session.user.id, graph, now);
+  const revision = revisionQueue(state, graph, revisionExtras, { now, k: 6 });
+
+  // Algorithm C's consolidation fallback: when nothing is available to learn,
+  // the "Keep learning" rail hands off to the merged revision queue.
+  const nextTopics = recommendNext(state, graph, { k: 3, pretestPassed });
+  const learningPicks =
+    nextTopics.length > 0
+      ? nextTopics
+      : revision.slice(0, 3).map(revisionItemToRecommendation);
+  const gaps = gapQueue(state, graph, pretestPassed);
 
   const bestScore = stats.recentAttempts.length
     ? Math.max(...stats.recentAttempts.map((a) => a.percentage ?? 0))
@@ -279,8 +300,8 @@ export default async function DashboardPage() {
                 </p>
               </div>
             </div>
-            {nextTopics.length > 0 ? (
-              <NextTopics items={nextTopics} subjects={subjects} />
+            {learningPicks.length > 0 ? (
+              <NextTopics items={learningPicks} subjects={subjects} />
             ) : (
               <div className="card p-4 text-sm text-muted">
                 Nothing to learn right now — try a subject quiz to keep the
@@ -311,6 +332,37 @@ export default async function DashboardPage() {
               </div>
             )}
           </div>
+        </div>
+      </section>
+
+      {/* Learning path — revise today */}
+      <section>
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-orange-100 text-orange-700">
+              <LuRotateCcw className="h-4 w-4" />
+            </span>
+            <div>
+              <h3 className="text-sm font-bold text-foreground">
+                Revise today
+              </h3>
+              <p className="text-xs text-muted">
+                Merged from your flashcard reviews and revision schedule
+              </p>
+            </div>
+            {revision.length > 0 && (
+              <span className="ml-auto rounded-full bg-orange-100 px-2.5 py-0.5 text-xs font-bold text-orange-700">
+                {revision.length} due
+              </span>
+            )}
+          </div>
+          {revision.length > 0 ? (
+            <RevisionQueue items={revision} subjects={subjects} />
+          ) : (
+            <div className="card p-4 text-sm text-muted">
+              Nothing due for revision — your retention is holding up.
+            </div>
+          )}
         </div>
       </section>
 

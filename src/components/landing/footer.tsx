@@ -79,12 +79,12 @@ export function Footer() {
                 </a>
               ))}
             </div>
-            <div className="mt-8 max-w-xs">
+            {/* <div className="mt-8 max-w-xs">
               <p className="text-xs font-extrabold uppercase tracking-widest ink">
                 Study tips, weekly
               </p>
               <NewsletterForm />
-            </div>
+            </div> */}
           </div>
 
           {COLUMNS.map((col) => (

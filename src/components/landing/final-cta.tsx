@@ -40,16 +40,23 @@ export function FinalCta() {
                   Start Learning Free
                   <LuArrowRight className="h-4 w-4" />
                 </Link>
-                <a
+                {/* <a
                   href="mailto:hello@prepwell.ng"
                   className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-white/25 bg-white/10 px-8 text-sm font-bold text-white backdrop-blur transition-colors hover:bg-white/20"
                 >
                   <LuCalendarCheck className="h-4 w-4" />
                   Book a School Demo
-                </a>
+                </a> */}
+                <Link
+                  href="/login"
+                  className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-white/25 bg-white/10 px-8 text-sm font-bold text-white backdrop-blur transition-colors hover:bg-white/20"
+                >
+                  <LuCalendarCheck className="h-4 w-4" />
+                  Login to continue
+                </Link>
               </div>
               <p className="mt-5 text-xs font-semibold text-blue-200">
-                Free to start · No card required · Works on any phone
+                Free to start · Works on any phone
               </p>
             </div>
           </div>

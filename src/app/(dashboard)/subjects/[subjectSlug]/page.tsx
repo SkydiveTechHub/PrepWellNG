@@ -16,6 +16,21 @@ import { Badge } from "@/components/ui/badge";
 import { buttonClass } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { cn } from "@/lib/utils";
+import { loadGraph } from "@/engines/learning/graph";
+import { computeTopicState } from "@/engines/learning/mastery";
+import {
+  isAvailable,
+  loadPretestPassed,
+  TARGET,
+} from "@/engines/learning/availability";
+import { recommendNext } from "@/engines/learning/recommend";
+import {
+  GraphView,
+  type GraphNodeState,
+  type GraphViewEdge,
+  type GraphViewNode,
+} from "@/components/path/graph-view";
+import { CurriculumViewToggle } from "@/components/path/view-toggle";
 
 const CLASS_LEVELS = ["SS1", "SS2", "SS3"] as const;
 const TERMS = ["FIRST", "SECOND", "THIRD"] as const;
@@ -76,6 +91,70 @@ export default async function SubjectDetailPage({
   if (subject.isWaec) examLabels.push("WAEC");
   if (subject.isJamb) examLabels.push("JAMB");
   if (subject.isNeco) examLabels.push("NECO");
+
+  // Learning Path Engine — graph view (spec Stage 0). Derive per-topic state
+  // from live evidence + the student's self-certified pretests, so the graph
+  // node colours carry the unlock/mastery/revision signal.
+  const graph = await loadGraph(db, subject.id);
+  const [state, pretestPassed] = await Promise.all([
+    computeTopicState(db, session.user.id, graph),
+    loadPretestPassed(db, session.user.id, subject.id),
+  ]);
+
+  const REVISION_RETENTION = 0.85;
+  const graphNodes: GraphViewNode[] = [];
+  let masteredCount = 0;
+  let readyCount = 0;
+  let dueCount = 0;
+  for (const [topicId, node] of graph.nodes) {
+    if (node.subjectId !== subject.id) continue;
+    const topicState = state.get(topicId);
+    const mastery = topicState?.mastery ?? 0;
+    const retention = topicState?.retention ?? null;
+    const lastStudy = topicState?.lastStudy ?? null;
+    const available = isAvailable(topicId, state, graph, pretestPassed);
+
+    let nodeState: GraphNodeState;
+    if (retention != null && retention < REVISION_RETENTION) {
+      nodeState = "DECAYED";
+    } else if (mastery >= TARGET) {
+      nodeState = "MASTERED";
+    } else if (available && lastStudy != null) {
+      nodeState = "STARTED";
+    } else if (available) {
+      nodeState = "READY";
+    } else {
+      nodeState = "LOCKED";
+    }
+
+    if (nodeState === "MASTERED") masteredCount += 1;
+    if (nodeState === "READY") readyCount += 1;
+    if (nodeState === "DECAYED") dueCount += 1;
+
+    graphNodes.push({
+      id: topicId,
+      title: node.title,
+      slug: node.slug,
+      orderIndex: node.orderIndex,
+      state: nodeState,
+      mastery,
+      isNext: false,
+    });
+  }
+
+  const graphEdges: GraphViewEdge[] = graph.edges
+    .filter(
+      (edge) =>
+        graph.nodes.get(edge.from)?.subjectId === subject.id &&
+        graph.nodes.get(edge.to)?.subjectId === subject.id,
+    )
+    .map((edge) => ({ from: edge.from, to: edge.to }));
+
+  const nextRecs = recommendNext(state, graph, { k: 1, pretestPassed });
+  const nextTopicId = nextRecs[0]?.topicId ?? null;
+  for (const node of graphNodes) {
+    if (node.id === nextTopicId) node.isNext = true;
+  }
 
   const grouped: Record<string, Record<string, TopicRow[]>> = {};
   for (const level of CLASS_LEVELS) grouped[level] = { FIRST: [], SECOND: [], THIRD: [] };
@@ -154,11 +233,23 @@ export default async function SubjectDetailPage({
         </div>
       </div>
 
-      {/* Curriculum by class & term */}
+      {/* Curriculum — list/graph toggle (Learning Path Engine, spec Stage 0) */}
       <div className="mt-8">
-        <h2 className="section-label mb-4">Curriculum by Class</h2>
-        {subject.topics.length > 0 ? (
-          <div className="space-y-4">
+        <CurriculumViewToggle
+          graph={
+            <GraphView
+              nodes={graphNodes}
+              edges={graphEdges}
+              subjectSlug={subject.slug}
+              mastered={masteredCount}
+              ready={readyCount}
+              due={dueCount}
+              total={subject._count.topics}
+            />
+          }
+        >
+          {subject.topics.length > 0 ? (
+            <div className="space-y-4">
             {CLASS_LEVELS.map((level) => {
               const terms = grouped[level];
               const topicCount = terms.FIRST.length + terms.SECOND.length + terms.THIRD.length;
@@ -250,6 +341,7 @@ export default async function SubjectDetailPage({
             description="Topics for this subject are being prepared. Check back soon."
           />
         )}
+        </CurriculumViewToggle>
       </div>
 
       {/* Quick practice */}

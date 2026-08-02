@@ -552,6 +552,7 @@ model PerformanceMetric {
   masteryScore  Float?    // composite 0..100 (practice + lesson + SRS)
   lastStudiedAt DateTime? // latest evidence timestamp, drives retention decay
   revisionDueAt DateTime? // next merged revision due date
+  pretestPassedAt DateTime? // readiness pretest passed (≥80% on 5 questions)
 
   @@unique([studentId, subjectId, topicId])
   @@index([studentId, subjectId])

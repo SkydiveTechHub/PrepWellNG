@@ -17,11 +17,11 @@ import { SectionHeader } from "./section";
 import { Reveal } from "./reveal";
 
 const FEATURES = [
-  {
-    icon: LuWandSparkles,
-    title: "AI Tutor",
-    text: "Ask any question in plain English and get a step-by-step explanation, whenever you're stuck — day or night.",
-  },
+  // {
+  //   icon: LuWandSparkles,
+  //   title: "AI Tutor",
+  //   text: "Ask any question in plain English and get a step-by-step explanation, whenever you're stuck — day or night.",
+  // },
   {
     icon: LuBookOpen,
     title: "Interactive Lesson Notes",
@@ -57,26 +57,26 @@ const FEATURES = [
     title: "Gamified Learning",
     text: "Streaks, badges and milestones that keep even five focused minutes a day going.",
   },
-  {
-    icon: LuMonitorSmartphone,
-    title: "Offline Learning",
-    text: "Download lessons and flashcards and keep studying even when data runs out.",
-  },
-  {
-    icon: LuUsers,
-    title: "Teacher Dashboard",
-    text: "Assign topics, track whole-class progress and spot struggling students early.",
-  },
-  {
-    icon: LuChartColumn,
-    title: "Parent Dashboard",
-    text: "See real progress and get weekly updates without hovering over your child.",
-  },
-  {
-    icon: LuSmartphone,
-    title: "Mobile Learning",
-    text: "Built light and fast for the phones students actually use — even on 2G.",
-  },
+  // {
+  //   icon: LuMonitorSmartphone,
+  //   title: "Offline Learning",
+  //   text: "Download lessons and flashcards and keep studying even when data runs out.",
+  // },
+  // {
+  //   icon: LuUsers,
+  //   title: "Teacher Dashboard",
+  //   text: "Assign topics, track whole-class progress and spot struggling students early.",
+  // },
+  // {
+  //   icon: LuChartColumn,
+  //   title: "Parent Dashboard",
+  //   text: "See real progress and get weekly updates without hovering over your child.",
+  // },
+  // {
+  //   icon: LuSmartphone,
+  //   title: "Mobile Learning",
+  //   text: "Built light and fast for the phones students actually use — even on 2G.",
+  // },
 ];
 
 export function WhyUs() {

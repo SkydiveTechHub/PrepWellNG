@@ -228,7 +228,7 @@ export function Hero() {
 
       <div className="landing-container relative grid items-center gap-14 pb-20 lg:grid-cols-2 lg:gap-10 lg:pb-28">
         <div>
-          <Reveal>
+          {/* <Reveal>
             <span className="inline-flex items-center gap-2 rounded-full glass px-3.5 py-1.5 text-xs font-bold ink-muted">
               <span className="flex items-center gap-1 rounded-full bg-accent-soft px-2 py-0.5 text-accent">
                 <LuSparkles className="h-3 w-3" />
@@ -236,7 +236,7 @@ export function Hero() {
               </span>
               AI tutor now explains any question, step by step
             </span>
-          </Reveal>
+          </Reveal> */}
 
           <Reveal delay={80}>
             <h1 className="mt-6 text-[2.6rem] font-extrabold leading-[1.06] tracking-tight ink sm:text-5xl lg:text-6xl">
@@ -265,7 +265,7 @@ export function Hero() {
                 Start Learning Free
                 <LuArrowRight className="h-4 w-4" />
               </Link>
-              <a
+              {/* <a
                 href="#product"
                 className={buttonClass("outline", "lg", "px-7")}
               >
@@ -273,10 +273,10 @@ export function Hero() {
                   <LuPlay className="ml-0.5 h-3 w-3" />
                 </span>
                 Watch Demo
-              </a>
+              </a> */}
             </div>
             <p className="mt-4 text-xs font-semibold ink-faint">
-              Free to start · No card required · Works on any phone
+              Free to start · Works on any phone
             </p>
           </Reveal>
 

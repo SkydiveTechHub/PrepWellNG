@@ -2,15 +2,16 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
 import { generateStudyPlanSchema } from "@/lib/validators";
+import { computePathState } from "@/lib/learning-path";
+import {
+  generatePlan,
+  computePlanWindow,
+} from "@/engines/planner/plan";
+import { loadRevisionExtras } from "@/engines/learning/revision";
 
 export const dynamic = "force-dynamic";
 
-const ACTIVITY_TYPES = [
-  "LESSON",
-  "PRACTICE",
-  "REVISION",
-  "PAST_QUESTIONS",
-] as const;
+const SESSION_MINUTES = 30;
 
 // GET /api/study-plan — get the active study plan with items
 export async function GET() {
@@ -31,7 +32,16 @@ export async function GET() {
       orderBy: { createdAt: "desc" },
     });
 
-    return NextResponse.json({ plan });
+    if (!plan) return NextResponse.json({ plan: null });
+
+    const runwayStart = computePlanWindow(
+      plan.createdAt,
+      plan.targetDate,
+    ).runwayStart;
+
+    return NextResponse.json({
+      plan: { ...plan, runwayStart: runwayStart.toISOString() },
+    });
   } catch (error) {
     console.error("Error fetching study plan:", error);
     return NextResponse.json(
@@ -97,37 +107,50 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // Generate daily items
-    const items: Array<{
-      studyPlanId: string;
-      scheduledDate: Date;
-      subjectId: string;
-      activityType: "LESSON" | "PRACTICE" | "REVISION" | "PAST_QUESTIONS" | "MOCK_EXAM";
-      durationMinutes: number;
-    }> = [];
-
+    // Derive the combined graph + per-topic mastery/retention state, plus the
+    // DB half of the revision queue (SRS + cadence), then run the planner.
     const studyMinutes = Math.round(dailyStudyHours * 60);
-    const slotsPerDay = Math.max(1, Math.min(4, Math.floor(studyMinutes / 30)));
+    const { graph, state, pretestPassed } = await computePathState(
+      db,
+      session.user.id,
+      subjectIds,
+    );
+    const revisionExtras = await loadRevisionExtras(db, session.user.id, graph);
+    const subjectNames = Object.fromEntries(
+      subjects.map((subject) => [subject.id, subject.name]),
+    );
 
-    for (let day = 0; day < totalDays; day++) {
-      const date = new Date(start);
-      date.setDate(date.getDate() + day);
-      if (date > end) break;
+    const drafts = generatePlan({
+      graph,
+      state,
+      subjectIds,
+      start,
+      targetDate: end,
+      dailyMinutes: studyMinutes,
+      revisionExtras,
+      subjectNames,
+      sessionMinutes: SESSION_MINUTES,
+      pretestPassed,
+    });
 
-      for (let slot = 0; slot < slotsPerDay; slot++) {
-        const subjectIdx = (day * slotsPerDay + slot) % subjects.length;
-        const activityIdx = (day * slotsPerDay + slot) % ACTIVITY_TYPES.length;
-        items.push({
-          studyPlanId: plan.id,
-          scheduledDate: date,
-          subjectId: subjects[subjectIdx].id,
-          activityType: ACTIVITY_TYPES[activityIdx] as "LESSON" | "PRACTICE" | "REVISION" | "PAST_QUESTIONS" | "MOCK_EXAM",
-          durationMinutes: Math.round(studyMinutes / slotsPerDay),
-        });
-      }
+    const items = drafts.map((draft) => ({
+      studyPlanId: plan.id,
+      scheduledDate: draft.date,
+      subjectId: draft.subjectId,
+      topicId: draft.topicId,
+      activityType: draft.activityType as
+        | "LESSON"
+        | "PRACTICE"
+        | "REVISION"
+        | "PAST_QUESTIONS"
+        | "MOCK_EXAM",
+      durationMinutes: draft.durationMinutes,
+      notes: draft.notes,
+    }));
+
+    if (items.length > 0) {
+      await db.studyPlanItem.createMany({ data: items });
     }
-
-    await db.studyPlanItem.createMany({ data: items });
 
     const fullPlan = await db.studyPlan.findUnique({
       where: { id: plan.id },
@@ -139,8 +162,10 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    const runwayStart = computePlanWindow(plan.createdAt, end).runwayStart;
+
     return NextResponse.json({
-      plan: fullPlan,
+      plan: fullPlan ? { ...fullPlan, runwayStart: runwayStart.toISOString() } : null,
       subjects: subjects.map((s) => ({ id: s.id, name: s.name, code: s.code })),
       totalDays,
       totalSessions: items.length,
