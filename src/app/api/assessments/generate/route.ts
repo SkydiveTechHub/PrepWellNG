@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { subjectId, topicIds, examType, count, difficulty } = parsed.data;
+    const { subjectId, topicIds, examType, count, difficulty, title } = parsed.data;
 
     // Build question filter
     const where: Record<string, unknown> = {
@@ -34,10 +34,28 @@ export async function POST(req: NextRequest) {
     if (difficulty) where.difficulty = difficulty;
 
     // Fetch candidate questions
-    const candidates = await db.question.findMany({
+    let candidates = await db.question.findMany({
       where,
       select: { id: true },
     });
+
+    // Fall back to the whole subject when a topic has no tagged questions, so
+    // the quiz still surfaces the most relevant questions from the bank.
+    let source: "topic" | "subject" = "topic";
+    if (candidates.length === 0 && topicIds && topicIds.length > 0) {
+      const subjectWhere: Record<string, unknown> = {
+        subjectId,
+        questionType: "OBJECTIVE",
+      };
+      if (examType) subjectWhere.examType = examType;
+      if (difficulty) subjectWhere.difficulty = difficulty;
+
+      candidates = await db.question.findMany({
+        where: subjectWhere,
+        select: { id: true },
+      });
+      source = "subject";
+    }
 
     if (candidates.length === 0) {
       return NextResponse.json(
@@ -60,10 +78,13 @@ export async function POST(req: NextRequest) {
       select: { name: true },
     });
 
+    const assessmentTitle =
+      title || `${subject?.name || "Practice"} Quiz`;
+
     // Create assessment + assessment questions + attempt
     const assessment = await db.assessment.create({
       data: {
-        title: `${subject?.name || "Practice"} Quiz`,
+        title: assessmentTitle,
         description: `${selected.length} questions`,
         assessmentType: examType ? "PAST_PAPER" : "TOPIC_QUIZ",
         subjectId,
@@ -120,6 +141,7 @@ export async function POST(req: NextRequest) {
       assessmentId: assessment.id,
       attemptId: attempt.id,
       title: assessment.title,
+      source,
       totalQuestions: questions.length,
       timeLimitMinutes: assessment.timeLimitMinutes,
       questions,

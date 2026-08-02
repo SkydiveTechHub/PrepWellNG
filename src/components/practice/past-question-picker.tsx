@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { LuCheck, LuPencil, LuBookOpen, LuChevronRight } from "react-icons/lu";
-import { cn } from "@/lib/utils";
+import { LuCheck, LuPencil, LuChevronRight, LuInbox } from "react-icons/lu";
 import { isRelevantSubject, relevantTrackCategories } from "@/lib/subjects";
 import { TRACK_CATEGORIES } from "@/lib/subjects";
+import { Badge } from "@/components/ui/badge";
+import { EmptyState } from "@/components/ui/empty-state";
+import { Spinner } from "@/components/ui/spinner";
 
 type PastPaper = {
   examType: string;
@@ -17,10 +19,10 @@ type PastPaper = {
   questionCount: number;
 };
 
-const EXAM_STYLES: Record<string, string> = {
-  WAEC: "bg-blue-100 text-blue-700",
-  JAMB: "bg-green-100 text-green-700",
-  NECO: "bg-purple-100 text-purple-700",
+const EXAM_BADGES: Record<string, "blue" | "green" | "purple"> = {
+  WAEC: "blue",
+  JAMB: "green",
+  NECO: "purple",
 };
 
 export function PastQuestionPicker({ track }: { track: string | null }) {
@@ -91,27 +93,21 @@ export function PastQuestionPicker({ track }: { track: string | null }) {
   const chosenSubject = subjects.find((s) => s.subjectId === subjectId);
 
   if (loading) {
-    return (
-      <div className="text-center py-12">
-        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-        <p className="text-sm text-muted">Loading past papers...</p>
-      </div>
-    );
+    return <Spinner label="Loading past papers..." />;
   }
 
   if (failed || papers.length === 0) {
     return (
-      <div className="text-center py-12 bg-card border border-border rounded-lg">
-        <LuBookOpen className="w-12 h-12 text-muted mx-auto mb-3" />
-        <h3 className="font-semibold text-foreground">
-          {failed ? "Couldn't load past papers" : "No past papers yet"}
-        </h3>
-        <p className="text-sm text-muted mt-1">
-          {failed
+      <EmptyState
+        tone="primary"
+        icon={<LuInbox className="h-6 w-6" />}
+        title={failed ? "Couldn't load past papers" : "No past papers yet"}
+        description={
+          failed
             ? "Please refresh the page to try again."
-            : "Past questions will appear here once they're imported."}
-        </p>
-      </div>
+            : "Past questions will appear here once they're imported."
+        }
+      />
     );
   }
 
@@ -130,23 +126,16 @@ export function PastQuestionPicker({ track }: { track: string | null }) {
         />
       ) : (
         <Step number={1} title="Choose an exam">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             {exams.map(([type, questionCount]) => (
               <button
                 key={type}
                 type="button"
                 onClick={() => setExam(type)}
-                className="p-4 rounded-lg border border-border bg-card text-left hover:border-primary/40 hover:bg-primary/5 transition-all"
+                className="card card-interactive p-4 text-left"
               >
-                <span
-                  className={cn(
-                    "text-xs font-medium px-2 py-0.5 rounded-full",
-                    EXAM_STYLES[type] ?? "bg-secondary text-foreground",
-                  )}
-                >
-                  {type}
-                </span>
-                <p className="text-sm text-muted mt-2">
+                <Badge variant={EXAM_BADGES[type] ?? "neutral"}>{type}</Badge>
+                <p className="mt-2 text-sm text-muted">
                   {questionCount} question{questionCount === 1 ? "" : "s"}
                 </p>
               </button>
@@ -173,7 +162,7 @@ export function PastQuestionPicker({ track }: { track: string | null }) {
                 <button
                   type="button"
                   onClick={() => setShowAllSubjects((v) => !v)}
-                  className="text-sm font-medium text-primary hover:underline"
+                  className="text-sm font-semibold text-primary hover:underline"
                 >
                   {showAllSubjects ? "Show my subjects" : "Show all subjects"}
                 </button>
@@ -186,18 +175,16 @@ export function PastQuestionPicker({ track }: { track: string | null }) {
                 {narrows && " Try showing all subjects."}
               </p>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {visibleSubjects.map((s) => (
                   <button
                     key={s.subjectId}
                     type="button"
                     onClick={() => setSubjectId(s.subjectId)}
-                    className="p-4 rounded-lg border border-border bg-card text-left hover:border-primary/40 hover:bg-primary/5 transition-all"
+                    className="card card-interactive p-4 text-left"
                   >
-                    <p className="font-medium text-foreground text-sm">
-                      {s.subjectName}
-                    </p>
-                    <p className="text-xs text-muted mt-1">
+                    <p className="text-sm font-semibold text-foreground">{s.subjectName}</p>
+                    <p className="mt-1 text-xs text-muted">
                       {s.questionCount} questions &middot; {s.years} year
                       {s.years === 1 ? "" : "s"}
                     </p>
@@ -211,22 +198,18 @@ export function PastQuestionPicker({ track }: { track: string | null }) {
       {/* ③ Year */}
       {exam && subjectId && (
         <Step number={3} title="Choose a year">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {years.map((paper) => (
               <Link
                 key={`${paper.examType}-${paper.examYear}`}
                 href={`/practice/past-questions/${paper.subjectSlug}?exam=${paper.examType}&year=${paper.examYear}`}
-                className="flex items-center justify-between p-4 rounded-lg border border-border bg-card hover:border-primary/30 hover:bg-primary/5 transition-all group"
+                className="card card-interactive group flex items-center justify-between gap-3 p-4"
               >
                 <div>
-                  <p className="font-semibold text-foreground">
-                    {paper.examYear}
-                  </p>
-                  <p className="text-xs text-muted mt-1">
-                    {paper.questionCount} questions
-                  </p>
+                  <p className="text-base font-bold text-foreground">{paper.examYear}</p>
+                  <p className="mt-0.5 text-xs text-muted">{paper.questionCount} questions</p>
                 </div>
-                <LuChevronRight className="w-4 h-4 text-muted group-hover:text-primary transition-colors" />
+                <LuChevronRight className="h-4 w-4 text-muted transition-all group-hover:translate-x-0.5 group-hover:text-primary" />
               </Link>
             ))}
           </div>
@@ -248,10 +231,10 @@ function Step({
   children: React.ReactNode;
 }) {
   return (
-    <section className="bg-card border border-border rounded-xl p-5">
-      <div className="flex items-center justify-between gap-3 mb-4">
-        <h2 className="flex items-center gap-2.5 text-sm font-semibold text-foreground">
-          <span className="w-6 h-6 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center">
+    <section className="card animate-slide-up p-5 sm:p-6">
+      <div className="mb-4 flex items-center justify-between gap-3">
+        <h2 className="flex items-center gap-2.5 text-sm font-bold text-foreground">
+          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
             {number}
           </span>
           {title}
@@ -278,17 +261,15 @@ function SummaryChip({
     <button
       type="button"
       onClick={onEdit}
-      className="w-full flex items-center gap-3 px-5 py-3 rounded-xl border border-border bg-card hover:border-primary/30 transition-colors text-left group"
+      className="group flex w-full items-center gap-3 rounded-xl border border-border bg-card px-5 py-3.5 text-left shadow-soft transition-all hover:border-primary/30 hover:shadow-card"
     >
-      <span className="w-6 h-6 rounded-full bg-success/10 text-success flex items-center justify-center flex-shrink-0">
-        <LuCheck className="w-3.5 h-3.5" />
+      <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-success-soft text-success">
+        <LuCheck className="h-4 w-4" />
       </span>
-      <span className="text-xs text-muted uppercase tracking-wider">
-        {label}
-      </span>
-      <span className="font-medium text-foreground flex-1">{value}</span>
-      <span className="flex items-center gap-1.5 text-xs text-muted group-hover:text-primary transition-colors">
-        <LuPencil className="w-3.5 h-3.5" />
+      <span className="text-xs font-bold uppercase tracking-wider text-muted">{label}</span>
+      <span className="flex-1 truncate font-semibold text-foreground">{value}</span>
+      <span className="flex items-center gap-1.5 text-xs font-semibold text-muted transition-colors group-hover:text-primary">
+        <LuPencil className="h-3.5 w-3.5" />
         Change
       </span>
       <span className="sr-only">Change step {step}</span>

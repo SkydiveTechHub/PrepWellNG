@@ -1,25 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
-
-const CRITERIA_TYPES = [
-  "questions_answered",
-  "perfect_score",
-  "streak_days",
-  "lessons_completed",
-  "subject_mastery",
-  "mock_score_70",
-] as const;
-
-function getTodayRange() {
-  const start = new Date();
-  start.setHours(0, 0, 0, 0);
-  const end = new Date();
-  end.setHours(23, 59, 59, 999);
-  return { start, end };
-}
 
 // GET /api/achievements — list user achievements
 export async function GET() {

@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { PastQuestionPicker } from "@/components/practice/past-question-picker";
+import { PageHeader } from "@/components/ui/page-header";
 
 export default async function PastQuestionsPage() {
   const session = await auth();
@@ -9,13 +10,11 @@ export default async function PastQuestionsPage() {
   const track = (session.user as { track?: string | null }).track ?? null;
 
   return (
-    <div>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-foreground">Past Questions</h1>
-        <p className="text-muted mt-1">
-          Pick an exam, a subject, then a year.
-        </p>
-      </div>
+    <div className="animate-fade-in">
+      <PageHeader
+        title="Past Questions"
+        description="Pick an exam, a subject, then a year. Three quick steps to your next practice session."
+      />
 
       <PastQuestionPicker track={track} />
     </div>

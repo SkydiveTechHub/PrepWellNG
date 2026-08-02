@@ -3,14 +3,32 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { LuGraduationCap } from "react-icons/lu";
+import {
+  LuGraduationCap,
+  LuMail,
+  LuLock,
+  LuUser,
+  LuArrowRight,
+  LuArrowLeft,
+  LuCheck,
+  LuEye,
+  LuEyeOff,
+} from "react-icons/lu";
 import { NIGERIAN_STATES } from "@/lib/constants/exam-types";
+import { cn } from "@/lib/utils";
+
+const STEPS = [
+  { label: "Your details" },
+  { label: "Class & track" },
+  { label: "Location" },
+];
 
 export default function RegisterPage() {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
@@ -81,7 +99,6 @@ export default function RegisterPage() {
         return;
       }
 
-      // Registration successful — redirect to login
       router.push("/login?registered=true");
     } catch {
       setError("Network error. Please check your connection and try again.");
@@ -90,101 +107,151 @@ export default function RegisterPage() {
     }
   }
 
+  const optionClass = (selected: boolean) =>
+    cn(
+      "py-4 rounded-xl border text-center text-sm font-bold transition-all",
+      selected
+        ? "border-primary bg-primary-soft text-primary ring-4 ring-primary/15"
+        : "border-border bg-card text-foreground hover:border-primary/40",
+    );
+
   return (
     <div>
       {/* Mobile logo */}
-      <div className="lg:hidden flex items-center gap-2.5 mb-8">
-        <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
-          <LuGraduationCap className="w-6 h-6 text-white" />
+      <div className="mb-8 flex items-center gap-2.5 lg:hidden">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-brand">
+          <LuGraduationCap className="h-6 w-6 text-white" />
         </div>
         <div>
-          <h1 className="text-xl font-bold">PrepWell NG</h1>
+          <h1 className="text-xl font-bold tracking-tight">PrepWell</h1>
         </div>
       </div>
 
-      <h2 className="text-2xl font-bold text-foreground">Create your account</h2>
-      <p className="text-muted mt-1 mb-6">
-        Step {step} of 3 —{" "}
-        {step === 1
-          ? "Your details"
-          : step === 2
-            ? "Your class level"
-            : "Your location"}
-      </p>
+      <h2 className="text-2xl font-bold tracking-tight text-foreground">
+        Create your account
+      </h2>
+      <p className="mt-1 text-muted">Free forever for students.</p>
 
-      {/* Progress bar */}
-      <div className="flex gap-2 mb-8">
-        {[1, 2, 3].map((s) => (
-          <div
-            key={s}
-            className={`h-1.5 flex-1 rounded-full transition-colors ${
-              s <= step ? "bg-primary" : "bg-border"
-            }`}
-          />
-        ))}
-      </div>
+      {/* Stepper */}
+      <ol className="mt-8 flex items-center gap-2">
+        {STEPS.map((s, i) => {
+          const n = i + 1;
+          const done = n < step;
+          const active = n === step;
+          return (
+            <li key={s.label} className="flex flex-1 flex-col gap-1.5">
+              <div
+                className={cn(
+                  "flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold transition-colors",
+                  done
+                    ? "bg-success text-white"
+                    : active
+                      ? "bg-primary text-white ring-4 ring-primary/15"
+                      : "bg-secondary text-muted",
+                )}
+              >
+                {done ? <LuCheck className="h-4 w-4" /> : n}
+              </div>
+              <span
+                className={cn(
+                  "text-[11px] font-semibold",
+                  active ? "text-foreground" : "text-muted",
+                )}
+              >
+                {s.label}
+              </span>
+            </li>
+          );
+        })}
+      </ol>
 
-      {/* Error message */}
       {error && (
-        <div className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-700">
+        <div className="mt-5 rounded-xl border border-danger/25 bg-danger-soft p-3.5 text-sm font-medium text-danger animate-fade-in">
           {error}
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="mt-6 space-y-4">
         {/* Step 1: Personal info */}
         {step === 1 && (
           <>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-sm font-medium mb-1.5">
+                <label className="mb-1.5 block text-sm font-semibold text-foreground">
                   First name
                 </label>
-                <input
-                  type="text"
-                  value={form.firstName}
-                  onChange={(e) => update("firstName", e.target.value)}
-                  required
-                  className="w-full px-3 py-2.5 rounded-lg border border-border bg-card text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                />
+                <div className="relative">
+                  <LuUser className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
+                  <input
+                    type="text"
+                    autoComplete="given-name"
+                    value={form.firstName}
+                    onChange={(e) => update("firstName", e.target.value)}
+                    required
+                    className="input pl-10"
+                  />
+                </div>
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1.5">
+                <label className="mb-1.5 block text-sm font-semibold text-foreground">
                   Last name
                 </label>
                 <input
                   type="text"
+                  autoComplete="family-name"
                   value={form.lastName}
                   onChange={(e) => update("lastName", e.target.value)}
                   required
-                  className="w-full px-3 py-2.5 rounded-lg border border-border bg-card text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  className="input"
                 />
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1.5">Email</label>
-              <input
-                type="email"
-                value={form.email}
-                onChange={(e) => update("email", e.target.value)}
-                required
-                className="w-full px-3 py-2.5 rounded-lg border border-border bg-card text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                placeholder="you@example.com"
-              />
+              <label className="mb-1.5 block text-sm font-semibold text-foreground">
+                Email
+              </label>
+              <div className="relative">
+                <LuMail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
+                <input
+                  type="email"
+                  autoComplete="email"
+                  value={form.email}
+                  onChange={(e) => update("email", e.target.value)}
+                  required
+                  placeholder="you@example.com"
+                  className="input pl-10"
+                />
+              </div>
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1.5">
+              <label className="mb-1.5 block text-sm font-semibold text-foreground">
                 Password
               </label>
-              <input
-                type="password"
-                value={form.password}
-                onChange={(e) => update("password", e.target.value)}
-                required
-                minLength={6}
-                className="w-full px-3 py-2.5 rounded-lg border border-border bg-card text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                placeholder="At least 6 characters"
-              />
+              <div className="relative">
+                <LuLock className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
+                <input
+                  type={showPassword ? "text" : "password"}
+                  autoComplete="new-password"
+                  value={form.password}
+                  onChange={(e) => update("password", e.target.value)}
+                  required
+                  minLength={6}
+                  placeholder="At least 6 characters"
+                  className="input pl-10 pr-11"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((v) => !v)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  className="absolute right-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-lg text-muted transition-colors hover:bg-secondary hover:text-foreground"
+                >
+                  {showPassword ? (
+                    <LuEyeOff className="h-4 w-4" />
+                  ) : (
+                    <LuEye className="h-4 w-4" />
+                  )}
+                </button>
+              </div>
             </div>
           </>
         )}
@@ -193,20 +260,17 @@ export default function RegisterPage() {
         {step === 2 && (
           <>
             <div>
-              <label className="block text-sm font-medium mb-3">
+              <span className="mb-3 block text-sm font-semibold text-foreground">
                 What class are you in?
-              </label>
+              </span>
               <div className="grid grid-cols-3 gap-3">
                 {["SS1", "SS2", "SS3"].map((level) => (
                   <button
                     key={level}
                     type="button"
+                    aria-pressed={form.classLevel === level}
                     onClick={() => update("classLevel", level)}
-                    className={`py-4 rounded-lg border text-center font-semibold transition-all ${
-                      form.classLevel === level
-                        ? "border-primary bg-primary/10 text-primary"
-                        : "border-border bg-card text-foreground hover:border-primary/30"
-                    }`}
+                    className={optionClass(form.classLevel === level)}
                   >
                     {level}
                   </button>
@@ -214,9 +278,9 @@ export default function RegisterPage() {
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium mb-3">
+              <span className="mb-3 block text-sm font-semibold text-foreground">
                 What track are you in?
-              </label>
+              </span>
               <div className="grid grid-cols-3 gap-3">
                 {[
                   { value: "SCIENCE", label: "Science" },
@@ -226,31 +290,32 @@ export default function RegisterPage() {
                   <button
                     key={track.value}
                     type="button"
+                    aria-pressed={form.track === track.value}
                     onClick={() => update("track", track.value)}
-                    className={`py-4 rounded-lg border text-center font-semibold transition-all ${
-                      form.track === track.value
-                        ? "border-primary bg-primary/10 text-primary"
-                        : "border-border bg-card text-foreground hover:border-primary/30"
-                    }`}
+                    className={optionClass(form.track === track.value)}
                   >
                     {track.label}
                   </button>
                 ))}
               </div>
             </div>
+            <p className="rounded-xl bg-secondary/60 p-3.5 text-xs leading-relaxed text-muted">
+              Your track shapes which subjects and past questions are shown first.
+              You can change this later in settings.
+            </p>
           </>
         )}
 
         {/* Step 3: State */}
         {step === 3 && (
           <div>
-            <label className="block text-sm font-medium mb-1.5">
-              State (optional)
+            <label className="mb-1.5 block text-sm font-semibold text-foreground">
+              State <span className="font-normal text-muted">(optional)</span>
             </label>
             <select
               value={form.state}
               onChange={(e) => update("state", e.target.value)}
-              className="w-full px-3 py-2.5 rounded-lg border border-border bg-card text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+              className="input"
             >
               <option value="">Select your state</option>
               {NIGERIAN_STATES.map((state) => (
@@ -259,6 +324,9 @@ export default function RegisterPage() {
                 </option>
               ))}
             </select>
+            <p className="mt-3 rounded-xl bg-secondary/60 p-3.5 text-xs leading-relaxed text-muted">
+              Almost done. You&apos;ll be studying in seconds.
+            </p>
           </div>
         )}
 
@@ -267,28 +335,30 @@ export default function RegisterPage() {
             <button
               type="button"
               onClick={() => setStep(step - 1)}
-              className="flex-1 py-2.5 rounded-lg border border-border text-sm font-medium hover:bg-secondary transition-colors"
+              className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-border bg-card px-4 py-3 text-sm font-bold text-foreground transition-all hover:bg-secondary active:scale-[0.99]"
             >
+              <LuArrowLeft className="h-4 w-4" />
               Back
             </button>
           )}
           <button
             type="submit"
             disabled={loading}
-            className="flex-1 bg-primary text-primary-foreground py-2.5 rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors disabled:opacity-50"
+            className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm font-bold text-primary-foreground shadow-soft transition-all hover:bg-primary-hover active:scale-[0.99] disabled:opacity-50"
           >
             {step < 3
               ? "Continue"
               : loading
-                ? "Creating account..."
+                ? "Creating account…"
                 : "Create account"}
+            {step < 3 && !loading && <LuArrowRight className="h-4 w-4" />}
           </button>
         </div>
       </form>
 
-      <p className="text-center text-sm text-muted mt-6">
+      <p className="mt-6 text-center text-sm text-muted">
         Already have an account?{" "}
-        <Link href="/login" className="text-primary font-medium hover:underline">
+        <Link href="/login" className="font-bold text-primary hover:underline">
           Sign in
         </Link>
       </p>

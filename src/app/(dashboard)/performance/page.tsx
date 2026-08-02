@@ -1,8 +1,13 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { LuTarget, LuTrendingUp, LuChevronRight, LuTriangleAlert } from "react-icons/lu";
+import { LuTarget, LuChevronRight, LuTriangleAlert, LuGauge, LuLayers, LuFileCheck } from "react-icons/lu";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { PageHeader } from "@/components/ui/page-header";
+import { EmptyState } from "@/components/ui/empty-state";
+import { buttonClass } from "@/components/ui/button";
 
 async function getPerformanceData(userId: string) {
   const [attempts, subjectMetrics] = await db.$transaction([
@@ -94,13 +99,13 @@ function getGrade(percentage: number): string {
   return "F";
 }
 
-function getGradeColor(grade: string): string {
+function getGradeVariant(grade: string): "green" | "blue" | "amber" | "orange" | "red" {
   switch (grade) {
-    case "A": return "text-green-600 bg-green-50 border-green-200";
-    case "B": return "text-blue-600 bg-blue-50 border-blue-200";
-    case "C": return "text-amber-600 bg-amber-50 border-amber-200";
-    case "D": return "text-orange-600 bg-orange-50 border-orange-200";
-    default: return "text-red-600 bg-red-50 border-red-200";
+    case "A": return "green";
+    case "B": return "blue";
+    case "C": return "amber";
+    case "D": return "orange";
+    default: return "red";
   }
 }
 
@@ -118,189 +123,183 @@ export default async function PerformancePage() {
       )
     : null;
 
+  const stats = [
+    {
+      label: "Attempts",
+      value: String(data.attempts.length),
+      icon: <LuFileCheck className="h-5 w-5" />,
+      iconClass: "bg-primary-soft text-primary",
+    },
+    {
+      label: "Overall Accuracy",
+      value: overallAccuracy !== null ? `${overallAccuracy}%` : "\u2014",
+      icon: <LuGauge className="h-5 w-5" />,
+      iconClass: "bg-success-soft text-success",
+    },
+    {
+      label: "Latest Grade",
+      value:
+        latestAttempt?.percentage !== null && latestAttempt?.percentage !== undefined
+          ? getGrade(latestAttempt.percentage)
+          : "\u2014",
+      icon: <LuTarget className="h-5 w-5" />,
+      iconClass: "bg-warning-soft text-warning",
+    },
+    {
+      label: "Subjects",
+      value: String(data.subjectMetrics.length),
+      icon: <LuLayers className="h-5 w-5" />,
+      iconClass: "bg-blue-50 text-blue-600",
+    },
+  ];
+
   return (
-    <div>
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-foreground">Performance</h1>
-        <p className="text-muted mt-1">
-          Track your progress, see your grades, and identify topics that need more attention.
-        </p>
-      </div>
+    <div className="animate-fade-in">
+      <PageHeader
+        title="Performance"
+        description="Track your progress, see your grades, and identify topics that need more attention."
+      />
 
-      {/* Overall Stats */}
       {data.attempts.length > 0 ? (
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          <div className="bg-card rounded-xl border border-border p-4">
-            <p className="text-xs text-muted mb-1">Attempts</p>
-            <p className="text-2xl font-bold text-foreground">{data.attempts.length}</p>
+        <>
+          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+            {stats.map((stat) => (
+              <div key={stat.label} className="card p-4">
+                <div className="flex items-center justify-between">
+                  <p className="text-xs font-semibold text-muted">{stat.label}</p>
+                  <span className={`flex h-9 w-9 items-center justify-center rounded-xl ${stat.iconClass}`}>
+                    {stat.icon}
+                  </span>
+                </div>
+                <p className="mt-2 text-2xl font-bold tracking-tight text-foreground">
+                  {stat.value}
+                </p>
+              </div>
+            ))}
           </div>
-          <div className="bg-card rounded-xl border border-border p-4">
-            <p className="text-xs text-muted mb-1">Overall Accuracy</p>
-            <p className="text-2xl font-bold text-foreground">
-              {overallAccuracy !== null ? `${overallAccuracy}%` : "\u2014"}
-            </p>
-          </div>
-          <div className="bg-card rounded-xl border border-border p-4">
-            <p className="text-xs text-muted mb-1">Latest Grade</p>
-            {latestAttempt?.percentage !== null && latestAttempt?.percentage !== undefined ? (
-              <p className={`text-2xl font-bold ${getGradeColor(getGrade(latestAttempt.percentage)).split(" ")[0]}`}>
-                {getGrade(latestAttempt.percentage)}
-              </p>
-            ) : (
-              <p className="text-2xl font-bold text-muted">\u2014</p>
-            )}
-          </div>
-          <div className="bg-card rounded-xl border border-border p-4">
-            <p className="text-xs text-muted mb-1">Subjects</p>
-            <p className="text-2xl font-bold text-foreground">{data.subjectMetrics.length}</p>
-          </div>
-        </div>
-      ) : (
-        <div className="bg-card rounded-xl border border-border p-8 text-center mb-8">
-          <LuTarget className="w-10 h-10 text-muted mx-auto mb-3" />
-          <p className="text-muted">
-            Complete your first practice session to see performance data.
-          </p>
-          <Link
-            href="/practice/past-questions"
-            className="inline-flex items-center gap-1.5 mt-4 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium"
-          >
-            Start Practicing <LuChevronRight className="w-4 h-4" />
-          </Link>
-        </div>
-      )}
 
-      {/* Subject Performance (with weak topics) */}
-      {data.subjectMetrics.length > 0 && (
-        <div className="mb-8">
-          <h2 className="text-lg font-semibold text-foreground mb-4">
-            Subject Performance
-          </h2>
-          <div className="space-y-4">
-            {data.subjectMetrics.map((metric) => {
-              const weakEntry = data.subjectWeakTopics.find(
-                (w) => w.subject.slug === metric.subject.slug
-              );
-              return (
-                <div
-                  key={metric.subject.code}
-                  className="bg-card rounded-xl border border-border overflow-hidden"
-                >
-                  <Link
-                    href={`/subjects/${metric.subject.slug}`}
-                    className="block p-4 hover:bg-secondary/30 transition-colors"
-                  >
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <span className="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center text-xs font-bold">
-                          {metric.subject.code}
-                        </span>
-                        <span className="font-medium text-foreground text-sm">
-                          {metric.subject.name}
-                        </span>
+          <div className="mt-8">
+            <h2 className="section-label mb-4">Subject Performance</h2>
+            <div className="space-y-4">
+              {data.subjectMetrics.map((metric) => {
+                const weakEntry = data.subjectWeakTopics.find(
+                  (w) => w.subject.slug === metric.subject.slug
+                );
+                const accuracy = Math.round(metric.accuracy);
+                const grade = getGrade(accuracy);
+
+                return (
+                  <div key={metric.subject.code} className="card overflow-hidden">
+                    <Link
+                      href={`/subjects/${metric.subject.slug}`}
+                      className="block p-5 transition-colors hover:bg-secondary/40"
+                    >
+                      <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+                        <div className="flex items-center gap-3">
+                          <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-primary-soft text-xs font-bold text-primary">
+                            {metric.subject.code}
+                          </span>
+                          <div>
+                            <p className="text-sm font-semibold text-foreground">
+                              {metric.subject.name}
+                            </p>
+                            <p className="text-xs text-muted">
+                              {metric.totalAttempted} questions · {metric.totalCorrect} correct
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <Badge variant={getGradeVariant(grade)}>{grade}</Badge>
+                          <span className="text-sm font-bold text-foreground">{accuracy}%</span>
+                        </div>
                       </div>
-                      <span className="text-sm font-bold text-foreground">
-                        {Math.round(metric.accuracy)}%
-                      </span>
-                    </div>
-                    <div className="w-full bg-border rounded-full h-1.5">
-                      <div
-                        className={`h-1.5 rounded-full ${
-                          metric.accuracy >= 65 ? "bg-green-500" : metric.accuracy >= 40 ? "bg-amber-500" : "bg-red-500"
-                        }`}
-                        style={{ width: `${Math.round(metric.accuracy)}%` }}
-                      />
-                    </div>
-                    <div className="flex justify-between text-xs text-muted mt-1.5">
-                      <span>{metric.totalAttempted} questions</span>
-                      <span>{metric.totalCorrect} correct</span>
-                    </div>
-                  </Link>
+                      <Progress value={accuracy} tone="auto" />
+                    </Link>
 
-                  {/* Weak topics for this subject */}
-                  {weakEntry && weakEntry.topics.length > 0 && (
-                    <div className="border-t border-border px-4 py-3 bg-secondary/20">
-                      <p className="text-xs font-medium text-muted mb-2">
-                        Topics to improve
-                      </p>
-                      <div className="space-y-1.5">
-                        {weakEntry.topics.map((topic) => (
-                          <Link
-                            key={topic.slug}
-                            href={`/practice/past-questions?topic=${topic.slug}`}
-                            className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-card transition-colors group"
-                          >
-                            <div className="flex items-center gap-2 min-w-0">
-                              <LuTriangleAlert className="w-3.5 h-3.5 text-red-400 flex-shrink-0" />
-                              <span className="text-xs text-foreground truncate">
+                    {weakEntry && weakEntry.topics.length > 0 && (
+                      <div className="border-t border-border bg-secondary/30 px-5 py-4">
+                        <p className="mb-2.5 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-muted">
+                          <LuTriangleAlert className="h-3.5 w-3.5 text-warning" />
+                          Topics to improve
+                        </p>
+                        <div className="grid grid-cols-1 gap-1.5 sm:grid-cols-2">
+                          {weakEntry.topics.map((topic) => (
+                            <Link
+                              key={topic.slug}
+                              href={`/practice/past-questions?topic=${topic.slug}`}
+                              className="group flex items-center justify-between gap-2 rounded-xl border border-border bg-card px-3 py-2 transition-colors hover:border-primary/30"
+                            >
+                              <span className="truncate text-xs font-medium text-foreground">
                                 {topic.title}
                               </span>
-                            </div>
-                            <span className="text-xs font-medium text-red-500 flex-shrink-0 ml-2">
-                              {topic.wrongCount} wrong
-                            </span>
-                          </Link>
-                        ))}
+                              <Badge variant="red" className="flex-shrink-0">
+                                {topic.wrongCount} wrong
+                              </Badge>
+                            </Link>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
-
-      {/* Recent Attempts */}
-      {data.attempts.length > 0 && (
-        <div>
-          <h2 className="text-lg font-semibold text-foreground mb-4">
-            Recent Attempts
-          </h2>
-          <div className="space-y-2">
-            {data.attempts.slice(0, 10).map((attempt) => {
-              const grade = attempt.percentage !== null ? getGrade(attempt.percentage) : null;
-              return (
-                <Link
-                  key={attempt.id}
-                  href={`/practice/results/${attempt.id}`}
-                  className="flex items-center justify-between bg-card border border-border rounded-lg p-4 hover:shadow-md transition-all group"
-                >
-                  <div className="min-w-0">
-                    <p className="text-sm font-medium text-foreground truncate">
-                      {attempt.assessment.title}
-                    </p>
-                    <p className="text-xs text-muted mt-0.5">
-                      {attempt.assessment.subject?.name}
-                      {attempt.completedAt &&
-                        ` \u00b7 ${new Date(attempt.completedAt).toLocaleDateString("en-NG", {
-                          day: "numeric",
-                          month: "short",
-                        })}`}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-3 flex-shrink-0">
-                    {attempt.percentage !== null && (
-                      <>
-                        <span className="text-xs text-muted">
-                          {attempt.score?.toFixed(0)}/{attempt.totalMarks}
-                        </span>
-                        {grade && (
-                          <span
-                            className={`text-xs font-bold px-2 py-0.5 rounded-full border ${getGradeColor(grade)}`}
-                          >
-                            {grade}
-                          </span>
-                        )}
-                      </>
                     )}
-                    <LuChevronRight className="w-4 h-4 text-muted group-hover:text-primary transition-colors" />
                   </div>
-                </Link>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
-        </div>
+
+          <div className="mt-8">
+            <h2 className="section-label mb-4">Recent Attempts</h2>
+            <div className="space-y-2.5">
+              {data.attempts.slice(0, 10).map((attempt) => {
+                const grade = attempt.percentage !== null ? getGrade(attempt.percentage) : null;
+                return (
+                  <Link
+                    key={attempt.id}
+                    href={`/practice/results/${attempt.id}`}
+                    className="card card-interactive group flex items-center justify-between gap-3 p-4"
+                  >
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-semibold text-foreground">
+                        {attempt.assessment.title}
+                      </p>
+                      <p className="mt-0.5 text-xs text-muted">
+                        {attempt.assessment.subject?.name}
+                        {attempt.completedAt &&
+                          ` · ${new Date(attempt.completedAt).toLocaleDateString("en-NG", {
+                            day: "numeric",
+                            month: "short",
+                          })}`}
+                      </p>
+                    </div>
+                    <div className="flex flex-shrink-0 items-center gap-3">
+                      {attempt.percentage !== null && (
+                        <>
+                          <span className="text-xs text-muted">
+                            {attempt.score?.toFixed(0)}/{attempt.totalMarks}
+                          </span>
+                          {grade && <Badge variant={getGradeVariant(grade)}>{grade}</Badge>}
+                        </>
+                      )}
+                      <LuChevronRight className="h-4 w-4 text-muted transition-all group-hover:translate-x-0.5 group-hover:text-primary" />
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </>
+      ) : (
+        <EmptyState
+          tone="primary"
+          icon={<LuTarget className="h-6 w-6" />}
+          title="Your performance journey starts here"
+          description="Complete your first practice session to see grades, accuracy, and topics to improve."
+          action={
+            <Link href="/practice/past-questions" className={buttonClass("primary", "lg")}>
+              Start Practicing
+              <LuChevronRight className="h-4 w-4" />
+            </Link>
+          }
+        />
       )}
     </div>
   );

@@ -61,6 +61,7 @@ export const generateQuizSchema = z.object({
   count: z.number().int().min(5).max(60).default(10),
   difficulty: z.enum(["BASIC", "INTERMEDIATE", "ADVANCED"]).optional(),
   examType: z.enum(["WAEC", "JAMB", "NECO", "CUSTOM"]).optional(),
+  title: z.string().min(1).optional(),
 });
 
 export const submitAssessmentSchema = z.object({
@@ -151,6 +152,64 @@ export const updateProgressSchema = z.object({
   timeSpentMinutes: z.number().int().min(0).optional(),
 });
 
+// ─── Lesson Engine progress ───────────────────────────
+
+export const updateLessonProgressSchema = z.object({
+  status: z.enum(["NOT_STARTED", "IN_PROGRESS", "COMPLETED"]).optional(),
+  completionPercent: z.number().min(0).max(100).optional(),
+  checkpointData: z
+    .object({
+      visited: z.array(z.string()).optional(),
+      checks: z
+        .record(
+          z.string(),
+          z.object({
+            attempts: z.number().int().min(1),
+            correct: z.boolean(),
+          }),
+        )
+        .optional(),
+      practice: z
+        .array(
+          z.object({
+            attemptId: z.string().min(1),
+            percentage: z.number().min(0).max(100),
+            passed: z.boolean(),
+            at: z.string().datetime(),
+          }),
+        )
+        .optional(),
+    })
+    .optional(),
+  masteryScore: z.number().min(0).max(100).optional(),
+  timeSpentMinutes: z.number().int().min(0).optional(),
+});
+
+// ─── Flashcards ────────────────────────────────────
+
+export const submitFlashcardReviewSchema = z.object({
+  flashcardId: z.string(),
+  rating: z.enum(["AGAIN", "HARD", "GOOD", "EASY"]),
+  responseTimeMs: z.number().int().min(0).max(600_000).optional(),
+  /** Objective outcome for graded card types (fill-in-the-blank / true-false). */
+  objectiveCorrect: z.boolean().nullable().optional(),
+});
+
+export const generateFlashcardDeckSchema = z.object({
+  lessonId: z.string(),
+});
+
+export const toggleEnrollmentSchema = z.object({
+  enrolled: z.boolean(),
+});
+
+export const createFlashcardDeckSchema = z.object({
+  title: z.string().min(1).max(120),
+  description: z.string().max(500).optional(),
+  subjectId: z.string().optional(),
+  topicId: z.string().optional(),
+});
+
 // Type exports
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
@@ -161,3 +220,7 @@ export type CreateQuestionInput = z.infer<typeof createQuestionSchema>;
 export type GenerateStudyPlanInput = z.infer<typeof generateStudyPlanSchema>;
 export type BulkImportQuestionInput = z.infer<typeof bulkImportQuestionSchema>;
 export type BulkImportInput = z.infer<typeof bulkImportSchema>;
+export type SubmitFlashcardReviewInput = z.infer<typeof submitFlashcardReviewSchema>;
+export type GenerateFlashcardDeckInput = z.infer<typeof generateFlashcardDeckSchema>;
+export type ToggleEnrollmentInput = z.infer<typeof toggleEnrollmentSchema>;
+export type CreateFlashcardDeckInput = z.infer<typeof createFlashcardDeckSchema>;

@@ -12,13 +12,6 @@ const ACTIVITY_TYPES = [
   "PAST_QUESTIONS",
 ] as const;
 
-const activityLabels: Record<string, string> = {
-  LESSON: "Study lesson",
-  PRACTICE: "Practice questions",
-  REVISION: "Revision",
-  PAST_QUESTIONS: "Past questions",
-};
-
 // GET /api/study-plan — get the active study plan with items
 export async function GET() {
   try {

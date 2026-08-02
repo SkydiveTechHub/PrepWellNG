@@ -68,9 +68,9 @@ export function AcademicForm({
   }
 
   const optionClass = (selected: boolean) =>
-    `py-3 rounded-lg border text-center text-sm font-semibold transition-all ${
+    `py-3 rounded-xl border text-center text-sm font-semibold transition-all focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
       selected
-        ? "border-primary bg-primary/10 text-primary"
+        ? "border-primary bg-primary-soft text-primary-soft-foreground shadow-soft"
         : "border-border bg-card text-foreground hover:border-primary/30"
     }`;
 

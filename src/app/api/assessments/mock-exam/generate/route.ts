@@ -112,13 +112,6 @@ export async function POST(req: NextRequest) {
     });
     const subjectMap = new Map(subjects.map((s) => [s.id, s]));
 
-    // Get full question data
-    const questionIds = allQuestions.map((q) => q.id);
-    const questions = await db.question.findMany({
-      where: { id: { in: questionIds } },
-    });
-    const questionMap = new Map(questions.map((q) => [q.id, q]));
-
     const totalMarks = allQuestions.length;
     const timeLimitMinutes = Math.ceil(totalMarks * 1.5);
 

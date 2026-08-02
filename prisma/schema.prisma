@@ -113,35 +113,73 @@ enum MasteryLevel {
   STRONG
 }
 
+enum FlashcardType {
+  DEFINITION
+  FORMULA
+  IMAGE
+  DIAGRAM
+  FILL_IN_BLANK
+  COMPARE_CONTRAST
+  TRUE_FALSE
+  SCENARIO
+  PROCESS
+}
+
+enum FlashcardSource {
+  AUTHORED
+  LESSON
+  AI
+}
+
+enum FlashcardState {
+  NEW
+  LEARNING
+  REVIEW
+  RELEARNING
+}
+
+enum ReviewRating {
+  AGAIN
+  HARD
+  GOOD
+  EASY
+}
+
 // ─── User & Auth ──────────────────────────────────────────
 
 model User {
-  id            String    @id @default(cuid())
-  email         String?   @unique
-  phone         String?   @unique
+  id            String      @id @default(cuid())
+  email         String?     @unique
+  phone         String?     @unique
   emailVerified DateTime?
   passwordHash  String?
   firstName     String
   lastName      String
   image         String?
-  role          Role      @default(STUDENT)
+  role          Role        @default(STUDENT)
   classLevel    ClassLevel?
   track         Track?
   state         String?
   schoolId      String?
-  school        School?   @relation(fields: [schoolId], references: [id])
+  school        School?     @relation(fields: [schoolId], references: [id])
 
   // Relations
-  progress      StudentProgress[]
-  attempts      AssessmentAttempt[]
-  studyPlans    StudyPlan[]
-  metrics       PerformanceMetric[]
-  achievements  StudentAchievement[]
-  accounts      Account[]
-  sessions      Session[]
+  progress     StudentProgress[]
+  attempts     AssessmentAttempt[]
+  studyPlans   StudyPlan[]
+  metrics      PerformanceMetric[]
+  achievements StudentAchievement[]
+  accounts     Account[]
+  sessions     Session[]
 
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  // Flashcards (see docs/superpowers/specs/2026-08-01-flashcards-design.md)
+  flashcardReviews     FlashcardReview[]
+  flashcardReviewLogs  FlashcardReviewLog[]
+  flashcardEnrollments FlashcardEnrollment[]
+  flashcardDecks       FlashcardDeck[]       @relation("FlashcardDeckAuthor")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([classLevel, track])
 }
@@ -215,21 +253,22 @@ model Subject {
   metrics          PerformanceMetric[]
   studyPlanItems   StudyPlanItem[]
   resources        SubjectResource[]
+  flashcardDecks   FlashcardDeck[]
 
   createdAt DateTime @default(now())
 }
 
 model SubjectResource {
-  id           String   @id @default(cuid())
+  id           String  @id @default(cuid())
   subjectId    String
-  subject      Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  subject      Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
   title        String
   description  String?
-  resourceType String   // textbook, video, pdf, link, worksheet, past_paper
+  resourceType String // textbook, video, pdf, link, worksheet, past_paper
   url          String
   author       String?
-  isFree       Boolean  @default(true)
-  orderIndex   Int      @default(0)
+  isFree       Boolean @default(true)
+  orderIndex   Int     @default(0)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -238,12 +277,12 @@ model SubjectResource {
 }
 
 model CurriculumLevel {
-  id           String     @id @default(cuid())
-  subjectId    String
-  subject      Subject    @relation(fields: [subjectId], references: [id], onDelete: Cascade)
-  classLevel   ClassLevel
-  term         Term
-  description  String?
+  id          String     @id @default(cuid())
+  subjectId   String
+  subject     Subject    @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  classLevel  ClassLevel
+  term        Term
+  description String?
 
   topics Topic[]
 
@@ -273,6 +312,7 @@ model Topic {
   progress       StudentProgress[]
   metrics        PerformanceMetric[]
   studyPlanItems StudyPlanItem[]
+  flashcardDecks FlashcardDeck[]
 
   @@unique([subjectId, slug])
   @@index([subjectId, orderIndex])
@@ -280,33 +320,45 @@ model Topic {
 }
 
 model Subtopic {
-  id          String   @id @default(cuid())
+  id          String  @id @default(cuid())
   topicId     String
-  topic       Topic    @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  topic       Topic   @relation(fields: [topicId], references: [id], onDelete: Cascade)
   title       String
   description String?
   orderIndex  Int
 
-  lessons  Lesson[]
+  lessons Lesson[]
 
   @@index([topicId, orderIndex])
 }
 
 model Lesson {
-  id              String     @id @default(cuid())
-  subtopicId      String
-  subtopic        Subtopic   @relation(fields: [subtopicId], references: [id], onDelete: Cascade)
-  title           String
-  content         String     @db.Text  // MDX content
-  summary         String?    @db.Text
-  keyPoints       Json?      // ["point1", "point2", ...]
-  workedExamples  Json?      // [{ problem: "...", solution: "..." }, ...]
-  difficulty      Difficulty @default(INTERMEDIATE)
-  estimatedMinutes Int       @default(20)
-  createdBy       String?
+  id               String     @id @default(cuid())
+  subtopicId       String
+  subtopic         Subtopic   @relation(fields: [subtopicId], references: [id], onDelete: Cascade)
+  title            String
+  content          String     @db.Text // MDX content (fallback when blocks is empty)
+  summary          String?    @db.Text
+  keyPoints        Json? // ["point1", "point2", ...]
+  workedExamples   Json? // [{ problem: "...", solution: "..." }, ...]
+  difficulty       Difficulty @default(INTERMEDIATE)
+  estimatedMinutes Int        @default(20)
+  createdBy        String?
 
-  progress StudentProgress[]
-  resources LessonResource[]
+  // Lesson Engine (see docs/superpowers/specs/2026-08-01-lesson-engine-design.md)
+  // blocks is the structured lesson: concept/diagram/example/tip/mistake/mnemonic/check
+  blocks          Json? // LessonBlock[]
+  examTips        Json? // [{ text, examType? }]
+  mnemonics       Json? // [{ phrase, encoded[] }]
+  knowledgeChecks Json? // [{ id, question, options, answer, explanation, afterCard }]
+  prerequisites   Json? // [{ topicTitle? | lessonTitle?, reason }]
+  passMarkPercent Int   @default(60)
+  practiceCount   Int   @default(7)
+  revisionDays    Json? // [1, 3, 7, 14]
+
+  progress       StudentProgress[]
+  resources      LessonResource[]
+  flashcardDecks FlashcardDeck[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -315,13 +367,13 @@ model Lesson {
 }
 
 model LessonResource {
-  id           String @id @default(cuid())
+  id           String  @id @default(cuid())
   lessonId     String
-  lesson       Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  lesson       Lesson  @relation(fields: [lessonId], references: [id], onDelete: Cascade)
   resourceType String // image, video, pdf, diagram
   url          String
   caption      String?
-  orderIndex   Int    @default(0)
+  orderIndex   Int     @default(0)
 }
 
 // ─── Question Bank ────────────────────────────────────────
@@ -338,7 +390,7 @@ model Question {
   questionText        String       @db.Text
   questionImageUrl    String?
   questionType        QuestionType @default(OBJECTIVE)
-  options             Json?        // { "A": "...", "B": "...", "C": "...", "D": "..." }
+  options             Json? // { "A": "...", "B": "...", "C": "...", "D": "..." }
   correctAnswer       String
   explanation         String       @db.Text
   explanationImageUrl String?
@@ -346,7 +398,7 @@ model Question {
   marks               Int          @default(1)
   timeEstimateSeconds Int          @default(90)
 
-  responses          QuestionResponse[]
+  responses           QuestionResponse[]
   assessmentQuestions AssessmentQuestion[]
 
   createdAt DateTime @default(now())
@@ -360,17 +412,17 @@ model Question {
 // ─── Assessments ──────────────────────────────────────────
 
 model Assessment {
-  id              String         @id @default(cuid())
-  title           String
-  description     String?
-  assessmentType  AssessmentType
-  subjectId       String?
-  subject         Subject?       @relation(fields: [subjectId], references: [id])
-  examType        ExamType?
-  examYear        Int?
+  id               String         @id @default(cuid())
+  title            String
+  description      String?
+  assessmentType   AssessmentType
+  subjectId        String?
+  subject          Subject?       @relation(fields: [subjectId], references: [id])
+  examType         ExamType?
+  examYear         Int?
   timeLimitMinutes Int?
-  totalMarks      Int
-  passMarkPercent Int            @default(50)
+  totalMarks       Int
+  passMarkPercent  Int            @default(50)
 
   questions AssessmentQuestion[]
   attempts  AssessmentAttempt[]
@@ -418,7 +470,7 @@ model AssessmentAttempt {
 model QuestionResponse {
   id               String            @id @default(cuid())
   attemptId        String
-  attempt          AssessmentAttempt  @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  attempt          AssessmentAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
   questionId       String
   question         Question          @relation(fields: [questionId], references: [id])
   selectedAnswer   String?
@@ -447,25 +499,30 @@ model StudentProgress {
   timeSpentMinutes  Int            @default(0)
   lastAccessedAt    DateTime?
 
+  // Lesson Engine state
+  checkpointData Json? // per-block state: visited / correct / attempts
+  masteryScore   Float? // last computed 0..100
+  revisionDueAt  DateTime? // next scheduled revision
+
   @@unique([studentId, subjectId, topicId, lessonId])
   @@index([studentId, subjectId])
   @@index([studentId, status])
 }
 
 model PerformanceMetric {
-  id                    String       @id @default(cuid())
-  studentId             String
-  student               User         @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  subjectId             String
-  subject               Subject      @relation(fields: [subjectId], references: [id])
-  topicId               String?
-  topic                 Topic?       @relation(fields: [topicId], references: [id])
-  totalAttempted        Int          @default(0)
-  totalCorrect          Int          @default(0)
-  accuracy              Float        @default(0)
+  id                     String       @id @default(cuid())
+  studentId              String
+  student                User         @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  subjectId              String
+  subject                Subject      @relation(fields: [subjectId], references: [id])
+  topicId                String?
+  topic                  Topic?       @relation(fields: [topicId], references: [id])
+  totalAttempted         Int          @default(0)
+  totalCorrect           Int          @default(0)
+  accuracy               Float        @default(0)
   averageTimePerQuestion Float?
-  masteryLevel          MasteryLevel @default(WEAK)
-  lastUpdated           DateTime     @default(now())
+  masteryLevel           MasteryLevel @default(WEAK)
+  lastUpdated            DateTime     @default(now())
 
   @@unique([studentId, subjectId, topicId])
   @@index([studentId, subjectId])
@@ -480,7 +537,7 @@ model StudyPlan {
   student         User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
   targetExam      ExamType
   targetDate      DateTime
-  subjectIds      Json     // String[] of subject IDs
+  subjectIds      Json // String[] of subject IDs
   dailyStudyHours Float    @default(2)
   isActive        Boolean  @default(true)
 
@@ -493,18 +550,18 @@ model StudyPlan {
 }
 
 model StudyPlanItem {
-  id            String           @id @default(cuid())
-  studyPlanId   String
-  studyPlan     StudyPlan        @relation(fields: [studyPlanId], references: [id], onDelete: Cascade)
-  scheduledDate DateTime         @db.Date
-  subjectId     String
-  subject       Subject          @relation(fields: [subjectId], references: [id])
-  topicId       String?
-  topic         Topic?           @relation(fields: [topicId], references: [id])
-  activityType  PlanItemActivity
+  id              String           @id @default(cuid())
+  studyPlanId     String
+  studyPlan       StudyPlan        @relation(fields: [studyPlanId], references: [id], onDelete: Cascade)
+  scheduledDate   DateTime         @db.Date
+  subjectId       String
+  subject         Subject          @relation(fields: [subjectId], references: [id])
+  topicId         String?
+  topic           Topic?           @relation(fields: [topicId], references: [id])
+  activityType    PlanItemActivity
   durationMinutes Int
-  status        PlanItemStatus   @default(PENDING)
-  notes         String?
+  status          PlanItemStatus   @default(PENDING)
+  notes           String?
 
   @@index([studyPlanId, scheduledDate])
   @@index([studyPlanId, status])
@@ -513,12 +570,12 @@ model StudyPlanItem {
 // ─── Gamification ─────────────────────────────────────────
 
 model Achievement {
-  id            String @id @default(cuid())
-  title         String @unique
+  id            String  @id @default(cuid())
+  title         String  @unique
   description   String
   iconUrl       String?
   criteriaType  String // e.g., "streak_days", "questions_answered", "subject_mastery"
-  criteriaValue Int    // e.g., 7 for 7-day streak
+  criteriaValue Int // e.g., 7 for 7-day streak
 
   students StudentAchievement[]
 }
@@ -537,12 +594,113 @@ model StudentAchievement {
 // ─── JAMB Subject Combinations Reference ──────────────────
 
 model JambCombination {
-  id               String @id @default(cuid())
+  id                String  @id @default(cuid())
   courseOfStudy     String
-  faculty          String
-  requiredSubjects Json   // ["Physics", "Chemistry", "Mathematics"]
+  faculty           String
+  requiredSubjects  Json // ["Physics", "Chemistry", "Mathematics"]
   alternateSubjects Json? // ["Biology OR Agricultural Science"]
-  notes            String?
+  notes             String?
 
   @@index([faculty])
+}
+
+// ─── Flashcards (SRS) ──────────────────────────────────────
+// See docs/superpowers/specs/2026-08-01-flashcards-design.md
+
+model FlashcardDeck {
+  id          String          @id @default(cuid())
+  title       String
+  slug        String?
+  description String?
+  source      FlashcardSource @default(AUTHORED)
+  subjectId   String?
+  subject     Subject?        @relation(fields: [subjectId], references: [id])
+  topicId     String?
+  topic       Topic?          @relation(fields: [topicId], references: [id])
+  lessonId    String?
+  lesson      Lesson?         @relation(fields: [lessonId], references: [id])
+  createdBy   String?
+  author      User?           @relation("FlashcardDeckAuthor", fields: [createdBy], references: [id])
+
+  cards       Flashcard[]
+  enrollments FlashcardEnrollment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([lessonId, source])
+  @@index([subjectId])
+  @@index([topicId])
+}
+
+model Flashcard {
+  id         String        @id @default(cuid())
+  deckId     String
+  deck       FlashcardDeck @relation(fields: [deckId], references: [id], onDelete: Cascade)
+  cardType   FlashcardType
+  prompt     String? // short front label for lists ("Mitochondrion")
+  payload    Json // typed card body (authoring format in the spec)
+  difficulty Difficulty    @default(INTERMEDIATE)
+  tags       Json?
+  orderIndex Int           @default(0)
+
+  reviews   FlashcardReview[]
+  reviewLog FlashcardReviewLog[]
+
+  createdAt DateTime @default(now())
+
+  @@index([deckId, orderIndex])
+}
+
+model FlashcardReview {
+  id             String         @id @default(cuid())
+  studentId      String
+  student        User           @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  flashcardId    String
+  flashcard      Flashcard      @relation(fields: [flashcardId], references: [id], onDelete: Cascade)
+  state          FlashcardState @default(NEW)
+  easeFactor     Float          @default(2.5)
+  stability      Float          @default(0) // days
+  difficulty     Float          @default(5) // 1..10, seeded from authored difficulty
+  intervalDays   Float          @default(0)
+  repetitions    Int            @default(0)
+  lapses         Int            @default(0)
+  retention      Float          @default(0) // predicted recall probability at scheduling (0..1)
+  dueAt          DateTime
+  lastReviewedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([studentId, flashcardId])
+  @@index([studentId, dueAt])
+  @@index([studentId, state])
+}
+
+model FlashcardReviewLog {
+  id             String       @id @default(cuid())
+  studentId      String
+  student        User         @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  flashcardId    String
+  flashcard      Flashcard    @relation(fields: [flashcardId], references: [id], onDelete: Cascade)
+  rating         ReviewRating
+  responseTimeMs Int?
+  scheduledDays  Float?
+  objectiveCorrect Boolean?
+  reviewedAt     DateTime     @default(now())
+
+  @@index([studentId, reviewedAt])
+  @@index([studentId, flashcardId, reviewedAt])
+}
+
+model FlashcardEnrollment {
+  id        String        @id @default(cuid())
+  studentId String
+  student   User          @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  deckId    String
+  deck      FlashcardDeck @relation(fields: [deckId], references: [id], onDelete: Cascade)
+  createdAt DateTime      @default(now())
+
+  @@unique([studentId, deckId])
+  @@index([deckId])
 }

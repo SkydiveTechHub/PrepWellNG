@@ -1,5 +1,16 @@
 import Link from "next/link";
-import { LuMonitor, LuArrowRight, LuBookOpen } from "react-icons/lu";
+import {
+  LuMonitor,
+  LuArrowRight,
+  LuBookOpen,
+  LuTimer,
+  LuCheck,
+  LuTarget,
+} from "react-icons/lu";
+import { PageHeader } from "@/components/ui/page-header";
+import { Badge } from "@/components/ui/badge";
+import { buttonClass } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
 const jambSubjects = [
   { name: "English Language", slug: "english-language", code: "ENG" },
@@ -16,77 +27,99 @@ const jambSubjects = [
   { name: "Islamic Studies", slug: "islamic-studies", code: "IRS" },
 ];
 
+const howItWorks = [
+  "40 randomly selected JAMB questions per subject",
+  "60 minutes to complete each subject",
+  "Timed questions auto-submit when time runs out",
+  "Detailed explanations and topic breakdowns after each attempt",
+];
+
 export default function CBTPracticePage() {
   return (
-    <div>
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-foreground">JAMB CBT Practice</h1>
-        <p className="text-muted mt-1">
-          Practice JAMB Computer-Based Test questions. Pick a subject to start practicing.
-        </p>
-      </div>
+    <div className="animate-fade-in">
+      <PageHeader
+        title="JAMB CBT Practice"
+        description="Practice JAMB Computer-Based Test questions and get exam-ready with the official CBT format."
+      />
 
-      <div className="bg-blue-50 border border-blue-200 rounded-xl p-5 mb-8">
-        <div className="flex items-start gap-3">
-          <LuMonitor className="w-5 h-5 text-blue-600 mt-0.5" />
-          <div>
-            <h3 className="text-sm font-semibold text-blue-800">
-              Full JAMB CBT simulation
-            </h3>
-            <p className="text-sm text-blue-700 mt-1">
-              Take a complete JAMB CBT mock exam — 180 questions across 4 subjects with
-              the official JAMB interface.
-            </p>
-            <Link
-              href="/practice/mock-exam/session?examType=JAMB"
-              className="inline-flex items-center gap-1.5 mt-3 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
-            >
-              <LuMonitor className="w-4 h-4" />
-              Start Full CBT Simulation
-            </Link>
+      <Card className="relative mb-8 overflow-hidden border-blue-200 bg-blue-50/60 p-6 md:p-7">
+        <div className="absolute -right-10 -top-14 h-40 w-40 rounded-full bg-blue-500/10" />
+        <div className="relative flex flex-wrap items-center justify-between gap-4">
+          <div className="flex max-w-2xl items-start gap-4">
+            <span className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-blue-100 text-blue-700">
+              <LuMonitor className="h-6 w-6" />
+            </span>
+            <div>
+              <h3 className="text-base font-bold text-blue-900">
+                Full JAMB CBT simulation
+              </h3>
+              <p className="mt-1 text-sm leading-relaxed text-blue-800/80">
+                Take a complete JAMB CBT mock exam — 180 questions across 4 subjects with the
+                official JAMB interface.
+              </p>
+            </div>
           </div>
+          <Link
+            href="/practice/mock-exam/session?examType=JAMB"
+            className={buttonClass("primary", "lg")}
+          >
+            <LuMonitor className="h-4 w-4" />
+            Start Full CBT Simulation
+          </Link>
         </div>
-      </div>
+      </Card>
 
-      <div className="mb-6">
-        <h2 className="text-lg font-semibold text-foreground mb-4">
+      <div className="mb-4 flex items-center justify-between gap-3">
+        <h2 className="text-lg font-bold tracking-tight text-foreground">
           Choose a JAMB subject
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {jambSubjects.map((subject) => (
-            <Link
-              key={subject.code}
-              href={`/practice/past-questions/${subject.slug}?exam=JAMB`}
-              className="flex items-center justify-between bg-card rounded-xl border border-border p-4 hover:shadow-md hover:border-primary/30 transition-all group"
-            >
-              <div className="flex items-center gap-3">
-                <span className="w-9 h-9 rounded-lg bg-green-100 text-green-700 flex items-center justify-center text-xs font-bold">
-                  {subject.code}
-                </span>
-                <span className="font-medium text-foreground text-sm">
-                  {subject.name}
-                </span>
-              </div>
-              <LuArrowRight className="w-4 h-4 text-muted group-hover:text-primary transition-colors" />
-            </Link>
-          ))}
-        </div>
+        <Badge variant="green">{jambSubjects.length} subjects</Badge>
+      </div>
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {jambSubjects.map((subject) => (
+          <Link
+            key={subject.code}
+            href={`/practice/past-questions/${subject.slug}?exam=JAMB`}
+            className="card card-interactive group flex items-center justify-between gap-3 p-4"
+          >
+            <div className="flex min-w-0 items-center gap-3">
+              <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-green-100 text-xs font-bold text-green-700">
+                {subject.code}
+              </span>
+              <span className="truncate text-sm font-semibold text-foreground">
+                {subject.name}
+              </span>
+            </div>
+            <LuArrowRight className="h-4 w-4 flex-shrink-0 text-muted transition-all group-hover:translate-x-0.5 group-hover:text-primary" />
+          </Link>
+        ))}
       </div>
 
-      <div className="bg-card border border-border rounded-xl p-5">
-        <div className="flex items-start gap-3">
-          <LuBookOpen className="w-5 h-5 text-muted mt-0.5" />
-          <div>
-            <h3 className="text-sm font-semibold text-foreground">How it works</h3>
-            <ul className="text-sm text-muted mt-2 space-y-1.5">
-              <li>• Each subject gives you 40 randomly selected JAMB questions</li>
-              <li>• You have 60 minutes to complete each subject</li>
-              <li>• Questions are timed and auto-submit when time runs out</li>
-              <li>• Review detailed explanations and topic breakdowns after each attempt</li>
+      <Card className="mt-8 p-6">
+        <div className="flex items-start gap-4">
+          <span className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary">
+            <LuBookOpen className="h-5 w-5" />
+          </span>
+          <div className="min-w-0">
+            <h3 className="flex items-center gap-2 text-sm font-bold text-foreground">
+              How it works
+              <LuTimer className="h-4 w-4 text-muted" />
+            </h3>
+            <ul className="mt-3 space-y-2">
+              {howItWorks.map((item) => (
+                <li key={item} className="flex items-start gap-2.5 text-sm text-muted">
+                  <LuCheck className="mt-0.5 h-4 w-4 flex-shrink-0 text-success" />
+                  {item}
+                </li>
+              ))}
             </ul>
+            <p className="mt-4 flex items-center gap-1.5 text-xs text-muted">
+              <LuTarget className="h-3.5 w-3.5" />
+              Tip: use focus mode and hide the timer in the quiz to stay distraction-free.
+            </p>
           </div>
         </div>
-      </div>
+      </Card>
     </div>
   );
 }

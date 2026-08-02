@@ -9,17 +9,15 @@ import {
   LuClipboardCheck,
   LuChartBar,
   LuCalendar,
-  LuAward,
-  LuBook,
 } from "react-icons/lu";
 
+// Keep the bottom bar to five destinations — research-backed max for
+// thumb-reach. Everything else lives in the header drawer.
 const tabs = [
-  { name: "Home", href: "/", icon: LuHouse },
-  { name: "Library", href: "/library", icon: LuBook },
+  { name: "Home", href: "/dashboard", icon: LuHouse },
   { name: "Subjects", href: "/subjects", icon: LuBookOpen },
   { name: "Practice", href: "/practice", icon: LuClipboardCheck },
   { name: "Stats", href: "/performance", icon: LuChartBar },
-  { name: "Awards", href: "/achievements", icon: LuAward },
   { name: "Plan", href: "/study-plan", icon: LuCalendar },
 ];
 
@@ -27,8 +25,8 @@ export function MobileNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="lg:hidden fixed bottom-0 inset-x-0 bg-card border-t border-border z-50">
-      <div className="flex items-center justify-around py-2">
+    <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-card/95 backdrop-blur-md lg:hidden">
+      <div className="mx-auto flex max-w-lg items-stretch justify-around">
         {tabs.map((tab) => {
           const isActive =
             pathname === tab.href ||
@@ -38,12 +36,16 @@ export function MobileNav() {
             <Link
               key={tab.name}
               href={tab.href}
+              aria-current={isActive ? "page" : undefined}
               className={cn(
-                "flex flex-col items-center gap-0.5 px-3 py-1 text-xs font-medium transition-colors",
-                isActive ? "text-primary" : "text-muted"
+                "relative flex flex-1 flex-col items-center gap-1 px-2 py-2 text-[11px] font-semibold transition-colors",
+                isActive ? "text-primary" : "text-muted hover:text-foreground",
               )}
             >
-              <tab.icon className="w-5 h-5" />
+              {isActive && (
+                <span className="absolute top-0 h-0.5 w-8 rounded-full bg-primary" />
+              )}
+              <tab.icon className="h-5 w-5" />
               {tab.name}
             </Link>
           );

@@ -89,6 +89,14 @@ export type Lesson = {
   difficulty: Difficulty;
   estimatedMinutes: number;
   createdBy: string | null;
+  blocks: unknown;
+  examTips: unknown;
+  mnemonics: unknown;
+  knowledgeChecks: unknown;
+  prerequisites: unknown;
+  passMarkPercent: number;
+  practiceCount: number;
+  revisionDays: unknown;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -140,4 +148,19 @@ export type AssessmentAttempt = {
   percentage: number | null;
   grade: string | null;
   status: AttemptStatus;
+};
+
+export type StudentProgress = {
+  id: string;
+  studentId: string;
+  subjectId: string;
+  topicId: string | null;
+  lessonId: string | null;
+  status: ProgressStatus;
+  completionPercent: number;
+  timeSpentMinutes: number;
+  lastAccessedAt: Date | null;
+  checkpointData: unknown;
+  masteryScore: number | null;
+  revisionDueAt: Date | null;
 };

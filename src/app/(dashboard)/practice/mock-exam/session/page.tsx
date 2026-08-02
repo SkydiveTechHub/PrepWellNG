@@ -11,7 +11,13 @@ import {
   LuCheck,
   LuTriangleAlert,
   LuBookOpen,
+  LuFocus,
+  LuEye,
+  LuEyeOff,
 } from "react-icons/lu";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 
 type MockQuestion = {
   id: string;
@@ -53,7 +59,6 @@ function MockExamSession() {
   const [error, setError] = useState("");
   const [showConfirmSubmit, setShowConfirmSubmit] = useState(false);
 
-  const [assessmentId, setAssessmentId] = useState("");
   const [attemptId, setAttemptId] = useState("");
   const [title, setTitle] = useState("");
   const [questions, setQuestions] = useState<MockQuestion[]>([]);
@@ -64,7 +69,15 @@ function MockExamSession() {
   const [quizStarted, setQuizStarted] = useState(false);
   const [activeSubject, setActiveSubject] = useState("");
 
+  // Learner preferences
+  const [focusMode, setFocusMode] = useState(false);
+  const [hideTimer, setHideTimer] = useState(false);
+
   const questionStartTime = useRef(Date.now());
+  const answerRef = useRef<Record<string, AnswerState>>({});
+  answerRef.current = answers;
+  const submitRef = useRef<() => void>(() => {});
+  submitRef.current = handleSubmit;
 
   useEffect(() => {
     async function generateMock() {
@@ -86,7 +99,6 @@ function MockExamSession() {
         }
 
         const data = await res.json();
-        setAssessmentId(data.assessmentId);
         setAttemptId(data.attemptId);
         setTitle(data.title);
         setQuestions(data.questions);
@@ -132,12 +144,12 @@ function MockExamSession() {
   }, [examType, subjectId]);
 
   useEffect(() => {
-    if (!quizStarted || timeRemaining <= 0) return;
+    if (!quizStarted) return;
     const interval = setInterval(() => {
       setTimeRemaining((prev) => {
         if (prev <= 1) {
           clearInterval(interval);
-          handleSubmit();
+          submitRef.current();
           return 0;
         }
         return prev - 1;
@@ -145,6 +157,68 @@ function MockExamSession() {
     }, 1000);
     return () => clearInterval(interval);
   }, [quizStarted]);
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    if (!quizStarted || loading || error || showConfirmSubmit) return;
+
+    function onKeyDown(event: KeyboardEvent) {
+      const target = event.target as HTMLElement | null;
+      if (
+        target &&
+        (target.tagName === "INPUT" ||
+          target.tagName === "TEXTAREA" ||
+          target.tagName === "SELECT" ||
+          target.isContentEditable)
+      ) {
+        return;
+      }
+
+      const q = questions[currentIndex];
+      if (!q?.options) return;
+
+      const key = event.key.toLowerCase();
+      const letterMatch = /^[a-e]$/.test(key) ? key.toUpperCase() : null;
+      if (letterMatch && Object.keys(q.options).includes(letterMatch)) {
+        event.preventDefault();
+        selectAnswer(q.id, letterMatch);
+        return;
+      }
+
+      switch (key) {
+        case "arrowleft":
+          event.preventDefault();
+          if (currentIndex > 0) goToQuestion(currentIndex - 1);
+          break;
+        case "arrowright":
+        case " ":
+          event.preventDefault();
+          if (currentIndex < questions.length - 1) goToQuestion(currentIndex + 1);
+          else setShowConfirmSubmit(true);
+          break;
+        case "f":
+          event.preventDefault();
+          toggleFlag(q.id);
+          break;
+        case "m":
+          event.preventDefault();
+          setFocusMode((v) => !v);
+          break;
+        case "t":
+          event.preventDefault();
+          setHideTimer((v) => !v);
+          break;
+        case "enter":
+          event.preventDefault();
+          if (currentIndex === questions.length - 1) setShowConfirmSubmit(true);
+          break;
+      }
+    }
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [quizStarted, loading, error, showConfirmSubmit, currentIndex, questions]);
 
   const recordTimeOnQuestion = useCallback(() => {
     if (!questions[currentIndex]) return;
@@ -165,7 +239,8 @@ function MockExamSession() {
       ...prev,
       [questionId]: {
         ...prev[questionId],
-        selectedAnswer: prev[questionId]?.selectedAnswer === answer ? null : answer,
+        selectedAnswer:
+          prev[questionId]?.selectedAnswer === answer ? null : answer,
       },
     }));
   }
@@ -195,9 +270,9 @@ function MockExamSession() {
     try {
       const submissionAnswers = questions.map((q) => ({
         questionId: q.id,
-        selectedAnswer: answers[q.id]?.selectedAnswer || null,
-        timeSpentSeconds: answers[q.id]?.timeSpentSeconds || 0,
-        flaggedForReview: answers[q.id]?.flaggedForReview || false,
+        selectedAnswer: answerRef.current[q.id]?.selectedAnswer || null,
+        timeSpentSeconds: answerRef.current[q.id]?.timeSpentSeconds || 0,
+        flaggedForReview: answerRef.current[q.id]?.flaggedForReview || false,
       }));
 
       const res = await fetch("/api/assessments/submit", {
@@ -225,101 +300,164 @@ function MockExamSession() {
     const mins = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
     if (hrs > 0) {
-      return `${hrs}:${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+      return `${hrs}:${mins.toString().padStart(2, "0")}:${secs
+        .toString()
+        .padStart(2, "0")}`;
     }
     return `${mins}:${secs.toString().padStart(2, "0")}`;
   }
 
-  const answeredCount = Object.values(answers).filter((a) => a.selectedAnswer !== null).length;
-  const flaggedCount = Object.values(answers).filter((a) => a.flaggedForReview).length;
+  const answeredCount = Object.values(answers).filter(
+    (a) => a.selectedAnswer !== null,
+  ).length;
+  const flaggedCount = Object.values(answers).filter(
+    (a) => a.flaggedForReview,
+  ).length;
   const currentQuestion = questions[currentIndex];
+  const unanswered = questions.length - answeredCount;
+  const lowTime = timeRemaining < 300 && timeRemaining > 0;
 
   if (loading || generating) {
     return (
-      <div className="flex items-center justify-center py-20">
-        <div className="text-center">
-          <div className="w-10 h-10 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-sm text-muted">
-            {generating ? "Generating your mock exam..." : "Loading..."}
-          </p>
-        </div>
+      <div className="flex flex-col items-center justify-center py-24 text-center">
+        <div className="h-10 w-10 rounded-full border-[3px] border-primary/25 border-t-primary animate-spin" />
+        <p className="mt-4 text-sm text-muted animate-pulse">
+          {generating ? "Building your exam…" : "Loading…"}
+        </p>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="max-w-md mx-auto py-20 text-center">
-        <LuTriangleAlert className="w-12 h-12 text-amber-500 mx-auto mb-4" />
-        <h2 className="text-lg font-semibold text-foreground mb-2">Something went wrong</h2>
-        <p className="text-sm text-muted mb-4">{error}</p>
-        <button
-          onClick={() => router.back()}
-          className="px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium"
-        >
+      <div className="mx-auto max-w-md py-20 text-center animate-fade-in">
+        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-warning-soft text-warning">
+          <LuTriangleAlert className="h-7 w-7" />
+        </div>
+        <h2 className="text-lg font-bold text-foreground">
+          Something went wrong
+        </h2>
+        <p className="mt-1 text-sm text-muted">{error}</p>
+        <Button className="mt-5" onClick={() => router.back()}>
           Go Back
-        </button>
+        </Button>
       </div>
     );
   }
 
   return (
-    <div className="max-w-5xl mx-auto">
+    <div className={cn("mx-auto", focusMode ? "max-w-2xl" : "max-w-5xl")}>
       {/* Header */}
-      <div className="sticky top-0 bg-gray-50 z-10 pb-4">
-        <div className="flex items-center justify-between mb-3">
-          <div>
-            <h1 className="text-lg font-bold text-foreground">{title}</h1>
+      <div className="sticky-chrome -mx-4 px-4 pb-4 sm:-mx-6 sm:px-6">
+        <div className="flex items-center justify-between gap-3">
+          <div className="min-w-0">
+            <h1 className="truncate text-base font-bold text-foreground md:text-lg">
+              {title}
+            </h1>
             <p className="text-xs text-muted">
-              {currentQuestion && `${currentQuestion.subjectName} · Question ${currentIndex + 1} of ${questions.length}`}
+              {currentQuestion
+                ? `${currentQuestion.subjectName} · Question ${currentIndex + 1} of ${questions.length}`
+                : ""}
             </p>
           </div>
-          <div
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium ${
-              timeRemaining < 300 ? "bg-red-100 text-red-700" : "bg-blue-50 text-blue-700"
-            }`}
-          >
-            <LuClock className="w-4 h-4" />
-            {formatTime(timeRemaining)}
+
+          <div className="flex flex-shrink-0 items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setHideTimer((v) => !v)}
+              aria-pressed={hideTimer}
+              aria-label={hideTimer ? "Show timer" : "Hide timer"}
+              title="Hide timer (T)"
+              className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-card text-muted transition-colors hover:border-primary/40 hover:text-primary"
+            >
+              {hideTimer ? (
+                <LuEyeOff className="h-4 w-4" />
+              ) : (
+                <LuEye className="h-4 w-4" />
+              )}
+            </button>
+
+            {!hideTimer && (
+              <div
+                className={cn(
+                  "flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-bold tabular-nums transition-colors",
+                  lowTime
+                    ? "bg-danger-soft text-danger animate-pulse"
+                    : "bg-primary-soft text-primary-soft-foreground",
+                )}
+              >
+                <LuClock className="h-4 w-4" />
+                {formatTime(timeRemaining)}
+              </div>
+            )}
+
+            <button
+              type="button"
+              onClick={() => setFocusMode((v) => !v)}
+              aria-pressed={focusMode}
+              aria-label={focusMode ? "Exit focus mode" : "Enter focus mode"}
+              title="Focus mode (M)"
+              className={cn(
+                "flex h-9 items-center gap-1.5 rounded-lg border px-2.5 text-xs font-bold transition-colors",
+                focusMode
+                  ? "border-primary/30 bg-primary-soft text-primary"
+                  : "border-border bg-card text-muted hover:border-primary/40 hover:text-primary",
+              )}
+            >
+              <LuFocus className="h-4 w-4" />
+              <span className="hidden sm:inline">
+                {focusMode ? "Focus on" : "Focus"}
+              </span>
+            </button>
           </div>
         </div>
 
-        <div className="w-full bg-border rounded-full h-1.5">
-          <div
-            className="bg-primary h-1.5 rounded-full transition-all"
-            style={{ width: `${(answeredCount / questions.length) * 100}%` }}
+        <div className="mt-3">
+          <Progress
+            value={(answeredCount / questions.length) * 100}
+            className="h-1.5"
           />
-        </div>
-        <div className="flex justify-between text-xs text-muted mt-1">
-          <span>{answeredCount} answered</span>
-          {flaggedCount > 0 && <span className="text-amber-600">{flaggedCount} flagged</span>}
-          <span>{questions.length - answeredCount} remaining</span>
+          <div className="mt-1.5 flex justify-between text-xs text-muted">
+            <span className="font-semibold text-primary">
+              {answeredCount} answered
+            </span>
+            {flaggedCount > 0 && (
+              <span className="font-semibold text-warning">
+                {flaggedCount} flagged
+              </span>
+            )}
+            <span>{unanswered} remaining</span>
+          </div>
         </div>
 
         {/* Subject tabs */}
         {subjectGroups.length > 1 && (
-          <div className="flex gap-2 mt-3 overflow-x-auto pb-1">
+          <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
             {subjectGroups.map((group) => {
               const groupAnswered = group.questions.filter(
-                (q) => answers[q.id]?.selectedAnswer !== null
+                (q) => answers[q.id]?.selectedAnswer !== null,
               ).length;
               const isActive = activeSubject === group.code;
               return (
                 <button
                   key={group.code}
+                  type="button"
                   onClick={() => {
-                    const idx = questions.findIndex((q) => q.subjectCode === group.code);
+                    const idx = questions.findIndex(
+                      (q) => q.subjectCode === group.code,
+                    );
                     if (idx >= 0) goToQuestion(idx);
                   }}
-                  className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap border transition-colors ${
+                  className={cn(
+                    "flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-bold whitespace-nowrap transition-colors",
                     isActive
-                      ? "bg-primary text-primary-foreground border-primary"
-                      : "bg-card text-muted border-border hover:border-primary/30"
-                  }`}
+                      ? "border-primary bg-primary text-primary-foreground"
+                      : "border-border bg-card text-muted hover:border-primary/30",
+                  )}
                 >
-                  <LuBookOpen className="w-3.5 h-3.5" />
+                  <LuBookOpen className="h-3.5 w-3.5" />
                   {group.code}
-                  <span className="ml-1 opacity-70">
+                  <span className="opacity-70">
                     ({groupAnswered}/{group.questions.length})
                   </span>
                 </button>
@@ -329,236 +467,305 @@ function MockExamSession() {
         )}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_220px] gap-6">
+      <div
+        className={cn(
+          "mt-6 grid gap-6",
+          focusMode ? "grid-cols-1" : "grid-cols-1 lg:grid-cols-[1fr_220px]",
+        )}
+      >
         {/* Question area */}
-        <div className="bg-card border border-border rounded-lg p-6">
+        <div className="card p-5 md:p-7">
           {currentQuestion && (
-            <>
-              <div className="mb-6">
-                <div className="flex items-start justify-between gap-4 mb-4">
-                  <h2 className="text-base font-medium text-foreground leading-relaxed">
-                    <span className="text-primary font-semibold mr-2">
-                      Q{currentIndex + 1}.
+            <div key={currentQuestion.id} className="animate-slide-up">
+              <div className="mb-5">
+                <div className="flex items-start justify-between gap-4">
+                  <h2
+                    className={cn(
+                      "font-medium leading-relaxed text-foreground",
+                      focusMode ? "text-lg md:text-xl" : "text-base",
+                    )}
+                  >
+                    <span className="mr-2 inline-flex h-7 w-7 items-center justify-center rounded-lg bg-primary-soft text-sm font-bold text-primary">
+                      {currentIndex + 1}
                     </span>
                     {currentQuestion.questionText}
                   </h2>
                   <button
+                    type="button"
                     onClick={() => toggleFlag(currentQuestion.id)}
-                    className={`flex-shrink-0 p-2 rounded-lg border transition-colors ${
+                    aria-pressed={answers[currentQuestion.id]?.flaggedForReview}
+                    aria-label="Flag for review"
+                    title="Flag for review (F)"
+                    className={cn(
+                      "flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg border transition-colors",
                       answers[currentQuestion.id]?.flaggedForReview
-                        ? "border-amber-300 bg-amber-50 text-amber-600"
-                        : "border-border text-muted hover:bg-secondary"
-                    }`}
-                    title="Flag for review"
+                        ? "border-amber-300 bg-amber-50 text-warning"
+                        : "border-border text-muted hover:bg-secondary",
+                    )}
                   >
-                    <LuFlag className="w-4 h-4" />
+                    <LuFlag className="h-4 w-4" />
                   </button>
                 </div>
 
                 {currentQuestion.questionImageUrl && (
-                  <div className="mb-4 rounded-lg overflow-hidden border border-border">
+                  <div className="mt-4 overflow-hidden rounded-xl border border-border">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={currentQuestion.questionImageUrl}
                       alt="Question illustration"
-                      className="max-w-full h-auto"
+                      className="h-auto max-w-full"
                     />
                   </div>
                 )}
               </div>
 
               {currentQuestion.options && (
-                <div className="space-y-3">
+                <div className="space-y-3" role="group" aria-label="Answer options">
                   {Object.entries(currentQuestion.options).map(([key, value]) => {
-                    const isSelected = answers[currentQuestion.id]?.selectedAnswer === key;
+                    const isSelected =
+                      answers[currentQuestion.id]?.selectedAnswer === key;
                     return (
                       <button
                         key={key}
+                        type="button"
                         onClick={() => selectAnswer(currentQuestion.id, key)}
-                        className={`w-full flex items-start gap-3 p-4 rounded-lg border text-left transition-all ${
+                        aria-pressed={isSelected}
+                        className={cn(
+                          "group flex w-full items-center gap-3 rounded-xl border p-3.5 text-left transition-all",
                           isSelected
-                            ? "border-primary bg-primary/5 ring-1 ring-primary/20"
-                            : "border-border bg-card hover:border-primary/30 hover:bg-primary/5"
-                        }`}
+                            ? "border-primary bg-primary-soft ring-4 ring-primary/15"
+                            : "border-border bg-card hover:border-primary/40 hover:bg-primary-soft/50",
+                        )}
                       >
                         <span
-                          className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
+                          className={cn(
+                            "flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full text-sm font-bold transition-colors",
                             isSelected
                               ? "bg-primary text-white"
-                              : "bg-secondary text-foreground"
-                          }`}
+                              : "bg-secondary text-foreground group-hover:bg-primary/10",
+                          )}
                         >
                           {key}
                         </span>
-                        <span className="text-sm text-foreground pt-1">
+                        <span
+                          className={cn(
+                            "flex-1 pt-0.5",
+                            focusMode ? "text-base" : "text-sm",
+                            isSelected
+                              ? "font-semibold text-foreground"
+                              : "text-foreground",
+                          )}
+                        >
                           {value as string}
                         </span>
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
-
-              <div className="flex items-center justify-between mt-8 pt-4 border-t border-border">
-                <button
-                  onClick={() => goToQuestion(currentIndex - 1)}
-                  disabled={currentIndex === 0}
-                  className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-muted hover:text-foreground disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-                >
-                  <LuChevronLeft className="w-4 h-4" />
-                  Previous
-                </button>
-
-                {currentIndex === questions.length - 1 ? (
-                  <button
-                    onClick={() => setShowConfirmSubmit(true)}
-                    className="flex items-center gap-1.5 px-6 py-2.5 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition-colors"
-                  >
-                    <LuCheck className="w-4 h-4" />
-                    Finish Exam
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => goToQuestion(currentIndex + 1)}
-                    className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
-                  >
-                    Next
-                    <LuChevronRight className="w-4 h-4" />
-                  </button>
-                )}
-              </div>
-            </>
-          )}
-        </div>
-
-        {/* Question navigator */}
-        <div className="hidden lg:block">
-          <div className="sticky top-28 bg-card border border-border rounded-lg p-4 max-h-[calc(100vh-12rem)] overflow-y-auto">
-            <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-3">
-              Questions
-            </h3>
-
-            {subjectGroups.map((group) => (
-              <div key={group.code} className="mb-3">
-                <p className="text-[11px] font-semibold text-muted mb-1.5 uppercase tracking-wider">
-                  {group.name}
-                </p>
-                <div className="grid grid-cols-5 gap-1.5">
-                  {group.questions.map((q) => {
-                    const i = questions.indexOf(q);
-                    const answer = answers[q.id];
-                    const isCurrent = i === currentIndex;
-                    const isAnswered = answer?.selectedAnswer !== null;
-                    const isFlagged = answer?.flaggedForReview;
-                    return (
-                      <button
-                        key={q.id}
-                        onClick={() => goToQuestion(i)}
-                        className={`w-7 h-7 rounded text-[11px] font-medium transition-all relative ${
-                          isCurrent
-                            ? "bg-primary text-white ring-2 ring-primary/30"
-                            : isAnswered
-                              ? "bg-green-100 text-green-700 hover:bg-green-200"
-                              : "bg-secondary text-muted hover:bg-border"
-                        }`}
-                      >
-                        {i + 1}
-                        {isFlagged && (
-                          <span className="absolute -top-1 -right-1 w-2 h-2 bg-amber-400 rounded-full" />
+                        {isSelected && (
+                          <LuCheck className="h-5 w-5 flex-shrink-0 text-primary" />
                         )}
                       </button>
                     );
                   })}
                 </div>
-              </div>
-            ))}
-
-            <div className="mt-3 pt-3 border-t border-border space-y-1.5">
-              <div className="flex items-center gap-2 text-xs">
-                <span className="w-3 h-3 rounded bg-green-100 border border-green-200" />
-                <span className="text-muted">Answered ({answeredCount})</span>
-              </div>
-              <div className="flex items-center gap-2 text-xs">
-                <span className="w-3 h-3 rounded bg-secondary border border-border" />
-                <span className="text-muted">Unanswered ({questions.length - answeredCount})</span>
-              </div>
-              {flaggedCount > 0 && (
-                <div className="flex items-center gap-2 text-xs">
-                  <span className="w-3 h-3 rounded bg-amber-400" />
-                  <span className="text-muted">Flagged ({flaggedCount})</span>
-                </div>
               )}
-            </div>
 
-            <button
-              onClick={() => setShowConfirmSubmit(true)}
-              className="w-full mt-4 py-2 bg-green-600 text-white rounded-lg text-xs font-medium hover:bg-green-700 transition-colors"
-            >
-              Submit Exam
-            </button>
-          </div>
+              <div className="mt-8 flex items-center justify-between border-t border-border pt-5">
+                <Button
+                  variant="ghost"
+                  onClick={() => goToQuestion(currentIndex - 1)}
+                  disabled={currentIndex === 0}
+                >
+                  <LuChevronLeft className="h-4 w-4" />
+                  Previous
+                </Button>
+
+                {currentIndex === questions.length - 1 ? (
+                  <Button
+                    variant="success"
+                    onClick={() => setShowConfirmSubmit(true)}
+                  >
+                    <LuCheck className="h-4 w-4" />
+                    Finish Exam
+                  </Button>
+                ) : (
+                  <Button
+                    variant="primary"
+                    onClick={() => goToQuestion(currentIndex + 1)}
+                  >
+                    Next
+                    <LuChevronRight className="h-4 w-4" />
+                  </Button>
+                )}
+              </div>
+            </div>
+          )}
         </div>
+
+        {/* Question navigator (desktop) */}
+        {!focusMode && (
+          <div className="hidden lg:block">
+            <div className="sticky top-28 card max-h-[calc(100vh-12rem)] overflow-y-auto p-4">
+              <h3 className="section-label mb-3">Questions</h3>
+
+              {subjectGroups.map((group) => (
+                <div key={group.code} className="mb-3">
+                  <p className="mb-1.5 text-[10px] font-bold uppercase tracking-wider text-muted">
+                    {group.name}
+                  </p>
+                  <div className="grid grid-cols-5 gap-1.5">
+                    {group.questions.map((q) => {
+                      const i = questions.indexOf(q);
+                      const answer = answers[q.id];
+                      const isCurrent = i === currentIndex;
+                      const isAnswered = answer?.selectedAnswer !== null;
+                      const isFlagged = answer?.flaggedForReview;
+                      return (
+                        <button
+                          key={q.id}
+                          type="button"
+                          onClick={() => goToQuestion(i)}
+                          aria-label={`Question ${i + 1}${isAnswered ? ", answered" : ""}`}
+                          className={cn(
+                            "relative h-7 w-7 rounded text-[11px] font-semibold transition-all",
+                            isCurrent
+                              ? "bg-primary text-white ring-2 ring-primary/30"
+                              : isAnswered
+                                ? "bg-success-soft text-success hover:bg-green-100"
+                                : "bg-secondary text-muted hover:bg-border",
+                          )}
+                        >
+                          {i + 1}
+                          {isFlagged && (
+                            <span className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-warning ring-2 ring-card" />
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+
+              <div className="mt-3 space-y-1.5 border-t border-border pt-3 text-xs text-muted">
+                <div className="flex items-center gap-2">
+                  <span className="h-3 w-3 rounded bg-success-soft" />
+                  Answered ({answeredCount})
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="h-3 w-3 rounded bg-secondary" />
+                  Unanswered ({unanswered})
+                </div>
+                {flaggedCount > 0 && (
+                  <div className="flex items-center gap-2">
+                    <span className="h-3 w-3 rounded bg-warning" />
+                    Flagged ({flaggedCount})
+                  </div>
+                )}
+              </div>
+
+              <Button
+                variant="success"
+                className="mt-4 w-full"
+                onClick={() => setShowConfirmSubmit(true)}
+              >
+                Submit Exam
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Mobile bottom bar */}
-      <div className="lg:hidden fixed bottom-16 left-0 right-0 bg-card border-t border-border p-3 z-40">
-        <div className="flex items-center justify-between">
-          <button
+      <div className="fixed inset-x-0 bottom-16 z-40 border-t border-border bg-card/95 p-3 backdrop-blur-md lg:hidden">
+        <div className="flex items-center justify-between gap-3">
+          <Button
+            variant="outline"
+            size="icon"
             onClick={() => goToQuestion(currentIndex - 1)}
             disabled={currentIndex === 0}
-            className="p-2 rounded-lg border border-border disabled:opacity-30"
+            aria-label="Previous question"
           >
-            <LuChevronLeft className="w-5 h-5" />
+            <LuChevronLeft className="h-5 w-5" />
+          </Button>
+
+          <button
+            type="button"
+            onClick={() => setFocusMode((v) => !v)}
+            className={cn(
+              "flex h-9 w-9 items-center justify-center rounded-lg border transition-colors",
+              focusMode
+                ? "border-primary/30 bg-primary-soft text-primary"
+                : "border-border text-muted",
+            )}
+            aria-label={focusMode ? "Exit focus mode" : "Enter focus mode"}
+          >
+            <LuFocus className="h-4 w-4" />
           </button>
-          <div className="text-center">
-            <p className="text-xs text-muted">
-              {answeredCount}/{questions.length} answered
-            </p>
+
+          <div className="text-center text-xs font-semibold text-muted">
+            {answeredCount}/{questions.length} answered
           </div>
+
           {currentIndex === questions.length - 1 ? (
-            <button
+            <Button
+              variant="success"
+              size="sm"
               onClick={() => setShowConfirmSubmit(true)}
-              className="px-4 py-2 bg-green-600 text-white rounded-lg text-xs font-medium"
             >
               Submit
-            </button>
+            </Button>
           ) : (
-            <button
+            <Button
+              variant="outline"
+              size="icon"
               onClick={() => goToQuestion(currentIndex + 1)}
-              className="p-2 rounded-lg border border-border"
+              aria-label="Next question"
             >
-              <LuChevronRight className="w-5 h-5" />
-            </button>
+              <LuChevronRight className="h-5 w-5" />
+            </Button>
           )}
         </div>
       </div>
 
       {/* Confirm submit modal */}
       {showConfirmSubmit && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <div className="bg-card rounded-xl p-6 max-w-sm w-full">
-            <h3 className="text-lg font-semibold text-foreground mb-2">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Submit exam"
+          onMouseDown={(e) => {
+            if (e.target === e.currentTarget) setShowConfirmSubmit(false);
+          }}
+        >
+          <div className="w-full max-w-sm rounded-2xl bg-card p-6 shadow-lift animate-pop">
+            <h3 className="text-lg font-bold text-foreground">
               Submit {examType} Exam?
             </h3>
-            <div className="space-y-2 mb-6">
+            <div className="mt-3 space-y-2">
               <p className="text-sm text-muted">
-                You have answered{" "}
-                <span className="font-medium text-foreground">{answeredCount}</span> out of{" "}
-                <span className="font-medium text-foreground">{questions.length}</span> questions.
+                You answered{" "}
+                <span className="font-bold text-foreground">{answeredCount}</span>{" "}
+                of{" "}
+                <span className="font-bold text-foreground">
+                  {questions.length}
+                </span>{" "}
+                questions.
               </p>
-              {questions.length - answeredCount > 0 && (
-                <p className="text-sm text-amber-600">
-                  {questions.length - answeredCount} questions are unanswered and will be marked wrong.
+              {unanswered > 0 && (
+                <p className="rounded-lg bg-warning-soft px-3 py-2 text-sm font-medium text-warning">
+                  {unanswered} unanswered{" "}
+                  {unanswered === 1 ? "question is" : "questions are"} left blank.
                 </p>
               )}
               {flaggedCount > 0 && (
-                <p className="text-sm text-amber-600">
-                  {flaggedCount} questions are flagged for review.
+                <p className="rounded-lg bg-amber-50 px-3 py-2 text-sm font-medium text-amber-700">
+                  {flaggedCount} flagged for review.
                 </p>
               )}
               {subjectGroups.length > 1 && (
-                <div className="text-xs text-muted space-y-1 mt-2 pt-2 border-t border-border">
+                <div className="mt-2 space-y-1 border-t border-border pt-2 text-xs text-muted">
                   {subjectGroups.map((g) => {
-                    const ga = g.questions.filter((q) => answers[q.id]?.selectedAnswer !== null).length;
+                    const ga = g.questions.filter(
+                      (q) => answers[q.id]?.selectedAnswer !== null,
+                    ).length;
                     return (
                       <p key={g.code}>
                         {g.code}: {ga}/{g.questions.length}
@@ -568,20 +775,22 @@ function MockExamSession() {
                 </div>
               )}
             </div>
-            <div className="flex gap-3">
-              <button
+            <div className="mt-6 flex gap-3">
+              <Button
+                variant="outline"
+                className="flex-1"
                 onClick={() => setShowConfirmSubmit(false)}
-                className="flex-1 py-2.5 rounded-lg border border-border text-sm font-medium hover:bg-secondary transition-colors"
               >
-                Continue Exam
-              </button>
-              <button
-                onClick={handleSubmit}
+                Keep going
+              </Button>
+              <Button
+                variant="success"
+                className="flex-1"
                 disabled={submitting}
-                className="flex-1 py-2.5 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition-colors disabled:opacity-50"
+                onClick={handleSubmit}
               >
-                {submitting ? "Submitting..." : "Submit"}
-              </button>
+                {submitting ? "Submitting…" : "Submit"}
+              </Button>
             </div>
           </div>
         </div>
@@ -595,7 +804,7 @@ export default function MockExamSessionPage() {
     <Suspense
       fallback={
         <div className="flex items-center justify-center py-20">
-          <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+          <div className="h-8 w-8 rounded-full border-2 border-primary/25 border-t-primary animate-spin" />
         </div>
       }
     >

@@ -30,7 +30,7 @@ export default function PDFReader({ file, title, onClose }: PDFReaderProps) {
 
   const goTo = useCallback(
     (page: number) => {
-      setPageNumber((cur) => Math.max(1, Math.min(numPages || 1, page)));
+      setPageNumber(() => Math.max(1, Math.min(numPages || 1, page)));
     },
     [numPages],
   );

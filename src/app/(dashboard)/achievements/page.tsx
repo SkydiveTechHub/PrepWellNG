@@ -9,7 +9,14 @@ import {
   LuGraduationCap,
   LuTrophy,
   LuTriangleAlert,
+  LuLock,
 } from "react-icons/lu";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { PageHeader } from "@/components/ui/page-header";
+import { EmptyState } from "@/components/ui/empty-state";
+import { Spinner } from "@/components/ui/spinner";
+import { cn } from "@/lib/utils";
 
 type Achievement = {
   id: string;
@@ -23,12 +30,12 @@ type Achievement = {
 };
 
 const CRITERIA_ICONS: Record<string, React.ReactNode> = {
-  questions_answered: <LuBookOpen className="w-6 h-6" />,
-  perfect_score: <LuStar className="w-6 h-6" />,
-  streak_days: <LuFlame className="w-6 h-6" />,
-  lessons_completed: <LuGraduationCap className="w-6 h-6" />,
-  subject_mastery: <LuTrophy className="w-6 h-6" />,
-  mock_score_70: <LuAward className="w-6 h-6" />,
+  questions_answered: <LuBookOpen className="h-6 w-6" />,
+  perfect_score: <LuStar className="h-6 w-6" />,
+  streak_days: <LuFlame className="h-6 w-6" />,
+  lessons_completed: <LuGraduationCap className="h-6 w-6" />,
+  subject_mastery: <LuTrophy className="h-6 w-6" />,
+  mock_score_70: <LuAward className="h-6 w-6" />,
 };
 
 const CRITERIA_COLORS: Record<string, string> = {
@@ -62,110 +69,114 @@ export default function AchievementsPage() {
   }, []);
 
   const earnedCount = achievements.filter((a) => a.earned).length;
+  const progress = achievements.length > 0 ? Math.round((earnedCount / achievements.length) * 100) : 0;
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center py-20">
-        <div className="w-10 h-10 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
+    return <Spinner label="Loading achievements..." />;
   }
 
   if (error) {
     return (
-      <div className="max-w-md mx-auto py-20 text-center">
-        <LuTriangleAlert className="w-12 h-12 text-amber-500 mx-auto mb-4" />
-        <p className="text-sm text-muted">{error}</p>
-      </div>
+      <EmptyState
+        tone="primary"
+        icon={<LuTriangleAlert className="h-6 w-6" />}
+        title="Couldn't load achievements"
+        description={error}
+      />
     );
   }
 
   return (
-    <div>
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-foreground">Achievements</h1>
-        <p className="text-muted mt-1">
-          {earnedCount} of {achievements.length} achievements earned
-        </p>
-      </div>
+    <div className="animate-fade-in">
+      <PageHeader
+        title="Achievements"
+        description={
+          achievements.length > 0
+            ? `${earnedCount} of ${achievements.length} achievements earned`
+            : "Rewards for your effort"
+        }
+      />
+
+      {achievements.length > 0 && (
+        <div className="card mb-8 p-5">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-warning-soft text-warning">
+                <LuAward className="h-5 w-5" />
+              </span>
+              <div>
+                <p className="text-sm font-bold text-foreground">Collection progress</p>
+                <p className="text-xs text-muted">
+                  {earnedCount === 0
+                    ? "Complete activities to earn your first badge"
+                    : `Keep going, ${achievements.length - earnedCount} badge${
+                        achievements.length - earnedCount === 1 ? "" : "s"
+                      } to go`}
+                </p>
+              </div>
+            </div>
+            <span className="text-sm font-bold text-foreground">{progress}%</span>
+          </div>
+          <Progress value={progress} tone={progress === 100 ? "success" : "auto"} className="mt-3 h-2.5" />
+        </div>
+      )}
 
       {achievements.length === 0 ? (
-        <div className="bg-card rounded-xl border border-border p-8 text-center">
-          <LuAward className="w-12 h-12 text-muted mx-auto mb-4" />
-          <p className="text-muted text-sm">No achievements available yet.</p>
-        </div>
+        <EmptyState
+          icon={<LuAward className="h-6 w-6" />}
+          title="No achievements available yet"
+          description="Check back soon — new challenges are on the way."
+        />
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {achievements.map((achievement) => (
             <div
               key={achievement.id}
-              className={`rounded-xl border p-5 transition-all ${
+              className={cn(
+                "card p-5 transition-all",
                 achievement.earned
-                  ? "bg-card border-border"
-                  : "bg-card/50 border-border/50 opacity-60"
-              }`}
+                  ? "shadow-card"
+                  : "border-dashed opacity-70 grayscale-[0.3]",
+              )}
             >
               <div className="flex items-start gap-4">
-                <div
-                  className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                    CRITERIA_COLORS[achievement.criteriaType] ||
-                    "bg-secondary text-muted"
-                  }`}
-                >
-                  {CRITERIA_ICONS[achievement.criteriaType] || (
-                    <LuAward className="w-6 h-6" />
+                <span
+                  className={cn(
+                    "flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl",
+                    achievement.earned
+                      ? CRITERIA_COLORS[achievement.criteriaType] || "bg-secondary text-muted"
+                      : "bg-secondary text-muted",
                   )}
-                </div>
-                <div className="min-w-0">
-                  <h3
-                    className={`font-semibold text-sm ${
-                      achievement.earned
-                        ? "text-foreground"
-                        : "text-muted"
-                    }`}
-                  >
-                    {achievement.title}
-                  </h3>
-                  <p className="text-xs text-muted mt-0.5 leading-relaxed">
+                >
+                  {achievement.earned
+                    ? CRITERIA_ICONS[achievement.criteriaType] || <LuAward className="h-6 w-6" />
+                    : <LuLock className="h-5 w-5" />}
+                </span>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-2">
+                    <h3
+                      className={cn(
+                        "truncate text-sm font-bold",
+                        achievement.earned ? "text-foreground" : "text-muted",
+                      )}
+                    >
+                      {achievement.title}
+                    </h3>
+                  </div>
+                  <p className="mt-0.5 text-xs leading-relaxed text-muted">
                     {achievement.description}
                   </p>
                   {achievement.earned && achievement.earnedAt && (
-                    <p className="text-[11px] text-primary mt-1.5 font-medium">
+                    <Badge variant="primary" className="mt-2">
                       Earned{" "}
-                      {new Date(achievement.earnedAt).toLocaleDateString(
-                        "en-GB",
-                        {
-                          day: "numeric",
-                          month: "short",
-                          year: "numeric",
-                        }
-                      )}
-                    </p>
+                      {new Date(achievement.earnedAt).toLocaleDateString("en-GB", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                      })}
+                    </Badge>
                   )}
                 </div>
-              </div>
-              <div className="mt-3 flex items-center gap-2">
-                <div
-                  className={`h-1.5 flex-1 rounded-full ${
-                    achievement.earned ? "bg-primary/20" : "bg-secondary"
-                  }`}
-                >
-                  <div
-                    className={`h-1.5 rounded-full ${
-                      achievement.earned ? "bg-primary" : "bg-border"
-                    }`}
-                    style={{
-                      width: achievement.earned ? "100%" : "0%",
-                    }}
-                  />
-                </div>
-                <span
-                  className={`text-xs font-medium ${
-                    achievement.earned ? "text-primary" : "text-muted"
-                  }`}
-                >
-                  {achievement.earned ? "Done" : "Locked"}
-                </span>
               </div>
             </div>
           ))}

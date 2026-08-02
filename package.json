@@ -8,7 +8,9 @@
     "postinstall": "prisma generate",
     "start": "next start",
     "lint": "eslint",
-    "import-questions": "npx tsx scripts/import-questions.ts"
+    "test": "node --import tsx --test --test-force-exit scripts/test-spaced-repetition.mts",
+    "import-questions": "npx tsx scripts/import-questions.ts",
+    "seed-flashcards": "npx tsx scripts/seed-flashcards.ts"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.3",

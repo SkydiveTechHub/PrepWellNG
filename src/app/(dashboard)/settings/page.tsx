@@ -6,6 +6,7 @@ import { AvatarUpload } from "@/components/settings/avatar-upload";
 import { ProfileForm } from "@/components/settings/profile-form";
 import { AcademicForm } from "@/components/settings/academic-form";
 import { PasswordForm } from "@/components/settings/password-form";
+import { PageHeader } from "@/components/ui/page-header";
 
 export const metadata: Metadata = {
   title: "Settings — PrepWell NG",
@@ -37,13 +38,11 @@ export default async function SettingsPage() {
   if (!user) redirect("/login");
 
   return (
-    <div>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-foreground">Settings</h1>
-        <p className="text-muted mt-1">
-          Manage your account and study preferences.
-        </p>
-      </div>
+    <div className="animate-fade-in">
+      <PageHeader
+        title="Settings"
+        description="Manage your account and study preferences."
+      />
 
       <div className="space-y-5 max-w-2xl">
         <AvatarUpload

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
+import { ClassLevel, Track } from "@prisma/client";
 import { db } from "@/lib/db";
 import { registerSchema } from "@/lib/validators";
 
@@ -42,8 +43,8 @@ export async function POST(req: NextRequest) {
         lastName,
         email,
         passwordHash,
-        classLevel: classLevel as any,
-        track: track as any,
+        classLevel: classLevel as ClassLevel,
+        track: track as Track,
         state,
         role: "STUDENT",
       },

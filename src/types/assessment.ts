@@ -1,4 +1,4 @@
-import type { Question, Assessment, AssessmentAttempt } from "./prisma";
+import type { Question } from "./prisma";
 
 // Question with options parsed
 export type QuestionDisplay = Omit<Question, "options"> & {

@@ -3,6 +3,7 @@
 // Seeds all subjects + curriculum structure for Physics and Mathematics (SS1–SS3)
 
 import { PrismaClient } from "@prisma/client";
+import { seedLessons } from "../src/lib/lessons";
 
 const prisma = new PrismaClient();
 
@@ -742,6 +743,7 @@ async function main() {
 
   await seedAchievements();
   await seedSubjectResources();
+  await seedLessons(prisma);
 
   console.log("\n✅ Seed completed successfully!");
 }

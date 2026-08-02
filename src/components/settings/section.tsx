@@ -1,3 +1,6 @@
+import { cn } from "@/lib/utils";
+import { buttonClass } from "@/components/ui/button";
+
 /** Shared card chrome for each independently-saved settings section. */
 export function Section({
   title,
@@ -9,9 +12,9 @@ export function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section className="bg-card border border-border rounded-xl p-5 sm:p-6">
-      <h2 className="text-base font-semibold text-foreground">{title}</h2>
-      {description && <p className="text-sm text-muted mt-1">{description}</p>}
+    <section className="card p-5 sm:p-6">
+      <h2 className="text-base font-bold tracking-tight text-foreground">{title}</h2>
+      {description && <p className="mt-1 text-sm text-muted">{description}</p>}
       <div className="mt-5">{children}</div>
     </section>
   );
@@ -29,11 +32,12 @@ export function FormMessage({
   return (
     <div
       role="status"
-      className={
+      className={cn(
+        "mb-4 rounded-xl border p-3 text-sm",
         error
-          ? "mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-700"
-          : "mb-4 p-3 rounded-lg bg-green-50 border border-green-200 text-sm text-green-700"
-      }
+          ? "border-danger/20 bg-danger-soft text-danger"
+          : "border-success/20 bg-success-soft text-success",
+      )}
     >
       {error ?? success}
     </div>
@@ -41,9 +45,8 @@ export function FormMessage({
 }
 
 export const inputClass =
-  "w-full px-3 py-2.5 rounded-lg border border-border bg-card text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary";
+  "w-full rounded-xl border border-border bg-card px-3.5 py-2.5 text-sm text-foreground shadow-soft outline-none transition-all duration-150 placeholder:text-muted/60 focus:border-primary focus:ring-4 focus:ring-primary/15";
 
-export const labelClass = "block text-sm font-medium mb-1.5";
+export const labelClass = "mb-1.5 block text-sm font-semibold text-foreground";
 
-export const submitClass =
-  "bg-primary text-primary-foreground px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors disabled:opacity-50";
+export const submitClass = buttonClass("primary", "md");

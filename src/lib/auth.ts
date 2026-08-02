@@ -88,11 +88,18 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         });
 
         if (user) {
-          (session.user as any).role = user.role;
-          (session.user as any).classLevel = user.classLevel;
-          (session.user as any).track = user.track;
-          (session.user as any).firstName = user.firstName;
-          (session.user as any).lastName = user.lastName;
+          const extendedUser = session.user as typeof session.user & {
+            role?: string | null;
+            classLevel?: string | null;
+            track?: string | null;
+            firstName?: string | null;
+            lastName?: string | null;
+          };
+          extendedUser.role = user.role;
+          extendedUser.classLevel = user.classLevel;
+          extendedUser.track = user.track;
+          extendedUser.firstName = user.firstName;
+          extendedUser.lastName = user.lastName;
           // Read from the database, not the JWT — the token still holds
           // whatever image was set at sign-in and goes stale after an upload.
           session.user.image = user.image;

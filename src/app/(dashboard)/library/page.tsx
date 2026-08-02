@@ -11,12 +11,18 @@ import {
   LuFile,
   LuArrowLeft,
   LuExternalLink,
-  LuBookOpen,
-  LuLoader,
   LuBookOpenText,
+  LuBookOpen,
+  LuInbox,
 } from "react-icons/lu";
 import { TRACK_LABELS, TRACK_COLORS, type TrackCategory } from "@/lib/subjects";
 import dynamic from "next/dynamic";
+import { Badge } from "@/components/ui/badge";
+import { PageHeader } from "@/components/ui/page-header";
+import { EmptyState } from "@/components/ui/empty-state";
+import { Spinner } from "@/components/ui/spinner";
+import { buttonClass } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 const PDFReader = dynamic(
   () => import("@/components/library/pdf-reader"),
@@ -56,7 +62,7 @@ const RESOURCE_ICONS: Record<string, React.ComponentType<{ className?: string }>
 
 function ResourceIcon({ type }: { type: string }) {
   const Icon = RESOURCE_ICONS[type] ?? LuFile;
-  return <Icon className="w-5 h-5" />;
+  return <Icon className="h-5 w-5" />;
 }
 
 function isReadable(resource: SubjectResource) {
@@ -74,39 +80,31 @@ function ResourceCard({
 
   const content = (
     <>
-      <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center flex-shrink-0 mt-0.5">
-        {readable ? <LuBookOpenText className="w-5 h-5" /> : <ResourceIcon type={resource.resourceType} />}
-      </div>
-      <div className="flex-1 min-w-0">
+      <span className="mt-0.5 flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary">
+        {readable ? <LuBookOpenText className="h-5 w-5" /> : <ResourceIcon type={resource.resourceType} />}
+      </span>
+      <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">
-          <h4 className="font-medium text-foreground text-sm truncate group-hover:text-primary transition-colors">
+          <h4 className="truncate text-sm font-semibold text-foreground transition-colors group-hover:text-primary">
             {resource.title}
           </h4>
-          {!resource.isFree && (
-            <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 flex-shrink-0">
-              Premium
-            </span>
-          )}
+          {!resource.isFree && <Badge variant="amber">Premium</Badge>}
         </div>
         {resource.description && (
-          <p className="text-xs text-muted mt-1 line-clamp-2">
-            {resource.description}
-          </p>
+          <p className="mt-1 line-clamp-2 text-xs text-muted">{resource.description}</p>
         )}
-        <div className="flex items-center gap-3 mt-2">
-          <span className="text-[11px] font-medium capitalize text-muted bg-secondary px-2 py-0.5 rounded">
+        <div className="mt-2 flex flex-wrap items-center gap-3">
+          <Badge variant="neutral" className="capitalize">
             {resource.resourceType.replace("_", " ")}
-          </span>
-          {resource.author && (
-            <span className="text-[11px] text-muted">by {resource.author}</span>
-          )}
+          </Badge>
+          {resource.author && <span className="text-[11px] text-muted">by {resource.author}</span>}
           {readable ? (
-            <span className="text-[11px] font-medium text-primary ml-auto flex items-center gap-1">
-              <LuBookOpenText className="w-3 h-3" />
+            <span className="ml-auto flex items-center gap-1 text-[11px] font-bold text-primary">
+              <LuBookOpenText className="h-3 w-3" />
               Read
             </span>
           ) : (
-            <LuExternalLink className="w-3.5 h-3.5 text-muted ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
+            <LuExternalLink className="ml-auto h-3.5 w-3.5 text-muted opacity-0 transition-opacity group-hover:opacity-100" />
           )}
         </div>
       </div>
@@ -117,7 +115,7 @@ function ResourceCard({
     return (
       <button
         onClick={() => onRead(resource)}
-        className="flex items-start gap-4 bg-card rounded-xl border border-border p-4 hover:shadow-md hover:border-primary/30 transition-all group text-left w-full"
+        className="card card-interactive group flex items-start gap-4 p-4 text-left"
       >
         {content}
       </button>
@@ -129,7 +127,7 @@ function ResourceCard({
       href={resource.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="flex items-start gap-4 bg-card rounded-xl border border-border p-4 hover:shadow-md hover:border-primary/30 transition-all group"
+      className="card card-interactive group flex items-start gap-4 p-4"
     >
       {content}
     </a>
@@ -142,6 +140,8 @@ export default function LibraryPage() {
   const [resources, setResources] = useState<SubjectResource[]>([]);
   const [loading, setLoading] = useState(true);
   const [resourcesLoading, setResourcesLoading] = useState(false);
+  const [pdfViewer, setPdfViewer] = useState<{ file: string; title: string } | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -179,9 +179,6 @@ export default function LibraryPage() {
     }
   }, []);
 
-  const [pdfViewer, setPdfViewer] = useState<{ file: string; title: string } | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
   const handleRead = useCallback((resource: SubjectResource) => {
     setPdfViewer({ file: resource.url, title: resource.title });
   }, []);
@@ -194,45 +191,42 @@ export default function LibraryPage() {
   }
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center py-20">
-        <LuLoader className="w-8 h-8 text-primary animate-spin" />
-      </div>
-    );
+    return <Spinner label="Loading library..." />;
   }
 
   // Resource detail view
   if (selectedSubject) {
     return (
-      <div>
+      <div className="animate-fade-in">
         <button
           onClick={() => { setSelectedSubject(null); setPdfViewer(null); }}
-          className="flex items-center gap-2 text-sm text-muted hover:text-foreground transition-colors mb-6"
+          className="mb-6 inline-flex items-center gap-1.5 text-sm font-medium text-muted transition-colors hover:text-foreground"
         >
-          <LuArrowLeft className="w-4 h-4" />
+          <LuArrowLeft className="h-4 w-4" />
           Back to library
         </button>
 
         <div className="mb-6">
-          <div className="flex items-center gap-3 mb-2">
+          <div className="flex items-center gap-3">
             <span
-              className={`w-10 h-10 rounded-lg flex items-center justify-center text-xs font-bold border ${TRACK_COLORS[selectedSubject.trackCategory as TrackCategory]}`}
+              className={cn(
+                "flex h-12 w-12 items-center justify-center rounded-xl border text-xs font-bold",
+                TRACK_COLORS[selectedSubject.trackCategory as TrackCategory],
+              )}
             >
               {selectedSubject.code}
             </span>
             <div>
-              <h1 className="text-2xl font-bold text-foreground">
+              <h1 className="text-2xl font-bold tracking-tight text-foreground">
                 {selectedSubject.name}
               </h1>
-              <p className="text-sm text-muted mt-0.5">
+              <p className="text-sm text-muted">
                 {pdfViewer ? "Reading" : "Textbooks, videos, and study materials"}
               </p>
             </div>
           </div>
           {selectedSubject.description && !pdfViewer && (
-            <p className="text-sm text-muted mt-3 max-w-2xl">
-              {selectedSubject.description}
-            </p>
+            <p className="mt-3 max-w-2xl text-sm text-muted">{selectedSubject.description}</p>
           )}
         </div>
 
@@ -243,21 +237,16 @@ export default function LibraryPage() {
             onClose={() => setPdfViewer(null)}
           />
         ) : resourcesLoading ? (
-          <div className="flex items-center justify-center py-16">
-            <LuLoader className="w-6 h-6 text-primary animate-spin" />
-          </div>
+          <Spinner className="py-16" />
         ) : resources.length === 0 ? (
-          <div className="bg-card rounded-xl border border-border p-12 text-center">
-            <LuBookOpen className="w-12 h-12 text-muted mx-auto mb-4" />
-            <p className="text-sm text-muted">
-              No resources available yet for {selectedSubject.name}.
-            </p>
-            <p className="text-xs text-muted mt-1">
-              Check back later — new materials are being added regularly.
-            </p>
-          </div>
+          <EmptyState
+            tone="primary"
+            icon={<LuBookOpen className="h-6 w-6" />}
+            title={`No resources yet for ${selectedSubject.name}`}
+            description="Check back later — new materials are being added regularly."
+          />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
             {resources.map((resource) => (
               <ResourceCard key={resource.id} resource={resource} onRead={handleRead} />
             ))}
@@ -269,55 +258,56 @@ export default function LibraryPage() {
 
   // Subject grid view
   return (
-    <div>
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-foreground">Library</h1>
-        <p className="text-muted mt-1">
-          Browse textbooks and study materials for your subjects.
-        </p>
-      </div>
+    <div className="animate-fade-in">
+      <PageHeader
+        title="Library"
+        description="Browse textbooks and study materials for your subjects."
+      />
 
       {error ? (
-        <div className="bg-card rounded-xl border border-border p-12 text-center">
-          <LuBook className="w-12 h-12 text-danger mx-auto mb-4" />
-          <p className="text-sm font-medium text-foreground">{error}</p>
-          <button
-            onClick={() => window.location.reload()}
-            className="mt-4 text-xs font-medium text-primary hover:underline"
-          >
-            Reload page
-          </button>
-        </div>
+        <EmptyState
+          tone="primary"
+          icon={<LuBook className="h-6 w-6" />}
+          title="Something went wrong"
+          description={error}
+          action={
+            <button onClick={() => window.location.reload()} className={buttonClass("secondary", "md")}>
+              Reload page
+            </button>
+          }
+        />
       ) : subjects.length === 0 ? (
-        <div className="bg-card rounded-xl border border-border p-12 text-center">
-          <LuBook className="w-12 h-12 text-muted mx-auto mb-4" />
-          <p className="text-sm text-muted">
-            No subjects available. Please set your track in settings.
-          </p>
-        </div>
+        <EmptyState
+          icon={<LuInbox className="h-6 w-6" />}
+          title="No subjects available"
+          description="Please set your track in settings to see relevant subjects."
+        />
       ) : (
         Array.from(grouped.entries()).map(([category, list]) => (
           <div key={category} className="mb-10">
-            <h2 className="text-sm font-semibold text-muted uppercase tracking-wider mb-4">
+            <h2 className="section-label mb-4">
               {TRACK_LABELS[category as TrackCategory]} Subjects
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {list.map((subject) => (
                 <button
                   key={subject.id}
                   onClick={() => openSubject(subject)}
-                  className="flex items-center gap-4 bg-card rounded-xl border border-border p-4 hover:shadow-md hover:border-primary/30 transition-all text-left"
+                  className="card card-interactive flex items-center gap-4 p-4 text-left"
                 >
                   <span
-                    className={`w-10 h-10 rounded-lg flex items-center justify-center text-xs font-bold border flex-shrink-0 ${TRACK_COLORS[subject.trackCategory as TrackCategory]}`}
+                    className={cn(
+                      "flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl border text-xs font-bold",
+                      TRACK_COLORS[subject.trackCategory as TrackCategory],
+                    )}
                   >
                     {subject.code}
                   </span>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-medium text-foreground text-sm truncate">
+                  <div className="min-w-0 flex-1">
+                    <h3 className="truncate text-sm font-semibold text-foreground">
                       {subject.name}
                     </h3>
-                    <p className="text-xs text-muted mt-1">
+                    <p className="mt-0.5 text-xs text-muted">
                       {subject._count.resources === 0
                         ? "No resources yet"
                         : `${subject._count.resources} resource${subject._count.resources === 1 ? "" : "s"}`}

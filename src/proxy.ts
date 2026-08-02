@@ -3,10 +3,17 @@ import { getToken } from "next-auth/jwt";
 
 const AUTH_ROUTES = ["/login", "/register"];
 
+// Public marketing page — no account required to view it.
+const PUBLIC_ROUTES = ["/"];
+
 function isAuthRoute(pathname: string) {
   return AUTH_ROUTES.some(
     (route) => pathname === route || pathname.startsWith(`${route}/`),
   );
+}
+
+function isPublicRoute(pathname: string) {
+  return PUBLIC_ROUTES.includes(pathname);
 }
 
 export default async function proxy(req: NextRequest) {
@@ -17,13 +24,20 @@ export default async function proxy(req: NextRequest) {
     secret: process.env.AUTH_SECRET,
   });
 
+  // Signed-in users belong in the app, not on the marketing page.
+  if (pathname === "/" && token) {
+    return NextResponse.redirect(new URL("/dashboard", req.url));
+  }
+
   if (isAuthRoute(pathname)) {
     return token
-      ? NextResponse.redirect(new URL("/", req.url))
+      ? NextResponse.redirect(new URL("/dashboard", req.url))
       : NextResponse.next();
   }
 
   if (token) return NextResponse.next();
+
+  if (isPublicRoute(pathname)) return NextResponse.next();
 
   if (pathname.startsWith("/api/")) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

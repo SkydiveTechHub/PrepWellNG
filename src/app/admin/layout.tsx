@@ -23,7 +23,7 @@ export default async function AdminLayout({
     where: { id: session.user.id },
     select: { role: true },
   });
-  if (user?.role !== "ADMIN") redirect("/");
+  if (user?.role !== "ADMIN") redirect("/dashboard");
 
   return (
     <div className="min-h-full">
@@ -48,7 +48,7 @@ export default async function AdminLayout({
           </nav>
           <div className="px-3 pt-3 border-t border-border mt-3">
             <Link
-              href="/"
+              href="/dashboard"
               className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium text-muted hover:text-foreground transition-colors"
             >
               <LuArrowLeft className="w-3.5 h-3.5" />

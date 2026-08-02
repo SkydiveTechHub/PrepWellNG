@@ -43,11 +43,9 @@ export async function POST(req: NextRequest) {
       where: { code: { in: subjectCodes } },
       select: { id: true, code: true, name: true },
     });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const subjectMap = new Map<string, SubjectRef>(
-      subjects.map((s: any) => [s.code.toUpperCase(), s as SubjectRef])
+      subjects.map((s) => [s.code.toUpperCase(), s])
     );
-
     // Resolve topic slugs to IDs (batch lookup)
     const topicSlugs = [
       ...new Set(questions.filter((q) => q.topicSlug).map((q) => q.topicSlug!)),
@@ -58,9 +56,8 @@ export async function POST(req: NextRequest) {
         where: { slug: { in: topicSlugs } },
         select: { id: true, slug: true, subjectId: true },
       });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       topicMap = new Map<string, TopicRef>(
-        topics.map((t: any) => [t.slug, { id: t.id, subjectId: t.subjectId }])
+        topics.map((t) => [t.slug, { id: t.id, subjectId: t.subjectId }])
       );
     }
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { LuSearch, LuTrash2, LuChevronLeft, LuChevronRight, LuCircleAlert, LuRefreshCw } from "react-icons/lu";
+import { LuSearch, LuTrash2, LuChevronLeft, LuChevronRight, LuCircleAlert } from "react-icons/lu";
 
 interface Question {
   id: string;
@@ -48,6 +48,9 @@ export default function AdminQuestionsPage() {
   }, [page, search, examFilter]);
 
   useEffect(() => {
+    // This effect intentionally triggers data loading on mount and whenever the
+    // filter/page inputs change; fetchQuestions is memoized over those inputs.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchQuestions();
   }, [fetchQuestions]);
 
