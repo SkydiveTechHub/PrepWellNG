@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "prepwell",
   "version": "0.1.0",
   "private": true,
@@ -8,8 +8,8 @@
     "postinstall": "prisma generate",
     "start": "next start",
     "lint": "eslint",
-    "test": "node --import tsx --test --test-force-exit scripts/test-spaced-repetition.mts scripts/test-learning-path-graph.mts scripts/test-learning-path-state.mts scripts/test-learning-path-recommend.mts scripts/test-learning-path-revision.mts scripts/test-learning-path-plan.mts scripts/test-learning-path-pretest.mts",
-    "test:path": "node --import tsx --test --test-force-exit scripts/test-learning-path-graph.mts scripts/test-learning-path-state.mts scripts/test-learning-path-recommend.mts scripts/test-learning-path-revision.mts scripts/test-learning-path-plan.mts scripts/test-learning-path-pretest.mts",
+    "test": "node --import tsx --test --test-force-exit scripts/test-spaced-repetition.mts scripts/test-learning-path-graph.mts scripts/test-learning-path-state.mts scripts/test-learning-path-recommend.mts scripts/test-learning-path-revision.mts scripts/test-learning-path-plan.mts scripts/test-learning-path-pretest.mts scripts/test-admin-question.mts",
+    "test:path": "node --import tsx --test --test-force-exit scripts/test-learning-path-graph.mts scripts/test-learning-path-state.mts scripts/test-learning-path-recommend.mts scripts/test-learning-path-revision.mts scripts/test-learning-path-plan.mts scripts/test-learning-path-pretest.mts scripts/test-admin-question.mts",
     "import-questions": "npx tsx scripts/import-questions.ts",
     "seed-flashcards": "npx tsx scripts/seed-flashcards.ts"
   },
