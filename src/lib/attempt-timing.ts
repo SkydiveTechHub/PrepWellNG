@@ -37,6 +37,43 @@ export function deadlineFor(
 }
 
 /**
+ * How long an untimed attempt (e.g. the quick quiz) stays resumable before
+ * it's treated as abandoned. Untimed assessments have no deadline to expire
+ * against, so without a fallback window an abandoned attempt — and the same
+ * handful of questions — would be handed back to the student forever.
+ *
+ * Shared by `reapStaleAttempts` and `findResumableAttempt` in
+ * `attempt-lifecycle.ts` so the two can never drift apart.
+ */
+export const UNTIMED_STALE_HOURS = 24;
+const UNTIMED_STALE_MS = UNTIMED_STALE_HOURS * 60 * 60 * 1000;
+
+/**
+ * Whether an IN_PROGRESS attempt should stop being resumable: past its
+ * deadline plus grace when timed, or past the untimed fallback window when
+ * not. The single source of truth for "abandoned" — both the reaper (marks
+ * attempts TIMED_OUT) and the resume lookup (refuses to hand one back) call
+ * this rather than each re-deriving the rule.
+ */
+export function isAttemptStale({
+  startedAt,
+  timeLimitMinutes,
+  now,
+  graceSeconds = SUBMIT_GRACE_SECONDS,
+}: {
+  startedAt: Date;
+  timeLimitMinutes: number | null | undefined;
+  now: Date;
+  graceSeconds?: number;
+}): boolean {
+  const deadline = deadlineFor(startedAt, timeLimitMinutes);
+  if (deadline) {
+    return now.getTime() > deadline.getTime() + graceSeconds * 1000;
+  }
+  return now.getTime() - startedAt.getTime() > UNTIMED_STALE_MS;
+}
+
+/**
  * Reconciles what the client reported against what the clock allows.
  *
  * `reportedSeconds` is never trusted upward: it is clamped to the elapsed wall

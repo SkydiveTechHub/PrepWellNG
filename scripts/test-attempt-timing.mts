@@ -2,8 +2,10 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
   SUBMIT_GRACE_SECONDS,
+  UNTIMED_STALE_HOURS,
   deadlineFor,
   evaluateAttemptTiming,
+  isAttemptStale,
 } from "../src/lib/attempt-timing";
 
 const START = new Date("2026-08-04T09:00:00.000Z");
@@ -153,4 +155,61 @@ test("timing exposes the server-computed deadline", () => {
     now: at(10),
   });
   assert.deepEqual(timing.deadlineAt, new Date("2026-08-04T09:30:00.000Z"));
+});
+
+// ─── isAttemptStale ────────────────────────────────────────
+
+test("isAttemptStale is false for a timed attempt inside its deadline", () => {
+  assert.equal(
+    isAttemptStale({ startedAt: START, timeLimitMinutes: 60, now: at(1800) }),
+    false,
+  );
+});
+
+test("isAttemptStale is true for a timed attempt past deadline and grace", () => {
+  assert.equal(
+    isAttemptStale({
+      startedAt: START,
+      timeLimitMinutes: 60,
+      now: at(3600 + SUBMIT_GRACE_SECONDS + 1),
+    }),
+    true,
+  );
+});
+
+test("isAttemptStale is false for a timed attempt inside the grace window", () => {
+  assert.equal(
+    isAttemptStale({
+      startedAt: START,
+      timeLimitMinutes: 60,
+      now: at(3600 + SUBMIT_GRACE_SECONDS),
+    }),
+    false,
+  );
+});
+
+test("isAttemptStale is false for an untimed attempt inside the fallback window", () => {
+  const now = at(UNTIMED_STALE_HOURS * 3600 - 60);
+  assert.equal(
+    isAttemptStale({ startedAt: START, timeLimitMinutes: null, now }),
+    false,
+  );
+});
+
+test("isAttemptStale is true for an untimed attempt past the fallback window", () => {
+  const now = at(UNTIMED_STALE_HOURS * 3600 + 1);
+  assert.equal(
+    isAttemptStale({ startedAt: START, timeLimitMinutes: null, now }),
+    true,
+  );
+});
+
+test("isAttemptStale at the exact untimed boundary is not yet stale", () => {
+  // Strictly past the window is stale; exactly at it is not — mirrors the
+  // timed side, where the grace period's own boundary is still on time.
+  const now = at(UNTIMED_STALE_HOURS * 3600);
+  assert.equal(
+    isAttemptStale({ startedAt: START, timeLimitMinutes: null, now }),
+    false,
+  );
 });

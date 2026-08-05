@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { SUBMIT_GRACE_SECONDS, deadlineFor } from "@/lib/attempt-timing";
+import { deadlineFor, isAttemptStale } from "@/lib/attempt-timing";
 
 // Attempt reuse and cleanup.
 //
@@ -47,16 +47,15 @@ export async function reapStaleAttempts(studentId: string): Promise<number> {
     take: 100,
   });
 
-  const now = Date.now();
+  const now = new Date();
   const expired = stale
-    .filter((attempt) => {
-      const deadline = deadlineFor(
-        attempt.startedAt,
-        attempt.assessment.timeLimitMinutes,
-      );
-      if (!deadline) return false;
-      return now > deadline.getTime() + SUBMIT_GRACE_SECONDS * 1000;
-    })
+    .filter((attempt) =>
+      isAttemptStale({
+        startedAt: attempt.startedAt,
+        timeLimitMinutes: attempt.assessment.timeLimitMinutes,
+        now,
+      }),
+    )
     .map((attempt) => attempt.id);
 
   if (expired.length === 0) return 0;
@@ -147,14 +146,19 @@ export async function findResumableAttempt({
     },
   });
 
-  const now = Date.now();
+  const now = new Date();
   for (const candidate of candidates) {
-    const deadline = deadlineFor(
-      candidate.startedAt,
-      candidate.assessment.timeLimitMinutes,
-    );
-    // An untimed attempt stays resumable; a timed one only while it has time.
-    if (deadline && now >= deadline.getTime()) continue;
+    // An untimed attempt stays resumable for a fallback window; a timed one
+    // only while it has time (plus the submit grace period).
+    if (
+      isAttemptStale({
+        startedAt: candidate.startedAt,
+        timeLimitMinutes: candidate.assessment.timeLimitMinutes,
+        now,
+      })
+    ) {
+      continue;
+    }
     if (candidate.assessment.questions.length === 0) continue;
 
     // Same subject and length is not the same quiz. Only resume a paper whose
@@ -172,7 +176,10 @@ export async function findResumableAttempt({
       assessmentId: candidate.assessment.id,
       title: candidate.assessment.title,
       timeLimitMinutes: candidate.assessment.timeLimitMinutes,
-      deadlineAt: deadline,
+      deadlineAt: deadlineFor(
+        candidate.startedAt,
+        candidate.assessment.timeLimitMinutes,
+      ),
       examYear: candidate.assessment.examYear,
       questions: candidate.assessment.questions,
     };

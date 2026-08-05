@@ -32,7 +32,8 @@ export type GeneratedExam = {
   attemptId: string;
   title: string;
   questions: ExamQuestion[];
-  timeLimitMinutes: number;
+  /** Null for an untimed exam, e.g. the quick quiz. */
+  timeLimitMinutes: number | null;
   /** Server-authoritative deadline. Preferred over the local clock when present. */
   deadlineAt?: string;
   /** True when the server handed back an unfinished attempt rather than a new one. */

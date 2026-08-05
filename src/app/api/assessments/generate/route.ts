@@ -147,7 +147,12 @@ export async function POST(req: NextRequest) {
         totalMarks: selectedIds.length,
         // ~1.5 min per question; null for an explicitly untimed quiz such as
         // the classroom quick quiz, so `deadlineFor` never computes one.
-        timeLimitMinutes: untimed ? null : Math.ceil(selectedIds.length * 1.5),
+        // Which quizzes are untimed is a product rule, not a client choice —
+        // only topic quizzes (no examType) may go untimed. A past paper
+        // (examType set) always keeps its JAMB-style timing regardless of
+        // what the client sends.
+        timeLimitMinutes:
+          untimed && !examType ? null : Math.ceil(selectedIds.length * 1.5),
         questions: {
           create: selectedIds.map((questionId, i) => ({
             questionId,
