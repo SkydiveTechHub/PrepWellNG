@@ -124,10 +124,19 @@ test("topicNeighbours stops at the start of a class", () => {
   assert.equal(next, null);
 });
 
-test("topicNeighbours orders terms by curriculum, not alphabetically", () => {
-  // FIRST < SECOND < THIRD; alphabetical would put THIRD before SECOND.
-  const { next } = topicNeighbours(SYLLABUS, "c");
-  assert.equal(next?.slug, "d");
+test("topicNeighbours sorts by term before orderIndex", () => {
+  // orderIndex deliberately disagrees with term order: sorting by orderIndex
+  // alone would put the SECOND-term topic first and pick the wrong neighbour.
+  const topics = [
+    topic("late-first", "SS1", "FIRST", 9),
+    topic("early-second", "SS1", "SECOND", 0),
+  ];
+  const { next } = topicNeighbours(topics, "late-first");
+  assert.equal(next?.slug, "early-second");
+
+  const back = topicNeighbours(topics, "early-second");
+  assert.equal(back.previous?.slug, "late-first");
+  assert.equal(back.next, null);
 });
 
 test("topicNeighbours returns nulls for an unknown slug", () => {
