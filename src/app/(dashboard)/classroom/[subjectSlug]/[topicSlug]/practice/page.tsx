@@ -1,6 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { resolveTopicLesson, topicLessonSelect } from "@/lib/classroom";
 import { PracticeExit } from "@/components/lesson/practice-exit";
 
 export default async function TopicPracticePage({
@@ -24,17 +25,13 @@ export default async function TopicPracticePage({
     select: {
       id: true,
       title: true,
-      subtopics: {
-        orderBy: { orderIndex: "asc" },
-        take: 1,
-        select: { lessons: { orderBy: { createdAt: "asc" }, take: 1 } },
-      },
+      subtopics: topicLessonSelect,
     },
   });
   if (!topic) notFound();
 
   // Every topic has exactly one lesson (150/150 in the live database).
-  const lesson = topic.subtopics[0]?.lessons[0] ?? null;
+  const lesson = resolveTopicLesson(topic);
   const topicHref = `/classroom/${subjectSlug}/${topicSlug}`;
   if (!lesson) redirect(topicHref);
 

@@ -18,7 +18,12 @@ import {
   loadPretestPassed,
 } from "@/engines/learning/availability";
 import { parseBlocks } from "@/lib/lesson-engine";
-import { topicNeighbours, type TopicNavItem } from "@/lib/classroom";
+import {
+  resolveTopicLesson,
+  topicLessonSelect,
+  topicNeighbours,
+  type TopicNavItem,
+} from "@/lib/classroom";
 import { PretestDialog } from "@/components/path/pretest-dialog";
 import { LessonNotes } from "@/components/classroom/lesson-notes";
 import { TopicActionBar } from "@/components/classroom/topic-action-bar";
@@ -71,13 +76,7 @@ export default async function TopicDetailPage({
     where: { subjectId_slug: { subjectId: subject.id, slug: topicSlug } },
     include: {
       curriculumLevel: true,
-      subtopics: {
-        orderBy: { orderIndex: "asc" },
-        include: {
-          lessons: { orderBy: { createdAt: "asc" }, take: 1 },
-        },
-        take: 1,
-      },
+      subtopics: topicLessonSelect,
       _count: { select: { questions: true } },
     },
   });
@@ -86,13 +85,50 @@ export default async function TopicDetailPage({
   // Every topic has exactly one lesson (150/150 in the live database), but
   // this is coded defensively — a topic somehow missing one renders the page
   // without notes or the action bar rather than crashing.
-  const lesson = topic.subtopics[0]?.lessons[0] ?? null;
+  const lesson = resolveTopicLesson(topic);
 
-  // Learning Path Engine — graph-derived availability (algorithm B). The old
-  // "any lesson completed under the prereq" gate is superseded by composite
-  // mastery over every PREREQUISITE edge. A readiness pretest (≥80% on 5
-  // questions) self-certifies a topic and satisfies its incoming gates.
-  const pretestPassed = await loadPretestPassed(db, session.user.id, subject.id);
+  // Everything below only depends on `subject`/`topic`/`lesson`, already in
+  // hand, so it's fetched in parallel rather than as sequential awaits.
+  const [pretestPassed, deck, siblingTopics, progress] = await Promise.all([
+    // Learning Path Engine — graph-derived availability (algorithm B). The
+    // old "any lesson completed under the prereq" gate is superseded by
+    // composite mastery over every PREREQUISITE edge. A readiness pretest
+    // (≥80% on 5 questions) self-certifies a topic and satisfies its
+    // incoming gates.
+    loadPretestPassed(db, session.user.id, subject.id),
+    lesson
+      ? db.flashcardDeck.findUnique({
+          where: { lessonId_source: { lessonId: lesson.id, source: "LESSON" } },
+          select: { id: true },
+        })
+      : Promise.resolve(null),
+    // Sibling topics across the subject, for previous/next navigation within
+    // the current class level.
+    db.topic.findMany({
+      where: { subjectId: subject.id },
+      select: {
+        slug: true,
+        title: true,
+        orderIndex: true,
+        curriculumLevel: { select: { classLevel: true, term: true } },
+      },
+    }),
+    // Whether the student has started the lesson's cards — gates the
+    // Practice action, which requires checkpoint data to score against.
+    lesson
+      ? db.studentProgress.findUnique({
+          where: {
+            studentId_subjectId_topicId_lessonId: {
+              studentId: session.user.id,
+              subjectId: subject.id,
+              topicId: topic.id,
+              lessonId: lesson.id,
+            },
+          },
+          select: { completionPercent: true },
+        })
+      : Promise.resolve(null),
+  ]);
   const pretestCertified = pretestPassed.has(topic.id);
   const { ready: topicReady, state, prereqs } = await computeTopicReadiness({
     prisma: db,
@@ -102,25 +138,8 @@ export default async function TopicDetailPage({
     pretestPassed,
   });
   const topicState = state.get(topic.id);
+  const canPractice = (progress?.completionPercent ?? 0) > 0;
 
-  const deck = lesson
-    ? await db.flashcardDeck.findUnique({
-        where: { lessonId_source: { lessonId: lesson.id, source: "LESSON" } },
-        select: { id: true },
-      })
-    : null;
-
-  // Sibling topics across the subject, for previous/next navigation within
-  // the current class level.
-  const siblingTopics = await db.topic.findMany({
-    where: { subjectId: subject.id },
-    select: {
-      slug: true,
-      title: true,
-      orderIndex: true,
-      curriculumLevel: { select: { classLevel: true, term: true } },
-    },
-  });
   const navItems: TopicNavItem[] = siblingTopics.map((t) => ({
     slug: t.slug,
     title: t.title,
@@ -278,6 +297,7 @@ export default async function TopicDetailPage({
           lessonId={lesson.id}
           hasDeck={Boolean(deck)}
           deckId={deck?.id ?? null}
+          canPractice={canPractice}
         />
       )}
 

@@ -12,6 +12,7 @@ import {
 } from "react-icons/lu";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { resolveTopicLesson, topicLessonSelect } from "@/lib/classroom";
 import {
   bestOfLastThree,
   computeMasteryScore,
@@ -66,16 +67,12 @@ export default async function TopicPracticeResultPage({
     select: {
       id: true,
       title: true,
-      subtopics: {
-        orderBy: { orderIndex: "asc" },
-        take: 1,
-        select: { lessons: { orderBy: { createdAt: "asc" }, take: 1 } },
-      },
+      subtopics: topicLessonSelect,
     },
   });
   if (!topic) notFound();
 
-  const lesson = topic.subtopics[0]?.lessons[0] ?? null;
+  const lesson = resolveTopicLesson(topic);
   if (!lesson) redirect(topicHref);
 
   const attempt = await db.assessmentAttempt.findFirst({

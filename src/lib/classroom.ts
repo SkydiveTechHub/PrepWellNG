@@ -51,6 +51,35 @@ export type TopicNavItem = {
 };
 
 /**
+ * Prisma select fragment for a topic's `subtopics` relation, shaped to reach
+ * "the topic's single lesson" — every topic has exactly one subtopic and one
+ * lesson (150/150 in the live database). Spread this into every query that
+ * needs to resolve that lesson, so the "exactly one" assumption is encoded in
+ * one place rather than copy-pasted at each call site.
+ *
+ * `as const` keeps `orderBy`'s direction literals (`"asc"`) instead of
+ * widening to `string`, which Prisma's generated types require.
+ */
+export const topicLessonSelect = {
+  orderBy: { orderIndex: "asc" },
+  take: 1,
+  select: {
+    lessons: { orderBy: { createdAt: "asc" }, take: 1 },
+  },
+} as const;
+
+/**
+ * The topic's single lesson, or `null` if it somehow has none (defensive —
+ * every authored topic has one). Pairs with `topicLessonSelect`: callers query
+ * `subtopics: topicLessonSelect` then pass the result here.
+ */
+export function resolveTopicLesson<Lesson>(topic: {
+  subtopics: readonly { lessons: readonly Lesson[] }[];
+}): Lesson | null {
+  return topic.subtopics[0]?.lessons[0] ?? null;
+}
+
+/**
  * Previous and next topic, within the same class.
  *
  * Ordering runs term-by-term then by `orderIndex`, so navigation carries across

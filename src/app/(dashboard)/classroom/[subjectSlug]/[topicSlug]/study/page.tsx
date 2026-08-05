@@ -10,6 +10,7 @@ import {
   type LessonBlock,
 } from "@/lib/lesson-engine";
 import { computeLessonAccess } from "@/engines/learning/availability";
+import { resolveTopicLesson, topicLessonSelect } from "@/lib/classroom";
 import { LessonPlayer } from "@/components/lesson/lesson-player";
 
 export default async function StudyPage({
@@ -34,18 +35,14 @@ export default async function StudyPage({
       id: true,
       title: true,
       prerequisiteTopicId: true,
-      subtopics: {
-        orderBy: { orderIndex: "asc" },
-        take: 1,
-        select: { lessons: { orderBy: { createdAt: "asc" }, take: 1 } },
-      },
+      subtopics: topicLessonSelect,
     },
   });
   if (!topic) notFound();
 
   // Every topic has exactly one lesson (150/150 in the live database); a
   // topic without one falls back to the topic page rather than 404ing here.
-  const lesson = topic.subtopics[0]?.lessons[0] ?? null;
+  const lesson = resolveTopicLesson(topic);
   const backHref = `/classroom/${subjectSlug}/${topicSlug}`;
   if (!lesson) redirect(backHref);
 

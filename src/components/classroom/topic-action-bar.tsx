@@ -24,12 +24,20 @@ export function TopicActionBar({
   lessonId,
   hasDeck,
   deckId,
+  canPractice,
 }: {
   subjectSlug: string;
   topicSlug: string;
   lessonId: string | null;
   hasDeck: boolean;
   deckId: string | null;
+  /**
+   * False until the student has started the lesson's cards — the practice
+   * test scores against checkpoint data that doesn't exist yet. The page
+   * still enforces this server-side on `/practice` itself; this only keeps
+   * the button from silently bouncing an unprepared student there.
+   */
+  canPractice: boolean;
 }) {
   const router = useRouter();
   const [generating, setGenerating] = useState(false);
@@ -86,11 +94,28 @@ export function TopicActionBar({
           )}
           {hasDeck ? "Flashcards" : "Build flashcards"}
         </button>
-        <Link href={practiceHref} className={buttonClass("outline", "md")}>
-          <LuClipboardCheck className="h-4 w-4" />
-          Practice
-        </Link>
+        {canPractice ? (
+          <Link href={practiceHref} className={buttonClass("outline", "md")}>
+            <LuClipboardCheck className="h-4 w-4" />
+            Practice
+          </Link>
+        ) : (
+          <button
+            type="button"
+            disabled
+            title="Study the lesson first to unlock the practice test"
+            className={cn(buttonClass("outline", "md"), "cursor-not-allowed")}
+          >
+            <LuClipboardCheck className="h-4 w-4" />
+            Practice
+          </button>
+        )}
       </div>
+      {!canPractice && (
+        <p className="mt-2 text-xs text-muted">
+          Study the lesson first to unlock the practice test.
+        </p>
+      )}
       {error && <p className="mt-2 text-xs font-medium text-danger">{error}</p>}
     </div>
   );
