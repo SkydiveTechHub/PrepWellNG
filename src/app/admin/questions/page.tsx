@@ -152,9 +152,21 @@ function AdminQuestionsPageInner() {
     setDeleteError(null);
     try {
       const res = await fetch(`/api/admin/questions?id=${q.id}`, { method: "DELETE" });
+      const data = await res.json().catch(() => null);
       if (!res.ok) {
-        const data = await res.json().catch(() => null);
         setDeleteError(data?.error ?? `Could not delete question (${res.status}).`);
+        return;
+      }
+      const refused = data?.refused?.[0];
+      if (refused) {
+        setDeleteError(
+          `Can't delete: ${refused.responseCount} student response(s), ${refused.assessmentCount} assessment(s) depend on this question.`,
+        );
+        return;
+      }
+      if (data?.notFound?.includes(q.id)) {
+        setDeleteError("This question was already deleted (not found).");
+        setQuestions((prev) => prev.filter((item) => item.id !== q.id));
         return;
       }
       setQuestions((prev) => prev.filter((item) => item.id !== q.id));

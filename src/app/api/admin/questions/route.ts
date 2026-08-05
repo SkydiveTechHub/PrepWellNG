@@ -187,16 +187,30 @@ export async function DELETE(req: NextRequest) {
       ids = parsed.data.ids;
     }
 
+    // Resolve which requested ids genuinely exist BEFORE partitioning. An id
+    // that doesn't exist at all produces zero rows in both dependent
+    // groupBys below, which is indistinguishable from "exists with no
+    // dependents" unless existence is checked separately — without this, a
+    // non-existent id would silently land in `deletable`, match nothing in
+    // `deleteMany`, and still be reported as deleted.
+    const existing = await db.question.findMany({
+      where: { id: { in: ids } },
+      select: { id: true },
+    });
+    const existingIds = new Set(existing.map((q) => q.id));
+    const notFound = ids.filter((id) => !existingIds.has(id));
+    const existingRequestedIds = ids.filter((id) => existingIds.has(id));
+
     // Count dependents in two grouped queries rather than one per id.
     const [responses, assessments] = await Promise.all([
       db.questionResponse.groupBy({
         by: ["questionId"],
-        where: { questionId: { in: ids } },
+        where: { questionId: { in: existingRequestedIds } },
         _count: { questionId: true },
       }),
       db.assessmentQuestion.groupBy({
         by: ["questionId"],
-        where: { questionId: { in: ids } },
+        where: { questionId: { in: existingRequestedIds } },
         _count: { questionId: true },
       }),
     ]);
@@ -208,7 +222,7 @@ export async function DELETE(req: NextRequest) {
       assessments.map((r) => [r.questionId, r._count.questionId]),
     );
 
-    const refused = ids
+    const refused = existingRequestedIds
       .map((id) => ({
         id,
         responseCount: responseCounts.get(id) ?? 0,
@@ -217,7 +231,7 @@ export async function DELETE(req: NextRequest) {
       .filter((row) => row.responseCount > 0 || row.assessmentCount > 0);
 
     const refusedIds = new Set(refused.map((r) => r.id));
-    const deletable = ids.filter((id) => !refusedIds.has(id));
+    const deletable = existingRequestedIds.filter((id) => !refusedIds.has(id));
 
     if (deletable.length > 0) {
       await db.question.deleteMany({ where: { id: { in: deletable } } });
@@ -227,14 +241,14 @@ export async function DELETE(req: NextRequest) {
         action: "question.delete",
         entity: "Question",
         entityId: deletable.length === 1 ? deletable[0] : null,
-        summary: `Deleted ${deletable.length} question(s); refused ${refused.length} with dependents`,
+        summary: `Deleted ${deletable.length} question(s); refused ${refused.length} with dependents; ${notFound.length} not found`,
       });
 
       // The subject catalogue caches per-subject question counts.
       revalidateTag(CATALOGUE_TAG, "max");
     }
 
-    return NextResponse.json({ deleted: deletable, refused });
+    return NextResponse.json({ deleted: deletable, refused, notFound });
   } catch (error) {
     console.error("Error deleting questions:", error);
     return NextResponse.json(
