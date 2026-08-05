@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { Prisma } from "@prisma/client";
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/admin-guard";
+import { recordAudit } from "@/lib/admin-audit";
 import { bulkImportSchema } from "@/lib/validators";
+import { checkTopicOwnership } from "@/lib/admin-question";
 import { revalidateTag } from "next/cache";
 import { CATALOGUE_TAG } from "@/lib/catalogue";
 
@@ -83,7 +85,12 @@ export async function POST(req: NextRequest) {
           });
           continue;
         }
-        if (topic.subjectId !== subject.id) {
+        const ownership = checkTopicOwnership({
+          topicRef: q.topicSlug,
+          topicSubjectId: topic.subjectId,
+          subjectId: subject.id,
+        });
+        if (ownership) {
           results.errors.push({
             index: i,
             reason: `Topic "${q.topicSlug}" does not belong to subject "${subject.name}"`,
@@ -142,6 +149,13 @@ export async function POST(req: NextRequest) {
         });
       }
     }
+
+    await recordAudit({
+      actorId: guard.actor.id,
+      action: "question.import",
+      entity: "Question",
+      summary: `Imported ${results.imported}, skipped ${results.skipped}, ${results.errors.length} errors`,
+    });
 
     // The subject catalogue caches per-subject question counts.
     if (results.imported > 0) revalidateTag(CATALOGUE_TAG, "max");
