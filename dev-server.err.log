@@ -1,0 +1,324 @@
+[31m[auth][error][0m JWTSessionError: Read more at https://errors.authjs.dev#jwtsessionerror
+[31m[auth][cause][0m: PrismaClientInitializationError: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["db"].user.findUnique()` invocation in
+C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1xn5hga._.js:116:160
+
+  113 if (token.sub && session.user) {
+  114     session.user.id = token.sub;
+  115     // Fetch additional user data
+→ 116     const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["db"].user.findUnique(
+Can't reach database server at `aws-0-eu-west-1.pooler.supabase.com:6543`
+
+Please make sure your database server is running at `aws-0-eu-west-1.pooler.supabase.com:6543`.
+    at Vn.handleRequestError (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:7640)
+    at Vn.handleAndLogRequestError (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:6663)
+    at Vn.request (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:6370)
+    at async l (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:130:9617)
+    at async Object.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1xn5hga._.js:116:30)
+    at async Object.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__203k_lp._.js:3935:17)
+    at async Module.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:4584:36)
+    at async AuthInternal (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:5164:24)
+    at async Auth (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:5403:34)
+    at async DashboardLayout (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1xn5hga._.js:283:21)
+[31m[auth][details][0m: {}
+[31m[auth][error][0m JWTSessionError: Read more at https://errors.authjs.dev#jwtsessionerror
+[31m[auth][cause][0m: PrismaClientInitializationError: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["db"].user.findUnique()` invocation in
+C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1xn5hga._.js:116:160
+
+  113 if (token.sub && session.user) {
+  114     session.user.id = token.sub;
+  115     // Fetch additional user data
+→ 116     const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["db"].user.findUnique(
+Can't reach database server at `aws-0-eu-west-1.pooler.supabase.com:6543`
+
+Please make sure your database server is running at `aws-0-eu-west-1.pooler.supabase.com:6543`.
+    at Vn.handleRequestError (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:7640)
+    at Vn.handleAndLogRequestError (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:6663)
+    at Vn.request (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:6370)
+    at async l (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:130:9617)
+    at async Object.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1xn5hga._.js:116:30)
+    at async Object.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__203k_lp._.js:3935:17)
+    at async Module.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:4584:36)
+    at async AuthInternal (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:5164:24)
+    at async Auth (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:5403:34)
+    at async DashboardPage (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1zs7gm6._.js:3003:21)
+[31m[auth][details][0m: {}
+[31m[auth][error][0m JWTSessionError: Read more at https://errors.authjs.dev#jwtsessionerror
+[31m[auth][cause][0m: PrismaClientInitializationError: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["db"].user.findUnique()` invocation in
+C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1xn5hga._.js:116:160
+
+  113 if (token.sub && session.user) {
+  114     session.user.id = token.sub;
+  115     // Fetch additional user data
+→ 116     const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["db"].user.findUnique(
+Can't reach database server at `aws-0-eu-west-1.pooler.supabase.com:6543`
+
+Please make sure your database server is running at `aws-0-eu-west-1.pooler.supabase.com:6543`.
+    at Vn.handleRequestError (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:7640)
+    at Vn.handleAndLogRequestError (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:6663)
+    at Vn.request (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:6370)
+    at async l (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:130:9617)
+    at async Object.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1xn5hga._.js:116:30)
+    at async Object.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__203k_lp._.js:3935:17)
+    at async Module.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:4584:36)
+    at async AuthInternal (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:5164:24)
+    at async Auth (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:5403:34)
+    at async DashboardLayout (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1xn5hga._.js:283:21)
+[31m[auth][details][0m: {}
+[31m[auth][error][0m JWTSessionError: Read more at https://errors.authjs.dev#jwtsessionerror
+[31m[auth][cause][0m: PrismaClientInitializationError: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["db"].user.findUnique()` invocation in
+C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1xn5hga._.js:116:160
+
+  113 if (token.sub && session.user) {
+  114     session.user.id = token.sub;
+  115     // Fetch additional user data
+→ 116     const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["db"].user.findUnique(
+Can't reach database server at `aws-0-eu-west-1.pooler.supabase.com:6543`
+
+Please make sure your database server is running at `aws-0-eu-west-1.pooler.supabase.com:6543`.
+    at Vn.handleRequestError (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:7640)
+    at Vn.handleAndLogRequestError (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:6663)
+    at Vn.request (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:6370)
+    at async l (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:130:9617)
+    at async Object.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1xn5hga._.js:116:30)
+    at async Object.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__203k_lp._.js:3935:17)
+    at async Module.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:4584:36)
+    at async AuthInternal (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:5164:24)
+    at async Auth (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:5403:34)
+    at async DashboardPage (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1zs7gm6._.js:3003:21)
+[31m[auth][details][0m: {}
+[31m[auth][error][0m JWTSessionError: Read more at https://errors.authjs.dev#jwtsessionerror
+[31m[auth][cause][0m: PrismaClientInitializationError: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["db"].user.findUnique()` invocation in
+C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1xn5hga._.js:116:160
+
+  113 if (token.sub && session.user) {
+  114     session.user.id = token.sub;
+  115     // Fetch additional user data
+→ 116     const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["db"].user.findUnique(
+Can't reach database server at `aws-0-eu-west-1.pooler.supabase.com:6543`
+
+Please make sure your database server is running at `aws-0-eu-west-1.pooler.supabase.com:6543`.
+    at Vn.handleRequestError (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:7640)
+    at Vn.handleAndLogRequestError (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:6663)
+    at Vn.request (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:6370)
+    at async l (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:130:9617)
+    at async Object.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1xn5hga._.js:116:30)
+    at async Object.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__203k_lp._.js:3935:17)
+    at async Module.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:4584:36)
+    at async AuthInternal (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:5164:24)
+    at async Auth (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:5403:34)
+    at async DashboardLayout (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1xn5hga._.js:283:21)
+[31m[auth][details][0m: {}
+[31m[auth][error][0m JWTSessionError: Read more at https://errors.authjs.dev#jwtsessionerror
+[31m[auth][cause][0m: PrismaClientInitializationError: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["db"].user.findUnique()` invocation in
+C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1xn5hga._.js:116:160
+
+  113 if (token.sub && session.user) {
+  114     session.user.id = token.sub;
+  115     // Fetch additional user data
+→ 116     const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["db"].user.findUnique(
+Can't reach database server at `aws-0-eu-west-1.pooler.supabase.com:6543`
+
+Please make sure your database server is running at `aws-0-eu-west-1.pooler.supabase.com:6543`.
+    at Vn.handleRequestError (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:7640)
+    at Vn.handleAndLogRequestError (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:6663)
+    at Vn.request (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:6370)
+    at async l (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:130:9617)
+    at async Object.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1xn5hga._.js:116:30)
+    at async Object.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__203k_lp._.js:3935:17)
+    at async Module.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:4584:36)
+    at async AuthInternal (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:5164:24)
+    at async Auth (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:5403:34)
+    at async DashboardPage (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1zs7gm6._.js:3003:21)
+[31m[auth][details][0m: {}
+[31m[auth][error][0m JWTSessionError: Read more at https://errors.authjs.dev#jwtsessionerror
+[31m[auth][cause][0m: PrismaClientInitializationError: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["db"].user.findUnique()` invocation in
+C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1xn5hga._.js:116:160
+
+  113 if (token.sub && session.user) {
+  114     session.user.id = token.sub;
+  115     // Fetch additional user data
+→ 116     const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["db"].user.findUnique(
+Can't reach database server at `aws-0-eu-west-1.pooler.supabase.com:6543`
+
+Please make sure your database server is running at `aws-0-eu-west-1.pooler.supabase.com:6543`.
+    at Vn.handleRequestError (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:7640)
+    at Vn.handleAndLogRequestError (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:6663)
+    at Vn.request (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:6370)
+    at async l (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:130:9617)
+    at async Object.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1xn5hga._.js:116:30)
+    at async Object.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__203k_lp._.js:3935:17)
+    at async Module.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:4584:36)
+    at async AuthInternal (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:5164:24)
+    at async Auth (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:5403:34)
+    at async DashboardLayout (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1xn5hga._.js:283:21)
+[31m[auth][details][0m: {}
+[31m[auth][error][0m JWTSessionError: Read more at https://errors.authjs.dev#jwtsessionerror
+[31m[auth][cause][0m: PrismaClientInitializationError: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["db"].user.findUnique()` invocation in
+C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1xn5hga._.js:116:160
+
+  113 if (token.sub && session.user) {
+  114     session.user.id = token.sub;
+  115     // Fetch additional user data
+→ 116     const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["db"].user.findUnique(
+Can't reach database server at `aws-0-eu-west-1.pooler.supabase.com:6543`
+
+Please make sure your database server is running at `aws-0-eu-west-1.pooler.supabase.com:6543`.
+    at Vn.handleRequestError (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:7640)
+    at Vn.handleAndLogRequestError (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:6663)
+    at Vn.request (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:6370)
+    at async l (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:130:9617)
+    at async Object.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1xn5hga._.js:116:30)
+    at async Object.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__203k_lp._.js:3935:17)
+    at async Module.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:4584:36)
+    at async AuthInternal (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:5164:24)
+    at async Auth (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:5403:34)
+    at async DashboardPage (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1zs7gm6._.js:3003:21)
+[31m[auth][details][0m: {}
+[31m[auth][error][0m JWTSessionError: Read more at https://errors.authjs.dev#jwtsessionerror
+[31m[auth][cause][0m: PrismaClientInitializationError: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["db"].user.findUnique()` invocation in
+C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1xn5hga._.js:116:160
+
+  113 if (token.sub && session.user) {
+  114     session.user.id = token.sub;
+  115     // Fetch additional user data
+→ 116     const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["db"].user.findUnique(
+Can't reach database server at `aws-0-eu-west-1.pooler.supabase.com:6543`
+
+Please make sure your database server is running at `aws-0-eu-west-1.pooler.supabase.com:6543`.
+    at Vn.handleRequestError (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:7640)
+    at Vn.handleAndLogRequestError (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:6663)
+    at Vn.request (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:6370)
+    at async l (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:130:9617)
+    at async Object.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1xn5hga._.js:116:30)
+    at async Object.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__203k_lp._.js:3935:17)
+    at async Module.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:4584:36)
+    at async AuthInternal (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:5164:24)
+    at async Auth (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:5403:34)
+    at async DashboardLayout (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1xn5hga._.js:283:21)
+[31m[auth][details][0m: {}
+[31m[auth][error][0m JWTSessionError: Read more at https://errors.authjs.dev#jwtsessionerror
+[31m[auth][cause][0m: PrismaClientInitializationError: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["db"].user.findUnique()` invocation in
+C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1xn5hga._.js:116:160
+
+  113 if (token.sub && session.user) {
+  114     session.user.id = token.sub;
+  115     // Fetch additional user data
+→ 116     const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["db"].user.findUnique(
+Can't reach database server at `aws-0-eu-west-1.pooler.supabase.com:6543`
+
+Please make sure your database server is running at `aws-0-eu-west-1.pooler.supabase.com:6543`.
+    at Vn.handleRequestError (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:7640)
+    at Vn.handleAndLogRequestError (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:6663)
+    at Vn.request (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:6370)
+    at async l (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:130:9617)
+    at async Object.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1xn5hga._.js:116:30)
+    at async Object.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__203k_lp._.js:3935:17)
+    at async Module.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:4584:36)
+    at async AuthInternal (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:5164:24)
+    at async Auth (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:5403:34)
+    at async DashboardPage (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1zs7gm6._.js:3003:21)
+[31m[auth][details][0m: {}
+[31m[auth][error][0m JWTSessionError: Read more at https://errors.authjs.dev#jwtsessionerror
+[31m[auth][cause][0m: PrismaClientInitializationError: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["db"].user.findUnique()` invocation in
+C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1xn5hga._.js:116:160
+
+  113 if (token.sub && session.user) {
+  114     session.user.id = token.sub;
+  115     // Fetch additional user data
+→ 116     const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["db"].user.findUnique(
+Can't reach database server at `aws-0-eu-west-1.pooler.supabase.com:6543`
+
+Please make sure your database server is running at `aws-0-eu-west-1.pooler.supabase.com:6543`.
+    at Vn.handleRequestError (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:7640)
+    at Vn.handleAndLogRequestError (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:6663)
+    at Vn.request (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:6370)
+    at async l (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:130:9617)
+    at async Object.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1xn5hga._.js:116:30)
+    at async Object.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__203k_lp._.js:3935:17)
+    at async Module.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:4584:36)
+    at async AuthInternal (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:5164:24)
+    at async Auth (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:5403:34)
+    at async DashboardLayout (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1xn5hga._.js:283:21)
+[31m[auth][details][0m: {}
+[31m[auth][error][0m JWTSessionError: Read more at https://errors.authjs.dev#jwtsessionerror
+[31m[auth][cause][0m: PrismaClientInitializationError: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["db"].user.findUnique()` invocation in
+C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1xn5hga._.js:116:160
+
+  113 if (token.sub && session.user) {
+  114     session.user.id = token.sub;
+  115     // Fetch additional user data
+→ 116     const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["db"].user.findUnique(
+Can't reach database server at `aws-0-eu-west-1.pooler.supabase.com:6543`
+
+Please make sure your database server is running at `aws-0-eu-west-1.pooler.supabase.com:6543`.
+    at Vn.handleRequestError (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:7640)
+    at Vn.handleAndLogRequestError (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:6663)
+    at Vn.request (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:121:6370)
+    at async l (C:\Users\user\Desktop\prepwell\node_modules\@prisma\client\runtime\library.js:130:9617)
+    at async Object.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1xn5hga._.js:116:30)
+    at async Object.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__203k_lp._.js:3935:17)
+    at async Module.session (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:4584:36)
+    at async AuthInternal (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:5164:24)
+    at async Auth (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\node_modules_@auth_core_1yyufjk._.js:5403:34)
+    at async DashboardPage (C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1zs7gm6._.js:3003:21)
+[31m[auth][details][0m: {}
+file:///C:/Users/user/Desktop/prepwell/node_modules/@prisma/client/runtime/library.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: TypeError [ERR_INVALID_ARG_TYPE]: The "payload" argument must be of type object. Received null
+⨯ Error [PrismaClientKnownRequestError]: 
+Invalid `prisma.topic.findMany()` invocation in
+C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1zs7gm6._.js:447:39
+
+  444     return issues;
+  445 }
+  446 async function loadGraph(prisma, subjectId, options) {
+→ 447     const topics = await prisma.topic.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 5)
+    at <unknown> (src\engines\learning\graph.ts:241:37)
+    at async loadGraph (src\engines\learning\graph.ts:241:18)
+    at async loadCombinedGraph (src\lib\learning-path.ts:33:18)
+    at async computePathState (src\lib\learning-path.ts:115:17)
+    at async DashboardPage (src\app\(dashboard)\dashboard\page.tsx:173:43)
+  239 |   options?: { includeLegacy?: boolean },
+  240 | ): Promise<KnowledgeGraph> {
+> 241 |   const topics = await prisma.topic.findMany({
+      |                                     ^
+  242 |     where: { subjectId },
+  243 |     orderBy: { orderIndex: "asc" },
+  244 |     select: TOPIC_SELECT, {
+  code: 'P2024',
+  clientVersion: '6.2.1',
+  meta: { modelName: 'Topic', connection_limit: 5, timeout: 10 },
+  digest: '3312408442'
+}
+[browser] Uncaught PrismaClientKnownRequestError: 
+Invalid `prisma.topic.findMany()` invocation in
+C:\Users\user\Desktop\prepwell\.next\dev\server\chunks\ssr\[root-of-the-server]__1zs7gm6._.js:447:39
+
+  444     return issues;
+  445 }
+  446 async function loadGraph(prisma, subjectId, options) {
+→ 447     const topics = await prisma.topic.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 5)
+    at <unknown> (src\engines\learning\graph.ts:241:37)
+    at  loadGraph (src\engines\learning\graph.ts:241:18)
+    at  loadCombinedGraph (src\lib\learning-path.ts:33:18)
+    at  computePathState (src\lib\learning-path.ts:115:17)
+    at  DashboardPage (src\app\(dashboard)\dashboard\page.tsx:173:43)
+  239 |   options?: { includeLegacy?: boolean },
+  240 | ): Promise<KnowledgeGraph> {
+> 241 |   const topics = await prisma.topic.findMany({
+      |                                     ^
+  242 |     where: { subjectId },
+  243 |     orderBy: { orderIndex: "asc" },
+  244 |     select: TOPIC_SELECT,
