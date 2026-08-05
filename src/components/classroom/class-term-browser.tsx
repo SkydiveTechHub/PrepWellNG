@@ -44,6 +44,7 @@ export function ClassTermBrowser({
       <div className="sticky top-14 sticky-chrome -mx-4 px-4 pb-4 sm:-mx-6 sm:px-6">
         <div
           className="flex rounded-xl border border-border bg-card p-1"
+          role="group"
           aria-label="Class level"
         >
           {CLASS_LEVELS.map((level) => {

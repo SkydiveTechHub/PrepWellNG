@@ -191,11 +191,29 @@ export async function POST(req: NextRequest) {
 
     if (!won) {
       // The compare-and-set lost: the attempt was no longer IN_PROGRESS by the
-      // time we tried to claim it, and it wasn't already COMPLETED either (that
-      // case replays above). Most commonly the untimed-abandonment reaper beat
-      // us to it. The answers were never recorded — returning 200 with an empty
-      // result would show the student a fake 0% instead of telling them their
-      // window closed.
+      // time we tried to claim it. Two things can cause that. (1) A concurrent
+      // submission — two tabs, or the timer's auto-submit racing a manual tap —
+      // both read IN_PROGRESS before this transaction, and the other one won:
+      // it just committed COMPLETED, so we re-read and replay its result rather
+      // than telling the student their graded work vanished. (2) The attempt
+      // was genuinely reaped (TIMED_OUT/ABANDONED) while it was open; the
+      // answers were never recorded, and returning 200 with an empty result
+      // would show the student a fake 0% instead of telling them their window
+      // closed.
+      const current = await db.assessmentAttempt.findFirst({
+        where: { id: attemptId, studentId },
+        select: { status: true },
+      });
+
+      if (current?.status === "COMPLETED") {
+        const existing = await buildAttemptResult(attemptId, studentId);
+        if (existing) return NextResponse.json(existing);
+        return NextResponse.json(
+          { error: "Assessment attempt not found." },
+          { status: 404 },
+        );
+      }
+
       return NextResponse.json(
         {
           error:
