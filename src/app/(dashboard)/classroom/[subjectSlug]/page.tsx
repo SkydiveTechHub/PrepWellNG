@@ -32,9 +32,7 @@ import {
   type ClassGroup,
 } from "@/components/classroom/class-term-browser";
 import { resolveClassLevel } from "@/lib/classroom";
-
-const CLASS_LEVELS = ["SS1", "SS2", "SS3"] as const;
-const TERMS = ["FIRST", "SECOND", "THIRD"] as const;
+import { CLASS_LEVELS, TERMS } from "@/lib/curriculum-scope";
 
 type TopicRow = {
   id: string;

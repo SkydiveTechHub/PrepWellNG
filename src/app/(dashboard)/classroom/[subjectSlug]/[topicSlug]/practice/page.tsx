@@ -57,7 +57,6 @@ export default async function TopicPracticePage({
       <PracticeExit
         subjectSlug={subjectSlug}
         topicSlug={topicSlug}
-        lessonId={lesson.id}
         lessonTitle={lesson.title}
         topicTitle={topic.title}
         passMarkPercent={lesson.passMarkPercent}

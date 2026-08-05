@@ -189,6 +189,22 @@ export async function POST(req: NextRequest) {
       return true;
     });
 
+    if (!won) {
+      // The compare-and-set lost: the attempt was no longer IN_PROGRESS by the
+      // time we tried to claim it, and it wasn't already COMPLETED either (that
+      // case replays above). Most commonly the untimed-abandonment reaper beat
+      // us to it. The answers were never recorded — returning 200 with an empty
+      // result would show the student a fake 0% instead of telling them their
+      // window closed.
+      return NextResponse.json(
+        {
+          error:
+            "This attempt expired and can no longer accept answers. Please start a new attempt.",
+        },
+        { status: 409 },
+      );
+    }
+
     const result = await buildAttemptResult(attemptId, studentId);
     if (!result) {
       return NextResponse.json(
@@ -200,15 +216,13 @@ export async function POST(req: NextRequest) {
     // `after()` keeps the work inside the request lifetime. Fire-and-forget
     // promises are dropped when a serverless function freezes on response, so
     // achievements silently stopped being awarded in production.
-    if (won) {
-      after(async () => {
-        try {
-          await awardAchievements(studentId);
-        } catch (error) {
-          console.error("Achievement check failed:", error);
-        }
-      });
-    }
+    after(async () => {
+      try {
+        await awardAchievements(studentId);
+      } catch (error) {
+        console.error("Achievement check failed:", error);
+      }
+    });
 
     return NextResponse.json(result);
   } catch (error) {

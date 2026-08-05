@@ -30,12 +30,7 @@ import { TopicActionBar } from "@/components/classroom/topic-action-bar";
 import { TopicResources, type ResourceItem } from "@/components/classroom/topic-resources";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-
-const TERM_LABELS: Record<string, string> = {
-  FIRST: "First Term",
-  SECOND: "Second Term",
-  THIRD: "Third Term",
-};
+import { TERM_LABELS } from "@/lib/curriculum-scope";
 
 const LEVEL_LABELS: Record<string, string> = {
   STRONG: "Strong",
@@ -185,7 +180,7 @@ export default async function TopicDetailPage({
   }));
 
   const { classLevel, term } = topic.curriculumLevel;
-  const classColor = CLASS_COLORS[classLevel] ?? "bg-gray-50 text-gray-700 border-gray-200";
+  const classColor = CLASS_COLORS[classLevel] ?? "bg-secondary text-muted border-border";
 
   return (
     <div className="animate-fade-in">

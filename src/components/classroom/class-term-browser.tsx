@@ -5,7 +5,7 @@ import Link from "next/link";
 import { LuBookOpen, LuCheck } from "react-icons/lu";
 import { cn } from "@/lib/utils";
 import { buttonClass } from "@/components/ui/button";
-import { CLASS_LEVELS, TERM_LABELS, type ClassLevel, type Term } from "@/lib/curriculum-scope";
+import { CLASS_LEVELS, TERMS, TERM_LABELS, type ClassLevel, type Term } from "@/lib/curriculum-scope";
 
 // Classroom — class/term browser (spec Task 4). Replaces the accordion list
 // slot on the subject page: a sticky class tab set plus the three terms for
@@ -41,10 +41,9 @@ export function ClassTermBrowser({
 
   return (
     <div>
-      <div className="sticky top-0 z-10 sticky-chrome -mx-4 px-4 pb-4 sm:-mx-6 sm:px-6">
+      <div className="sticky top-14 sticky-chrome -mx-4 px-4 pb-4 sm:-mx-6 sm:px-6">
         <div
           className="flex rounded-xl border border-border bg-card p-1"
-          role="tablist"
           aria-label="Class level"
         >
           {CLASS_LEVELS.map((level) => {
@@ -56,8 +55,7 @@ export function ClassTermBrowser({
               <button
                 key={level}
                 type="button"
-                role="tab"
-                aria-selected={selected}
+                aria-pressed={selected}
                 disabled={!hasTopics}
                 onClick={() => setSelectedClass(level)}
                 className={cn(
@@ -76,7 +74,7 @@ export function ClassTermBrowser({
       </div>
 
       <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3">
-        {(["FIRST", "SECOND", "THIRD"] as Term[]).map((term) => {
+        {TERMS.map((term: Term) => {
           const topics = current?.terms.find((t) => t.term === term)?.topics ?? [];
           const done = topics.filter((t) => t.completed).length;
 

@@ -2,6 +2,10 @@
 // submission shaping. Kept free of React and of `window` so the rules that
 // guard a student's two hours of work can be tested directly.
 
+import { UNTIMED_STALE_HOURS } from "@/lib/attempt-timing";
+
+const UNTIMED_STALE_MS = UNTIMED_STALE_HOURS * 60 * 60 * 1000;
+
 export type ExamQuestion = {
   id: string;
   questionNumber: number;
@@ -36,6 +40,14 @@ export type SessionData = {
    * Survives refreshes and tab-throttling; a countdown does not.
    */
   deadlineAt: number | null;
+  /**
+   * Epoch ms when the session was created. Timed sessions expire against
+   * `deadlineAt`; untimed ones have no deadline, so this is what
+   * `parseStoredSession` measures the `UNTIMED_STALE_HOURS` window from —
+   * matching the server's `isAttemptStale` reaper so the two can never
+   * disagree about whether an abandoned attempt is still resumable.
+   */
+  startedAt: number;
 };
 
 export type StoredSession = SessionData & {
@@ -45,7 +57,7 @@ export type StoredSession = SessionData & {
 };
 
 export const STORAGE_PREFIX = "prepwell:exam:";
-export const STORAGE_VERSION = 2;
+export const STORAGE_VERSION = 3;
 
 export function storageKeyFor(sessionKey: string): string {
   return STORAGE_PREFIX + sessionKey;
@@ -99,6 +111,20 @@ export function parseStoredSession(
       return null;
     }
     if (parsed.deadlineAt <= now) return null;
+  } else {
+    // Untimed session (e.g. the quick quiz): no deadline to expire against,
+    // so it falls back to the same abandonment window the server's
+    // `isAttemptStale` reaper uses. Without this, a session abandoned for
+    // 25+ hours would resume forever while the server has already reaped
+    // the attempt — the client would happily replay answers against an
+    // attempt that can no longer accept them.
+    if (
+      typeof parsed.startedAt !== "number" ||
+      !Number.isFinite(parsed.startedAt)
+    ) {
+      return null;
+    }
+    if (now - parsed.startedAt > UNTIMED_STALE_MS) return null;
   }
   if (!parsed.answers || typeof parsed.answers !== "object") return null;
   return parsed;

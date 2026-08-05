@@ -14,7 +14,6 @@ import { QuizEngine } from "@/components/assessment/quiz-engine";
 type PracticeExitProps = {
   subjectSlug: string;
   topicSlug: string;
-  lessonId: string;
   lessonTitle: string;
   topicTitle: string;
   passMarkPercent: number;

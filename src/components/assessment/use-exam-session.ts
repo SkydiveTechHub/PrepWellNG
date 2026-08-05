@@ -159,6 +159,7 @@ export function useExamSession({
           title: stored.title,
           questions: stored.questions,
           deadlineAt: stored.deadlineAt,
+          startedAt: stored.startedAt,
         });
         setAnswers(stored.answers);
         setCurrentIndex(clampIndex(stored.currentIndex, stored.questions.length));
@@ -188,6 +189,7 @@ export function useExamSession({
           title: exam.title,
           questions: exam.questions,
           deadlineAt: deadline,
+          startedAt: Date.now(),
         };
         answersRef.current = emptyAnswers(exam.questions);
         questionStartRef.current = Date.now();
