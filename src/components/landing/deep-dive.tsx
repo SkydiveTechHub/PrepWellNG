@@ -10,7 +10,6 @@ import {
   LuListChecks,
   LuSparkles,
   LuTrendingUp,
-  LuWandSparkles,
   LuWifiOff,
 } from "react-icons/lu";
 import { cn } from "@/lib/utils";

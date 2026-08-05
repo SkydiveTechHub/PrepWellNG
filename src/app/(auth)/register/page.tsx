@@ -17,11 +17,12 @@ import {
 import { NIGERIAN_STATES } from "@/lib/constants/exam-types";
 import { cn } from "@/lib/utils";
 
-const STEPS = [
-  { label: "Your details" },
-  { label: "Class & track" },
-  { label: "Location" },
-];
+// Two steps, not three. State was a single optional dropdown on a step of its
+// own, which read as a hurdle rather than a question — it now sits with the
+// other academic details.
+const STEPS = [{ label: "Your details" }, { label: "Class & track" }];
+
+const LAST_STEP = STEPS.length;
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -77,7 +78,7 @@ export default function RegisterPage() {
 
     if (!validateStep()) return;
 
-    if (step < 3) {
+    if (step < LAST_STEP) {
       setStep(step + 1);
       return;
     }
@@ -299,35 +300,33 @@ export default function RegisterPage() {
                 ))}
               </div>
             </div>
+            <div>
+              <label
+                htmlFor="state"
+                className="mb-1.5 block text-sm font-semibold text-foreground"
+              >
+                State <span className="font-normal text-muted">(optional)</span>
+              </label>
+              <select
+                id="state"
+                value={form.state}
+                onChange={(e) => update("state", e.target.value)}
+                className="input"
+              >
+                <option value="">Select your state</option>
+                {NIGERIAN_STATES.map((state) => (
+                  <option key={state} value={state}>
+                    {state}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             <p className="rounded-xl bg-secondary/60 p-3.5 text-xs leading-relaxed text-muted">
               Your track shapes which subjects and past questions are shown first.
               You can change this later in settings.
             </p>
           </>
-        )}
-
-        {/* Step 3: State */}
-        {step === 3 && (
-          <div>
-            <label className="mb-1.5 block text-sm font-semibold text-foreground">
-              State <span className="font-normal text-muted">(optional)</span>
-            </label>
-            <select
-              value={form.state}
-              onChange={(e) => update("state", e.target.value)}
-              className="input"
-            >
-              <option value="">Select your state</option>
-              {NIGERIAN_STATES.map((state) => (
-                <option key={state} value={state}>
-                  {state}
-                </option>
-              ))}
-            </select>
-            <p className="mt-3 rounded-xl bg-secondary/60 p-3.5 text-xs leading-relaxed text-muted">
-              Almost done. You&apos;ll be studying in seconds.
-            </p>
-          </div>
         )}
 
         <div className="flex gap-3 pt-2">
@@ -346,12 +345,12 @@ export default function RegisterPage() {
             disabled={loading}
             className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm font-bold text-primary-foreground shadow-soft transition-all hover:bg-primary-hover active:scale-[0.99] disabled:opacity-50"
           >
-            {step < 3
+            {step < LAST_STEP
               ? "Continue"
               : loading
                 ? "Creating account…"
                 : "Create account"}
-            {step < 3 && !loading && <LuArrowRight className="h-4 w-4" />}
+            {step < LAST_STEP && !loading && <LuArrowRight className="h-4 w-4" />}
           </button>
         </div>
       </form>

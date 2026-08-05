@@ -4,6 +4,7 @@ import { Sidebar } from "@/components/ui/sidebar";
 import { MobileNav } from "@/components/ui/mobile-nav";
 import { MobileHeader } from "@/components/ui/mobile-header";
 import type { ProfileUser } from "@/components/ui/user-menu";
+import { daysUntilExam, examTargetFor } from "@/lib/exam-target";
 
 export default async function DashboardLayout({
   children,
@@ -19,10 +20,25 @@ export default async function DashboardLayout({
   // separate query and no SessionProvider.
   const user = session.user as ProfileUser;
 
+  // Derived from the student's own class level rather than hard-coded, and
+  // computed here on the server: deriving it inside the client components ran
+  // it against two different clocks — once during SSR, once on hydration.
+  const now = new Date();
+  const examTarget = examTargetFor({ classLevel: user.classLevel, now });
+  const daysToExam = daysUntilExam(examTarget, now);
+
   return (
     <div className="min-h-full">
-      <Sidebar user={user} />
-      <MobileHeader user={user} />
+      <Sidebar
+        user={user}
+        examLabel={examTarget.label}
+        daysToExam={daysToExam}
+      />
+      <MobileHeader
+        user={user}
+        examLabel={examTarget.label}
+        daysToExam={daysToExam}
+      />
       <MobileNav />
 
       {/* Main content — offset by sidebar on desktop */}

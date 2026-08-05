@@ -83,7 +83,7 @@ function DeckCard({ deck }: { deck: DeckSummary }) {
           className={cn(
             "flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg border transition-all",
             enrolled
-              ? "border-amber-200 bg-amber-50 text-amber-600"
+              ? "border-tone-amber-line bg-tone-amber-soft text-tone-amber-ink"
               : "border-border bg-secondary text-muted hover:border-primary/40 hover:text-primary",
           )}
         >

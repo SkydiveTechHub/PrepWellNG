@@ -39,7 +39,7 @@ export function RevisionQueue({
         const subject = subjects[item.subjectId];
         const inner = (
           <div className="flex min-w-0 items-center gap-3">
-            <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-orange-100 text-orange-700">
+            <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-tone-orange-soft text-tone-orange-ink">
               <LuRotateCcw className="h-5 w-5" />
             </span>
             <div className="min-w-0">
@@ -77,7 +77,7 @@ export function RevisionQueue({
         return (
           <li key={item.topicId}>
             <Link
-              href={`/subjects/${subject.slug}/${item.slug}`}
+              href={`/classroom/${subject.slug}/${item.slug}`}
               className={cn(
                 "card card-interactive group block p-4 transition-opacity",
                 "hover:opacity-90",

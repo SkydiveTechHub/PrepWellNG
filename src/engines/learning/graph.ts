@@ -31,7 +31,7 @@ export type KnowledgeGraph = {
   edges: GraphEdge[];
 };
 
-const TOPIC_SELECT = {
+export const TOPIC_SELECT = {
   id: true,
   subjectId: true,
   title: true,
@@ -43,7 +43,7 @@ const TOPIC_SELECT = {
   prerequisiteTopicId: true,
 } as const;
 
-const EDGE_SELECT = {
+export const EDGE_SELECT = {
   id: true,
   prereqTopicId: true,
   topicId: true,

@@ -63,6 +63,22 @@ function mkState(
   };
 }
 
+/** A topic the student has never touched: zero mastery, no evidence. */
+function untouchedState(topicId: string): TopicState {
+  const level = masteryLevelFromScore(0);
+  return {
+    topicId,
+    acc: null,
+    lessonM: null,
+    srs: null,
+    lastStudy: null,
+    mastery: 0,
+    level,
+    stability: stabilityForLevel(level),
+    retention: null,
+  };
+}
+
 function graphWith(nodes: string[], edges: GraphEdge[] = []): KnowledgeGraph {
   return buildGraph(nodes.map((id) => node(id)), edges);
 }
@@ -189,6 +205,40 @@ test("classifyTopic: a healthy mastered topic is not a gap", () => {
     ["t", mkState("t", { mastery: 85, retention: 0.9, lastStudy: new Date(now.getTime() - 86400000) })],
   ]);
   assert.equal(classifyTopic(state, graph, "t"), null);
+});
+
+test("classifyTopic: an untouched topic is UNTOUCHED, never a diagnosed WEAK", () => {
+  const graph = graphWith(["t"]);
+  const state = stateMap([["t", untouchedState("t")]]);
+  assert.equal(classifyTopic(state, graph, "t"), "UNTOUCHED");
+});
+
+test("classifyTopic: a locked untouched topic is not a gap", () => {
+  const graph = graphWith(["p", "t"], [edge("p", "t")]);
+  const state = stateMap([
+    ["p", untouchedState("p")],
+    ["t", untouchedState("t")],
+  ]);
+  // p is a root (available) → UNTOUCHED. t is locked behind p's zero mastery,
+  // and has no evidence → no diagnosed gap.
+  assert.equal(classifyTopic(state, graph, "p"), "UNTOUCHED");
+  assert.equal(classifyTopic(state, graph, "t"), null);
+});
+
+test("gapQueue: untouched topics never surface as gaps", () => {
+  // A branching graph where every topic has zero mastery and no evidence —
+  // a brand-new user's situation. Nothing may be reported as a gap.
+  const graph = graphWith(
+    ["a", "b", "c", "d"],
+    [edge("a", "b"), edge("b", "c"), edge("b", "d")],
+  );
+  const state = stateMap([
+    ["a", untouchedState("a")],
+    ["b", untouchedState("b")],
+    ["c", untouchedState("c")],
+    ["d", untouchedState("d")],
+  ]);
+  assert.deepEqual(gapQueue(state, graph), []);
 });
 
 // ─── bottleneckScore & gapQueue ────────────────────────────

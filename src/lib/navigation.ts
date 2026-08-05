@@ -16,7 +16,7 @@ export const NAV_GROUPS = [
     label: "Study",
     items: [
       { name: "Dashboard", href: "/dashboard", icon: LuHouse },
-      { name: "Subjects", href: "/subjects", icon: LuBookOpen },
+      { name: "Classroom", href: "/classroom", icon: LuBookOpen },
       { name: "Flashcards", href: "/flashcards", icon: LuSparkles },
       { name: "Library", href: "/library", icon: LuBook },
     ],
@@ -49,14 +49,12 @@ export const BRAND = {
   icon: LuGraduationCap,
 } as const;
 
-/** Static target used until a per-student exam date exists. */
-export const EXAM_TARGET = {
-  label: "WAEC 2027",
-  date: new Date("2027-05-03T09:00:00"),
-} as const;
-
+/**
+ * Call this on the server and pass the result down. Computing it inside a
+ * client component runs it twice — once during SSR, once on hydration — against
+ * two different clocks.
+ */
 export function daysUntil(date: Date): number {
-  const now = new Date();
-  const ms = date.getTime() - now.getTime();
+  const ms = date.getTime() - Date.now();
   return Math.max(0, Math.ceil(ms / (1000 * 60 * 60 * 24)));
 }

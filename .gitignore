@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local dev artifacts
+dev-server*.log
+scripts/_*.mts
+
+# agent scratch (subagent-driven development ledger, briefs, review packages)
+.superpowers/

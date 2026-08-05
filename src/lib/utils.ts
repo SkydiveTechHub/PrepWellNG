@@ -20,10 +20,6 @@ export function formatDuration(minutes: number): string {
   return mins > 0 ? `${hours}h ${mins}min` : `${hours}h`;
 }
 
-export function formatPercentage(value: number): string {
-  return `${Math.round(value)}%`;
-}
-
 export function getGrade(percentage: number): {
   grade: string;
   remark: string;
@@ -46,13 +42,4 @@ export function getGrade(percentage: number): {
   if (percentage >= 40)
     return { grade: "E8", remark: "Pass", isCredit: false };
   return { grade: "F9", remark: "Fail", isCredit: false };
-}
-
-export function shuffle<T>(array: T[]): T[] {
-  const shuffled = [...array];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  return shuffled;
 }

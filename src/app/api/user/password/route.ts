@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { changePasswordSchema } from "@/lib/validators";
+import { rateLimit, tooManyRequests } from "@/lib/rate-limit";
 
 export const dynamic = "force-dynamic";
 
@@ -11,6 +12,15 @@ export async function POST(req: NextRequest) {
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+
+  // Verifies the current password, so it is a guessing oracle against a
+  // borrowed or unattended session.
+  const limit = rateLimit({
+    key: `password:${session.user.id}`,
+    limit: 5,
+    windowSeconds: 900,
+  });
+  if (!limit.ok) return tooManyRequests(limit.retryAfterSeconds);
 
   try {
     const parsed = changePasswordSchema.safeParse(await req.json());

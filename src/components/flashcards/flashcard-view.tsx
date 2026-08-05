@@ -342,24 +342,24 @@ function CompareBack({ payload }: { payload: Record<string, unknown> }) {
   const shared = strList(payload.shared);
   return (
     <div className="grid gap-3 sm:grid-cols-3">
-      <div className="rounded-xl border border-blue-200 bg-blue-50/60 p-3">
-        <p className="mb-2 text-xs font-bold text-blue-700">Only {str(payload.itemA)}</p>
+      <div className="rounded-xl border border-tone-blue-line bg-tone-blue-soft/60 p-3">
+        <p className="mb-2 text-xs font-bold text-tone-blue-ink">Only {str(payload.itemA)}</p>
         <ul className="space-y-1">
           {onlyA.map((item, i) => (
             <li key={i} className="text-xs leading-relaxed text-foreground">• {item}</li>
           ))}
         </ul>
       </div>
-      <div className="rounded-xl border border-green-200 bg-green-50/60 p-3">
-        <p className="mb-2 text-xs font-bold text-green-700">Both</p>
+      <div className="rounded-xl border border-tone-green-line bg-tone-green-soft/60 p-3">
+        <p className="mb-2 text-xs font-bold text-tone-green-ink">Both</p>
         <ul className="space-y-1">
           {shared.map((item, i) => (
             <li key={i} className="text-xs leading-relaxed text-foreground">• {item}</li>
           ))}
         </ul>
       </div>
-      <div className="rounded-xl border border-purple-200 bg-purple-50/60 p-3">
-        <p className="mb-2 text-xs font-bold text-purple-700">Only {str(payload.itemB)}</p>
+      <div className="rounded-xl border border-tone-purple-line bg-tone-purple-soft/60 p-3">
+        <p className="mb-2 text-xs font-bold text-tone-purple-ink">Only {str(payload.itemB)}</p>
         <ul className="space-y-1">
           {onlyB.map((item, i) => (
             <li key={i} className="text-xs leading-relaxed text-foreground">• {item}</li>

@@ -46,10 +46,10 @@ const PAD = 12;
 
 const NODE_STYLES: Record<GraphNodeState, string> = {
   LOCKED: "border-border bg-secondary text-muted",
-  READY: "border-blue-300 bg-blue-50 text-blue-700",
-  STARTED: "border-amber-300 bg-amber-50 text-amber-700",
-  DECAYED: "border-orange-400 bg-orange-50 text-orange-700",
-  MASTERED: "border-green-300 bg-green-50 text-green-700",
+  READY: "border-tone-blue-line bg-tone-blue-soft text-tone-blue-ink",
+  STARTED: "border-tone-amber-line bg-tone-amber-soft text-tone-amber-ink",
+  DECAYED: "border-tone-orange-line bg-tone-orange-soft text-tone-orange-ink",
+  MASTERED: "border-tone-green-line bg-tone-green-soft text-tone-green-ink",
 };
 
 const STATE_META: Record<GraphNodeState, { label: string; swatch: string }> = {
@@ -123,13 +123,13 @@ export function GraphView({
           {ready > 0 && (
             <>
               {" · "}
-              <span className="font-bold text-blue-600">{ready}</span> ready
+              <span className="font-bold text-tone-blue-ink">{ready}</span> ready
             </>
           )}
           {due > 0 && (
             <>
               {" · "}
-              <span className="font-bold text-orange-600">{due}</span> due for
+              <span className="font-bold text-tone-orange-ink">{due}</span> due for
               revision
             </>
           )}
@@ -196,7 +196,7 @@ export function GraphView({
             return (
               <Link
                 key={node.id}
-                href={`/subjects/${subjectSlug}/${node.slug}`}
+                href={`/classroom/${subjectSlug}/${node.slug}`}
                 className={cn(
                   "absolute flex flex-col justify-center rounded-xl border-2 px-3 py-2 shadow-soft transition-transform hover:scale-[1.03] hover:shadow-lift",
                   NODE_STYLES[node.state],

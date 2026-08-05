@@ -5,7 +5,6 @@ import {
   LuBrainCircuit,
   LuCheck,
   LuFlame,
-  LuPlay,
   LuSparkles,
   LuStar,
   LuTrendingUp,

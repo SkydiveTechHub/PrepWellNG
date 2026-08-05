@@ -1,6 +1,8 @@
 import type { PrismaClient } from "@prisma/client";
 import {
-  loadGraph,
+  EDGE_SELECT,
+  TOPIC_SELECT,
+  buildGraph,
   type GraphEdge,
   type GraphNode,
   type KnowledgeGraph,
@@ -9,6 +11,7 @@ import {
   computeTopicState,
   type TopicStateMap,
 } from "@/engines/learning/mastery";
+import { relevantTrackCategories } from "@/lib/subjects";
 
 // Learning Path Engine — facade: one call to derive the path state for a
 // student across the subjects they study.
@@ -30,38 +33,105 @@ export async function loadCombinedGraph(
   prisma: Pick<PrismaClient, "topic" | "topicEdge">,
   subjectIds: readonly string[],
 ): Promise<KnowledgeGraph> {
-  const graphs = await Promise.all(
-    subjectIds.map((subjectId) => loadGraph(prisma, subjectId)),
-  );
+  // Batch-load the whole catalog in a handful of queries instead of one
+  // per-subject load. A brand-new student has no activity, so `subjectIds` is
+  // every subject (44+); per-subject loading fires dozens of round-trips at the
+  // Supabase pooler (connection_limit=5), which exhausts the pool and times out
+  // (P2024) or takes minutes.
+  const topics = await prisma.topic.findMany({
+    where: { subjectId: { in: [...subjectIds] } },
+    orderBy: { orderIndex: "asc" },
+    select: TOPIC_SELECT,
+  });
+  const topicIds = topics.map((topic) => topic.id);
 
-  const nodes = new Map<string, GraphNode>();
-  for (const graph of graphs) {
-    for (const [id, node] of graph.nodes) nodes.set(id, node);
+  const edgeRows = await prisma.topicEdge.findMany({
+    where: {
+      OR: [{ prereqTopicId: { in: topicIds } }, { topicId: { in: topicIds } }],
+    },
+    select: EDGE_SELECT,
+  });
+
+  let edges: GraphEdge[] = edgeRows.map((row) => ({
+    id: row.id,
+    from: row.prereqTopicId,
+    to: row.topicId,
+    kind: row.kind,
+    strength: row.strength,
+    rationale: row.rationale,
+  }));
+
+  // Preserve loadGraph's per-subject legacy fallback: a subject with no
+  // authored edges derives its edges from the scalar prerequisiteTopicId.
+  const byId = new Map(topics.map((topic) => [topic.id, topic]));
+  const subjectsWithEdges = new Set<string>();
+  for (const row of edgeRows) {
+    const fromSubject = byId.get(row.prereqTopicId)?.subjectId;
+    const toSubject = byId.get(row.topicId)?.subjectId;
+    if (fromSubject) subjectsWithEdges.add(fromSubject);
+    if (toSubject) subjectsWithEdges.add(toSubject);
   }
-
-  const seen = new Set<string>();
-  const edges: GraphEdge[] = [];
-  for (const graph of graphs) {
-    for (const edge of graph.edges) {
-      const key = `${edge.from}->${edge.to}`;
-      if (seen.has(key)) continue;
-      seen.add(key);
-      edges.push(edge);
+  const legacyEdges: GraphEdge[] = [];
+  for (const topic of topics) {
+    if (subjectsWithEdges.has(topic.subjectId)) continue;
+    if (topic.prerequisiteTopicId && topic.prerequisiteTopicId !== topic.id) {
+      legacyEdges.push({
+        id: `legacy:${topic.prerequisiteTopicId}->${topic.id}`,
+        from: topic.prerequisiteTopicId,
+        to: topic.id,
+        kind: "PREREQUISITE" as const,
+        strength: 1,
+        rationale: null,
+      });
     }
   }
+  edges = [...edges, ...legacyEdges];
 
-  return { nodes, edges };
+  // Pull in CORE prereq topics from outside the requested subjects — the
+  // cross-subject edges reference them.
+  const referenced = new Set<string>(
+    edges.flatMap((edge) => [edge.from, edge.to]),
+  );
+  const extraTopics = await prisma.topic.findMany({
+    where: { id: { in: [...referenced] }, NOT: { id: { in: topicIds } } },
+    select: TOPIC_SELECT,
+  });
+
+  // Merge everything into one graph, collapsing duplicate `from->to` edges
+  // (cross-subject CORE prerequisites appear once) so the downstream
+  // algorithms never double-count leverage.
+  const nodes = new Map<string, GraphNode>();
+  for (const topic of topics) nodes.set(topic.id, topic as GraphNode);
+  for (const topic of extraTopics) nodes.set(topic.id, topic as GraphNode);
+
+  const seen = new Set<string>();
+  const merged: GraphEdge[] = [];
+  for (const edge of edges) {
+    const key = `${edge.from}->${edge.to}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    merged.push(edge);
+  }
+
+  return buildGraph([...nodes.values()], merged);
 }
 
 /**
  * The subjects a student actually studies, derived from activity
  * (lesson/practice progress, completed assessment attempts, flashcard
- * enrollments). Falls back to every subject when there is no activity yet.
+ * enrollments). Falls back to the student's track-relevant subjects (CORE +
+ * track) when there is no activity yet, so a brand-new Science, Arts or
+ * Commercial student never gets an irrelevant catalog (e.g. Physics for a
+ * Commercial student) on the dashboard.
  */
 export async function loadStudentSubjectIds(
   prisma: Pick<
     PrismaClient,
-    "studentProgress" | "assessmentAttempt" | "flashcardEnrollment" | "subject"
+    | "studentProgress"
+    | "assessmentAttempt"
+    | "flashcardEnrollment"
+    | "subject"
+    | "user"
   >,
   studentId: string,
 ): Promise<string[]> {
@@ -91,8 +161,16 @@ export async function loadStudentSubjectIds(
   }
 
   if (subjectIds.size === 0) {
-    const all = await prisma.subject.findMany({ select: { id: true } });
-    return all.map((subject) => subject.id);
+    const user = await prisma.user.findUnique({
+      where: { id: studentId },
+      select: { track: true },
+    });
+    const relevant = relevantTrackCategories(user?.track ?? null);
+    const subjects = await prisma.subject.findMany({
+      where: { trackCategory: { in: [...relevant] } },
+      select: { id: true },
+    });
+    return subjects.map((subject) => subject.id);
   }
   return [...subjectIds];
 }

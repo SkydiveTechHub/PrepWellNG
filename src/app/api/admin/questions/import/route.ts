@@ -1,27 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Prisma } from "@prisma/client";
 import { db } from "@/lib/db";
-import { auth } from "@/lib/auth";
+import { requireAdmin } from "@/lib/admin-guard";
+import { recordAudit } from "@/lib/admin-audit";
 import { bulkImportSchema } from "@/lib/validators";
+import { checkTopicOwnership } from "@/lib/admin-question";
+import { revalidateTag } from "next/cache";
+import { CATALOGUE_TAG } from "@/lib/catalogue";
 
 export const dynamic = "force-dynamic";
 
 // POST /api/admin/questions/import — bulk import questions
 export async function POST(req: NextRequest) {
   try {
-    const session = await auth();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    // Check admin role
-    const user = await db.user.findUnique({
-      where: { id: session.user.id },
-      select: { role: true },
-    });
-    if (user?.role !== "ADMIN") {
-      return NextResponse.json({ error: "Admin access required" }, { status: 403 });
-    }
+    const guard = await requireAdmin();
+    if (!guard.ok) return guard.response;
 
     const body = await req.json();
     const parsed = bulkImportSchema.safeParse(body);
@@ -92,7 +85,12 @@ export async function POST(req: NextRequest) {
           });
           continue;
         }
-        if (topic.subjectId !== subject.id) {
+        const ownership = checkTopicOwnership({
+          topicRef: q.topicSlug,
+          topicSubjectId: topic.subjectId,
+          subjectId: subject.id,
+        });
+        if (ownership) {
           results.errors.push({
             index: i,
             reason: `Topic "${q.topicSlug}" does not belong to subject "${subject.name}"`,
@@ -151,6 +149,16 @@ export async function POST(req: NextRequest) {
         });
       }
     }
+
+    await recordAudit({
+      actorId: guard.actor.id,
+      action: "question.import",
+      entity: "Question",
+      summary: `Imported ${results.imported}, skipped ${results.skipped}, ${results.errors.length} errors`,
+    });
+
+    // The subject catalogue caches per-subject question counts.
+    if (results.imported > 0) revalidateTag(CATALOGUE_TAG, "max");
 
     return NextResponse.json({
       message: `Import complete: ${results.imported} imported, ${results.skipped} duplicates skipped, ${results.errors.length} errors`,

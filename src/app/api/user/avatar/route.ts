@@ -6,6 +6,7 @@ import {
   isImageUploadConfigured,
   uploadAvatar,
 } from "@/lib/cloudinary";
+import { rateLimit, tooManyRequests } from "@/lib/rate-limit";
 
 export const dynamic = "force-dynamic";
 
@@ -17,6 +18,14 @@ export async function POST(req: NextRequest) {
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+
+  // Every accepted upload costs a Cloudinary transformation.
+  const limit = rateLimit({
+    key: `avatar:${session.user.id}`,
+    limit: 10,
+    windowSeconds: 3600,
+  });
+  if (!limit.ok) return tooManyRequests(limit.retryAfterSeconds);
 
   if (!isImageUploadConfigured()) {
     return NextResponse.json(

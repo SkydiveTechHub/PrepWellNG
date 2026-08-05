@@ -1,88 +1,89 @@
-import Link from "next/link";
-import { LuArrowRight, LuBookOpen, LuChevronRight, LuTimer, LuZap } from "react-icons/lu";
+import { redirect } from "next/navigation";
+import { LuTimer, LuLayers, LuShuffle } from "react-icons/lu";
+import { auth } from "@/lib/auth";
 import { PageHeader } from "@/components/ui/page-header";
-import { Badge } from "@/components/ui/badge";
-import { buttonClass } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { MockExamPicker } from "@/components/practice/mock-exam-picker";
+import { isValidScope } from "@/lib/curriculum-scope";
 
-const examTypes = [
+const FACTS = [
   {
-    name: "WAEC",
-    description: "West African Senior School Certificate Examination",
-    href: "/practice/mock-exam/session?examType=WAEC",
-    badge: "blue" as const,
-    subjects: "Multi-subject · Timed",
+    icon: <LuLayers className="h-5 w-5" />,
+    label: "Scoped to your syllabus",
+    detail: "One term, or a run of them",
   },
   {
-    name: "JAMB",
-    description: "Joint Admissions and Matriculation Board",
-    href: "/practice/mock-exam/session?examType=JAMB",
-    badge: "green" as const,
-    subjects: "4 subjects · 180 questions",
+    icon: <LuShuffle className="h-5 w-5" />,
+    label: "Randomised each time",
+    detail: "Drawn from real past papers",
   },
   {
-    name: "NECO",
-    description: "National Examination Council",
-    href: "/practice/mock-exam/session?examType=NECO",
-    badge: "purple" as const,
-    subjects: "Multi-subject · Timed",
+    icon: <LuTimer className="h-5 w-5" />,
+    label: "Timed",
+    detail: "About 90 seconds per question",
   },
 ];
 
-export default function MockExamPage() {
+// Mock exams scoped by class level and term, so a student can sit exactly what
+// they have been taught rather than the whole subject.
+export default async function MockExamPage({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    subjectId?: string;
+    fromClass?: string;
+    fromTerm?: string;
+    toClass?: string;
+    toTerm?: string;
+  }>;
+}) {
+  const session = await auth();
+  if (!session?.user?.id) redirect("/login");
+
+  const params = await searchParams;
+  const initialSubjectId = params.subjectId ?? null;
+
+  // Plain candidates, not yet known to be a valid ScopePoint — isValidScope is
+  // a type guard, so it narrows these itself rather than needing a cast.
+  const fromCandidate = {
+    classLevel: params.fromClass,
+    term: params.fromTerm,
+  };
+  const toCandidate = {
+    classLevel: params.toClass,
+    term: params.toTerm,
+  };
+  const initialFrom = isValidScope(fromCandidate) ? fromCandidate : null;
+  const initialTo = isValidScope(toCandidate) ? toCandidate : null;
+
   return (
     <div className="animate-fade-in">
       <PageHeader
         title="Mock Exam"
-        description="Simulate a real exam under timed conditions. Pick an exam type to start."
+        description="Pick an exam board, a subject, and the part of the syllabus you want tested."
       />
 
-      <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-3">
-        {examTypes.map((exam) => (
-          <Link
-            key={exam.name}
-            href={exam.href}
-            className="card card-interactive group relative flex flex-col overflow-hidden p-6"
+      <div className="mb-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
+        {FACTS.map((fact) => (
+          <div
+            key={fact.label}
+            className="flex items-center gap-3 rounded-xl border border-border bg-secondary/40 p-3.5"
           >
-            <div className="absolute -right-10 -top-14 h-36 w-36 rounded-full bg-primary/5" />
-            <div className="relative flex items-center justify-between">
-              <Badge variant={exam.badge}>{exam.name}</Badge>
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-secondary text-muted transition-colors group-hover:bg-primary-soft group-hover:text-primary">
-                <LuZap className="h-4 w-4" />
-              </span>
-            </div>
-            <p className="relative mt-4 text-sm font-semibold leading-relaxed text-foreground">
-              {exam.description}
-            </p>
-            <p className="relative mt-1 flex items-center gap-1.5 text-xs text-muted">
-              <LuTimer className="h-3.5 w-3.5" />
-              {exam.subjects}
-            </p>
-            <span className="relative mt-auto inline-flex items-center gap-1.5 pt-5 text-sm font-bold text-primary">
-              Start exam
-              <LuArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-primary-soft text-primary">
+              {fact.icon}
             </span>
-          </Link>
+            <div className="min-w-0">
+              <p className="text-sm font-bold text-foreground">{fact.label}</p>
+              <p className="truncate text-xs text-muted">{fact.detail}</p>
+            </div>
+          </div>
         ))}
       </div>
 
-      <Card className="flex flex-wrap items-center justify-between gap-4 p-6">
-        <div className="flex items-start gap-3">
-          <span className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary">
-            <LuBookOpen className="h-5 w-5" />
-          </span>
-          <div>
-            <h3 className="text-sm font-bold text-foreground">Practice by subject</h3>
-            <p className="mt-0.5 text-xs text-muted">
-              Prefer to focus on one subject at a time? Browse past questions by subject.
-            </p>
-          </div>
-        </div>
-        <Link href="/practice/past-questions" className={buttonClass("outline", "md")}>
-          Browse past questions
-          <LuChevronRight className="h-4 w-4" />
-        </Link>
-      </Card>
+      <MockExamPicker
+        initialSubjectId={initialSubjectId}
+        initialFrom={initialFrom}
+        initialTo={initialTo}
+      />
     </div>
   );
 }

@@ -1,15 +1,9 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { LuArrowLeft, LuDatabase, LuUsers, LuBookOpen, LuShield } from "react-icons/lu";
+import { LuArrowLeft, LuShield } from "react-icons/lu";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
-
-const adminNav = [
-  { name: "Questions", href: "/admin/questions", icon: LuDatabase },
-  { name: "Subjects", href: "/admin/subjects", icon: LuBookOpen },
-  { name: "Users", href: "/admin/users", icon: LuUsers },
-  { name: "Lessons", href: "/admin/lessons", icon: LuBookOpen },
-];
+import { AdminNav } from "@/components/admin/admin-nav";
 
 export default async function AdminLayout({
   children,
@@ -27,6 +21,12 @@ export default async function AdminLayout({
 
   return (
     <div className="min-h-full">
+      <a
+        href="#admin-main"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-card focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+      >
+        Skip to content
+      </a>
       <div className="flex min-h-full">
         {/* Admin sidebar */}
         <aside className="w-56 border-r border-border bg-card flex-shrink-0 hidden lg:block">
@@ -34,18 +34,7 @@ export default async function AdminLayout({
             <LuShield className="w-5 h-5 text-primary" />
             <span className="font-bold text-foreground text-sm">Admin</span>
           </div>
-          <nav className="p-3 space-y-1">
-            {adminNav.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-muted hover:bg-secondary hover:text-foreground transition-colors"
-              >
-                <item.icon className="w-4 h-4" />
-                {item.name}
-              </Link>
-            ))}
-          </nav>
+          <AdminNav variant="sidebar" />
           <div className="px-3 pt-3 border-t border-border mt-3">
             <Link
               href="/dashboard"
@@ -58,7 +47,7 @@ export default async function AdminLayout({
         </aside>
 
         {/* Main */}
-        <main className="flex-1">
+        <main id="admin-main" tabIndex={-1} className="flex-1 pb-24 lg:pb-0">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
             {children}
           </div>
@@ -66,20 +55,7 @@ export default async function AdminLayout({
       </div>
 
       {/* Mobile admin nav */}
-      <nav className="lg:hidden fixed bottom-0 inset-x-0 bg-card border-t border-border z-50">
-        <div className="flex items-center justify-around py-2">
-          {adminNav.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className="flex flex-col items-center gap-0.5 px-3 py-1 text-xs font-medium text-muted"
-            >
-              <item.icon className="w-5 h-5" />
-              {item.name}
-            </Link>
-          ))}
-        </div>
-      </nav>
+      <AdminNav variant="mobile" />
     </div>
   );
 }

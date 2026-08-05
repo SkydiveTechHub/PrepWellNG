@@ -1,50 +1,277 @@
 @import "tailwindcss";
 
+/* ── App palette ───────────────────────────────────────────
+ *
+ * Every app colour resolves through a CSS variable so a single `:root`
+ * override flips the whole interface. `@theme inline` below keeps the var()
+ * reference in the generated utility rather than inlining the hex, which is
+ * what makes the dark override work without duplicating a class for every
+ * element.
+ *
+ * Dark mode follows the OS by default and can be forced either way with
+ * `data-theme` on <html>, so a future in-app toggle needs no CSS changes.
+ *
+ * Tones (blue/green/purple/…) are the soft tinted tiles used across the
+ * dashboard. Each has a `-soft` surface, an `-ink` foreground and a `-line`
+ * border, and all three inverse together in dark mode.
+ */
+:root {
+  --app-primary: #2563eb;
+  --app-primary-hover: #1d4ed8;
+  --app-primary-foreground: #ffffff;
+  --app-primary-soft: #eff6ff;
+  --app-primary-soft-foreground: #1d4ed8;
+
+  --app-background: #f8fafc;
+  --app-foreground: #0f172a;
+  --app-card: #ffffff;
+  --app-secondary: #f1f5f9;
+  --app-secondary-foreground: #0f172a;
+
+  /* #64748b on #f8fafc is 4.76:1 — passes AA for body text. */
+  --app-muted: #5b6b7f;
+  --app-border: #e2e8f0;
+  --app-border-strong: #cbd5e1;
+
+  --app-accent: #f59e0b;
+  --app-accent-soft: #fffbeb;
+  --app-success: #15803d;
+  --app-success-soft: #f0fdf4;
+  --app-warning: #b45309;
+  --app-warning-soft: #fffbeb;
+  --app-danger: #dc2626;
+  --app-danger-soft: #fef2f2;
+  --app-info: #0369a1;
+  --app-info-soft: #f0f9ff;
+  --app-brand: #4f46e5;
+
+  --tone-blue-soft: #eff6ff;
+  --tone-blue-ink: #1d4ed8;
+  --tone-blue-line: #bfdbfe;
+  --tone-green-soft: #f0fdf4;
+  --tone-green-ink: #15803d;
+  --tone-green-line: #bbf7d0;
+  --tone-purple-soft: #faf5ff;
+  --tone-purple-ink: #7e22ce;
+  --tone-purple-line: #e9d5ff;
+  --tone-amber-soft: #fffbeb;
+  --tone-amber-ink: #b45309;
+  --tone-amber-line: #fde68a;
+  --tone-orange-soft: #fff7ed;
+  --tone-orange-ink: #c2410c;
+  --tone-orange-line: #fed7aa;
+  --tone-red-soft: #fef2f2;
+  --tone-red-ink: #b91c1c;
+  --tone-red-line: #fecaca;
+  --tone-teal-soft: #f0fdfa;
+  --tone-teal-ink: #0f766e;
+  --tone-teal-line: #99f6e4;
+  --tone-indigo-soft: #eef2ff;
+  --tone-indigo-ink: #4338ca;
+  --tone-indigo-line: #c7d2fe;
+}
+
+/*
+ * Dark surfaces are near-navy rather than pure grey so they sit with the brand
+ * blue, matching the landing tokens below. Tone `-soft` becomes a low-alpha
+ * tint of the hue and `-ink` becomes the light end of the scale, so a tinted
+ * tile keeps its identity instead of turning into a grey box.
+ */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --app-primary: #3b82f6;
+    --app-primary-hover: #60a5fa;
+    --app-primary-foreground: #05122b;
+    --app-primary-soft: #12244a;
+    --app-primary-soft-foreground: #bfdbfe;
+
+    --app-background: #070d1f;
+    --app-foreground: #e8eef8;
+    --app-card: #0f1a33;
+    --app-secondary: #172442;
+    --app-secondary-foreground: #e8eef8;
+
+    --app-muted: #9fb0c6;
+    --app-border: #21304f;
+    --app-border-strong: #32456b;
+
+    --app-accent: #fbbf24;
+    --app-accent-soft: #2a2210;
+    --app-success: #4ade80;
+    --app-success-soft: #10281a;
+    --app-warning: #fbbf24;
+    --app-warning-soft: #2a2210;
+    --app-danger: #f87171;
+    --app-danger-soft: #2c1416;
+    --app-info: #38bdf8;
+    --app-info-soft: #0b2434;
+    --app-brand: #818cf8;
+
+    --tone-blue-soft: #12244a;
+    --tone-blue-ink: #bfdbfe;
+    --tone-blue-line: #1e3a6b;
+    --tone-green-soft: #10281a;
+    --tone-green-ink: #86efac;
+    --tone-green-line: #1a4430;
+    --tone-purple-soft: #241a3d;
+    --tone-purple-ink: #d8b4fe;
+    --tone-purple-line: #3b2a5e;
+    --tone-amber-soft: #2a2210;
+    --tone-amber-ink: #fcd34d;
+    --tone-amber-line: #453515;
+    --tone-orange-soft: #2b1c11;
+    --tone-orange-ink: #fdba74;
+    --tone-orange-line: #492c18;
+    --tone-red-soft: #2c1416;
+    --tone-red-ink: #fca5a5;
+    --tone-red-line: #4a2024;
+    --tone-teal-soft: #0d2725;
+    --tone-teal-ink: #5eead4;
+    --tone-teal-line: #17423e;
+    --tone-indigo-soft: #191f45;
+    --tone-indigo-ink: #c7d2fe;
+    --tone-indigo-line: #2b3468;
+  }
+}
+
+/* Explicit opt-in, so an in-app toggle can override the OS in both directions. */
+:root[data-theme="dark"] {
+  --app-primary: #3b82f6;
+  --app-primary-hover: #60a5fa;
+  --app-primary-foreground: #05122b;
+  --app-primary-soft: #12244a;
+  --app-primary-soft-foreground: #bfdbfe;
+
+  --app-background: #070d1f;
+  --app-foreground: #e8eef8;
+  --app-card: #0f1a33;
+  --app-secondary: #172442;
+  --app-secondary-foreground: #e8eef8;
+
+  --app-muted: #9fb0c6;
+  --app-border: #21304f;
+  --app-border-strong: #32456b;
+
+  --app-accent: #fbbf24;
+  --app-accent-soft: #2a2210;
+  --app-success: #4ade80;
+  --app-success-soft: #10281a;
+  --app-warning: #fbbf24;
+  --app-warning-soft: #2a2210;
+  --app-danger: #f87171;
+  --app-danger-soft: #2c1416;
+  --app-info: #38bdf8;
+  --app-info-soft: #0b2434;
+  --app-brand: #818cf8;
+
+  --tone-blue-soft: #12244a;
+  --tone-blue-ink: #bfdbfe;
+  --tone-blue-line: #1e3a6b;
+  --tone-green-soft: #10281a;
+  --tone-green-ink: #86efac;
+  --tone-green-line: #1a4430;
+  --tone-purple-soft: #241a3d;
+  --tone-purple-ink: #d8b4fe;
+  --tone-purple-line: #3b2a5e;
+  --tone-amber-soft: #2a2210;
+  --tone-amber-ink: #fcd34d;
+  --tone-amber-line: #453515;
+  --tone-orange-soft: #2b1c11;
+  --tone-orange-ink: #fdba74;
+  --tone-orange-line: #492c18;
+  --tone-red-soft: #2c1416;
+  --tone-red-ink: #fca5a5;
+  --tone-red-line: #4a2024;
+  --tone-teal-soft: #0d2725;
+  --tone-teal-ink: #5eead4;
+  --tone-teal-line: #17423e;
+  --tone-indigo-soft: #191f45;
+  --tone-indigo-ink: #c7d2fe;
+  --tone-indigo-line: #2b3468;
+}
+
 @theme inline {
   /* ── Brand ───────────────────────────────────────────── */
-  --color-primary: #2563eb;
-  --color-primary-hover: #1d4ed8;
-  --color-primary-foreground: #ffffff;
-  --color-primary-soft: #eff6ff;
-  --color-primary-soft-foreground: #1d4ed8;
+  --color-primary: var(--app-primary);
+  --color-primary-hover: var(--app-primary-hover);
+  --color-primary-foreground: var(--app-primary-foreground);
+  --color-primary-soft: var(--app-primary-soft);
+  --color-primary-soft-foreground: var(--app-primary-soft-foreground);
 
   /* ── Surfaces ────────────────────────────────────────── */
-  --color-background: #f8fafc;
-  --color-foreground: #0f172a;
-  --color-card: #ffffff;
-  --color-card-foreground: #0f172a;
-  --color-secondary: #f1f5f9;
-  --color-secondary-foreground: #0f172a;
+  --color-background: var(--app-background);
+  --color-foreground: var(--app-foreground);
+  --color-card: var(--app-card);
+  --color-card-foreground: var(--app-foreground);
+  --color-secondary: var(--app-secondary);
+  --color-secondary-foreground: var(--app-secondary-foreground);
 
   /* ── Text ────────────────────────────────────────────── */
-  --color-muted: #64748b;
-  --color-muted-foreground: #64748b;
+  --color-muted: var(--app-muted);
+  --color-muted-foreground: var(--app-muted);
 
   /* ── Lines ───────────────────────────────────────────── */
-  --color-border: #e2e8f0;
-  --color-border-strong: #cbd5e1;
+  --color-border: var(--app-border);
+  --color-border-strong: var(--app-border-strong);
 
   /* ── Semantics ───────────────────────────────────────── */
-  --color-accent: #f59e0b;
+  --color-accent: var(--app-accent);
   --color-accent-foreground: #ffffff;
-  --color-accent-soft: #fffbeb;
+  --color-accent-soft: var(--app-accent-soft);
 
-  --color-success: #16a34a;
+  --color-success: var(--app-success);
   --color-success-foreground: #ffffff;
-  --color-success-soft: #f0fdf4;
+  --color-success-soft: var(--app-success-soft);
 
-  --color-warning: #d97706;
+  --color-warning: var(--app-warning);
   --color-warning-foreground: #ffffff;
-  --color-warning-soft: #fffbeb;
+  --color-warning-soft: var(--app-warning-soft);
 
-  --color-danger: #dc2626;
+  --color-danger: var(--app-danger);
   --color-danger-foreground: #ffffff;
-  --color-danger-soft: #fef2f2;
+  --color-danger-soft: var(--app-danger-soft);
 
-  --color-info: #0284c7;
-  --color-info-soft: #f0f9ff;
+  --color-info: var(--app-info);
+  --color-info-soft: var(--app-info-soft);
 
-  --color-brand: #4f46e5;
+  --color-brand: var(--app-brand);
+
+  /* ── Hero gradient ───────────────────────────────────────
+   * Deliberately fixed in both themes. These panels always carry white text,
+   * so if the gradient followed `primary` it would lighten in dark mode and
+   * the copy sitting on it would lose contrast. `hero-ink` is the muted
+   * on-gradient text and `hero-from` is the ink for white buttons placed on it.
+   */
+  --color-hero-from: #1d4ed8;
+  --color-hero-via: #2563eb;
+  --color-hero-to: #4f46e5;
+  --color-hero-ink: #dbeafe;
+
+  /* ── Tinted tiles ────────────────────────────────────── */
+  --color-tone-blue-soft: var(--tone-blue-soft);
+  --color-tone-blue-ink: var(--tone-blue-ink);
+  --color-tone-blue-line: var(--tone-blue-line);
+  --color-tone-green-soft: var(--tone-green-soft);
+  --color-tone-green-ink: var(--tone-green-ink);
+  --color-tone-green-line: var(--tone-green-line);
+  --color-tone-purple-soft: var(--tone-purple-soft);
+  --color-tone-purple-ink: var(--tone-purple-ink);
+  --color-tone-purple-line: var(--tone-purple-line);
+  --color-tone-amber-soft: var(--tone-amber-soft);
+  --color-tone-amber-ink: var(--tone-amber-ink);
+  --color-tone-amber-line: var(--tone-amber-line);
+  --color-tone-orange-soft: var(--tone-orange-soft);
+  --color-tone-orange-ink: var(--tone-orange-ink);
+  --color-tone-orange-line: var(--tone-orange-line);
+  --color-tone-red-soft: var(--tone-red-soft);
+  --color-tone-red-ink: var(--tone-red-ink);
+  --color-tone-red-line: var(--tone-red-line);
+  --color-tone-teal-soft: var(--tone-teal-soft);
+  --color-tone-teal-ink: var(--tone-teal-ink);
+  --color-tone-teal-line: var(--tone-teal-line);
+  --color-tone-indigo-soft: var(--tone-indigo-soft);
+  --color-tone-indigo-ink: var(--tone-indigo-ink);
+  --color-tone-indigo-line: var(--tone-indigo-line);
 
   /* ── Type ────────────────────────────────────────────── */
   --font-sans: var(--font-nunito);
@@ -213,7 +440,7 @@
   }
 
   .input {
-    @apply w-full rounded-xl border border-border bg-card px-3.5 py-2.5 text-sm text-foreground shadow-soft outline-none transition-all duration-150 placeholder:text-muted/60 focus:border-primary focus:ring-4 focus:ring-primary/15;
+    @apply w-full rounded-xl border border-border bg-card px-3.5 py-2.5 text-sm text-foreground shadow-soft outline-none transition-all duration-150 placeholder:text-muted focus:border-primary focus:ring-4 focus:ring-primary/15;
   }
 
   .label {

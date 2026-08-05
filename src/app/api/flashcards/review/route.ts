@@ -28,8 +28,19 @@ export async function POST(req: NextRequest) {
 
     const { flashcardId, rating, responseTimeMs, objectiveCorrect } = parsed.data;
 
-    const flashcard = await db.flashcard.findUnique({
-      where: { id: flashcardId },
+    // The card must belong to a deck this student authored or follows.
+    // Previously any authenticated user could post reviews against any card id,
+    // writing SRS state for decks they had no relationship with.
+    const flashcard = await db.flashcard.findFirst({
+      where: {
+        id: flashcardId,
+        deck: {
+          OR: [
+            { createdBy: session.user.id },
+            { enrollments: { some: { studentId: session.user.id } } },
+          ],
+        },
+      },
       select: { id: true, difficulty: true },
     });
     if (!flashcard) {

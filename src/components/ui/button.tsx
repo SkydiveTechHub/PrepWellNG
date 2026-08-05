@@ -39,13 +39,15 @@ export function buttonClass(variant?: ButtonVariants["variant"], size?: ButtonVa
   return cn(buttonVariants({ variant, size }), className);
 }
 
+// `ComponentProps<"button">` (not `ButtonHTMLAttributes`) so `ref` is part of the
+// prop type — React 19 passes refs to function components as an ordinary prop.
 export function Button({
   className,
   variant,
   size,
   type = "button",
   ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement> & ButtonVariants) {
+}: React.ComponentProps<"button"> & ButtonVariants) {
   return (
     <button
       type={type}
