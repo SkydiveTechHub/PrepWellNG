@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useId, useRef } from "react";
 import { Button } from "@/components/ui/button";
 
 export function ConfirmDialog({
@@ -27,6 +27,17 @@ export function ConfirmDialog({
 }) {
   const panelRef = useRef<HTMLDivElement>(null);
   const restoreRef = useRef<HTMLElement | null>(null);
+  const titleId = useId();
+  const descriptionId = useId();
+
+  // Keep the latest caller-supplied values available to the effect below
+  // without making them part of its dependency array — see Finding 1.
+  const onCancelRef = useRef(onCancel);
+  const busyRef = useRef(busy);
+  useEffect(() => {
+    onCancelRef.current = onCancel;
+    busyRef.current = busy;
+  });
 
   useEffect(() => {
     if (!open) return;
@@ -44,8 +55,8 @@ export function ConfirmDialog({
     focusables()[0]?.focus();
 
     function onKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape" && !busy) {
-        onCancel();
+      if (event.key === "Escape" && !busyRef.current) {
+        onCancelRef.current();
         return;
       }
       if (event.key !== "Tab") return;
@@ -69,7 +80,7 @@ export function ConfirmDialog({
       document.removeEventListener("keydown", onKeyDown);
       restoreRef.current?.focus();
     };
-  }, [open, busy, onCancel]);
+  }, [open]);
 
   if (!open) return null;
 
@@ -84,14 +95,14 @@ export function ConfirmDialog({
         ref={panelRef}
         role="dialog"
         aria-modal="true"
-        aria-labelledby="confirm-title"
-        aria-describedby="confirm-description"
+        aria-labelledby={titleId}
+        aria-describedby={descriptionId}
         className="w-full max-w-md rounded-lg border border-border-strong bg-card p-5"
       >
-        <h2 id="confirm-title" className="text-base font-bold text-foreground">
+        <h2 id={titleId} className="text-base font-bold text-foreground">
           {title}
         </h2>
-        <p id="confirm-description" className="mt-1.5 text-sm text-muted">
+        <p id={descriptionId} className="mt-1.5 text-sm text-muted">
           {description}
         </p>
         {children}
