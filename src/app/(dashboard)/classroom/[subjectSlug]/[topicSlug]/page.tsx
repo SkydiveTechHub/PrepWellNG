@@ -27,6 +27,7 @@ import {
 import { PretestDialog } from "@/components/path/pretest-dialog";
 import { LessonNotes } from "@/components/classroom/lesson-notes";
 import { TopicActionBar } from "@/components/classroom/topic-action-bar";
+import { TopicResources, type ResourceItem } from "@/components/classroom/topic-resources";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
@@ -89,7 +90,7 @@ export default async function TopicDetailPage({
 
   // Everything below only depends on `subject`/`topic`/`lesson`, already in
   // hand, so it's fetched in parallel rather than as sequential awaits.
-  const [pretestPassed, deck, siblingTopics, progress] = await Promise.all([
+  const [pretestPassed, deck, siblingTopics, progress, lessonResourceRows] = await Promise.all([
     // Learning Path Engine — graph-derived availability (algorithm B). The
     // old "any lesson completed under the prereq" gate is superseded by
     // composite mastery over every PREREQUISITE edge. A readiness pretest
@@ -128,6 +129,14 @@ export default async function TopicDetailPage({
           select: { completionPercent: true },
         })
       : Promise.resolve(null),
+    // Topic-specific resources — every lesson has its own row set (possibly
+    // empty; the subject fallback only kicks in when it is).
+    lesson
+      ? db.lessonResource.findMany({
+          where: { lessonId: lesson.id },
+          orderBy: { orderIndex: "asc" },
+        })
+      : Promise.resolve([]),
   ]);
   const pretestCertified = pretestPassed.has(topic.id);
   const { ready: topicReady, state, prereqs } = await computeTopicReadiness({
@@ -148,6 +157,32 @@ export default async function TopicDetailPage({
     orderIndex: t.orderIndex,
   }));
   const { previous, next } = topicNeighbours(navItems, topicSlug);
+
+  const lessonResources: ResourceItem[] = lessonResourceRows.map((r) => ({
+    id: r.id,
+    // `caption` is nullable free text, not a title — fall back to a generic
+    // label by resource type rather than rendering an empty heading.
+    title: r.caption ?? `${r.resourceType.charAt(0).toUpperCase()}${r.resourceType.slice(1)} resource`,
+    url: r.url,
+    resourceType: r.resourceType,
+    description: null,
+  }));
+  // Loading all 43 subject resources to discard them would be waste — only
+  // fetch the fallback when the topic actually has no resources of its own.
+  const subjectResourceRows =
+    lessonResources.length === 0
+      ? await db.subjectResource.findMany({
+          where: { subjectId: subject.id },
+          orderBy: { orderIndex: "asc" },
+        })
+      : [];
+  const subjectResources: ResourceItem[] = subjectResourceRows.map((r) => ({
+    id: r.id,
+    title: r.title,
+    url: r.url,
+    resourceType: r.resourceType,
+    description: r.description,
+  }));
 
   const { classLevel, term } = topic.curriculumLevel;
   const classColor = CLASS_COLORS[classLevel] ?? "bg-gray-50 text-gray-700 border-gray-200";
@@ -313,6 +348,12 @@ export default async function TopicDetailPage({
           </div>
         )}
       </div>
+
+      <TopicResources
+        lessonResources={lessonResources}
+        subjectResources={subjectResources}
+        subjectName={subject.name}
+      />
 
       <div className="mt-8 flex flex-wrap items-stretch justify-between gap-3">
         {previous ? (
