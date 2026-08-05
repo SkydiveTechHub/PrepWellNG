@@ -3,15 +3,11 @@ import Link from "next/link";
 import {
   LuArrowLeft,
   LuBookOpen,
-  LuChevronDown,
   LuChevronRight,
-  LuClock,
   LuPlay,
-  LuTarget,
 } from "react-icons/lu";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { formatDuration } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { buttonClass } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -31,21 +27,14 @@ import {
   type GraphViewNode,
 } from "@/components/path/graph-view";
 import { CurriculumViewToggle } from "@/components/path/view-toggle";
+import {
+  ClassTermBrowser,
+  type ClassGroup,
+} from "@/components/classroom/class-term-browser";
+import { resolveClassLevel } from "@/lib/classroom";
 
 const CLASS_LEVELS = ["SS1", "SS2", "SS3"] as const;
 const TERMS = ["FIRST", "SECOND", "THIRD"] as const;
-
-const TERM_LABELS: Record<string, string> = {
-  FIRST: "First Term",
-  SECOND: "Second Term",
-  THIRD: "Third Term",
-};
-
-const CLASS_COLORS: Record<string, string> = {
-  SS1: "bg-tone-blue-soft text-tone-blue-ink border-tone-blue-line",
-  SS2: "bg-tone-green-soft text-tone-green-ink border-tone-green-line",
-  SS3: "bg-tone-purple-soft text-tone-purple-ink border-tone-purple-line",
-};
 
 type TopicRow = {
   id: string;
@@ -96,10 +85,22 @@ export default async function SubjectDetailPage({
   // from live evidence + the student's self-certified pretests, so the graph
   // node colours carry the unlock/mastery/revision signal.
   const graph = await loadGraph(db, subject.id);
-  const [state, pretestPassed] = await Promise.all([
+  const [state, pretestPassed, completedProgress] = await Promise.all([
     computeTopicState(db, session.user.id, graph),
     loadPretestPassed(db, session.user.id, subject.id),
+    db.studentProgress.findMany({
+      where: {
+        studentId: session.user.id,
+        subjectId: subject.id,
+        status: "COMPLETED",
+        topicId: { not: null },
+      },
+      select: { topicId: true },
+    }),
   ]);
+  const completedTopicIds = new Set(
+    completedProgress.map((p) => p.topicId).filter((id): id is string => id != null),
+  );
 
   const REVISION_RETENTION = 0.85;
   const graphNodes: GraphViewNode[] = [];
@@ -163,6 +164,29 @@ export default async function SubjectDetailPage({
     if (!grouped[classLevel] || !grouped[classLevel][term]) continue;
     grouped[classLevel][term].push(topic);
   }
+
+  const classes: ClassGroup[] = CLASS_LEVELS.map((level) => ({
+    classLevel: level,
+    terms: TERMS.map((term) => ({
+      term,
+      topics: grouped[level][term].map((topic) => ({
+        slug: topic.slug,
+        title: topic.title,
+        completed: completedTopicIds.has(topic.id),
+      })),
+    })),
+  }));
+
+  const classesWithTopics = classes
+    .filter((group) => group.terms.some((t) => t.topics.length > 0))
+    .map((group) => group.classLevel);
+
+  const initialClassLevel = resolveClassLevel(userClassLevel, classesWithTopics);
+
+  const practiceHref = (classLevel: string) =>
+    `/practice/mock-exam?subjectId=${subject.id}` +
+    `&fromClass=${classLevel}&fromTerm=FIRST` +
+    `&toClass=${classLevel}&toTerm=THIRD`;
 
   const totalQuestions = subject._count.questions;
 
@@ -249,98 +273,19 @@ export default async function SubjectDetailPage({
           }
         >
           {subject.topics.length > 0 ? (
-            <div className="space-y-4">
-            {CLASS_LEVELS.map((level) => {
-              const terms = grouped[level];
-              const topicCount = terms.FIRST.length + terms.SECOND.length + terms.THIRD.length;
-              const classQuestionCount = Object.values(terms)
-                .flat()
-                .reduce((sum, t) => sum + t._count.questions, 0);
-
-              return (
-                <details
-                  key={level}
-                  open={topicCount > 0 && (!userClassLevel || userClassLevel === level)}
-                  className="card group overflow-hidden"
-                >
-                  <summary className="flex cursor-pointer list-none select-none items-center justify-between gap-3 px-5 py-4 transition-colors hover:bg-secondary/40 [&::-webkit-details-marker]:hidden">
-                    <div className="flex flex-wrap items-center gap-3">
-                      <span className={cn("chip border font-bold", CLASS_COLORS[level])}>
-                        {level}
-                      </span>
-                      <span className="text-sm font-bold text-foreground">
-                        {topicCount} topic{topicCount === 1 ? "" : "s"}
-                      </span>
-                      {classQuestionCount > 0 && (
-                        <span className="text-xs text-muted">
-                          {classQuestionCount} question{classQuestionCount === 1 ? "" : "s"}
-                        </span>
-                      )}
-                    </div>
-                    <LuChevronDown className="h-4 w-4 text-muted transition-transform group-open:rotate-180" />
-                  </summary>
-
-                  <div className="grid grid-cols-1 gap-4 border-t border-border px-5 pb-5 pt-4 md:grid-cols-3">
-                    {TERMS.map((term) => {
-                      const topics = terms[term];
-                      if (topics.length === 0) {
-                        return (
-                          <div
-                            key={term}
-                            className="rounded-xl border border-dashed border-border p-4"
-                          >
-                            <h3 className="section-label mb-2">{TERM_LABELS[term]}</h3>
-                            <p className="text-xs text-muted">No topics yet</p>
-                          </div>
-                        );
-                      }
-
-                      return (
-                        <div key={term} className="rounded-xl border border-border bg-card p-4">
-                          <h3 className="section-label mb-3">{TERM_LABELS[term]}</h3>
-                          <div className="space-y-2">
-                            {topics.map((topic) => (
-                              <Link
-                                key={topic.id}
-                                href={`/classroom/${subjectSlug}/${topic.slug}`}
-                                className="group/topic flex items-center justify-between gap-3 rounded-xl border border-border p-3 transition-all hover:border-primary/40 hover:shadow-soft"
-                              >
-                                <div className="flex min-w-0 items-center gap-2.5">
-                                  <LuBookOpen className="h-3.5 w-3.5 flex-shrink-0 text-muted transition-colors group-hover/topic:text-primary" />
-                                  <span className="truncate text-sm font-medium text-foreground">
-                                    {topic.title}
-                                  </span>
-                                </div>
-                                <div className="flex flex-shrink-0 items-center gap-3">
-                                  {topic._count.questions > 0 && (
-                                    <span className="flex items-center gap-1 text-[11px] font-semibold text-muted">
-                                      <LuTarget className="h-3 w-3" />
-                                      {topic._count.questions}
-                                    </span>
-                                  )}
-                                  <span className="flex items-center gap-1 text-[11px] font-semibold text-muted">
-                                    <LuClock className="h-3 w-3" />
-                                    {formatDuration(topic.estimatedMinutes)}
-                                  </span>
-                                </div>
-                              </Link>
-                            ))}
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </details>
-              );
-            })}
-          </div>
-        ) : (
-          <EmptyState
-            icon={<LuBookOpen className="h-6 w-6" />}
-            title="No topics yet"
-            description="Topics for this subject are being prepared. Check back soon."
-          />
-        )}
+            <ClassTermBrowser
+              subjectSlug={subjectSlug}
+              classes={classes}
+              initialClassLevel={initialClassLevel}
+              practiceHref={practiceHref}
+            />
+          ) : (
+            <EmptyState
+              icon={<LuBookOpen className="h-6 w-6" />}
+              title="No topics yet"
+              description="Topics for this subject are being prepared. Check back soon."
+            />
+          )}
         </CurriculumViewToggle>
       </div>
 

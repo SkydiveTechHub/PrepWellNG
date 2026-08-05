@@ -13,7 +13,7 @@ import {
 import { PageHeader } from "@/components/ui/page-header";
 import { Badge } from "@/components/ui/badge";
 
-export default async function SubjectsPage({
+export default async function ClassroomPage({
   searchParams,
 }: {
   searchParams: Promise<{ all?: string }>;
@@ -53,11 +53,11 @@ export default async function SubjectsPage({
   return (
     <div>
       <PageHeader
-        title="Subjects"
+        title="Classroom"
         description={
           showAll || !hasNarrowing
-            ? "Every WAEC, JAMB, and NECO subject."
-            : `Your ${TRACK_LABELS[track as TrackCategory] ?? ""} subjects, plus the core subjects everyone sits.`
+            ? "Study any WAEC, JAMB, or NECO subject — notes, quizzes, and practice in one place."
+            : `Study your ${TRACK_LABELS[track as TrackCategory] ?? ""} subjects, plus the core subjects everyone sits.`
         }
         action={
           hasNarrowing ? (
