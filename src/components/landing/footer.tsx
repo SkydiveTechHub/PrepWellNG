@@ -6,7 +6,6 @@ import {
   LuYoutube,
 } from "react-icons/lu";
 import { Logo } from "./logo";
-import { NewsletterForm } from "./newsletter-form";
 
 const COLUMNS: { heading: string; links: { label: string; href: string }[] }[] = [
   {

@@ -431,6 +431,10 @@ model Question {
   @@index([examType, examYear])
   @@index([subjectId, difficulty])
   @@index([subjectId, examType, examYear])
+  // Every quiz generation filters on questionType alongside the subject, so
+  // without this the random pick scans the subject's whole bank.
+  @@index([subjectId, questionType])
+  @@index([subjectId, questionType, examType])
 }
 
 // ─── Assessments ──────────────────────────────────────────
@@ -489,6 +493,8 @@ model AssessmentAttempt {
 
   @@index([studentId, assessmentId])
   @@index([studentId, status])
+  // Dashboard, performance and streaks all read completed attempts newest-first.
+  @@index([studentId, status, completedAt])
 }
 
 model QuestionResponse {
@@ -504,6 +510,11 @@ model QuestionResponse {
 
   @@unique([attemptId, questionId])
   @@index([attemptId])
+  // The "questions this student has already seen" subquery in question-pool
+  // probes by questionId before joining back to the attempt.
+  @@index([questionId])
+  // The performance page groups wrong answers by subject and topic.
+  @@index([isCorrect])
 }
 
 // ─── Progress & Performance ───────────────────────────────

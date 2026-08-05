@@ -18,9 +18,9 @@ const PRIORITY_STYLE = {
     iconClass: "bg-primary text-primary",
   },
   medium: {
-    ring: "border-amber-200 bg-amber-50/60",
+    ring: "border-tone-amber-line bg-tone-amber-soft/60",
     icon: LuSparkles,
-    iconClass: "bg-amber-100 text-amber-700",
+    iconClass: "bg-tone-amber-soft text-tone-amber-ink",
   },
   low: {
     ring: "border-border bg-card",

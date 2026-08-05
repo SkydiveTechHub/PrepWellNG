@@ -3,11 +3,21 @@ import bcrypt from "bcryptjs";
 import { ClassLevel, Track } from "@prisma/client";
 import { db } from "@/lib/db";
 import { registerSchema } from "@/lib/validators";
+import { clientKey, rateLimit, tooManyRequests } from "@/lib/rate-limit";
 
 export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
   try {
+    // Unauthenticated and it runs bcrypt, so it is both the account-creation
+    // spam surface and a cheap way to burn server CPU.
+    const limit = rateLimit({
+      key: clientKey(req, "register"),
+      limit: 5,
+      windowSeconds: 600,
+    });
+    if (!limit.ok) return tooManyRequests(limit.retryAfterSeconds);
+
     const body = await req.json();
     const parsed = registerSchema.safeParse(body);
 
@@ -18,8 +28,11 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { firstName, lastName, email, password, classLevel, track, state } =
+    const { firstName, lastName, password, classLevel, track, state } =
       parsed.data;
+    // Store emails normalized so the credentials provider (which lowercases on
+    // every login) can always find the row regardless of how it's typed.
+    const email = parsed.data.email.trim().toLowerCase();
 
     // Check if user already exists
     const existing = await db.user.findUnique({

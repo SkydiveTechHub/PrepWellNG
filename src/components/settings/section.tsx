@@ -45,7 +45,7 @@ export function FormMessage({
 }
 
 export const inputClass =
-  "w-full rounded-xl border border-border bg-card px-3.5 py-2.5 text-sm text-foreground shadow-soft outline-none transition-all duration-150 placeholder:text-muted/60 focus:border-primary focus:ring-4 focus:ring-primary/15";
+  "w-full rounded-xl border border-border bg-card px-3.5 py-2.5 text-sm text-foreground shadow-soft outline-none transition-all duration-150 placeholder:text-muted focus:border-primary focus:ring-4 focus:ring-primary/15";
 
 export const labelClass = "mb-1.5 block text-sm font-semibold text-foreground";
 

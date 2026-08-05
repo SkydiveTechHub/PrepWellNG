@@ -1,17 +1,12 @@
 import {
-  LuChartColumn,
   LuBookOpen,
   LuBot,
   LuBrainCircuit,
   LuCalendarClock,
   LuClipboardList,
   LuChartLine,
-  LuMonitorSmartphone,
-  LuSmartphone,
   LuTarget,
   LuTrophy,
-  LuUsers,
-  LuWandSparkles,
 } from "react-icons/lu";
 import { SectionHeader } from "./section";
 import { Reveal } from "./reveal";

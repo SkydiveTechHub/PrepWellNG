@@ -59,7 +59,7 @@ export default async function FlashcardsPage() {
 
       {/* Due hero */}
       {decks.length > 0 ? (
-        <section className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary via-blue-600 to-brand p-6 shadow-lift md:p-8">
+        <section className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-hero-from via-hero-via to-hero-to p-6 shadow-lift md:p-8">
           <div className="absolute -right-16 -top-24 h-64 w-64 rounded-full bg-white/10" />
           <div className="absolute -bottom-24 -left-10 h-56 w-56 rounded-full bg-white/10" />
           <div className="relative flex flex-wrap items-center justify-between gap-6">
@@ -71,7 +71,7 @@ export default async function FlashcardsPage() {
                     ? `${totalFresh} new card${totalFresh === 1 ? "" : "s"} ready`
                     : "All caught up"}
               </h2>
-              <p className="mt-2 text-sm leading-relaxed text-blue-100">
+              <p className="mt-2 text-sm leading-relaxed text-hero-ink">
                 {totalDue > 0
                   ? "Your memory is at its weakest for these — a few minutes today re-cements them."
                   : totalFresh > 0
@@ -81,7 +81,7 @@ export default async function FlashcardsPage() {
               {bestDeck && (totalDue > 0 || totalFresh > 0) && (
                 <Link
                   href={`/flashcards/${bestDeck.id}`}
-                  className="mt-5 inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-bold text-primary shadow-soft transition-transform hover:scale-[1.02] active:scale-[0.98]"
+                  className="mt-5 inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-bold text-hero-from shadow-soft transition-transform hover:scale-[1.02] active:scale-[0.98]"
                 >
                   <LuSparkles className="h-4 w-4" />
                   Start studying
@@ -92,7 +92,7 @@ export default async function FlashcardsPage() {
             {totalDue > 0 && (
               <div className="rounded-2xl bg-white/10 px-6 py-4 text-center backdrop-blur">
                 <p className="text-3xl font-bold text-white">{totalDue}</p>
-                <p className="mt-0.5 text-xs font-medium text-blue-100">
+                <p className="mt-0.5 text-xs font-medium text-hero-ink">
                   due across {decks.filter((d) => d.due > 0).length} deck
                   {decks.filter((d) => d.due > 0).length === 1 ? "" : "s"}
                 </p>

@@ -11,6 +11,49 @@ const loginSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
+// Profile fields cached on the JWT at sign-in so the session callback can keep
+// serving the chrome when the database is slow or briefly unreachable, instead
+// of throwing a JWTSessionError that takes the whole request down with it.
+type CachedProfile = {
+  role?: string | null;
+  classLevel?: string | null;
+  track?: string | null;
+  firstName?: string | null;
+  lastName?: string | null;
+  image?: string | null;
+};
+
+/** How long a cached profile is served before the JWT callback re-reads it. */
+const PROFILE_TTL_MS = 60_000;
+
+const PROFILE_SELECT = {
+  role: true,
+  classLevel: true,
+  track: true,
+  firstName: true,
+  lastName: true,
+  image: true,
+} as const;
+
+// The session.user shape the callbacks extend — structural so it doesn't rely
+// on next-auth's exact type export surface across beta versions.
+type SessionUser = {
+  id?: string | null;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+};
+
+function applyProfile(sessionUser: SessionUser, profile: CachedProfile) {
+  const extended = sessionUser as SessionUser & CachedProfile;
+  extended.role = profile.role;
+  extended.classLevel = profile.classLevel;
+  extended.track = profile.track;
+  extended.firstName = profile.firstName;
+  extended.lastName = profile.lastName;
+  extended.image = profile.image;
+}
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(db),
   session: { strategy: "jwt" },
@@ -47,8 +90,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         const { email, password } = parsed.data;
 
+        // Emails are stored lowercase/trimmed at registration; match the same
+        // normalization here so casing differences never lock an account out.
         const user = await db.user.findUnique({
-          where: { email },
+          where: { email: email.trim().toLowerCase() },
         });
 
         if (!user || !user.passwordHash) return null;
@@ -65,53 +110,61 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
     }),
 
-    // Phone OTP — handled via custom API route
-    // See /api/auth/send-otp and /api/auth/verify-otp
   ],
 
   callbacks: {
+    // Reads the token only. This used to query the database on *every* request
+    // — a round-trip in front of every page render and every API call, before
+    // the route had run a single query of its own.
     async session({ session, token }) {
       if (token.sub && session.user) {
         session.user.id = token.sub;
-
-        // Fetch additional user data
-        const user = await db.user.findUnique({
-          where: { id: token.sub },
-          select: {
-            role: true,
-            classLevel: true,
-            track: true,
-            firstName: true,
-            lastName: true,
-            image: true,
-          },
-        });
-
-        if (user) {
-          const extendedUser = session.user as typeof session.user & {
-            role?: string | null;
-            classLevel?: string | null;
-            track?: string | null;
-            firstName?: string | null;
-            lastName?: string | null;
-          };
-          extendedUser.role = user.role;
-          extendedUser.classLevel = user.classLevel;
-          extendedUser.track = user.track;
-          extendedUser.firstName = user.firstName;
-          extendedUser.lastName = user.lastName;
-          // Read from the database, not the JWT — the token still holds
-          // whatever image was set at sign-in and goes stale after an upload.
-          session.user.image = user.image;
-        }
+        const cached = (token as { profile?: CachedProfile }).profile;
+        if (cached) applyProfile(session.user, cached);
       }
       return session;
     },
 
-    async jwt({ token, user }) {
-      if (user) {
-        token.sub = user.id;
+    // The profile cache is refreshed here instead, at most once per
+    // PROFILE_TTL_MS. `trigger: "update"` forces it immediately.
+    //
+    // Tradeoff: a name or avatar change can take up to the TTL to appear in the
+    // sidebar chrome. Only presentation data is cached — `role` is re-checked
+    // against the database by the admin layout and every admin route handler,
+    // so a stale token cannot grant access.
+    async jwt({ token, user, trigger }) {
+      const cache = token as { profile?: CachedProfile; profileAt?: number };
+      const isSignIn = Boolean(user);
+
+      if (isSignIn && user?.id) token.sub = user.id;
+      if (!token.sub) return token;
+
+      const expired =
+        cache.profileAt == null || Date.now() - cache.profileAt > PROFILE_TTL_MS;
+
+      if (!isSignIn && trigger !== "update" && !expired) return token;
+
+      try {
+        const profile = await db.user.findUnique({
+          where: { id: token.sub },
+          select: PROFILE_SELECT,
+        });
+        if (profile) {
+          cache.profile = {
+            role: profile.role,
+            classLevel: profile.classLevel,
+            track: profile.track,
+            firstName: profile.firstName,
+            lastName: profile.lastName,
+            image: profile.image,
+          };
+          cache.profileAt = Date.now();
+        }
+      } catch {
+        // Keep whatever is cached rather than throwing a JWTSessionError, which
+        // would take the whole request down. Retried on the next expiry check.
       }
+
       return token;
     },
   },

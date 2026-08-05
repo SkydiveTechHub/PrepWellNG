@@ -23,10 +23,10 @@ const RATING_ICON = {
 } as const;
 
 const RATING_STYLE: Record<ReviewRating, string> = {
-  AGAIN: "hover:border-red-300 hover:bg-red-50 text-red-600",
-  HARD: "hover:border-orange-300 hover:bg-orange-50 text-orange-600",
-  GOOD: "hover:border-blue-300 hover:bg-blue-50 text-blue-600",
-  EASY: "hover:border-green-300 hover:bg-green-50 text-green-600",
+  AGAIN: "hover:border-tone-red-line hover:bg-tone-red-soft text-tone-red-ink",
+  HARD: "hover:border-tone-orange-line hover:bg-tone-orange-soft text-tone-orange-ink",
+  GOOD: "hover:border-tone-blue-line hover:bg-tone-blue-soft text-tone-blue-ink",
+  EASY: "hover:border-tone-green-line hover:bg-tone-green-soft text-tone-green-ink",
 };
 
 const RATING_KEY: Record<ReviewRating, string> = {

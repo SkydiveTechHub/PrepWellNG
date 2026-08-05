@@ -32,7 +32,7 @@ export default async function AuthLayout({
   return (
     <div className="flex min-h-full">
       {/* Left panel — branding */}
-      <div className="relative hidden w-1/2 items-center justify-center overflow-hidden bg-gradient-to-br from-primary via-blue-600 to-brand p-12 lg:flex">
+      <div className="relative hidden w-1/2 items-center justify-center overflow-hidden bg-gradient-to-br from-hero-from via-hero-via to-hero-to p-12 lg:flex">
         <div className="absolute -left-24 -top-24 h-96 w-96 rounded-full bg-white/10" />
         <div className="absolute -bottom-32 -right-20 h-[28rem] w-[28rem] rounded-full bg-white/10" />
         <div className="absolute right-16 top-24 h-16 w-16 rounded-2xl bg-white/10" />
@@ -47,7 +47,7 @@ export default async function AuthLayout({
               <h1 className="text-2xl font-bold tracking-tight text-white">
                 PrepWell
               </h1>
-              <p className="text-xs font-semibold uppercase tracking-widest text-blue-200">
+              <p className="text-xs font-semibold uppercase tracking-widest text-hero-ink">
                 WAEC · JAMB · NECO
               </p>
             </div>
@@ -56,7 +56,7 @@ export default async function AuthLayout({
           <h2 className="text-3xl font-bold leading-tight text-white">
             Your exam score is built question by question.
           </h2>
-          <p className="mt-4 leading-relaxed text-blue-100">
+          <p className="mt-4 leading-relaxed text-hero-ink">
             Structured lessons from SS1 to SS3, thousands of past questions,
             mock exams under real conditions, and study plans that adapt to you.
           </p>
@@ -69,7 +69,7 @@ export default async function AuthLayout({
                 </span>
                 <div>
                   <p className="font-semibold text-white">{benefit.title}</p>
-                  <p className="text-sm text-blue-100/90">{benefit.text}</p>
+                  <p className="text-sm text-hero-ink/90">{benefit.text}</p>
                 </div>
               </li>
             ))}
@@ -77,7 +77,7 @@ export default async function AuthLayout({
 
           <div className="mt-10 flex items-center gap-3 rounded-xl bg-white/10 px-4 py-3 backdrop-blur">
             <LuCheck className="h-5 w-5 flex-shrink-0 text-emerald-300" />
-            <p className="text-sm text-blue-50">
+            <p className="text-sm text-hero-ink">
               Trusted by students preparing for Nigeria&apos;s biggest exams.
             </p>
           </div>

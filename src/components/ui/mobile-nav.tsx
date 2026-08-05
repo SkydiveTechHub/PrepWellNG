@@ -21,8 +21,20 @@ const tabs = [
   { name: "Plan", href: "/study-plan", icon: LuCalendar },
 ];
 
+// Routes that own the bottom edge of the screen. Stacking the exam action bar
+// on top of this one cost ~130px of viewport on the smallest phones.
+const IMMERSIVE_ROUTES = [
+  /^\/practice\/mock-exam\/session/,
+  /^\/practice\/past-questions\/[^/]+$/,
+  /^\/practice\/cbt/,
+  /^\/subjects\/[^/]+\/[^/]+\/quiz/,
+  /^\/subjects\/[^/]+\/[^/]+\/lessons\/[^/]+\/practice$/,
+];
+
 export function MobileNav() {
   const pathname = usePathname();
+
+  if (IMMERSIVE_ROUTES.some((route) => route.test(pathname))) return null;
 
   return (
     <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-card/95 backdrop-blur-md lg:hidden">

@@ -49,13 +49,13 @@ export function StatsDashboard({ stats }: StatsDashboardProps) {
       value: pct(stats.measuredRetention),
       sub: `Predicted ${pct(stats.predictedRetention)}`,
       icon: LuTarget,
-      tile: "bg-purple-100 text-purple-700",
+      tile: "bg-tone-purple-soft text-tone-purple-ink",
     },
     {
       label: "Day streak",
       value: `${stats.streak}d`,
       icon: LuFlame,
-      tile: "bg-orange-100 text-orange-600",
+      tile: "bg-tone-orange-soft text-tone-orange-ink",
     },
   ];
 
@@ -77,7 +77,7 @@ export function StatsDashboard({ stats }: StatsDashboardProps) {
             </p>
             <p className="mt-0.5 text-xs font-medium text-muted">{tile.label}</p>
             {tile.sub && (
-              <p className="mt-0.5 text-[11px] font-medium text-muted/70">
+              <p className="mt-0.5 text-[11px] font-medium text-muted">
                 {tile.sub}
               </p>
             )}

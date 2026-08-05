@@ -15,6 +15,13 @@ import type {
 
 const DAY_MS = 86_400_000;
 
+/** Decks a student authored or follows — the only ones their analytics cover. */
+function studentDeckScope(studentId: string) {
+  return {
+    OR: [{ createdBy: studentId }, { enrollments: { some: { studentId } } }],
+  };
+}
+
 type RetentionLog = { rating: "AGAIN" | "HARD" | "GOOD" | "EASY"; objectiveCorrect: boolean | null };
 
 /** Success signal for a review: the objective self-check when present, else the rating. */
@@ -49,7 +56,9 @@ export async function getDeckSummaries(
 ): Promise<DeckSummary[]> {
   const now = new Date();
   const [decks, reviews, enrollments, cardCounts] = await db.$transaction([
+    // Only decks this student created or follows — a fresh user sees no decks.
     db.flashcardDeck.findMany({
+      where: studentDeckScope(studentId),
       include: {
         subject: { select: { name: true } },
         topic: { select: { title: true } },
@@ -148,8 +157,19 @@ export async function getFlashcardStats(
           flashcard: { select: { deckId: true } },
         },
       }),
-      db.flashcardDeck.findMany({ select: { id: true, title: true } }),
-      db.flashcard.groupBy({ by: ["deckId"], _count: { id: true }, orderBy: { deckId: "asc" } }),
+      // Only this student's decks. Fetching the whole catalogue meant every
+      // student paid for every other student's decks, and emitted a DeckStat
+      // row for decks they had never opened.
+      db.flashcardDeck.findMany({
+        where: studentDeckScope(studentId),
+        select: { id: true, title: true },
+      }),
+      db.flashcard.groupBy({
+        by: ["deckId"],
+        where: { deck: studentDeckScope(studentId) },
+        _count: { id: true },
+        orderBy: { deckId: "asc" },
+      }),
       db.flashcardReviewLog.findMany({
         where: { studentId, reviewedAt: { gte: new Date(now.getTime() - 90 * DAY_MS) } },
         select: { flashcardId: true, rating: true },
@@ -236,28 +256,46 @@ export async function getFlashcardStats(
     cursor.setDate(cursor.getDate() - 1);
   }
 
-  // Per-deck stats.
+  // Per-deck stats. Bucketed in a single pass over the reviews — the previous
+  // form re-filtered the entire review set once per deck.
   const totalByDeck = new Map(cardCounts.map((c) => [c.deckId, groupCount(c)]));
   const nowMs = now.getTime();
+  const perDeck = new Map<
+    string,
+    { reviewed: number; due: number; retentionSum: number; retainable: number }
+  >();
+
+  for (const row of reviewRows) {
+    const deckId = row.flashcard.deckId;
+    const entry = perDeck.get(deckId) ?? {
+      reviewed: 0,
+      due: 0,
+      retentionSum: 0,
+      retainable: 0,
+    };
+    entry.reviewed += 1;
+    if (row.dueAt.getTime() <= nowMs) entry.due += 1;
+    if (row.state === "REVIEW" || row.state === "RELEARNING") {
+      entry.retainable += 1;
+      entry.retentionSum += predictRetention(row, now);
+    }
+    perDeck.set(deckId, entry);
+  }
+
   const decks: DeckStat[] = deckList.map((deck) => {
-    const rows = reviewRows.filter((r) => r.flashcard.deckId === deck.id);
-    const reviewed = rows.length;
-    const due = rows.filter((r) => r.dueAt.getTime() <= nowMs).length;
-    const retainable = rows.filter(
-      (r) => r.state === "REVIEW" || r.state === "RELEARNING",
-    );
+    const entry = perDeck.get(deck.id);
+    const total = totalByDeck.get(deck.id) ?? 0;
     const retention =
-      retainable.length > 0
-        ? retainable.reduce((sum, r) => sum + predictRetention(r, now), 0) /
-          retainable.length
+      entry && entry.retainable > 0
+        ? entry.retentionSum / entry.retainable
         : null;
     return {
       deckId: deck.id,
       title: deck.title,
-      total: totalByDeck.get(deck.id) ?? 0,
-      due,
-      fresh: (totalByDeck.get(deck.id) ?? 0) - reviewed,
-      reviewed,
+      total,
+      due: entry?.due ?? 0,
+      fresh: total - (entry?.reviewed ?? 0),
+      reviewed: entry?.reviewed ?? 0,
       retention: retention !== null ? Math.round(retention * 100) / 100 : null,
     };
   });

@@ -950,7 +950,12 @@ export type AdminQuestionUpdateInput = z.infer<typeof adminQuestionUpdateSchema>
 
 Add `import { checkQuestionInvariants } from "@/lib/admin-question";` at the top of the file.
 
-> **If `adminQuestionCreateSchema.innerType()` is not available on this zod version:** declare the object shape as a standalone `const adminQuestionShape = { ... }` and build both schemas from it (`z.object(adminQuestionShape).superRefine(...)` and `z.object(adminQuestionShape).partial()`). Do not duplicate the field list.
+> **CORRECTION — verified during implementation, 2026-08-04.** The code above is zod-3 shaped and does not work on this project's zod 4.4.3. Two facts were confirmed empirically:
+>
+> 1. `.innerType()` throws `TypeError: ... is not a function` on a `superRefine`'d schema. The fallback below is mandatory, not optional.
+> 2. **`.partial()` does NOT suppress `.default()` in zod 4.** `z.object({ b: z.number().default(1) }).partial().safeParse({})` returns `{ b: 1 }`, not `{}`. So putting defaults inside a shared shape means the update schema's "at least one field" refine can never fire — a `PATCH` with an empty body would be accepted.
+>
+> **Do this instead:** declare the field shape once as `const adminQuestionShape = { ... }` with **no `.default()` on any field**. Build the create schema as `z.object({ ...adminQuestionShape, questionType: adminQuestionShape.questionType.default("OBJECTIVE"), /* …other defaults… */ }).superRefine(...)`, layering defaults onto the shared field schemas rather than re-typing their constraints. Build the update schema as `z.object(adminQuestionShape).partial().refine(...)`. The field list is still declared exactly once.
 
 The update path re-checks invariants inside the route rather than in the schema, because a partial update may change `options` without resending `correctAnswer`; the route merges the stored row with the patch before checking. That merge is written in Task 6.
 
@@ -2128,8 +2133,10 @@ npx prisma studio
 
 - [ ] **Step 5: Commit any fixes and push the branch**
 
+**Never `git add -A` in this repository.** The working tree carries ~104 uncommitted files of unrelated in-progress work that predate this branch. Stage only the admin paths you touched:
+
 ```bash
-git add -A
+git add src/app/admin src/app/api/admin src/components/admin src/lib/admin-*.ts scripts/test-admin-*.mts
 git commit -m "chore(admin): final verification fixes"
 git push -u origin admin-console-phase-1
 ```

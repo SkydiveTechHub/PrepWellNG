@@ -65,6 +65,10 @@ export function bottleneckScore(
  * Classifies a topic's gap status. WEAK dominates, then DECAYED; UNTOUCHED
  * is informational (an available, never-started topic — surfaced by the
  * recommendations instead of the gap queue).
+ *
+ * Diagnosed gaps (WEAK/DECAYED/BOTTLENECK) require evidence: a topic the
+ * student has never touched (no lesson, practice or SRS data) has zero
+ * mastery, but it is not a weakness — it is simply not started yet.
  */
 export function classifyTopic(
   state: TopicStateMap,
@@ -75,12 +79,14 @@ export function classifyTopic(
   const topic = state.get(topicId);
   if (!topic || !graph.nodes.has(topicId)) return null;
 
+  const hasEvidence = topic.acc != null || topic.lessonM != null || topic.srs != null;
+  if (!hasEvidence) {
+    return isAvailable(topicId, state, graph, pretestPassed) ? "UNTOUCHED" : null;
+  }
+
   if (topic.mastery < WEAK_MASTERY) return "WEAK";
   if (topic.retention != null && topic.retention < GAP_RETENTION) {
     return "DECAYED";
-  }
-  if (isAvailable(topicId, state, graph, pretestPassed) && topic.lastStudy == null) {
-    return "UNTOUCHED";
   }
   const blocked = unmasteredDependents(state, graph, topicId);
   if (!isAvailable(topicId, state, graph, pretestPassed) && blocked.length >= 2) {

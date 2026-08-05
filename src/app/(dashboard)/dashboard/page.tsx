@@ -23,12 +23,13 @@ import { Progress } from "@/components/ui/progress";
 import { EmptyState } from "@/components/ui/empty-state";
 import { cn } from "@/lib/utils";
 import { computePathState, loadStudentSubjectIds } from "@/lib/learning-path";
-import { recommendNext } from "@/engines/learning/recommend";
-import { gapQueue } from "@/engines/learning/gaps";
+import { recommendNext, type NextTopicRecommendation } from "@/engines/learning/recommend";
+import { gapQueue, type TopicGap } from "@/engines/learning/gaps";
 import {
   loadRevisionExtras,
   revisionItemToRecommendation,
   revisionQueue,
+  type RevisionQueueItem,
 } from "@/engines/learning/revision";
 import { NextTopics } from "@/components/path/next-topics";
 import { GapList } from "@/components/path/gap-list";
@@ -41,6 +42,9 @@ async function getDashboardStats(userId: string) {
     distinctTopics,
     recentAttempts,
     lastWeekActivity,
+    completedLessons,
+    reviewCount,
+    activePlanCount,
   ] = await db.$transaction([
     db.questionResponse.count({
       where: { attempt: { studentId: userId } },
@@ -66,12 +70,28 @@ async function getDashboardStats(userId: string) {
         completedAt: { gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) },
       },
     }),
+    db.studentProgress.count({
+      where: { studentId: userId, status: "COMPLETED", lessonId: { not: null } },
+    }),
+    db.flashcardReview.count({ where: { studentId: userId } }),
+    // Counted rather than fetched: the hero only needs to know whether a plan
+    // exists, and it rides along in the transaction already being run.
+    db.studyPlan.count({ where: { studentId: userId, isActive: true } }),
   ]);
 
   const topicCount = new Set(distinctTopics.map((r) => r.question.topicId).filter(Boolean)).size;
   const accuracy = totalResponses > 0 ? Math.round((correctResponses / totalResponses) * 100) : null;
 
-  return { totalResponses, accuracy, topicCount, recentAttempts, lastWeekActivity };
+  return {
+    totalResponses,
+    accuracy,
+    topicCount,
+    recentAttempts,
+    lastWeekActivity,
+    completedLessons,
+    reviewCount,
+    hasStudyPlan: activePlanCount > 0,
+  };
 }
 
 const STAT_CARDS = [
@@ -91,13 +111,13 @@ const STAT_CARDS = [
     key: "accuracy",
     label: "Overall Accuracy",
     icon: LuTrendingUp,
-    tile: "bg-purple-100 text-purple-700",
+    tile: "bg-tone-purple-soft text-tone-purple-ink",
   },
   {
     key: "week",
     label: "This Week",
     icon: LuFlame,
-    tile: "bg-orange-100 text-orange-600",
+    tile: "bg-tone-orange-soft text-tone-orange-ink",
   },
 ];
 
@@ -107,21 +127,21 @@ const QUICK_LINKS = [
     description: "WAEC · JAMB · NECO",
     href: "/practice/past-questions",
     icon: LuFileText,
-    tile: "bg-green-100 text-green-700",
+    tile: "bg-tone-green-soft text-tone-green-ink",
   },
   {
     title: "Mock Exam",
     description: "Timed, full-length",
     href: "/practice/mock-exam",
     icon: LuTimer,
-    tile: "bg-purple-100 text-purple-700",
+    tile: "bg-tone-purple-soft text-tone-purple-ink",
   },
   {
     title: "JAMB CBT",
     description: "180 questions · 2hrs",
     href: "/practice/cbt",
     icon: LuMonitor,
-    tile: "bg-blue-100 text-blue-700",
+    tile: "bg-tone-blue-soft text-tone-blue-ink",
   },
   {
     title: "Subjects",
@@ -135,21 +155,21 @@ const QUICK_LINKS = [
     description: "Spaced repetition",
     href: "/flashcards",
     icon: LuSparkles,
-    tile: "bg-indigo-100 text-indigo-700",
+    tile: "bg-tone-indigo-soft text-tone-indigo-ink",
   },
   {
     title: "Library",
     description: "Textbooks & notes",
     href: "/library",
     icon: LuBook,
-    tile: "bg-amber-100 text-amber-700",
+    tile: "bg-tone-amber-soft text-tone-amber-ink",
   },
   {
     title: "Achievements",
     description: "Badges & streaks",
     href: "/achievements",
     icon: LuAward,
-    tile: "bg-rose-100 text-rose-600",
+    tile: "bg-tone-red-soft text-tone-red-ink",
   },
 ];
 
@@ -160,38 +180,54 @@ export default async function DashboardPage() {
   const stats = await getDashboardStats(session.user.id);
   const firstName = session.user.name?.split(" ")[0];
 
-  // Learning Path Engine — next-topic recommendations and learning gaps,
-  // derived on read from the student's live progress across their subjects.
-  const subjectIds = await loadStudentSubjectIds(db, session.user.id);
-  const subjectRows = await db.subject.findMany({
-    where: { id: { in: subjectIds } },
-    select: { id: true, slug: true, name: true, code: true },
-  });
+  // "Next for you" and "Revise today" only make sense once the student has
+  // engaged somewhere — a quiz, a completed lesson, a flashcard review. For
+  // brand-new users with no activity, hide those sections and skip the heavy
+  // learning-path derivation entirely.
+  const hasActivity =
+    stats.totalResponses > 0 ||
+    stats.completedLessons > 0 ||
+    stats.reviewCount > 0;
+
+  const hasStudyPlan = stats.hasStudyPlan;
+
   const subjects: Record<string, { slug: string; name: string; code: string }> = {};
-  for (const row of subjectRows) subjects[row.id] = row;
+  let learningPicks: NextTopicRecommendation[] = [];
+  let gaps: TopicGap[] = [];
+  let revision: RevisionQueueItem[] = [];
 
-  const { state, graph, pretestPassed } = await computePathState(
-    db,
-    session.user.id,
-    subjectIds,
-  );
-  const now = new Date();
-  const revisionExtras = await loadRevisionExtras(db, session.user.id, graph, now);
-  const revision = revisionQueue(state, graph, revisionExtras, { now, k: 6 });
+  if (hasActivity) {
+    // Learning Path Engine — next-topic recommendations and learning gaps,
+    // derived on read from the student's live progress across their subjects.
+    const subjectIds = await loadStudentSubjectIds(db, session.user.id);
+    const subjectRows = await db.subject.findMany({
+      where: { id: { in: subjectIds } },
+      select: { id: true, slug: true, name: true, code: true },
+    });
+    for (const row of subjectRows) subjects[row.id] = row;
 
-  // Algorithm C's consolidation fallback: when nothing is available to learn,
-  // the "Keep learning" rail hands off to the merged revision queue.
-  const nextTopics = recommendNext(state, graph, { k: 3, pretestPassed });
-  const learningPicks =
-    nextTopics.length > 0
-      ? nextTopics
-      : revision.slice(0, 3).map(revisionItemToRecommendation);
-  const gaps = gapQueue(state, graph, pretestPassed);
+    const { state, graph, pretestPassed } = await computePathState(
+      db,
+      session.user.id,
+      subjectIds,
+    );
+    const now = new Date();
+    const revisionExtras = await loadRevisionExtras(db, session.user.id, graph, now);
+    revision = revisionQueue(state, graph, revisionExtras, { now, k: 6 });
+
+    // Algorithm C's consolidation fallback: when nothing is available to learn,
+    // the "Keep learning" rail hands off to the merged revision queue.
+    const nextTopics = recommendNext(state, graph, { k: 3, pretestPassed });
+    learningPicks =
+      nextTopics.length > 0
+        ? nextTopics
+        : revision.slice(0, 3).map(revisionItemToRecommendation);
+    gaps = gapQueue(state, graph, pretestPassed);
+  }
 
   const bestScore = stats.recentAttempts.length
     ? Math.max(...stats.recentAttempts.map((a) => a.percentage ?? 0))
     : null;
-  const hasActivity = stats.totalResponses > 0;
 
   const statValues: Record<string, string> = {
     questions: stats.totalResponses.toString(),
@@ -203,7 +239,7 @@ export default async function DashboardPage() {
   return (
     <div className="space-y-8">
       {/* Hero */}
-      <section className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary via-blue-600 to-brand p-6 shadow-lift md:p-8">
+      <section className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-hero-from via-hero-via to-hero-to p-6 shadow-lift md:p-8">
         <div className="absolute -right-16 -top-24 h-64 w-64 rounded-full bg-white/10" />
         <div className="absolute -bottom-24 -left-10 h-56 w-56 rounded-full bg-white/10" />
         <div className="absolute right-24 top-10 hidden h-10 w-10 rounded-2xl bg-white/10 md:block" />
@@ -212,7 +248,7 @@ export default async function DashboardPage() {
             <h1 className="text-2xl font-bold tracking-tight text-white md:text-3xl">
               <Greeting name={firstName} />!
             </h1>
-            <p className="mt-2 text-sm leading-relaxed text-blue-100">
+            <p className="mt-2 text-sm leading-relaxed text-hero-ink">
               {hasActivity
                 ? "You're making real progress. A little focus each day compounds into a great result."
                 : "Every champion starts with a first question. Let's take yours together."}
@@ -220,16 +256,18 @@ export default async function DashboardPage() {
             <div className="mt-5 flex flex-wrap gap-3">
               <Link
                 href="/practice/past-questions"
-                className="inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-bold text-primary shadow-soft transition-transform hover:scale-[1.02] active:scale-[0.98]"
+                className="inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-bold text-hero-from shadow-soft transition-transform hover:scale-[1.02] active:scale-[0.98]"
               >
                 <LuSparkles className="h-4 w-4" />
                 Start practicing
               </Link>
+              {/* Without a plan there is nothing to "view" — the link has to
+                  ask for the thing that doesn't exist yet. */}
               <Link
                 href="/study-plan"
                 className="inline-flex items-center gap-2 rounded-xl border border-white/30 bg-white/10 px-4 py-2.5 text-sm font-bold text-white backdrop-blur transition-colors hover:bg-white/20"
               >
-                View study plan
+                {hasStudyPlan ? "View study plan" : "Create study plan"}
                 <LuArrowRight className="h-4 w-4" />
               </Link>
             </div>
@@ -238,7 +276,7 @@ export default async function DashboardPage() {
           {hasActivity && bestScore !== null && (
             <div className="rounded-2xl bg-white/10 px-6 py-4 text-center backdrop-blur">
               <p className="text-3xl font-bold text-white">{bestScore}%</p>
-              <p className="mt-0.5 text-xs font-medium text-blue-100">
+              <p className="mt-0.5 text-xs font-medium text-hero-ink">
                 Best recent score
               </p>
             </div>
@@ -284,87 +322,91 @@ export default async function DashboardPage() {
         </div>
       </section>
 
-      {/* Learning path — next for you */}
-      <section>
-        <h2 className="mb-3 section-label">Next for you</h2>
-        <div className="grid gap-6 lg:grid-cols-2 lg:gap-4">
-          <div className="space-y-3">
-            <div className="flex items-center gap-2">
-              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-soft text-primary">
-                <LuCompass className="h-4 w-4" />
-              </span>
-              <div>
-                <h3 className="text-sm font-bold text-foreground">Keep learning</h3>
-                <p className="text-xs text-muted">
-                  Ranked by what helps most next
-                </p>
+      {/* Learning path — next for you (hidden until the student has activity) */}
+      {hasActivity && (
+        <section>
+          <h2 className="mb-3 section-label">Next for you</h2>
+          <div className="grid gap-6 lg:grid-cols-2 lg:gap-4">
+            <div className="space-y-3">
+              <div className="flex items-center gap-2">
+                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-soft text-primary">
+                  <LuCompass className="h-4 w-4" />
+                </span>
+                <div>
+                  <h3 className="text-sm font-bold text-foreground">Keep learning</h3>
+                  <p className="text-xs text-muted">
+                    Ranked by what helps most next
+                  </p>
+                </div>
               </div>
+              {learningPicks.length > 0 ? (
+                <NextTopics items={learningPicks} subjects={subjects} />
+              ) : (
+                <div className="card p-4 text-sm text-muted">
+                  Nothing to learn right now — try a subject quiz to keep the
+                  momentum going.
+                </div>
+              )}
             </div>
-            {learningPicks.length > 0 ? (
-              <NextTopics items={learningPicks} subjects={subjects} />
-            ) : (
-              <div className="card p-4 text-sm text-muted">
-                Nothing to learn right now — try a subject quiz to keep the
-                momentum going.
-              </div>
-            )}
-          </div>
 
+            <div className="space-y-3">
+              <div className="flex items-center gap-2">
+                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-tone-red-soft text-tone-red-ink">
+                  <LuTriangleAlert className="h-4 w-4" />
+                </span>
+                <div>
+                  <h3 className="text-sm font-bold text-foreground">
+                    Tighten your gaps
+                  </h3>
+                  <p className="text-xs text-muted">
+                    Weak spots ranked by how much they unlock
+                  </p>
+                </div>
+              </div>
+              {gaps.length > 0 ? (
+                <GapList items={gaps.slice(0, 4)} subjects={subjects} />
+              ) : (
+                <div className="card p-4 text-sm text-muted">
+                  No gaps detected — every topic is at your target mastery.
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Learning path — revise today (hidden until the student has activity) */}
+      {hasActivity && (
+        <section>
           <div className="space-y-3">
             <div className="flex items-center gap-2">
-              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-red-50 text-red-700">
-                <LuTriangleAlert className="h-4 w-4" />
+              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-tone-orange-soft text-tone-orange-ink">
+                <LuRotateCcw className="h-4 w-4" />
               </span>
               <div>
                 <h3 className="text-sm font-bold text-foreground">
-                  Tighten your gaps
+                  Revise today
                 </h3>
                 <p className="text-xs text-muted">
-                  Weak spots ranked by how much they unlock
+                  Merged from your flashcard reviews and revision schedule
                 </p>
               </div>
+              {revision.length > 0 && (
+                <span className="ml-auto rounded-full bg-tone-orange-soft px-2.5 py-0.5 text-xs font-bold text-tone-orange-ink">
+                  {revision.length} due
+                </span>
+              )}
             </div>
-            {gaps.length > 0 ? (
-              <GapList items={gaps.slice(0, 4)} subjects={subjects} />
+            {revision.length > 0 ? (
+              <RevisionQueue items={revision} subjects={subjects} />
             ) : (
               <div className="card p-4 text-sm text-muted">
-                No gaps detected — every topic is at your target mastery.
+                Nothing due for revision — your retention is holding up.
               </div>
             )}
           </div>
-        </div>
-      </section>
-
-      {/* Learning path — revise today */}
-      <section>
-        <div className="space-y-3">
-          <div className="flex items-center gap-2">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-orange-100 text-orange-700">
-              <LuRotateCcw className="h-4 w-4" />
-            </span>
-            <div>
-              <h3 className="text-sm font-bold text-foreground">
-                Revise today
-              </h3>
-              <p className="text-xs text-muted">
-                Merged from your flashcard reviews and revision schedule
-              </p>
-            </div>
-            {revision.length > 0 && (
-              <span className="ml-auto rounded-full bg-orange-100 px-2.5 py-0.5 text-xs font-bold text-orange-700">
-                {revision.length} due
-              </span>
-            )}
-          </div>
-          {revision.length > 0 ? (
-            <RevisionQueue items={revision} subjects={subjects} />
-          ) : (
-            <div className="card p-4 text-sm text-muted">
-              Nothing due for revision — your retention is holding up.
-            </div>
-          )}
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Quick launch */}
       <section>
@@ -437,7 +479,7 @@ export default async function DashboardPage() {
                       "flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full border-2 text-sm font-bold",
                       attempt.percentage >= 50
                         ? "border-success/30 bg-success-soft text-success"
-                        : "border-red-200 bg-red-50 text-danger",
+                        : "border-tone-red-line bg-tone-red-soft text-danger",
                     )}
                   >
                     {Math.round(attempt.percentage)}%

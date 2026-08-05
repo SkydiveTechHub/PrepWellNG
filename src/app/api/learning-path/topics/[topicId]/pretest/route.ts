@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
 import { PRETEST_PASS } from "@/engines/learning/availability";
+import { pickRandomQuestionIds } from "@/lib/question-pool";
 
 export const dynamic = "force-dynamic";
 
@@ -63,44 +64,32 @@ export async function POST(
 
     // ── Start a fresh pretest ───────────────────────────────────────────────
     if (!attemptId) {
-      const where: Record<string, unknown> = {
-        subjectId: topic.subjectId,
-        questionType: "OBJECTIVE",
-        topicId,
-      };
-
-      let candidates = await db.question.findMany({
-        where,
-        select: { id: true },
-      });
+      // Sampled in the database rather than pulling every candidate id and
+      // shuffling in Node — same helper the quiz and mock-exam generators use.
+      let source: "topic" | "subject" = "topic";
+      let selected = await pickRandomQuestionIds(
+        db,
+        { subjectId: topic.subjectId, topicIds: [topicId] },
+        PRETEST_QUESTION_COUNT,
+      );
 
       // A topic with a sparse bank pads from the subject so the pretest can
       // still run — mirroring the main quiz generator's fallback.
-      let source: "topic" | "subject" = "topic";
-      if (candidates.length < PRETEST_QUESTION_COUNT) {
-        candidates = await db.question.findMany({
-          where: {
-            subjectId: topic.subjectId,
-            questionType: "OBJECTIVE",
-          },
-          select: { id: true },
-        });
+      if (selected.length < PRETEST_QUESTION_COUNT) {
+        selected = await pickRandomQuestionIds(
+          db,
+          { subjectId: topic.subjectId },
+          PRETEST_QUESTION_COUNT,
+        );
         source = "subject";
       }
 
-      if (candidates.length === 0) {
+      if (selected.length === 0) {
         return NextResponse.json(
           { error: "No questions available for a pretest." },
           { status: 404 },
         );
       }
-
-      const shuffled = [...candidates];
-      for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-      }
-      const selected = shuffled.slice(0, PRETEST_QUESTION_COUNT);
 
       const assessment = await db.assessment.create({
         data: {
@@ -111,8 +100,8 @@ export async function POST(
           totalMarks: selected.length,
           timeLimitMinutes: Math.ceil(selected.length * 1.5),
           questions: {
-            create: selected.map((q, i) => ({
-              questionId: q.id,
+            create: selected.map((questionId, i) => ({
+              questionId,
               orderIndex: i,
             })),
           },

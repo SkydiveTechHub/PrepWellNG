@@ -48,10 +48,10 @@ export function GapList({
               className={cn(
                 "flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl",
                 gap.category === "BOTTLENECK"
-                  ? "bg-red-50 text-red-700"
+                  ? "bg-tone-red-soft text-tone-red-ink"
                   : gap.category === "DECAYED"
-                    ? "bg-orange-100 text-orange-700"
-                    : "bg-amber-50 text-amber-700",
+                    ? "bg-tone-orange-soft text-tone-orange-ink"
+                    : "bg-tone-amber-soft text-tone-amber-ink",
               )}
             >
               <LuTriangleAlert className="h-5 w-5" />

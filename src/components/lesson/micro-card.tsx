@@ -84,7 +84,7 @@ function ConceptCard({ block }: { block: Extract<LessonBlock, { type: "concept" 
 
 function TipCard({ block }: { block: Extract<LessonBlock, { type: "tip" }> }) {
   return (
-    <div className="rounded-2xl border border-amber-200 bg-amber-50/70 p-4">
+    <div className="rounded-2xl border border-tone-amber-line bg-tone-amber-soft/70 p-4">
       <div className="mb-1.5 flex items-center gap-2">
         <LuSparkles className="h-4 w-4 flex-shrink-0 text-warning" />
         <p className="text-xs font-bold uppercase tracking-wide text-warning">
@@ -142,10 +142,10 @@ function MistakeCard({ block }: { block: Extract<LessonBlock, { type: "mistake" 
 function MnemonicCard({ block }: { block: Extract<LessonBlock, { type: "mnemonic" }> }) {
   const [revealed, setRevealed] = useState(false);
   return (
-    <div className="rounded-2xl border border-purple-200 bg-purple-50/60 p-4">
+    <div className="rounded-2xl border border-tone-purple-line bg-tone-purple-soft/60 p-4">
       <div className="mb-2 flex items-center gap-2">
-        <LuLightbulb className="h-4 w-4 flex-shrink-0 text-purple-600" />
-        <p className="text-xs font-bold uppercase tracking-wide text-purple-700">
+        <LuLightbulb className="h-4 w-4 flex-shrink-0 text-tone-purple-ink" />
+        <p className="text-xs font-bold uppercase tracking-wide text-tone-purple-ink">
           Mnemonic
         </p>
       </div>
@@ -156,7 +156,7 @@ function MnemonicCard({ block }: { block: Extract<LessonBlock, { type: "mnemonic
         <button
           type="button"
           onClick={() => setRevealed(true)}
-          className="mt-3 inline-flex items-center gap-1.5 rounded-lg border border-purple-200 bg-card px-3 py-1.5 text-xs font-semibold text-purple-700 transition-colors hover:border-purple-400"
+          className="mt-3 inline-flex items-center gap-1.5 rounded-lg border border-tone-purple-line bg-card px-3 py-1.5 text-xs font-semibold text-tone-purple-ink transition-colors hover:border-tone-purple-line"
         >
           Reveal the list
           <LuChevronDown className="h-3.5 w-3.5" />

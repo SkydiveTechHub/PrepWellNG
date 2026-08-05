@@ -8,12 +8,20 @@ import {
   NAV_GROUPS,
   SETTINGS_ITEM,
   BRAND,
-  EXAM_TARGET,
-  daysUntil,
 } from "@/lib/navigation";
 import { LuCalendarDays } from "react-icons/lu";
 
-export function Sidebar({ user }: { user: ProfileUser }) {
+export function Sidebar({
+  user,
+  examLabel,
+  daysToExam,
+}: {
+  user: ProfileUser;
+  /** The student's own next sitting, resolved on the server. */
+  examLabel: string;
+  /** Computed on the server so SSR and hydration agree. */
+  daysToExam: number;
+}) {
   const pathname = usePathname();
 
   function isActive(href: string) {
@@ -44,7 +52,7 @@ export function Sidebar({ user }: { user: ProfileUser }) {
       <nav className="flex-1 overflow-y-auto px-3 py-4">
         {NAV_GROUPS.map((group) => (
           <div key={group.label} className="mb-5">
-            <p className="mb-1.5 px-3 text-[10px] font-bold uppercase tracking-widest text-muted/70">
+            <p className="mb-1.5 px-3 text-[10px] font-bold uppercase tracking-widest text-muted">
               {group.label}
             </p>
             <div className="space-y-0.5">
@@ -70,7 +78,7 @@ export function Sidebar({ user }: { user: ProfileUser }) {
                         "h-[18px] w-[18px] flex-shrink-0",
                         active
                           ? "text-primary"
-                          : "text-muted/70 group-hover:text-foreground",
+                          : "text-muted group-hover:text-foreground",
                       )}
                     />
                     {item.name}
@@ -92,7 +100,7 @@ export function Sidebar({ user }: { user: ProfileUser }) {
               : "text-muted hover:bg-secondary hover:text-foreground",
           )}
         >
-          <SETTINGS_ITEM.icon className="h-[18px] w-[18px] text-muted/70 group-hover:text-foreground" />
+          <SETTINGS_ITEM.icon className="h-[18px] w-[18px] text-muted group-hover:text-foreground" />
           {SETTINGS_ITEM.name}
         </Link>
       </nav>
@@ -102,18 +110,18 @@ export function Sidebar({ user }: { user: ProfileUser }) {
         <UserMenu user={user} showDetails />
       </div>
       <div className="px-4 py-4">
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary to-brand p-4 shadow-lift">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-hero-from to-hero-to p-4 shadow-lift">
           <div className="absolute -right-4 -top-6 h-20 w-20 rounded-full bg-white/10" />
           <div className="absolute -bottom-8 -left-4 h-20 w-20 rounded-full bg-white/10" />
           <div className="relative">
             <div className="flex items-center gap-1.5">
               <LuCalendarDays className="h-3.5 w-3.5 text-white/80" />
               <p className="text-[11px] font-bold uppercase tracking-wider text-white/80">
-                {EXAM_TARGET.label}
+                {examLabel}
               </p>
             </div>
             <p className="mt-1 text-2xl font-bold text-white">
-              {daysUntil(EXAM_TARGET.date)}
+              {daysToExam}
               <span className="ml-1 text-sm font-semibold text-white/80">
                 days
               </span>

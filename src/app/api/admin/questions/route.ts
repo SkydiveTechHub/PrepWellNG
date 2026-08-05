@@ -1,24 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { auth } from "@/lib/auth";
+import { requireAdmin } from "@/lib/admin-guard";
+import { revalidateTag } from "next/cache";
+import { CATALOGUE_TAG } from "@/lib/catalogue";
 
 export const dynamic = "force-dynamic";
 
 // GET /api/admin/questions — list/search questions (admin)
 export async function GET(req: NextRequest) {
   try {
-    const session = await auth();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const user = await db.user.findUnique({
-      where: { id: session.user.id },
-      select: { role: true },
-    });
-    if (user?.role !== "ADMIN") {
-      return NextResponse.json({ error: "Admin access required" }, { status: 403 });
-    }
+    const guard = await requireAdmin();
+    if (!guard.ok) return guard.response;
 
     const { searchParams } = new URL(req.url);
     const page = Math.max(1, parseInt(searchParams.get("page") || "1"));
@@ -78,18 +70,8 @@ export async function GET(req: NextRequest) {
 // DELETE /api/admin/questions?id=xxx — delete a single question
 export async function DELETE(req: NextRequest) {
   try {
-    const session = await auth();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const user = await db.user.findUnique({
-      where: { id: session.user.id },
-      select: { role: true },
-    });
-    if (user?.role !== "ADMIN") {
-      return NextResponse.json({ error: "Admin access required" }, { status: 403 });
-    }
+    const guard = await requireAdmin();
+    if (!guard.ok) return guard.response;
 
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");
@@ -98,6 +80,9 @@ export async function DELETE(req: NextRequest) {
     }
 
     await db.question.delete({ where: { id } });
+
+    // The subject catalogue caches per-subject question counts.
+    revalidateTag(CATALOGUE_TAG, "max");
 
     return NextResponse.json({ message: "Question deleted" });
   } catch (error) {

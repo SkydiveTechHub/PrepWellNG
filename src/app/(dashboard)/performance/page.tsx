@@ -37,56 +37,73 @@ async function getPerformanceData(userId: string) {
     }),
   ]);
 
-  // Calculate per-subject weak topics from question responses
-  const wrongResponses = await db.questionResponse.findMany({
-    where: {
-      attempt: { studentId: userId },
-      isCorrect: false,
-      question: { topicId: { not: null }, topic: { title: { not: undefined } } },
-    },
-    select: {
-      question: {
-        select: {
-          topic: { select: { id: true, title: true, slug: true } },
-          subject: { select: { id: true, name: true, slug: true, code: true } },
-        },
-      },
-    },
-  });
+  // Weak topics, aggregated in the database. This used to pull every wrong
+  // response the student had ever given — two joins, no bound — and count them
+  // in JS. The grouped form returns one row per (subject, topic) instead.
+  const weakRows = await db.$queryRaw<
+    {
+      subjectId: string;
+      subjectName: string;
+      subjectSlug: string;
+      subjectCode: string;
+      topicTitle: string;
+      topicSlug: string;
+      wrongCount: number;
+    }[]
+  >`
+    SELECT s.id            AS "subjectId",
+           s.name          AS "subjectName",
+           s.slug          AS "subjectSlug",
+           s.code          AS "subjectCode",
+           t.title         AS "topicTitle",
+           t.slug          AS "topicSlug",
+           COUNT(*)::int   AS "wrongCount"
+    FROM "QuestionResponse" qr
+    JOIN "AssessmentAttempt" aa ON aa.id = qr."attemptId"
+    JOIN "Question" q          ON q.id  = qr."questionId"
+    JOIN "Subject" s           ON s.id  = q."subjectId"
+    JOIN "Topic" t             ON t.id  = q."topicId"
+    WHERE aa."studentId" = ${userId}
+      AND qr."isCorrect" = false
+    GROUP BY s.id, s.name, s.slug, s.code, t.id, t.title, t.slug
+    ORDER BY "wrongCount" DESC
+  `;
 
-  // Aggregate weak topics by subject, then by frequency
-  const weakBySubject = new Map<string, {
-    subject: { id: string; name: string; slug: string; code: string };
-    topics: Map<string, { title: string; slug: string; wrongCount: number }>;
-  }>();
-
-  for (const r of wrongResponses) {
-    const topic = r.question.topic;
-    if (!topic) continue;
-    const sub = r.question.subject;
-
-    if (!weakBySubject.has(sub.id)) {
-      weakBySubject.set(sub.id, { subject: sub, topics: new Map() });
+  const weakBySubject = new Map<
+    string,
+    {
+      subject: { id: string; name: string; slug: string; code: string };
+      topics: { title: string; slug: string; wrongCount: number }[];
     }
-    const entry = weakBySubject.get(sub.id)!;
-    const existing = entry.topics.get(topic.id);
-    if (existing) {
-      existing.wrongCount++;
-    } else {
-      entry.topics.set(topic.id, { title: topic.title, slug: topic.slug, wrongCount: 1 });
+  >();
+
+  // Rows arrive sorted by wrongCount, so the first five per subject are the worst five.
+  for (const row of weakRows) {
+    let entry = weakBySubject.get(row.subjectId);
+    if (!entry) {
+      entry = {
+        subject: {
+          id: row.subjectId,
+          name: row.subjectName,
+          slug: row.subjectSlug,
+          code: row.subjectCode,
+        },
+        topics: [],
+      };
+      weakBySubject.set(row.subjectId, entry);
+    }
+    if (entry.topics.length < 5) {
+      entry.topics.push({
+        title: row.topicTitle,
+        slug: row.topicSlug,
+        wrongCount: row.wrongCount,
+      });
     }
   }
 
-  // Convert to sorted array — subjects with most wrong answers first, topics sorted within
-  const subjectWeakTopics = [...weakBySubject.values()]
-    .map((entry) => ({
-      subject: entry.subject,
-      topics: [...entry.topics.entries()]
-        .sort((a, b) => b[1].wrongCount - a[1].wrongCount)
-        .slice(0, 5)
-        .map(([, v]) => v),
-    }))
-    .filter((entry) => entry.topics.length > 0);
+  const subjectWeakTopics = [...weakBySubject.values()].filter(
+    (entry) => entry.topics.length > 0,
+  );
 
   return { attempts, subjectMetrics, subjectWeakTopics };
 }
@@ -149,7 +166,7 @@ export default async function PerformancePage() {
       label: "Subjects",
       value: String(data.subjectMetrics.length),
       icon: <LuLayers className="h-5 w-5" />,
-      iconClass: "bg-blue-50 text-blue-600",
+      iconClass: "bg-tone-blue-soft text-tone-blue-ink",
     },
   ];
 

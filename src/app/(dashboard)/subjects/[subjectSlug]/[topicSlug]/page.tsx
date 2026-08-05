@@ -48,9 +48,9 @@ const MASTERY_VARIANT: Record<string, "green" | "amber" | "neutral"> = {
 };
 
 const CLASS_COLORS: Record<string, string> = {
-  SS1: "bg-blue-50 text-blue-700 border-blue-200",
-  SS2: "bg-green-50 text-green-700 border-green-200",
-  SS3: "bg-purple-50 text-purple-700 border-purple-200",
+  SS1: "bg-tone-blue-soft text-tone-blue-ink border-tone-blue-line",
+  SS2: "bg-tone-green-soft text-tone-green-ink border-tone-green-line",
+  SS3: "bg-tone-purple-soft text-tone-purple-ink border-tone-purple-line",
 };
 
 const DIFFICULTY: Record<string, { label: string; variant: "green" | "amber" | "red" }> = {
@@ -257,7 +257,7 @@ export default async function TopicDetailPage({
                     "chip border",
                     prereq.met
                       ? "border-success/30 bg-success-soft text-success"
-                      : "border-amber-200 bg-amber-50 text-amber-700",
+                      : "border-tone-amber-line bg-tone-amber-soft text-tone-amber-ink",
                   )}
                 >
                   {prereq.met ? (

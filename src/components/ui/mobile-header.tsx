@@ -9,12 +9,20 @@ import {
   NAV_GROUPS,
   SETTINGS_ITEM,
   BRAND,
-  EXAM_TARGET,
-  daysUntil,
 } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
 
-export function MobileHeader({ user }: { user: ProfileUser }) {
+export function MobileHeader({
+  user,
+  examLabel,
+  daysToExam,
+}: {
+  user: ProfileUser;
+  /** The student's own next sitting, resolved on the server. */
+  examLabel: string;
+  /** Computed on the server so SSR and hydration agree. */
+  daysToExam: number;
+}) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -77,7 +85,7 @@ export function MobileHeader({ user }: { user: ProfileUser }) {
             <nav className="flex-1 overflow-y-auto px-3 py-4">
               {NAV_GROUPS.map((group) => (
                 <div key={group.label} className="mb-5">
-                  <p className="mb-1.5 px-3 text-[10px] font-bold uppercase tracking-widest text-muted/70">
+                  <p className="mb-1.5 px-3 text-[10px] font-bold uppercase tracking-widest text-muted">
                     {group.label}
                   </p>
                   <div className="space-y-0.5">
@@ -99,7 +107,7 @@ export function MobileHeader({ user }: { user: ProfileUser }) {
                           <item.icon
                             className={cn(
                               "h-[18px] w-[18px] flex-shrink-0",
-                              active ? "text-primary" : "text-muted/70",
+                              active ? "text-primary" : "text-muted",
                             )}
                           />
                           {item.name}
@@ -120,7 +128,7 @@ export function MobileHeader({ user }: { user: ProfileUser }) {
                     : "text-muted hover:bg-secondary hover:text-foreground",
                 )}
               >
-                <SETTINGS_ITEM.icon className="h-[18px] w-[18px] text-muted/70" />
+                <SETTINGS_ITEM.icon className="h-[18px] w-[18px] text-muted" />
                 {SETTINGS_ITEM.name}
               </Link>
             </nav>
@@ -130,11 +138,11 @@ export function MobileHeader({ user }: { user: ProfileUser }) {
                 <div className="flex items-center gap-2">
                   <LuCalendarDays className="h-4 w-4 text-primary" />
                   <span className="text-sm font-semibold text-foreground">
-                    {EXAM_TARGET.label}
+                    {examLabel}
                   </span>
                 </div>
                 <span className="text-sm font-bold text-primary">
-                  {daysUntil(EXAM_TARGET.date)} days
+                  {daysToExam} days
                 </span>
               </div>
             </div>

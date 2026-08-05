@@ -42,9 +42,9 @@ const TERM_LABELS: Record<string, string> = {
 };
 
 const CLASS_COLORS: Record<string, string> = {
-  SS1: "bg-blue-50 text-blue-700 border-blue-200",
-  SS2: "bg-green-50 text-green-700 border-green-200",
-  SS3: "bg-purple-50 text-purple-700 border-purple-200",
+  SS1: "bg-tone-blue-soft text-tone-blue-ink border-tone-blue-line",
+  SS2: "bg-tone-green-soft text-tone-green-ink border-tone-green-line",
+  SS3: "bg-tone-purple-soft text-tone-purple-ink border-tone-purple-line",
 };
 
 type TopicRow = {
@@ -290,7 +290,7 @@ export default async function SubjectDetailPage({
                             className="rounded-xl border border-dashed border-border p-4"
                           >
                             <h3 className="section-label mb-2">{TERM_LABELS[term]}</h3>
-                            <p className="text-xs text-muted/70">No topics yet</p>
+                            <p className="text-xs text-muted">No topics yet</p>
                           </div>
                         );
                       }
@@ -360,10 +360,10 @@ export default async function SubjectDetailPage({
               className={cn(
                 "rounded-xl px-4 py-2 text-sm font-bold transition-colors",
                 exam === "WAEC"
-                  ? "bg-blue-100 text-blue-700 hover:bg-blue-200"
+                  ? "bg-tone-blue-soft text-tone-blue-ink hover:bg-tone-blue-line"
                   : exam === "JAMB"
-                    ? "bg-green-100 text-green-700 hover:bg-green-200"
-                    : "bg-purple-100 text-purple-700 hover:bg-purple-200",
+                    ? "bg-tone-green-soft text-tone-green-ink hover:bg-tone-green-line"
+                    : "bg-tone-purple-soft text-tone-purple-ink hover:bg-tone-purple-line",
               )}
             >
               Practice {exam} Questions
