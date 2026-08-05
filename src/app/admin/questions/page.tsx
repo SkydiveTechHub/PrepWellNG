@@ -185,11 +185,15 @@ function AdminQuestionsPageInner() {
 
   // Selection is scoped to the current page/filter view. Clear it whenever
   // that view changes so a bulk delete can never act on rows the admin can
-  // no longer see.
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+  // no longer see. Adjusting state during render (rather than in an effect)
+  // resets the selection in the SAME render the new page/filter becomes
+  // visible, instead of one render later.
+  const filterKey = `${page}|${appliedQuery}|${examFilter}|${subjectFilter}|${difficultyFilter}|${examYearFilter}`;
+  const [selectionKey, setSelectionKey] = useState(filterKey);
+  if (filterKey !== selectionKey) {
+    setSelectionKey(filterKey);
     setSelected(new Set());
-  }, [page, appliedQuery, examFilter, subjectFilter, difficultyFilter, examYearFilter]);
+  }
 
   function toggleRow(id: string) {
     setSelected((prev) => {
@@ -256,6 +260,11 @@ function AdminQuestionsPageInner() {
     if (!deleteTarget) return;
     setDeleteBusy(true);
     setDeleteError(null);
+    // Tracks whether this call actually removed the row from `questions`, so
+    // the `finally` cleanup below only touches `selected` on the paths that
+    // removed a row (success and notFound) — never on refused/error paths,
+    // where the row is still visible and must stay selected.
+    let rowRemoved = false;
     try {
       const res = await fetch(`/api/admin/questions?id=${deleteTarget.id}`, { method: "DELETE" });
       const data = await res.json().catch(() => null);
@@ -277,6 +286,7 @@ function AdminQuestionsPageInner() {
       }
       if ((data?.notFound as string[] | undefined)?.includes(deleteTarget.id)) {
         setQuestions((prev) => prev.filter((item) => item.id !== deleteTarget.id));
+        rowRemoved = true;
         setOutcome({
           tone: "info",
           title: "Already gone",
@@ -285,15 +295,18 @@ function AdminQuestionsPageInner() {
         return;
       }
       setQuestions((prev) => prev.filter((item) => item.id !== deleteTarget.id));
-      setSelected((prev) => {
-        if (!prev.has(deleteTarget.id)) return prev;
-        const next = new Set(prev);
-        next.delete(deleteTarget.id);
-        return next;
-      });
+      rowRemoved = true;
     } catch {
       setDeleteError("Could not reach the server. The question was not deleted.");
     } finally {
+      if (rowRemoved) {
+        setSelected((prev) => {
+          if (!prev.has(deleteTarget.id)) return prev;
+          const next = new Set(prev);
+          next.delete(deleteTarget.id);
+          return next;
+        });
+      }
       setDeleteBusy(false);
       closeDeleteDialog();
     }
@@ -321,7 +334,7 @@ function AdminQuestionsPageInner() {
       // Close the dialog and clear the selection before their counts change,
       // so the dialog never re-renders mid-close with a stale/zeroed count.
       setBulkDialogOpen(false);
-      setQuestions((prev) => prev.filter((q) => !deleted.includes(q.id)));
+      setQuestions((prev) => prev.filter((q) => !deleted.includes(q.id) && !notFound.includes(q.id)));
       setSelected(new Set());
 
       if (refused.length === 0 && notFound.length === 0) {
