@@ -111,6 +111,7 @@ export default async function AdminOverviewPage() {
                   <li key={y.examYear}>
                     <Link
                       href={`/admin/questions?examYear=${y.examYear}`}
+                      aria-label={`Exam year ${y.examYear}: view in questions list`}
                       className="inline-block rounded-lg border border-border bg-secondary px-2.5 py-1 text-xs font-semibold tabular-nums text-foreground transition-colors hover:bg-secondary/70"
                     >
                       {y.examYear}
