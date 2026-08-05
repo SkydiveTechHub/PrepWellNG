@@ -68,9 +68,13 @@ export function MockExamPicker({
   const [error, setError] = useState("");
 
   // Deep-link pre-fill, held in reserve until a board is chosen: a subject
-  // can't be resolved before then, since subjects are listed per board. Once
-  // applied (or dropped as not applicable to the chosen board) it is cleared
-  // so it never re-applies on a later board switch.
+  // can't be resolved before then, since subjects are listed per board. The
+  // reserve expresses an intent ("Biology, all of SS1") independent of which
+  // board the student happens to try first — a board with no matching subject
+  // is a dead end to back out of, not a rejection of the link. It is only
+  // cleared once actually applied, or once the student manually picks a
+  // different subject (an explicit choice supersedes the link). That means it
+  // can carry across several board switches until it finds a home.
   const [pendingPrefill, setPendingPrefill] = useState<{
     subjectId: string;
     from: ScopePoint | null;
@@ -99,6 +103,9 @@ export function MockExamPicker({
           const match = list.find((s) => s.id === pendingPrefill.subjectId);
           if (match) {
             setSubjectId(match.id);
+            // A subjectId with no scope params (or only some of them) is a
+            // real, valid link: the subject is pre-selected and the scope
+            // controls are simply left at their defaults.
             if (pendingPrefill.from) {
               setFrom(pendingPrefill.from);
               const rangeTo = pendingPrefill.to ?? pendingPrefill.from;
@@ -107,8 +114,10 @@ export function MockExamPicker({
                 scopeOrdinal(rangeTo) !== scopeOrdinal(pendingPrefill.from),
               );
             }
+            setPendingPrefill(null);
           }
-          setPendingPrefill(null);
+          // No match on this board: leave the reserve in place. It is not
+          // spent yet — a later board may still have the subject.
         }
       } catch {
         setError("Couldn't load subjects. Please try again.");
@@ -232,7 +241,12 @@ export function MockExamPicker({
                 <button
                   key={s.id}
                   type="button"
-                  onClick={() => setSubjectId(s.id)}
+                  onClick={() => {
+                    setSubjectId(s.id);
+                    // An explicit pick supersedes the deep link, whether or
+                    // not it happens to be the linked subject.
+                    setPendingPrefill(null);
+                  }}
                   aria-pressed={subjectId === s.id}
                   className={cn(
                     "rounded-xl border p-3.5 text-left transition-all",

@@ -3,7 +3,7 @@ import { LuTimer, LuLayers, LuShuffle } from "react-icons/lu";
 import { auth } from "@/lib/auth";
 import { PageHeader } from "@/components/ui/page-header";
 import { MockExamPicker } from "@/components/practice/mock-exam-picker";
-import { isValidScope, type ScopePoint } from "@/lib/curriculum-scope";
+import { isValidScope } from "@/lib/curriculum-scope";
 
 const FACTS = [
   {
@@ -42,16 +42,18 @@ export default async function MockExamPage({
   const params = await searchParams;
   const initialSubjectId = params.subjectId ?? null;
 
-  const from: ScopePoint = {
-    classLevel: params.fromClass as ScopePoint["classLevel"],
-    term: params.fromTerm as ScopePoint["term"],
+  // Plain candidates, not yet known to be a valid ScopePoint — isValidScope is
+  // a type guard, so it narrows these itself rather than needing a cast.
+  const fromCandidate = {
+    classLevel: params.fromClass,
+    term: params.fromTerm,
   };
-  const to: ScopePoint = {
-    classLevel: params.toClass as ScopePoint["classLevel"],
-    term: params.toTerm as ScopePoint["term"],
+  const toCandidate = {
+    classLevel: params.toClass,
+    term: params.toTerm,
   };
-  const initialFrom = isValidScope(from) ? from : null;
-  const initialTo = isValidScope(to) ? to : null;
+  const initialFrom = isValidScope(fromCandidate) ? fromCandidate : null;
+  const initialTo = isValidScope(toCandidate) ? toCandidate : null;
 
   return (
     <div className="animate-fade-in">
