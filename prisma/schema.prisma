@@ -184,6 +184,9 @@ model User {
   flashcardEnrollments FlashcardEnrollment[]
   flashcardDecks       FlashcardDeck[]       @relation("FlashcardDeckAuthor")
 
+  // Admin
+  adminAudits AdminAudit[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -744,4 +747,20 @@ model FlashcardEnrollment {
 
   @@unique([studentId, deckId])
   @@index([deckId])
+}
+
+// ─── Admin ──────────────────────────────────────────────────
+
+model AdminAudit {
+  id        String   @id @default(cuid())
+  actorId   String
+  actor     User     @relation(fields: [actorId], references: [id], onDelete: Cascade)
+  action    String // "question.create" | "question.update" | "question.delete" | "question.import"
+  entity    String // "Question"
+  entityId  String?
+  summary   String   @db.Text
+  createdAt DateTime @default(now())
+
+  @@index([entity, entityId])
+  @@index([actorId, createdAt])
 }
