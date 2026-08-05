@@ -16,7 +16,7 @@ export const NAV_GROUPS = [
     label: "Study",
     items: [
       { name: "Dashboard", href: "/dashboard", icon: LuHouse },
-      { name: "Subjects", href: "/subjects", icon: LuBookOpen },
+      { name: "Classroom", href: "/classroom", icon: LuBookOpen },
       { name: "Flashcards", href: "/flashcards", icon: LuSparkles },
       { name: "Library", href: "/library", icon: LuBook },
     ],

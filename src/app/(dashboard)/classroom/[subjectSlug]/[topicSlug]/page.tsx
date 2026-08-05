@@ -171,7 +171,7 @@ export default async function TopicDetailPage({
   return (
     <div className="animate-fade-in">
       <Link
-        href={`/subjects/${subjectSlug}`}
+        href={`/classroom/${subjectSlug}`}
         className="mb-6 inline-flex items-center gap-1.5 text-sm font-medium text-muted transition-colors hover:text-foreground"
       >
         <LuArrowLeft className="h-4 w-4" />
@@ -234,7 +234,7 @@ export default async function TopicDetailPage({
           </div>
 
           <Link
-            href={`/subjects/${subjectSlug}/${topicSlug}/quiz`}
+            href={`/classroom/${subjectSlug}/${topicSlug}/quiz`}
             className={buttonClass("primary", "lg", "flex-shrink-0")}
           >
             <LuPlay className="h-4 w-4" />
@@ -277,7 +277,7 @@ export default async function TopicDetailPage({
                 return (
                   <Link
                     key={prereq.topicId}
-                    href={`/subjects/${subjectSlug}/${prereq.slug}`}
+                    href={`/classroom/${subjectSlug}/${prereq.slug}`}
                     className="transition-opacity hover:opacity-80"
                   >
                     {chip}
@@ -379,7 +379,7 @@ export default async function TopicDetailPage({
                     </div>
 
                     <Link
-                      href={`/subjects/${subjectSlug}/${topicSlug}/lessons/${lesson.id}`}
+                      href={`/classroom/${subjectSlug}/${topicSlug}/lessons/${lesson.id}`}
                       className={buttonClass(
                         isCompleted ? "secondary" : "primary",
                         "md",
@@ -419,7 +419,7 @@ export default async function TopicDetailPage({
           </div>
         </div>
         <Link
-          href={`/subjects/${subjectSlug}/${topicSlug}/quiz`}
+          href={`/classroom/${subjectSlug}/${topicSlug}/quiz`}
           className={buttonClass("success", "md")}
         >
           <LuPlay className="h-4 w-4" />

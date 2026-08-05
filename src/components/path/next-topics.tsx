@@ -78,7 +78,7 @@ export function NextTopics({
         return (
           <li key={item.topicId}>
             <Link
-              href={`/subjects/${subject.slug}/${item.slug}`}
+              href={`/classroom/${subject.slug}/${item.slug}`}
               className={cn(
                 "card card-interactive group block p-4 transition-opacity",
                 "hover:opacity-90",

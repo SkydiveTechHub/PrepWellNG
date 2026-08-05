@@ -15,7 +15,7 @@ import {
 // thumb-reach. Everything else lives in the header drawer.
 const tabs = [
   { name: "Home", href: "/dashboard", icon: LuHouse },
-  { name: "Subjects", href: "/subjects", icon: LuBookOpen },
+  { name: "Classroom", href: "/classroom", icon: LuBookOpen },
   { name: "Practice", href: "/practice", icon: LuClipboardCheck },
   { name: "Stats", href: "/performance", icon: LuChartBar },
   { name: "Plan", href: "/study-plan", icon: LuCalendar },
@@ -27,8 +27,8 @@ const IMMERSIVE_ROUTES = [
   /^\/practice\/mock-exam\/session/,
   /^\/practice\/past-questions\/[^/]+$/,
   /^\/practice\/cbt/,
-  /^\/subjects\/[^/]+\/[^/]+\/quiz/,
-  /^\/subjects\/[^/]+\/[^/]+\/lessons\/[^/]+\/practice$/,
+  /^\/classroom\/[^/]+\/[^/]+\/quiz/,
+  /^\/classroom\/[^/]+\/[^/]+\/lessons\/[^/]+\/practice$/,
 ];
 
 export function MobileNav() {

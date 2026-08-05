@@ -57,7 +57,7 @@ export function PracticeResultActions({
     };
   }, [completedAt]);
 
-  const quizHref = `/subjects/${subjectSlug}/${topicSlug}/quiz`;
+  const quizHref = `/classroom/${subjectSlug}/${topicSlug}/quiz`;
 
   return (
     <>

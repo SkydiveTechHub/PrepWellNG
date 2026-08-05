@@ -307,7 +307,7 @@ function BlockLesson(props: LessonPlayerProps) {
               Back to topic
             </Link>
             <Link
-              href={`/subjects/${props.subjectSlug}/${props.topicSlug}/lessons/${props.lessonId}/practice`}
+              href={`/classroom/${props.subjectSlug}/${props.topicSlug}/lessons/${props.lessonId}/practice`}
               className={buttonClass("success", "md", "flex-shrink-0")}
             >
               Take the practice test

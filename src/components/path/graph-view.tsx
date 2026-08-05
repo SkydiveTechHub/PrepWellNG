@@ -196,7 +196,7 @@ export function GraphView({
             return (
               <Link
                 key={node.id}
-                href={`/subjects/${subjectSlug}/${node.slug}`}
+                href={`/classroom/${subjectSlug}/${node.slug}`}
                 className={cn(
                   "absolute flex flex-col justify-center rounded-xl border-2 px-3 py-2 shadow-soft transition-transform hover:scale-[1.03] hover:shadow-lift",
                   NODE_STYLES[node.state],

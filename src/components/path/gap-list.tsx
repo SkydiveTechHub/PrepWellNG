@@ -87,7 +87,7 @@ export function GapList({
         return (
           <li key={gap.topicId}>
             <Link
-              href={`/subjects/${subject.slug}/${gap.slug}`}
+              href={`/classroom/${subject.slug}/${gap.slug}`}
               className={cn(
                 "card card-interactive group block p-4 transition-opacity",
                 "hover:opacity-90",

@@ -62,7 +62,7 @@ export default async function SubjectsPage({
         action={
           hasNarrowing ? (
             <Link
-              href={showAll ? "/subjects" : "/subjects?all=1"}
+              href={showAll ? "/classroom" : "/classroom?all=1"}
               className="inline-flex items-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-bold text-foreground shadow-soft transition-colors hover:border-primary/40 hover:bg-primary-soft"
             >
               {showAll ? (
@@ -94,7 +94,7 @@ export default async function SubjectsPage({
               {list.map((subject) => (
                 <Link
                   key={subject.code}
-                  href={`/subjects/${subject.slug}`}
+                  href={`/classroom/${subject.slug}`}
                   className="card card-interactive group flex items-center gap-4 p-4"
                 >
                   <div

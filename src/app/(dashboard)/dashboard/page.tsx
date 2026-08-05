@@ -144,9 +144,9 @@ const QUICK_LINKS = [
     tile: "bg-tone-blue-soft text-tone-blue-ink",
   },
   {
-    title: "Subjects",
-    description: "Browse curriculum",
-    href: "/subjects",
+    title: "Classroom",
+    description: "Notes, quizzes and practice",
+    href: "/classroom",
     icon: LuBookOpen,
     tile: "bg-primary-soft text-primary",
   },

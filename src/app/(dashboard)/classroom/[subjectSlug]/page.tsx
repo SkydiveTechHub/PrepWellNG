@@ -172,7 +172,7 @@ export default async function SubjectDetailPage({
   return (
     <div>
       <Link
-        href="/subjects"
+        href="/classroom"
         className="mb-6 inline-flex items-center gap-1.5 text-sm font-medium text-muted transition-colors hover:text-foreground"
       >
         <LuArrowLeft className="h-4 w-4" />
@@ -302,7 +302,7 @@ export default async function SubjectDetailPage({
                             {topics.map((topic) => (
                               <Link
                                 key={topic.id}
-                                href={`/subjects/${subjectSlug}/${topic.slug}`}
+                                href={`/classroom/${subjectSlug}/${topic.slug}`}
                                 className="group/topic flex items-center justify-between gap-3 rounded-xl border border-border p-3 transition-all hover:border-primary/40 hover:shadow-soft"
                               >
                                 <div className="flex min-w-0 items-center gap-2.5">

@@ -27,6 +27,23 @@ const nextConfig: NextConfig = {
     // told to tree-shake them per-import.
     optimizePackageImports: ["react-icons", "lucide-react", "recharts"],
   },
+
+  // The section moved from /subjects to /classroom. Permanent so bookmarks,
+  // browser history and anything already shared keep working.
+  async redirects() {
+    return [
+      {
+        source: "/subjects",
+        destination: "/classroom",
+        permanent: true,
+      },
+      {
+        source: "/subjects/:path*",
+        destination: "/classroom/:path*",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

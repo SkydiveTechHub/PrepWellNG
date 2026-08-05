@@ -208,7 +208,7 @@ export default async function PerformancePage() {
                 return (
                   <div key={metric.subject.code} className="card overflow-hidden">
                     <Link
-                      href={`/subjects/${metric.subject.slug}`}
+                      href={`/classroom/${metric.subject.slug}`}
                       className="block p-5 transition-colors hover:bg-secondary/40"
                     >
                       <div className="mb-3 flex flex-wrap items-center justify-between gap-2">

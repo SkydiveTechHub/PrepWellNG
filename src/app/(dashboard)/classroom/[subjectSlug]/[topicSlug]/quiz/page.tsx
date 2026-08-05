@@ -15,7 +15,7 @@ function TopicQuiz() {
       subjectSlug={subjectSlug}
       topicSlug={topicSlug}
       count={10}
-      backHref={`/subjects/${subjectSlug}/${topicSlug}`}
+      backHref={`/classroom/${subjectSlug}/${topicSlug}`}
     />
   );
 }
