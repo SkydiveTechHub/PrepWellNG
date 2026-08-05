@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { LuBookOpen, LuCheck } from "react-icons/lu";
 import { cn } from "@/lib/utils";
+import { mockExamHrefFor } from "@/lib/classroom";
 import { buttonClass } from "@/components/ui/button";
 import { CLASS_LEVELS, TERMS, TERM_LABELS, type ClassLevel, type Term } from "@/lib/curriculum-scope";
 
@@ -25,14 +26,18 @@ export type ClassGroup = {
 
 export function ClassTermBrowser({
   subjectSlug,
+  subjectId,
   classes,
   initialClassLevel,
-  practiceHref,
 }: {
   subjectSlug: string;
+  /**
+   * Plain id, not a prepared href. React cannot serialise a function across the
+   * server/client boundary, so the practice link is built here instead.
+   */
+  subjectId: string;
   classes: ClassGroup[];
   initialClassLevel: ClassLevel;
-  practiceHref: (classLevel: string) => string;
 }) {
   const [selectedClass, setSelectedClass] = useState<string>(initialClassLevel);
 
@@ -119,7 +124,7 @@ export function ClassTermBrowser({
       </div>
 
       <div className="mt-4 flex justify-end">
-        <Link href={practiceHref(selectedClass)} className={buttonClass("primary", "md")}>
+        <Link href={mockExamHrefFor({ subjectId, classLevel: selectedClass as ClassLevel })} className={buttonClass("primary", "md")}>
           Practice {selectedClass}
         </Link>
       </div>

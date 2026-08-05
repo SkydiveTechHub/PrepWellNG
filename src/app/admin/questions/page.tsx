@@ -2,10 +2,11 @@
 
 import { Suspense, useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { LuSearch, LuTrash2, LuChevronLeft, LuChevronRight, LuCircleAlert } from "react-icons/lu";
+import Link from "next/link";
+import { LuSearch, LuTrash2, LuPencil, LuChevronLeft, LuChevronRight, LuCircleAlert } from "react-icons/lu";
 import { StatusBanner } from "@/components/admin/status-banner";
 import { ConfirmDialog } from "@/components/admin/confirm-dialog";
-import { Button } from "@/components/ui/button";
+import { Button, buttonClass } from "@/components/ui/button";
 import { PageHeader } from "@/components/ui/page-header";
 import { cn } from "@/lib/utils";
 
@@ -388,6 +389,11 @@ function AdminQuestionsPageInner() {
       <PageHeader
         title="Questions"
         description={pagination ? `${pagination.total} total` : "Loading…"}
+        action={
+          <Link href="/admin/questions/new" className={buttonClass("primary", "md")}>
+            New question
+          </Link>
+        }
       />
 
       {deleteError && (
@@ -576,7 +582,7 @@ function AdminQuestionsPageInner() {
                     <th scope="col" className={cn(TH_CLS, "text-left px-4 py-3 w-20")}>
                       Difficulty
                     </th>
-                    <th scope="col" className={cn(TH_CLS, "text-right px-4 py-3 w-16")}>
+                    <th scope="col" className={cn(TH_CLS, "text-right px-4 py-3 w-24")}>
                       Action
                     </th>
                   </tr>
@@ -618,16 +624,29 @@ function AdminQuestionsPageInner() {
                         </span>
                       </td>
                       <td className="px-4 py-3 text-right">
-                        <Button
-                          variant="ghost"
-                          size="icon-sm"
-                          onClick={() => openDeleteDialog(q)}
-                          disabled={deleting === q.id}
-                          aria-label={`Delete question: ${q.questionText.slice(0, 60)}`}
-                          className="text-muted hover:text-tone-red-ink hover:bg-tone-red-soft"
-                        >
-                          <LuTrash2 className="w-4 h-4" aria-hidden />
-                        </Button>
+                        <div className="flex items-center justify-end gap-1">
+                          <Link
+                            href={`/admin/questions/${q.id}/edit`}
+                            aria-label={`Edit question: ${q.questionText.slice(0, 60)}`}
+                            className={buttonClass(
+                              "ghost",
+                              "icon-sm",
+                              "text-muted hover:text-foreground",
+                            )}
+                          >
+                            <LuPencil className="w-4 h-4" aria-hidden />
+                          </Link>
+                          <Button
+                            variant="ghost"
+                            size="icon-sm"
+                            onClick={() => openDeleteDialog(q)}
+                            disabled={deleting === q.id}
+                            aria-label={`Delete question: ${q.questionText.slice(0, 60)}`}
+                            className="text-muted hover:text-tone-red-ink hover:bg-tone-red-soft"
+                          >
+                            <LuTrash2 className="w-4 h-4" aria-hidden />
+                          </Button>
+                        </div>
                       </td>
                     </tr>
                   ))}

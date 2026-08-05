@@ -181,11 +181,6 @@ export default async function SubjectDetailPage({
 
   const initialClassLevel = resolveClassLevel(userClassLevel, classesWithTopics);
 
-  const practiceHref = (classLevel: string) =>
-    `/practice/mock-exam?subjectId=${subject.id}` +
-    `&fromClass=${classLevel}&fromTerm=FIRST` +
-    `&toClass=${classLevel}&toTerm=THIRD`;
-
   const totalQuestions = subject._count.questions;
 
   const examBadge = (exam: string) =>
@@ -273,9 +268,9 @@ export default async function SubjectDetailPage({
           {subject.topics.length > 0 ? (
             <ClassTermBrowser
               subjectSlug={subjectSlug}
+              subjectId={subject.id}
               classes={classes}
               initialClassLevel={initialClassLevel}
-              practiceHref={practiceHref}
             />
           ) : (
             <EmptyState

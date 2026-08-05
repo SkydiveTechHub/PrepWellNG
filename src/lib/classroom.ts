@@ -117,6 +117,34 @@ export function topicNeighbours(
  * what lets it say "More Physics resources" rather than implying these belong
  * to this topic.
  */
+/**
+ * Deep link from a subject's Classroom page into the scoped mock exam picker,
+ * covering the whole of the selected class year.
+ *
+ * Lives here, shared by both sides of the server/client boundary, for two
+ * reasons. First, a server component cannot hand a client component a function
+ * — React cannot serialise one across that boundary — so the client builds the
+ * URL itself from a plain `subjectId`. Second, these parameter names are a
+ * contract with the picker's deep-link parser, and keeping the builder next to
+ * its tests is what stops the two drifting apart.
+ */
+export function mockExamHrefFor({
+  subjectId,
+  classLevel,
+}: {
+  subjectId: string;
+  classLevel: ClassLevel;
+}): string {
+  const params = new URLSearchParams({
+    subjectId,
+    fromClass: classLevel,
+    fromTerm: "FIRST",
+    toClass: classLevel,
+    toTerm: "THIRD",
+  });
+  return `/practice/mock-exam?${params.toString()}`;
+}
+
 export function selectResources<T>(
   lessonResources: readonly T[],
   subjectResources: readonly T[],

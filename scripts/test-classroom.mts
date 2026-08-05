@@ -1,6 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
+  mockExamHrefFor,
   resolveClassLevel,
   selectResources,
   toNotes,
@@ -164,4 +165,49 @@ test("selectResources reports none when both are empty", () => {
   const result = selectResources([], []);
   assert.equal(result.source, "none");
   assert.deepEqual(result.items, []);
+});
+
+// ─── mockExamHrefFor ───────────────────────────────────────
+//
+// This is the contract between the Classroom practice CTA and the mock-exam
+// picker's deep-link parser. They were built in different tasks and must agree
+// on the parameter names; nothing else pins that.
+
+test("mockExamHrefFor targets the mock exam picker", () => {
+  const href = mockExamHrefFor({ subjectId: "sub_1", classLevel: "SS2" });
+  assert.ok(href.startsWith("/practice/mock-exam?"));
+});
+
+test("mockExamHrefFor carries the exact params the picker reads", () => {
+  const href = mockExamHrefFor({ subjectId: "sub_1", classLevel: "SS2" });
+  const params = new URLSearchParams(href.split("?")[1]);
+  assert.equal(params.get("subjectId"), "sub_1");
+  assert.equal(params.get("fromClass"), "SS2");
+  assert.equal(params.get("fromTerm"), "FIRST");
+  assert.equal(params.get("toClass"), "SS2");
+  assert.equal(params.get("toTerm"), "THIRD");
+});
+
+test("mockExamHrefFor spans the whole class year", () => {
+  // First term to third term — the picker renders this as "all of SS1".
+  const params = new URLSearchParams(
+    mockExamHrefFor({ subjectId: "s", classLevel: "SS1" }).split("?")[1],
+  );
+  assert.equal(params.get("fromClass"), params.get("toClass"));
+  assert.equal(params.get("fromTerm"), "FIRST");
+  assert.equal(params.get("toTerm"), "THIRD");
+});
+
+test("mockExamHrefFor varies by class level", () => {
+  const ss1 = mockExamHrefFor({ subjectId: "s", classLevel: "SS1" });
+  const ss3 = mockExamHrefFor({ subjectId: "s", classLevel: "SS3" });
+  assert.notEqual(ss1, ss3);
+});
+
+test("mockExamHrefFor encodes a subject id containing url-unsafe characters", () => {
+  // cuids are url-safe, but building the query by concatenation would silently
+  // break the day an id isn't.
+  const href = mockExamHrefFor({ subjectId: "a b&c=d", classLevel: "SS1" });
+  const params = new URLSearchParams(href.split("?")[1]);
+  assert.equal(params.get("subjectId"), "a b&c=d");
 });
