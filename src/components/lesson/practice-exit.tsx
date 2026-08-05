@@ -26,7 +26,7 @@ export function PracticeExit(props: PracticeExitProps) {
   const totalSeconds = props.practiceCount * 90;
   const totalMinutes = Math.ceil(totalSeconds / 60);
   const resultHref = (attemptId: string) =>
-    `/classroom/${props.subjectSlug}/${props.topicSlug}/lessons/${props.lessonId}/practice/result?attemptId=${attemptId}`;
+    `/classroom/${props.subjectSlug}/${props.topicSlug}/practice/result?attemptId=${attemptId}`;
 
   return (
     <div className="space-y-6 animate-fade-in">

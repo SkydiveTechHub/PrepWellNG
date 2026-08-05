@@ -28,7 +28,7 @@ const IMMERSIVE_ROUTES = [
   /^\/practice\/past-questions\/[^/]+$/,
   /^\/practice\/cbt/,
   /^\/classroom\/[^/]+\/[^/]+\/quiz/,
-  /^\/classroom\/[^/]+\/[^/]+\/lessons\/[^/]+\/practice$/,
+  /^\/classroom\/[^/]+\/[^/]+\/practice$/,
 ];
 
 export function MobileNav() {
