@@ -37,7 +37,15 @@ type Board = (typeof BOARDS)[number];
 
 const COUNT_OPTIONS = [20, 40, 60] as const;
 
-export function MockExamPicker() {
+export function MockExamPicker({
+  initialSubjectId = null,
+  initialFrom = null,
+  initialTo = null,
+}: {
+  initialSubjectId?: string | null;
+  initialFrom?: ScopePoint | null;
+  initialTo?: ScopePoint | null;
+} = {}) {
   const router = useRouter();
 
   const [board, setBoard] = useState<Board | null>(null);
@@ -59,28 +67,58 @@ export function MockExamPicker() {
   const [starting, setStarting] = useState(false);
   const [error, setError] = useState("");
 
+  // Deep-link pre-fill, held in reserve until a board is chosen: a subject
+  // can't be resolved before then, since subjects are listed per board. Once
+  // applied (or dropped as not applicable to the chosen board) it is cleared
+  // so it never re-applies on a later board switch.
+  const [pendingPrefill, setPendingPrefill] = useState<{
+    subjectId: string;
+    from: ScopePoint | null;
+    to: ScopePoint | null;
+  } | null>(initialSubjectId ? { subjectId: initialSubjectId, from: initialFrom, to: initialTo } : null);
+
   // Driven from the click rather than an effect on `board`: picking a board is
   // a user action, so the fetch belongs in the handler.
-  const chooseBoard = useCallback(async (chosen: Board) => {
-    setBoard(chosen);
-    setSubjectId(null);
-    setSubjects([]);
-    setLoadingSubjects(true);
-    setError("");
-    try {
-      const res = await fetch(
-        `/api/assessments/mock-exam/options?examType=${chosen}`,
-      );
-      if (!res.ok) throw new Error("failed");
-      const data = await res.json();
-      setSubjects(data.subjects ?? []);
-    } catch {
-      setError("Couldn't load subjects. Please try again.");
+  const chooseBoard = useCallback(
+    async (chosen: Board) => {
+      setBoard(chosen);
+      setSubjectId(null);
       setSubjects([]);
-    } finally {
-      setLoadingSubjects(false);
-    }
-  }, []);
+      setLoadingSubjects(true);
+      setError("");
+      try {
+        const res = await fetch(
+          `/api/assessments/mock-exam/options?examType=${chosen}`,
+        );
+        if (!res.ok) throw new Error("failed");
+        const data = await res.json();
+        const list: SubjectAvailability[] = data.subjects ?? [];
+        setSubjects(list);
+
+        if (pendingPrefill) {
+          const match = list.find((s) => s.id === pendingPrefill.subjectId);
+          if (match) {
+            setSubjectId(match.id);
+            if (pendingPrefill.from) {
+              setFrom(pendingPrefill.from);
+              const rangeTo = pendingPrefill.to ?? pendingPrefill.from;
+              setTo(rangeTo);
+              setUseRange(
+                scopeOrdinal(rangeTo) !== scopeOrdinal(pendingPrefill.from),
+              );
+            }
+          }
+          setPendingPrefill(null);
+        }
+      } catch {
+        setError("Couldn't load subjects. Please try again.");
+        setSubjects([]);
+      } finally {
+        setLoadingSubjects(false);
+      }
+    },
+    [pendingPrefill],
+  );
 
   const subject = useMemo(
     () => subjects.find((s) => s.id === subjectId) ?? null,

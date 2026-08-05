@@ -3,6 +3,7 @@ import { LuTimer, LuLayers, LuShuffle } from "react-icons/lu";
 import { auth } from "@/lib/auth";
 import { PageHeader } from "@/components/ui/page-header";
 import { MockExamPicker } from "@/components/practice/mock-exam-picker";
+import { isValidScope, type ScopePoint } from "@/lib/curriculum-scope";
 
 const FACTS = [
   {
@@ -24,9 +25,33 @@ const FACTS = [
 
 // Mock exams scoped by class level and term, so a student can sit exactly what
 // they have been taught rather than the whole subject.
-export default async function MockExamPage() {
+export default async function MockExamPage({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    subjectId?: string;
+    fromClass?: string;
+    fromTerm?: string;
+    toClass?: string;
+    toTerm?: string;
+  }>;
+}) {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
+
+  const params = await searchParams;
+  const initialSubjectId = params.subjectId ?? null;
+
+  const from: ScopePoint = {
+    classLevel: params.fromClass as ScopePoint["classLevel"],
+    term: params.fromTerm as ScopePoint["term"],
+  };
+  const to: ScopePoint = {
+    classLevel: params.toClass as ScopePoint["classLevel"],
+    term: params.toTerm as ScopePoint["term"],
+  };
+  const initialFrom = isValidScope(from) ? from : null;
+  const initialTo = isValidScope(to) ? to : null;
 
   return (
     <div className="animate-fade-in">
@@ -52,7 +77,11 @@ export default async function MockExamPage() {
         ))}
       </div>
 
-      <MockExamPicker />
+      <MockExamPicker
+        initialSubjectId={initialSubjectId}
+        initialFrom={initialFrom}
+        initialTo={initialTo}
+      />
     </div>
   );
 }
