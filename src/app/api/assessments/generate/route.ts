@@ -46,6 +46,7 @@ export async function POST(req: NextRequest) {
       count,
       difficulty,
       title,
+      untimed,
     } = parsed.data;
 
     // Resolve the subject (and topic) in one query. The client used to fetch
@@ -144,7 +145,9 @@ export async function POST(req: NextRequest) {
         subjectId: subject.id,
         examType: examType || null,
         totalMarks: selectedIds.length,
-        timeLimitMinutes: Math.ceil(selectedIds.length * 1.5), // ~1.5 min per question
+        // ~1.5 min per question; null for an explicitly untimed quiz such as
+        // the classroom quick quiz, so `deadlineFor` never computes one.
+        timeLimitMinutes: untimed ? null : Math.ceil(selectedIds.length * 1.5),
         questions: {
           create: selectedIds.map((questionId, i) => ({
             questionId,

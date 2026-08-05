@@ -31,8 +31,11 @@ export type SessionData = {
   attemptId: string;
   title: string;
   questions: ExamQuestion[];
-  /** Absolute epoch ms. Survives refreshes and tab-throttling; a countdown does not. */
-  deadlineAt: number;
+  /**
+   * Absolute epoch ms, or null for an untimed session such as the quick quiz.
+   * Survives refreshes and tab-throttling; a countdown does not.
+   */
+  deadlineAt: number | null;
 };
 
 export type StoredSession = SessionData & {
@@ -86,10 +89,17 @@ export function parseStoredSession(
   if (!Array.isArray(parsed.questions) || parsed.questions.length === 0) {
     return null;
   }
-  if (typeof parsed.deadlineAt !== "number" || !Number.isFinite(parsed.deadlineAt)) {
-    return null;
+  // null is a legitimate value meaning "untimed"; anything non-numeric that
+  // is not null is corruption.
+  if (parsed.deadlineAt !== null) {
+    if (
+      typeof parsed.deadlineAt !== "number" ||
+      !Number.isFinite(parsed.deadlineAt)
+    ) {
+      return null;
+    }
+    if (parsed.deadlineAt <= now) return null;
   }
-  if (parsed.deadlineAt <= now) return null;
   if (!parsed.answers || typeof parsed.answers !== "object") return null;
   return parsed;
 }

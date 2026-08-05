@@ -63,6 +63,7 @@ export function ExamSurface({
     currentQuestion,
     answers,
     timeRemaining,
+    deadlineAt,
     showConfirmSubmit,
     focusMode,
     hideTimer,
@@ -81,6 +82,7 @@ export function ExamSurface({
     handleSubmit,
     isAnswered,
   } = session;
+  const untimed = deadlineAt == null;
 
   // ── Keyboard shortcuts ───────────────────────────────────
   useEffect(() => {
@@ -130,6 +132,7 @@ export function ExamSurface({
           setFocusMode((v) => !v);
           break;
         case "t":
+          if (untimed) break;
           event.preventDefault();
           setHideTimer((v) => !v);
           break;
@@ -154,6 +157,7 @@ export function ExamSurface({
     setShowConfirmSubmit,
     setFocusMode,
     setHideTimer,
+    untimed,
   ]);
 
   if (loading) {
@@ -208,22 +212,24 @@ export function ExamSurface({
           </div>
 
           <div className="flex flex-shrink-0 items-center gap-2">
-            <button
-              type="button"
-              onClick={() => setHideTimer((v) => !v)}
-              aria-pressed={hideTimer}
-              aria-label={hideTimer ? "Show timer" : "Hide timer"}
-              title="Hide timer (T)"
-              className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-card text-muted transition-colors hover:border-primary/40 hover:text-primary"
-            >
-              {hideTimer ? (
-                <LuEyeOff className="h-4 w-4" />
-              ) : (
-                <LuEye className="h-4 w-4" />
-              )}
-            </button>
+            {!untimed && (
+              <button
+                type="button"
+                onClick={() => setHideTimer((v) => !v)}
+                aria-pressed={hideTimer}
+                aria-label={hideTimer ? "Show timer" : "Hide timer"}
+                title="Hide timer (T)"
+                className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-card text-muted transition-colors hover:border-primary/40 hover:text-primary"
+              >
+                {hideTimer ? (
+                  <LuEyeOff className="h-4 w-4" />
+                ) : (
+                  <LuEye className="h-4 w-4" />
+                )}
+              </button>
+            )}
 
-            {!hideTimer && (
+            {!untimed && !hideTimer && (
               <div
                 role="timer"
                 aria-live="off"
@@ -468,7 +474,8 @@ export function ExamSurface({
               {showShortcutHint && !focusMode && (
                 <p className="mt-5 flex items-center justify-center gap-1.5 text-center text-[11px] text-muted">
                   <LuKeyboard className="h-3.5 w-3.5" />
-                  Shortcuts: A–E answer · ← → move · F flag · M focus · T timer
+                  Shortcuts: A–E answer · ← → move · F flag · M focus
+                  {!untimed && " · T timer"}
                 </p>
               )}
             </div>

@@ -12,6 +12,8 @@ type QuizEngineProps = {
   backHref?: string;
   title?: string;
   resultHref?: (attemptId: string) => string;
+  /** No countdown, no deadline — for short, low-stakes checks like the topic quick quiz. */
+  untimed?: boolean;
 };
 
 /**
@@ -27,6 +29,7 @@ export function QuizEngine({
   backHref,
   title: titleOverride,
   resultHref,
+  untimed = false,
 }: QuizEngineProps) {
   const sessionKey = useMemo(
     () =>
@@ -43,6 +46,7 @@ export function QuizEngine({
         ...(topicSlug ? { topicSlug } : {}),
         ...(examType ? { examType } : {}),
         ...(titleOverride ? { title: titleOverride } : {}),
+        ...(untimed ? { untimed: true } : {}),
         count,
       }),
     });
@@ -52,7 +56,7 @@ export function QuizEngine({
       throw new Error(data.error || "Failed to generate quiz.");
     }
     return res.json();
-  }, [subjectSlug, topicSlug, examType, count, titleOverride]);
+  }, [subjectSlug, topicSlug, examType, count, titleOverride, untimed]);
 
   const toResult = useCallback(
     (attemptId: string) =>
@@ -64,6 +68,7 @@ export function QuizEngine({
     sessionKey,
     generate,
     resultHref: toResult,
+    defaultTimeLimitMinutes: untimed ? 0 : undefined,
   });
 
   return (

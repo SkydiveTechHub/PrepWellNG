@@ -37,7 +37,11 @@ function question(id: string, overrides: Partial<ExamQuestion> = {}): ExamQuesti
   };
 }
 
-function storedSession(overrides: Partial<StoredSession> = {}): StoredSession {
+function storedSession(
+  overrides: Partial<Omit<StoredSession, "deadlineAt">> & {
+    deadlineAt?: number | null;
+  } = {},
+): StoredSession {
   const questions = [question("q1"), question("q2")];
   return {
     v: STORAGE_VERSION,
@@ -101,6 +105,25 @@ test("parseStoredSession rejects a missing attemptId", () => {
 test("parseStoredSession rejects a non-numeric deadline", () => {
   const session = storedSession();
   const broken = { ...session, deadlineAt: "soon" };
+  assert.equal(parseStoredSession(JSON.stringify(broken), NOW), null);
+});
+
+test("parseStoredSession restores an untimed session", () => {
+  // A quick quiz has no deadline; it must still be resumable.
+  const session = storedSession({ deadlineAt: null });
+  const parsed = parseStoredSession(JSON.stringify(session), NOW);
+  assert.ok(parsed);
+  assert.equal(parsed.deadlineAt, null);
+});
+
+test("an untimed session never expires", () => {
+  assert.equal(hasExpired(null, NOW), false);
+  assert.equal(hasExpired(null, NOW + 10_000_000), false);
+});
+
+test("parseStoredSession still rejects a malformed deadline", () => {
+  // null means untimed; a string is corruption and must not resume.
+  const broken = { ...storedSession(), deadlineAt: "soon" };
   assert.equal(parseStoredSession(JSON.stringify(broken), NOW), null);
 });
 

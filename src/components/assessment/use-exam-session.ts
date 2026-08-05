@@ -169,11 +169,19 @@ export function useExamSession({
       try {
         const exam = await generate();
         if (cancelled) return;
-        const minutes = exam.timeLimitMinutes || defaultTimeLimitMinutes;
         // Prefer the server's deadline; it is what submission is judged against.
-        const deadline = exam.deadlineAt
-          ? new Date(exam.deadlineAt).getTime()
-          : Date.now() + minutes * 60 * 1000;
+        // No server deadline and no configured time limit means an untimed
+        // session such as the quick quiz — leave it without a deadline rather
+        // than inventing one from `defaultTimeLimitMinutes`.
+        const minutes = exam.timeLimitMinutes || defaultTimeLimitMinutes;
+        let deadline: number | null;
+        if (exam.deadlineAt) {
+          deadline = new Date(exam.deadlineAt).getTime();
+        } else if (minutes) {
+          deadline = Date.now() + minutes * 60 * 1000;
+        } else {
+          deadline = null;
+        }
         const session: SessionData = {
           attemptId: exam.attemptId,
           title: exam.title,
@@ -357,6 +365,7 @@ export function useExamSession({
     currentQuestion: questions[currentIndex],
     answers,
     timeRemaining,
+    deadlineAt,
     showConfirmSubmit,
     focusMode,
     hideTimer,

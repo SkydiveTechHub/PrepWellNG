@@ -14,7 +14,8 @@ function TopicQuiz() {
     <QuizEngine
       subjectSlug={subjectSlug}
       topicSlug={topicSlug}
-      count={10}
+      count={5}
+      untimed
       backHref={`/classroom/${subjectSlug}/${topicSlug}`}
     />
   );

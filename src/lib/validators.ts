@@ -60,6 +60,8 @@ export const generateQuizSchema = z
     difficulty: z.enum(["BASIC", "INTERMEDIATE", "ADVANCED"]).optional(),
     examType: z.enum(["WAEC", "JAMB", "NECO", "CUSTOM"]).optional(),
     title: z.string().min(1).optional(),
+    /** Short low-stakes checks, e.g. the classroom topic quiz — no deadline is set. */
+    untimed: z.boolean().optional(),
   })
   .refine((data) => Boolean(data.subjectId || data.subjectSlug), {
     message: "Provide either subjectId or subjectSlug",
