@@ -382,6 +382,24 @@ export function LessonUploadForm({
       </div>
 
       <div className="space-y-4">
+        {parsed?.meta.docInfo && Object.keys(parsed.meta.docInfo).length > 0 && (
+          <div className="rounded-lg border border-border bg-card p-4">
+            <p className="text-xs font-semibold uppercase tracking-wide text-muted">
+              From the file header
+            </p>
+            <dl className="mt-2 space-y-1">
+              {Object.entries(parsed.meta.docInfo).map(([key, value]) => (
+                <div key={key} className="flex gap-2 text-sm">
+                  <dt className="font-semibold text-foreground shrink-0">{key}:</dt>
+                  <dd className="text-foreground/90">{value}</dd>
+                </div>
+              ))}
+            </dl>
+            <p className="mt-3 text-xs text-muted">
+              Shown so you can confirm the right note — not saved to the lesson.
+            </p>
+          </div>
+        )}
         <p className="text-sm font-semibold text-foreground">
           Preview — exactly what students will read
         </p>
