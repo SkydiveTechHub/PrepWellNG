@@ -128,14 +128,47 @@ function isSectionTerminator(line: string): boolean {
 
 const SHORT_ANSWER_RE = /\*\((?:short answer|answer)\s*:\s*(.+)\)\*/i;
 
+/**
+ * Both natural-format recognisers below keep a running "preamble" (prose
+ * before the first item) and "trailing" (prose after the last item) buffer,
+ * and both turn a non-empty buffer into an identical card: titled with the
+ * section heading, so a reader can tell at a glance it's a note about the
+ * quiz/examples rather than lesson content. The *rule* for what counts as
+ * trailing legitimately differs between the two recognisers (see the comment
+ * at each `closed` field) -- this is only the shared emission shape.
+ */
+function headingCard(
+  heading: string,
+  nextId: (slug: string) => string,
+  lines: string[],
+): ConceptBlock | null {
+  if (lines.length === 0) return null;
+  return {
+    type: "concept",
+    id: nextId(slugify(heading)),
+    title: heading,
+    text: lines.join("\n"),
+  };
+}
+
 type RawQuestion = {
   label: string;
   line: number;
   stem: string[];
   options: Array<{ key: string; text: string[] }>;
-  /** A blank line has closed this question -- any further non-blank line
-   *  that doesn't open a new numbered question is trailing prose, not
-   *  another option or stem continuation. */
+  /**
+   * A blank line closes this question, but *only* against a bare unlabelled
+   * line -- an `a)`-`h)` option is structurally unambiguous and is always
+   * recognised no matter how many blank lines precede it (a stem and its
+   * options are commonly typed with a blank line between them), and so is a
+   * continuation line carrying a `*(Short answer: …)*` aside, since that
+   * aside is what a short-answer question needs to parse at all. Matching
+   * either re-opens the question (`closed` is cleared) so further wrapped
+   * text keeps accumulating normally. A bare unlabelled line while closed
+   * has no structural marker to justify attaching it to the last option, so
+   * it becomes trailing prose instead of silently corrupting that option's
+   * text (and, with it, an answer marker sitting at the end of the line).
+   */
   closed: boolean;
 };
 
@@ -156,7 +189,9 @@ export function parseQuizSection(args: SectionArgs): SectionResult {
     if (isHorizontalRule(raw)) continue;
 
     if (!raw.trim()) {
-      // A blank line closes whatever question is currently open.
+      // A blank line marks the question as closed to bare continuation
+      // lines. It does NOT block a later option or short-answer aside from
+      // being recognised -- see the `closed` field's comment.
       const open = questions[questions.length - 1];
       if (open) open.closed = true;
       continue;
@@ -175,16 +210,24 @@ export function parseQuizSection(args: SectionArgs): SectionResult {
     }
 
     const current = questions[questions.length - 1];
-    const option = current && !current.closed ? /^\s*([A-Ha-h])[.)]\s+(.*)$/.exec(raw) : null;
+    const option = current ? /^\s*([A-Ha-h])[.)]\s+(.*)$/.exec(raw) : null;
     if (option && current) {
       current.options.push({ key: option[1].toUpperCase(), text: [option[2].trim()] });
+      current.closed = false; // an option is structural -- re-open for further wrapped text.
+      continue;
+    }
+
+    if (current?.closed && SHORT_ANSWER_RE.test(raw)) {
+      // A short-answer aside on its own line, after a blank line, is still
+      // a continuation of the stem -- it's structurally unambiguous.
+      current.stem.push(raw.trim());
       continue;
     }
 
     // Unlabelled: continue whatever opened last, so wrapped questions and long
     // options work without ceremony — the same rule readFence() uses. Once a
-    // question has closed, though, an unlabelled line is trailing prose, not
-    // a continuation of its last option.
+    // question has closed, though, a bare unlabelled line is trailing prose,
+    // not a continuation of its last option.
     if (!current || current.closed) {
       (current ? trailing : preamble).push(raw.trim());
     } else if (current.options.length > 0) {
@@ -197,15 +240,8 @@ export function parseQuizSection(args: SectionArgs): SectionResult {
   const blocks: LessonBlock[] = [];
 
   // Prose above the first question is a rubric, not decoration. Keep it.
-  if (preamble.length > 0) {
-    const rubric: ConceptBlock = {
-      type: "concept",
-      id: nextId(slugify(heading)),
-      title: heading,
-      text: preamble.join("\n"),
-    };
-    blocks.push(rubric);
-  }
+  const rubric = headingCard(heading, nextId, preamble);
+  if (rubric) blocks.push(rubric);
 
   // A check must follow a non-check block. Prefer a rubric card we just made,
   // else the last card before the quiz.
@@ -306,19 +342,11 @@ export function parseQuizSection(args: SectionArgs): SectionResult {
     blocks.push(check);
   }
 
-  // Prose after the last question closed (a blank line, then text that
-  // doesn't open a new numbered question) is trailing remarks to students,
-  // not another option or an answer -- keep it as a card, same as the
-  // preamble, instead of letting it be absorbed into the last option.
-  if (trailing.length > 0) {
-    const notes: ConceptBlock = {
-      type: "concept",
-      id: nextId(slugify(heading)),
-      title: heading,
-      text: trailing.join("\n"),
-    };
-    blocks.push(notes);
-  }
+  // A bare unlabelled line after the last question closed is trailing
+  // remarks to students, not another option or an answer -- keep it as a
+  // card instead of letting it be absorbed into the last option.
+  const notes = headingCard(heading, nextId, trailing);
+  if (notes) blocks.push(notes);
 
   return { blocks, consumed };
 }
@@ -340,8 +368,25 @@ type RawExample = {
   problem: string;
   working: string[];
   hasSolution: boolean;
-  /** A blank line has closed this example's working -- any further non-blank,
-   *  non-`**Example` line is trailing prose, not another step. */
+  /**
+   * A worked example has no structural marker as unambiguous as the quiz's
+   * `a)`-`h)` options -- a working step and a closing remark are both just a
+   * line of prose. Position alone (any blank line closes) is not enough
+   * either: teachers routinely leave a blank line *between* working steps,
+   * and closing on that would exile the real answer into a stray card (see
+   * scripts/test-lesson-markdown.mts, case A). So the working closes on a
+   * blank line only when it already ends in a bolded span -- the same
+   * `\*\*(.+?)\*\*\s*$` shape the answer rule below keys on, since a bolded
+   * final line is precisely what tells this recogniser "the answer has
+   * already been given." Otherwise the blank line is skipped and the
+   * working keeps accumulating.
+   *
+   * Accepted residual: a solution whose true final line is NOT bolded,
+   * followed by a blank line and a closing remark, still reads the remark
+   * as the answer. There is no further structural signal to distinguish
+   * that from a genuine multi-paragraph working, so this is deliberately
+   * left as-is rather than chasing it with more heuristics.
+   */
   closed: boolean;
 };
 
@@ -362,10 +407,20 @@ export function parseWorkedExamples(args: SectionArgs): SectionResult {
     if (isHorizontalRule(raw)) continue;
 
     if (!raw.trim()) {
-      // A blank line closes whatever example is currently open -- it does
-      // not absorb another blank line as a "step".
+      // Close only if the working so far already ends in a bolded answer --
+      // see the `closed` field's comment. Otherwise a blank line is just
+      // skipped, exactly as it was before this recogniser tracked closing
+      // at all.
       const open = examples[examples.length - 1];
-      if (open) open.closed = true;
+      if (
+        open &&
+        !open.closed &&
+        open.hasSolution &&
+        open.working.length > 0 &&
+        TRAILING_BOLD_RE.test(open.working[open.working.length - 1])
+      ) {
+        open.closed = true;
+      }
       continue;
     }
 
@@ -405,15 +460,8 @@ export function parseWorkedExamples(args: SectionArgs): SectionResult {
 
   const blocks: LessonBlock[] = [];
 
-  if (preamble.length > 0) {
-    const rubric: ConceptBlock = {
-      type: "concept",
-      id: nextId(slugify(heading)),
-      title: heading,
-      text: preamble.join("\n"),
-    };
-    blocks.push(rubric);
-  }
+  const rubric = headingCard(heading, nextId, preamble);
+  if (rubric) blocks.push(rubric);
 
   for (const example of examples) {
     if (!example.hasSolution) {
@@ -451,18 +499,11 @@ export function parseWorkedExamples(args: SectionArgs): SectionResult {
     blocks.push(block);
   }
 
-  // Prose after the last example's working closed (a blank line, then text
-  // that doesn't open a new **Example) is trailing remarks to students, not
-  // an extra step or an answer -- keep it as a card, same as the preamble.
-  if (trailing.length > 0) {
-    const notes: ConceptBlock = {
-      type: "concept",
-      id: nextId(slugify(heading)),
-      title: heading,
-      text: trailing.join("\n"),
-    };
-    blocks.push(notes);
-  }
+  // Prose after the last example's working closed (a bolded answer, then a
+  // blank line, then text that doesn't open a new **Example) is trailing
+  // remarks to students, not an extra step or an answer -- keep it as a card.
+  const notes = headingCard(heading, nextId, trailing);
+  if (notes) blocks.push(notes);
 
   return { blocks, consumed };
 }

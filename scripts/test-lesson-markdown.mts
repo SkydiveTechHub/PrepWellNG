@@ -1478,3 +1478,93 @@ test("a trailing *(Answer: ...)* on a multiple-choice stem does not leak into th
   assert.ok(!check.question.includes("Answer"), "the answer aside must not remain in the visible question");
   assert.equal(check.explanation, "metre", "the aside becomes the check's explanation rather than being discarded");
 });
+
+// ─── Regression round: the blank-line-closes rule must not corrupt cases ──
+// where a blank line legitimately separates working steps, a stem from its
+// options, or a stem from its short-answer aside ────────────────────────────
+
+test("case A: a blank line between working steps is not read as a closing remark", () => {
+  const result = parseLessonMarkdown(
+    [
+      "## A", "", "T.", "",
+      "## Worked Examples", "",
+      "**Example 1:** Convert 5 km to metres.",
+      "**Solution:**",
+      "1 km = 1,000 m",
+      "",
+      "5 km = **5,000 m**",
+    ].join("\n"),
+  );
+  assert.deepEqual(result.errors, []);
+  const example = result.blocks.find((b) => b.type === "example") as ExampleBlock;
+  assert.deepEqual(example.steps, ["1 km = 1,000 m"]);
+  assert.equal(example.answer, "5,000 m");
+  assert.equal(
+    result.blocks.some((b) => b.type === "concept" && (b as ConceptBlock).title === "Worked Examples"),
+    false,
+    "no stray trailing card should be produced -- the blank line was inside the working, not after it",
+  );
+});
+
+test("case B: a blank line between a quiz stem and its options does not discard the options", () => {
+  const result = parseLessonMarkdown(
+    [
+      "## A", "", "Text.", "",
+      "## Quiz", "",
+      "1. What is the SI unit of length?",
+      "",
+      "   a) kilometre",
+      "   b) metre ✔",
+    ].join("\n"),
+  );
+  assert.deepEqual(result.errors, []);
+  const check = result.blocks.find((b) => b.type === "check") as CheckBlock;
+  assert.ok(check, "the question must still become a check block, not a hard error");
+  assert.deepEqual(check.options, { A: "kilometre", B: "metre" });
+  assert.equal(check.answer, "B");
+});
+
+test("case C: a blank line before a *(Short answer: ...)* aside on its own line does not discard it", () => {
+  const result = parseLessonMarkdown(
+    [
+      "## A", "", "Text.", "",
+      "## Quiz", "",
+      "1. Convert 3,000 g to kilograms.",
+      "",
+      "*(Short answer: 3 kg)*",
+    ].join("\n"),
+  );
+  assert.deepEqual(result.errors, []);
+  const reveal = result.blocks.find(
+    (b) => b.type === "concept" && (b as ConceptBlock).reveal,
+  ) as ConceptBlock;
+  assert.ok(reveal, "the short answer must still be recognised, not reported as missing");
+  assert.equal(reveal.text, "Convert 3,000 g to kilograms.");
+  assert.equal(reveal.reveal, "3 kg");
+});
+
+test("documented residual: an unbolded final answer followed by a blank line and a remark still reads the remark as the answer", () => {
+  const result = parseLessonMarkdown(
+    [
+      "## A", "", "T.", "",
+      "## Worked Examples", "",
+      "**Example 1:** Q?",
+      "**Solution:**",
+      "the answer is 4",
+      "",
+      "A closing remark.",
+    ].join("\n"),
+  );
+  assert.deepEqual(result.errors, []);
+  const example = result.blocks.find((b) => b.type === "example") as ExampleBlock;
+  assert.deepEqual(
+    example.steps,
+    ["the answer is 4"],
+    "with no trailing bold to close on, the blank line is skipped and the remark keeps accumulating into the working",
+  );
+  assert.equal(
+    example.answer,
+    "A closing remark.",
+    "this is the accepted residual: without a bolded answer to key off, position alone still can't tell a closing remark from the true final line",
+  );
+});
