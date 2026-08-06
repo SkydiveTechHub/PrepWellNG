@@ -1,72 +1,119 @@
 import { Fragment, type ReactNode } from "react";
+import { segmentMarkdown } from "@/lib/markdown-segments";
 
-// Renders the simple markdown subset used by lesson content:
-// `## heading`, `- list items`, blank-line-separated paragraphs, and
-// inline `**bold**`. Safe against HTML injection — everything is escaped.
-
-function escapeHtml(text: string): string {
-  return text
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
-}
+// Renders the markdown subset used by lesson content: `## heading`,
+// `- bullets`, `1. numbered items`, pipe tables, `**bold**`, `*italic*`,
+// `---` rules, and blank-line-separated paragraphs.
+//
+// Safe against HTML injection by construction: every string reaches the DOM as
+// a React text child, and there is no dangerouslySetInnerHTML here. Lesson
+// content is authored by upload, so it is untrusted input.
 
 function renderInline(text: string): ReactNode[] {
-  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  // Bold first so `**x**` is never consumed by the italic alternative.
+  const parts = text.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/g);
   return parts.map((part, i) => {
     if (part.startsWith("**") && part.endsWith("**") && part.length > 4) {
       return (
         <strong key={i} className="font-semibold text-foreground">
-          {escapeHtml(part.slice(2, -2))}
+          {part.slice(2, -2)}
         </strong>
       );
     }
-    return <Fragment key={i}>{escapeHtml(part)}</Fragment>;
+    if (part.startsWith("*") && part.endsWith("*") && part.length > 2) {
+      return <em key={i}>{part.slice(1, -1)}</em>;
+    }
+    return <Fragment key={i}>{part}</Fragment>;
   });
 }
 
 export function Markdown({ content }: { content: string }) {
-  const blocks = content.split(/\n{2,}/);
+  const segments = segmentMarkdown(content);
 
   return (
     <div className="space-y-4">
-      {blocks.map((block, idx) => {
-        const trimmed = block.trim();
-        if (!trimmed) return null;
+      {segments.map((segment, idx) => {
+        switch (segment.kind) {
+          case "heading":
+            return (
+              <h3 key={idx} className="text-base font-semibold text-foreground pt-1">
+                {segment.text}
+              </h3>
+            );
 
-        if (trimmed.startsWith("## ")) {
-          return (
-            <h3
-              key={idx}
-              className="text-base font-semibold text-foreground pt-1"
-            >
-              {trimmed.slice(3)}
-            </h3>
-          );
+          case "rule":
+            return <hr key={idx} className="border-border" />;
+
+          case "ul":
+            return (
+              <ul key={idx} className="space-y-2">
+                {segment.items.map((item, li) => (
+                  <li
+                    key={li}
+                    className="flex items-start gap-2.5 text-sm text-foreground/90 leading-relaxed"
+                  >
+                    <span className="mt-2 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                    <span>{renderInline(item)}</span>
+                  </li>
+                ))}
+              </ul>
+            );
+
+          case "ol":
+            return (
+              <ol key={idx} className="space-y-2">
+                {segment.items.map((item, li) => (
+                  <li
+                    key={li}
+                    className="flex items-start gap-2.5 text-sm text-foreground/90 leading-relaxed"
+                  >
+                    <span className="mt-0.5 text-xs font-semibold text-primary tabular-nums shrink-0">
+                      {li + 1}.
+                    </span>
+                    <span>{renderInline(item)}</span>
+                  </li>
+                ))}
+              </ol>
+            );
+
+          case "table":
+            return (
+              <div key={idx} className="overflow-x-auto">
+                <table className="w-full border-collapse text-sm">
+                  <thead>
+                    <tr className="border-b border-border-strong">
+                      {segment.header.map((cell, ci) => (
+                        <th
+                          key={ci}
+                          className="px-3 py-2 text-left font-semibold text-foreground"
+                        >
+                          {renderInline(cell)}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {segment.rows.map((row, ri) => (
+                      <tr key={ri} className="border-b border-border last:border-0">
+                        {row.map((cell, ci) => (
+                          <td key={ci} className="px-3 py-2 text-foreground/90 align-top">
+                            {renderInline(cell)}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            );
+
+          default:
+            return (
+              <p key={idx} className="text-sm text-foreground/90 leading-relaxed">
+                {renderInline(segment.text)}
+              </p>
+            );
         }
-
-        const lines = trimmed.split("\n");
-        if (lines.every((line) => line.trim().startsWith("- "))) {
-          return (
-            <ul key={idx} className="space-y-2">
-              {lines.map((line, li) => (
-                <li
-                  key={li}
-                  className="flex items-start gap-2.5 text-sm text-foreground/90 leading-relaxed"
-                >
-                  <span className="mt-2 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
-                  <span>{renderInline(line.trim().slice(2))}</span>
-                </li>
-              ))}
-            </ul>
-          );
-        }
-
-        return (
-          <p key={idx} className="text-sm text-foreground/90 leading-relaxed">
-            {renderInline(trimmed)}
-          </p>
-        );
       })}
     </div>
   );
