@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { parseLessonMarkdown, sanitizeSvg } from "../src/lib/lesson-markdown";
+import { parseLessonMarkdown, sanitizeSvg, validateLessonMarkdown } from "../src/lib/lesson-markdown";
 import type { ConceptBlock } from "../src/lib/lesson-engine";
 import type {
   ExampleBlock,
@@ -10,6 +10,7 @@ import type {
   CheckBlock,
   DiagramBlock,
 } from "../src/lib/lesson-engine";
+import { MAX_CARD_WORDS, blockWordCount } from "../src/lib/lesson-engine";
 
 test("a bare heading and paragraph become one concept block", () => {
   const result = parseLessonMarkdown(
@@ -478,4 +479,127 @@ test("removing one hostile element cannot splice the surrounding text into anoth
   assertSanitised(svg);
   assert.doesNotMatch(svg, /alert/);
   assert.equal(warnings.length >= 1, true);
+});
+
+// ─── Task 4: auto-split at the card cap, and lint integration ──────────
+
+const WORD = "word ";
+
+test("a concept section over the card cap splits at paragraph boundaries", () => {
+  const para = WORD.repeat(80).trim();
+  const result = parseLessonMarkdown(`## Long\n\n${para}\n\n${para}`);
+  assert.equal(result.blocks.length, 2);
+  assert.equal(result.blocks[0].type, "concept");
+  assert.equal(result.blocks[1].type, "concept");
+  for (const block of result.blocks) {
+    assert.ok(blockWordCount(block) <= MAX_CARD_WORDS);
+  }
+});
+
+test("the split keeps the heading on the first card only", () => {
+  const para = WORD.repeat(80).trim();
+  const result = parseLessonMarkdown(`## Long\n\n${para}\n\n${para}`);
+  assert.equal((result.blocks[0] as { title?: string }).title, "Long");
+  assert.equal((result.blocks[1] as { title?: string }).title, undefined);
+});
+
+test("a split emits a warning naming the heading and the card count", () => {
+  const para = WORD.repeat(80).trim();
+  const result = parseLessonMarkdown(`## Long\n\n${para}\n\n${para}`);
+  assert.equal(result.warnings.length, 1);
+  assert.match(result.warnings[0].message, /Long/);
+  assert.match(result.warnings[0].message, /2/);
+});
+
+test("a section under the cap is never split", () => {
+  const result = parseLessonMarkdown("## Short\n\nOne.\n\nTwo.\n\nThree.");
+  assert.equal(result.blocks.length, 1);
+});
+
+test("one unsplittable over-long paragraph stays whole and fails the lint", () => {
+  const giant = WORD.repeat(MAX_CARD_WORDS + 40).trim();
+  const result = validateLessonMarkdown(`## Giant\n\n${giant}`);
+  assert.equal(result.blocks.length, 1);
+  assert.ok(result.errors.some((e) => /words/.test(e.message)));
+});
+
+test("validateLessonMarkdown merges lint issues into errors", () => {
+  // Valid syntax, but no knowledge check — a lint rule, not a parse rule.
+  const result = validateLessonMarkdown("## A\n\nSome text.");
+  assert.deepEqual(parseLessonMarkdown("## A\n\nSome text.").errors, []);
+  assert.ok(result.errors.some((e) => /knowledge check/i.test(e.message)));
+});
+
+test("a complete, well-formed lesson validates with no errors", () => {
+  const source = [
+    "---",
+    "title: Newton's First Law",
+    "estimatedMinutes: 20",
+    "---",
+    "",
+    "## What the law says",
+    "",
+    "An object stays at rest or in uniform motion unless a net force acts on it.",
+    "",
+    ":::example",
+    "Problem: A book rests on a table. Why does it not move?",
+    "Step: Identify the forces: weight down, normal force up.",
+    "Step: They are equal and opposite, so the net force is zero.",
+    "Answer: With zero net force, the book stays at rest.",
+    ":::",
+    "",
+    ":::tip",
+    "Exam: WAEC",
+    "Say 'net force', not 'force' — the distinction earns the mark.",
+    ":::",
+    "",
+    ":::check",
+    "Q: A car moves at constant velocity. What is the net force on it?",
+    "A) Zero",
+    "B) Equal to its weight",
+    "C) Equal to its momentum",
+    "Correct: A",
+    "Why: Constant velocity means no acceleration, so no net force.",
+    ":::",
+  ].join("\n");
+  const result = validateLessonMarkdown(source);
+  assert.deepEqual(result.errors, []);
+  assert.equal(result.blocks.length, 4);
+  assert.equal(result.meta.title, "Newton's First Law");
+});
+
+// ─── Carried fix A: hostile-element removal must not be quadratic ──────
+
+test("hostile-element removal handles many unterminated hostile starts in well under a second", () => {
+  const start = Date.now();
+  const { svg } = sanitizeSvg("<svg>" + "<script ".repeat(25000) + "</svg>");
+  const elapsed = Date.now() - start;
+  assertSanitised(svg);
+  assert.ok(elapsed < 2000, `expected well under 2000ms, took ${elapsed}ms`);
+});
+
+test("hostile-element removal handles many self-closing hostile tags in well under a second", () => {
+  const start = Date.now();
+  const { svg } = sanitizeSvg("<svg>" + "<use/>".repeat(20000) + "</svg>");
+  const elapsed = Date.now() - start;
+  assertSanitised(svg);
+  assert.ok(elapsed < 2000, `expected well under 2000ms, took ${elapsed}ms`);
+});
+
+// ─── Carried fix B: unquoted attribute values must not swallow a trailing / ──
+
+test("a self-closing tag's unquoted attribute value does not swallow the slash", () => {
+  const { svg, warnings } = sanitizeSvg("<svg><circle r=1/></svg>");
+  assertSanitised(svg);
+  assert.doesNotMatch(svg, /r="1\/"/);
+  assert.match(svg, /<circle r="1"\/>/);
+  assert.deepEqual(warnings, []);
+});
+
+test("a self-closing tag's unquoted color value does not swallow the slash", () => {
+  const { svg, warnings } = sanitizeSvg("<svg><circle fill=red/></svg>");
+  assertSanitised(svg);
+  assert.doesNotMatch(svg, /fill="red\/"/);
+  assert.match(svg, /<circle fill="red"\/>/);
+  assert.deepEqual(warnings, []);
 });

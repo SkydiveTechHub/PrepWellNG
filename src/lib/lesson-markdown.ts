@@ -1,6 +1,10 @@
 import type { LessonBlock, ConceptBlock } from "@/lib/lesson-engine";
 import {
   EXAM_TYPES,
+  MAX_CARD_WORDS,
+  blockWordCount,
+  lintLessonBlocks,
+  wordCount,
   type ExampleBlock,
   type TipBlock,
   type MistakeBlock,
@@ -345,21 +349,52 @@ export function sanitizeSvg(svg: string): { svg: string; warnings: Issue[] } {
   // see a match that only exists after an earlier removal, so this
   // re-scans the *entire current string* and loops until nothing more
   // matches, rather than assuming one pass per tag name is enough.
-  const HOSTILE_NAMES = [...SVG_VOID_HOSTILE].join("|");
-  const hostilePaired = new RegExp(`<(${HOSTILE_NAMES})\\b[^>]*>[\\s\\S]*?<\\/\\1\\s*>`, "gi");
-  const hostileSelfClosing = new RegExp(`<(${HOSTILE_NAMES})\\b[^>]*\\/?>`, "gi");
+  const HOSTILE_NAMES = [...SVG_VOID_HOSTILE];
+  const ALL_HOSTILE_NAMES = HOSTILE_NAMES.join("|");
+  // Tempered dot: excludes the closing tag from the "any character" run so
+  // the engine cannot backtrack past it looking for a later match. This
+  // alone is not enough to be linear (see below) but keeps a single
+  // successful pairing attempt itself from re-scanning past its own close.
+  const pairedPattern = (names: string) =>
+    new RegExp(`<(${names})\\b[^>]*>(?:(?!<\\/\\1)[\\s\\S])*?<\\/\\1\\s*>`, "gi");
+  const hostileSelfClosing = new RegExp(`<(${ALL_HOSTILE_NAMES})\\b[^>]*\\/?>`, "gi");
   let previous: string;
+  // Defensive bound: pathological nesting (splicing one hostile tag out of
+  // another, repeated many times) could in principle force many fixed-point
+  // iterations. Each iteration below is O(n), so this cap keeps the whole
+  // loop O(n) worst case regardless of how deeply an attacker nests it —
+  // realistic and even generously adversarial content converges in 2-3.
+  const MAX_FIXED_POINT_PASSES = 64;
+  let pass = 0;
   do {
     previous = out;
-    out = out.replace(hostilePaired, (_match, name: string) => {
-      warn(`<${name.toLowerCase()}> is not allowed in a diagram and was removed.`);
-      return "";
-    });
+    // Only attempt the backreference-paired regex for hostile names whose
+    // closing tag is actually present in the string right now. A name with
+    // no closing tag anywhere can never match — but retrying the paired
+    // regex at every one of that name's *opening* occurrences anyway (each
+    // attempt scanning to end-of-string before failing) is exactly what
+    // made this quadratic: ~20s on "<script " repeated 25,000 times with no
+    // "</script>" in sight. Skipping the attempt entirely when it is
+    // provably futile turns that into a single cheap substring check per
+    // name (9 names — negligible) instead of an O(n) scan per occurrence.
+    const lower = out.toLowerCase();
+    const pairableNames = HOSTILE_NAMES.filter((name) => lower.includes(`</${name}`));
+    if (pairableNames.length > 0) {
+      const hostilePaired = pairedPattern(pairableNames.join("|"));
+      out = out.replace(hostilePaired, (_match, name: string) => {
+        warn(`<${name.toLowerCase()}> is not allowed in a diagram and was removed.`);
+        return "";
+      });
+    }
+    // Self-closing tags need no matching close, so this one is always safe
+    // to run in full: each occurrence's `[^>]*` scan terminates at that
+    // occurrence's own nearby ">", not a distant or nonexistent one.
     out = out.replace(hostileSelfClosing, (_match, name: string) => {
       warn(`<${name.toLowerCase()}> is not allowed in a diagram and was removed.`);
       return "";
     });
-  } while (out !== previous);
+    pass += 1;
+  } while (out !== previous && pass < MAX_FIXED_POINT_PASSES);
 
   // Attribute values are re-emitted inside a freshly built double-quoted
   // string. A value captured from a *single*-quoted original attribute may
@@ -392,7 +427,13 @@ export function sanitizeSvg(svg: string): { svg: string; warnings: Issue[] } {
   // unrecognised element — is dropped from that `<` through the next `>`
   // (or to the end of input) rather than being left in place. Fail closed,
   // never fail open.
-  const UNQUOTED_VALUE = `[^\\s"'\`=<>]+`;
+  // Excludes `/` so a self-closing tag's trailing `/>` is never swallowed
+  // into the preceding unquoted value (e.g. `r=1/>` must not become
+  // `r="1/"` with the closing `>` left dangling — that produces an invalid
+  // SVG length and loses the self-close, nesting following siblings inside
+  // the tag). HTML5 unquoted values may legally contain `/`, but no
+  // allowlisted SVG attribute here needs one, so this is a safe exclusion.
+  const UNQUOTED_VALUE = `[^\\s"'\`=<>/]+`;
   const ATTR_VALUE = `(?:"[^"]*"|'[^']*'|${UNQUOTED_VALUE})`;
   const ATTR = `[a-zA-Z_:][-a-zA-Z0-9_:.]*(?:\\s*=\\s*${ATTR_VALUE})?`;
   const OPEN_TAG_RE = new RegExp(`^<([a-zA-Z][a-zA-Z0-9-]*)((?:\\s+${ATTR})*)\\s*(/)?>`);
@@ -650,6 +691,73 @@ function buildFenceBlock(
 /** A heading section, before it is turned into one or more concept blocks. */
 type Section = { title?: string; text: string; reveal?: string; line: number };
 
+/**
+ * Emits a section as one concept card, or several split at paragraph
+ * boundaries when it exceeds MAX_CARD_WORDS. The heading rides the first
+ * card; the notes view renders consecutive concepts as continuous prose, so
+ * a split is invisible there and only shapes the card player.
+ */
+function emitConcept(
+  section: Section,
+  nextId: (slug: string) => string,
+  blocks: LessonBlock[],
+  warnings: Issue[],
+): void {
+  const slug = slugify(section.title ?? "concept");
+  const whole: ConceptBlock = {
+    type: "concept",
+    id: nextId(slug),
+    title: section.title,
+    text: section.text,
+    reveal: section.reveal || undefined,
+  };
+
+  if (blockWordCount(whole) <= MAX_CARD_WORDS) {
+    blocks.push(whole);
+    return;
+  }
+
+  const paragraphs = section.text.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
+  if (paragraphs.length < 2) {
+    // Nothing to split on. Keep it whole — the lint will reject it, which is
+    // the honest outcome: splitting mid-sentence would be worse.
+    blocks.push(whole);
+    return;
+  }
+
+  const cards: string[] = [];
+  let current: string[] = [];
+  let running = 0;
+  for (const paragraph of paragraphs) {
+    const words = wordCount(paragraph);
+    if (current.length > 0 && running + words > MAX_CARD_WORDS) {
+      cards.push(current.join("\n\n"));
+      current = [];
+      running = 0;
+    }
+    current.push(paragraph);
+    running += words;
+  }
+  if (current.length > 0) cards.push(current.join("\n\n"));
+
+  // The id minted for `whole` is already claimed; reuse it for the first card.
+  cards.forEach((text, index) => {
+    blocks.push({
+      type: "concept",
+      id: index === 0 ? whole.id : nextId(slug),
+      title: index === 0 ? section.title : undefined,
+      text,
+      // The reveal belongs with the last card, where the idea completes.
+      reveal: index === cards.length - 1 ? section.reveal || undefined : undefined,
+    });
+  });
+
+  warnings.push({
+    line: section.line,
+    message: `"${section.title ?? "Untitled section"}" is longer than ${MAX_CARD_WORDS} words and was split into ${cards.length} cards.`,
+  });
+}
+
 export function parseLessonMarkdown(source: string): ParsedLesson {
   const lines = source.replace(/\r\n/g, "\n").split("\n");
   const front = parseFrontmatter(lines);
@@ -680,14 +788,7 @@ export function parseLessonMarkdown(source: string): ParsedLesson {
       inReveal = false;
       return;
     }
-    const block: ConceptBlock = {
-      type: "concept",
-      id: nextId(slugify(section.title ?? "concept")),
-      title: section.title,
-      text: section.text,
-      reveal: section.reveal || undefined,
-    };
-    blocks.push(block);
+    emitConcept(section, nextId, blocks, warnings);
     section = null;
     inReveal = false;
   }
@@ -769,4 +870,18 @@ export function parseLessonMarkdown(source: string): ParsedLesson {
   }
 
   return { meta, blocks, warnings, errors };
+}
+
+/**
+ * Parse plus the lesson-engine authoring lint. This is what the admin form
+ * and the import route call — the parser owns syntax, the lint owns pedagogy
+ * (card length, at least one concept, at least one check, afterCard targets).
+ */
+export function validateLessonMarkdown(source: string): ParsedLesson {
+  const parsed = parseLessonMarkdown(source);
+  if (parsed.blocks.length === 0) return parsed;
+  const lintIssues = lintLessonBlocks(parsed.blocks).map((issue) => ({
+    message: issue.blockId ? `${issue.blockId}: ${issue.message}` : issue.message,
+  }));
+  return { ...parsed, errors: [...parsed.errors, ...lintIssues] };
 }
