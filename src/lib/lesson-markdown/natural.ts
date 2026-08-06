@@ -126,7 +126,16 @@ function isSectionTerminator(line: string): boolean {
   return /^#{1,2}\s/.test(line) || /^:::/.test(line.trim());
 }
 
-const SHORT_ANSWER_RE = /\*\((?:short answer|answer)\s*:\s*(.+)\)\*/i;
+/**
+ * The parenthetical sample answer on a theory question.
+ *
+ * `[^:)]*` between the label and the colon is load-bearing: real notes qualify
+ * the label — `*(Short answer — sample: …)*`, `*(Answer - example: …)*` — and
+ * demanding a bare `Short answer:` rejected every one of them. It stops at `:`
+ * so the FIRST colon still opens the answer, and at `)` so an unrelated
+ * parenthetical can never be mistaken for one.
+ */
+const SHORT_ANSWER_RE = /\*\((?:short answer|answer)\b[^:)]*:\s*(.+)\)\*/i;
 
 /**
  * Both natural-format recognisers below keep a running "preamble" buffer --
@@ -226,20 +235,21 @@ export function parseQuizSection(args: SectionArgs): SectionResult {
   for (const question of questions) {
     const stem = question.stem.join(" ").trim();
 
+    // No options means a THEORY question -- "State ONE laboratory safety
+    // rule." -- not a malformed multiple-choice one. It is never an error:
+    // theory questions are how a WAEC/NECO paper's second section is written,
+    // and rejecting them blocked whole uploads over content that was correct.
+    //
+    // With a sample answer it becomes a tap-to-reveal card; without one it is
+    // still a card, just one the student answers in their own head or their
+    // notebook. Dropping it silently would lose a question the teacher wrote.
     if (question.options.length === 0) {
       const shortAnswer = SHORT_ANSWER_RE.exec(stem);
-      if (!shortAnswer) {
-        errors.push({
-          line: question.line,
-          message: `Question ${question.label} has no options and no "(Short answer: …)".`,
-        });
-        continue;
-      }
       const block: ConceptBlock = {
         type: "concept",
-        id: nextId("short-answer"),
-        text: stem.replace(SHORT_ANSWER_RE, "").trim(),
-        reveal: shortAnswer[1].trim(),
+        id: nextId(shortAnswer ? "short-answer" : "theory"),
+        text: shortAnswer ? stem.replace(SHORT_ANSWER_RE, "").trim() : stem,
+        ...(shortAnswer ? { reveal: shortAnswer[1].trim() } : {}),
       };
       blocks.push(block);
       lastNonCheckId = block.id;

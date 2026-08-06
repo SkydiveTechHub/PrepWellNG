@@ -1041,12 +1041,79 @@ test("a quiz question with one option is an error", () => {
   assert.match(result.errors[0].message, /Question 1 has only one option/);
 });
 
-test("a quiz question with neither options nor a short answer is an error", () => {
+// Behaviour change, requested 2026-08-06: a numbered question with no options
+// is a THEORY question, not a malformed multiple-choice one. Teachers' notes
+// end with "State ONE laboratory safety rule." and similar, which have no
+// options by nature. Erroring on them blocked the whole upload.
+test("a quiz question with no options becomes a theory card", () => {
   const result = parseLessonMarkdown(
-    ["## A", "", "Text.", "", "## Quiz", "", "1. Just a sentence."].join("\n"),
+    ["## A", "", "Text.", "", "## Quiz", "", "1. State ONE laboratory safety rule."].join("\n"),
   );
-  assert.equal(result.errors.length, 1);
-  assert.match(result.errors[0].message, /has no options and no/);
+  assert.deepEqual(result.errors, []);
+  const theory = result.blocks.find(
+    (b) => b.type === "concept" && (b as ConceptBlock).text.startsWith("State ONE"),
+  ) as ConceptBlock;
+  assert.ok(theory, "the theory question should become a concept card");
+  assert.equal(theory.text, "State ONE laboratory safety rule.");
+  assert.equal(theory.reveal, undefined, "no sample answer was given, so nothing to reveal");
+});
+
+test("a theory question's sample answer may be qualified before the colon", () => {
+  // Real notes write "*(Short answer — sample: …)*", not the bare
+  // "*(Short answer: …)*" the parser originally demanded. Both dash forms and
+  // the bare form must all work.
+  for (const aside of [
+    "*(Short answer: Do not eat in the laboratory)*",
+    "*(Short answer — sample: Do not eat in the laboratory)*",
+    "*(Short answer - sample: Do not eat in the laboratory)*",
+    "*(Answer — example: Do not eat in the laboratory)*",
+  ]) {
+    const result = parseLessonMarkdown(
+      ["## A", "", "Text.", "", "## Quiz", "", `1. State ONE safety rule. ${aside}`].join("\n"),
+    );
+    assert.deepEqual(result.errors, [], `${aside} produced errors`);
+    const card = result.blocks.find(
+      (b) => b.type === "concept" && (b as ConceptBlock).reveal,
+    ) as ConceptBlock;
+    assert.ok(card, `${aside} did not produce a reveal card`);
+    assert.equal(card.reveal, "Do not eat in the laboratory", `${aside} captured the wrong answer`);
+    assert.equal(
+      card.text,
+      "State ONE safety rule.",
+      `${aside} was not stripped from the visible question`,
+    );
+  }
+});
+
+test("the three theory questions from a real note all parse", () => {
+  // Lifted verbatim from an SSS1 Physics note that failed to upload with
+  // "Question 8/9/10 has no options and no (Short answer: …)".
+  const result = parseLessonMarkdown(
+    [
+      "## A",
+      "",
+      "Text.",
+      "",
+      "## Quiz",
+      "",
+      "8. State ONE laboratory safety rule. *(Short answer — sample: Do not eat or drink in the laboratory)*",
+      "",
+      "9. Give TWO examples of how physics is applied in everyday Nigerian life. *(Short answer — sample: power generation, GSM telecommunication)*",
+      "",
+      "10. Explain briefly why Physics is considered the foundation of engineering. *(Short answer — sample: Engineering applies physics principles of forces, energy, and motion to design structures and machines)*",
+    ].join("\n"),
+  );
+  assert.deepEqual(result.errors, []);
+  const reveals = result.blocks.filter(
+    (b) => b.type === "concept" && (b as ConceptBlock).reveal,
+  ) as ConceptBlock[];
+  assert.equal(reveals.length, 3);
+  assert.equal(reveals[0].reveal, "Do not eat or drink in the laboratory");
+  assert.equal(reveals[1].reveal, "power generation, GSM telecommunication");
+  assert.match(reveals[2].reveal as string, /^Engineering applies physics principles/);
+  for (const card of reveals) {
+    assert.ok(!card.text.includes("Short answer"), `aside leaked into: ${card.text}`);
+  }
 });
 
 test("prose above the first quiz question is kept as a titled card", () => {
