@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { parseLessonMarkdown, sanitizeSvg, validateLessonMarkdown } from "../src/lib/lesson-markdown";
-import { stripAnswerMarker } from "../src/lib/lesson-markdown/natural";
+import { stripAnswerMarker, stripLessonNotePrefix } from "../src/lib/lesson-markdown/natural";
 import type { ConceptBlock } from "../src/lib/lesson-engine";
 import type {
   ExampleBlock,
@@ -1345,4 +1345,136 @@ test("no horizontal rule survives into the real lesson note's cards", () => {
       `${block.id} still contains a rule`,
     );
   }
+});
+
+// ─── Final-fix round: trailing prose must not become the answer/an option ──
+
+test("trailing prose after the last worked example is not read as the answer", () => {
+  const result = parseLessonMarkdown(
+    [
+      "## A", "", "T.", "",
+      "## Worked Examples", "",
+      "**Example 1:** Convert 5 km to metres.",
+      "**Solution:**",
+      "1 km = 1,000 m",
+      "5 km = **5,000 m**",
+      "",
+      "Try the rest of these at home before the next class.",
+    ].join("\n"),
+  );
+  assert.deepEqual(result.errors, []);
+  const example = result.blocks.find((b) => b.type === "example") as ExampleBlock;
+  assert.equal(example.answer, "5,000 m");
+  assert.deepEqual(example.steps, ["1 km = 1,000 m"]);
+
+  const trailing = result.blocks.find(
+    (b) => b.type === "concept" && (b as ConceptBlock).title === "Worked Examples",
+  ) as ConceptBlock;
+  assert.ok(trailing, "trailing prose should survive as a concept card");
+  assert.equal(trailing.text, "Try the rest of these at home before the next class.");
+});
+
+test("a note after the last worked example's blank line is kept, not absorbed as a step", () => {
+  const result = parseLessonMarkdown(
+    [
+      "## A", "", "T.", "",
+      "## Worked Examples", "",
+      "**Example 1:** Q?",
+      "**Solution:**",
+      "**42**",
+      "",
+      "**Note:** always show your units.",
+    ].join("\n"),
+  );
+  assert.deepEqual(result.errors, []);
+  const example = result.blocks.find((b) => b.type === "example") as ExampleBlock;
+  assert.equal(example.answer, "42");
+  const notes = result.blocks.filter(
+    (b) => b.type === "concept" && (b as ConceptBlock).title === "Worked Examples",
+  ) as ConceptBlock[];
+  assert.equal(notes.length, 1);
+  assert.equal(notes[0].text, "**Note:** always show your units.");
+});
+
+test("trailing prose after the last quiz question is kept as a card, not absorbed into the last option", () => {
+  const result = parseLessonMarkdown(
+    [
+      "## A", "", "Text.", "",
+      "## Quiz", "",
+      "1. Q?",
+      "   a) one",
+      "   b) two ✔",
+      "",
+      "Good luck, and remember to show your working.",
+    ].join("\n"),
+  );
+  assert.deepEqual(result.errors, []);
+  const check = result.blocks.find((b) => b.type === "check") as CheckBlock;
+  assert.equal(check.options.B, "two");
+  assert.equal(check.answer, "B");
+
+  const trailing = result.blocks.find(
+    (b) => b.type === "concept" && (b as ConceptBlock).title === "Quiz",
+  ) as ConceptBlock;
+  assert.ok(trailing, "trailing prose should survive as a concept card");
+  assert.equal(trailing.text, "Good luck, and remember to show your working.");
+});
+
+test("without the fix, trailing quiz prose would misdirect the error line -- with it, there is no error", () => {
+  const result = parseLessonMarkdown(
+    [
+      "## A", "", "Text.", "",
+      "## Quiz", "",
+      "1. Q?",
+      "   a) one",
+      "   b) two ✔",
+      "",
+      "Good luck, and remember to show your working.",
+    ].join("\n"),
+  );
+  assert.deepEqual(
+    result.errors,
+    [],
+    "the ✔ marker must survive on option b -- absorbing trailing prose would strip it and report a phantom 'no correct option'",
+  );
+});
+
+// ─── Finding 5: the bare "Lesson Note:" prefix ─────────────────────────────
+
+test("stripLessonNotePrefix strips a bare 'Lesson Note:' prefix", () => {
+  assert.equal(
+    stripLessonNotePrefix("Lesson Note: Measurement and Units"),
+    "Measurement and Units",
+  );
+});
+
+test("stripLessonNotePrefix still strips a subject-qualified prefix", () => {
+  assert.equal(
+    stripLessonNotePrefix("Physics Lesson Notes: Measurement and Units"),
+    "Measurement and Units",
+  );
+});
+
+test("stripLessonNotePrefix leaves an unrelated colon title alone", () => {
+  assert.equal(stripLessonNotePrefix("Osmosis: A Closer Look"), "Osmosis: A Closer Look");
+});
+
+// ─── Finding 7: a trailing "*(Answer: ...)*" must not leak into a ──────────
+// multiple-choice question's visible stem ───────────────────────────────────
+
+test("a trailing *(Answer: ...)* on a multiple-choice stem does not leak into the question", () => {
+  const result = parseLessonMarkdown(
+    [
+      "## A", "", "Text.", "",
+      "## Quiz", "",
+      "1. What is the SI unit of length? *(Answer: metre)*",
+      "   a) kilometre",
+      "   b) metre ✔",
+    ].join("\n"),
+  );
+  assert.deepEqual(result.errors, []);
+  const check = result.blocks.find((b) => b.type === "check") as CheckBlock;
+  assert.equal(check.question, "What is the SI unit of length?");
+  assert.ok(!check.question.includes("Answer"), "the answer aside must not remain in the visible question");
+  assert.equal(check.explanation, "metre", "the aside becomes the check's explanation rather than being discarded");
 });

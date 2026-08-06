@@ -18,6 +18,21 @@ const UL_RE = /^\s*[-*]\s+(.*)$/;
 const OL_RE = /^\s*\d+[.)]\s+(.*)$/;
 const DELIMITER_RE = /^\s*\|[\s:|-]+\|\s*$/;
 
+// Bold first so `**x**` is never consumed by the italic alternative. The
+// italic alternative requires its span not to start or end with whitespace
+// (CommonMark's flanking-delimiter rule, simplified) so ordinary arithmetic
+// like `2 * 3 * 4` is not misread as an open/close pair of emphasis markers.
+const INLINE_SPAN_RE = /(\*\*[^*]+\*\*|\*(?!\s)[^*]+(?<!\s)\*)/g;
+
+/**
+ * Splits inline text on bold/italic spans, pure and React-free so it can be
+ * tested under node:test. The renderer (src/components/lesson/markdown.tsx)
+ * turns the resulting parts into `<strong>`/`<em>`/plain-text nodes.
+ */
+export function splitInline(text: string): string[] {
+  return text.split(INLINE_SPAN_RE);
+}
+
 function isTableRow(line: string): boolean {
   const trimmed = line.trim();
   return trimmed.startsWith("|") && trimmed.endsWith("|") && trimmed.length > 2;

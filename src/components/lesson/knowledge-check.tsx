@@ -111,7 +111,7 @@ export function KnowledgeCheck({ block, onResult }: KnowledgeCheckProps) {
           })}
         </div>
 
-        {(isCorrect || wrongAnswer) && (
+        {(isCorrect || wrongAnswer) && block.explanation && (
           <div
             className={cn(
               "mt-4 rounded-xl px-3.5 py-3 text-sm leading-relaxed animate-fade-in",

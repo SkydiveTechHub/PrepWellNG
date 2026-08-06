@@ -1,5 +1,5 @@
 import { Fragment, type ReactNode } from "react";
-import { segmentMarkdown } from "@/lib/markdown-segments";
+import { segmentMarkdown, splitInline } from "@/lib/markdown-segments";
 
 // Renders the markdown subset used by lesson content: `## heading`,
 // `- bullets`, `1. numbered items`, pipe tables, `**bold**`, `*italic*`,
@@ -10,8 +10,7 @@ import { segmentMarkdown } from "@/lib/markdown-segments";
 // content is authored by upload, so it is untrusted input.
 
 function renderInline(text: string): ReactNode[] {
-  // Bold first so `**x**` is never consumed by the italic alternative.
-  const parts = text.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/g);
+  const parts = splitInline(text);
   return parts.map((part, i) => {
     if (part.startsWith("**") && part.endsWith("**") && part.length > 4) {
       return (

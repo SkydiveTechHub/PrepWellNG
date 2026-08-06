@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { segmentMarkdown } from "../src/lib/markdown-segments";
+import { segmentMarkdown, splitInline } from "../src/lib/markdown-segments";
 
 test("a pipe table becomes a table segment", () => {
   const segments = segmentMarkdown(
@@ -58,4 +58,22 @@ test("a plain paragraph keeps its internal line breaks as one segment", () => {
   const segments = segmentMarkdown("One line\nand another.");
   assert.equal(segments.length, 1);
   assert.equal(segments[0].kind, "p");
+});
+
+// ─── Finding 6: the italic span must respect CommonMark flanking rules ─────
+
+test("splitInline does not treat arithmetic asterisks as italics", () => {
+  assert.deepEqual(splitInline("2 * 3 * 4"), ["2 * 3 * 4"]);
+});
+
+test("splitInline still recognises a genuine italic span", () => {
+  assert.deepEqual(splitInline("this is *italic* text"), ["this is ", "*italic*", " text"]);
+});
+
+test("splitInline still recognises a genuine bold span", () => {
+  assert.deepEqual(splitInline("this is **bold** text"), ["this is ", "**bold**", " text"]);
+});
+
+test("splitInline leaves a bare '****' run as plain text (unchanged from before the fix)", () => {
+  assert.deepEqual(splitInline("****"), ["****"]);
 });

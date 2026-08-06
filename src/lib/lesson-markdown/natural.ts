@@ -14,7 +14,7 @@ import { slugify } from "./ids";
  * reason ("Osmosis: A Closer Look") keeps it.
  */
 export function stripLessonNotePrefix(title: string): string {
-  return title.replace(/^[A-Za-z][A-Za-z\s]*?\blesson\s+notes?\s*:\s*/i, "").trim() || title.trim();
+  return title.replace(/^(?:[A-Za-z][A-Za-z\s]*\s)?lesson\s+notes?\s*:\s*/i, "").trim() || title.trim();
 }
 
 /**
@@ -133,6 +133,10 @@ type RawQuestion = {
   line: number;
   stem: string[];
   options: Array<{ key: string; text: string[] }>;
+  /** A blank line has closed this question -- any further non-blank line
+   *  that doesn't open a new numbered question is trailing prose, not
+   *  another option or stem continuation. */
+  closed: boolean;
 };
 
 export function parseQuizSection(args: SectionArgs): SectionResult {
@@ -143,12 +147,20 @@ export function parseQuizSection(args: SectionArgs): SectionResult {
   const body = lines.slice(0, consumed);
 
   const preamble: string[] = [];
+  const trailing: string[] = [];
   const questions: RawQuestion[] = [];
 
   for (let i = 0; i < body.length; i++) {
     const raw = body[i];
     const lineNo = startLine + i;
     if (isHorizontalRule(raw)) continue;
+
+    if (!raw.trim()) {
+      // A blank line closes whatever question is currently open.
+      const open = questions[questions.length - 1];
+      if (open) open.closed = true;
+      continue;
+    }
 
     const question = /^\s*(\d+)[.)]\s+(.*)$/.exec(raw);
     if (question) {
@@ -157,23 +169,24 @@ export function parseQuizSection(args: SectionArgs): SectionResult {
         line: lineNo,
         stem: [question[2].trim()],
         options: [],
+        closed: false,
       });
       continue;
     }
 
     const current = questions[questions.length - 1];
-    const option = current ? /^\s*([A-Ha-h])[.)]\s+(.*)$/.exec(raw) : null;
+    const option = current && !current.closed ? /^\s*([A-Ha-h])[.)]\s+(.*)$/.exec(raw) : null;
     if (option && current) {
       current.options.push({ key: option[1].toUpperCase(), text: [option[2].trim()] });
       continue;
     }
 
-    if (!raw.trim()) continue;
-
     // Unlabelled: continue whatever opened last, so wrapped questions and long
-    // options work without ceremony — the same rule readFence() uses.
-    if (!current) {
-      preamble.push(raw.trim());
+    // options work without ceremony — the same rule readFence() uses. Once a
+    // question has closed, though, an unlabelled line is trailing prose, not
+    // a continuation of its last option.
+    if (!current || current.closed) {
+      (current ? trailing : preamble).push(raw.trim());
     } else if (current.options.length > 0) {
       current.options[current.options.length - 1].text.push(raw.trim());
     } else {
@@ -274,16 +287,37 @@ export function parseQuizSection(args: SectionArgs): SectionResult {
       continue;
     }
 
+    // A trailing "*(Answer: …)*" on a multiple-choice stem is the same
+    // author aside the short-answer path already strips -- here it must not
+    // leak into the visible question, and what it says is exactly an
+    // explanation, so it becomes one instead of being discarded.
+    const answerAside = SHORT_ANSWER_RE.exec(stem);
+    const question_ = answerAside ? stem.replace(SHORT_ANSWER_RE, "").trim() : stem;
+
     const check: CheckBlock = {
       type: "check",
       id: nextId("check"),
-      question: stem,
+      question: question_,
       options,
       answer: marked[0],
-      explanation: "",
+      explanation: answerAside ? answerAside[1].trim() : "",
       afterCard: lastNonCheckId,
     };
     blocks.push(check);
+  }
+
+  // Prose after the last question closed (a blank line, then text that
+  // doesn't open a new numbered question) is trailing remarks to students,
+  // not another option or an answer -- keep it as a card, same as the
+  // preamble, instead of letting it be absorbed into the last option.
+  if (trailing.length > 0) {
+    const notes: ConceptBlock = {
+      type: "concept",
+      id: nextId(slugify(heading)),
+      title: heading,
+      text: trailing.join("\n"),
+    };
+    blocks.push(notes);
   }
 
   return { blocks, consumed };
@@ -300,7 +334,16 @@ const EXAMPLE_OPEN_RE = /^\s*\*\*\s*Example\s*([\w.]+?)\s*:?\s*\*\*\s*:?\s*(.*)$
 const SOLUTION_OPEN_RE = /^\s*\*\*\s*Solutions?\s*:?\s*\*\*\s*:?\s*(.*)$/i;
 const TRAILING_BOLD_RE = /\*\*(.+?)\*\*\s*$/;
 
-type RawExample = { label: string; line: number; problem: string; working: string[]; hasSolution: boolean };
+type RawExample = {
+  label: string;
+  line: number;
+  problem: string;
+  working: string[];
+  hasSolution: boolean;
+  /** A blank line has closed this example's working -- any further non-blank,
+   *  non-`**Example` line is trailing prose, not another step. */
+  closed: boolean;
+};
 
 export function parseWorkedExamples(args: SectionArgs): SectionResult {
   const { lines, startLine, heading, nextId, errors } = args;
@@ -310,12 +353,21 @@ export function parseWorkedExamples(args: SectionArgs): SectionResult {
   const body = lines.slice(0, consumed);
 
   const preamble: string[] = [];
+  const trailing: string[] = [];
   const examples: RawExample[] = [];
 
   for (let i = 0; i < body.length; i++) {
     const raw = body[i];
     const lineNo = startLine + i;
-    if (isHorizontalRule(raw) || !raw.trim()) continue;
+    if (isHorizontalRule(raw)) continue;
+
+    if (!raw.trim()) {
+      // A blank line closes whatever example is currently open -- it does
+      // not absorb another blank line as a "step".
+      const open = examples[examples.length - 1];
+      if (open) open.closed = true;
+      continue;
+    }
 
     const open = EXAMPLE_OPEN_RE.exec(raw);
     if (open) {
@@ -325,15 +377,18 @@ export function parseWorkedExamples(args: SectionArgs): SectionResult {
         problem: open[2].trim(),
         working: [],
         hasSolution: false,
+        closed: false,
       });
       continue;
     }
 
     const current = examples[examples.length - 1];
-    if (!current) {
-      // Prose before the first example is an instruction to students, not
-      // decoration -- keep it as a rubric card, same as parseQuizSection.
-      preamble.push(raw.trim());
+    if (!current || current.closed) {
+      // Prose before the first example, or after the working of the last
+      // example has closed, is an instruction to students, not decoration --
+      // keep it as a rubric/notes card rather than misreading it as a step
+      // or an answer.
+      (current ? trailing : preamble).push(raw.trim());
       continue;
     }
 
@@ -394,6 +449,19 @@ export function parseWorkedExamples(args: SectionArgs): SectionResult {
       mode: "worked",
     };
     blocks.push(block);
+  }
+
+  // Prose after the last example's working closed (a blank line, then text
+  // that doesn't open a new **Example) is trailing remarks to students, not
+  // an extra step or an answer -- keep it as a card, same as the preamble.
+  if (trailing.length > 0) {
+    const notes: ConceptBlock = {
+      type: "concept",
+      id: nextId(slugify(heading)),
+      title: heading,
+      text: trailing.join("\n"),
+    };
+    blocks.push(notes);
   }
 
   return { blocks, consumed };
