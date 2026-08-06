@@ -86,14 +86,39 @@ export function isQuizHeading(title: string): boolean {
 /**
  * Removes a correct-answer marker from the end of an option.
  *
- * Four glyphs plus a bare trailing `*`, because a marker that fails to survive
- * a copy-paste or an encoding round-trip would turn a good question into a
- * hard error. `marked` is false when no marker was present — trailing
+ * Four glyphs plus a bare trailing `*` or `**`, because a marker that fails to
+ * survive a copy-paste or an encoding round-trip would turn a good question
+ * into a hard error. `marked` is false when no marker was present — trailing
  * whitespace alone never counts, since the marker group is not optional.
+ *
+ * The glyphs are unambiguous and always strip. A trailing asterisk run is
+ * not: an option can legitimately *end* in bold or italic text ("...is
+ * **key**"), and the closing delimiter of that span must not be misread as
+ * the answer marker. The trailing run only counts as a marker when it does
+ * NOT close a span opened earlier in the same option — i.e. when the text
+ * before it contains an *even* number of same-length asterisk runs (zero,
+ * most commonly: nothing earlier for it to pair with). An *odd* count means
+ * one of those earlier runs is the opening half of a real emphasis span that
+ * this trailing run closes, so it is markup, not a marker, and the text is
+ * returned unchanged.
  */
 export function stripAnswerMarker(text: string): { text: string; marked: boolean } {
-  const stripped = text.replace(/\s*(?:[✔✓✅☑]|\*{1,2})\s*$/u, "");
-  return { text: stripped.trim(), marked: stripped !== text };
+  const glyphMatch = /\s*[✔✓✅☑]\s*$/u.exec(text);
+  if (glyphMatch) {
+    return { text: text.slice(0, glyphMatch.index).trim(), marked: true };
+  }
+
+  const starMatch = /\s*(\*{1,2})\s*$/.exec(text);
+  if (!starMatch) return { text: text.trim(), marked: false };
+
+  const run = starMatch[1];
+  const rest = text.slice(0, starMatch.index);
+  const sameLengthRuns =
+    rest.match(new RegExp(`(?<!\\*)\\*{${run.length}}(?!\\*)`, "g")) ?? [];
+  const closesEarlierSpan = sameLengthRuns.length % 2 === 1;
+  if (closesEarlierSpan) return { text: text.trim(), marked: false };
+
+  return { text: rest.trim(), marked: true };
 }
 
 /** A line that closes any natural section: a heading of level 1-2, or a fence. */
@@ -201,6 +226,20 @@ export function parseQuizSection(args: SectionArgs): SectionResult {
       errors.push({
         line: question.line,
         message: `Question ${question.label} has only one option — a check needs at least two.`,
+      });
+      continue;
+    }
+
+    const seenKeys = new Set<string>();
+    const duplicateKey = question.options.find((option) => {
+      if (seenKeys.has(option.key)) return true;
+      seenKeys.add(option.key);
+      return false;
+    })?.key;
+    if (duplicateKey) {
+      errors.push({
+        line: question.line,
+        message: `Question ${question.label} repeats option ${duplicateKey.toLowerCase()}) — each option needs its own letter.`,
       });
       continue;
     }

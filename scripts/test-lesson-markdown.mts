@@ -1,6 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { parseLessonMarkdown, sanitizeSvg, validateLessonMarkdown } from "../src/lib/lesson-markdown";
+import { stripAnswerMarker } from "../src/lib/lesson-markdown/natural";
 import type { ConceptBlock } from "../src/lib/lesson-engine";
 import type {
   ExampleBlock,
@@ -1078,4 +1079,76 @@ test("a quiz section ends at the next heading", () => {
 test("a quiz lesson passes the authoring lint", () => {
   const result = validateLessonMarkdown(QUIZ_LESSON);
   assert.deepEqual(result.errors, []);
+});
+
+// ─── Task 3 fix round 1: stripAnswerMarker must not false-positive on ──────
+// legitimate bold/italic text, and a duplicate option key must error ───────
+
+test("stripAnswerMarker: a check glyph is always a marker", () => {
+  const result = stripAnswerMarker("Mass \u2714");
+  assert.equal(result.marked, true);
+  assert.equal(result.text, "Mass");
+});
+
+test("stripAnswerMarker: an unbalanced trailing single asterisk is a marker", () => {
+  const result = stripAnswerMarker("Mass *");
+  assert.equal(result.marked, true);
+  assert.equal(result.text, "Mass");
+});
+
+test("stripAnswerMarker: an unbalanced trailing double asterisk is a marker", () => {
+  const result = stripAnswerMarker("Mass **");
+  assert.equal(result.marked, true);
+  assert.equal(result.text, "Mass");
+});
+
+test("stripAnswerMarker: a trailing ** that closes an earlier bold span is not a marker", () => {
+  const result = stripAnswerMarker("The correct interpretation is **key**");
+  assert.equal(result.marked, false);
+  assert.equal(result.text, "The correct interpretation is **key**");
+});
+
+test("stripAnswerMarker: a trailing * that closes an earlier italic span is not a marker", () => {
+  const result = stripAnswerMarker("The formula is 2*3*");
+  assert.equal(result.marked, false);
+  assert.equal(result.text, "The formula is 2*3*");
+});
+
+test("stripAnswerMarker: plain text with no trailing marker is not marked", () => {
+  const result = stripAnswerMarker("plain option");
+  assert.equal(result.marked, false);
+  assert.equal(result.text, "plain option");
+});
+
+test("an option ending in a legitimate bold span inside a real quiz is not read as the answer", () => {
+  const result = parseLessonMarkdown(
+    [
+      "## A", "", "Text.", "",
+      "## Quiz", "",
+      "1. Q?",
+      "   a) The correct interpretation is **key**",
+      "   b) right \u2714",
+    ].join("\n"),
+  );
+  assert.deepEqual(result.errors, []);
+  const check = result.blocks.find((b) => b.type === "check") as CheckBlock;
+  assert.equal(check.answer, "B");
+  assert.equal(check.options.A, "The correct interpretation is **key**");
+});
+
+test("a repeated option letter is an error naming the line, and no check block is emitted", () => {
+  const result = parseLessonMarkdown(
+    [
+      "## A", "", "Text.", "",
+      "## Quiz", "",
+      "1. Q?",
+      "   a) RIGHT ANSWER \u2714",
+      "   a) wrong overwrite",
+      "   b) other",
+    ].join("\n"),
+  );
+  assert.equal(result.errors.length, 1);
+  assert.match(result.errors[0].message, /Question 1 repeats option a\)/);
+  assert.equal(result.errors[0].line, 7);
+  assert.equal(result.blocks.some((b) => b.type === "check"), false);
 });
