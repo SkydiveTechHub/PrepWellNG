@@ -227,6 +227,21 @@ export const bulkImportSchema = z.object({
   skipDuplicates: z.boolean().default(true),
 });
 
+// ─── Lesson Import (Admin) ───────────────────────
+
+export const MAX_LESSON_MARKDOWN_BYTES = 200_000;
+
+export const adminLessonImportSchema = z.object({
+  topicId: z.string().min(1, "A topic is required"),
+  markdown: z
+    .string()
+    .min(1, "The file is empty")
+    .max(MAX_LESSON_MARKDOWN_BYTES, "That file is too large to import"),
+  confirm: z.literal(true),
+});
+
+export type AdminLessonImportInput = z.infer<typeof adminLessonImportSchema>;
+
 // ─── Study Plan ───────────────────────────────────
 
 export const generateStudyPlanSchema = z.object({

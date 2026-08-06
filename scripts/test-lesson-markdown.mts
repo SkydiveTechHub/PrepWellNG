@@ -613,31 +613,50 @@ test("a closing tag positioned before a flood of opens does not resurrect the qu
 test("doubling the closing-tag-before-opens payload does not roughly quadruple the time", () => {
   // A property test, not a fixture pin: this catches a future reshape that
   // is fast on the exact payloads above but still quadratic in general,
-  // which a literal-payload timing test cannot. Sizes are chosen so the
-  // smaller run is comfortably above timer-resolution and JIT-warm-up noise.
+  // which a literal-payload timing test cannot.
+  //
+  // Timing at millisecond scale is inherently noisy: at the previous sizes
+  // (80k/160k opens) both runs completed in single-digit-to-tens of
+  // milliseconds, where GC pauses and allocation jitter dominate the
+  // measurement rather than the algorithm's actual complexity — five runs of
+  // this exact test in one process produced ratios of 9.8 / 1.4 / 0.9 / 0.1 /
+  // 3.0, occasionally exceeding even an 8x bound. Two changes make this
+  // stable: (1) sizes large enough that the *small* run alone takes at least
+  // ~50ms, so a few milliseconds of noise is a small fraction of the signal,
+  // and (2) a best-of-3 measurement per size, which discards GC/scheduler
+  // hiccups on any one attempt while still reporting the fastest — and
+  // therefore most representative — real execution time.
   const build = (n: number) => "</script>" + "<script ".repeat(n) + "</svg>";
-  const small = build(80000);
-  const large = build(160000); // 2x the input
+  const small = build(1_000_000);
+  const large = build(2_000_000); // 2x the input
 
   // Warm up the JIT on this code path before timing either run — otherwise
   // the *first* call absorbs one-time compilation cost, which lands on
   // whichever size runs first and makes the ratio noisy either direction.
   sanitizeSvg(build(1000));
 
-  const t0 = Date.now();
-  sanitizeSvg(small);
-  const smallElapsed = Math.max(Date.now() - t0, 1);
+  function bestOf3(run: () => void): number {
+    let best = Infinity;
+    for (let i = 0; i < 3; i++) {
+      const t0 = process.hrtime.bigint();
+      run();
+      const t1 = process.hrtime.bigint();
+      const elapsedMs = Number(t1 - t0) / 1e6;
+      if (elapsedMs < best) best = elapsedMs;
+    }
+    return best;
+  }
 
-  const t1 = Date.now();
-  sanitizeSvg(large);
-  const largeElapsed = Date.now() - t1;
+  const smallElapsed = Math.max(bestOf3(() => sanitizeSvg(small)), 1);
+  const largeElapsed = bestOf3(() => sanitizeSvg(large));
 
-  // Linear predicts ~2x; quadratic predicts ~4x. Generous headroom (8x) for
-  // CI noise at these timescales, while still failing hard on a return to
-  // quadratic (which lands closer to 20-40x at this size ratio in practice).
+  // Linear predicts ~2x; quadratic predicts ~4x. With the noise floor above
+  // handled, 6x is enough headroom for remaining CI variance while still
+  // failing hard on a return to quadratic (which lands closer to 20-40x at
+  // this size ratio in practice).
   assert.ok(
-    largeElapsed < smallElapsed * 8,
-    `expected roughly linear scaling, got ${smallElapsed}ms -> ${largeElapsed}ms`,
+    largeElapsed < smallElapsed * 6,
+    `expected roughly linear scaling, got ${smallElapsed.toFixed(2)}ms -> ${largeElapsed.toFixed(2)}ms`,
   );
 });
 
