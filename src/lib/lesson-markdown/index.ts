@@ -4,7 +4,13 @@ import type { Issue, LessonMeta, ParsedLesson } from "./types";
 import { makeIdFactory, slugify } from "./ids";
 import { parseFrontmatter } from "./frontmatter";
 import { FENCE_TYPES, buildFenceBlock, readFence, type FenceType } from "./fences";
-import { isHorizontalRule, parseInfoLine, stripLessonNotePrefix } from "./natural";
+import {
+  isHorizontalRule,
+  isQuizHeading,
+  parseInfoLine,
+  parseQuizSection,
+  stripLessonNotePrefix,
+} from "./natural";
 
 // Pure markdown → LessonBlock[] parser for admin lesson-note upload.
 // See docs/superpowers/specs/2026-08-05-lesson-note-upload-design.md.
@@ -158,7 +164,25 @@ export function parseLessonMarkdown(source: string): ParsedLesson {
     if (h2) {
       flush();
       expectInfoLine = false;
-      section = { title: h2[1].trim(), text: "", line: lineNo };
+      const title = h2[1].trim();
+
+      if (isQuizHeading(title)) {
+        const result = parseQuizSection({
+          lines: front.bodyLines.slice(i + 1),
+          startLine: lineNo + 1,
+          heading: title,
+          nextId,
+          previousNonCheckId:
+            [...blocks].reverse().find((b) => b.type !== "check")?.id ?? null,
+          errors,
+          warnings,
+        });
+        blocks.push(...result.blocks);
+        i += result.consumed;
+        continue;
+      }
+
+      section = { title, text: "", line: lineNo };
       continue;
     }
 

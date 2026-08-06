@@ -924,3 +924,158 @@ test("the colon-inside-the-bold form still parses as docInfo", () => {
   );
   assert.deepEqual(result.meta.docInfo, { Class: "SSS1", Term: "First Term" });
 });
+
+// ─── Task 3: quiz recogniser ─────────────────────────────────────────────
+
+const QUIZ_LESSON = [
+  "## Overview",
+  "",
+  "Measurement compares a quantity with a standard.",
+  "",
+  "## Quiz (10 Questions)",
+  "",
+  "1. Measurement involves comparing a quantity with a:",
+  "   a) friend's estimate",
+  "   b) known standard (unit) \u2714",
+  "   c) random guess",
+  "",
+  "2. The SI unit of length is the:",
+  "   a) kilometre",
+  "   b) metre \u2713",
+  "",
+  "3. Convert 3,000 g to kilograms. *(Short answer: 3 kg)*",
+].join("\n");
+
+test("quiz questions with options become check blocks", () => {
+  const result = parseLessonMarkdown(QUIZ_LESSON);
+  assert.deepEqual(result.errors, []);
+  const checks = result.blocks.filter((b) => b.type === "check") as CheckBlock[];
+  assert.equal(checks.length, 2);
+
+  assert.equal(checks[0].question, "Measurement involves comparing a quantity with a:");
+  assert.deepEqual(checks[0].options, {
+    A: "friend's estimate",
+    B: "known standard (unit)",
+    C: "random guess",
+  });
+  assert.equal(checks[0].answer, "B");
+  assert.equal(checks[0].afterCard, "overview-1");
+  assert.equal(checks[1].answer, "B");
+});
+
+test("the answer marker is stripped from the stored option text", () => {
+  const result = parseLessonMarkdown(QUIZ_LESSON);
+  const check = result.blocks.find((b) => b.type === "check") as CheckBlock;
+  assert.equal(check.options.B, "known standard (unit)");
+  assert.ok(!JSON.stringify(check.options).includes("\u2714"));
+});
+
+test("every accepted answer marker works", () => {
+  for (const marker of ["\u2714", "\u2713", "\u2705", "\u2611", "*", "**"]) {
+    const result = parseLessonMarkdown(
+      ["## A", "", "Text.", "", "## Quiz", "", "1. Q?", `   a) wrong`, `   b) right ${marker}`].join("\n"),
+    );
+    assert.deepEqual(result.errors, [], `marker ${marker} produced errors`);
+    const check = result.blocks.find((b) => b.type === "check") as CheckBlock;
+    assert.equal(check.answer, "B", `marker ${marker} did not mark option B`);
+    assert.equal(check.options.B, "right", `marker ${marker} was not stripped`);
+  }
+});
+
+test("a short-answer question becomes a concept card with a reveal", () => {
+  const result = parseLessonMarkdown(QUIZ_LESSON);
+  const reveal = result.blocks.find(
+    (b) => b.type === "concept" && (b as ConceptBlock).reveal,
+  ) as ConceptBlock;
+  assert.equal(reveal.text, "Convert 3,000 g to kilograms.");
+  assert.equal(reveal.reveal, "3 kg");
+  assert.equal(reveal.id, "short-answer-1");
+});
+
+test("a short answer containing punctuation is captured whole", () => {
+  const result = parseLessonMarkdown(
+    [
+      "## A",
+      "",
+      "Text.",
+      "",
+      "## Quiz",
+      "",
+      "1. Explain the difference. *(Short answer: Fundamental cannot be broken down, e.g., mass; derived are combinations, e.g., speed = distance/time)*",
+    ].join("\n"),
+  );
+  const reveal = result.blocks.find(
+    (b) => b.type === "concept" && (b as ConceptBlock).reveal,
+  ) as ConceptBlock;
+  assert.equal(
+    reveal.reveal,
+    "Fundamental cannot be broken down, e.g., mass; derived are combinations, e.g., speed = distance/time",
+  );
+});
+
+test("a quiz question with no marked option is an error naming the line", () => {
+  const result = parseLessonMarkdown(
+    ["## A", "", "Text.", "", "## Quiz", "", "1. Q?", "   a) one", "   b) two"].join("\n"),
+  );
+  assert.equal(result.errors.length, 1);
+  assert.match(result.errors[0].message, /Question 1 has no correct option/);
+  assert.equal(result.errors[0].line, 7);
+});
+
+test("a quiz question with two marked options is an error", () => {
+  const result = parseLessonMarkdown(
+    ["## A", "", "Text.", "", "## Quiz", "", "1. Q?", "   a) one \u2714", "   b) two \u2714"].join("\n"),
+  );
+  assert.equal(result.errors.length, 1);
+  assert.match(result.errors[0].message, /Question 1 marks 2 correct options/);
+});
+
+test("a quiz question with one option is an error", () => {
+  const result = parseLessonMarkdown(
+    ["## A", "", "Text.", "", "## Quiz", "", "1. Q?", "   a) only \u2714"].join("\n"),
+  );
+  assert.equal(result.errors.length, 1);
+  assert.match(result.errors[0].message, /Question 1 has only one option/);
+});
+
+test("a quiz question with neither options nor a short answer is an error", () => {
+  const result = parseLessonMarkdown(
+    ["## A", "", "Text.", "", "## Quiz", "", "1. Just a sentence."].join("\n"),
+  );
+  assert.equal(result.errors.length, 1);
+  assert.match(result.errors[0].message, /has no options and no/);
+});
+
+test("prose above the first quiz question is kept as a titled card", () => {
+  const result = parseLessonMarkdown(
+    [
+      "## A", "", "Text.", "",
+      "## Quiz", "", "Answer all questions in 10 minutes.", "",
+      "1. Q?", "   a) one", "   b) two \u2714",
+    ].join("\n"),
+  );
+  assert.deepEqual(result.errors, []);
+  const rubric = result.blocks.find(
+    (b) => b.type === "concept" && (b as ConceptBlock).title === "Quiz",
+  ) as ConceptBlock;
+  assert.equal(rubric.text, "Answer all questions in 10 minutes.");
+});
+
+test("a quiz section ends at the next heading", () => {
+  const result = parseLessonMarkdown(
+    [
+      "## A", "", "Text.", "",
+      "## Quiz", "", "1. Q?", "   a) one", "   b) two \u2714", "",
+      "## Resources", "", "A book.",
+    ].join("\n"),
+  );
+  assert.deepEqual(result.errors, []);
+  const last = result.blocks[result.blocks.length - 1] as ConceptBlock;
+  assert.equal(last.title, "Resources");
+  assert.equal(last.text, "A book.");
+});
+
+test("a quiz lesson passes the authoring lint", () => {
+  const result = validateLessonMarkdown(QUIZ_LESSON);
+  assert.deepEqual(result.errors, []);
+});
