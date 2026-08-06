@@ -875,3 +875,52 @@ test("horizontal rules are dropped from card text", () => {
   assert.match(block.text, /First\./);
   assert.match(block.text, /Second\./);
 });
+
+// ─── Fix round 1: parseInfoLine must require exactly one colon ─────────
+
+test("a bolded lead phrase with no colon under the H1 stays prose, not docInfo", () => {
+  const result = parseLessonMarkdown(
+    [
+      "# Title",
+      "**Warning** please review carefully before starting.",
+      "",
+      "## Intro",
+      "",
+      "Text.",
+    ].join("\n"),
+  );
+  assert.equal(result.meta.docInfo, undefined);
+  assert.equal(result.blocks.length, 2);
+  assert.equal(
+    (result.blocks[0] as ConceptBlock).text,
+    "**Warning** please review carefully before starting.",
+  );
+});
+
+test("the colon-outside-the-bold form still parses as docInfo", () => {
+  const result = parseLessonMarkdown(
+    [
+      "# Title",
+      "**Class**: SSS1 | **Term**: First Term",
+      "",
+      "## Intro",
+      "",
+      "Text.",
+    ].join("\n"),
+  );
+  assert.deepEqual(result.meta.docInfo, { Class: "SSS1", Term: "First Term" });
+});
+
+test("the colon-inside-the-bold form still parses as docInfo", () => {
+  const result = parseLessonMarkdown(
+    [
+      "# Title",
+      "**Class:** SSS1 | **Term:** First Term",
+      "",
+      "## Intro",
+      "",
+      "Text.",
+    ].join("\n"),
+  );
+  assert.deepEqual(result.meta.docInfo, { Class: "SSS1", Term: "First Term" });
+});

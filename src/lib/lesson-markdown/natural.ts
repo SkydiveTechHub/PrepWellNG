@@ -19,6 +19,13 @@ export function stripLessonNotePrefix(title: string): string {
  * Returns null unless EVERY `|`-separated segment is a `**Key:** value` pair.
  * That is what keeps an ordinary sentence containing one bold run — "This
  * lesson is **important** for WAEC." — from being swallowed as metadata.
+ *
+ * The colon must appear exactly once, in exactly one of two positions —
+ * inside the bold run (`**Class:**`) or just outside it (`**Class**:`) —
+ * never both and never neither. A bare bolded lead phrase with no colon at
+ * all ("**Warning** please review carefully.") must NOT parse as metadata,
+ * and a colon in both positions ("**Class:**: SSS1") must not sneak through
+ * with a key that still ends in a colon.
  */
 export function parseInfoLine(line: string): Record<string, string> | null {
   const trimmed = line.trim();
@@ -29,11 +36,20 @@ export function parseInfoLine(line: string): Record<string, string> | null {
 
   const info: Record<string, string> = {};
   for (const segment of segments) {
-    const match = /^\*\*([^*]+?)\s*:?\s*\*\*\s*:?\s*(.*)$/.exec(segment);
+    // Colon inside the bold run: "**Key:** value"
+    // Colon outside the bold run: "**Key**: value"
+    // The key charset excludes ":" so neither form can capture a colon into
+    // the key itself.
+    const match =
+      /^\*\*([^*:]+):\*\*\s*(.*)$/.exec(segment) ??
+      /^\*\*([^*:]+)\*\*:\s*(.*)$/.exec(segment);
     if (!match) return null;
     const key = match[1].trim();
     const value = match[2].trim();
-    if (!key || !value) return null;
+    // A second, adjacent colon (e.g. "**Class:**: SSS1") lands here as a
+    // value that still starts with ":" -- reject it rather than let it
+    // through with a stray leading colon.
+    if (!key || !value || value.startsWith(":")) return null;
     info[key] = value;
   }
   return info;
