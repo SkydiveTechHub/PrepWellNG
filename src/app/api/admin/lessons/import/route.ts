@@ -6,6 +6,7 @@ import { recordAudit } from "@/lib/admin-audit";
 import { adminLessonImportSchema } from "@/lib/validators";
 import { validateLessonMarkdown } from "@/lib/lesson-markdown";
 import { buildLessonUpdate } from "@/lib/admin-lesson";
+import { resolveTopicLesson, topicLessonSelectWith } from "@/lib/classroom";
 import { revalidateTag } from "next/cache";
 import { CATALOGUE_TAG } from "@/lib/catalogue";
 
@@ -44,11 +45,12 @@ export async function POST(req: NextRequest) {
         id: true,
         title: true,
         subject: { select: { name: true } },
-        subtopics: {
-          orderBy: { orderIndex: "asc" },
-          take: 1,
-          select: { id: true, lessons: { take: 1, select: { id: true } } },
-        },
+        // Canonical fragment. This route is the one place that can create a
+        // *second* lesson under an existing subtopic, so it is the reason the
+        // ordering matters at all: resolving the overwrite target by database
+        // order would let an admin overwrite a lesson the Classroom (which
+        // orders by `createdAt`) never renders.
+        subtopics: topicLessonSelectWith({ id: true }, { id: true }),
       },
     });
     if (!topic) {
@@ -72,7 +74,7 @@ export async function POST(req: NextRequest) {
       subtopicId = created.id;
     }
 
-    const lessonId = topic.subtopics[0]?.lessons[0]?.id;
+    const lessonId = resolveTopicLesson(topic)?.id;
     const lesson = lessonId
       ? await db.lesson.update({
           where: { id: lessonId },

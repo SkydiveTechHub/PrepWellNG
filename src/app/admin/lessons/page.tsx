@@ -4,6 +4,7 @@ import { PageHeader } from "@/components/ui/page-header";
 import { buttonClass } from "@/components/ui/button";
 import { parseBlocks } from "@/lib/lesson-engine";
 import { isAuthored } from "@/lib/admin-lesson";
+import { resolveTopicLesson, topicLessonSelectWith } from "@/lib/classroom";
 import { cn } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
@@ -21,13 +22,10 @@ export default async function AdminLessonsPage() {
         select: {
           id: true,
           title: true,
-          subtopics: {
-            orderBy: { orderIndex: "asc" },
-            take: 1,
-            select: {
-              lessons: { take: 1, select: { blocks: true, createdBy: true } },
-            },
-          },
+          // Canonical fragment, so this list reports on the same lesson the
+          // Classroom renders. Hand-rolling the shape here is how the two
+          // drifted apart.
+          subtopics: topicLessonSelectWith({ blocks: true, createdBy: true }),
         },
       },
     },
@@ -35,7 +33,7 @@ export default async function AdminLessonsPage() {
 
   const rows = subjects.flatMap((subject) =>
     subject.topics.map((topic) => {
-      const lesson = topic.subtopics[0]?.lessons[0] ?? null;
+      const lesson = resolveTopicLesson(topic);
       return {
         subjectName: subject.name,
         topicId: topic.id,

@@ -69,6 +69,36 @@ export const topicLessonSelect = {
 } as const;
 
 /**
+ * `topicLessonSelect` with a caller-supplied column list for the lesson.
+ *
+ * The plain fragment above fetches whole lesson rows, which is what the
+ * classroom pages want. Admin queries want two or three columns instead, and
+ * before this helper existed each of them hand-rolled the whole
+ * `{ orderBy, take, select: { lessons: { take } } }` shape — and every one
+ * dropped `orderBy: { createdAt: "asc" }` on the way, so they resolved
+ * "the topic's lesson" by database order while the classroom resolved it by
+ * creation order. That was harmless only while every subtopic had exactly one
+ * lesson; `POST /api/admin/lessons/import` can now create a second one.
+ *
+ * Narrowing columns is therefore the one thing a call site may vary — `lesson`
+ * names the lesson columns, `subtopic` any extra subtopic columns (the import
+ * route needs the subtopic's own `id`). Ordering and `take`, on both levels,
+ * still come from the single definition above.
+ */
+export function topicLessonSelectWith<
+  const TLesson,
+  const TSubtopic extends object = Record<never, never>,
+>(lesson: TLesson, subtopic: TSubtopic = {} as TSubtopic) {
+  return {
+    ...topicLessonSelect,
+    select: {
+      ...subtopic,
+      lessons: { ...topicLessonSelect.select.lessons, select: lesson },
+    },
+  } as const;
+}
+
+/**
  * The topic's single lesson, or `null` if it somehow has none (defensive —
  * every authored topic has one). Pairs with `topicLessonSelect`: callers query
  * `subtopics: topicLessonSelect` then pass the result here.
