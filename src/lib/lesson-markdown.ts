@@ -334,18 +334,33 @@ export function sanitizeSvg(svg: string): { svg: string; warnings: Issue[] } {
 
   let out = svg;
 
-  // 1. Drop hostile elements with their contents (and self-closing forms).
-  for (const tag of SVG_VOID_HOSTILE) {
-    const paired = new RegExp(`<${tag}\\b[\\s\\S]*?</${tag}\\s*>`, "gi");
-    const selfClosing = new RegExp(`<${tag}\\b[^>]*/?>`, "gi");
-    if (paired.test(out) || selfClosing.test(out)) {
-      warn(`<${tag}> is not allowed in a diagram and was removed.`);
-    }
-    out = out.replace(paired, "").replace(selfClosing, "");
-  }
-
-  // 2. Walk remaining tags, dropping unknown elements and attributes.
+  // 1. Drop hostile elements with their contents (and self-closing forms),
+  // to a fixed point.
   //
+  // Removing one hostile tag can splice the surrounding text back together
+  // into a hostile tag that was not literally present before — e.g.
+  // `<scr<use/>ipt>` is not `<script>` until the embedded `<use/>` is cut
+  // out, at which point "<scr" and "ipt>" become adjacent and read as
+  // "<script>". A single left-to-right pass over the original text cannot
+  // see a match that only exists after an earlier removal, so this
+  // re-scans the *entire current string* and loops until nothing more
+  // matches, rather than assuming one pass per tag name is enough.
+  const HOSTILE_NAMES = [...SVG_VOID_HOSTILE].join("|");
+  const hostilePaired = new RegExp(`<(${HOSTILE_NAMES})\\b[^>]*>[\\s\\S]*?<\\/\\1\\s*>`, "gi");
+  const hostileSelfClosing = new RegExp(`<(${HOSTILE_NAMES})\\b[^>]*\\/?>`, "gi");
+  let previous: string;
+  do {
+    previous = out;
+    out = out.replace(hostilePaired, (_match, name: string) => {
+      warn(`<${name.toLowerCase()}> is not allowed in a diagram and was removed.`);
+      return "";
+    });
+    out = out.replace(hostileSelfClosing, (_match, name: string) => {
+      warn(`<${name.toLowerCase()}> is not allowed in a diagram and was removed.`);
+      return "";
+    });
+  } while (out !== previous);
+
   // Attribute values are re-emitted inside a freshly built double-quoted
   // string. A value captured from a *single*-quoted original attribute may
   // legally contain a literal `"` (e.g. `id='x" onclick="alert(1)"'`) — if
@@ -360,42 +375,104 @@ export function sanitizeSvg(svg: string): { svg: string; warnings: Issue[] } {
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;");
 
-  out = out.replace(/<\/?([a-zA-Z][a-zA-Z0-9-]*)((?:[^>"']|"[^"]*"|'[^']*')*)>/g,
-    (match, rawName: string, rawAttrs: string) => {
+  // 2. Walk remaining tags with a fail-closed scanner.
+  //
+  // `String.replace` alone is fail-OPEN: text a regex does not match is
+  // left in the output untouched. The previous implementation required
+  // every quote inside a tag's attribute region to pair up — but an
+  // unpaired `'` or `"` is legal in an HTML *unquoted* attribute value
+  // (browsers treat it as an ordinary character there), so a payload like
+  // `fill=#fff' onmouseover="alert(1)"` desynced the regex, the whole tag
+  // failed to match, and it survived byte-for-byte in the output —
+  // including the event handler, with zero warnings.
+  //
+  // This scans left to right instead. Every `<` must resolve to a
+  // well-formed, allowlisted tag (attribute values may be quoted OR
+  // unquoted, per HTML5); anything else — a genuinely malformed tag, or an
+  // unrecognised element — is dropped from that `<` through the next `>`
+  // (or to the end of input) rather than being left in place. Fail closed,
+  // never fail open.
+  const UNQUOTED_VALUE = `[^\\s"'\`=<>]+`;
+  const ATTR_VALUE = `(?:"[^"]*"|'[^']*'|${UNQUOTED_VALUE})`;
+  const ATTR = `[a-zA-Z_:][-a-zA-Z0-9_:.]*(?:\\s*=\\s*${ATTR_VALUE})?`;
+  const OPEN_TAG_RE = new RegExp(`^<([a-zA-Z][a-zA-Z0-9-]*)((?:\\s+${ATTR})*)\\s*(/)?>`);
+  const CLOSE_TAG_RE = /^<\/([a-zA-Z][a-zA-Z0-9-]*)\s*>/;
+  const ATTR_RE = new RegExp(`([a-zA-Z_:][-a-zA-Z0-9_:.]*)(?:\\s*=\\s*(${ATTR_VALUE}))?`, "g");
+
+  let result = "";
+  let i = 0;
+  while (i < out.length) {
+    if (out[i] !== "<") {
+      result += out[i];
+      i += 1;
+      continue;
+    }
+
+    const rest = out.slice(i);
+
+    const close = CLOSE_TAG_RE.exec(rest);
+    if (close) {
+      const name = close[1].toLowerCase();
+      if (SVG_ELEMENTS.has(name)) {
+        result += `</${name}>`;
+      } else {
+        warn(`<${close[1]}> is not an allowed diagram element and was removed.`);
+      }
+      i += close[0].length;
+      continue;
+    }
+
+    const open = OPEN_TAG_RE.exec(rest);
+    if (open) {
+      const [full, rawName, rawAttrs, slash] = open;
       const name = rawName.toLowerCase();
       if (!SVG_ELEMENTS.has(name)) {
         warn(`<${rawName}> is not an allowed diagram element and was removed.`);
-        return "";
-      }
-      if (match.startsWith("</")) return `</${name}>`;
-
-      const kept: string[] = [];
-      const attrRe = /([a-zA-Z_:][-a-zA-Z0-9_:.]*)\s*=\s*("[^"]*"|'[^']*')/g;
-      let m: RegExpExecArray | null;
-      while ((m = attrRe.exec(rawAttrs))) {
-        const attr = m[1].toLowerCase();
-        const value = m[2].slice(1, -1);
-        if (attr.startsWith("on")) {
-          warn(`Event handler "${m[1]}" was removed from <${name}>.`);
-          continue;
-        }
-        if (attr === "href" || attr === "xlink:href") {
-          if (value.startsWith("#")) {
-            kept.push(`${attr}="${escapeAttrValue(value)}"`);
-          } else {
-            warn(`href "${value}" is not a same-document fragment and was removed.`);
+      } else {
+        const kept: string[] = [];
+        let m: RegExpExecArray | null;
+        ATTR_RE.lastIndex = 0;
+        while ((m = ATTR_RE.exec(rawAttrs))) {
+          const attr = m[1].toLowerCase();
+          const rawValue = m[2];
+          const value = rawValue
+            ? /^["']/.test(rawValue)
+              ? rawValue.slice(1, -1)
+              : rawValue
+            : "";
+          if (attr.startsWith("on")) {
+            warn(`Event handler "${m[1]}" was removed from <${name}>.`);
+            continue;
           }
-          continue;
+          if (attr === "href" || attr === "xlink:href") {
+            if (value.startsWith("#")) {
+              kept.push(`${attr}="${escapeAttrValue(value)}"`);
+            } else {
+              warn(`href "${value}" is not a same-document fragment and was removed.`);
+            }
+            continue;
+          }
+          if (attr.startsWith("aria-") || SVG_ATTRS.has(attr)) {
+            kept.push(`${m[1]}="${escapeAttrValue(value)}"`);
+            continue;
+          }
+          warn(`Attribute "${m[1]}" is not allowed on <${name}> and was removed.`);
         }
-        if (attr.startsWith("aria-") || SVG_ATTRS.has(attr)) {
-          kept.push(`${m[1]}="${escapeAttrValue(value)}"`);
-          continue;
-        }
-        warn(`Attribute "${m[1]}" is not allowed on <${name}> and was removed.`);
+        result += `<${name}${kept.length ? " " + kept.join(" ") : ""}${slash ? "/" : ""}>`;
       }
-      const selfClose = /\/\s*$/.test(rawAttrs) ? "/" : "";
-      return `<${name}${kept.length ? " " + kept.join(" ") : ""}${selfClose}>`;
-    });
+      i += full.length;
+      continue;
+    }
+
+    // Not a well-formed tag at this `<` — fail closed: drop through the
+    // next `>` (or to the end of input if there is none) instead of
+    // leaving unrecognised markup, attributes and all, in the output.
+    const nextGt = rest.indexOf(">");
+    const dropped = nextGt === -1 ? rest : rest.slice(0, nextGt + 1);
+    warn("Malformed or unrecognised markup was removed from the diagram.");
+    i += dropped.length;
+  }
+  out = result;
 
   if (!/<svg\b/i.test(out)) {
     return {

@@ -386,6 +386,50 @@ test("a diagram fence with no svg is an error", () => {
   assert.match(result.errors[0].message, /svg/i);
 });
 
+// Property-based check for the sanitiser's security invariant, used by the
+// regression tests below instead of pinning the exact shape of one payload's
+// output. A payload defeats the sanitiser if either holds:
+//
+//   1. any tag name reaches the output that is not on the element allowlist
+//      — i.e. sanitizeSvg's own allowlist, duplicated here so the test does
+//      not depend on the module exporting its internals; or
+//
+//   2. sanitising the output *again* raises any new warning. A regex like
+//      `/on\w+\s*=/` cannot tell a live handler apart from the same text
+//      sitting inertly inside an escaped attribute value (e.g.
+//      `id="x&quot; onclick=&quot;..."` legitimately contains the
+//      substring "onclick=" without being exploitable) — that produced a
+//      false positive during review. Feeding sanitizeSvg's own output back
+//      into itself does not have that problem: if any handler, href or
+//      element were still live (a genuine, well-formed attribute or tag),
+//      the scanner would recognise and strip it on the second pass too,
+//      raising a warning. (The output is not required to be byte-identical
+//      on a second pass — escaping is not idempotent by itself, e.g. a
+//      literal "&" inside an already-escaped value legitimately becomes
+//      "&amp;" again next time, which is over-escaping, not a bug. What
+//      must never happen is the second pass finding something to remove.)
+const SANITISER_ELEMENT_ALLOWLIST = new Set([
+  "svg", "g", "path", "circle", "ellipse", "rect", "line", "polyline",
+  "polygon", "text", "tspan", "defs", "marker", "lineargradient",
+  "radialgradient", "stop", "title", "desc",
+]);
+function assertSanitised(svg: string) {
+  for (const match of svg.matchAll(/<\/?([a-zA-Z][a-zA-Z0-9-]*)/g)) {
+    const name = match[1].toLowerCase();
+    assert.equal(
+      SANITISER_ELEMENT_ALLOWLIST.has(name),
+      true,
+      `disallowed tag <${match[1]}> survived sanitisation: ${svg}`,
+    );
+  }
+  const again = sanitizeSvg(svg);
+  assert.deepEqual(
+    again.warnings,
+    [],
+    `re-sanitising this output found something to remove — it was still live: ${JSON.stringify(again.warnings)}`,
+  );
+}
+
 test("a quote embedded in a single-quoted attribute value cannot break out and inject a live handler", () => {
   // A single-quoted attribute value may legally contain a literal double
   // quote. If that character were written back out unescaped into our
@@ -395,8 +439,43 @@ test("a quote embedded in a single-quoted attribute value cannot break out and i
   const { svg } = sanitizeSvg(
     `<svg><circle id='x" onclick="alert(1)" y="' r="1"/></svg>`,
   );
+  assertSanitised(svg);
   // "onclick" may still appear as inert escaped text inside the id value —
   // what matters is that it is never a live, unescaped attribute again.
   assert.doesNotMatch(svg, /"\s+onclick="/i);
   assert.match(svg, /&quot;/);
+});
+
+test("an unpaired quote inside an unquoted attribute value cannot desync the tag walk", () => {
+  // Unquoted HTML attribute values may legally contain a stray `'` or `"` —
+  // browsers treat them as ordinary characters there. A regex-based walk
+  // that requires every quote to pair up fails to match the whole tag when
+  // it hits one, and (if implemented as a bare String.replace) leaves the
+  // entire unmatched tag in the output untouched — event handlers included,
+  // with zero warnings. sanitizeSvg must fail closed on this, not fail open.
+  const payloads = [
+    '<svg viewBox="0 0 200 120"><rect width="200" height="120" fill=#fff\' onmouseover="alert(document.cookie)"/></svg>',
+    `<svg><circle onload="alert(1)" fill=it's/></svg>`,
+    `<svg><text font-family=it's onclick="alert(1)">hi</text></svg>`,
+    `<svg><circle onload="alert(1)" id=a'b /><circle r="1"/></svg>`,
+  ];
+  for (const payload of payloads) {
+    const { svg, warnings } = sanitizeSvg(payload);
+    assertSanitised(svg);
+    assert.equal(warnings.length >= 1, true, `expected a warning for: ${payload}`);
+  }
+});
+
+test("removing one hostile element cannot splice the surrounding text into another", () => {
+  // `<scr<use/>ipt>` is not literally "<script>" until the embedded
+  // `<use/>` is removed — at which point "<scr" and "ipt>" become adjacent
+  // and read as "<script>". A hostile-element pass that scans for each tag
+  // name once, in a fixed order, can miss a match that is only created by
+  // an earlier removal. The pass must run to a fixed point.
+  const { svg, warnings } = sanitizeSvg(
+    "<svg><scr<use/>ipt>alert(1)</scr<use/>ipt></svg>",
+  );
+  assertSanitised(svg);
+  assert.doesNotMatch(svg, /alert/);
+  assert.equal(warnings.length >= 1, true);
 });
