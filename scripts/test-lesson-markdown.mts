@@ -815,3 +815,63 @@ test("a self-closing tag's unquoted color value does not swallow the slash", () 
   assert.match(svg, /<circle fill="red"\/>/);
   assert.deepEqual(warnings, []);
 });
+
+// ─── Task 2: document header and horizontal rules ───────────────────────
+
+test("a Lesson Note: prefix is stripped from the document title", () => {
+  const result = parseLessonMarkdown(
+    "# Physics Lesson Note: Measurement and Units\n\n## Intro\n\nText.",
+  );
+  assert.equal(result.meta.title, "Measurement and Units");
+});
+
+test("a title whose colon is not lesson-note boilerplate is left alone", () => {
+  const result = parseLessonMarkdown("# Osmosis: A Closer Look\n\n## Intro\n\nText.");
+  assert.equal(result.meta.title, "Osmosis: A Closer Look");
+});
+
+test("the info line under the H1 becomes docInfo, not a block", () => {
+  const result = parseLessonMarkdown(
+    [
+      "# Physics Lesson Note: Measurement and Units",
+      "**Class:** SSS1 | **Term:** First Term | **Curriculum Reference:** NERDC",
+      "",
+      "## Intro",
+      "",
+      "Text.",
+    ].join("\n"),
+  );
+  assert.deepEqual(result.meta.docInfo, {
+    Class: "SSS1",
+    Term: "First Term",
+    "Curriculum Reference": "NERDC",
+  });
+  assert.equal(result.blocks.length, 1);
+  assert.equal((result.blocks[0] as ConceptBlock).title, "Intro");
+});
+
+test("a sentence with one bold run under the H1 stays prose", () => {
+  const result = parseLessonMarkdown(
+    ["# Title", "This lesson is **important** for WAEC.", "", "## Intro", "", "Text."].join("\n"),
+  );
+  assert.equal(result.meta.docInfo, undefined);
+  assert.equal(result.blocks.length, 2);
+  assert.equal((result.blocks[0] as ConceptBlock).text, "This lesson is **important** for WAEC.");
+});
+
+test("an info-shaped line deeper in the body stays prose", () => {
+  const result = parseLessonMarkdown(
+    ["# Title", "", "## Intro", "", "**Note:** read this | **Also:** and this"].join("\n"),
+  );
+  assert.equal(result.meta.docInfo, undefined);
+  assert.equal(result.blocks.length, 1);
+  assert.match((result.blocks[0] as ConceptBlock).text, /\*\*Note:\*\* read this/);
+});
+
+test("horizontal rules are dropped from card text", () => {
+  const result = parseLessonMarkdown("## A\n\nFirst.\n\n---\n\nSecond.");
+  const block = result.blocks[0] as ConceptBlock;
+  assert.ok(!block.text.includes("---"), `rule leaked into text: ${block.text}`);
+  assert.match(block.text, /First\./);
+  assert.match(block.text, /Second\./);
+});

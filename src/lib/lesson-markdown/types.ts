@@ -19,6 +19,13 @@ export type LessonMeta = {
   difficulty?: LessonDifficulty;
   passMarkPercent?: number;
   practiceCount?: number;
+  /**
+   * `**Class:** SSS1 | **Term:** First Term` captured from under the H1.
+   * Displayed in the upload preview so the admin can confirm which note they
+   * are uploading. Written to no column — none exists, and adding one needs
+   * the migration that is still blocked.
+   */
+  docInfo?: Record<string, string>;
 };
 
 export type ParsedLesson = {

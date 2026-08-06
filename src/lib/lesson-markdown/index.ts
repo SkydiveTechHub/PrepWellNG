@@ -4,6 +4,7 @@ import type { Issue, LessonMeta, ParsedLesson } from "./types";
 import { makeIdFactory, slugify } from "./ids";
 import { parseFrontmatter } from "./frontmatter";
 import { FENCE_TYPES, buildFenceBlock, readFence, type FenceType } from "./fences";
+import { isHorizontalRule, parseInfoLine, stripLessonNotePrefix } from "./natural";
 
 // Pure markdown → LessonBlock[] parser for admin lesson-note upload.
 // See docs/superpowers/specs/2026-08-05-lesson-note-upload-design.md.
@@ -104,6 +105,10 @@ export function parseLessonMarkdown(source: string): ParsedLesson {
   let section: Section | null = null;
   let buffer: string[] = [];
   let inReveal = false;
+  // Set on the line after an H1, cleared by any other content. The info line is
+  // only metadata directly under the title; the same shape deeper in the body is
+  // ordinary prose.
+  let expectInfoLine = false;
 
   function flush() {
     if (!section) {
@@ -133,13 +138,26 @@ export function parseLessonMarkdown(source: string): ParsedLesson {
     const h1 = /^#\s+(.*)$/.exec(line);
     if (h1) {
       flush();
-      if (!meta.title) meta.title = h1[1].trim();
+      if (!meta.title) meta.title = stripLessonNotePrefix(h1[1].trim());
+      expectInfoLine = true;
       continue;
+    }
+
+    if (expectInfoLine) {
+      if (!line.trim()) continue; // blank lines between H1 and info line are fine
+      const info = parseInfoLine(line);
+      expectInfoLine = false;
+      if (info) {
+        meta.docInfo = { ...meta.docInfo, ...info };
+        continue;
+      }
+      // Not an info line — fall through and treat it as ordinary content.
     }
 
     const h2 = /^##\s+(.*)$/.exec(line);
     if (h2) {
       flush();
+      expectInfoLine = false;
       section = { title: h2[1].trim(), text: "", line: lineNo };
       continue;
     }
@@ -194,6 +212,7 @@ export function parseLessonMarkdown(source: string): ParsedLesson {
       // Prose before any heading still deserves a card.
       section = { title: undefined, text: "", line: lineNo };
     }
+    if (isHorizontalRule(line)) continue;
     buffer.push(line);
   }
   flush();
