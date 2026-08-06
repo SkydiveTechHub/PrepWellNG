@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { parseLessonMarkdown } from "../src/lib/lesson-markdown";
+import { parseLessonMarkdown, sanitizeSvg } from "../src/lib/lesson-markdown";
 import type { ConceptBlock } from "../src/lib/lesson-engine";
 import type {
   ExampleBlock,
@@ -8,6 +8,7 @@ import type {
   MistakeBlock,
   MnemonicBlock,
   CheckBlock,
+  DiagramBlock,
 } from "../src/lib/lesson-engine";
 
 test("a bare heading and paragraph become one concept block", () => {
@@ -277,4 +278,125 @@ test("a fence interrupts the concept section it sits inside", () => {
   assert.equal(result.blocks[0].type, "concept");
   assert.equal(result.blocks[1].type, "tip");
   assert.equal(result.blocks[2].type, "concept");
+});
+
+test("a plain svg survives sanitisation unchanged in substance", () => {
+  const { svg, warnings } = sanitizeSvg(
+    '<svg viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" fill="red"/></svg>',
+  );
+  assert.match(svg, /<svg/);
+  assert.match(svg, /viewBox="0 0 10 10"/);
+  assert.match(svg, /<circle/);
+  assert.match(svg, /fill="red"/);
+  assert.deepEqual(warnings, []);
+});
+
+test("a script element is removed with its contents", () => {
+  const { svg, warnings } = sanitizeSvg(
+    '<svg><script>alert(1)</script><circle r="1"/></svg>',
+  );
+  assert.doesNotMatch(svg, /script/i);
+  assert.doesNotMatch(svg, /alert/);
+  assert.equal(warnings.length >= 1, true);
+});
+
+test("event handler attributes are stripped", () => {
+  const { svg, warnings } = sanitizeSvg('<svg onload="steal()"><circle onclick="x()" r="1"/></svg>');
+  assert.doesNotMatch(svg, /onload/i);
+  assert.doesNotMatch(svg, /onclick/i);
+  assert.doesNotMatch(svg, /steal/);
+  assert.equal(warnings.length >= 2, true);
+});
+
+test("foreignObject is removed", () => {
+  const { svg } = sanitizeSvg(
+    "<svg><foreignObject><body><img src=x onerror=alert(1)></body></foreignObject></svg>",
+  );
+  assert.doesNotMatch(svg, /foreignObject/i);
+  assert.doesNotMatch(svg, /onerror/i);
+});
+
+test("javascript: hrefs are stripped but fragment hrefs survive", () => {
+  const bad = sanitizeSvg('<svg><a href="javascript:alert(1)"><circle r="1"/></a></svg>');
+  assert.doesNotMatch(bad.svg, /javascript:/i);
+  const ok = sanitizeSvg('<svg><path d="M0 0" fill="url(#grad)" id="p"/></svg>');
+  assert.match(ok.svg, /id="p"/);
+});
+
+test("use and image elements are removed — they can pull in remote content", () => {
+  const { svg } = sanitizeSvg(
+    '<svg><use href="https://evil.test/x.svg#a"/><image href="https://evil.test/x.png"/><circle r="1"/></svg>',
+  );
+  assert.doesNotMatch(svg, /<use/i);
+  assert.doesNotMatch(svg, /<image/i);
+  assert.match(svg, /<circle/);
+});
+
+test("a style element is removed", () => {
+  const { svg } = sanitizeSvg("<svg><style>* { background: url(evil) }</style><circle r=\"1\"/></svg>");
+  assert.doesNotMatch(svg, /<style/i);
+});
+
+test("input with no svg root yields empty output and a warning", () => {
+  const { svg, warnings } = sanitizeSvg("<div>not an svg</div>");
+  assert.equal(svg, "");
+  assert.equal(warnings.length, 1);
+});
+
+test("a diagram fence becomes a DiagramBlock with sanitised svg and hotspots", () => {
+  const result = parseLessonMarkdown(
+    "## The eye\n\nLight enters here.\n\n" +
+      [
+        ":::diagram",
+        "Title: The human eye",
+        "Caption: The path light takes.",
+        '<svg viewBox="0 0 200 120"><circle cx="10" cy="10" r="5"/></svg>',
+        "Hotspot: Cornea @ 20,50 — Bends incoming light.",
+        "Hotspot: Retina — Where the image forms.",
+        ":::",
+      ].join("\n"),
+  );
+  assert.deepEqual(result.errors, []);
+  const block = result.blocks[1] as DiagramBlock;
+  assert.equal(block.type, "diagram");
+  assert.equal(block.title, "The human eye");
+  assert.equal(block.caption, "The path light takes.");
+  assert.match(block.svg, /<svg/);
+  assert.equal(block.hotspots.length, 2);
+  assert.equal(block.hotspots[0].label, "Cornea");
+  assert.equal(block.hotspots[0].text, "Bends incoming light.");
+  assert.equal(block.hotspots[0].x, 20);
+  assert.equal(block.hotspots[0].y, 50);
+  assert.equal(block.hotspots[1].x, undefined);
+});
+
+test("a diagram whose svg is dangerous still parses, with warnings", () => {
+  const result = parseLessonMarkdown(
+    "## D\n\nText.\n\n:::diagram\n<svg onload=\"x()\"><script>y()</script><circle r=\"1\"/></svg>\n:::",
+  );
+  const block = result.blocks[1] as DiagramBlock;
+  assert.doesNotMatch(block.svg, /onload/i);
+  assert.doesNotMatch(block.svg, /script/i);
+  assert.equal(result.warnings.length >= 2, true);
+});
+
+test("a diagram fence with no svg is an error", () => {
+  const result = parseLessonMarkdown("## D\n\nText.\n\n:::diagram\nTitle: Nothing here\n:::");
+  assert.equal(result.errors.length, 1);
+  assert.match(result.errors[0].message, /svg/i);
+});
+
+test("a quote embedded in a single-quoted attribute value cannot break out and inject a live handler", () => {
+  // A single-quoted attribute value may legally contain a literal double
+  // quote. If that character were written back out unescaped into our
+  // reconstructed (always double-quoted) attribute, the rest of the value
+  // would reappear as unfiltered markup — e.g. a live onclick handler that
+  // never passed through the "on"-prefix check.
+  const { svg } = sanitizeSvg(
+    `<svg><circle id='x" onclick="alert(1)" y="' r="1"/></svg>`,
+  );
+  // "onclick" may still appear as inert escaped text inside the id value —
+  // what matters is that it is never a live, unescaped attribute again.
+  assert.doesNotMatch(svg, /"\s+onclick="/i);
+  assert.match(svg, /&quot;/);
 });

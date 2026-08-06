@@ -8,6 +8,8 @@ import {
   type CheckBlock,
   type ExamTypeTag,
   type ExampleMode,
+  type DiagramBlock,
+  type DiagramHotspot,
 } from "@/lib/lesson-engine";
 
 // Pure markdown → LessonBlock[] parser for admin lesson-note upload.
@@ -293,6 +295,132 @@ type FenceContext = {
   errors: Issue[];
 };
 
+// ─── SVG sanitiser ───────────────────────────────────────────
+//
+// InteractiveDiagram renders block.svg through dangerouslySetInnerHTML, so
+// uploaded markup executes in student pages. This is an allowlist: anything
+// not named here is removed. Never convert it to a blocklist.
+
+const SVG_ELEMENTS = new Set([
+  "svg", "g", "path", "circle", "ellipse", "rect", "line", "polyline",
+  "polygon", "text", "tspan", "defs", "marker", "lineargradient",
+  "radialgradient", "stop", "title", "desc",
+]);
+
+/** Elements dropped along with everything inside them. */
+const SVG_VOID_HOSTILE = new Set([
+  "script", "style", "foreignobject", "use", "image", "iframe", "animate",
+  "set", "handler",
+]);
+
+const SVG_ATTRS = new Set([
+  "d", "x", "y", "x1", "y1", "x2", "y2", "cx", "cy", "r", "rx", "ry",
+  "width", "height", "points", "transform", "viewbox", "preserveaspectratio",
+  "fill", "fill-opacity", "fill-rule", "stroke", "stroke-width",
+  "stroke-linecap", "stroke-linejoin", "stroke-dasharray", "opacity",
+  "font-size", "font-family", "font-weight", "text-anchor", "dominant-baseline",
+  "offset", "stop-color", "stop-opacity", "gradientunits", "marker-end",
+  "marker-start", "id", "class", "xmlns",
+]);
+
+export function sanitizeSvg(svg: string): { svg: string; warnings: Issue[] } {
+  const warnings: Issue[] = [];
+  const seen = new Set<string>();
+  const warn = (message: string) => {
+    if (seen.has(message)) return;
+    seen.add(message);
+    warnings.push({ message });
+  };
+
+  let out = svg;
+
+  // 1. Drop hostile elements with their contents (and self-closing forms).
+  for (const tag of SVG_VOID_HOSTILE) {
+    const paired = new RegExp(`<${tag}\\b[\\s\\S]*?</${tag}\\s*>`, "gi");
+    const selfClosing = new RegExp(`<${tag}\\b[^>]*/?>`, "gi");
+    if (paired.test(out) || selfClosing.test(out)) {
+      warn(`<${tag}> is not allowed in a diagram and was removed.`);
+    }
+    out = out.replace(paired, "").replace(selfClosing, "");
+  }
+
+  // 2. Walk remaining tags, dropping unknown elements and attributes.
+  //
+  // Attribute values are re-emitted inside a freshly built double-quoted
+  // string. A value captured from a *single*-quoted original attribute may
+  // legally contain a literal `"` (e.g. `id='x" onclick="alert(1)"'`) — if
+  // that character were written back out unescaped it would close our
+  // double-quoted attribute early and let the rest of the value reappear as
+  // live markup (a new, unfiltered attribute). Escaping `&`, `"`, `<` and
+  // `>` in every kept value closes that hole.
+  const escapeAttrValue = (value: string) =>
+    value
+      .replace(/&/g, "&amp;")
+      .replace(/"/g, "&quot;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+
+  out = out.replace(/<\/?([a-zA-Z][a-zA-Z0-9-]*)((?:[^>"']|"[^"]*"|'[^']*')*)>/g,
+    (match, rawName: string, rawAttrs: string) => {
+      const name = rawName.toLowerCase();
+      if (!SVG_ELEMENTS.has(name)) {
+        warn(`<${rawName}> is not an allowed diagram element and was removed.`);
+        return "";
+      }
+      if (match.startsWith("</")) return `</${name}>`;
+
+      const kept: string[] = [];
+      const attrRe = /([a-zA-Z_:][-a-zA-Z0-9_:.]*)\s*=\s*("[^"]*"|'[^']*')/g;
+      let m: RegExpExecArray | null;
+      while ((m = attrRe.exec(rawAttrs))) {
+        const attr = m[1].toLowerCase();
+        const value = m[2].slice(1, -1);
+        if (attr.startsWith("on")) {
+          warn(`Event handler "${m[1]}" was removed from <${name}>.`);
+          continue;
+        }
+        if (attr === "href" || attr === "xlink:href") {
+          if (value.startsWith("#")) {
+            kept.push(`${attr}="${escapeAttrValue(value)}"`);
+          } else {
+            warn(`href "${value}" is not a same-document fragment and was removed.`);
+          }
+          continue;
+        }
+        if (attr.startsWith("aria-") || SVG_ATTRS.has(attr)) {
+          kept.push(`${m[1]}="${escapeAttrValue(value)}"`);
+          continue;
+        }
+        warn(`Attribute "${m[1]}" is not allowed on <${name}> and was removed.`);
+      }
+      const selfClose = /\/\s*$/.test(rawAttrs) ? "/" : "";
+      return `<${name}${kept.length ? " " + kept.join(" ") : ""}${selfClose}>`;
+    });
+
+  if (!/<svg\b/i.test(out)) {
+    return {
+      svg: "",
+      warnings: [{ message: "No <svg> element found in this diagram." }],
+    };
+  }
+  return { svg: out.trim(), warnings };
+}
+
+/** `Cornea @ 20,50 — Bends incoming light.` → a hotspot. */
+function parseHotspot(raw: string, index: number): DiagramHotspot {
+  const [head, ...rest] = raw.split(/\s+—\s+|\s+--\s+/);
+  const text = rest.join(" — ").trim();
+  const coords = /@\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)/.exec(head);
+  const label = head.replace(/@\s*-?\d+(?:\.\d+)?\s*,\s*-?\d+(?:\.\d+)?/, "").trim();
+  return {
+    id: `${slugify(label || "hotspot")}-${index + 1}`,
+    label: label || "Part",
+    text,
+    x: coords ? Number(coords[1]) : undefined,
+    y: coords ? Number(coords[2]) : undefined,
+  };
+}
+
 function buildFenceBlock(
   type: FenceType,
   fields: FenceFields,
@@ -415,8 +543,30 @@ function buildFenceBlock(
       };
       return block;
     }
+    case "diagram": {
+      // Everything that was not a recognised label is the SVG source.
+      const rawSvg = fields.raw
+        .filter((line) => !/^([A-Za-z]+):/.test(line.trim()))
+        .join("\n")
+        .trim();
+      const { svg, warnings: svgWarnings } = sanitizeSvg(rawSvg);
+      if (!svg) {
+        errors.push({ line: openLine, message: "A diagram fence needs an inline <svg> element." });
+        return null;
+      }
+      svgWarnings.forEach((w) => warnings.push({ line: openLine, message: w.message }));
+      const block: DiagramBlock = {
+        type: "diagram",
+        id: ctx.id,
+        title: get("title") || undefined,
+        caption: get("caption") || undefined,
+        svg,
+        hotspots: fields.hotspots.map(parseHotspot),
+      };
+      return block;
+    }
     default:
-      return null; // diagram is handled in Task 3
+      return null;
   }
 }
 
