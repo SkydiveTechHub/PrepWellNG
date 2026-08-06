@@ -1,5 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { parseLessonMarkdown, sanitizeSvg, validateLessonMarkdown } from "../src/lib/lesson-markdown";
 import { stripAnswerMarker } from "../src/lib/lesson-markdown/natural";
 import type { ConceptBlock } from "../src/lib/lesson-engine";
@@ -1271,4 +1273,67 @@ test("an empty **Solution:** produces its own message naming the line", () => {
   assert.equal(result.errors.length, 1);
   assert.match(result.errors[0].message, /Example 1 has an empty \*\*Solution:\*\*/);
   assert.equal(result.errors[0].line, 7);
+});
+
+const FIXTURE = readFileSync(
+  fileURLToPath(new URL("./fixtures/measurement-and-units.md", import.meta.url)),
+  "utf8",
+);
+
+test("the real lesson note parses with no errors at all", () => {
+  const result = validateLessonMarkdown(FIXTURE);
+  assert.deepEqual(
+    result.errors,
+    [],
+    `fixture should upload clean, got:\n${result.errors.map((e) => `  line ${e.line}: ${e.message}`).join("\n")}`,
+  );
+});
+
+test("the real lesson note produces the expected block mix", () => {
+  const result = validateLessonMarkdown(FIXTURE);
+  const counts = result.blocks.reduce<Record<string, number>>((acc, b) => {
+    acc[b.type] = (acc[b.type] ?? 0) + 1;
+    return acc;
+  }, {});
+
+  assert.equal(counts.check, 7, "seven multiple-choice questions become checks");
+  assert.equal(counts.example, 3, "three worked examples become example blocks");
+
+  const reveals = result.blocks.filter(
+    (b) => b.type === "concept" && (b as ConceptBlock).reveal,
+  );
+  assert.equal(reveals.length, 3, "three short-answer questions become reveal cards");
+});
+
+test("the real lesson note's header is read, not carded", () => {
+  const result = parseLessonMarkdown(FIXTURE);
+  assert.equal(result.meta.title, "Measurement and Units");
+  assert.equal(result.meta.docInfo?.Class, "SSS1");
+  assert.equal(result.meta.docInfo?.Term, "First Term");
+
+  const first = result.blocks[0] as ConceptBlock;
+  assert.ok(
+    !first.text.includes("**Class:**"),
+    `header line leaked into the first card: ${first.text}`,
+  );
+});
+
+test("every card in the real lesson note is within the word cap", () => {
+  const result = parseLessonMarkdown(FIXTURE);
+  for (const block of result.blocks) {
+    if (block.type === "check") continue;
+    const words = blockWordCount(block);
+    assert.ok(words <= MAX_CARD_WORDS, `${block.id} is ${words} words`);
+  }
+});
+
+test("no horizontal rule survives into the real lesson note's cards", () => {
+  const result = parseLessonMarkdown(FIXTURE);
+  for (const block of result.blocks) {
+    if (block.type !== "concept") continue;
+    assert.ok(
+      !/^\s*---\s*$/m.test((block as ConceptBlock).text),
+      `${block.id} still contains a rule`,
+    );
+  }
 });
