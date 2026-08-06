@@ -1229,3 +1229,46 @@ test("a worked-examples section ends at the next heading", () => {
   const last = result.blocks[result.blocks.length - 1] as ConceptBlock;
   assert.equal(last.title, "After");
 });
+
+test("prose before the first worked example becomes a rubric card titled with the heading", () => {
+  const result = parseLessonMarkdown(
+    [
+      "## A", "", "T.", "",
+      "## Worked Examples", "",
+      "Here's how to convert between units in practice:", "",
+      "**Example 1:** Convert 5 km to metres.",
+      "**Solution:**",
+      "1 km = 1,000 m",
+      "5 km = 5 × 1,000 = **5,000 m**",
+    ].join("\n"),
+  );
+  assert.deepEqual(result.errors, []);
+  const rubricIndex = result.blocks.findIndex(
+    (b) => b.type === "concept" && (b as ConceptBlock).title === "Worked Examples",
+  );
+  assert.notEqual(rubricIndex, -1);
+  const rubric = result.blocks[rubricIndex] as ConceptBlock;
+  assert.equal(rubric.text, "Here's how to convert between units in practice:");
+
+  const examples = result.blocks.filter((b) => b.type === "example") as ExampleBlock[];
+  assert.equal(examples.length, 1);
+  const exampleIndex = result.blocks.findIndex((b) => b.type === "example");
+  assert.ok(rubricIndex < exampleIndex, "rubric card must come before the example blocks");
+});
+
+test("a worked-examples section with no preamble emits no rubric card", () => {
+  const result = parseLessonMarkdown(EXAMPLES_LESSON);
+  const rubric = result.blocks.find(
+    (b) => b.type === "concept" && (b as ConceptBlock).title === "Worked Examples",
+  );
+  assert.equal(rubric, undefined);
+});
+
+test("an empty **Solution:** produces its own message naming the line", () => {
+  const result = parseLessonMarkdown(
+    ["## A", "", "T.", "", "## Worked Examples", "", "**Example 1:** Q?", "**Solution:**", "", "## Next", "", "More."].join("\n"),
+  );
+  assert.equal(result.errors.length, 1);
+  assert.match(result.errors[0].message, /Example 1 has an empty \*\*Solution:\*\*/);
+  assert.equal(result.errors[0].line, 7);
+});

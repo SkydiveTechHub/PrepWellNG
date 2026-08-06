@@ -303,12 +303,13 @@ const TRAILING_BOLD_RE = /\*\*(.+?)\*\*\s*$/;
 type RawExample = { label: string; line: number; problem: string; working: string[]; hasSolution: boolean };
 
 export function parseWorkedExamples(args: SectionArgs): SectionResult {
-  const { lines, startLine, nextId, errors } = args;
+  const { lines, startLine, heading, nextId, errors } = args;
 
   let consumed = 0;
   while (consumed < lines.length && !isSectionTerminator(lines[consumed])) consumed += 1;
   const body = lines.slice(0, consumed);
 
+  const preamble: string[] = [];
   const examples: RawExample[] = [];
 
   for (let i = 0; i < body.length; i++) {
@@ -329,7 +330,12 @@ export function parseWorkedExamples(args: SectionArgs): SectionResult {
     }
 
     const current = examples[examples.length - 1];
-    if (!current) continue; // prose before the first example: nothing to attach it to
+    if (!current) {
+      // Prose before the first example is an instruction to students, not
+      // decoration -- keep it as a rubric card, same as parseQuizSection.
+      preamble.push(raw.trim());
+      continue;
+    }
 
     const solution = SOLUTION_OPEN_RE.exec(raw);
     if (solution) {
@@ -344,11 +350,28 @@ export function parseWorkedExamples(args: SectionArgs): SectionResult {
 
   const blocks: LessonBlock[] = [];
 
+  if (preamble.length > 0) {
+    const rubric: ConceptBlock = {
+      type: "concept",
+      id: nextId(slugify(heading)),
+      title: heading,
+      text: preamble.join("\n"),
+    };
+    blocks.push(rubric);
+  }
+
   for (const example of examples) {
-    if (!example.hasSolution || example.working.length === 0) {
+    if (!example.hasSolution) {
       errors.push({
         line: example.line,
         message: `Example ${example.label} has no **Solution:** — an example needs an answer.`,
+      });
+      continue;
+    }
+    if (example.working.length === 0) {
+      errors.push({
+        line: example.line,
+        message: `Example ${example.label} has an empty **Solution:** — an example needs an answer.`,
       });
       continue;
     }
