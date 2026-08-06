@@ -276,18 +276,74 @@ function shortLabel(text: string, max = 48): string {
   return clean.length > max ? `${clean.slice(0, max - 1)}…` : clean;
 }
 
+/**
+ * Headings that are lesson scaffolding rather than content to memorise.
+ * Matched on the heading, after the same numbering strip the term gets, so
+ * "## 7. Recommended Resources" is caught too.
+ */
+const SCAFFOLDING_HEADINGS =
+  /^(learning\s+)?objectives$|^recommended\s+resources$|^resources$|^references$|^further\s+reading$/i;
+
+/** "By the end of this lesson, students should be able to:" and its variants. */
+const OBJECTIVES_OPENER = /by the end of this (lesson|topic)/i;
+
+/** Leading heading numbering — `2. `, `2.1 `, `iv) ` — which is noise on a card. */
+function stripHeadingNumber(title: string): string {
+  return title.replace(/^\s*(?:\d+(?:\.\d+)*|[ivxlc]+)\s*[.)]\s+/i, "").trim();
+}
+
+/**
+ * True for a concept block that exists to frame the lesson rather than teach
+ * it. A deck built from a note should not open with "Learning Objectives" on
+ * one side and a list of goals on the other — that is not a thing to recall,
+ * and it pushes the real content down the queue.
+ */
+function isScaffolding(block: { title?: string; text: string }): boolean {
+  const title = stripHeadingNumber(block.title?.trim() ?? "");
+  if (title && SCAFFOLDING_HEADINGS.test(title)) return true;
+  // Catches an objectives list under a heading we did not anticipate.
+  return OBJECTIVES_OPENER.test(block.text);
+}
+
+/**
+ * A concept becomes a card, unless it is scaffolding or has nothing to check
+ * against. Returns null for "no card" rather than emitting a hollow one.
+ *
+ * Two shapes reach here. A titled section is a term → definition card. A
+ * title-less one is a theory question lifted from the quiz, whose answer lives
+ * in `reveal`; that must become a QUESTION card. It previously became a
+ * definition whose term AND definition were both the question text, so the
+ * card's back repeated its front and the answer was relegated to an "Example:"
+ * footnote.
+ */
 function conceptToCards(block: {
   title?: string;
   text: string;
   reveal?: string;
-}): GeneratedCard {
-  const term = block.title?.trim() || shortLabel(block.text, 40);
+}): GeneratedCard | null {
+  if (isScaffolding(block)) return null;
+
+  const title = stripHeadingNumber(block.title?.trim() ?? "");
+
+  if (!title) {
+    // A theory question with no sample answer has no back. Skipping beats
+    // shipping a card the student cannot mark themselves against.
+    if (!block.reveal?.trim()) return null;
+    const question = block.text.trim();
+    const payload: ScenarioPayload = {
+      scenario: "",
+      question,
+      answer: block.reveal.trim(),
+    };
+    return { cardType: "SCENARIO", prompt: question, payload, difficulty: "BASIC" };
+  }
+
   const payload: DefinitionPayload = {
-    term,
+    term: title,
     definition: block.text,
     ...(block.reveal ? { example: block.reveal } : {}),
   };
-  return { cardType: "DEFINITION", prompt: term, payload, difficulty: "BASIC" };
+  return { cardType: "DEFINITION", prompt: title, payload, difficulty: "BASIC" };
 }
 
 function checkToCard(block: {
@@ -383,9 +439,12 @@ export function generateCardsFromLesson(lesson: {
 
   for (const block of blocks) {
     switch (block.type) {
-      case "concept":
-        cards.push(conceptToCards(block));
+      case "concept": {
+        // Returns null for scaffolding and for answerless theory prompts.
+        const card = conceptToCards(block);
+        if (card) cards.push(card);
         break;
+      }
       case "check":
         cards.push(checkToCard(block));
         break;
