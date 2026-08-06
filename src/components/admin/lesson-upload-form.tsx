@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { Button, buttonClass } from "@/components/ui/button";
 import { StatusBanner } from "@/components/admin/status-banner";
@@ -73,6 +73,9 @@ export function LessonUploadForm({
   const [topicId, setTopicId] = useState(initialTopicId ?? "");
   const [markdown, setMarkdown] = useState("");
   const [current, setCurrent] = useState<Current | null>(null);
+  const [currentStatus, setCurrentStatus] = useState<"idle" | "loading" | "loaded" | "failed">(
+    "idle",
+  );
   const [confirming, setConfirming] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState<{ ok: boolean; message: string } | null>(null);
@@ -101,14 +104,37 @@ export function LessonUploadForm({
 
   async function loadCurrent(nextTopicId: string) {
     setCurrent(null);
+    setCurrentStatus(nextTopicId ? "loading" : "idle");
     if (!nextTopicId) return;
     try {
       const res = await fetch(`/api/admin/lessons/${nextTopicId}`);
-      if (res.ok) setCurrent(await res.json());
+      if (!res.ok) {
+        setCurrentStatus("failed");
+        return;
+      }
+      setCurrent(await res.json());
+      setCurrentStatus("loaded");
     } catch {
-      // A failed lookup only costs the comparison panel, not the upload.
+      // A failed lookup means we genuinely don't know what's stored — the
+      // confirm dialog below must not claim "will be created" on the strength
+      // of this being null, since the likelier cause is an expired session,
+      // not an empty topic. See currentStatus === "failed".
+      setCurrentStatus("failed");
     }
   }
+
+  // The deep link from /admin/lessons (`?topicId=...`) is the page's primary
+  // entry path — without this, the confirm dialog would silently assert
+  // "will be created" for a topic that already has a lesson. Intentionally
+  // runs once on mount only — subsequent topic changes are driven by the
+  // select's onChange handler.
+  useEffect(() => {
+    if (initialTopicId) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      void loadCurrent(initialTopicId);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -130,6 +156,10 @@ export function LessonUploadForm({
       }
     } catch {
       setResult({ ok: false, message: "Could not read that file." });
+    } finally {
+      // Reset so re-selecting the same file after editing the textarea still
+      // fires a change event — matches src/app/admin/questions/import/page.tsx.
+      if (fileInputRef.current) fileInputRef.current.value = "";
     }
   }
 
@@ -156,9 +186,12 @@ export function LessonUploadForm({
     }
   }
 
-  const confirmDescription = current?.lesson
-    ? `${current.lesson.blockCount} existing block${current.lesson.blockCount === 1 ? "" : "s"} (${current.lesson.authored ? "authored" : "generated placeholder"}) will be replaced by ${parsed?.blocks.length ?? 0}.`
-    : `A new lesson with ${parsed?.blocks.length ?? 0} block${(parsed?.blocks.length ?? 0) === 1 ? "" : "s"} will be created.`;
+  const confirmDescription =
+    currentStatus === "failed"
+      ? "Could not read what is currently stored — any existing lesson for this topic will be replaced."
+      : current?.lesson
+        ? `${current.lesson.blockCount} existing block${current.lesson.blockCount === 1 ? "" : "s"} (${current.lesson.authored ? "authored" : "generated placeholder"}) will be replaced by ${parsed?.blocks.length ?? 0}.`
+        : `A new lesson with ${parsed?.blocks.length ?? 0} block${(parsed?.blocks.length ?? 0) === 1 ? "" : "s"} will be created.`;
 
   return (
     <div className="grid gap-8 lg:grid-cols-2">
@@ -183,6 +216,7 @@ export function LessonUploadForm({
                 setSubjectId(e.target.value);
                 setTopicId("");
                 setCurrent(null);
+                setCurrentStatus("idle");
               }}
               className="mt-2 block w-full rounded-lg border border-border bg-card p-2.5 text-sm text-foreground"
             >
@@ -219,18 +253,28 @@ export function LessonUploadForm({
           </div>
         </div>
 
-        {current && (
+        {currentStatus !== "idle" && (
           <div className="rounded-lg border border-border-strong bg-card p-4">
             <p className="text-sm font-semibold text-foreground">Currently stored</p>
-            {current.lesson ? (
+            {currentStatus === "loading" && (
+              <p className="mt-1 text-sm text-muted">Checking…</p>
+            )}
+            {currentStatus === "failed" && (
               <p className="mt-1 text-sm text-muted">
-                &ldquo;{current.lesson.title}&rdquo; — {current.lesson.blockCount} blocks,{" "}
-                {current.lesson.authored
-                  ? "authored from a previous upload."
-                  : "the generated placeholder."}
+                Could not check what is currently stored for this topic.
               </p>
-            ) : (
-              <p className="mt-1 text-sm text-muted">No lesson yet. One will be created.</p>
+            )}
+            {currentStatus === "loaded" && current && (
+              current.lesson ? (
+                <p className="mt-1 text-sm text-muted">
+                  &ldquo;{current.lesson.title}&rdquo; — {current.lesson.blockCount} blocks,{" "}
+                  {current.lesson.authored
+                    ? "authored from a previous upload."
+                    : "the generated placeholder."}
+                </p>
+              ) : (
+                <p className="mt-1 text-sm text-muted">No lesson yet. One will be created.</p>
+              )
             )}
           </div>
         )}
