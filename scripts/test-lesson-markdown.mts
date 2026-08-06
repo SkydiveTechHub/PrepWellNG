@@ -610,55 +610,81 @@ test("a closing tag positioned before a flood of opens does not resurrect the qu
   assert.ok(elapsed < 2000, `expected well under 2000ms, took ${elapsed}ms`);
 });
 
-test("doubling the closing-tag-before-opens payload does not roughly quadruple the time", () => {
-  // A property test, not a fixture pin: this catches a future reshape that
-  // is fast on the exact payloads above but still quadratic in general,
-  // which a literal-payload timing test cannot.
-  //
-  // Timing at millisecond scale is inherently noisy: at the previous sizes
-  // (80k/160k opens) both runs completed in single-digit-to-tens of
-  // milliseconds, where GC pauses and allocation jitter dominate the
-  // measurement rather than the algorithm's actual complexity — five runs of
-  // this exact test in one process produced ratios of 9.8 / 1.4 / 0.9 / 0.1 /
-  // 3.0, occasionally exceeding even an 8x bound. Two changes make this
-  // stable: (1) sizes large enough that the *small* run alone takes at least
-  // ~50ms, so a few milliseconds of noise is a small fraction of the signal,
-  // and (2) a best-of-3 measurement per size, which discards GC/scheduler
-  // hiccups on any one attempt while still reporting the fastest — and
-  // therefore most representative — real execution time.
-  const build = (n: number) => "</script>" + "<script ".repeat(n) + "</svg>";
-  const small = build(1_000_000);
-  const large = build(2_000_000); // 2x the input
+test(
+  "doubling the closing-tag-before-opens payload does not roughly quadruple the time",
+  // Defense-in-depth alongside the absolute-ceiling bail below: node:test
+  // cannot preempt a synchronous, CPU-bound call mid-execution, so this
+  // cannot interrupt a genuinely catastrophic regression already in
+  // progress — but it caps how long a *stalled* test (e.g. one that never
+  // returns due to an actual infinite loop, as opposed to "merely" slow)
+  // can hold up the suite, rather than hanging until the CI job's own
+  // timeout with zero diagnostic.
+  { timeout: 30_000 },
+  () => {
+    // A property test, not a fixture pin: this catches a future reshape that
+    // is fast on the exact payloads above but still quadratic in general,
+    // which a literal-payload timing test cannot.
+    //
+    // Timing at millisecond scale is inherently noisy: at the previous sizes
+    // (80k/160k opens) both runs completed in single-digit-to-tens of
+    // milliseconds, where GC pauses and allocation jitter dominate the
+    // measurement rather than the algorithm's actual complexity — five runs
+    // of this exact test in one process produced ratios of 9.8 / 1.4 / 0.9 /
+    // 0.1 / 3.0, occasionally exceeding even an 8x bound. Two changes make
+    // this stable: (1) sizes large enough that the *small* run alone takes
+    // at least ~50ms, so a few milliseconds of noise is a small fraction of
+    // the signal, and (2) a best-of-3 measurement per size, which discards
+    // GC/scheduler hiccups on any one attempt while still reporting the
+    // fastest — and therefore most representative — real execution time.
+    const build = (n: number) => "</script>" + "<script ".repeat(n) + "</svg>";
+    const small = build(1_000_000);
+    const large = build(2_000_000); // 2x the input
 
-  // Warm up the JIT on this code path before timing either run — otherwise
-  // the *first* call absorbs one-time compilation cost, which lands on
-  // whichever size runs first and makes the ratio noisy either direction.
-  sanitizeSvg(build(1000));
+    // Warm up the JIT on this code path before timing either run —
+    // otherwise the *first* call absorbs one-time compilation cost, which
+    // lands on whichever size runs first and makes the ratio noisy either
+    // direction.
+    sanitizeSvg(build(1000));
 
-  function bestOf3(run: () => void): number {
-    let best = Infinity;
-    for (let i = 0; i < 3; i++) {
-      const t0 = process.hrtime.bigint();
-      run();
-      const t1 = process.hrtime.bigint();
-      const elapsedMs = Number(t1 - t0) / 1e6;
-      if (elapsedMs < best) best = elapsedMs;
+    function bestOf3(run: () => void): number {
+      let best = Infinity;
+      for (let i = 0; i < 3; i++) {
+        const t0 = process.hrtime.bigint();
+        run();
+        const t1 = process.hrtime.bigint();
+        const elapsedMs = Number(t1 - t0) / 1e6;
+        if (elapsedMs < best) best = elapsedMs;
+      }
+      return best;
     }
-    return best;
-  }
 
-  const smallElapsed = Math.max(bestOf3(() => sanitizeSvg(small)), 1);
-  const largeElapsed = bestOf3(() => sanitizeSvg(large));
+    const smallElapsed = bestOf3(() => sanitizeSvg(small));
 
-  // Linear predicts ~2x; quadratic predicts ~4x. With the noise floor above
-  // handled, 6x is enough headroom for remaining CI variance while still
-  // failing hard on a return to quadratic (which lands closer to 20-40x at
-  // this size ratio in practice).
-  assert.ok(
-    largeElapsed < smallElapsed * 6,
-    `expected roughly linear scaling, got ${smallElapsed.toFixed(2)}ms -> ${largeElapsed.toFixed(2)}ms`,
-  );
-});
+    // Fail fast, and cheaply, on a regression before spending a second,
+    // larger-payload measurement to characterise it. A healthy run finishes
+    // in well under a second (measured 50-100ms); a return to quadratic at
+    // this payload size would run for hours (extrapolating from the ~17.5s
+    // measured at 25,000 opens for the naive precheck this suite guards
+    // against, scaled by the ~1,600x this payload is bigger). 3 seconds is
+    // generous headroom over the healthy case while bailing long before that
+    // blowup — and before doubling the cost by also running `large`.
+    assert.ok(
+      smallElapsed < 3000,
+      `expected the small run well under 3000ms, took ${smallElapsed.toFixed(2)}ms`,
+    );
+
+    const largeElapsed = bestOf3(() => sanitizeSvg(large));
+
+    // Linear predicts ~2x; quadratic predicts ~4x. With the noise floor
+    // above handled, 6x is enough headroom for remaining CI variance while
+    // still failing hard on a return to quadratic (which lands closer to
+    // 20-40x at this size ratio in practice).
+    assert.ok(
+      largeElapsed < smallElapsed * 6,
+      `expected roughly linear scaling, got ${smallElapsed.toFixed(2)}ms -> ${largeElapsed.toFixed(2)}ms`,
+    );
+  },
+);
 
 // ─── Carried fix B: unquoted attribute values must not swallow a trailing / ──
 
