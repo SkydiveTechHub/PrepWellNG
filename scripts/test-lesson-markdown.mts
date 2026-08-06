@@ -511,6 +511,39 @@ test("a split emits a warning naming the heading and the card count", () => {
   assert.match(result.warnings[0].message, /2/);
 });
 
+test("a split whose reveal pushes a card back over the cap says so in the warning", () => {
+  // The split budget counts paragraph words only, so the card carrying the
+  // reveal can land over the cap even though the split "succeeded". That is
+  // deliberate (folding the reveal in would move the split points of every
+  // existing draft) and it fails closed — the lint rejects the over-cap card.
+  // What must not happen is the two disagreeing: a success-toned warning
+  // beside an error naming a synthetic card id the author never wrote.
+  const para = WORD.repeat(80).trim();
+  const reveal = WORD.repeat(60).trim();
+  const result = validateLessonMarkdown(
+    `## Long\n\n${para}\n\n${para}\n\n### Reveal\n\n${reveal}`,
+  );
+
+  // The split did happen, and the last card really is over the cap.
+  assert.equal(result.blocks.length, 2);
+  assert.ok(blockWordCount(result.blocks[1]) > MAX_CARD_WORDS);
+  // The lint catches it (fail-closed), naming the synthetic id...
+  assert.ok(result.errors.some((e) => /words/.test(e.message)));
+  // ...and the warning, which names the author's own heading, no longer reads
+  // as an unqualified success.
+  assert.equal(result.warnings.length, 1);
+  assert.match(result.warnings[0].message, /Long/);
+  assert.match(result.warnings[0].message, /still over the limit/);
+});
+
+test("a split that stays under the cap keeps the plain, unqualified warning", () => {
+  const para = WORD.repeat(80).trim();
+  const result = parseLessonMarkdown(`## Long\n\n${para}\n\n${para}`);
+  assert.equal(result.warnings.length, 1);
+  assert.doesNotMatch(result.warnings[0].message, /still over the limit/);
+  assert.match(result.warnings[0].message, /split into 2 cards\.$/);
+});
+
 test("a section under the cap is never split", () => {
   const result = parseLessonMarkdown("## Short\n\nOne.\n\nTwo.\n\nThree.");
   assert.equal(result.blocks.length, 1);
@@ -570,17 +603,32 @@ test("a complete, well-formed lesson validates with no errors", () => {
 
 // ─── Carried fix A: hostile-element removal must not be quadratic ──────
 //
-// A precheck that only skips a hostile name when *no* closing tag for it
-// exists anywhere in the string is not enough: one closing tag anywhere —
-// even sitting before every opening occurrence — re-enables a naive
-// open...close paired regex's quadratic retry. These payloads all put the
-// closing tag *before* the flood of opens (or omit it, or use only
-// self-closing forms), because "no closing tag at all" alone is the one
-// shape a weak fix can special-case without actually being linear.
+// Two distinct quadratic traps have been found here, and a payload that
+// exercises one can completely mask the other:
+//
+// 1. A precheck that only skips a hostile name when *no* closing tag for it
+//    exists anywhere in the string is not enough: one closing tag anywhere —
+//    even sitting before every opening occurrence — re-enables a naive
+//    open...close paired regex's quadratic retry. Hence the payloads that put
+//    the closing tag *before* the flood of opens.
+//
+// 2. `matchAll(/<(names)\b[^>]*>/g)` is quadratic whenever the opens have **no
+//    `>` after them at all**: each of the N opens scans `[^>]*` to end of input
+//    and fails, and a failed attempt consumes nothing, so the engine retries
+//    one character later. Every earlier version of these tests ended its
+//    payload in `</svg>`; that single trailing `>` let the *first* open match
+//    straight through to it and swallow the whole remainder in one successful
+//    match, so the pass timed one regex match instead of the algorithm and the
+//    bug was invisible for three review rounds. Measured on the broken
+//    implementation: the `</svg>`-terminated payload 5ms, the identical
+//    payload with those six characters removed 9,468ms.
+//
+// So: payloads here deliberately do **not** end in `>`, with one
+// trailing-`>` case kept so both shapes stay pinned.
 
 test("hostile-element removal handles many unterminated hostile starts in well under a second", () => {
   const start = Date.now();
-  const { svg } = sanitizeSvg("<svg>" + "<script ".repeat(25000) + "</svg>");
+  const { svg } = sanitizeSvg("<svg>" + "<script ".repeat(25000) + " the end.");
   const elapsed = Date.now() - start;
   assertSanitised(svg);
   assert.ok(elapsed < 2000, `expected well under 2000ms, took ${elapsed}ms`);
@@ -596,7 +644,7 @@ test("hostile-element removal handles many self-closing hostile tags in well und
 
 test("a closing tag positioned before a flood of opens does not resurrect the quadratic path (style)", () => {
   const start = Date.now();
-  const { svg } = sanitizeSvg("<svg>" + "</style>" + "<style ".repeat(25000) + "</svg>");
+  const { svg } = sanitizeSvg("<svg>" + "</style>" + "<style ".repeat(25000) + " the end.");
   const elapsed = Date.now() - start;
   assertSanitised(svg);
   assert.ok(elapsed < 2000, `expected well under 2000ms, took ${elapsed}ms`);
@@ -604,7 +652,43 @@ test("a closing tag positioned before a flood of opens does not resurrect the qu
 
 test("a closing tag positioned before a flood of opens does not resurrect the quadratic path (script)", () => {
   const start = Date.now();
-  const { svg } = sanitizeSvg("<svg>" + "</script>" + "<script ".repeat(25000) + "</svg>");
+  const { svg } = sanitizeSvg("<svg>" + "</script>" + "<script ".repeat(25000) + " the end.");
+  const elapsed = Date.now() - start;
+  assertSanitised(svg);
+  assert.ok(elapsed < 2000, `expected well under 2000ms, took ${elapsed}ms`);
+});
+
+test("the same flood terminated by a trailing > stays fast too", () => {
+  // The masked shape, kept so a future fix cannot be fast only on the
+  // unterminated case and quadratic on this one.
+  const start = Date.now();
+  const { svg } = sanitizeSvg("<svg>" + "</style>" + "<style ".repeat(25000) + "</svg>");
+  const elapsed = Date.now() - start;
+  assertSanitised(svg);
+  assert.ok(elapsed < 2000, `expected well under 2000ms, took ${elapsed}ms`);
+});
+
+test("a flood of spliced, never-closed hostile opens stays fast", () => {
+  // No `>` anywhere in the input at all, and three hostile names interleaved
+  // so no single-name shortcut helps. 30,510ms on the broken implementation.
+  const start = Date.now();
+  const { svg } = sanitizeSvg("<svg>" + "<use <image <set ".repeat(12000));
+  const elapsed = Date.now() - start;
+  assertSanitised(svg);
+  assert.ok(elapsed < 2000, `expected well under 2000ms, took ${elapsed}ms`);
+});
+
+test("a flood of hostile closes with no > to terminate them stays fast", () => {
+  const start = Date.now();
+  const { svg } = sanitizeSvg("<svg>" + ("</use" + "   ").repeat(20000));
+  const elapsed = Date.now() - start;
+  assertSanitised(svg);
+  assert.ok(elapsed < 2000, `expected well under 2000ms, took ${elapsed}ms`);
+});
+
+test("a flood of bare < with a hostile name only at the very end stays fast", () => {
+  const start = Date.now();
+  const { svg } = sanitizeSvg("<svg>" + "<".repeat(100000) + "use/>");
   const elapsed = Date.now() - start;
   assertSanitised(svg);
   assert.ok(elapsed < 2000, `expected well under 2000ms, took ${elapsed}ms`);
@@ -636,7 +720,13 @@ test(
     // the signal, and (2) a best-of-3 measurement per size, which discards
     // GC/scheduler hiccups on any one attempt while still reporting the
     // fastest — and therefore most representative — real execution time.
-    const build = (n: number) => "</script>" + "<script ".repeat(n) + "</svg>";
+    // The tail is deliberately **not** `</svg>`, and deliberately contains no
+    // `>` at all. With a trailing `>` the first open swallows the entire
+    // remainder in one successful match and this measures a single regex
+    // match rather than the algorithm — which is why this property test,
+    // despite running at 1M/2M opens, was incapable of failing on the
+    // quadratic-on-failed-match bug it was meant to catch.
+    const build = (n: number) => "</script>" + "<script ".repeat(n) + " the end.";
     const small = build(1_000_000);
     const large = build(2_000_000); // 2x the input
 
@@ -662,7 +752,7 @@ test(
 
     // Fail fast, and cheaply, on a regression before spending a second,
     // larger-payload measurement to characterise it. A healthy run finishes
-    // in well under a second (measured 50-100ms); a return to quadratic at
+    // in well under a second (measured ~110ms on this shape); a return to quadratic at
     // this payload size would run for hours (extrapolating from the ~17.5s
     // measured at 25,000 opens for the naive precheck this suite guards
     // against, scaled by the ~1,600x this payload is bigger). 3 seconds is
@@ -685,6 +775,28 @@ test(
     );
   },
 );
+
+// ─── The 64-pass fixed-point cap: its residual must be inert ───────────
+
+test("a nested splice deeper than the fixed-point cap leaves nothing live", () => {
+  // `stripHostileOnce` runs to a fixed point because removing one hostile tag
+  // can splice a new one into existence (`<scr<use/>ipt>` only reads as
+  // `<script>` once the `<use/>` is gone). That loop is capped at 64 passes so
+  // a pathological nesting cannot make it superlinear. This pins the claim the
+  // cap's comment makes about the *residual*: a payload deep enough to exhaust
+  // the cap must still leave no disallowed tag behind, because pass 2 is
+  // fail-closed on every `<` regardless of what pass 1 left. 70 > 64, so this
+  // genuinely exhausts it.
+  const nest = (k: number): string => (k === 0 ? "<use/>" : "<us" + nest(k - 1) + "e/>");
+  const deep = nest(70);
+  const payload = `<svg><scr${deep}ipt>alert(1)</scr${deep}ipt></svg>`;
+
+  const { svg } = sanitizeSvg(payload);
+  // No disallowed tag survived, and re-sanitising is a fixed point (i.e. the
+  // output contains nothing left to remove — it is not "still live").
+  assertSanitised(svg);
+  assert.doesNotMatch(svg, /<\s*\/?\s*(script|use|style|image|set|iframe)/i);
+});
 
 // ─── Carried fix B: unquoted attribute values must not swallow a trailing / ──
 

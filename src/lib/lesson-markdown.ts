@@ -335,26 +335,63 @@ type HostileToken = {
   selfClosing: boolean;
 };
 
+/** True for the characters JS regex `\w` matches — the alphabet `\b` uses. */
+function isWordChar(ch: string): boolean {
+  return (
+    (ch >= "a" && ch <= "z") ||
+    (ch >= "A" && ch <= "Z") ||
+    (ch >= "0" && ch <= "9") ||
+    ch === "_"
+  );
+}
+
+/**
+ * End index of the maximal run of word characters starting at `from`.
+ *
+ * Runs for two different `<` positions can never overlap (a run stops at the
+ * first non-word character, and `<` is one), so summed over a whole pass this
+ * visits each character at most once.
+ */
+function wordRunEnd(s: string, from: number): number {
+  let i = from;
+  while (i < s.length && isWordChar(s[i])) i += 1;
+  return i;
+}
+
 /**
  * One linear left-to-right pass that removes hostile elements — paired
  * (`<script>...</script>`) and self-closing (`<use/>`) — from `svg`.
  *
- * Opens and closes are each located with their own `matchAll` scan. Neither
- * scan requires the *other* to exist in order to match — an open matches as
- * soon as it finds any `>` ahead of it, full stop — so unlike a single
- * combined `<name...>...</name>` pattern, a `matchAll` walk here can never
- * "fail and have to retry at the next occurrence": every successful match
- * consumes text and moves the scan forward, and JS's global regex engine
- * never re-scans text a previous match already consumed. That is what
- * keeps this O(n) regardless of how opens and closes are arranged —
- * including a close sitting *before* every open, which is exactly the
- * shape that defeated an earlier version of this fix (a per-name "does a
- * closing tag exist anywhere" precheck): one close anywhere, even ahead of
- * every open, made the precheck pass while the *combined* pattern still
- * retried the failing pairing at each of 25,000 opens — ~17.5s measured.
- * This pairs opens to closes afterwards with one more linear scan using a
- * small per-name stack (array push/pop, O(1) each), so pairing never
- * revisits text either.
+ * Opens and closes are located by two hand-rolled scans, not by regex, and
+ * that is load-bearing. The obvious spelling — `matchAll(/<(names)\b[^>]*>/g)`
+ * — is quadratic, and the comment that used to sit here claimed otherwise
+ * ("an open matches as soon as it finds any `>` ahead of it, full stop").
+ * That premise is false: when there is no `>` ahead at all, `[^>]*` scans to
+ * the end of input and *fails*. `matchAll` only declines to re-scan text a
+ * **successful** match consumed; a failed attempt consumes nothing, so the
+ * engine advances one character and scans to the end again. 25,000 opens with
+ * no `>` after them measured ~9.5-13s (and ~30s for a spliced
+ * `<use <image <set ` flood) — well inside MAX_LESSON_MARKDOWN_BYTES, so the
+ * size cap is no defence, and it needs no malice: a truncated `.md` with
+ * unterminated markup does it. Node is single-threaded, so that stall blocks
+ * every concurrent request; the upload form re-parses on each keystroke, so
+ * it freezes the browser tab too.
+ *
+ * Both scans below therefore walk `<` positions with `indexOf` and locate the
+ * matching `>` through a **forward-only** cursor (`nextGt`), so a failure
+ * costs O(1) instead of a scan to end of input and no character is examined
+ * twice. This is the same shape pass 2 of `sanitizeSvg` already uses. Match
+ * semantics are otherwise identical to the regexes they replace, including
+ * `matchAll`'s "a successful match consumes its text, a failure advances one
+ * character".
+ *
+ * Pairing opens to closes afterwards is one more linear scan using a small
+ * per-name stack (array push/pop, O(1) each), so pairing never revisits text
+ * either — including a close sitting *before* every open, the shape that
+ * defeated an earlier fix (a per-name "does a closing tag exist anywhere"
+ * precheck): one close anywhere made the precheck pass while a *combined*
+ * `<name...>...</name>` pattern still retried the failing pairing at each of
+ * 25,000 opens — ~17.5s measured.
  *
  * Splicing (`<scr<use/>ipt>` only reads as `<script>` once the inner
  * `<use/>` is removed) is why the caller repeats this to a fixed point
@@ -366,31 +403,91 @@ function stripHostileOnce(
   names: string[],
   warn: (message: string) => void,
 ): string {
-  const namesAlt = names.join("|");
-  const openRe = new RegExp(`<(${namesAlt})\\b[^>]*>`, "gi");
-  const closeRe = new RegExp(`<\\/(${namesAlt})\\s*>`, "gi");
+  const hostile = new Set(names.map((n) => n.toLowerCase()));
+
+  // Forward-only `>` cursor. Every query asks for the first `>` at or after a
+  // position that is >= the previous query's, so the cursor only ever moves
+  // right: the total work it does across a whole pass is O(n), and once the
+  // input has no `>` left ahead, every later query answers in O(1).
+  let gtPos = -1;
+  let gtExhausted = false;
+  const nextGt = (from: number): number => {
+    if (gtExhausted) return -1;
+    if (gtPos < from) {
+      gtPos = svg.indexOf(">", from);
+      if (gtPos === -1) {
+        gtExhausted = true;
+        return -1;
+      }
+    }
+    return gtPos;
+  };
 
   const tokens: HostileToken[] = [];
-  for (const m of svg.matchAll(openRe)) {
-    const start = m.index ?? 0;
+
+  // Opens: `<name\b[^>]*>` where name is hostile. The word run after `<` must
+  // equal a hostile name exactly — a longer run means the `\b` in the original
+  // pattern would not hold (`<uses>` is not `<use>`), and no hostile name is a
+  // prefix of another, so comparing the maximal run is exactly equivalent.
+  let i = 0;
+  while (i < svg.length) {
+    const lt = svg.indexOf("<", i);
+    if (lt === -1) break;
+    const nameEnd = wordRunEnd(svg, lt + 1);
+    if (!hostile.has(svg.slice(lt + 1, nameEnd).toLowerCase())) {
+      i = lt + 1;
+      continue;
+    }
+    const gt = nextGt(nameEnd);
+    // No `>` anywhere ahead: this open cannot match, and neither can any
+    // later one, since they would all need a `>` at a still-higher index.
+    if (gt === -1) break;
+    // `/\s*>` at the tag's end marks a self-closing form. The backward walk
+    // stays inside [nameEnd, gt), a region no other token revisits.
+    let k = gt - 1;
+    while (k >= nameEnd && /\s/.test(svg[k])) k -= 1;
     tokens.push({
-      name: m[1].toLowerCase(),
-      start,
-      end: start + m[0].length,
+      name: svg.slice(lt + 1, nameEnd).toLowerCase(),
+      start: lt,
+      end: gt + 1,
       kind: "open",
-      selfClosing: /\/\s*>$/.test(m[0]),
+      selfClosing: k >= nameEnd && svg[k] === "/",
     });
+    i = gt + 1;
   }
-  for (const m of svg.matchAll(closeRe)) {
-    const start = m.index ?? 0;
+
+  // Closes: `</name\s*>` where name is hostile.
+  i = 0;
+  while (i < svg.length) {
+    const lt = svg.indexOf("<", i);
+    if (lt === -1) break;
+    if (svg[lt + 1] !== "/") {
+      i = lt + 1;
+      continue;
+    }
+    const nameEnd = wordRunEnd(svg, lt + 2);
+    if (!hostile.has(svg.slice(lt + 2, nameEnd).toLowerCase())) {
+      i = lt + 1;
+      continue;
+    }
+    // Trailing whitespace before `>`. Runs scanned here are bounded by the
+    // next `<` (whitespace is not `<`), so this too stays linear overall.
+    let j = nameEnd;
+    while (j < svg.length && /\s/.test(svg[j])) j += 1;
+    if (svg[j] !== ">") {
+      i = lt + 1;
+      continue;
+    }
     tokens.push({
-      name: m[1].toLowerCase(),
-      start,
-      end: start + m[0].length,
+      name: svg.slice(lt + 2, nameEnd).toLowerCase(),
+      start: lt,
+      end: j + 1,
       kind: "close",
       selfClosing: false,
     });
+    i = j + 1;
   }
+
   if (tokens.length === 0) return svg;
   tokens.sort((a, b) => a.start - b.start);
 
@@ -524,6 +621,14 @@ export function sanitizeSvg(svg: string): { svg: string; warnings: Issue[] } {
   let result = "";
   let i = 0;
   while (i < out.length) {
+    // THE INVARIANT that makes this sanitiser provable: this is the only
+    // branch that copies a character through verbatim, and it is guarded by
+    // `out[i] !== "<"`. Every other branch either drops its input or emits a
+    // tag rebuilt from the element/attribute allowlists below. So no `<` can
+    // reach the output except one this function constructed — which is why
+    // "was the input well-formed?" is never a security question here. Any
+    // future edit that copies input in some other place must re-establish
+    // this guard, or the allowlist stops being an allowlist.
     if (out[i] !== "<") {
       result += out[i];
       i += 1;
@@ -822,20 +927,30 @@ function emitConcept(
   if (current.length > 0) cards.push(current.join("\n\n"));
 
   // The id minted for `whole` is already claimed; reuse it for the first card.
-  cards.forEach((text, index) => {
-    blocks.push({
-      type: "concept",
-      id: index === 0 ? whole.id : nextId(slug),
-      title: index === 0 ? section.title : undefined,
-      text,
-      // The reveal belongs with the last card, where the idea completes.
-      reveal: index === cards.length - 1 ? section.reveal || undefined : undefined,
-    });
-  });
+  const emitted: ConceptBlock[] = cards.map((text, index) => ({
+    type: "concept",
+    id: index === 0 ? whole.id : nextId(slug),
+    title: index === 0 ? section.title : undefined,
+    text,
+    // The reveal belongs with the last card, where the idea completes.
+    reveal: index === cards.length - 1 ? section.reveal || undefined : undefined,
+  }));
+  blocks.push(...emitted);
 
+  // The budget above counts paragraph words only, so the card carrying the
+  // reveal can land over the cap even though the split "succeeded". That is
+  // deliberate — folding the reveal into `running` would silently move the
+  // split points of every existing draft — and it fails closed, because the
+  // lint rejects the over-cap card. What was wrong was the *report*: a
+  // success-toned warning sat beside an error naming a synthetic card id the
+  // author never wrote. Say it here instead, where the author's own heading is
+  // named.
+  const stillOver = emitted.some((block) => blockWordCount(block) > MAX_CARD_WORDS);
   warnings.push({
     line: section.line,
-    message: `"${section.title ?? "Untitled section"}" is longer than ${MAX_CARD_WORDS} words and was split into ${cards.length} cards.`,
+    message:
+      `"${section.title ?? "Untitled section"}" is longer than ${MAX_CARD_WORDS} words and was split into ${cards.length} cards` +
+      (stillOver ? " — one is still over the limit, see the errors below." : "."),
   });
 }
 
