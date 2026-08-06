@@ -102,20 +102,44 @@ export function LessonUploadForm({
   const canSave =
     Boolean(topicId) && parsed !== null && parsed.errors.length === 0 && !submitting;
 
+  // Exactly one "what is currently stored" lookup may own the state at a time.
+  // Without this, the mount fetch and a topic-select change can resolve out of
+  // order and leave `currentStatus === "loaded"` paired with a `current` for a
+  // *different* topic — which the confirm dialog would then state as fact,
+  // naming the wrong topic and the wrong block count for an overwrite that is
+  // unversioned and irreversible. Same shape as the AbortController in
+  // src/app/admin/questions/page.tsx.
+  const currentRequestRef = useRef<AbortController | null>(null);
+
   async function loadCurrent(nextTopicId: string) {
+    currentRequestRef.current?.abort();
+    const controller = new AbortController();
+    currentRequestRef.current = controller;
+
     setCurrent(null);
     setCurrentStatus(nextTopicId ? "loading" : "idle");
     if (!nextTopicId) return;
     try {
-      const res = await fetch(`/api/admin/lessons/${nextTopicId}`);
+      const res = await fetch(`/api/admin/lessons/${nextTopicId}`, {
+        signal: controller.signal,
+      });
+      // `abort()` does not always reject a fetch that has already resolved, so
+      // re-check before every state write: a superseded response must never
+      // overwrite the newer request's state.
+      if (controller.signal.aborted) return;
       if (!res.ok) {
         setCurrentStatus("failed");
         return;
       }
-      setCurrent(await res.json());
+      const data = (await res.json()) as Current;
+      if (controller.signal.aborted) return;
+      setCurrent(data);
       setCurrentStatus("loaded");
-    } catch {
-      // A failed lookup means we genuinely don't know what's stored — the
+    } catch (err) {
+      // A superseded request is not a failure — the request that replaced it
+      // owns the state now and has already set it to "loading".
+      if ((err as Error).name === "AbortError" || controller.signal.aborted) return;
+      // A genuinely failed lookup means we don't know what's stored — the
       // confirm dialog below must not claim "will be created" on the strength
       // of this being null, since the likelier cause is an expired session,
       // not an empty topic. See currentStatus === "failed".
@@ -127,12 +151,15 @@ export function LessonUploadForm({
   // entry path — without this, the confirm dialog would silently assert
   // "will be created" for a topic that already has a lesson. Intentionally
   // runs once on mount only — subsequent topic changes are driven by the
-  // select's onChange handler.
+  // select's onChange handler. The cleanup abandons an in-flight mount fetch
+  // so it cannot land after unmount (or, in development's double-invoked
+  // effect, after the second run has taken ownership).
   useEffect(() => {
     if (initialTopicId) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       void loadCurrent(initialTopicId);
     }
+    return () => currentRequestRef.current?.abort();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -186,9 +213,23 @@ export function LessonUploadForm({
     }
   }
 
+  // This dialog's only job is to state truthfully what is about to be
+  // destroyed, so "we know nothing is stored" and "we do not yet know what is
+  // stored" must not collapse into the same sentence. Only `"loaded"` licenses
+  // a claim about the stored lesson; every other status — including the
+  // `"loading"` window, which used to assert a create while a fetch was still
+  // in flight — falls back to the conservative wording.
+  const currentTopic = topics.find((t) => t.id === topicId) ?? null;
+  const confirmTopicTitle =
+    (currentStatus === "loaded" ? current?.topicTitle : null) ??
+    currentTopic?.title ??
+    "this topic";
+
   const confirmDescription =
-    currentStatus === "failed"
-      ? "Could not read what is currently stored — any existing lesson for this topic will be replaced."
+    currentStatus !== "loaded"
+      ? currentStatus === "loading"
+        ? "Still checking what is currently stored — any existing lesson for this topic will be replaced."
+        : "Could not read what is currently stored — any existing lesson for this topic will be replaced."
       : current?.lesson
         ? `${current.lesson.blockCount} existing block${current.lesson.blockCount === 1 ? "" : "s"} (${current.lesson.authored ? "authored" : "generated placeholder"}) will be replaced by ${parsed?.blocks.length ?? 0}.`
         : `A new lesson with ${parsed?.blocks.length ?? 0} block${(parsed?.blocks.length ?? 0) === 1 ? "" : "s"} will be created.`;
@@ -215,8 +256,10 @@ export function LessonUploadForm({
               onChange={(e) => {
                 setSubjectId(e.target.value);
                 setTopicId("");
-                setCurrent(null);
-                setCurrentStatus("idle");
+                // Through loadCurrent, not a bare reset, so a lookup still in
+                // flight for the previous subject's topic is abandoned rather
+                // than left to land as "loaded" over the cleared selection.
+                void loadCurrent("");
               }}
               className="mt-2 block w-full rounded-lg border border-border bg-card p-2.5 text-sm text-foreground"
             >
@@ -377,7 +420,7 @@ export function LessonUploadForm({
 
       <ConfirmDialog
         open={confirming}
-        title={`Replace the lesson for ${current?.topicTitle ?? "this topic"}?`}
+        title={`Replace the lesson for ${confirmTopicTitle}?`}
         description={confirmDescription}
         confirmLabel="Replace lesson"
         busy={submitting}
