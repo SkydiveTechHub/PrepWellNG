@@ -1347,98 +1347,6 @@ test("no horizontal rule survives into the real lesson note's cards", () => {
   }
 });
 
-// ─── Final-fix round: trailing prose must not become the answer/an option ──
-
-test("trailing prose after the last worked example is not read as the answer", () => {
-  const result = parseLessonMarkdown(
-    [
-      "## A", "", "T.", "",
-      "## Worked Examples", "",
-      "**Example 1:** Convert 5 km to metres.",
-      "**Solution:**",
-      "1 km = 1,000 m",
-      "5 km = **5,000 m**",
-      "",
-      "Try the rest of these at home before the next class.",
-    ].join("\n"),
-  );
-  assert.deepEqual(result.errors, []);
-  const example = result.blocks.find((b) => b.type === "example") as ExampleBlock;
-  assert.equal(example.answer, "5,000 m");
-  assert.deepEqual(example.steps, ["1 km = 1,000 m"]);
-
-  const trailing = result.blocks.find(
-    (b) => b.type === "concept" && (b as ConceptBlock).title === "Worked Examples",
-  ) as ConceptBlock;
-  assert.ok(trailing, "trailing prose should survive as a concept card");
-  assert.equal(trailing.text, "Try the rest of these at home before the next class.");
-});
-
-test("a note after the last worked example's blank line is kept, not absorbed as a step", () => {
-  const result = parseLessonMarkdown(
-    [
-      "## A", "", "T.", "",
-      "## Worked Examples", "",
-      "**Example 1:** Q?",
-      "**Solution:**",
-      "**42**",
-      "",
-      "**Note:** always show your units.",
-    ].join("\n"),
-  );
-  assert.deepEqual(result.errors, []);
-  const example = result.blocks.find((b) => b.type === "example") as ExampleBlock;
-  assert.equal(example.answer, "42");
-  const notes = result.blocks.filter(
-    (b) => b.type === "concept" && (b as ConceptBlock).title === "Worked Examples",
-  ) as ConceptBlock[];
-  assert.equal(notes.length, 1);
-  assert.equal(notes[0].text, "**Note:** always show your units.");
-});
-
-test("trailing prose after the last quiz question is kept as a card, not absorbed into the last option", () => {
-  const result = parseLessonMarkdown(
-    [
-      "## A", "", "Text.", "",
-      "## Quiz", "",
-      "1. Q?",
-      "   a) one",
-      "   b) two ✔",
-      "",
-      "Good luck, and remember to show your working.",
-    ].join("\n"),
-  );
-  assert.deepEqual(result.errors, []);
-  const check = result.blocks.find((b) => b.type === "check") as CheckBlock;
-  assert.equal(check.options.B, "two");
-  assert.equal(check.answer, "B");
-
-  const trailing = result.blocks.find(
-    (b) => b.type === "concept" && (b as ConceptBlock).title === "Quiz",
-  ) as ConceptBlock;
-  assert.ok(trailing, "trailing prose should survive as a concept card");
-  assert.equal(trailing.text, "Good luck, and remember to show your working.");
-});
-
-test("without the fix, trailing quiz prose would misdirect the error line -- with it, there is no error", () => {
-  const result = parseLessonMarkdown(
-    [
-      "## A", "", "Text.", "",
-      "## Quiz", "",
-      "1. Q?",
-      "   a) one",
-      "   b) two ✔",
-      "",
-      "Good luck, and remember to show your working.",
-    ].join("\n"),
-  );
-  assert.deepEqual(
-    result.errors,
-    [],
-    "the ✔ marker must survive on option b -- absorbing trailing prose would strip it and report a phantom 'no correct option'",
-  );
-});
-
 // ─── Finding 5: the bare "Lesson Note:" prefix ─────────────────────────────
 
 test("stripLessonNotePrefix strips a bare 'Lesson Note:' prefix", () => {
@@ -1479,11 +1387,11 @@ test("a trailing *(Answer: ...)* on a multiple-choice stem does not leak into th
   assert.equal(check.explanation, "metre", "the aside becomes the check's explanation rather than being discarded");
 });
 
-// ─── Regression round: the blank-line-closes rule must not corrupt cases ──
-// where a blank line legitimately separates working steps, a stem from its
-// options, or a stem from its short-answer aside ────────────────────────────
+// ─── Regression round: a blank line is ordinary formatting inside an item ──
+// (a working, a question stem, a stem's options) and must not be misread as
+// anything closing the item ──────────────────────────────────────────────────
 
-test("case A: a blank line between working steps is not read as a closing remark", () => {
+test("a blank line between working steps does not truncate the working", () => {
   const result = parseLessonMarkdown(
     [
       "## A", "", "T.", "",
@@ -1499,14 +1407,9 @@ test("case A: a blank line between working steps is not read as a closing remark
   const example = result.blocks.find((b) => b.type === "example") as ExampleBlock;
   assert.deepEqual(example.steps, ["1 km = 1,000 m"]);
   assert.equal(example.answer, "5,000 m");
-  assert.equal(
-    result.blocks.some((b) => b.type === "concept" && (b as ConceptBlock).title === "Worked Examples"),
-    false,
-    "no stray trailing card should be produced -- the blank line was inside the working, not after it",
-  );
 });
 
-test("case B: a blank line between a quiz stem and its options does not discard the options", () => {
+test("a blank line between a quiz stem and its options does not discard the options", () => {
   const result = parseLessonMarkdown(
     [
       "## A", "", "Text.", "",
@@ -1524,7 +1427,7 @@ test("case B: a blank line between a quiz stem and its options does not discard 
   assert.equal(check.answer, "B");
 });
 
-test("case C: a blank line before a *(Short answer: ...)* aside on its own line does not discard it", () => {
+test("a blank line before a *(Short answer: ...)* aside on its own line does not discard it", () => {
   const result = parseLessonMarkdown(
     [
       "## A", "", "Text.", "",
@@ -1543,7 +1446,41 @@ test("case C: a blank line before a *(Short answer: ...)* aside on its own line 
   assert.equal(reveal.reveal, "3 kg");
 });
 
-test("documented residual: an unbolded final answer followed by a blank line and a remark still reads the remark as the answer", () => {
+test("a wrapped quiz stem across a blank line still parses with its options", () => {
+  const result = parseLessonMarkdown(
+    [
+      "## A", "", "Text.", "",
+      "## Quiz", "",
+      "1. What is the SI unit of",
+      "",
+      "   length?",
+      "",
+      "   a) metre ✔",
+      "   b) mile",
+    ].join("\n"),
+  );
+  assert.deepEqual(result.errors, []);
+  const check = result.blocks.find((b) => b.type === "check") as CheckBlock;
+  assert.ok(check, "the question must still become a check block, not a hard error");
+  assert.equal(check.question, "What is the SI unit of length?");
+  assert.deepEqual(check.options, { A: "metre", B: "mile" });
+  assert.equal(check.answer, "A");
+});
+
+// Trailing-prose detection -- inferring that text after a blank line
+// following the last item is a closing remark, not part of the item -- was
+// attempted across three separate rounds and reverted every time: a blank
+// line is ordinary formatting inside a wrapped stem, between a stem and its
+// options, between working steps, and around a bolded intermediate value,
+// and is genuinely indistinguishable, by position alone, from a blank line
+// before a real closing remark. Each closing rule that was tried (a flat
+// blank-line close, a structural quiz rule keyed on options/asides, an
+// example rule gated on a trailing bolded span) fixed the layout it targeted
+// and broke a different one of the four above. So there is no trailing-prose
+// detection any more, on either recogniser, and this is the accepted
+// consequence: pinned here so it is a documented trade-off, not an
+// accidental one.
+test("known limitation: without a bolded final answer, a remark after a blank line is still read as the answer", () => {
   const result = parseLessonMarkdown(
     [
       "## A", "", "T.", "",
@@ -1560,11 +1497,11 @@ test("documented residual: an unbolded final answer followed by a blank line and
   assert.deepEqual(
     example.steps,
     ["the answer is 4"],
-    "with no trailing bold to close on, the blank line is skipped and the remark keeps accumulating into the working",
+    "the blank line is skipped and the remark keeps accumulating into the working",
   );
   assert.equal(
     example.answer,
     "A closing remark.",
-    "this is the accepted residual: without a bolded answer to key off, position alone still can't tell a closing remark from the true final line",
+    "known limitation: with no trailing prose detection, the remark is read as the final line of the working, and its lack of a bolded span just means the whole line becomes the answer",
   );
 });
