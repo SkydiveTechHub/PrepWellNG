@@ -569,6 +569,14 @@ test("a complete, well-formed lesson validates with no errors", () => {
 });
 
 // ─── Carried fix A: hostile-element removal must not be quadratic ──────
+//
+// A precheck that only skips a hostile name when *no* closing tag for it
+// exists anywhere in the string is not enough: one closing tag anywhere —
+// even sitting before every opening occurrence — re-enables a naive
+// open...close paired regex's quadratic retry. These payloads all put the
+// closing tag *before* the flood of opens (or omit it, or use only
+// self-closing forms), because "no closing tag at all" alone is the one
+// shape a weak fix can special-case without actually being linear.
 
 test("hostile-element removal handles many unterminated hostile starts in well under a second", () => {
   const start = Date.now();
@@ -584,6 +592,53 @@ test("hostile-element removal handles many self-closing hostile tags in well und
   const elapsed = Date.now() - start;
   assertSanitised(svg);
   assert.ok(elapsed < 2000, `expected well under 2000ms, took ${elapsed}ms`);
+});
+
+test("a closing tag positioned before a flood of opens does not resurrect the quadratic path (style)", () => {
+  const start = Date.now();
+  const { svg } = sanitizeSvg("<svg>" + "</style>" + "<style ".repeat(25000) + "</svg>");
+  const elapsed = Date.now() - start;
+  assertSanitised(svg);
+  assert.ok(elapsed < 2000, `expected well under 2000ms, took ${elapsed}ms`);
+});
+
+test("a closing tag positioned before a flood of opens does not resurrect the quadratic path (script)", () => {
+  const start = Date.now();
+  const { svg } = sanitizeSvg("<svg>" + "</script>" + "<script ".repeat(25000) + "</svg>");
+  const elapsed = Date.now() - start;
+  assertSanitised(svg);
+  assert.ok(elapsed < 2000, `expected well under 2000ms, took ${elapsed}ms`);
+});
+
+test("doubling the closing-tag-before-opens payload does not roughly quadruple the time", () => {
+  // A property test, not a fixture pin: this catches a future reshape that
+  // is fast on the exact payloads above but still quadratic in general,
+  // which a literal-payload timing test cannot. Sizes are chosen so the
+  // smaller run is comfortably above timer-resolution and JIT-warm-up noise.
+  const build = (n: number) => "</script>" + "<script ".repeat(n) + "</svg>";
+  const small = build(80000);
+  const large = build(160000); // 2x the input
+
+  // Warm up the JIT on this code path before timing either run — otherwise
+  // the *first* call absorbs one-time compilation cost, which lands on
+  // whichever size runs first and makes the ratio noisy either direction.
+  sanitizeSvg(build(1000));
+
+  const t0 = Date.now();
+  sanitizeSvg(small);
+  const smallElapsed = Math.max(Date.now() - t0, 1);
+
+  const t1 = Date.now();
+  sanitizeSvg(large);
+  const largeElapsed = Date.now() - t1;
+
+  // Linear predicts ~2x; quadratic predicts ~4x. Generous headroom (8x) for
+  // CI noise at these timescales, while still failing hard on a return to
+  // quadratic (which lands closer to 20-40x at this size ratio in practice).
+  assert.ok(
+    largeElapsed < smallElapsed * 8,
+    `expected roughly linear scaling, got ${smallElapsed}ms -> ${largeElapsed}ms`,
+  );
 });
 
 // ─── Carried fix B: unquoted attribute values must not swallow a trailing / ──

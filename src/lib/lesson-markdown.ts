@@ -327,6 +327,124 @@ const SVG_ATTRS = new Set([
   "marker-start", "id", "class", "xmlns",
 ]);
 
+type HostileToken = {
+  name: string;
+  start: number;
+  end: number;
+  kind: "open" | "close";
+  selfClosing: boolean;
+};
+
+/**
+ * One linear left-to-right pass that removes hostile elements — paired
+ * (`<script>...</script>`) and self-closing (`<use/>`) — from `svg`.
+ *
+ * Opens and closes are each located with their own `matchAll` scan. Neither
+ * scan requires the *other* to exist in order to match — an open matches as
+ * soon as it finds any `>` ahead of it, full stop — so unlike a single
+ * combined `<name...>...</name>` pattern, a `matchAll` walk here can never
+ * "fail and have to retry at the next occurrence": every successful match
+ * consumes text and moves the scan forward, and JS's global regex engine
+ * never re-scans text a previous match already consumed. That is what
+ * keeps this O(n) regardless of how opens and closes are arranged —
+ * including a close sitting *before* every open, which is exactly the
+ * shape that defeated an earlier version of this fix (a per-name "does a
+ * closing tag exist anywhere" precheck): one close anywhere, even ahead of
+ * every open, made the precheck pass while the *combined* pattern still
+ * retried the failing pairing at each of 25,000 opens — ~17.5s measured.
+ * This pairs opens to closes afterwards with one more linear scan using a
+ * small per-name stack (array push/pop, O(1) each), so pairing never
+ * revisits text either.
+ *
+ * Splicing (`<scr<use/>ipt>` only reads as `<script>` once the inner
+ * `<use/>` is removed) is why the caller repeats this to a fixed point
+ * instead of assuming one pass is enough — a token that exists only after
+ * an earlier removal cannot be seen by this pass.
+ */
+function stripHostileOnce(
+  svg: string,
+  names: string[],
+  warn: (message: string) => void,
+): string {
+  const namesAlt = names.join("|");
+  const openRe = new RegExp(`<(${namesAlt})\\b[^>]*>`, "gi");
+  const closeRe = new RegExp(`<\\/(${namesAlt})\\s*>`, "gi");
+
+  const tokens: HostileToken[] = [];
+  for (const m of svg.matchAll(openRe)) {
+    const start = m.index ?? 0;
+    tokens.push({
+      name: m[1].toLowerCase(),
+      start,
+      end: start + m[0].length,
+      kind: "open",
+      selfClosing: /\/\s*>$/.test(m[0]),
+    });
+  }
+  for (const m of svg.matchAll(closeRe)) {
+    const start = m.index ?? 0;
+    tokens.push({
+      name: m[1].toLowerCase(),
+      start,
+      end: start + m[0].length,
+      kind: "close",
+      selfClosing: false,
+    });
+  }
+  if (tokens.length === 0) return svg;
+  tokens.sort((a, b) => a.start - b.start);
+
+  // Removal spans: self-closing opens remove themselves immediately; paired
+  // opens wait on a per-name stack for the next close of the same name that
+  // comes *after* them in document order. A close with nothing pending on
+  // its name's stack is an orphan (e.g. a stray close with no preceding
+  // open, or one that already sits before the only open) and is left as
+  // literal text — pass 2 will see it as a disallowed close tag on its own
+  // and drop just that tag.
+  const spans: Array<[number, number]> = [];
+  const openStacks = new Map<string, number[]>();
+  for (const token of tokens) {
+    if (token.kind === "open") {
+      if (token.selfClosing) {
+        spans.push([token.start, token.end]);
+        warn(`<${token.name}> is not allowed in a diagram and was removed.`);
+        continue;
+      }
+      const stack = openStacks.get(token.name);
+      if (stack) stack.push(token.start);
+      else openStacks.set(token.name, [token.start]);
+      continue;
+    }
+    const stack = openStacks.get(token.name);
+    if (stack && stack.length > 0) {
+      const openStart = stack.pop() as number;
+      spans.push([openStart, token.end]);
+      warn(`<${token.name}> is not allowed in a diagram and was removed.`);
+    }
+  }
+  if (spans.length === 0) return svg;
+
+  spans.sort((a, b) => a[0] - b[0]);
+  const merged: Array<[number, number]> = [];
+  for (const span of spans) {
+    const last = merged[merged.length - 1];
+    if (last && span[0] <= last[1]) {
+      last[1] = Math.max(last[1], span[1]);
+    } else {
+      merged.push([...span]);
+    }
+  }
+
+  let result = "";
+  let cursor = 0;
+  for (const [start, end] of merged) {
+    if (start > cursor) result += svg.slice(cursor, start);
+    cursor = Math.max(cursor, end);
+  }
+  result += svg.slice(cursor);
+  return result;
+}
+
 export function sanitizeSvg(svg: string): { svg: string; warnings: Issue[] } {
   const warnings: Issue[] = [];
   const seen = new Set<string>();
@@ -339,62 +457,25 @@ export function sanitizeSvg(svg: string): { svg: string; warnings: Issue[] } {
   let out = svg;
 
   // 1. Drop hostile elements with their contents (and self-closing forms),
-  // to a fixed point.
-  //
-  // Removing one hostile tag can splice the surrounding text back together
-  // into a hostile tag that was not literally present before — e.g.
-  // `<scr<use/>ipt>` is not `<script>` until the embedded `<use/>` is cut
-  // out, at which point "<scr" and "ipt>" become adjacent and read as
-  // "<script>". A single left-to-right pass over the original text cannot
-  // see a match that only exists after an earlier removal, so this
-  // re-scans the *entire current string* and loops until nothing more
-  // matches, rather than assuming one pass per tag name is enough.
+  // to a fixed point. See stripHostileOnce for why one pass is O(n).
   const HOSTILE_NAMES = [...SVG_VOID_HOSTILE];
-  const ALL_HOSTILE_NAMES = HOSTILE_NAMES.join("|");
-  // Tempered dot: excludes the closing tag from the "any character" run so
-  // the engine cannot backtrack past it looking for a later match. This
-  // alone is not enough to be linear (see below) but keeps a single
-  // successful pairing attempt itself from re-scanning past its own close.
-  const pairedPattern = (names: string) =>
-    new RegExp(`<(${names})\\b[^>]*>(?:(?!<\\/\\1)[\\s\\S])*?<\\/\\1\\s*>`, "gi");
-  const hostileSelfClosing = new RegExp(`<(${ALL_HOSTILE_NAMES})\\b[^>]*\\/?>`, "gi");
-  let previous: string;
   // Defensive bound: pathological nesting (splicing one hostile tag out of
   // another, repeated many times) could in principle force many fixed-point
-  // iterations. Each iteration below is O(n), so this cap keeps the whole
-  // loop O(n) worst case regardless of how deeply an attacker nests it —
+  // iterations. Each iteration is O(n), so this cap keeps the whole loop
+  // O(n) worst case regardless of how deeply an attacker nests it —
   // realistic and even generously adversarial content converges in 2-3.
+  // The residual — a construction deep enough to exhaust the cap — leaves
+  // at most inert leftover text (no tag survives; pass 2 still fail-closed
+  // drops any tag-shaped fragment), never a live, executable tag.
   const MAX_FIXED_POINT_PASSES = 64;
   let pass = 0;
-  do {
-    previous = out;
-    // Only attempt the backreference-paired regex for hostile names whose
-    // closing tag is actually present in the string right now. A name with
-    // no closing tag anywhere can never match — but retrying the paired
-    // regex at every one of that name's *opening* occurrences anyway (each
-    // attempt scanning to end-of-string before failing) is exactly what
-    // made this quadratic: ~20s on "<script " repeated 25,000 times with no
-    // "</script>" in sight. Skipping the attempt entirely when it is
-    // provably futile turns that into a single cheap substring check per
-    // name (9 names — negligible) instead of an O(n) scan per occurrence.
-    const lower = out.toLowerCase();
-    const pairableNames = HOSTILE_NAMES.filter((name) => lower.includes(`</${name}`));
-    if (pairableNames.length > 0) {
-      const hostilePaired = pairedPattern(pairableNames.join("|"));
-      out = out.replace(hostilePaired, (_match, name: string) => {
-        warn(`<${name.toLowerCase()}> is not allowed in a diagram and was removed.`);
-        return "";
-      });
-    }
-    // Self-closing tags need no matching close, so this one is always safe
-    // to run in full: each occurrence's `[^>]*` scan terminates at that
-    // occurrence's own nearby ">", not a distant or nonexistent one.
-    out = out.replace(hostileSelfClosing, (_match, name: string) => {
-      warn(`<${name.toLowerCase()}> is not allowed in a diagram and was removed.`);
-      return "";
-    });
+  let changed = true;
+  while (changed && pass < MAX_FIXED_POINT_PASSES) {
+    const next = stripHostileOnce(out, HOSTILE_NAMES, warn);
+    changed = next !== out;
+    out = next;
     pass += 1;
-  } while (out !== previous && pass < MAX_FIXED_POINT_PASSES);
+  }
 
   // Attribute values are re-emitted inside a freshly built double-quoted
   // string. A value captured from a *single*-quoted original attribute may
