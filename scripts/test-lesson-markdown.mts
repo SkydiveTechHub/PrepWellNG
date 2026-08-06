@@ -1298,6 +1298,11 @@ test("the real lesson note produces the expected block mix", () => {
 
   assert.equal(counts.check, 7, "seven multiple-choice questions become checks");
   assert.equal(counts.example, 3, "three worked examples become example blocks");
+  assert.equal(
+    counts.concept,
+    10,
+    "ten concept cards: five body sections, the objectives, the resources, and three short-answer reveal cards",
+  );
 
   const reveals = result.blocks.filter(
     (b) => b.type === "concept" && (b as ConceptBlock).reveal,
@@ -1307,9 +1312,13 @@ test("the real lesson note produces the expected block mix", () => {
 
 test("the real lesson note's header is read, not carded", () => {
   const result = parseLessonMarkdown(FIXTURE);
-  assert.equal(result.meta.title, "Measurement and Units");
-  assert.equal(result.meta.docInfo?.Class, "SSS1");
-  assert.equal(result.meta.docInfo?.Term, "First Term");
+  assert.equal(
+    result.meta.title,
+    "Measurement and Units",
+    "the 'Physics Lesson Note:' prefix should be stripped from the title",
+  );
+  assert.equal(result.meta.docInfo?.Class, "SSS1", "docInfo should capture Class from the header line");
+  assert.equal(result.meta.docInfo?.Term, "First Term", "docInfo should capture Term from the header line");
 
   const first = result.blocks[0] as ConceptBlock;
   assert.ok(
