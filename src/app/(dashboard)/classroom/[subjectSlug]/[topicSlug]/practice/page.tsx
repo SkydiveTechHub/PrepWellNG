@@ -35,22 +35,12 @@ export default async function TopicPracticePage({
   const topicHref = `/classroom/${subjectSlug}/${topicSlug}`;
   if (!lesson) redirect(topicHref);
 
-  // The practice exit is the prove gate — require the student to have started
-  // the lesson's cards first so checkpoint data exists for the mastery score.
-  const progress = await db.studentProgress.findUnique({
-    where: {
-      studentId_subjectId_topicId_lessonId: {
-        studentId: session.user.id,
-        subjectId: subject.id,
-        topicId: topic.id,
-        lessonId: lesson.id,
-      },
-    },
-  });
+  // Practice is deliberately NOT gated on having studied the lesson. The gate
+  // used to be `completionPercent === 0`, which unlocked after a single card —
+  // so the UI promised a prerequisite it never really enforced. Rather than
+  // tighten it, the product decision was to drop it: a student who already
+  // knows a topic should be able to go straight to the questions.
   const studyHref = `${topicHref}/study`;
-  if (!progress || progress.completionPercent === 0) {
-    redirect(studyHref);
-  }
 
   return (
     <div className="mx-auto max-w-4xl">
