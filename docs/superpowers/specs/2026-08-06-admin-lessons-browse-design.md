@@ -62,6 +62,11 @@ Reads the four search params and runs at most two queries:
 With no subject selected the second query does not run, so the unfiltered page
 does no topic work at all.
 
+A third, deliberately light query (class level and term only) backs the Class
+and Term dropdowns. It has to span the subject's *whole* topic set: deriving the
+options from the filtered rows would leave the selected class as the only class
+on offer and strand the admin there.
+
 The lesson-resolution logic is unchanged: `resolveTopicLesson`, `parseBlocks`
 and `isAuthored` continue to produce block count and authored status, still via
 the canonical `topicLessonSelectWith` fragment so this page and Classroom cannot
@@ -85,8 +90,10 @@ Each dropdown only offers values that exist: a track with no subjects is
 omitted, and Class/Term list only the levels the selected subject actually has
 topics for, so a subject with no third-term content does not offer "Third".
 
-`useSearchParams` requires a Suspense boundary around the client component that
-calls it, matching the pattern already used in `src/app/admin/questions/page.tsx`.
+The current filter arrives as a prop from the server component rather than from
+`useSearchParams`, so this component needs no Suspense boundary — the server has
+already parsed and validated the params, and reading them twice would let the
+two disagree.
 
 ### `src/lib/admin-lesson-browse.ts` (pure functions, unit tested)
 
