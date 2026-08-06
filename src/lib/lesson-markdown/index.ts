@@ -7,8 +7,10 @@ import { FENCE_TYPES, buildFenceBlock, readFence, type FenceType } from "./fence
 import {
   isHorizontalRule,
   isQuizHeading,
+  isWorkedExamplesHeading,
   parseInfoLine,
   parseQuizSection,
+  parseWorkedExamples,
   stripLessonNotePrefix,
 } from "./natural";
 
@@ -174,6 +176,21 @@ export function parseLessonMarkdown(source: string): ParsedLesson {
           nextId,
           previousNonCheckId:
             [...blocks].reverse().find((b) => b.type !== "check")?.id ?? null,
+          errors,
+          warnings,
+        });
+        blocks.push(...result.blocks);
+        i += result.consumed;
+        continue;
+      }
+
+      if (isWorkedExamplesHeading(title)) {
+        const result = parseWorkedExamples({
+          lines: front.bodyLines.slice(i + 1),
+          startLine: lineNo + 1,
+          heading: title,
+          nextId,
+          previousNonCheckId: null,
           errors,
           warnings,
         });

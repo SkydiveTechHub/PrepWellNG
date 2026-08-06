@@ -4,7 +4,7 @@
 // erroring when its inner shape does not match.
 // See docs/superpowers/specs/2026-08-06-natural-lesson-note-format-design.md
 
-import type { LessonBlock, CheckBlock, ConceptBlock } from "@/lib/lesson-engine";
+import type { LessonBlock, CheckBlock, ConceptBlock, ExampleBlock } from "@/lib/lesson-engine";
 import type { Issue } from "./types";
 import { slugify } from "./ids";
 
@@ -284,6 +284,93 @@ export function parseQuizSection(args: SectionArgs): SectionResult {
       afterCard: lastNonCheckId,
     };
     blocks.push(check);
+  }
+
+  return { blocks, consumed };
+}
+
+/** `## Worked Examples`, `## Worked Example`. */
+export function isWorkedExamplesHeading(title: string): boolean {
+  return /^worked\s+examples?\b/i.test(title.trim());
+}
+
+// The colon may sit inside or outside the bold run -- `**Example 2:**` and
+// `**Example 2**:` render identically, and no author is consistent about it.
+const EXAMPLE_OPEN_RE = /^\s*\*\*\s*Example\s*([\w.]+?)\s*:?\s*\*\*\s*:?\s*(.*)$/i;
+const SOLUTION_OPEN_RE = /^\s*\*\*\s*Solutions?\s*:?\s*\*\*\s*:?\s*(.*)$/i;
+const TRAILING_BOLD_RE = /\*\*(.+?)\*\*\s*$/;
+
+type RawExample = { label: string; line: number; problem: string; working: string[]; hasSolution: boolean };
+
+export function parseWorkedExamples(args: SectionArgs): SectionResult {
+  const { lines, startLine, nextId, errors } = args;
+
+  let consumed = 0;
+  while (consumed < lines.length && !isSectionTerminator(lines[consumed])) consumed += 1;
+  const body = lines.slice(0, consumed);
+
+  const examples: RawExample[] = [];
+
+  for (let i = 0; i < body.length; i++) {
+    const raw = body[i];
+    const lineNo = startLine + i;
+    if (isHorizontalRule(raw) || !raw.trim()) continue;
+
+    const open = EXAMPLE_OPEN_RE.exec(raw);
+    if (open) {
+      examples.push({
+        label: open[1],
+        line: lineNo,
+        problem: open[2].trim(),
+        working: [],
+        hasSolution: false,
+      });
+      continue;
+    }
+
+    const current = examples[examples.length - 1];
+    if (!current) continue; // prose before the first example: nothing to attach it to
+
+    const solution = SOLUTION_OPEN_RE.exec(raw);
+    if (solution) {
+      current.hasSolution = true;
+      if (solution[1].trim()) current.working.push(solution[1].trim());
+      continue;
+    }
+
+    if (current.hasSolution) current.working.push(raw.trim());
+    else current.problem = `${current.problem} ${raw.trim()}`.trim();
+  }
+
+  const blocks: LessonBlock[] = [];
+
+  for (const example of examples) {
+    if (!example.hasSolution || example.working.length === 0) {
+      errors.push({
+        line: example.line,
+        message: `Example ${example.label} has no **Solution:** — an example needs an answer.`,
+      });
+      continue;
+    }
+
+    // The last line of the working is the answer; where it ends in a bolded
+    // span, only that span is the answer. Checked against every example in
+    // scripts/fixtures/measurement-and-units.md.
+    const steps = example.working.slice(0, -1);
+    const lastLine = example.working[example.working.length - 1];
+    const bold = TRAILING_BOLD_RE.exec(lastLine);
+
+    const block: ExampleBlock = {
+      type: "example",
+      id: nextId("example"),
+      problem: example.problem,
+      steps,
+      answer: (bold ? bold[1] : lastLine).trim(),
+      // The natural format has no way to express partial or solo, and
+      // inferring one would be invention. :::example still offers them.
+      mode: "worked",
+    };
+    blocks.push(block);
   }
 
   return { blocks, consumed };

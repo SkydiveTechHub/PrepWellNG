@@ -1152,3 +1152,80 @@ test("a repeated option letter is an error naming the line, and no check block i
   assert.equal(result.errors[0].line, 7);
   assert.equal(result.blocks.some((b) => b.type === "check"), false);
 });
+
+const EXAMPLES_LESSON = [
+  "## Overview",
+  "",
+  "Units matter.",
+  "",
+  "## Worked Examples",
+  "",
+  "**Example 1:** Convert 5 km to metres.",
+  "**Solution:**",
+  "1 km = 1,000 m",
+  "5 km = 5 × 1,000 = **5,000 m**",
+  "",
+  "**Example 2:** A trip takes 2 hours 30 minutes. Convert to seconds.",
+  "**Solution:**",
+  "2 hours = 2 × 3,600 s = 7,200 s",
+  "30 minutes = 30 × 60 s = 1,800 s",
+  "Total = 7,200 + 1,800 = **9,000 seconds**",
+].join("\n");
+
+test("worked examples become example blocks with steps and answers", () => {
+  const result = parseLessonMarkdown(EXAMPLES_LESSON);
+  assert.deepEqual(result.errors, []);
+  const examples = result.blocks.filter((b) => b.type === "example") as ExampleBlock[];
+  assert.equal(examples.length, 2);
+
+  assert.equal(examples[0].problem, "Convert 5 km to metres.");
+  assert.deepEqual(examples[0].steps, ["1 km = 1,000 m"]);
+  assert.equal(examples[0].answer, "5,000 m");
+  assert.equal(examples[0].mode, "worked");
+
+  assert.equal(examples[1].steps.length, 2);
+  assert.equal(examples[1].answer, "9,000 seconds");
+});
+
+test("an unbolded final line becomes the whole answer", () => {
+  const result = parseLessonMarkdown(
+    ["## A", "", "T.", "", "## Worked Examples", "", "**Example 1:** Q?", "**Solution:**", "step one", "the answer is 4"].join("\n"),
+  );
+  const example = result.blocks.find((b) => b.type === "example") as ExampleBlock;
+  assert.deepEqual(example.steps, ["step one"]);
+  assert.equal(example.answer, "the answer is 4");
+});
+
+test("a one-line solution is the answer with no steps", () => {
+  const result = parseLessonMarkdown(
+    ["## A", "", "T.", "", "## Worked Examples", "", "**Example 1:** Q?", "**Solution:**", "**42**"].join("\n"),
+  );
+  const example = result.blocks.find((b) => b.type === "example") as ExampleBlock;
+  assert.deepEqual(example.steps, []);
+  assert.equal(example.answer, "42");
+});
+
+test("the colon may sit inside or outside the bold run", () => {
+  const result = parseLessonMarkdown(
+    ["## A", "", "T.", "", "## Worked Examples", "", "**Example 1**: Q?", "**Solution**:", "**7**"].join("\n"),
+  );
+  assert.deepEqual(result.errors, []);
+  const example = result.blocks.find((b) => b.type === "example") as ExampleBlock;
+  assert.equal(example.problem, "Q?");
+  assert.equal(example.answer, "7");
+});
+
+test("an example with no Solution: is an error naming its line", () => {
+  const result = parseLessonMarkdown(
+    ["## A", "", "T.", "", "## Worked Examples", "", "**Example 1:** Q?", "some prose"].join("\n"),
+  );
+  assert.equal(result.errors.length, 1);
+  assert.match(result.errors[0].message, /Example 1 has no \*\*Solution:\*\*/);
+  assert.equal(result.errors[0].line, 7);
+});
+
+test("a worked-examples section ends at the next heading", () => {
+  const result = parseLessonMarkdown(EXAMPLES_LESSON + "\n\n## After\n\nMore text.");
+  const last = result.blocks[result.blocks.length - 1] as ConceptBlock;
+  assert.equal(last.title, "After");
+});
