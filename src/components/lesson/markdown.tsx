@@ -43,6 +43,16 @@ function renderInline(text: string): ReactNode[] {
   });
 }
 
+/**
+ * Inline markdown with no block wrapper — for places whose content model is
+ * phrasing only, where `<Markdown>`'s `<div>`/`<p>` would be invalid HTML: a
+ * `<button>` teaser, a heading, a table cell. Renders bold, italic and maths;
+ * block constructs are not applicable here and are left as literal text.
+ */
+export function InlineMarkdown({ content }: { content: string }) {
+  return <>{renderInline(content)}</>;
+}
+
 export function Markdown({ content }: { content: string }) {
   const segments = segmentMarkdown(content);
 

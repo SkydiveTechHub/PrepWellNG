@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { LuChevronDown, LuEye, LuLightbulb } from "react-icons/lu";
 import { Button } from "@/components/ui/button";
 import type { ExampleBlock } from "@/lib/lesson-engine";
+import { InlineMarkdown, Markdown } from "./markdown";
 
 export function WorkedExample({ block }: { block: ExampleBlock }) {
   const isGuided = block.mode !== "worked";
@@ -29,7 +30,7 @@ export function WorkedExample({ block }: { block: ExampleBlock }) {
       </div>
 
       <div className="p-4">
-        <p className="text-sm leading-relaxed text-foreground">{block.problem}</p>
+        <Markdown content={block.problem} />
 
         {block.steps.length > 0 && (
           <div className="mt-4 space-y-2">
@@ -41,7 +42,9 @@ export function WorkedExample({ block }: { block: ExampleBlock }) {
                 <span className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-primary text-[11px] font-bold text-primary-foreground">
                   {i + 1}
                 </span>
-                <p className="text-sm leading-relaxed text-foreground/90">{step}</p>
+                <div className="min-w-0 flex-1">
+                  <Markdown content={step} />
+                </div>
               </div>
             ))}
           </div>
@@ -51,7 +54,7 @@ export function WorkedExample({ block }: { block: ExampleBlock }) {
           <div className="mt-3 rounded-xl bg-success-soft/70 px-3 py-2.5 animate-slide-up">
             <p className="text-sm leading-relaxed text-foreground">
               <span className="font-semibold text-success">Answer: </span>
-              {block.answer}
+              <InlineMarkdown content={block.answer} />
             </p>
           </div>
         )}
