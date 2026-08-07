@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import "./globals.css";
+// KaTeX markup is unreadable without its stylesheet -- fractions collapse onto
+// one line and radicals lose their bar. The dependency was already installed
+// and used by formula flashcards, but the CSS had never been imported
+// anywhere, so every formula in the app was rendering unstyled.
+import "katex/dist/katex.min.css";
 
 const nunito = Nunito({
   subsets: ["latin"],

@@ -1,13 +1,21 @@
 import { Fragment, type ReactNode } from "react";
-import { segmentMarkdown, splitInline } from "@/lib/markdown-segments";
+import {
+  isMathSpan,
+  segmentMarkdown,
+  splitInline,
+  stripMathDelimiters,
+} from "@/lib/markdown-segments";
+import { renderLatex } from "@/lib/latex";
 
 // Renders the markdown subset used by lesson content: `## heading`,
 // `- bullets`, `1. numbered items`, pipe tables, `**bold**`, `*italic*`,
-// `---` rules, and blank-line-separated paragraphs.
+// `$…$` and `$$…$$` maths, `---` rules, and blank-line-separated paragraphs.
 //
-// Safe against HTML injection by construction: every string reaches the DOM as
-// a React text child, and there is no dangerouslySetInnerHTML here. Lesson
-// content is authored by upload, so it is untrusted input.
+// Text is safe against HTML injection by construction: every string reaches
+// the DOM as a React text child. The single exception is KaTeX output, which
+// has to be injected as markup because that is the only way to mount it -- see
+// src/lib/latex.ts for why `trust: false` makes that safe. Lesson content is
+// authored by upload, so it is untrusted input.
 
 function renderInline(text: string): ReactNode[] {
   const parts = splitInline(text);
@@ -17,6 +25,15 @@ function renderInline(text: string): ReactNode[] {
         <strong key={i} className="font-semibold text-foreground">
           {part.slice(2, -2)}
         </strong>
+      );
+    }
+    if (isMathSpan(part)) {
+      return (
+        <span
+          key={i}
+          className="inline-block align-middle"
+          dangerouslySetInnerHTML={{ __html: renderLatex(stripMathDelimiters(part), false) }}
+        />
       );
     }
     if (part.startsWith("*") && part.endsWith("*") && part.length > 2) {
@@ -42,6 +59,18 @@ export function Markdown({ content }: { content: string }) {
 
           case "rule":
             return <hr key={idx} className="border-border" />;
+
+          case "math":
+            // Display formulas can be wider than the column on a phone, so the
+            // overflow scroller is not optional -- without it a long fraction
+            // pushes the whole page sideways.
+            return (
+              <div
+                key={idx}
+                className="overflow-x-auto py-1 text-foreground"
+                dangerouslySetInnerHTML={{ __html: renderLatex(segment.tex, true) }}
+              />
+            );
 
           case "ul":
             return (
@@ -107,8 +136,18 @@ export function Markdown({ content }: { content: string }) {
             );
 
           default:
+            // `whitespace-pre-line` keeps single newlines as line breaks.
+            // Strict markdown folds them into spaces, which ran consecutive
+            // definitions together on one line -- "**Effort (E):** The force
+            // applied to the machine" and "**Load (L):** The resistance…" are
+            // written as two lines and read as one. Teachers type notes with
+            // hard line breaks and expect to see them; the surrounding blank
+            // lines still separate paragraphs, so nothing else changes.
             return (
-              <p key={idx} className="text-sm text-foreground/90 leading-relaxed">
+              <p
+                key={idx}
+                className="whitespace-pre-line text-sm text-foreground/90 leading-relaxed"
+              >
                 {renderInline(segment.text)}
               </p>
             );

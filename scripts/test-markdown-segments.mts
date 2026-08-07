@@ -77,3 +77,54 @@ test("splitInline still recognises a genuine bold span", () => {
 test("splitInline leaves a bare '****' run as plain text (unchanged from before the fix)", () => {
   assert.deepEqual(splitInline("****"), ["****"]);
 });
+
+// ─── maths ───────────────────────────────────────────────────
+
+test("a $$...$$ block becomes a display-math segment", () => {
+  const segments = segmentMarkdown("$$MA = \frac{Load}{Effort}$$");
+  assert.equal(segments.length, 1);
+  assert.equal(segments[0].kind, "math");
+  assert.equal(
+    (segments[0] as { kind: "math"; tex: string }).tex,
+    "MA = \frac{Load}{Effort}",
+    "the $$ delimiters must be stripped before KaTeX sees the source",
+  );
+});
+
+test("display math spanning several lines is one segment", () => {
+  const segments = segmentMarkdown("$$\nE = mc^2\n$$");
+  assert.equal(segments.length, 1);
+  assert.equal(segments[0].kind, "math");
+  assert.equal((segments[0] as { kind: "math"; tex: string }).tex, "E = mc^2");
+});
+
+test("a labelled formula keeps its label as prose and the maths as maths", () => {
+  // "**Mechanical Advantage (MA):** $$MA = \frac{Load}{Effort}$$" is how the
+  // real notes are written -- label and formula on ONE line.
+  const segments = segmentMarkdown("**Mechanical Advantage (MA):** $$MA = \frac{Load}{Effort}$$");
+  assert.equal(segments.length, 1);
+  assert.equal(segments[0].kind, "p", "a line with a label is prose carrying inline maths");
+});
+
+test("inline $...$ is split out of prose", () => {
+  const parts = splitInline("The ratio $x = 2y$ holds.");
+  assert.ok(parts.includes("$x = 2y$"), `got: ${JSON.stringify(parts)}`);
+});
+
+test("inline maths is found inside a labelled formula line", () => {
+  const parts = splitInline("**Efficiency:** $$E = \frac{MA}{VR}$$");
+  assert.ok(
+    parts.some((p) => p.startsWith("$")),
+    `the formula should be split out for KaTeX: ${JSON.stringify(parts)}`,
+  );
+});
+
+test("currency is not mistaken for maths", () => {
+  // "$5 and $10" must stay literal text -- the closing delimiter candidate is
+  // preceded by a space, so it cannot open a span.
+  for (const text of ["It costs $5 and $10 more.", "Pay $20 today."]) {
+    const parts = splitInline(text);
+    assert.equal(parts.length, 1, `currency was split: ${JSON.stringify(parts)}`);
+    assert.equal(parts[0], text);
+  }
+});

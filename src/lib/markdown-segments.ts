@@ -11,6 +11,7 @@ export type Segment =
   | { kind: "ul"; items: string[] }
   | { kind: "ol"; items: string[] }
   | { kind: "table"; header: string[]; rows: string[][] }
+  | { kind: "math"; tex: string }
   | { kind: "rule" };
 
 const RULE_RE = /^\s*(-{3,}|\*{3,}|_{3,})\s*$/;
@@ -22,12 +23,38 @@ const DELIMITER_RE = /^\s*\|[\s:|-]+\|\s*$/;
 // italic alternative requires its span not to start or end with whitespace
 // (CommonMark's flanking-delimiter rule, simplified) so ordinary arithmetic
 // like `2 * 3 * 4` is not misread as an open/close pair of emphasis markers.
-const INLINE_SPAN_RE = /(\*\*[^*]+\*\*|\*(?!\s)[^*]+(?<!\s)\*)/g;
+/**
+ * Bold, italic and maths spans, in that precedence.
+ *
+ * `$$…$$` is listed before `$…$` so a display formula is never chopped into
+ * two empty inline ones. The `(?!\s)`/`(?<!\s)` guards on the maths and italic
+ * alternatives are what keep ordinary prose safe: they mean a delimiter with
+ * whitespace just inside it cannot open or close a span, so "It costs $5 and
+ * $10 more." stays literal text rather than becoming a formula reading
+ * "5 and ". Currency is far commoner than maths in these notes, so this test
+ * has to fail closed.
+ */
+const INLINE_SPAN_RE =
+  /(\*\*[^*]+\*\*|\*(?!\s)[^*]+(?<!\s)\*|\$\$(?!\s)[^$\n]+(?<!\s)\$\$|\$(?!\s)[^$\n]+(?<!\s)\$)/g;
+
+/** A whole block that is nothing but a display formula, `$$ … $$`. */
+const DISPLAY_MATH_RE = /^\$\$([\s\S]+?)\$\$$/;
+
+/** True for a part returned by `splitInline` that is a maths span. */
+export function isMathSpan(part: string): boolean {
+  return part.length > 2 && part.startsWith("$") && part.endsWith("$");
+}
+
+/** Strips the `$`/`$$` delimiters from a maths span. */
+export function stripMathDelimiters(part: string): string {
+  const inner = part.startsWith("$$") && part.endsWith("$$") ? part.slice(2, -2) : part.slice(1, -1);
+  return inner.trim();
+}
 
 /**
- * Splits inline text on bold/italic spans, pure and React-free so it can be
- * tested under node:test. The renderer (src/components/lesson/markdown.tsx)
- * turns the resulting parts into `<strong>`/`<em>`/plain-text nodes.
+ * Splits inline text on bold/italic/maths spans, pure and React-free so it can
+ * be tested under node:test. The renderer (src/components/lesson/markdown.tsx)
+ * turns the resulting parts into `<strong>`/`<em>`/KaTeX/plain-text nodes.
  */
 export function splitInline(text: string): string[] {
   return text.split(INLINE_SPAN_RE);
@@ -79,6 +106,19 @@ export function segmentMarkdown(content: string): Segment[] {
   for (const block of content.split(/\n{2,}/)) {
     const lines = block.split("\n").filter((line) => line.trim());
     if (lines.length === 0) continue;
+
+    // A block that is nothing but `$$ … $$` is a display formula on its own
+    // line. Checked before the run-splitter because the formula may span
+    // several lines, which the line-kind machinery would otherwise break into
+    // separate paragraphs. A formula sharing a line with a label -- the far
+    // commoner "**Efficiency:** $$…$$" -- is prose, and its maths is picked up
+    // inline by splitInline instead.
+    const display = DISPLAY_MATH_RE.exec(block.trim());
+    if (display) {
+      const tex = display[1].trim();
+      if (tex) segments.push({ kind: "math", tex });
+      continue;
+    }
 
     // A rule is `---`, but `- item` is a bullet; RULE_RE is checked first in
     // lineKind, so ordering here is already correct.
