@@ -142,7 +142,6 @@ export default async function TopicDetailPage({
     pretestPassed,
   });
   const topicState = state.get(topic.id);
-  const canPractice = (progress?.completionPercent ?? 0) > 0;
 
   const navItems: TopicNavItem[] = siblingTopics.map((t) => ({
     slug: t.slug,
@@ -327,7 +326,6 @@ export default async function TopicDetailPage({
           lessonId={lesson.id}
           hasDeck={Boolean(deck)}
           deckId={deck?.id ?? null}
-          canPractice={canPractice}
         />
       )}
 

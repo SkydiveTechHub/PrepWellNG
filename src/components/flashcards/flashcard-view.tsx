@@ -6,6 +6,8 @@ import {
   LuChevronDown,
 } from "react-icons/lu";
 import { Badge } from "@/components/ui/badge";
+import { Markdown } from "@/components/lesson/markdown";
+import { renderLatex as renderLatexShared } from "@/lib/latex";
 import { CARD_TYPE_BADGE, CARD_TYPE_LABEL } from "@/lib/flashcard-content";
 import type { StudyCardState } from "@/types/flashcards";
 import { cn } from "@/lib/utils";
@@ -20,17 +22,10 @@ type FlashcardViewProps = {
   onObjective: (correct: boolean) => void;
 };
 
-function renderLatex(latex: string): string {
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const katex = require("katex") as {
-      renderToString: (tex: string, opts?: { displayMode?: boolean; throwOnError?: boolean }) => string;
-    };
-    return katex.renderToString(latex, { displayMode: true, throwOnError: false });
-  } catch {
-    return latex;
-  }
-}
+// Formula cards render in display mode. The implementation moved to
+// src/lib/latex.ts so lesson prose and flashcards share one KaTeX
+// configuration -- and one place where the `trust: false` argument is made.
+const renderLatex = (latex: string) => renderLatexShared(latex, true);
 
 export function FlashcardView({
   card,
@@ -206,9 +201,12 @@ function DefinitionFront({ payload }: { payload: Record<string, unknown> }) {
 function DefinitionBack({ payload }: { payload: Record<string, unknown> }) {
   return (
     <div className="space-y-3">
-      <p className="text-base leading-relaxed text-foreground">
-        {str(payload.definition)}
-      </p>
+      {/* Card bodies are lesson prose, so they carry the same markdown the
+          lesson does -- **bold**, bullets, and the tables that SI-unit and
+          prefix sections are built from. Rendered as a plain string they
+          reached the student as literal `**` and `|---|` pipe soup. Markdown
+          escapes by construction; no dangerouslySetInnerHTML is involved. */}
+      <Markdown content={str(payload.definition)} />
       {str(payload.example) && (
         <div className="rounded-xl bg-primary-soft/60 px-3.5 py-2.5 text-sm leading-relaxed text-foreground">
           <span className="font-semibold">Example: </span>

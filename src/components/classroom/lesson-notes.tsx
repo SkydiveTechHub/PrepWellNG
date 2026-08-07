@@ -1,6 +1,6 @@
 import { toNotes, type NotesBlock } from "@/lib/classroom";
 import type { LessonBlock } from "@/lib/lesson-engine";
-import { Markdown } from "@/components/lesson/markdown";
+import { InlineMarkdown, Markdown } from "@/components/lesson/markdown";
 import { WorkedExample } from "@/components/lesson/worked-example";
 import { InteractiveDiagram } from "@/components/lesson/interactive-diagram";
 
@@ -62,22 +62,28 @@ function NoteBlock({ block }: { block: NotesBlock }) {
     case "tip":
       return (
         <aside className="rounded-xl bg-tone-blue-soft p-4 text-sm text-tone-blue-ink">
-          {block.text}
+          <Markdown content={block.text} />
         </aside>
       );
 
     case "mistake":
       return (
         <aside className="rounded-xl bg-tone-red-soft p-4 text-sm text-tone-red-ink">
-          <p className="line-through opacity-70">{block.wrong}</p>
-          <p className="mt-1 font-semibold">{block.right}</p>
+          <p className="line-through opacity-70">
+            <InlineMarkdown content={block.wrong} />
+          </p>
+          <p className="mt-1 font-semibold">
+            <InlineMarkdown content={block.right} />
+          </p>
         </aside>
       );
 
     case "mnemonic":
       return (
         <aside className="rounded-xl bg-tone-purple-soft p-4 text-sm text-tone-purple-ink">
-          <p className="font-bold">{block.phrase}</p>
+          <p className="font-bold">
+            <InlineMarkdown content={block.phrase} />
+          </p>
           <ul className="mt-2 space-y-0.5">
             {block.encoded.map((line) => (
               <li key={line}>{line}</li>

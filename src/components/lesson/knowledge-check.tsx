@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { LuCheck, LuCircleHelp, LuRotateCcw, LuX } from "react-icons/lu";
 import { Button } from "@/components/ui/button";
 import type { CheckBlock } from "@/lib/lesson-engine";
+import { InlineMarkdown, Markdown } from "./markdown";
 
 type KnowledgeCheckProps = {
   block: CheckBlock;
@@ -60,7 +61,7 @@ export function KnowledgeCheck({ block, onResult }: KnowledgeCheckProps) {
 
       <div className="p-4">
         <p className="text-sm font-medium leading-relaxed text-foreground">
-          {block.question}
+          <InlineMarkdown content={block.question} />
         </p>
 
         <div className="mt-4 space-y-2.5" role="group" aria-label="Answer options">
@@ -98,7 +99,9 @@ export function KnowledgeCheck({ block, onResult }: KnowledgeCheckProps) {
                   {key}
                 </span>
                 <span className="flex-1 leading-relaxed text-foreground/90">
-                  {value}
+                  {/* Inline-only: this sits inside a <button>, whose content
+                      model is phrasing. */}
+                  <InlineMarkdown content={value} />
                 </span>
                 {settled && isAnswer && (
                   <LuCheck className="h-5 w-5 flex-shrink-0 text-success" />
@@ -111,7 +114,7 @@ export function KnowledgeCheck({ block, onResult }: KnowledgeCheckProps) {
           })}
         </div>
 
-        {(isCorrect || wrongAnswer) && (
+        {(isCorrect || wrongAnswer) && block.explanation && (
           <div
             className={cn(
               "mt-4 rounded-xl px-3.5 py-3 text-sm leading-relaxed animate-fade-in",
@@ -121,7 +124,9 @@ export function KnowledgeCheck({ block, onResult }: KnowledgeCheckProps) {
             <p className="mb-1 text-xs font-bold uppercase tracking-wide text-foreground/70">
               {isCorrect ? "Explanation" : "Quick recap"}
             </p>
-            <p className="text-foreground/90">{block.explanation}</p>
+            <div className="text-foreground/90">
+              <Markdown content={block.explanation} />
+            </div>
           </div>
         )}
 

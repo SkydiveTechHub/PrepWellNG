@@ -4,7 +4,8 @@ export type AuditAction =
   | "question.create"
   | "question.update"
   | "question.delete"
-  | "question.import";
+  | "question.import"
+  | "lesson.import";
 
 export type AuditEntry = {
   actorId: string;

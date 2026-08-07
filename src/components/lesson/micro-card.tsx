@@ -10,6 +10,11 @@ import {
   LuSparkles,
   LuX,
 } from "react-icons/lu";
+// The step-by-step player renders the SAME blocks the notes view and the
+// flashcard deck do, and it was the only one of the three showing them as raw
+// text -- so a teacher's tables, formulas and bold reached students as literal
+// `|---|`, `$$...$$` and `**`. It is also the primary call to action.
+import { InlineMarkdown, Markdown } from "./markdown";
 import { Badge } from "@/components/ui/badge";
 import { InteractiveDiagram } from "./interactive-diagram";
 import { WorkedExample } from "./worked-example";
@@ -58,12 +63,12 @@ function ConceptCard({ block }: { block: Extract<LessonBlock, { type: "concept" 
         </p>
       </div>
       <div className="p-4">
-        <p className="text-sm leading-relaxed text-foreground">{block.text}</p>
+        <Markdown content={block.text} />
         {block.reveal && (
           <div className="mt-3">
             {revealed ? (
               <div className="rounded-xl bg-primary-soft/60 px-3.5 py-3 text-sm leading-relaxed text-foreground animate-fade-in">
-                {block.reveal}
+                <Markdown content={block.reveal} />
               </div>
             ) : (
               <button
@@ -92,7 +97,7 @@ function TipCard({ block }: { block: Extract<LessonBlock, { type: "tip" }> }) {
         </p>
         {block.examType && <Badge variant="amber">{block.examType}</Badge>}
       </div>
-      <p className="text-sm leading-relaxed text-foreground">{block.text}</p>
+      <Markdown content={block.text} />
     </div>
   );
 }
@@ -116,7 +121,11 @@ function MistakeCard({ block }: { block: Extract<LessonBlock, { type: "mistake" 
           <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-danger text-white">
             <LuX className="h-3 w-3" />
           </span>
-          <span className="leading-relaxed text-foreground/90">{block.wrong}</span>
+          <span className="leading-relaxed text-foreground/90">
+            {/* Inline-only: a <button>'s content model is phrasing, so the
+                block renderer's <div>/<p> would be invalid here. */}
+            <InlineMarkdown content={block.wrong} />
+          </span>
           <LuChevronDown className="ml-auto h-4 w-4 flex-shrink-0 text-danger/60" />
         </button>
       ) : (
@@ -125,13 +134,17 @@ function MistakeCard({ block }: { block: Extract<LessonBlock, { type: "mistake" 
             <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-danger text-white">
               <LuX className="h-3 w-3" />
             </span>
-            <p className="text-sm leading-relaxed text-foreground/90">{block.wrong}</p>
+            <div className="min-w-0 flex-1">
+              <Markdown content={block.wrong} />
+            </div>
           </div>
           <div className="flex items-start gap-3 rounded-xl border border-success/30 bg-success-soft/50 px-3.5 py-3">
             <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-success text-white">
               <LuCheck className="h-3 w-3" />
             </span>
-            <p className="text-sm leading-relaxed text-foreground/90">{block.right}</p>
+            <div className="min-w-0 flex-1">
+              <Markdown content={block.right} />
+            </div>
           </div>
         </div>
       )}
@@ -150,7 +163,7 @@ function MnemonicCard({ block }: { block: Extract<LessonBlock, { type: "mnemonic
         </p>
       </div>
       <p className="text-base font-semibold leading-relaxed text-foreground">
-        {block.phrase}
+        <InlineMarkdown content={block.phrase} />
       </p>
       {!revealed ? (
         <button

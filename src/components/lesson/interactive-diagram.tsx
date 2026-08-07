@@ -4,6 +4,7 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { LuInfo, LuScan } from "react-icons/lu";
 import type { DiagramBlock } from "@/lib/lesson-engine";
+import { InlineMarkdown } from "./markdown";
 
 export function InteractiveDiagram({ block }: { block: DiagramBlock }) {
   const [activeHotspot, setActiveHotspot] = useState<string | null>(null);
@@ -38,7 +39,7 @@ export function InteractiveDiagram({ block }: { block: DiagramBlock }) {
 
       {block.caption && (
         <p className="px-4 pb-3 text-xs italic leading-relaxed text-muted">
-          {block.caption}
+          <InlineMarkdown content={block.caption} />
         </p>
       )}
 
