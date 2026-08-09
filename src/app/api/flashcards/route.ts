@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
-import { getDeckSummaries } from "@/lib/flashcard-analytics";
+import { createFlashcardDeck, getDeckSummariesFor } from "@/lib/flashcards";
 import { createFlashcardDeckSchema } from "@/lib/validators";
 
 export const dynamic = "force-dynamic";
@@ -14,7 +13,7 @@ export async function GET() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const decks = await getDeckSummaries(db, session.user.id);
+    const decks = await getDeckSummariesFor(session.user.id);
     return NextResponse.json({ decks });
   } catch (error) {
     console.error("Error fetching flashcards:", error);
@@ -43,15 +42,12 @@ export async function POST(req: NextRequest) {
     }
 
     const { title, description, subjectId, topicId } = parsed.data;
-    const deck = await db.flashcardDeck.create({
-      data: {
-        title,
-        description,
-        subjectId,
-        topicId,
-        createdBy: session.user.id,
-        source: "AUTHORED",
-      },
+    const deck = await createFlashcardDeck({
+      title,
+      description,
+      subjectId,
+      topicId,
+      createdBy: session.user.id,
     });
 
     return NextResponse.json({ deck }, { status: 201 });

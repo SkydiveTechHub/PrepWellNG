@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
 import { generateFlashcardDeckSchema } from "@/lib/validators";
-import { generateCardsFromLesson } from "@/lib/flashcard-content";
+import { generateDeckFromLesson } from "@/lib/flashcards";
 
 export const dynamic = "force-dynamic";
 
@@ -26,74 +25,22 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { lessonId } = parsed.data;
-    const userId = session.user.id;
+    const result = await generateDeckFromLesson(
+      session.user.id,
+      parsed.data.lessonId,
+    );
 
-    const lesson = await db.lesson.findUnique({
-      where: { id: lessonId },
-      include: {
-        subtopic: { include: { topic: { select: { id: true, subjectId: true } } } },
-      },
-    });
-    if (!lesson) {
+    if (result === "lesson-not-found") {
       return NextResponse.json({ error: "Lesson not found" }, { status: 404 });
     }
-
-    const generated = generateCardsFromLesson(lesson);
-    if (generated.cards.length === 0) {
+    if (result === "no-cards") {
       return NextResponse.json(
         { error: "Lesson has no cards to convert" },
         { status: 422 },
       );
     }
 
-    const deck = await db.$transaction(async (tx) => {
-      const existing = await tx.flashcardDeck.findUnique({
-        where: { lessonId_source: { lessonId, source: "LESSON" } },
-        select: { id: true },
-      });
-
-      if (existing) {
-        await tx.flashcard.deleteMany({ where: { deckId: existing.id } });
-      }
-
-      const deckRow = await tx.flashcardDeck.upsert({
-        where: { lessonId_source: { lessonId, source: "LESSON" } },
-        create: {
-          title: generated.title,
-          description: generated.description,
-          source: "LESSON",
-          lessonId,
-          subjectId: lesson.subtopic.topic.subjectId,
-          topicId: lesson.subtopic.topicId,
-          createdBy: userId,
-        },
-        update: {
-          title: generated.title,
-          description: generated.description,
-          subjectId: lesson.subtopic.topic.subjectId,
-          topicId: lesson.subtopic.topicId,
-        },
-      });
-
-      await tx.flashcard.createMany({
-        data: generated.cards.map((card, index) => ({
-          deckId: deckRow.id,
-          cardType: card.cardType,
-          prompt: card.prompt,
-          payload: card.payload as object,
-          difficulty: card.difficulty,
-          orderIndex: index,
-        })),
-      });
-
-      return deckRow;
-    });
-
-    return NextResponse.json(
-      { deck, cardCount: generated.cards.length },
-      { status: 201 },
-    );
+    return NextResponse.json(result, { status: 201 });
   } catch (error) {
     console.error("Error generating flashcard deck:", error);
     return NextResponse.json(

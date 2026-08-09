@@ -11,23 +11,12 @@ import {
   LuTarget,
 } from "react-icons/lu";
 import { auth } from "@/lib/auth";
-import { db } from "@/lib/db";
 import { formatDuration } from "@/lib/utils";
-import {
-  computeTopicReadiness,
-  loadPretestPassed,
-} from "@/engines/learning/availability";
-import { parseBlocks } from "@/lib/lesson-engine";
-import {
-  resolveTopicLesson,
-  topicLessonSelect,
-  topicNeighbours,
-  type TopicNavItem,
-} from "@/lib/classroom";
+import { getTopicPageData } from "@/lib/classroom-topic";
 import { PretestDialog } from "@/components/path/pretest-dialog";
 import { LessonNotes } from "@/components/classroom/lesson-notes";
 import { TopicActionBar } from "@/components/classroom/topic-action-bar";
-import { TopicResources, type ResourceItem } from "@/components/classroom/topic-resources";
+import { TopicResources } from "@/components/classroom/topic-resources";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { TERM_LABELS } from "@/lib/curriculum-scope";
@@ -62,123 +51,25 @@ export default async function TopicDetailPage({
 
   const { subjectSlug, topicSlug } = await params;
 
-  const subject = await db.subject.findUnique({
-    where: { slug: subjectSlug },
-    select: { id: true, name: true, code: true },
-  });
-  if (!subject) notFound();
+  const data = await getTopicPageData(session.user.id, subjectSlug, topicSlug);
+  if (!data) notFound();
 
-  const topic = await db.topic.findUnique({
-    where: { subjectId_slug: { subjectId: subject.id, slug: topicSlug } },
-    include: {
-      curriculumLevel: true,
-      subtopics: topicLessonSelect,
-      _count: { select: { questions: true } },
-    },
-  });
-  if (!topic) notFound();
+  const {
+    subject,
+    topic,
+    lesson,
+    deckId,
+    pretestCertified,
+    topicReady,
+    prereqs,
+    topicState,
+    previous,
+    next,
+    lessonResources,
+    subjectResources,
+  } = data;
 
-  // Every topic has exactly one lesson (150/150 in the live database), but
-  // this is coded defensively — a topic somehow missing one renders the page
-  // without notes or the action bar rather than crashing.
-  const lesson = resolveTopicLesson(topic);
-
-  // Everything below only depends on `subject`/`topic`/`lesson`, already in
-  // hand, so it's fetched in parallel rather than as sequential awaits.
-  const [pretestPassed, deck, siblingTopics, progress, lessonResourceRows] = await Promise.all([
-    // Learning Path Engine — graph-derived availability (algorithm B). The
-    // old "any lesson completed under the prereq" gate is superseded by
-    // composite mastery over every PREREQUISITE edge. A readiness pretest
-    // (≥80% on 5 questions) self-certifies a topic and satisfies its
-    // incoming gates.
-    loadPretestPassed(db, session.user.id, subject.id),
-    lesson
-      ? db.flashcardDeck.findUnique({
-          where: { lessonId_source: { lessonId: lesson.id, source: "LESSON" } },
-          select: { id: true },
-        })
-      : Promise.resolve(null),
-    // Sibling topics across the subject, for previous/next navigation within
-    // the current class level.
-    db.topic.findMany({
-      where: { subjectId: subject.id },
-      select: {
-        slug: true,
-        title: true,
-        orderIndex: true,
-        curriculumLevel: { select: { classLevel: true, term: true } },
-      },
-    }),
-    // Whether the student has started the lesson's cards — gates the
-    // Practice action, which requires checkpoint data to score against.
-    lesson
-      ? db.studentProgress.findUnique({
-          where: {
-            studentId_subjectId_topicId_lessonId: {
-              studentId: session.user.id,
-              subjectId: subject.id,
-              topicId: topic.id,
-              lessonId: lesson.id,
-            },
-          },
-          select: { completionPercent: true },
-        })
-      : Promise.resolve(null),
-    // Topic-specific resources — every lesson has its own row set (possibly
-    // empty; the subject fallback only kicks in when it is).
-    lesson
-      ? db.lessonResource.findMany({
-          where: { lessonId: lesson.id },
-          orderBy: { orderIndex: "asc" },
-        })
-      : Promise.resolve([]),
-  ]);
-  const pretestCertified = pretestPassed.has(topic.id);
-  const { ready: topicReady, state, prereqs } = await computeTopicReadiness({
-    prisma: db,
-    studentId: session.user.id,
-    subjectId: subject.id,
-    topicId: topic.id,
-    pretestPassed,
-  });
-  const topicState = state.get(topic.id);
-
-  const navItems: TopicNavItem[] = siblingTopics.map((t) => ({
-    slug: t.slug,
-    title: t.title,
-    classLevel: t.curriculumLevel.classLevel,
-    term: t.curriculumLevel.term,
-    orderIndex: t.orderIndex,
-  }));
-  const { previous, next } = topicNeighbours(navItems, topicSlug);
-
-  const lessonResources: ResourceItem[] = lessonResourceRows.map((r) => ({
-    id: r.id,
-    // `caption` is nullable free text, not a title — fall back to a generic
-    // label by resource type rather than rendering an empty heading.
-    title: r.caption ?? `${r.resourceType.charAt(0).toUpperCase()}${r.resourceType.slice(1)} resource`,
-    url: r.url,
-    resourceType: r.resourceType,
-    description: null,
-  }));
-  // Loading all 43 subject resources to discard them would be waste — only
-  // fetch the fallback when the topic actually has no resources of its own.
-  const subjectResourceRows =
-    lessonResources.length === 0
-      ? await db.subjectResource.findMany({
-          where: { subjectId: subject.id },
-          orderBy: { orderIndex: "asc" },
-        })
-      : [];
-  const subjectResources: ResourceItem[] = subjectResourceRows.map((r) => ({
-    id: r.id,
-    title: r.title,
-    url: r.url,
-    resourceType: r.resourceType,
-    description: r.description,
-  }));
-
-  const { classLevel, term } = topic.curriculumLevel;
+  const { classLevel, term } = topic;
   const classColor = CLASS_COLORS[classLevel] ?? "bg-secondary text-muted border-border";
 
   return (
@@ -228,7 +119,7 @@ export default async function TopicDetailPage({
               </Badge>
               <Badge variant="green">
                 <LuTarget className="h-3 w-3" />
-                {topic._count.questions} questions
+                {topic.questionCount} questions
               </Badge>
               {topic.waecWeight > 0 && <Badge variant="blue">WAEC weight {topic.waecWeight}</Badge>}
               {topic.jambWeight > 0 && <Badge variant="green">JAMB weight {topic.jambWeight}</Badge>}
@@ -324,16 +215,16 @@ export default async function TopicDetailPage({
           subjectSlug={subjectSlug}
           topicSlug={topicSlug}
           lessonId={lesson.id}
-          hasDeck={Boolean(deck)}
-          deckId={deck?.id ?? null}
+          hasDeck={Boolean(deckId)}
+          deckId={deckId}
         />
       )}
 
       <div className="mt-6">
         {lesson ? (
           <LessonNotes
-            blocks={parseBlocks(lesson.blocks)}
-            fallbackContent={lesson.content}
+            blocks={lesson.blocks}
+            fallbackContent={lesson.fallbackContent}
           />
         ) : (
           <div className="card p-6 text-sm text-muted">

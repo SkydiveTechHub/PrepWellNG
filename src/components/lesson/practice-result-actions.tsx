@@ -32,7 +32,8 @@ export function PracticeResultActions({
   topicSlug,
 }: {
   passed: boolean;
-  completedAt: Date | null;
+  /** ISO timestamp — the prop crosses a JSON boundary, so never a live Date. */
+  completedAt: string | null;
   practiceHref: string;
   lessonHref: string;
   topicHref: string;

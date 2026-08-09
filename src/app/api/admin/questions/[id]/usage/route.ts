@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
+import { getQuestionUsage } from "@/lib/admin-data";
 import { requireAdmin } from "@/lib/admin-guard";
 
 export const dynamic = "force-dynamic";
@@ -14,14 +14,5 @@ export async function GET(
   if (!guard.ok) return guard.response;
 
   const { id } = await params;
-  const [responseCount, assessmentCount] = await Promise.all([
-    db.questionResponse.count({ where: { questionId: id } }),
-    db.assessmentQuestion.count({ where: { questionId: id } }),
-  ]);
-
-  return NextResponse.json({
-    responseCount,
-    assessmentCount,
-    deletable: responseCount === 0 && assessmentCount === 0,
-  });
+  return NextResponse.json(await getQuestionUsage(id));
 }

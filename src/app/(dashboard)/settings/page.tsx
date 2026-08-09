@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
-import { db } from "@/lib/db";
+import { getSettingsProfile } from "@/lib/settings";
 import { AvatarUpload } from "@/components/settings/avatar-upload";
 import { ProfileForm } from "@/components/settings/profile-form";
 import { AcademicForm } from "@/components/settings/academic-form";
@@ -18,23 +18,7 @@ export default async function SettingsPage() {
   // fall through to a query with an undefined id.
   if (!session?.user?.id) redirect("/login");
 
-  // Read from the database rather than the session so the form always shows
-  // the last saved values after router.refresh().
-  const user = await db.user.findUnique({
-    where: { id: session.user.id },
-    select: {
-      email: true,
-      firstName: true,
-      lastName: true,
-      phone: true,
-      state: true,
-      image: true,
-      classLevel: true,
-      track: true,
-      passwordHash: true,
-    },
-  });
-
+  const user = await getSettingsProfile(session.user.id);
   if (!user) redirect("/login");
 
   return (
@@ -62,7 +46,7 @@ export default async function SettingsPage() {
         <AcademicForm classLevel={user.classLevel} track={user.track} />
 
         {/* Google-only accounts have no password to change. */}
-        {user.passwordHash && <PasswordForm />}
+        {user.hasPassword && <PasswordForm />}
       </div>
     </div>
   );

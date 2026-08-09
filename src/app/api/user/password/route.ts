@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import bcrypt from "bcryptjs";
 import { auth } from "@/lib/auth";
-import { db } from "@/lib/db";
+import { changeUserPassword } from "@/lib/user-account";
 import { changePasswordSchema } from "@/lib/validators";
 import { rateLimit, tooManyRequests } from "@/lib/rate-limit";
 
@@ -34,33 +33,26 @@ export async function POST(req: NextRequest) {
 
     const { currentPassword, newPassword } = parsed.data;
 
-    const user = await db.user.findUnique({
-      where: { id: session.user.id },
-      select: { passwordHash: true },
-    });
+    const result = await changeUserPassword(
+      session.user.id,
+      currentPassword,
+      newPassword,
+    );
 
     // Google-only accounts have no password to change. The UI hides this
     // section for them; this is the server-side counterpart.
-    if (!user?.passwordHash) {
+    if (result === "no-password") {
       return NextResponse.json(
         { error: "This account signs in with Google and has no password" },
         { status: 400 },
       );
     }
-
-    const isValid = await bcrypt.compare(currentPassword, user.passwordHash);
-    if (!isValid) {
+    if (result === "wrong-password") {
       return NextResponse.json(
         { error: "Your current password is incorrect" },
         { status: 400 },
       );
     }
-
-    await db.user.update({
-      where: { id: session.user.id },
-      // Same cost factor as registration.
-      data: { passwordHash: await bcrypt.hash(newPassword, 12) },
-    });
 
     return NextResponse.json({ message: "Password changed" });
   } catch (error) {

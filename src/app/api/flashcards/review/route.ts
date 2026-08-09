@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
 import { submitFlashcardReviewSchema } from "@/lib/validators";
-import { initialState, reviewCard, type ReviewState } from "@/lib/spaced-repetition";
-import type { ReviewOutcome } from "@/types/flashcards";
+import { recordFlashcardReview } from "@/lib/flashcards";
 
 export const dynamic = "force-dynamic";
 
@@ -26,112 +24,12 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { flashcardId, rating, responseTimeMs, objectiveCorrect } = parsed.data;
-
-    // The card must belong to a deck this student authored or follows.
-    // Previously any authenticated user could post reviews against any card id,
-    // writing SRS state for decks they had no relationship with.
-    const flashcard = await db.flashcard.findFirst({
-      where: {
-        id: flashcardId,
-        deck: {
-          OR: [
-            { createdBy: session.user.id },
-            { enrollments: { some: { studentId: session.user.id } } },
-          ],
-        },
-      },
-      select: { id: true, difficulty: true },
-    });
-    if (!flashcard) {
+    const result = await recordFlashcardReview(session.user.id, parsed.data);
+    if (result === "flashcard-not-found") {
       return NextResponse.json({ error: "Flashcard not found" }, { status: 404 });
     }
 
-    const existing = await db.flashcardReview.findUnique({
-      where: {
-        studentId_flashcardId: {
-          studentId: session.user.id,
-          flashcardId,
-        },
-      },
-    });
-
-    const now = new Date();
-    const prior: ReviewState = existing
-      ? {
-          state: existing.state,
-          stability: existing.stability,
-          difficulty: existing.difficulty,
-          easeFactor: existing.easeFactor,
-          intervalDays: existing.intervalDays,
-          repetitions: existing.repetitions,
-          lapses: existing.lapses,
-          retention: existing.retention,
-          dueAt: existing.dueAt.toISOString(),
-          lastReviewedAt: existing.lastReviewedAt?.toISOString() ?? null,
-        }
-      : initialState(flashcard.difficulty, now);
-
-    const next = reviewCard(prior, { rating, reviewedAt: now });
-
-    const review = await db.$transaction([
-      db.flashcardReview.upsert({
-        where: {
-          studentId_flashcardId: {
-            studentId: session.user.id,
-            flashcardId,
-          },
-        },
-        create: {
-          studentId: session.user.id,
-          flashcardId,
-          state: next.state,
-          easeFactor: next.easeFactor,
-          stability: next.stability,
-          difficulty: next.difficulty,
-          intervalDays: next.intervalDays,
-          repetitions: next.repetitions,
-          lapses: next.lapses,
-          retention: next.retention,
-          dueAt: new Date(next.dueAt),
-          lastReviewedAt: new Date(next.lastReviewedAt ?? now),
-        },
-        update: {
-          state: next.state,
-          easeFactor: next.easeFactor,
-          stability: next.stability,
-          difficulty: next.difficulty,
-          intervalDays: next.intervalDays,
-          repetitions: next.repetitions,
-          lapses: next.lapses,
-          retention: next.retention,
-          dueAt: new Date(next.dueAt),
-          lastReviewedAt: new Date(next.lastReviewedAt ?? now),
-        },
-      }),
-      db.flashcardReviewLog.create({
-        data: {
-          studentId: session.user.id,
-          flashcardId,
-          rating,
-          responseTimeMs: responseTimeMs ?? null,
-          scheduledDays: next.intervalDays,
-          objectiveCorrect: objectiveCorrect ?? null,
-          reviewedAt: now,
-        },
-      }),
-    ]);
-
-    const outcome: ReviewOutcome = {
-      cardId: flashcardId,
-      rating,
-      state: next.state,
-      intervalDays: next.intervalDays,
-      retention: next.retention,
-      dueAt: next.dueAt,
-    };
-
-    return NextResponse.json({ outcome, review: review[0] });
+    return NextResponse.json(result);
   } catch (error) {
     console.error("Error recording flashcard review:", error);
     return NextResponse.json(

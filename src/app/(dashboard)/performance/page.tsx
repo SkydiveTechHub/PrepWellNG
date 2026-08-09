@@ -2,119 +2,12 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { LuTarget, LuChevronRight, LuTriangleAlert, LuGauge, LuLayers, LuFileCheck } from "react-icons/lu";
 import { auth } from "@/lib/auth";
-import { db } from "@/lib/db";
+import { getGrade, getPerformanceData } from "@/lib/performance";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { PageHeader } from "@/components/ui/page-header";
 import { EmptyState } from "@/components/ui/empty-state";
 import { buttonClass } from "@/components/ui/button";
-
-async function getPerformanceData(userId: string) {
-  const [attempts, subjectMetrics] = await db.$transaction([
-    db.assessmentAttempt.findMany({
-      where: { studentId: userId, status: "COMPLETED" },
-      orderBy: { completedAt: "desc" },
-      take: 20,
-      select: {
-        id: true,
-        percentage: true,
-        score: true,
-        totalMarks: true,
-        completedAt: true,
-        assessment: { select: { title: true, subjectId: true, subject: { select: { name: true, slug: true } } } },
-      },
-    }),
-    db.performanceMetric.findMany({
-      where: { studentId: userId },
-      select: {
-        totalAttempted: true,
-        totalCorrect: true,
-        accuracy: true,
-        masteryLevel: true,
-        subject: { select: { name: true, slug: true, code: true } },
-      },
-      orderBy: { accuracy: "desc" },
-    }),
-  ]);
-
-  // Weak topics, aggregated in the database. This used to pull every wrong
-  // response the student had ever given — two joins, no bound — and count them
-  // in JS. The grouped form returns one row per (subject, topic) instead.
-  const weakRows = await db.$queryRaw<
-    {
-      subjectId: string;
-      subjectName: string;
-      subjectSlug: string;
-      subjectCode: string;
-      topicTitle: string;
-      topicSlug: string;
-      wrongCount: number;
-    }[]
-  >`
-    SELECT s.id            AS "subjectId",
-           s.name          AS "subjectName",
-           s.slug          AS "subjectSlug",
-           s.code          AS "subjectCode",
-           t.title         AS "topicTitle",
-           t.slug          AS "topicSlug",
-           COUNT(*)::int   AS "wrongCount"
-    FROM "QuestionResponse" qr
-    JOIN "AssessmentAttempt" aa ON aa.id = qr."attemptId"
-    JOIN "Question" q          ON q.id  = qr."questionId"
-    JOIN "Subject" s           ON s.id  = q."subjectId"
-    JOIN "Topic" t             ON t.id  = q."topicId"
-    WHERE aa."studentId" = ${userId}
-      AND qr."isCorrect" = false
-    GROUP BY s.id, s.name, s.slug, s.code, t.id, t.title, t.slug
-    ORDER BY "wrongCount" DESC
-  `;
-
-  const weakBySubject = new Map<
-    string,
-    {
-      subject: { id: string; name: string; slug: string; code: string };
-      topics: { title: string; slug: string; wrongCount: number }[];
-    }
-  >();
-
-  // Rows arrive sorted by wrongCount, so the first five per subject are the worst five.
-  for (const row of weakRows) {
-    let entry = weakBySubject.get(row.subjectId);
-    if (!entry) {
-      entry = {
-        subject: {
-          id: row.subjectId,
-          name: row.subjectName,
-          slug: row.subjectSlug,
-          code: row.subjectCode,
-        },
-        topics: [],
-      };
-      weakBySubject.set(row.subjectId, entry);
-    }
-    if (entry.topics.length < 5) {
-      entry.topics.push({
-        title: row.topicTitle,
-        slug: row.topicSlug,
-        wrongCount: row.wrongCount,
-      });
-    }
-  }
-
-  const subjectWeakTopics = [...weakBySubject.values()].filter(
-    (entry) => entry.topics.length > 0,
-  );
-
-  return { attempts, subjectMetrics, subjectWeakTopics };
-}
-
-function getGrade(percentage: number): string {
-  if (percentage >= 75) return "A";
-  if (percentage >= 65) return "B";
-  if (percentage >= 50) return "C";
-  if (percentage >= 40) return "D";
-  return "F";
-}
 
 function getGradeVariant(grade: string): "green" | "blue" | "amber" | "orange" | "red" {
   switch (grade) {
@@ -200,25 +93,25 @@ export default async function PerformancePage() {
             <div className="space-y-4">
               {data.subjectMetrics.map((metric) => {
                 const weakEntry = data.subjectWeakTopics.find(
-                  (w) => w.subject.slug === metric.subject.slug
+                  (w) => w.subject.slug === metric.subjectSlug
                 );
                 const accuracy = Math.round(metric.accuracy);
                 const grade = getGrade(accuracy);
 
                 return (
-                  <div key={metric.subject.code} className="card overflow-hidden">
+                  <div key={metric.subjectCode} className="card overflow-hidden">
                     <Link
-                      href={`/classroom/${metric.subject.slug}`}
+                      href={`/classroom/${metric.subjectSlug}`}
                       className="block p-5 transition-colors hover:bg-secondary/40"
                     >
                       <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
                         <div className="flex items-center gap-3">
                           <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-primary-soft text-xs font-bold text-primary">
-                            {metric.subject.code}
+                            {metric.subjectCode}
                           </span>
                           <div>
                             <p className="text-sm font-semibold text-foreground">
-                              {metric.subject.name}
+                              {metric.subjectName}
                             </p>
                             <p className="text-xs text-muted">
                               {metric.totalAttempted} questions · {metric.totalCorrect} correct
@@ -276,10 +169,10 @@ export default async function PerformancePage() {
                   >
                     <div className="min-w-0">
                       <p className="truncate text-sm font-semibold text-foreground">
-                        {attempt.assessment.title}
+                        {attempt.title}
                       </p>
                       <p className="mt-0.5 text-xs text-muted">
-                        {attempt.assessment.subject?.name}
+                        {attempt.subjectName}
                         {attempt.completedAt &&
                           ` · ${new Date(attempt.completedAt).toLocaleDateString("en-NG", {
                             day: "numeric",

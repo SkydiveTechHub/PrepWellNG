@@ -11,16 +11,7 @@ import {
   LuX,
 } from "react-icons/lu";
 import { auth } from "@/lib/auth";
-import { db } from "@/lib/db";
-import { resolveTopicLesson, topicLessonSelect } from "@/lib/classroom";
-import {
-  bestOfLastThree,
-  computeMasteryScore,
-  kcAccuracyFromCheckpoints,
-  masteryLevelFromScore,
-  nextRevisionDate,
-  parseCheckpointState,
-} from "@/lib/lesson-engine";
+import { recordTopicPracticeResult } from "@/lib/topic-practice-result";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { PracticeResultActions } from "@/components/lesson/practice-result-actions";
@@ -56,142 +47,29 @@ export default async function TopicPracticeResultPage({
   const studyHref = `${topicHref}/study`;
   if (!attemptId) redirect(studyHref);
 
-  const subject = await db.subject.findUnique({
-    where: { slug: subjectSlug },
-    select: { id: true, name: true },
-  });
-  if (!subject) notFound();
-
-  const topic = await db.topic.findUnique({
-    where: { subjectId_slug: { subjectId: subject.id, slug: topicSlug } },
-    select: {
-      id: true,
-      title: true,
-      subtopics: topicLessonSelect,
-    },
-  });
-  if (!topic) notFound();
-
-  const lesson = resolveTopicLesson(topic);
-  if (!lesson) redirect(topicHref);
-
-  const attempt = await db.assessmentAttempt.findFirst({
-    where: { id: attemptId, studentId: session.user.id, status: "COMPLETED" },
-    include: {
-      responses: {
-        include: { question: true },
-        orderBy: { id: "asc" },
-      },
-    },
-  });
-  if (!attempt) {
-    redirect(studyHref);
-  }
-
-  const subjectId = subject.id;
-  const topicId = topic.id;
-  const lessonId = lesson.id;
-  const percentage = attempt.percentage ?? 0;
-  const passed = percentage >= lesson.passMarkPercent;
-
-  const progress = await db.studentProgress.findUnique({
-    where: {
-      studentId_subjectId_topicId_lessonId: {
-        studentId: session.user.id,
-        subjectId,
-        topicId,
-        lessonId,
-      },
-    },
-  });
-
-  // Mastery = best of the last 3 practice attempts; each attempt scores
-  // 0.3 × KC accuracy + 0.7 × practice accuracy.
-  const checkpoint = parseCheckpointState(progress?.checkpointData);
-  const kcScore = kcAccuracyFromCheckpoints(checkpoint.checks);
-  const practiceRecords = [
-    ...(checkpoint.practice ?? []),
-    { attemptId, percentage, passed, at: new Date().toISOString() },
-  ];
-  const compositeScores = practiceRecords.map((p) =>
-    computeMasteryScore(kcScore, p.percentage / 100),
+  const outcome = await recordTopicPracticeResult(
+    session.user.id,
+    subjectSlug,
+    topicSlug,
+    attemptId,
   );
-  const bestMastery = bestOfLastThree(compositeScores);
-  const masteryLevel = masteryLevelFromScore(bestMastery);
+  if (outcome.status === "not-found") notFound();
+  if (outcome.status === "no-lesson") redirect(topicHref);
+  if (outcome.status === "no-attempt") redirect(studyHref);
 
-  if (passed) {
-    await db.$transaction([
-      db.studentProgress.upsert({
-        where: {
-          studentId_subjectId_topicId_lessonId: {
-            studentId: session.user.id,
-            subjectId,
-            topicId,
-            lessonId,
-          },
-        },
-        create: {
-          studentId: session.user.id,
-          subjectId,
-          topicId,
-          lessonId,
-          status: "COMPLETED",
-          completionPercent: 100,
-          checkpointData: { ...checkpoint, practice: practiceRecords },
-          masteryScore: bestMastery,
-          revisionDueAt: nextRevisionDate(new Date(), lesson.revisionDays),
-        },
-        update: {
-          status: "COMPLETED",
-          completionPercent: 100,
-          checkpointData: { ...checkpoint, practice: practiceRecords },
-          masteryScore: bestMastery,
-          revisionDueAt: nextRevisionDate(new Date(), lesson.revisionDays),
-          lastAccessedAt: new Date(),
-        },
-      }),
-      db.performanceMetric.upsert({
-        where: {
-          studentId_subjectId_topicId: { studentId: session.user.id, subjectId, topicId },
-        },
-        create: {
-          studentId: session.user.id,
-          subjectId,
-          topicId,
-          masteryLevel,
-          lastUpdated: new Date(),
-        },
-        update: { masteryLevel, lastUpdated: new Date() },
-      }),
-    ]);
-  } else {
-    await db.studentProgress.upsert({
-      where: {
-        studentId_subjectId_topicId_lessonId: {
-          studentId: session.user.id,
-          subjectId,
-          topicId,
-          lessonId,
-        },
-      },
-      create: {
-        studentId: session.user.id,
-        subjectId,
-        topicId,
-        lessonId,
-        status: "IN_PROGRESS",
-        completionPercent: progress?.completionPercent ?? 0,
-        checkpointData: { ...checkpoint, practice: practiceRecords },
-      },
-      update: {
-        status: "IN_PROGRESS",
-        checkpointData: { ...checkpoint, practice: practiceRecords },
-        lastAccessedAt: new Date(),
-      },
-    });
-  }
-
-  const wrong = attempt.responses.filter((r) => r.isCorrect === false);
+  const {
+    topicTitle,
+    passMarkPercent,
+    percentage,
+    passed,
+    bestMastery,
+    masteryLevel,
+    score,
+    totalMarks,
+    completedAt,
+    nextRevisionAt,
+    missed,
+  } = outcome.result;
 
   const practiceHref = `${topicHref}/practice`;
 
@@ -234,8 +112,8 @@ export default async function TopicPracticeResultPage({
           </h1>
           <p className="mt-1.5 max-w-xl text-sm leading-relaxed text-muted">
             {passed
-              ? `You cleared the ${lesson.passMarkPercent}% pass mark for ${topic.title}. Your mastery is locked in at ${bestMastery}% (${MASTERY_LABEL[masteryLevel]}).`
-              : `You scored ${Math.round(percentage)}% against a ${lesson.passMarkPercent}% pass mark. The questions you missed are listed below — revisit those cards, then retry.`}
+              ? `You cleared the ${passMarkPercent}% pass mark for ${topicTitle}. Your mastery is locked in at ${bestMastery}% (${MASTERY_LABEL[masteryLevel]}).`
+              : `You scored ${Math.round(percentage)}% against a ${passMarkPercent}% pass mark. The questions you missed are listed below — revisit those cards, then retry.`}
           </p>
 
           <div className="mt-6 flex flex-wrap items-end justify-between gap-4">
@@ -249,8 +127,8 @@ export default async function TopicPracticeResultPage({
                 {Math.round(percentage)}%
               </p>
               <p className="mt-0.5 text-xs font-medium text-muted">
-                {attempt.score}/{attempt.totalMarks} correct · pass mark{" "}
-                {lesson.passMarkPercent}%
+                {score}/{totalMarks} correct · pass mark{" "}
+                {passMarkPercent}%
               </p>
             </div>
             {passed && (
@@ -261,10 +139,10 @@ export default async function TopicPracticeResultPage({
                 </Badge>
                 <span className="text-xs font-medium text-muted">
                   Next revision scheduled for{" "}
-                  {nextRevisionDate(new Date(), lesson.revisionDays).toLocaleDateString(
-                    "en-GB",
-                    { day: "numeric", month: "short" },
-                  )}
+                  {new Date(nextRevisionAt).toLocaleDateString("en-GB", {
+                    day: "numeric",
+                    month: "short",
+                  })}
                 </span>
               </div>
             )}
@@ -272,7 +150,7 @@ export default async function TopicPracticeResultPage({
 
           <PracticeResultActions
             passed={passed}
-            completedAt={attempt.completedAt}
+            completedAt={completedAt}
             practiceHref={practiceHref}
             lessonHref={studyHref}
             topicHref={topicHref}
@@ -283,7 +161,7 @@ export default async function TopicPracticeResultPage({
       </div>
 
       {/* Remediation on fail */}
-      {!passed && wrong.length > 0 && (
+      {!passed && missed.length > 0 && (
         <div className="card p-6">
           <div className="mb-5 flex items-center gap-2.5">
             <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-danger-soft text-danger">
@@ -294,17 +172,16 @@ export default async function TopicPracticeResultPage({
                 Review your misses
               </h2>
               <p className="text-xs text-muted">
-                {wrong.length} question{wrong.length === 1 ? "" : "s"} to fix
+                {missed.length} question{missed.length === 1 ? "" : "s"} to fix
                 before the next attempt.
               </p>
             </div>
           </div>
 
           <div className="space-y-3">
-            {wrong.map((r, i) => {
-              const q = r.question;
+            {missed.map((q, i) => {
               return (
-                <div key={r.id} className="overflow-hidden rounded-xl border border-danger/25">
+                <div key={q.id} className="overflow-hidden rounded-xl border border-danger/25">
                   <div className="flex items-start gap-3 bg-danger-soft/40 p-4">
                     <span className="mt-0.5 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-danger text-white">
                       <LuX className="h-3.5 w-3.5" />

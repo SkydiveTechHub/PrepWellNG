@@ -1,4 +1,4 @@
-import { db } from "@/lib/db";
+import { getLessonUploadSubjects } from "@/lib/admin-data";
 import { PageHeader } from "@/components/ui/page-header";
 import { LessonUploadForm } from "@/components/admin/lesson-upload-form";
 
@@ -11,23 +11,7 @@ export default async function AdminLessonUploadPage({
 }) {
   const { topicId } = await searchParams;
 
-  const subjects = await db.subject.findMany({
-    orderBy: { name: "asc" },
-    select: {
-      id: true,
-      name: true,
-      slug: true,
-      topics: {
-        orderBy: { orderIndex: "asc" },
-        select: {
-          id: true,
-          title: true,
-          slug: true,
-          curriculumLevel: { select: { classLevel: true, term: true } },
-        },
-      },
-    },
-  });
+  const subjects = await getLessonUploadSubjects();
 
   return (
     <div>

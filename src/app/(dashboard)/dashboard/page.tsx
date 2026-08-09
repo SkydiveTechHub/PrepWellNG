@@ -17,82 +17,14 @@ import {
   LuRotateCcw,
 } from "react-icons/lu";
 import { auth } from "@/lib/auth";
-import { db } from "@/lib/db";
+import { getDashboardData } from "@/lib/dashboard";
 import { Greeting } from "@/components/ui/greeting";
 import { Progress } from "@/components/ui/progress";
 import { EmptyState } from "@/components/ui/empty-state";
 import { cn } from "@/lib/utils";
-import { computePathState, loadStudentSubjectIds } from "@/lib/learning-path";
-import { recommendNext, type NextTopicRecommendation } from "@/engines/learning/recommend";
-import { gapQueue, type TopicGap } from "@/engines/learning/gaps";
-import {
-  loadRevisionExtras,
-  revisionItemToRecommendation,
-  revisionQueue,
-  type RevisionQueueItem,
-} from "@/engines/learning/revision";
 import { NextTopics } from "@/components/path/next-topics";
 import { GapList } from "@/components/path/gap-list";
 import { RevisionQueue } from "@/components/path/revision-queue";
-
-async function getDashboardStats(userId: string) {
-  const [
-    totalResponses,
-    correctResponses,
-    distinctTopics,
-    recentAttempts,
-    lastWeekActivity,
-    completedLessons,
-    reviewCount,
-    activePlanCount,
-  ] = await db.$transaction([
-    db.questionResponse.count({
-      where: { attempt: { studentId: userId } },
-    }),
-    db.questionResponse.count({
-      where: { attempt: { studentId: userId }, isCorrect: true },
-    }),
-    db.questionResponse.findMany({
-      where: { attempt: { studentId: userId }, question: { topicId: { not: null } } },
-      select: { question: { select: { topicId: true } } },
-      distinct: ["questionId"],
-    }),
-    db.assessmentAttempt.findMany({
-      where: { studentId: userId, status: "COMPLETED" },
-      orderBy: { completedAt: "desc" },
-      take: 5,
-      select: { id: true, percentage: true, completedAt: true, assessment: { select: { title: true } } },
-    }),
-    db.assessmentAttempt.count({
-      where: {
-        studentId: userId,
-        status: "COMPLETED",
-        completedAt: { gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) },
-      },
-    }),
-    db.studentProgress.count({
-      where: { studentId: userId, status: "COMPLETED", lessonId: { not: null } },
-    }),
-    db.flashcardReview.count({ where: { studentId: userId } }),
-    // Counted rather than fetched: the hero only needs to know whether a plan
-    // exists, and it rides along in the transaction already being run.
-    db.studyPlan.count({ where: { studentId: userId, isActive: true } }),
-  ]);
-
-  const topicCount = new Set(distinctTopics.map((r) => r.question.topicId).filter(Boolean)).size;
-  const accuracy = totalResponses > 0 ? Math.round((correctResponses / totalResponses) * 100) : null;
-
-  return {
-    totalResponses,
-    accuracy,
-    topicCount,
-    recentAttempts,
-    lastWeekActivity,
-    completedLessons,
-    reviewCount,
-    hasStudyPlan: activePlanCount > 0,
-  };
-}
 
 const STAT_CARDS = [
   {
@@ -177,63 +109,30 @@ export default async function DashboardPage() {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
 
-  const stats = await getDashboardStats(session.user.id);
+  const {
+    totalResponses,
+    accuracy,
+    topicCount,
+    lastWeekActivity,
+    // "Next for you" and "Revise today" stay hidden until the student has
+    // engaged somewhere — see getDashboardData for what counts as activity.
+    hasActivity,
+    hasStudyPlan,
+    bestScore,
+    recentAttempts,
+    subjects,
+    learningPicks,
+    gaps,
+    revision,
+  } = await getDashboardData(session.user.id);
+
   const firstName = session.user.name?.split(" ")[0];
 
-  // "Next for you" and "Revise today" only make sense once the student has
-  // engaged somewhere — a quiz, a completed lesson, a flashcard review. For
-  // brand-new users with no activity, hide those sections and skip the heavy
-  // learning-path derivation entirely.
-  const hasActivity =
-    stats.totalResponses > 0 ||
-    stats.completedLessons > 0 ||
-    stats.reviewCount > 0;
-
-  const hasStudyPlan = stats.hasStudyPlan;
-
-  const subjects: Record<string, { slug: string; name: string; code: string }> = {};
-  let learningPicks: NextTopicRecommendation[] = [];
-  let gaps: TopicGap[] = [];
-  let revision: RevisionQueueItem[] = [];
-
-  if (hasActivity) {
-    // Learning Path Engine — next-topic recommendations and learning gaps,
-    // derived on read from the student's live progress across their subjects.
-    const subjectIds = await loadStudentSubjectIds(db, session.user.id);
-    const subjectRows = await db.subject.findMany({
-      where: { id: { in: subjectIds } },
-      select: { id: true, slug: true, name: true, code: true },
-    });
-    for (const row of subjectRows) subjects[row.id] = row;
-
-    const { state, graph, pretestPassed } = await computePathState(
-      db,
-      session.user.id,
-      subjectIds,
-    );
-    const now = new Date();
-    const revisionExtras = await loadRevisionExtras(db, session.user.id, graph, now);
-    revision = revisionQueue(state, graph, revisionExtras, { now, k: 6 });
-
-    // Algorithm C's consolidation fallback: when nothing is available to learn,
-    // the "Keep learning" rail hands off to the merged revision queue.
-    const nextTopics = recommendNext(state, graph, { k: 3, pretestPassed });
-    learningPicks =
-      nextTopics.length > 0
-        ? nextTopics
-        : revision.slice(0, 3).map(revisionItemToRecommendation);
-    gaps = gapQueue(state, graph, pretestPassed);
-  }
-
-  const bestScore = stats.recentAttempts.length
-    ? Math.max(...stats.recentAttempts.map((a) => a.percentage ?? 0))
-    : null;
-
   const statValues: Record<string, string> = {
-    questions: stats.totalResponses.toString(),
-    topics: stats.topicCount.toString(),
-    accuracy: stats.accuracy !== null ? `${stats.accuracy}%` : "—",
-    week: `${stats.lastWeekActivity} attempt${stats.lastWeekActivity === 1 ? "" : "s"}`,
+    questions: totalResponses.toString(),
+    topics: topicCount.toString(),
+    accuracy: accuracy !== null ? `${accuracy}%` : "—",
+    week: `${lastWeekActivity} attempt${lastWeekActivity === 1 ? "" : "s"}`,
   };
 
   return (
@@ -275,7 +174,7 @@ export default async function DashboardPage() {
 
           {hasActivity && bestScore !== null && (
             <div className="rounded-2xl bg-white/10 px-6 py-4 text-center backdrop-blur">
-              <p className="text-3xl font-bold text-white">{bestScore}%</p>
+              <p className="text-3xl font-bold text-white">{bestScore.toFixed(1)}%</p>
               <p className="mt-0.5 text-xs font-medium text-hero-ink">
                 Best recent score
               </p>
@@ -288,9 +187,9 @@ export default async function DashboardPage() {
       <section>
         <div className="mb-3 flex items-center justify-between">
           <h2 className="section-label">Your progress</h2>
-          {hasActivity && stats.accuracy !== null && (
+          {hasActivity && accuracy !== null && (
             <span className="text-xs font-semibold text-muted">
-              {stats.totalResponses} questions answered
+              {totalResponses} questions answered
             </span>
           )}
         </div>
@@ -314,8 +213,8 @@ export default async function DashboardPage() {
               <p className="mt-0.5 text-xs font-medium text-muted">
                 {stat.label}
               </p>
-              {stat.key === "accuracy" && stats.accuracy !== null && (
-                <Progress value={stats.accuracy} className="mt-3 h-1.5" tone="auto" />
+              {stat.key === "accuracy" && accuracy !== null && (
+                <Progress value={accuracy} className="mt-3 h-1.5" tone="auto" />
               )}
             </div>
           ))}
@@ -442,7 +341,7 @@ export default async function DashboardPage() {
       <section>
         <div className="mb-3 flex items-center justify-between">
           <h2 className="section-label">Recent activity</h2>
-          {stats.recentAttempts.length > 0 && (
+          {recentAttempts.length > 0 && (
             <Link
               href="/performance"
               className="text-xs font-bold text-primary hover:underline"
@@ -451,9 +350,9 @@ export default async function DashboardPage() {
             </Link>
           )}
         </div>
-        {stats.recentAttempts.length > 0 ? (
+        {recentAttempts.length > 0 ? (
           <div className="space-y-3">
-            {stats.recentAttempts.map((attempt) => (
+            {recentAttempts.map((attempt) => (
               <Link
                 key={attempt.id}
                 href={`/practice/results/${attempt.id}`}
@@ -461,7 +360,7 @@ export default async function DashboardPage() {
               >
                 <div className="min-w-0">
                   <p className="truncate text-sm font-semibold text-foreground">
-                    {attempt.assessment.title}
+                    {attempt.title}
                   </p>
                   <p className="mt-0.5 text-xs text-muted">
                     {attempt.completedAt

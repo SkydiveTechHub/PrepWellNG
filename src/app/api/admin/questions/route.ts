@@ -1,13 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Prisma } from "@prisma/client";
-import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/admin-guard";
 import { recordAudit } from "@/lib/admin-audit";
 import {
   adminQuestionCreateSchema,
   adminQuestionDeleteSchema,
 } from "@/lib/validators";
-import { checkTopicOwnership, normalizeOptions } from "@/lib/admin-question";
+import {
+  createAdminQuestion,
+  deleteAdminQuestions,
+  listAdminQuestions,
+} from "@/lib/admin-question-data";
 import { revalidateTag } from "next/cache";
 import { CATALOGUE_TAG } from "@/lib/catalogue";
 
@@ -21,50 +23,24 @@ export async function GET(req: NextRequest) {
 
     const { searchParams } = new URL(req.url);
     const page = Math.max(1, parseInt(searchParams.get("page") || "1"));
-    const pageSize = Math.min(100, Math.max(1, parseInt(searchParams.get("pageSize") || "20")));
-    const subjectId = searchParams.get("subjectId");
-    const examType = searchParams.get("examType");
-    const examYear = searchParams.get("examYear");
-    const difficulty = searchParams.get("difficulty");
-    const search = searchParams.get("search");
+    const pageSize = Math.min(
+      100,
+      Math.max(1, parseInt(searchParams.get("pageSize") || "20")),
+    );
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const where: Record<string, any> = {};
-    if (subjectId) where.subjectId = subjectId;
-    if (examType) where.examType = examType;
-    if (examYear) where.examYear = parseInt(examYear);
-    if (difficulty) where.difficulty = difficulty;
-    if (search) {
-      where.questionText = { contains: search, mode: "insensitive" };
-    }
-
-    const [questions, total] = await Promise.all([
-      db.question.findMany({
-        where,
-        include: {
-          subject: { select: { name: true, code: true } },
-          topic: { select: { title: true, slug: true } },
+    return NextResponse.json(
+      await listAdminQuestions(
+        {
+          subjectId: searchParams.get("subjectId"),
+          examType: searchParams.get("examType"),
+          examYear: searchParams.get("examYear"),
+          difficulty: searchParams.get("difficulty"),
+          search: searchParams.get("search"),
         },
-        orderBy: [
-          { examType: "asc" },
-          { examYear: "desc" },
-          { questionNumber: "asc" },
-        ],
-        skip: (page - 1) * pageSize,
-        take: pageSize,
-      }),
-      db.question.count({ where }),
-    ]);
-
-    return NextResponse.json({
-      questions,
-      pagination: {
         page,
         pageSize,
-        total,
-        totalPages: Math.ceil(total / pageSize),
-      },
-    });
+      ),
+    );
   } catch (error) {
     console.error("Error listing questions:", error);
     return NextResponse.json(
@@ -89,70 +65,29 @@ export async function POST(req: NextRequest) {
     }
     const input = parsed.data;
 
-    const subject = await db.subject.findUnique({
-      where: { id: input.subjectId },
-      select: { id: true, code: true },
-    });
-    if (!subject) {
+    const result = await createAdminQuestion(input);
+
+    if (result.outcome === "unknown-subject") {
       return NextResponse.json({ error: "Unknown subject" }, { status: 400 });
     }
-
-    // The topic must hang off the chosen subject — the FK alone permits any
-    // topic in the database.
-    const topic = input.topicId
-      ? await db.topic.findUnique({
-          where: { id: input.topicId },
-          select: { id: true, subjectId: true },
-        })
-      : null;
-    const ownership = checkTopicOwnership({
-      topicRef: input.topicId ?? null,
-      topicSubjectId: topic?.subjectId ?? null,
-      subjectId: input.subjectId,
-    });
-    if (ownership) {
+    if (result.outcome === "bad-topic") {
       return NextResponse.json(
-        { error: ownership.message, field: ownership.field },
+        { error: result.ownership.message, field: result.ownership.field },
         { status: 400 },
       );
     }
-
-    const { options } = normalizeOptions(input.options);
-
-    const created = await db.question.create({
-      data: {
-        subjectId: input.subjectId,
-        topicId: input.topicId ?? null,
-        examType: input.examType,
-        examYear: input.examYear ?? null,
-        questionNumber: input.questionNumber ?? null,
-        questionText: input.questionText,
-        questionImageUrl: input.questionImageUrl ?? null,
-        questionType: input.questionType,
-        // A bare null is a type error on a nullable Json column; Prisma needs
-        // the DbNull sentinel (same reason as import/route.ts:139).
-        options: options ?? Prisma.DbNull,
-        correctAnswer: input.correctAnswer.trim().toUpperCase(),
-        explanation: input.explanation,
-        explanationImageUrl: input.explanationImageUrl ?? null,
-        difficulty: input.difficulty,
-        marks: input.marks,
-        timeEstimateSeconds: input.timeEstimateSeconds,
-      },
-      select: { id: true },
-    });
 
     await recordAudit({
       actorId: guard.actor.id,
       action: "question.create",
       entity: "Question",
-      entityId: created.id,
-      summary: `Created ${subject.code} ${input.examType} question`,
+      entityId: result.id,
+      summary: `Created ${result.subjectCode} ${input.examType} question`,
     });
 
     revalidateTag(CATALOGUE_TAG, "max");
 
-    return NextResponse.json({ id: created.id }, { status: 201 });
+    return NextResponse.json({ id: result.id }, { status: 201 });
   } catch (error) {
     console.error("Error creating question:", error);
     return NextResponse.json({ error: "Failed to create question" }, { status: 500 });
@@ -187,68 +122,22 @@ export async function DELETE(req: NextRequest) {
       ids = parsed.data.ids;
     }
 
-    // Resolve which requested ids genuinely exist BEFORE partitioning. An id
-    // that doesn't exist at all produces zero rows in both dependent
-    // groupBys below, which is indistinguishable from "exists with no
-    // dependents" unless existence is checked separately — without this, a
-    // non-existent id would silently land in `deletable`, match nothing in
-    // `deleteMany`, and still be reported as deleted.
-    const existing = await db.question.findMany({
-      where: { id: { in: ids } },
-      select: { id: true },
-    });
-    const existingIds = new Set(existing.map((q) => q.id));
-    const notFound = ids.filter((id) => !existingIds.has(id));
-    const existingRequestedIds = ids.filter((id) => existingIds.has(id));
+    const { deleted, refused, notFound } = await deleteAdminQuestions(ids);
 
-    // Count dependents in two grouped queries rather than one per id.
-    const [responses, assessments] = await Promise.all([
-      db.questionResponse.groupBy({
-        by: ["questionId"],
-        where: { questionId: { in: existingRequestedIds } },
-        _count: { questionId: true },
-      }),
-      db.assessmentQuestion.groupBy({
-        by: ["questionId"],
-        where: { questionId: { in: existingRequestedIds } },
-        _count: { questionId: true },
-      }),
-    ]);
-
-    const responseCounts = new Map(
-      responses.map((r) => [r.questionId, r._count.questionId]),
-    );
-    const assessmentCounts = new Map(
-      assessments.map((r) => [r.questionId, r._count.questionId]),
-    );
-
-    const refused = existingRequestedIds
-      .map((id) => ({
-        id,
-        responseCount: responseCounts.get(id) ?? 0,
-        assessmentCount: assessmentCounts.get(id) ?? 0,
-      }))
-      .filter((row) => row.responseCount > 0 || row.assessmentCount > 0);
-
-    const refusedIds = new Set(refused.map((r) => r.id));
-    const deletable = existingRequestedIds.filter((id) => !refusedIds.has(id));
-
-    if (deletable.length > 0) {
-      await db.question.deleteMany({ where: { id: { in: deletable } } });
-
+    if (deleted.length > 0) {
       await recordAudit({
         actorId: guard.actor.id,
         action: "question.delete",
         entity: "Question",
-        entityId: deletable.length === 1 ? deletable[0] : null,
-        summary: `Deleted ${deletable.length} question(s); refused ${refused.length} with dependents; ${notFound.length} not found`,
+        entityId: deleted.length === 1 ? deleted[0] : null,
+        summary: `Deleted ${deleted.length} question(s); refused ${refused.length} with dependents; ${notFound.length} not found`,
       });
 
       // The subject catalogue caches per-subject question counts.
       revalidateTag(CATALOGUE_TAG, "max");
     }
 
-    return NextResponse.json({ deleted: deletable, refused, notFound });
+    return NextResponse.json({ deleted, refused, notFound });
   } catch (error) {
     console.error("Error deleting questions:", error);
     return NextResponse.json(
