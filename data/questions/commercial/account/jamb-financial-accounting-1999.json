@@ -1,0 +1,686 @@
+[
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "introduction-to-accounting",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 1,
+    "questionText": "The accrual concept stipulates that",
+    "options": {
+      "A": "revenue should be recognized when it is earned",
+      "B": "costs should be recognized when the expenditure is paid",
+      "C": "revenue should be recognized only when cash is paid",
+      "D": "costs should be recognized when the goods are sold"
+    },
+    "correctAnswer": "A",
+    "explanation": "Under the accruals basis income is taken into account in the period in which it is earned, and expenses in the period in which they are incurred, regardless of when cash actually moves.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "introduction-to-accounting",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 2,
+    "questionText": "The basic role of accounting is to",
+    "options": {
+      "A": "detect fraud",
+      "B": "attest to financial statements",
+      "C": "measure performance",
+      "D": "protect shareholders"
+    },
+    "correctAnswer": "C",
+    "explanation": "Accounting exists to record and report how a business has fared, so that its performance and position can be judged. Detecting fraud and attesting to statements are functions of auditing.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "books-of-accounts",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 5,
+    "questionText": "When a proprietor withdraws cash from the business for private use, he",
+    "options": {
+      "A": "debits cash account and credits drawings account",
+      "B": "credits cash account and debits its bank account",
+      "C": "debits bank account and credits drawings account",
+      "D": "credits cash account and debits drawings account"
+    },
+    "correctAnswer": "D",
+    "explanation": "Cash leaves the business, so cash is credited, and the amount taken by the owner is charged to drawings, which is debited. Drawings are later set against capital.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "introduction-to-accounting",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 6,
+    "questionText": "A basic unifying concept in accounting implies that",
+    "options": {
+      "A": "where the creditors' account is zero, the assets are equal to the owner's equity",
+      "B": "there should be a balance in the creditors' account in order to measure total assets",
+      "C": "revenues should be supported by invested and owner's capital",
+      "D": "total assets can be less than liabilities and equity"
+    },
+    "correctAnswer": "A",
+    "explanation": "The accounting equation states that assets equal liabilities plus capital. With no liabilities the equation reduces to assets equalling the owner's equity.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "source-documents",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 7,
+    "questionText": "A source document for the sales day book is",
+    "options": {
+      "A": "requisition form",
+      "B": "an invoice",
+      "C": "a customer advice",
+      "D": "a credit advice"
+    },
+    "correctAnswer": "B",
+    "explanation": "The sales day book lists credit sales, and each entry is written up from the copy of the sales invoice sent to the customer.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "bank-reconciliation",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 10,
+    "questionText": "Which of the following bank reconciliation items should not be added to or subtracted from the bank statement balance to determine the adjusted cash balance?",
+    "options": {
+      "A": "Outstanding cheques",
+      "B": "Bank service charges",
+      "C": "Deposits in the mail not yet received by the bank",
+      "D": "Bank error, charging a company for another company's cheques"
+    },
+    "correctAnswer": "B",
+    "explanation": "Service charges are known to the bank but not yet to the business, so they adjust the cash book side of the reconciliation. The other three are items the bank has yet to reflect and so adjust the statement side.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "books-of-accounts",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 11,
+    "questionText": "The fixed amount of money given to a petty cashier at the beginning of a period is called",
+    "options": {
+      "A": "imprest",
+      "B": "petty cash",
+      "C": "float",
+      "D": "cash advance"
+    },
+    "correctAnswer": "C",
+    "explanation": "The sum advanced at the start of each period is the float, which is restored to the same figure at every reimbursement. Imprest is the name of the system that works this way.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "adjustments",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 12,
+    "questionText": "A provision for bad debts account had ₦3,800 at the beginning of the year and ₦4,220 at the close of the year. If bad debts are calculated at the rate of 1/20% of annual credit sales, what was the credit sales for the period?",
+    "options": {
+      "A": "₦210,000",
+      "B": "₦844,400",
+      "C": "₦840,000",
+      "D": "₦500,000"
+    },
+    "correctAnswer": "C",
+    "explanation": "The charge for the year is the increase in the provision: 4,220 − 3,800 = ₦420. Since that represents 1/20 of one per cent, or 0.05%, of credit sales, sales are 420 ÷ 0.0005 = ₦840,000.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "depreciation",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 13,
+    "questionText": "Asa Company bought a vehicle worth ₦20,000 and the vehicle is to be depreciated at 5% using the reducing balance method. What would be the value of the asset after 3 years?",
+    "options": {
+      "A": "₦19,000.00",
+      "B": "₦18,050.50",
+      "C": "₦17,147.50",
+      "D": "₦16,290.13"
+    },
+    "correctAnswer": "C",
+    "explanation": "Each year the asset retains 95% of its opening value: 20,000 × 0.95 = 19,000, then 19,000 × 0.95 = 18,050, then 18,050 × 0.95 = ₦17,147.50.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 16,
+    "questionText": "Chibuike bought 36 notebooks at ₦10 each from John and was given a trade discount of 5%. In addition, he was offered a 1% cash discount which he took advantage of. How much did Chibuike pay?",
+    "options": {
+      "A": "₦338.58",
+      "B": "₦342.00",
+      "C": "₦345.42",
+      "D": "₦360.00"
+    },
+    "correctAnswer": "A",
+    "explanation": "The list price is 36 × ₦10 = ₦360. Trade discount of 5% brings it to ₦342, and the 1% cash discount reduces that by ₦3.42, leaving ₦338.58.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "depreciation",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 17,
+    "questionText": "Depreciation on a particular piece of machinery was ₦2,700 during the fifth year of its service life and ₦4,050 during the sixth year. The logical explanation for this is that",
+    "options": {
+      "A": "an addition was made to the asset during the sixth year",
+      "B": "the estimate of salvage value on this equipment was decreased at the beginning of the fifth year",
+      "C": "a unit-of-output method of depreciation was used during the sixth year",
+      "D": "the estimated remaining service life of the asset was increased at the beginning of the sixth year"
+    },
+    "correctAnswer": "A",
+    "explanation": "A rising annual charge points to a larger depreciable base, which happens when further capital expenditure is added to the asset. Lengthening the remaining life would have reduced the charge, not raised it.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 18,
+    "questionText": "The main features of the single entry system are that",
+    "options": {
+      "A": "books of accounts are not maintained and the business relies only on bank statements",
+      "B": "the journal records are absent and only the main ledger is kept",
+      "C": "there are incomplete classifications and recording procedures",
+      "D": "only credit sales transactions and credit purchases are recorded"
+    },
+    "correctAnswer": "C",
+    "explanation": "Single entry is characterised by records that are partial and unsystematic — some transactions entered once, some not at all — so the double entry is never complete.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "control-accounts",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 19,
+    "questionText": "The principal function of a sales ledger control account is to",
+    "options": {
+      "A": "serve as an internal check and provide quick information for the preparation of interim financial statements",
+      "B": "serve as an external check and provide quick information for the preparation of interim financial statements",
+      "C": "provide quick information for the preparation of customers' statements",
+      "D": "provide information for the control of salesmen's activities"
+    },
+    "correctAnswer": "A",
+    "explanation": "The control account is compiled independently of the personal accounts, so it checks their accuracy from within the business and yields a total debtors figure at once when interim accounts are needed.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 20,
+    "questionText": "In dealing with incomplete records, fixed assets are posted to the",
+    "options": {
+      "A": "opening profit and loss as brought forward figures",
+      "B": "closing balance sheet as carried forward figures",
+      "C": "closing balance sheet as brought forward figures",
+      "D": "closing profit and loss as brought forward figures"
+    },
+    "correctAnswer": "B",
+    "explanation": "Fixed assets are not consumed in the year, so they are not taken to the profit and loss account. They are carried forward and shown in the closing balance sheet at their written-down value.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "control-accounts",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 21,
+    "questionText": "Study the information below.\n\n| Item | ₦ |\n| --- | --- |\n| Feb 1 Credit balances | 40,000 |\n| Feb 1 Debit balances | 1,000 |\n| Feb 28 Purchases journal totals | 500,000 |\n| Returns outwards journal total | 50,000 |\n| Cheques paid to suppliers | 400,000 |\n| Promissory notes sent to suppliers | 30,000 |\n| Discount received from suppliers | 8,000 |\n| Credit balances in the purchases ledger set off against debit balances in the sales ledger | 2,000 |\n\nThe total for the purchases ledger control account is",
+    "options": {
+      "A": "₦480,000",
+      "B": "₦490,000",
+      "C": "₦500,000",
+      "D": "₦540,000"
+    },
+    "correctAnswer": "D",
+    "explanation": "The credit side records what the business has come to owe: the opening credit balances of ₦40,000 plus credit purchases of ₦500,000, giving a total of ₦540,000 against which all the settlements are set.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "control-accounts",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 23,
+    "questionText": "Given:\n\n| Item | ₦ |\n| --- | --- |\n| Total cash received from debtors | 30,000 |\n| Total purchases for the period | 21,000 |\n| Amount owed by debtors at the beginning of the period | 4,000 |\n| Equipment bought | 2,500 |\n| Amount owed by debtors at the end of the period | 3,000 |\n\nDetermine the value of sales for the period.",
+    "options": {
+      "A": "₦29,000",
+      "B": "₦31,500",
+      "C": "₦46,500",
+      "D": "₦50,000"
+    },
+    "correctAnswer": "A",
+    "explanation": "Sales are receipts plus closing debtors less opening debtors: 30,000 + 3,000 − 4,000 = ₦29,000. Purchases and equipment have no place in this calculation.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "manufacturing-accounts",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 24,
+    "questionText": "When the factory cost of production has been ascertained, manufactured goods are transferred to the trading account by",
+    "options": {
+      "A": "debiting manufacturing account and crediting trading account",
+      "B": "crediting sales account and debiting trading account",
+      "C": "debiting sales account and crediting trading account",
+      "D": "crediting manufacturing account and debiting trading account"
+    },
+    "correctAnswer": "D",
+    "explanation": "The manufacturing account is closed by transferring the cost of production out of it, so it is credited, and the trading account receives that cost as its opening charge and is debited.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "manufacturing-accounts",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 25,
+    "questionText": "Lawal and Co. makes blocks and sells to builders. In computing prime cost, which of the following costs would be considered appropriate?",
+    "options": {
+      "A": "Cement, sand and carriage outwards",
+      "B": "Water, carriage inwards and cement",
+      "C": "Sales boys' wages, cement and sand",
+      "D": "Carriage outwards, carriage inwards and cement"
+    },
+    "correctAnswer": "B",
+    "explanation": "Prime cost takes in only direct costs. Water and cement are direct materials and carriage inwards is part of the cost of bringing them in, whereas carriage outwards and sales wages are selling and distribution expenses.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "manufacturing-accounts",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 26,
+    "questionText": "Manufacturing costs can be classified based on",
+    "options": {
+      "A": "timing of charges, degree of averaging and ease of traceability",
+      "B": "degree of averaging, carriage inwards and cement",
+      "C": "degree of averaging and size of capital",
+      "D": "number employed, timing of charges and size of capital"
+    },
+    "correctAnswer": "A",
+    "explanation": "Costs are grouped by when they are charged against revenue, by whether they are averaged over units, and by how readily they can be traced to a product — which is the direct and indirect distinction.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 28,
+    "questionText": "The receipts and payments account of a non-profit making organisation is principally a summary of",
+    "options": {
+      "A": "bank entries",
+      "B": "cash book entries",
+      "C": "expenditure entries",
+      "D": "balance sheet entries"
+    },
+    "correctAnswer": "B",
+    "explanation": "It simply collects together all the money received and paid during the year, which is precisely what the cash book records.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 30,
+    "questionText": "A credit balance on a receipts and payments account indicates that the non-profit making organisation",
+    "options": {
+      "A": "had more revenues than expenses during the period",
+      "B": "did not owe much liabilities during the period",
+      "C": "received more cash than it paid out during the period",
+      "D": "made more cash payments than it received during the period"
+    },
+    "correctAnswer": "D",
+    "explanation": "The account deals in cash alone, so a credit balance means payments exceeded receipts — the position of a bank overdraft. It says nothing about revenues and expenses, which belong to the income and expenditure account.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "partnership-accounts",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 31,
+    "questionText": "Goodwill can be valued in a partnership when",
+    "options": {
+      "A": "partners make profits",
+      "B": "large losses are made",
+      "C": "a partner retires",
+      "D": "a new branch is opened"
+    },
+    "correctAnswer": "C",
+    "explanation": "Goodwill is brought into account when the membership of the firm changes, so that the outgoing partner receives his share of it. Admission, retirement or death all occasion a valuation.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "partnership-accounts",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 32,
+    "questionText": "As part of the initial investment, a partner contributes office equipment that originally cost ₦20,000 and on which provision for depreciation of ₦12,500 had been recorded. If the partners agree on a valuation of ₦9,000 for the equipment, what amount should be debited to the office equipment account?",
+    "options": {
+      "A": "₦7,500",
+      "B": "₦9,000",
+      "C": "₦12,500",
+      "D": "₦20,000"
+    },
+    "correctAnswer": "B",
+    "explanation": "The new firm records the asset at the value the partners have agreed, which is ₦9,000. The partner's old cost and accumulated depreciation belong to his previous books and are not carried over.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "partnership-accounts",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 33,
+    "questionText": "When a partner makes a drawing of stock items from a partnership, the accounting impact of the drawing is to increase the partner's",
+    "options": {
+      "A": "goodwill account balance",
+      "B": "current account credit balance",
+      "C": "current account debit balance",
+      "D": "profit and loss account credit balance"
+    },
+    "correctAnswer": "C",
+    "explanation": "Goods taken for private use are drawings, which are debited to the partner's current account and so reduce what the firm owes him.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "company-accounts",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 35,
+    "questionText": "Dele and Seun, who are in partnership, have decided to convert their business into a limited liability company where both become directors. To convert the business",
+    "options": {
+      "A": "they will simply continue since there are no new members",
+      "B": "the partnership is formally ended and new company books opened",
+      "C": "the shares and all other items will be shared equally and not in their former ratios",
+      "D": "computation of goodwill must be done as it is legally required"
+    },
+    "correctAnswer": "B",
+    "explanation": "The company is a new legal person distinct from the partnership, so the old firm's books are closed through a realisation account and a fresh set opened for the company.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "company-accounts",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 36,
+    "questionText": "If a sole proprietorship is purchased for cash, then",
+    "options": {
+      "A": "the purchaser debits his business purchase account with the consideration he pays",
+      "B": "all assets and liabilities must be bought",
+      "C": "goodwill results where the value of liabilities taken is higher than the value of assets",
+      "D": "the vendor debits his business purchase account with the consideration he receives"
+    },
+    "correctAnswer": "A",
+    "explanation": "The buyer opens a business purchase account and debits it with the price agreed, crediting the vendor. Goodwill arises where that price exceeds the net assets acquired, not the reverse.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "interpretation-of-accounts",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 37,
+    "questionText": "The market price per ordinary share of a corporation listed on the stock exchange is most closely related to its",
+    "options": {
+      "A": "earnings per share",
+      "B": "redemption price per share",
+      "C": "book value per share",
+      "D": "call price per share"
+    },
+    "correctAnswer": "A",
+    "explanation": "Investors buy a share for the profits it will earn them, so the market price tracks earnings per share. Book value reflects historical cost and often differs widely from what the market will pay.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "company-accounts",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 38,
+    "questionText": "Which of the following events increases a corporation's shareholders' equity?",
+    "options": {
+      "A": "Donation of shares out of the corporation's own stock to the corporation",
+      "B": "The corporation's purchase of treasury stock",
+      "C": "Shares of previously subscribed stock issued to subscribing stockholders",
+      "D": "A municipality's donation of land to the corporation"
+    },
+    "correctAnswer": "D",
+    "explanation": "Land given to the company adds an asset without creating any liability, so equity rises by the value received. Buying treasury stock reduces equity, and issuing shares already subscribed merely moves one equity item to another.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "interpretation-of-accounts",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 39,
+    "questionText": "Zoom Plc Balance Sheet (Extract) as at 31st December 1997\n\n| Item | ₦ | Item | ₦ |\n| --- | --- | --- | --- |\n| Paid-up capital | 200,000 | Fixed assets | 300,000 |\n| Share premium | 15,000 | Investment | 180,000 |\n| Profit & loss a/c | 60,000 | Stock | 28,000 |\n| Creditors | 200,000 | Debtors (net of ₦3,000 provision) | 87,000 |\n| Other current liabilities | 100,000 | Cash | 60,000 |\n| | | Bank | 100,000 |\n\nThe quick ratio is",
+    "options": {
+      "A": "0.82 : 1",
+      "B": "0.91 : 1",
+      "C": "0.95 : 1",
+      "D": "1.53 : 1"
+    },
+    "correctAnswer": "A",
+    "explanation": "Quick assets exclude stock: debtors 87,000 plus cash 60,000 plus bank 100,000 = ₦247,000. Current liabilities are creditors 200,000 plus other current liabilities 100,000 = ₦300,000, so the ratio is 247,000 ÷ 300,000 = 0.82:1.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "interpretation-of-accounts",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 40,
+    "questionText": "Determine the owner's equity.",
+    "options": {
+      "A": "₦200,000",
+      "B": "₦215,000",
+      "C": "₦275,000",
+      "D": "₦755,000"
+    },
+    "correctAnswer": "C",
+    "explanation": "Owner's equity is the paid-up capital of ₦200,000 together with the reserves — share premium ₦15,000 and the profit and loss balance ₦60,000 — giving ₦275,000.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "company-accounts",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 42,
+    "questionText": "Calls in advance are treated in the balance sheet as",
+    "options": {
+      "A": "current asset",
+      "B": "current liability",
+      "C": "fixed assets",
+      "D": "fixed liability"
+    },
+    "correctAnswer": "B",
+    "explanation": "The company has received money for calls not yet made, so it holds funds belonging to the shareholders until the call falls due. That obligation is shown among current liabilities.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "company-accounts",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 43,
+    "questionText": "Shares issued to a vendor in payment of a business purchased would require a debit to",
+    "options": {
+      "A": "cash account and credit to share capital account",
+      "B": "share capital account and credit to vendor's account",
+      "C": "vendor's account and credit to share capital account",
+      "D": "share capital account and credit to cash account"
+    },
+    "correctAnswer": "C",
+    "explanation": "The vendor's claim is discharged, so his account is debited, and the shares issued to him increase the company's capital, which is credited. No cash passes.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 44,
+    "questionText": "The best method of allocating expenses among departments is to",
+    "options": {
+      "A": "allocate expenses to each department in proportion to the sales of that department",
+      "B": "charge against each department those costs which are within its control",
+      "C": "charge expenses against each department in proportion to the purchases of that department",
+      "D": "allocate expenses to each section of the department in relation to the number of people"
+    },
+    "correctAnswer": "B",
+    "explanation": "A department should bear the costs it actually causes and can influence, since arbitrary apportionment by sales or purchases distorts the result and holds managers answerable for what they cannot control.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 45,
+    "questionText": "To record the transfer of stock from one department to another, the correct entry would be to debit",
+    "options": {
+      "A": "goods outwards and credit goods inwards",
+      "B": "merchandise account and credit department stock account",
+      "C": "department transferring and credit department receiving",
+      "D": "department receiving and credit department transferring"
+    },
+    "correctAnswer": "D",
+    "explanation": "The department that takes the goods has received value and is debited, while the one that gives them up is credited. This follows the ordinary rule of debiting the receiver.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 47,
+    "questionText": "Amoga Limited invoiced goods at a cost of ₦10,000 to its Ikeja branch at a margin of 20%. What is the correct entry in the head office books at the point of initial transfer of the goods?",
+    "options": {
+      "A": "Branch stock account would be credited with ₦10,000",
+      "B": "Branch stock account would be debited with ₦12,000",
+      "C": "Goods sent to branch account would be debited with ₦10,800",
+      "D": "Goods sent to branch account would be debited with ₦12,000"
+    },
+    "correctAnswer": "B",
+    "explanation": "The goods are sent out at invoice price, which is cost plus the 20% loading: 10,000 × 1.2 = ₦12,000. Branch stock receives the goods and is therefore debited with that figure.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "public-sector-accounting",
+    "examType": "JAMB",
+    "examYear": 1999,
+    "questionNumber": 50,
+    "questionText": "The conventional sources of public revenue include",
+    "options": {
+      "A": "loans, taxation, foreign reserves and dividends",
+      "B": "interest, royalties, taxation and loans",
+      "C": "crude oil, interest, posted price and taxation",
+      "D": "taxation, deficit budgeting, royalties and loans"
+    },
+    "correctAnswer": "B",
+    "explanation": "Government income comes from taxes, from royalties on natural resources, from interest on its investments and from borrowing. Deficit budgeting is a fiscal stance rather than a source of revenue, and foreign reserves are holdings, not income.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  }
+]

@@ -22,6 +22,8 @@
  *     "questionText": "What is ...?", // Required
  *     "questionType": "OBJECTIVE",    // OBJECTIVE | THEORY | FILL_IN_BLANK
  *     "options": { "A": "...", "B": "...", "C": "...", "D": "..." },
+ *                                     // 4 minimum. JAMB papers before ~2005 ran
+ *                                     // to five choices, so "E" is valid too.
  *     "correctAnswer": "B",           // Required
  *     "explanation": "Because ...",    // Required
  *     "difficulty": "INTERMEDIATE",   // BASIC | INTERMEDIATE | ADVANCED

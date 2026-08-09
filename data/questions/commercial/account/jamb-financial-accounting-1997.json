@@ -1,0 +1,762 @@
+[
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "introduction-to-accounting",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 1,
+    "questionText": "The most important reason for studying accounting is that",
+    "options": {
+      "A": "the information provided by accounting is useful in making decisions",
+      "B": "accounting plays an important role in a society",
+      "C": "the study of accounting leads to a challenging career",
+      "D": "accounting provides gross profit information"
+    },
+    "correctAnswer": "A",
+    "explanation": "Accounting exists to serve decision-making — by owners, managers, lenders and government alike. Everything else it achieves follows from that purpose.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "introduction-to-accounting",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 2,
+    "questionText": "In preparing accounting records, the owners of a business and the business are treated as",
+    "options": {
+      "A": "the same person",
+      "B": "having business relationship",
+      "C": "separate legal entities",
+      "D": "partners"
+    },
+    "correctAnswer": "C",
+    "explanation": "The business entity concept treats the firm as distinct from its proprietor, so that only the firm's own transactions are recorded. This is why money the owner puts in appears as capital, a claim against the business.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "introduction-to-accounting",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 3,
+    "questionText": "Creditors use accounting information for the purpose of",
+    "options": {
+      "A": "planning sales to a company",
+      "B": "controlling a company's affairs",
+      "C": "investing in a company",
+      "D": "assessing a company's liquidity"
+    },
+    "correctAnswer": "D",
+    "explanation": "A creditor's concern is whether he will be paid, so he examines the accounts for evidence that the business can meet its obligations as they fall due.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "source-documents",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 4,
+    "questionText": "The instruments that are generated when firms enter into business transactions with others are called",
+    "options": {
+      "A": "purchases documents",
+      "B": "journals",
+      "C": "source documents",
+      "D": "invoices"
+    },
+    "correctAnswer": "C",
+    "explanation": "Source documents are the original evidence of a transaction — invoices, receipts, credit and debit notes — from which all subsequent book-keeping entries are made.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "source-documents",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 5,
+    "questionText": "The document that is used to acknowledge the acceptance of the return of goods by the seller from the buyer is known as",
+    "options": {
+      "A": "credit note",
+      "B": "debit note",
+      "C": "invoice",
+      "D": "voucher"
+    },
+    "correctAnswer": "A",
+    "explanation": "When goods come back, the seller reduces what the customer owes and issues a credit note as evidence. A debit note works the other way, increasing the amount charged.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "introduction-to-accounting",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 6,
+    "questionText": "The effect of the payment of a liability is that it",
+    "options": {
+      "A": "increases both assets and liabilities",
+      "B": "increases assets and decreases liabilities",
+      "C": "decreases assets and increases liabilities",
+      "D": "decreases both assets and liabilities"
+    },
+    "correctAnswer": "D",
+    "explanation": "Cash leaves the business, reducing assets, and the debt is discharged, reducing liabilities. The accounting equation stays in balance because both sides fall by the same amount.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "books-of-accounts",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 7,
+    "questionText": "Books of original entry are used for",
+    "options": {
+      "A": "recording business transactions",
+      "B": "the adjustment of accounts",
+      "C": "reminding the bookkeeper to post transactions in the ledger",
+      "D": "informing about the state of affairs"
+    },
+    "correctAnswer": "A",
+    "explanation": "Transactions are first written up in the day books and journals from the source documents, before being posted to the ledger. That first record is what gives them the name books of original entry.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "books-of-accounts",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 8,
+    "questionText": "The term posting in accounting refers to",
+    "options": {
+      "A": "recording entries in the journal",
+      "B": "transferring the balances in the ledger to the trial balance",
+      "C": "tracing amounts from the journal to the ledger to find errors",
+      "D": "transferring entries to the ledger from the journal"
+    },
+    "correctAnswer": "D",
+    "explanation": "Posting is the act of carrying entries from the book of original entry into the appropriate ledger accounts, which is where the double entry is completed.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "trial-balance",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 9,
+    "questionText": "Erroneous rearrangement of financial figures, such as writing ₦624 as ₦264, is called",
+    "options": {
+      "A": "transposition",
+      "B": "principle",
+      "C": "commission",
+      "D": "omission"
+    },
+    "correctAnswer": "A",
+    "explanation": "A transposition error reverses the order of digits within a figure. It affects only one side of the books, so it throws the trial balance out — and the difference is always divisible by nine.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "the-ledger",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 10,
+    "questionText": "Bank Account\n\n| Dr | ₦ | Cr | ₦ |\n| --- | --- | --- | --- |\n| Capital | 50,000 | Purchases | 20,000 |\n| Sales | 38,500 | Rent | 2,590 |\n| | | Motor van | 6,500 |\n\nWhat is the balance of the bank account shown above?",
+    "options": {
+      "A": "₦88,500 debit",
+      "B": "₦88,500 credit",
+      "C": "₦59,410 credit",
+      "D": "₦59,410 debit"
+    },
+    "correctAnswer": "D",
+    "explanation": "Debits total 50,000 + 38,500 = ₦88,500 and credits total 20,000 + 2,590 + 6,500 = ₦29,090. The difference of ₦59,410 falls on the debit side, as one expects of a bank account in funds.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "books-of-accounts",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 11,
+    "questionText": "Which of the following demonstrates the imprest system?",
+    "options": {
+      "A": "Float → expenses paid → cash in bank → float",
+      "B": "Float → cash from bank → expenses paid → float",
+      "C": "Float → expenses paid → cash from bank → float",
+      "D": "Float → cash in bank → expenses paid → float"
+    },
+    "correctAnswer": "C",
+    "explanation": "The petty cashier begins with a fixed float, spends from it, and is then reimbursed with exactly what he has spent so that the float is restored to its original amount for the next period.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "bank-reconciliation",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 13,
+    "questionText": "An examination of the cash book on 3rd August 1993 showed a different balance from the bank statement of 31st July 1993, which read ₦722. Uncredited cheques were Bimpe ₦40 and Wale ₦60, while unpresented cheques were Usman ₦20, Kalu ₦32 and Musa ₦70. What is the cash book balance after the reconciliation?",
+    "options": {
+      "A": "₦700",
+      "B": "₦770",
+      "C": "₦800",
+      "D": "₦822"
+    },
+    "correctAnswer": "A",
+    "explanation": "Start from the bank statement figure of ₦722, add the ₦100 of lodgements the bank has not yet credited and deduct the ₦122 of cheques not yet presented: 722 + 100 − 122 = ₦700.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "adjustments",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 14,
+    "questionText": "On 30/05/93 Tolu & Co. paid 2 years' rent of ₦50,000 which was debited to the rent account. At 31/12/93, what portion of that amount was prepaid?",
+    "options": {
+      "A": "₦14,583",
+      "B": "₦25,000",
+      "C": "₦35,417",
+      "D": "₦37,415"
+    },
+    "correctAnswer": "C",
+    "explanation": "The payment covers 24 months at ₦2,083.33 a month. From 30/05/93 to 31/12/93 only seven months have been used, leaving seventeen months unexpired: 17 × 2,083.33 = ₦35,417.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "books-of-accounts",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 16,
+    "questionText": "The receipt of cash from a customer who bought goods with ₦800 list price, 25% trade discount and 2/10, n/30 terms would, if paid within the discount period, amount to",
+    "options": {
+      "A": "₦576",
+      "B": "₦588",
+      "C": "₦600",
+      "D": "₦624"
+    },
+    "correctAnswer": "B",
+    "explanation": "Trade discount of 25% reduces the ₦800 list price to ₦600, which is the figure actually invoiced. Paying within ten days earns a further 2% cash discount, so ₦600 × 0.98 = ₦588 is received.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 17,
+    "questionText": "At the end of a financial period, the trading, profit and loss account of a company showed a profit of ₦120,000. It was however discovered that revenue of ₦12,000 was recorded as expenses while expenses of ₦4,000 had been recorded as revenue. What should be the correct profit for the period?",
+    "options": {
+      "A": "₦104,000",
+      "B": "₦128,000",
+      "C": "₦136,000",
+      "D": "₦144,000"
+    },
+    "correctAnswer": "C",
+    "explanation": "The ₦12,000 must be removed from expenses and added to revenue, which improves profit by ₦24,000. The ₦4,000 must be taken out of revenue and charged as an expense, reducing profit by ₦8,000. So 120,000 + 24,000 − 8,000 = ₦136,000.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 18,
+    "questionText": "Given: Net profit ₦25,000; Cost of sales ₦25,000; Sales ₦85,000. Determine the total expenses.",
+    "options": {
+      "A": "₦45,000",
+      "B": "₦35,000",
+      "C": "₦25,000",
+      "D": "₦15,000"
+    },
+    "correctAnswer": "B",
+    "explanation": "Gross profit is sales less cost of sales: 85,000 − 25,000 = ₦60,000. Expenses are the gap between gross and net profit: 60,000 − 25,000 = ₦35,000.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 19,
+    "questionText": "Given capital ₦13,000; office machinery ₦9,000; creditors ₦900; stock of goods ₦1,550; debtors ₦275; cash at bank ₦5,075 and loan from Jumbo ₦2,000. What is the balance sheet total?",
+    "options": {
+      "A": "₦19,500",
+      "B": "₦18,500",
+      "C": "₦17,900",
+      "D": "₦15,900"
+    },
+    "correctAnswer": "D",
+    "explanation": "Assets are 9,000 + 1,550 + 275 + 5,075 = ₦15,900, and the financing side agrees: capital 13,000 plus creditors 900 plus loan 2,000 = ₦15,900.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "control-accounts",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 22,
+    "questionText": "The principal use of control accounts is to",
+    "options": {
+      "A": "localize errors within the ledgers",
+      "B": "prevent fraud",
+      "C": "increase sales",
+      "D": "record assets and liabilities"
+    },
+    "correctAnswer": "A",
+    "explanation": "A control account proves the arithmetic of a whole ledger in one figure, so when the books disagree the search for the error can be confined to the ledger whose control account fails to agree.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "control-accounts",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 23,
+    "questionText": "In the absence of a sales day book or sales account, the credit for sales can be computed from the",
+    "options": {
+      "A": "creditors control account",
+      "B": "debtors control account",
+      "C": "opening figures of the balance sheet",
+      "D": "closing figures of the balance sheet"
+    },
+    "correctAnswer": "B",
+    "explanation": "Credit sales pass through the debtors control account, so reconstructing that account from opening and closing debtors, receipts and discounts yields the sales figure.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "control-accounts",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 24,
+    "questionText": "Which of the following conditions best represents the net effect of discount allowed on credit sales on the accounts of a business?",
+    "options": {
+      "A": "Decrease in the closing balance of sales ledger control account",
+      "B": "Increase in net profit",
+      "C": "Increase in the value of sales",
+      "D": "Decrease in the value of purchases in the trading account"
+    },
+    "correctAnswer": "A",
+    "explanation": "Discount allowed settles part of a customer's debt without cash, so it is credited to the debtor and reduces the total owed by customers. It is also an expense, which lowers rather than raises net profit.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "control-accounts",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 25,
+    "questionText": "The total of the creditors at the beginning of the year was ₦4,600 and at the end of the year ₦5,250. During the year, ₦26,500 was paid to suppliers and ₦130 was received in discounts from these suppliers. The purchases for the year would be",
+    "options": {
+      "A": "₦26,630",
+      "B": "₦27,038",
+      "C": "₦27,150",
+      "D": "₦27,280"
+    },
+    "correctAnswer": "D",
+    "explanation": "Reconstruct the creditors account: closing 5,250 plus payments 26,500 plus discounts received 130 less opening 4,600 = ₦27,280.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 26,
+    "questionText": "Given: Capital at the beginning ₦20,000; Drawings ₦3,000; Capital at end ₦30,000; New capital introduced ₦8,000. What is the profit for the period?",
+    "options": {
+      "A": "₦4,000",
+      "B": "₦5,000",
+      "C": "₦6,000",
+      "D": "₦8,000"
+    },
+    "correctAnswer": "B",
+    "explanation": "Profit is the increase in capital after allowing for what the owner put in and took out: 30,000 + 3,000 − 20,000 − 8,000 = ₦5,000.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 27,
+    "questionText": "In analyzing incomplete records, which of the following should be investigated?",
+    "options": {
+      "A": "The general ledger",
+      "B": "The purchases daybook and sales day book",
+      "C": "The nature of trading activities and the basis on which goods are sold",
+      "D": "The asset register together with the depreciation schedule"
+    },
+    "correctAnswer": "C",
+    "explanation": "Where proper books have not been kept, those records simply do not exist to be examined. The accountant must instead work from an understanding of how the business trades — its mark-up, its terms of sale — to reconstruct the figures.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 28,
+    "questionText": "Which of the following stock valuation methods is suitable under inflationary conditions?",
+    "options": {
+      "A": "FIFO",
+      "B": "LIFO",
+      "C": "Simple average",
+      "D": "Weighted average"
+    },
+    "correctAnswer": "B",
+    "explanation": "When prices are rising, LIFO charges the most recent and therefore highest costs against sales. This gives a more realistic measure of profit and avoids distributing gains that are merely the result of inflation.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "manufacturing-accounts",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 29,
+    "questionText": "Given:\n\n| Item | ₦ |\n| --- | --- |\n| Direct material | 10,000 |\n| Direct labour | 5,000 |\n| Direct expenses | 2,000 |\n| Factory overhead | 4,000 |\n\nWhat is the prime cost?",
+    "options": {
+      "A": "₦21,000",
+      "B": "₦17,000",
+      "C": "₦15,000",
+      "D": "₦6,000"
+    },
+    "correctAnswer": "B",
+    "explanation": "Prime cost is the total of the direct costs only: 10,000 + 5,000 + 2,000 = ₦17,000. Factory overhead is indirect and is added later to arrive at production cost.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "manufacturing-accounts",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 30,
+    "questionText": "The understatement of the closing value of work-in-process would have the effect of",
+    "options": {
+      "A": "understating cost of goods manufactured",
+      "B": "overstating prime cost of goods manufactured",
+      "C": "overstating cost of goods manufactured",
+      "D": "understating prime cost of goods manufactured"
+    },
+    "correctAnswer": "C",
+    "explanation": "Closing work-in-process is deducted in arriving at the cost of goods manufactured. If it is stated too low, too little is deducted and the cost of goods manufactured comes out too high.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "manufacturing-accounts",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 32,
+    "questionText": "The difference between a trading account and a manufacturing account is that while the manufacturing account",
+    "options": {
+      "A": "has no particular period, the trading account has",
+      "B": "does not consider the cost of goods involved, the trading account does",
+      "C": "is concerned with the cost of production, the trading account is not",
+      "D": "is not concerned with the stock of raw materials, the trading account is"
+    },
+    "correctAnswer": "C",
+    "explanation": "A manufacturing account gathers the costs of turning raw materials into finished goods and arrives at the cost of production. The trading account then takes that figure and sets it against sales to find gross profit.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 33,
+    "questionText": "An income and expenditure account is a summary of",
+    "options": {
+      "A": "all income and expenditure during a period",
+      "B": "revenue income and expenditure during a period",
+      "C": "receipts and payments during a period",
+      "D": "the trading income during a period"
+    },
+    "correctAnswer": "B",
+    "explanation": "The account deals only with revenue items belonging to the period, on the accruals basis. Capital receipts and payments are excluded, and cash movements as such belong to the receipts and payments account.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 34,
+    "questionText": "Gbagada Social Club — Receipts and Payments Account for the year 1993 shows subscriptions received of ₦14,300.\n\nAdditional information:\n\n| Item | 1/1/93 (₦) | 31/12/93 (₦) |\n| --- | --- | --- |\n| Subscriptions in arrears | 300 | 450 |\n| Subscriptions received in advance | 500 | 400 |\n\nSubscriptions relating to the accounting year 1993 in the income and expenditure account is",
+    "options": {
+      "A": "₦15,050",
+      "B": "₦14,550",
+      "C": "₦14,300",
+      "D": "₦13,400"
+    },
+    "correctAnswer": "B",
+    "explanation": "From the ₦14,300 received, deduct the ₦300 arrears belonging to 1992 and the ₦400 received in advance for 1994, then add the ₦450 earned but still owing and the ₦500 received in advance last year which is earned now: 14,300 − 300 − 400 + 450 + 500 = ₦14,550.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "partnership-accounts",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 36,
+    "questionText": "Adamu, Babaji and Chukwu are in partnership and they share profits and losses in the ratio 3:2:1. Their respective capitals are ₦20,000, ₦15,000 and ₦5,000, on which they are entitled to interest at 5% per annum. The profit for the year before charging interest on capital amounted to ₦5,500. Calculate the profit for Adamu.",
+    "options": {
+      "A": "₦583",
+      "B": "₦1,000",
+      "C": "₦1,167",
+      "D": "₦1,750"
+    },
+    "correctAnswer": "D",
+    "explanation": "Interest on capital comes to 1,000 + 750 + 250 = ₦2,000, leaving ₦3,500 of profit to divide. Adamu's three-sixths share of that residue is ₦1,750.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "partnership-accounts",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 40,
+    "questionText": "On partnership dissolution, if a partner's capital account has a debit balance and the partner is insolvent, the deficiency will, in accordance with the decision in the case of Garner v Murray, be",
+    "options": {
+      "A": "borne by all the partners",
+      "B": "borne by the insolvent partner",
+      "C": "written off",
+      "D": "borne by the solvent partners"
+    },
+    "correctAnswer": "D",
+    "explanation": "Garner v Murray established that the deficiency of an insolvent partner falls on the remaining solvent partners, who bear it in the ratio of their last agreed capitals rather than in the profit-sharing ratio.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "company-accounts",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 41,
+    "questionText": "Share premium can be used to:\n\n(i) write off discount on shares\n(ii) give loans to directors\n(iii) pay dividends\n(iv) pay a company's formation expenses",
+    "options": {
+      "A": "i and iv only",
+      "B": "i and iii only",
+      "C": "ii and iii only",
+      "D": "iii and iv only"
+    },
+    "correctAnswer": "A",
+    "explanation": "Share premium is a capital reserve and may not be distributed. The law permits it to be applied to writing off discounts and preliminary or formation expenses, but not to paying dividends or lending to directors.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "company-accounts",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 42,
+    "questionText": "A company has 5% debentures worth ₦500,000, ordinary capital ₦2,000,000 and preference shares ₦1,500,000. If the company made a profit of ₦1,000,000, the debenture interest would amount to",
+    "options": {
+      "A": "₦1,000,000",
+      "B": "₦500,000",
+      "C": "₦50,000",
+      "D": "₦25,000"
+    },
+    "correctAnswer": "D",
+    "explanation": "Debenture interest is a fixed charge on the debentures themselves, quite independent of profit: 5% × ₦500,000 = ₦25,000.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "company-accounts",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 43,
+    "questionText": "Alabede (Nig.) Limited issued 50,000 ordinary shares of ₦1 each at a market value of ₦2.50 each. The share premium is",
+    "options": {
+      "A": "₦125,000",
+      "B": "₦100,000",
+      "C": "₦75,000",
+      "D": "₦50,000"
+    },
+    "correctAnswer": "C",
+    "explanation": "The premium is the excess of issue price over nominal value, ₦2.50 − ₦1.00 = ₦1.50 per share. On 50,000 shares that is ₦75,000.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "interpretation-of-accounts",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 45,
+    "questionText": "Study the balance sheet below.\n\n| Liabilities | ₦ | Assets | ₦ |\n| --- | --- | --- | --- |\n| Capital | 39,000 | Land | 20,000 |\n| Long-term loan | 15,000 | Building | 30,000 |\n| Creditors | 9,000 | Stock | 4,000 |\n| Accrued wages | 5,000 | Cash | 8,000 |\n| | | Debtors | 6,000 |\n| | 68,000 | | 68,000 |\n\nWhat is the working capital?",
+    "options": {
+      "A": "₦12,000",
+      "B": "₦11,000",
+      "C": "₦8,000",
+      "D": "₦4,000"
+    },
+    "correctAnswer": "D",
+    "explanation": "Current assets are stock 4,000 plus cash 8,000 plus debtors 6,000 = ₦18,000, and current liabilities are creditors 9,000 plus accrued wages 5,000 = ₦14,000. Working capital is the difference, ₦4,000.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "interpretation-of-accounts",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 46,
+    "questionText": "The acid test ratio in the company is",
+    "options": {
+      "A": "1:1",
+      "B": "1:2",
+      "C": "2:3",
+      "D": "3:2"
+    },
+    "correctAnswer": "A",
+    "explanation": "The acid test excludes stock, leaving cash 8,000 plus debtors 6,000 = ₦14,000 against current liabilities of ₦14,000. The ratio is therefore 1:1.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 47,
+    "questionText": "If goods are invoiced to the branch at cost and the invoice par value is ₦2,000 with a 5% discount rate, cash remitted to the head office is",
+    "options": {
+      "A": "₦2,100",
+      "B": "₦2,000",
+      "C": "₦1,900",
+      "D": "₦100"
+    },
+    "correctAnswer": "C",
+    "explanation": "The 5% discount on ₦2,000 is ₦100, so the branch remits the net figure of ₦1,900.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 48,
+    "questionText": "Which of the following are advantages of departmental accounts?\n\n(i) The department making the highest profit can be easily determined\n(ii) The capital of the business can be calculated easily\n(iii) Easy knowledge of the sources of funding\n(iv) Encouragement of healthy rivalry among the various departments",
+    "options": {
+      "A": "i and iv only",
+      "B": "ii and iii only",
+      "C": "ii and iv only",
+      "D": "iii and iv only"
+    },
+    "correctAnswer": "A",
+    "explanation": "Departmental accounts reveal how each section performs, so the most profitable can be identified and managers are spurred to compete. Capital and sources of funding are matters for the business as a whole.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "public-sector-accounting",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 49,
+    "questionText": "Public sector accounting is based on",
+    "options": {
+      "A": "cash",
+      "B": "accrual",
+      "C": "budgets",
+      "D": "consolidated fund"
+    },
+    "correctAnswer": "A",
+    "explanation": "Government accounting traditionally recognises revenue when received and expenditure when paid, since its purpose is to show that money voted was actually collected and spent within the year.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "public-sector-accounting",
+    "examType": "JAMB",
+    "examYear": 1997,
+    "questionNumber": 50,
+    "questionText": "The end result of governmental accounting procedure is to",
+    "options": {
+      "A": "keep proper records of government expenditures",
+      "B": "give financial information to the public and investors",
+      "C": "produce timely and accurate financial reports for legislators and the public",
+      "D": "give information on the performance of public enterprises"
+    },
+    "correctAnswer": "C",
+    "explanation": "Government accounts exist to render stewardship of public money to those who voted it and to those it was raised from, which requires reports that are both accurate and produced in good time.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  }
+]

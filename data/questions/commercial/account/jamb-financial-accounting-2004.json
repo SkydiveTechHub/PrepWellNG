@@ -1,0 +1,857 @@
+[
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "introduction-to-accounting",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 1,
+    "questionText": "The accounting principle that is applied to check arbitrary actions on the part of accountants is",
+    "options": {
+      "A": "consistency",
+      "B": "materiality",
+      "C": "objectivity",
+      "D": "realization"
+    },
+    "correctAnswer": "C",
+    "explanation": "Objectivity requires that entries rest on verifiable evidence rather than on the accountant's personal opinion, which is what restrains arbitrary treatment.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "introduction-to-accounting",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 2,
+    "questionText": "The loss of equipment in a fire disaster results in",
+    "options": {
+      "A": "a decrease in current assets",
+      "B": "an increase in liabilities and assets",
+      "C": "a decrease in assets and capital",
+      "D": "an increase in liabilities and a decrease in assets"
+    },
+    "correctAnswer": "C",
+    "explanation": "The equipment is gone, so assets fall, and because no liability is discharged the loss falls on the owner, reducing capital by the same amount.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "source-documents",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 3,
+    "questionText": "A source document is used for verifying the",
+    "options": {
+      "A": "amount due to creditors",
+      "B": "actual cost of an asset",
+      "C": "selling price of goods",
+      "D": "amount due from debtors"
+    },
+    "correctAnswer": "B",
+    "explanation": "The invoice or receipt obtained when an asset is bought is the objective evidence of what was actually paid for it, which is the figure at which it enters the books.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "introduction-to-accounting",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 4,
+    "questionText": "The rule of the accounting equation requires that accounts payable should be placed under",
+    "options": {
+      "A": "liabilities",
+      "B": "equities",
+      "C": "assets",
+      "D": "capital"
+    },
+    "correctAnswer": "A",
+    "explanation": "Accounts payable are amounts owed to suppliers, so they are obligations of the business and belong among liabilities.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "books-of-accounts",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 5,
+    "questionText": "Cash Book\n\n| Dr | ₦ | Cr | ₦ |\n| --- | --- | --- | --- |\n| Capital | 6,600 | Purchases | 3,500 |\n| Sales | 3,000 | Stationery | 1,300 |\n| Debtors | 2,500 | Wages | 2,700 |\n\nThe owner wishes to maintain an amount equal to 1/3 of capital as drawings. The amount withdrawn is",
+    "options": {
+      "A": "₦2,100",
+      "B": "₦2,200",
+      "C": "₦4,400",
+      "D": "₦6,400"
+    },
+    "correctAnswer": "B",
+    "explanation": "One third of the capital of ₦6,600 is ₦2,200.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "books-of-accounts",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 6,
+    "questionText": "The cash book closing balance will be",
+    "options": {
+      "A": "₦900",
+      "B": "₦2,400",
+      "C": "₦4,200",
+      "D": "₦4,600"
+    },
+    "correctAnswer": "B",
+    "explanation": "Receipts total 6,600 + 3,000 + 2,500 = ₦12,100 and payments 3,500 + 1,300 + 2,700 = ₦7,500. After the drawings of ₦2,200 the balance is 12,100 − 7,500 − 2,200 = ₦2,400.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "trial-balance",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 7,
+    "questionText": "A debit in the suspense account will appear in the balance sheet as",
+    "options": {
+      "A": "a current asset",
+      "B": "a current liability",
+      "C": "capital",
+      "D": "drawings"
+    },
+    "correctAnswer": "A",
+    "explanation": "A debit balance represents a value the books say the business holds but which has not yet been traced to its proper account, so it is shown among current assets until the error is found.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "source-documents",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 8,
+    "questionText": "The recipient whose name appears on a cheque is called a",
+    "options": {
+      "A": "payer",
+      "B": "drawer",
+      "C": "drawee",
+      "D": "payee"
+    },
+    "correctAnswer": "D",
+    "explanation": "The payee is the person to whom the cheque is made payable. The drawer signs it and the drawee is the bank on which it is drawn.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "books-of-accounts",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 9,
+    "questionText": "The imprest account is subsidiary to the",
+    "options": {
+      "A": "ledger account",
+      "B": "bank account",
+      "C": "cash book",
+      "D": "petty cash"
+    },
+    "correctAnswer": "C",
+    "explanation": "The petty cash book operated on the imprest system is a subsidiary of the main cash book, from which its float is drawn and to which its totals are carried.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "books-of-accounts",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 10,
+    "questionText": "The three-column cash book differs from the two-column cash book in the",
+    "options": {
+      "A": "cash column",
+      "B": "discount column",
+      "C": "bank column",
+      "D": "folio column"
+    },
+    "correctAnswer": "B",
+    "explanation": "A two-column cash book carries cash and bank; the third column added in the three-column form is for discounts allowed and received.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 11,
+    "questionText": "Zakari started business in January 2000. He bought a shop costing ₦54,000 and stock worth ₦7,600. Profit for the year amounted to ₦22,100 and his closing capital was ₦73,800. Zakari's personal drawings amounted to",
+    "options": {
+      "A": "₦2,300",
+      "B": "₦9,900",
+      "C": "₦17,100",
+      "D": "₦19,500"
+    },
+    "correctAnswer": "B",
+    "explanation": "Opening capital was 54,000 + 7,600 = ₦61,600. Adding profit of ₦22,100 gives ₦83,700, and since the closing capital is ₦73,800 the difference of ₦9,900 must have been drawn out.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "depreciation",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 12,
+    "questionText": "The balance on the provision for depreciation account is",
+    "options": {
+      "A": "added to fixed assets on the balance sheet",
+      "B": "deducted from fixed assets on the balance sheet",
+      "C": "deducted from the profit and loss account",
+      "D": "added to the current liabilities of the account"
+    },
+    "correctAnswer": "B",
+    "explanation": "The accumulated provision is set against the cost of the asset so that the balance sheet shows the net book value.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "adjustments",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 13,
+    "questionText": "Rates paid during the year amounted to ₦2,250 at ₦125 per month, and ₦1,035 was paid for electricity in the same period at ₦115 per month. Determine the amount of prepaid rates.",
+    "options": {
+      "A": "₦345",
+      "B": "₦750",
+      "C": "₦1,380",
+      "D": "₦1,500"
+    },
+    "correctAnswer": "B",
+    "explanation": "₦2,250 at ₦125 a month covers eighteen months, but only twelve belong to the year. The remaining six months, 6 × ₦125 = ₦750, are prepaid.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 14,
+    "questionText": "Study the stock movements below.\n\n| Date | Receipt | Issued (units) |\n| --- | --- | --- |\n| May 2 | 80 @ ₦3.00 | – |\n| May 10 | 50 @ ₦3.20 | – |\n| May 17 | – | 20 |\n| May 25 | – | 60 |\n| May 31 | 20 @ ₦2.90 | – |\n\nWhat is the value of raw materials issued on May 17th based on the LIFO method?",
+    "options": {
+      "A": "₦60",
+      "B": "₦61",
+      "C": "₦62",
+      "D": "₦64"
+    },
+    "correctAnswer": "D",
+    "explanation": "Under LIFO the most recent purchase is issued first, so the 20 units come from the May 10 batch at ₦3.20 each: 20 × 3.20 = ₦64.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 15,
+    "questionText": "Based on the FIFO method of valuation, the total cost of raw materials issued is",
+    "options": {
+      "A": "₦150",
+      "B": "₦160",
+      "C": "₦240",
+      "D": "₦250"
+    },
+    "correctAnswer": "C",
+    "explanation": "Eighty units were issued in all. Under FIFO they all come from the May 2 batch of 80 units at ₦3.00, giving ₦240.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 16,
+    "questionText": "Where closing stock is undervalued, the effect is",
+    "options": {
+      "A": "an increase in gross profit",
+      "B": "a decrease in gross profit",
+      "C": "an increase in purchases",
+      "D": "a decrease in purchases"
+    },
+    "correctAnswer": "B",
+    "explanation": "Closing stock is deducted in arriving at cost of sales, so understating it makes cost of sales too high and gross profit correspondingly too low.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "control-accounts",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 17,
+    "questionText": "Given:\n\n| Item | ₦ |\n| --- | --- |\n| Opening balance | 10,640 |\n| Purchases | 26,912 |\n| Returns inwards | 492 |\n| Returns outwards | 810 |\n| Cash discount received | 1,348 |\n| Cash discount allowed | 1,560 |\n| Cash paid to suppliers | 20,808 |\n\nThe total of the debit side of the purchases ledger control account will be",
+    "options": {
+      "A": "₦22,966",
+      "B": "₦22,150",
+      "C": "₦21,834",
+      "D": "₦21,054"
+    },
+    "correctAnswer": "A",
+    "explanation": "The debit side records what reduces the amount owed: returns outwards 810, discount received 1,348 and cash paid 20,808, giving ₦22,966. Returns inwards and discount allowed belong to the sales ledger.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "control-accounts",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 18,
+    "questionText": "At the year end the purchases ledger showed a debit balance of ₦108. The balancing figure in the purchases ledger control account is",
+    "options": {
+      "A": "₦15,828",
+      "B": "₦15,720",
+      "C": "₦14,940",
+      "D": "₦14,694"
+    },
+    "correctAnswer": "D",
+    "explanation": "The credit side totals 10,640 + 26,912 = ₦37,552 against debits of ₦22,966, leaving ₦14,586, to which the ₦108 debit balance carried down is added to give ₦14,694.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "control-accounts",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 19,
+    "questionText": "In a sales ledger, a contra entry is found on the",
+    "options": {
+      "A": "debit side of the debtors' control account",
+      "B": "debit side of the creditors' control account",
+      "C": "credit side of the debtors' control account",
+      "D": "credit side of the creditors' control account"
+    },
+    "correctAnswer": "C",
+    "explanation": "A set-off cancels a customer's debt against what the business owes him as a supplier, so it reduces the debtors' control account and appears on its credit side.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "control-accounts",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 20,
+    "questionText": "The beginning and ending accounts receivable balances were ₦20,000 and ₦30,000 respectively. The collection from customers during the period was ₦70,000. What was the total sale on account?",
+    "options": {
+      "A": "₦20,000",
+      "B": "₦60,000",
+      "C": "₦80,000",
+      "D": "₦120,000"
+    },
+    "correctAnswer": "C",
+    "explanation": "Credit sales are collections plus closing debtors less opening debtors: 70,000 + 30,000 − 20,000 = ₦80,000.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "adjustments",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 21,
+    "questionText": "Given the general expenses account: paid by cheque ₦671; paid by cash ₦70; accrued b/f ₦65; accrued c/f ₦115. Determine how much is to be charged to the profit and loss account.",
+    "options": {
+      "A": "₦606",
+      "B": "₦786",
+      "C": "₦791",
+      "D": "₦856"
+    },
+    "correctAnswer": "C",
+    "explanation": "Cash actually paid is 671 + 70 = ₦741. Deduct the ₦65 that belonged to last year and add the ₦115 owing at the end of this one: ₦791.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 22,
+    "questionText": "In converting single entry to final accounts, the balancing figures on the income and expenses accounts are transferred to the",
+    "options": {
+      "A": "revenue and expenditure account",
+      "B": "receipts and payments account",
+      "C": "profit and loss appropriation account",
+      "D": "profit and loss account"
+    },
+    "correctAnswer": "D",
+    "explanation": "Once the true income earned and expenses incurred have been established, they are carried to the profit and loss account where the year's profit is struck.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 23,
+    "questionText": "Given: ending inventory ₦4,800; sales ₦12,800; wages ₦1,040; gross profit ₦5,900. The beginning inventory was estimated at 80% of sales. Determine the amount for the beginning inventory.",
+    "options": {
+      "A": "₦20,140",
+      "B": "₦10,240",
+      "C": "₦8,140",
+      "D": "₦7,240"
+    },
+    "correctAnswer": "B",
+    "explanation": "Eighty per cent of sales of ₦12,800 is ₦10,240.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "manufacturing-accounts",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 25,
+    "questionText": "Cost classification in relation to charges is determined by the level of",
+    "options": {
+      "A": "raw materials",
+      "B": "labour",
+      "C": "activity",
+      "D": "profitability"
+    },
+    "correctAnswer": "C",
+    "explanation": "Costs are grouped as fixed or variable according to how they behave as the level of activity changes.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "manufacturing-accounts",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 26,
+    "questionText": "Given: materials consumed ₦16,600; direct cost ₦5,400; factory rent ₦2,300; factory lighting ₦1,200. Cost of production is to be transferred at cost plus a 20% mark-up. The gross profit on manufacture is",
+    "options": {
+      "A": "₦6,120",
+      "B": "₦6,100",
+      "C": "₦5,100",
+      "D": "₦5,000"
+    },
+    "correctAnswer": "C",
+    "explanation": "Cost of production is 16,600 + 5,400 + 2,300 + 1,200 = ₦25,500. A mark-up of 20% on that cost gives ₦5,100.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "manufacturing-accounts",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 27,
+    "questionText": "The market value of goods produced is",
+    "options": {
+      "A": "₦30,500",
+      "B": "₦30,600",
+      "C": "₦31,600",
+      "D": "₦31,620"
+    },
+    "correctAnswer": "B",
+    "explanation": "Adding the mark-up to the cost of production: 25,500 + 5,100 = ₦30,600.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 28,
+    "questionText": "On January 1, 2000, a club's assets and liabilities were: club house ₦8,000; subscription in arrears ₦300; cash ₦1,000; wages owed ₦100. The accumulated fund is",
+    "options": {
+      "A": "₦9,400",
+      "B": "₦9,300",
+      "C": "₦9,200",
+      "D": "₦9,100"
+    },
+    "correctAnswer": "C",
+    "explanation": "Assets total 8,000 + 300 + 1,000 = ₦9,300, and the only liability is wages owed of ₦100. The accumulated fund is the difference, ₦9,200.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 29,
+    "questionText": "The club has 50 members and the annual subscription is ₦100 per member. Subscription received is ₦4,000 and this includes 1999 arrears of ₦200. In the balance sheet, the subscription in arrears will be",
+    "options": {
+      "A": "₦200",
+      "B": "₦300",
+      "C": "₦1,200",
+      "D": "₦1,300"
+    },
+    "correctAnswer": "C",
+    "explanation": "Subscriptions due for the year are 50 × ₦100 = ₦5,000. Of the ₦4,000 received, ₦200 related to 1999, so only ₦3,800 belongs to this year, leaving arrears of ₦1,200.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 30,
+    "questionText": "Where the debit side of the income and expenditure account is higher than the credit side, the difference is a",
+    "options": {
+      "A": "deficit",
+      "B": "surplus",
+      "C": "gain",
+      "D": "loss"
+    },
+    "correctAnswer": "A",
+    "explanation": "Expenditure exceeding income in a non-trading body gives a deficit, which is the equivalent of a loss in a trading concern.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 31,
+    "questionText": "In the balance sheet of a not-for-profit making organization, subscription paid in advance is regarded as a",
+    "options": {
+      "A": "current asset",
+      "B": "current liability",
+      "C": "capital",
+      "D": "reserve"
+    },
+    "correctAnswer": "B",
+    "explanation": "The club has been paid for a period it has not yet served, so it owes those members the benefit and shows the amount as a current liability.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 32,
+    "questionText": "An organization with multiple units that is interested in comparing the performance and weaknesses of each unit should adopt",
+    "options": {
+      "A": "manufacturing accounts",
+      "B": "consolidated accounts",
+      "C": "departmental accounts",
+      "D": "joint venture accounts"
+    },
+    "correctAnswer": "C",
+    "explanation": "Departmental accounts show the trading result of each section separately, which is what allows one unit to be measured against another.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 33,
+    "questionText": "Given:\n\n| Item | Dept. S (₦) | Dept. T (₦) | Total (₦) |\n| --- | --- | --- | --- |\n| Gross profit b/d | 6,000 | 4,000 | 10,000 |\n| Salaries and wages | 1,800 | 1,200 | 3,000 |\n| Electricity | ? | ? | 2,000 |\n| Depreciation | ? | ? | 1,000 |\n| Net profit c/d | ? | 1,600 | 4,000 |\n\nWhat is the net profit of department S?",
+    "options": {
+      "A": "₦3,600",
+      "B": "₦3,000",
+      "C": "₦2,400",
+      "D": "₦2,000"
+    },
+    "correctAnswer": "C",
+    "explanation": "The two departments' net profits make up the total of ₦4,000, so S earns 4,000 − 1,600 = ₦2,400.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 34,
+    "questionText": "The depreciation to be charged to department T is",
+    "options": {
+      "A": "₦300",
+      "B": "₦400",
+      "C": "₦500",
+      "D": "₦600"
+    },
+    "correctAnswer": "B",
+    "explanation": "Total depreciation is ₦1,000 and department S bears ₦600, so T is charged the remaining ₦400.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 35,
+    "questionText": "How are credit sales by a department treated?",
+    "options": {
+      "A": "the same way as normal debtors' transactions",
+      "B": "in a different way from normal debtors' transactions",
+      "C": "as an addition to the sales manager's account",
+      "D": "as an addition to the production manager's account"
+    },
+    "correctAnswer": "A",
+    "explanation": "A departmental credit sale still creates an ordinary debt from a customer, so it goes through the debtors' accounts in the usual way; the departmental analysis is a memorandum on top of that.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 36,
+    "questionText": "Discounts granted to branch customers are treated as a debit to branch",
+    "options": {
+      "A": "stock account and a credit to branch debtors' account",
+      "B": "discount account and a credit to branch bank account",
+      "C": "stock account and a credit to branch bank account",
+      "D": "discount account and a credit to branch debtors' account"
+    },
+    "correctAnswer": "D",
+    "explanation": "The discount is an expense of the branch, so a branch discount account is debited, and because it settles part of what the customer owes, branch debtors is credited.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "partnership-accounts",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 38,
+    "questionText": "On dissolution, the final distribution of cash to partners is based on",
+    "options": {
+      "A": "partnership agreement",
+      "B": "articles of association",
+      "C": "goodwill",
+      "D": "capital balances"
+    },
+    "correctAnswer": "D",
+    "explanation": "Once creditors and partners' loans have been paid, whatever cash remains is shared according to the balances standing on the partners' capital accounts after the realisation profit or loss has been dealt with.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "partnership-accounts",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 39,
+    "questionText": "Jumoke and Kunle have original investments of ₦25,000 and ₦15,000 respectively in a partnership. Miscellaneous expenses of ₦2,500 were incurred with a gross profit of ₦6,500 during the financial year. The balance of the profit and loss account will be",
+    "options": {
+      "A": "₦4,000",
+      "B": "₦2,800",
+      "C": "₦1,500",
+      "D": "₦300"
+    },
+    "correctAnswer": "A",
+    "explanation": "Deduct the expenses from the gross profit: 6,500 − 2,500 = ₦4,000.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "partnership-accounts",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 41,
+    "questionText": "When a new partner is admitted to a partnership, there is a need to revalue the",
+    "options": {
+      "A": "capital of the business",
+      "B": "capital and liabilities of the business",
+      "C": "assets and capital of the business",
+      "D": "assets and liabilities of the business"
+    },
+    "correctAnswer": "D",
+    "explanation": "Assets and liabilities are restated at current values so that any gain or loss accrued before the admission belongs to the old partners alone, in their former profit-sharing ratio.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "partnership-accounts",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 42,
+    "questionText": "The accounting entry to record the premium on goodwill is to debit",
+    "options": {
+      "A": "cash and credit old partners' capital",
+      "B": "goodwill and credit revaluation",
+      "C": "assets and credit capital",
+      "D": "capital and credit assets"
+    },
+    "correctAnswer": "A",
+    "explanation": "The incoming partner pays the premium for a share of goodwill built up before he joined, so the money received is debited to cash and credited to the old partners in their old profit-sharing ratio.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "company-accounts",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 43,
+    "questionText": "The expenses incurred in promoting a company are",
+    "options": {
+      "A": "promoters' expenses",
+      "B": "floating expenses",
+      "C": "preliminary expenses",
+      "D": "the board's expenses"
+    },
+    "correctAnswer": "C",
+    "explanation": "Preliminary expenses are the costs of bringing the company into existence — registration fees, legal charges and the cost of printing documents.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "company-accounts",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 44,
+    "questionText": "Debentures can be redeemed out of",
+    "options": {
+      "A": "existing share capital reserve",
+      "B": "existing general reserve",
+      "C": "proceeds from a new issue of shares",
+      "D": "withholding tax"
+    },
+    "correctAnswer": "C",
+    "explanation": "A company commonly repays debentures by raising fresh capital, replacing the loan with permanent finance and so preserving its working capital.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "company-accounts",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 46,
+    "questionText": "Given: 600,000 ordinary shares of ₦1 each issued at ₦500,000; capital reserves ₦250,000; revenue reserves ₦207,000; long-term liabilities ₦400,000. The value of the owner's equity is",
+    "options": {
+      "A": "₦400,000",
+      "B": "₦900,000",
+      "C": "₦957,000",
+      "D": "₦1,357,000"
+    },
+    "correctAnswer": "C",
+    "explanation": "Equity is the issued ordinary capital together with the reserves: 500,000 + 250,000 + 207,000 = ₦957,000. Long-term liabilities belong to lenders, not owners.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "company-accounts",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 47,
+    "questionText": "Share premium is an example of",
+    "options": {
+      "A": "revenue reserves",
+      "B": "capital reserves",
+      "C": "general reserves",
+      "D": "loan capital"
+    },
+    "correctAnswer": "B",
+    "explanation": "Share premium arises from a capital transaction and may not be distributed as dividend, which makes it a capital reserve.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "public-sector-accounting",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 48,
+    "questionText": "According to the provisions of the 1999 constitution, all revenue generated by the Federal Government must be paid into the",
+    "options": {
+      "A": "consolidated revenue fund",
+      "B": "contingency fund",
+      "C": "commission's account",
+      "D": "equalization fund"
+    },
+    "correctAnswer": "A",
+    "explanation": "The constitution requires that all revenues of the Federation be paid into one consolidated revenue fund, from which money may be withdrawn only as the law provides.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "public-sector-accounting",
+    "examType": "JAMB",
+    "examYear": 2004,
+    "questionNumber": 49,
+    "questionText": "The budget statement presented to the legislature by the Chief Executive is called",
+    "options": {
+      "A": "an appropriation act",
+      "B": "a budget bill",
+      "C": "an appropriation bill",
+      "D": "a budget proposal"
+    },
+    "correctAnswer": "C",
+    "explanation": "It is a bill until the legislature passes it, at which point it becomes the appropriation act authorising the spending.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  }
+]
