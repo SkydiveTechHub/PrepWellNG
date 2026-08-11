@@ -1508,22 +1508,45 @@ Then add a third entry to the existing `db.$transaction([...])` array, after the
 - [ ] **Step 6: Emit on pretest pass**
 
 In the same file, the pass branch upserts `performanceMetric` inside
-`if (passed) { ... }`. Immediately after that `await`, and still inside the
-`if (passed)` block, add:
+`if (passed) { ... }`. The unlock and its ledger event must commit together —
+two sequential bare awaits would let a crash between them leave a topic marked
+pretest-passed with no corresponding event. Both writes are plain promises, so
+the array transaction form applies. Replace the lone `performanceMetric.upsert`
+await with:
 
 ```ts
-    await db.learningEvent.createMany({
-      data: [
-        {
+    await db.$transaction([
+      db.performanceMetric.upsert({
+        where: {
+          studentId_subjectId_topicId: {
+            studentId,
+            subjectId: topic.subjectId,
+            topicId: topic.id,
+          },
+        },
+        create: {
           studentId,
           subjectId: topic.subjectId,
           topicId: topic.id,
-          kind: "PRETEST_PASSED",
-          sourceId: topic.id,
+          pretestPassedAt: new Date(),
         },
-      ],
-    });
+        update: { pretestPassedAt: new Date() },
+      }),
+      db.learningEvent.createMany({
+        data: [
+          {
+            studentId,
+            subjectId: topic.subjectId,
+            topicId: topic.id,
+            kind: "PRETEST_PASSED",
+            sourceId: topic.id,
+          },
+        ],
+      }),
+    ]);
 ```
+
+Keep the surrounding `recorded = true;` assignment exactly as it is.
 
 Use `topic.subjectId` and `topic.id` — that is what the surrounding code uses;
 there are no bare `subjectId` / `topicId` variables in this scope.
