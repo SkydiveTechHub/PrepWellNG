@@ -12,7 +12,7 @@
 
 ## Global Constraints
 
-- **Phase 1 changes no UI and no downstream engine.** `src/engines/learning/{availability,recommend,gaps,revision,graph}.ts` must not be edited. If a change there seems necessary, stop — the design is wrong.
+- **Phase 1 changes no UI and no downstream engine *behaviour*.** Do not change scoring, ranking, gating or classification logic in `src/engines/learning/{availability,recommend,gaps,revision,graph}.ts`. The single permitted exception is mechanical: widening a Prisma-client parameter type union in `availability.ts` so it names the tables the evidence layer reads (Task 8, Step 2). No function body in those files may change. If a behavioural change seems necessary, stop — the design is wrong. The regression gate below is the proof that behaviour held.
 - **Pure functions take no Prisma client.** Everything in `src/engines/learning/evidence.ts` and `fold.ts`, and `scoreAggregate` in `mastery.ts`, must be testable with no database.
 - **Database access lives in `src/lib` services**, per commit `563b226` ("move every database read and write behind a service in src/lib").
 - **Scoring constants, copied verbatim from the spec:** `RECENCY_HALF_LIFE_DAYS = 45`, `PRIOR_STRENGTH = 4`, `PRIOR_OUTCOME = 0.45`, `RAPID_SECONDS = 3`, `RAPID_WEIGHT = 0.3`, `CONFIDENCE_FLOOR = 0.35`, `SCORING_VERSION = 1`.
