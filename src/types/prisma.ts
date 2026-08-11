@@ -32,6 +32,13 @@ export type TrackCategory = "CORE" | "SCIENCE" | "ARTS" | "COMMERCIAL" | "VOCATI
 export type SchoolType = "PUBLIC" | "PRIVATE";
 export type MasteryLevel = "WEAK" | "DEVELOPING" | "COMPETENT" | "STRONG";
 export type EdgeKind = "PREREQUISITE" | "STRONG_RELATED" | "RELATED";
+export type LearningEventKind =
+  | "QUESTION_ANSWERED"
+  | "QUIZ_ABANDONED"
+  | "LESSON_BLOCK_COMPLETED"
+  | "LESSON_COMPLETED"
+  | "CARD_REVIEWED"
+  | "PRETEST_PASSED";
 
 // ─── Models ───────────────────────────────────────────────
 
@@ -186,7 +193,35 @@ export type PerformanceMetric = {
   averageTimePerQuestion: number | null;
   masteryLevel: MasteryLevel;
   lastUpdated: Date;
-  masteryScore: number | null;
-  lastStudiedAt: Date | null;
-  revisionDueAt: Date | null;
+};
+
+export type LearningEvent = {
+  seq: bigint;
+  studentId: string;
+  subjectId: string;
+  topicId: string | null;
+  kind: LearningEventKind;
+  correct: boolean | null;
+  score: number | null;
+  difficulty: Difficulty | null;
+  seconds: number | null;
+  sourceId: string | null;
+  occurredAt: Date;
+};
+
+export type TopicMastery = {
+  studentId: string;
+  subjectId: string;
+  topicId: string;
+  accWeightedOutcome: number;
+  accWeightedMass: number;
+  lessonWeightedOutcome: number;
+  lessonWeightedMass: number;
+  srsWeightedOutcome: number;
+  srsWeightedMass: number;
+  decayAnchor: Date;
+  cursorSeq: bigint;
+  lastEffortAt: Date | null;
+  scoringVersion: number;
+  updatedAt: Date;
 };
