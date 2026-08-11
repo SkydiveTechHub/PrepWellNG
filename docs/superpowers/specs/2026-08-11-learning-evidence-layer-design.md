@@ -244,12 +244,15 @@ Difficulty adjusts the *outcome*, not the denominator, so the asymmetry is right
 in both directions: an easy question cannot prove mastery, and missing a hard
 one is not damning.
 
-| | EASY | MEDIUM | HARD |
+| | BASIC | INTERMEDIATE | ADVANCED |
 |---|---|---|---|
 | correct | 0.85 | 1.00 | 1.00 |
 | wrong | 0.00 | 0.15 | 0.35 |
 
-A response with no difficulty label is treated as MEDIUM.
+The project's `Difficulty` enum is `BASIC | INTERMEDIATE | ADVANCED`
+(`prisma/schema.prisma:54`), not the EASY/MEDIUM/HARD wording used in early
+drafts of this document. A response with no difficulty label is treated as
+INTERMEDIATE.
 
 ### Per-response weight
 
@@ -273,10 +276,10 @@ Worked cases:
 
 | Evidence | Mastery | Confidence |
 |---|---|---|
-| 1 correct (medium) | 56 | 0.20 |
-| 1 wrong (medium) | 39 | 0.20 |
-| 10/10 medium | 84 | 0.71 |
-| 0/10 medium | 24 | 0.71 |
+| 1 correct (intermediate) | 56 | 0.20 |
+| 1 wrong (intermediate) | 39 | 0.20 |
+| 10/10 intermediate | 84 | 0.71 |
+| 0/10 intermediate | 24 | 0.71 |
 
 One correct answer no longer completes a topic: 56 is below `TARGET` 70, so the
 topic stays in "Keep learning". One wrong answer no longer diagnoses a weakness:
@@ -344,8 +347,9 @@ than 7 snapshots reports "still measuring" rather than a fabricated projection.
 ### Difficulty targeting (phase 3)
 
 Inverting the outcome table gives expected success by band: roughly `m + 0.15`
-on EASY, `m` on MEDIUM, `m − 0.15` on HARD, where `m` is mastery/100. Question
-selection prefers the band whose expected success is closest to 0.75.
+on BASIC, `m` on INTERMEDIATE, `m − 0.15` on ADVANCED, where `m` is
+mastery/100. Question selection prefers the band whose expected success is
+closest to 0.75.
 
 ## Error handling
 
