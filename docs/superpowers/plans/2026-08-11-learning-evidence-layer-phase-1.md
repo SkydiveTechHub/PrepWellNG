@@ -1787,7 +1787,7 @@ The switchover. `computeTopicState` keeps its exact signature, so all four call 
   `computeTopicState(db, userId, graph)` with the full `db` client, which
   structurally satisfies any `Pick<PrismaClient, …>` signature. No change is
   needed there. Do not edit it.
-- Modify: `scripts/test-learning-path-state.mts` (reframe the state section onto events)
+- **No test file changes.** All six `scripts/test-learning-path-*.mts` suites must pass unedited — that is this task's regression gate.
 
 **Interfaces:**
 - Consumes: `loadFoldedAggregates`, `persistAggregates`, `type MasteryStoreClient` from `@/lib/topic-mastery-store`; `scoreAggregate` from this same file (added in Task 3).
@@ -1928,57 +1928,38 @@ tidy-up. If you find yourself deleting a member, check for a direct
 Run: `npx tsc --noEmit`
 Expected: PASS, with no edit to `src/lib/classroom-data.ts` — it passes the full `db` client, which satisfies any narrowed signature. If it does error, report that as a concern rather than editing it; it would mean the parameter types diverged from what this plan assumed.
 
-- [ ] **Step 4: Reframe the state test onto events**
-
-In `scripts/test-learning-path-state.mts`, replace the `stateFor` helper so the availability tests build state from a scored aggregate rather than a raw accuracy figure. Everything below the "Composite mastery" section keeps working unchanged.
-
-```ts
-import { emptyAggregate, foldEvents, type FoldEvent } from "../src/engines/learning/fold";
-import { scoreAggregate } from "../src/engines/learning/mastery";
-
-/**
- * A topic whose scored mastery is at least `target`. The availability tests
- * care about the gate, not about how the number was earned, so this drives
- * enough correct answers through the real fold to clear it.
- */
-function stateFor(topicId: string, target: number): TopicState {
-  const events: FoldEvent[] = [];
-  let seq = 0n;
-  let state = scoreAggregate(emptyAggregate(topicId, "subj-1", now), now);
-  while (state.mastery < target && events.length < 500) {
-    seq += 1n;
-    events.push({
-      seq,
-      topicId,
-      kind: "QUESTION_ANSWERED",
-      correct: true,
-      score: null,
-      difficulty: "ADVANCED",
-      seconds: 30,
-      occurredAt: now,
-    });
-    state = scoreAggregate(
-      foldEvents(emptyAggregate(topicId, "subj-1", now), events, now),
-      now,
-    );
-  }
-  return state;
-}
-```
-
-The four `compositeMastery` tests and the `assembleTopicState` tests at the top of the file stay exactly as they are — those functions are unchanged and still exported.
-
-- [ ] **Step 5: Run the regression gate**
+- [ ] **Step 4: Run the regression gate — change no test file**
 
 Run: `npm run test:path`
-Expected: PASS. Critically, `test-learning-path-graph.mts`, `-recommend.mts`, `-revision.mts`, `-plan.mts` and `-pretest.mts` must pass **with no edits**. If any of them needed changing, the evidence layer leaked into the engine — stop and re-read the design.
+Expected: PASS, **with every one of the six suites unedited**.
 
-- [ ] **Step 6: Run the whole suite and lint**
+`scripts/test-learning-path-state.mts` needs no change either. It never calls
+`computeTopicState` — verified, it contains no reference to it and nothing
+async. It exercises `compositeMastery`, `assembleTopicState`, `topicRetention`,
+`isAvailable`, `prereqStatuses`, `lessonUnlockState` and
+`resolvePrerequisiteEntries`, all of which this task leaves untouched. Its
+`stateFor` helper builds state through `assembleTopicState`, which still exists
+and still maps an accuracy figure straight to that mastery — so the availability
+tests keep getting the exact boundary values they assert on (`GATE - 1`, `GATE`,
+25, 35, 90).
+
+**Do not "modernise" that helper to drive events through the fold.** Shrinkage
+makes mastery coarse — successive correct answers score 56, 63, 69, 73 — so a
+fold-driven helper cannot produce 59 or 60, and the gate-boundary tests would
+break. `assembleTopicState` is the right tool for constructing a topic at an
+exact mastery in a test; the fold is the right tool for deriving mastery from
+real evidence. They are different jobs.
+
+**If any suite fails, do not edit the test.** A failure here means the evidence
+layer leaked into the engine — that is the signal this gate exists to raise.
+Stop and report it.
+
+- [ ] **Step 5: Run the whole suite and lint**
 
 Run: `npm test && npm run lint`
 Expected: PASS.
 
-- [ ] **Step 7: Verify end to end against a real database**
+- [ ] **Step 6: Verify end to end against a real database** (SKIPPED — database unreachable; see Global Constraints. Record it in the catch-up list, do not fake it.)
 
 Start the dev server and sign in as a student with no history:
 
@@ -1988,10 +1969,10 @@ Start the dev server and sign in as a student with no history:
 4. Check `TopicMastery` in `npx prisma studio`. Expected: one row for that topic with `cursorSeq` matching the ledger's highest `seq`, `accWeightedMass` near 1, and `scoringVersion` 1.
 5. Reload `/dashboard`. Expected: `cursorSeq` unchanged and mastery unchanged — the second read folded nothing and did not double-count.
 
-- [ ] **Step 8: Commit**
+- [ ] **Step 7: Commit**
 
 ```bash
-git add src/engines/learning/mastery.ts src/lib/learning-path.ts src/engines/learning/availability.ts scripts/test-learning-path-state.mts
+git add src/engines/learning/mastery.ts src/lib/learning-path.ts src/engines/learning/availability.ts
 git commit -m "feat(learning): derive topic state by folding the event ledger"
 ```
 
