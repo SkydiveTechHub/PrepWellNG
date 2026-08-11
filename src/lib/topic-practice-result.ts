@@ -114,6 +114,14 @@ export async function recordTopicPracticeResult(
   const masteryLevel = masteryLevelFromScore(bestMastery);
   const revisionDueAt = nextRevisionDate(new Date(), lesson.revisionDays);
 
+  // This function runs during a page render, so a refresh re-enters it with the
+  // same attemptId. StudentProgress is an upsert and absorbs that, but the
+  // ledger is append-only: emitting again would fold one lesson completion as
+  // several independent observations, permanently inflating the lesson channel.
+  const alreadyRecorded = (checkpoint.practice ?? []).some(
+    (record) => record.attemptId === attemptId,
+  );
+
   if (passed) {
     await db.$transaction([
       db.studentProgress.upsert({
@@ -158,18 +166,27 @@ export async function recordTopicPracticeResult(
         },
         update: { masteryLevel, lastUpdated: new Date() },
       }),
-      db.learningEvent.createMany({
-        data: [
-          {
-            studentId: userId,
-            subjectId,
-            topicId,
-            kind: "LESSON_COMPLETED" as const,
-            score: bestMastery / 100,
-            sourceId: lessonId,
-          },
-        ],
-      }),
+      ...(alreadyRecorded
+        ? []
+        : [
+            db.learningEvent.createMany({
+              data: [
+                {
+                  studentId: userId,
+                  subjectId,
+                  topicId,
+                  kind: "LESSON_COMPLETED" as const,
+                  // NOTE: `score` here is bestOfLastThree, itself an aggregate over attempts.
+                  // A genuine re-pass therefore emits a restatement of a running best, which the
+                  // fold counts as a fresh observation — unlike the practice and SRS channels,
+                  // which emit one event per new observation. Deliberate for now; revisit if the
+                  // lesson channel starts over-weighting repeat learners.
+                  score: bestMastery / 100,
+                  sourceId: lessonId,
+                },
+              ],
+            }),
+          ]),
     ]);
   } else {
     await db.studentProgress.upsert({

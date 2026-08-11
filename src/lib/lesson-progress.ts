@@ -38,6 +38,12 @@ export async function saveLessonProgress(
     ...(status !== undefined && { status }),
     ...(completionPercent !== undefined && { completionPercent }),
     ...(checkpointData !== undefined && { checkpointData }),
+    // masteryScore written here is NOT evidence. Since the learning evidence
+    // layer landed, mastery is derived from the LearningEvent ledger, not from
+    // this column. Nothing currently posts masteryScore; if you wire a client
+    // to, emit a LESSON_BLOCK_COMPLETED event alongside this write or the work
+    // will not count towards mastery.
+    // See docs/superpowers/specs/2026-08-11-learning-evidence-layer-design.md
     ...(masteryScore !== undefined && { masteryScore }),
     ...(timeSpentMinutes !== undefined && { timeSpentMinutes }),
     lastAccessedAt: new Date(),

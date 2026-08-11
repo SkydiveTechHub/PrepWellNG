@@ -8,6 +8,13 @@ const DAY_MS = 86_400_000;
 /**
  * Bumped whenever any constant below changes. A TopicMastery row carrying an
  * older version is replayed from the ledger rather than trusted.
+ *
+ * This is also the operational repair lever. Postgres allocates
+ * LearningEvent.seq at insert but makes it visible at commit, so a
+ * slow-committing transaction can be skipped by a read that advances a topic's
+ * cursor past it. Phase 1 ships no automatic reconciliation (the spec assigns a
+ * daily cursor-reset-and-replay to Phase 3). Until then, bumping this constant
+ * forces a full per-topic replay on the next read and repairs any such drift.
  */
 export const SCORING_VERSION = 1;
 

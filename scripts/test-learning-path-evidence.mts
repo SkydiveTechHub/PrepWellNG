@@ -277,6 +277,27 @@ test("foldEvents: an abandoned quiz is not effort", () => {
   assert.equal(folded.lastEffortAt, null);
 });
 
+test("foldEvents: PRETEST_PASSED advances the effort clock despite carrying no evidence", () => {
+  const folded = foldEvents(
+    base(),
+    [event({ kind: "PRETEST_PASSED", correct: null, score: null, occurredAt: daysBefore(3) })],
+    now,
+  );
+  assert.equal(folded.lastEffortAt?.getTime(), daysBefore(3).getTime());
+  close(folded.acc.mass, 0);
+  close(folded.lesson.mass, 0);
+  close(folded.srs.mass, 0);
+});
+
+test("foldEvents: lesson completion advances the effort clock", () => {
+  const folded = foldEvents(
+    base(),
+    [event({ kind: "LESSON_COMPLETED", correct: null, score: 0.8, occurredAt: daysBefore(4) })],
+    now,
+  );
+  assert.equal(folded.lastEffortAt?.getTime(), daysBefore(4).getTime());
+});
+
 // ─── The central invariant ─────────────────────────────────
 
 test("foldEvents: incremental catch-up equals a full replay, at every split", () => {
@@ -412,7 +433,10 @@ test("scoreAggregate: the better-evidenced channel dominates the composite", () 
     event({ kind: "CARD_REVIEWED", correct: null, score: 0.0 }),
   ]);
   // Twenty correct answers against one bad card: practice must win.
-  assert.ok(state.mastery > 70, `expected practice to dominate, got ${state.mastery}`);
+  // 80, not 70: the confidence-weighted composite gives 86 while the unweighted
+  // one gives 74, so a threshold of 70 would pass even with the confidence
+  // weighting removed from scoreAggregate. This bound pins the behaviour.
+  assert.ok(state.mastery > 80, `expected practice to dominate, got ${state.mastery}`);
 });
 
 test("scoreAggregate: retention derives from lastEffortAt, not from lesson access", () => {
