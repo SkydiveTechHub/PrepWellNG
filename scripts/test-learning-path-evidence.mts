@@ -111,3 +111,230 @@ test("channelScore: a single answer cannot reach the extremes", () => {
   assert.ok(channelScore(1, 1).score < 0.7, "one correct answer must not master a topic");
   assert.ok(channelScore(0, 1).score > 0.3, "one wrong answer must not zero a topic");
 });
+
+// ═══════════════════════════════════════════════════════════
+// The event fold
+// ═══════════════════════════════════════════════════════════
+
+import {
+  emptyAggregate,
+  foldEvents,
+  decayTo,
+  type FoldEvent,
+  type TopicAggregate,
+} from "../src/engines/learning/fold";
+
+let seqCounter = 0n;
+
+function event(overrides: Partial<FoldEvent> = {}): FoldEvent {
+  seqCounter += 1n;
+  return {
+    seq: seqCounter,
+    topicId: "t1",
+    kind: "QUESTION_ANSWERED",
+    correct: true,
+    score: null,
+    difficulty: "INTERMEDIATE",
+    seconds: 30,
+    occurredAt: now,
+    ...overrides,
+  };
+}
+
+function daysBefore(days: number, from: Date = now): Date {
+  return new Date(from.getTime() - days * DAY_MS);
+}
+
+const base = () => emptyAggregate("t1", "subj-1", now);
+
+// ─── Channel routing ───────────────────────────────────────
+
+test("foldEvents: an answered question lands in the practice channel", () => {
+  const folded = foldEvents(base(), [event({ correct: true })], now);
+  close(folded.acc.mass, 1);
+  close(folded.acc.outcome, 1);
+  close(folded.lesson.mass, 0);
+  close(folded.srs.mass, 0);
+});
+
+test("foldEvents: lesson events land in the lesson channel, cards in the SRS channel", () => {
+  const folded = foldEvents(
+    base(),
+    [
+      event({ kind: "LESSON_COMPLETED", correct: null, score: 0.8 }),
+      event({ kind: "LESSON_BLOCK_COMPLETED", correct: null, score: 0.6 }),
+      event({ kind: "CARD_REVIEWED", correct: null, score: 0.85 }),
+    ],
+    now,
+  );
+  close(folded.lesson.mass, 2);
+  close(folded.lesson.outcome, 1.4);
+  close(folded.srs.mass, 1);
+  close(folded.srs.outcome, 0.85);
+  close(folded.acc.mass, 0);
+});
+
+test("foldEvents: events carrying no channel evidence contribute no mass", () => {
+  const folded = foldEvents(
+    base(),
+    [
+      event({ kind: "PRETEST_PASSED", correct: null, score: null }),
+      event({ kind: "QUIZ_ABANDONED", correct: null, score: null }),
+    ],
+    now,
+  );
+  close(folded.acc.mass, 0);
+  close(folded.lesson.mass, 0);
+  close(folded.srs.mass, 0);
+});
+
+test("foldEvents: an out-of-range lesson score is clamped to 0..1", () => {
+  const folded = foldEvents(
+    base(),
+    [event({ kind: "LESSON_COMPLETED", correct: null, score: 1.4 })],
+    now,
+  );
+  close(folded.lesson.outcome, 1);
+});
+
+// ─── Decay ─────────────────────────────────────────────────
+
+test("foldEvents: an older answer carries less weight than a fresh one", () => {
+  const fresh = foldEvents(base(), [event({ occurredAt: now })], now);
+  const old = foldEvents(base(), [event({ occurredAt: daysBefore(45) })], now);
+  close(old.acc.mass, fresh.acc.mass * 0.5);
+});
+
+test("decayTo: carrying forward a half-life halves both sums", () => {
+  const folded = foldEvents(base(), [event()], now);
+  const later = decayTo(folded, new Date(now.getTime() + 45 * DAY_MS));
+  close(later.acc.mass, folded.acc.mass * 0.5);
+  close(later.acc.outcome, folded.acc.outcome * 0.5);
+});
+
+test("decayTo: carrying backwards is a no-op, never an amplification", () => {
+  const folded = foldEvents(base(), [event()], now);
+  const earlier = decayTo(folded, daysBefore(10));
+  close(earlier.acc.mass, folded.acc.mass);
+});
+
+// ─── The cursor ────────────────────────────────────────────
+
+test("foldEvents: events at or below the cursor are already folded", () => {
+  const once = foldEvents(base(), [event({ seq: 100n })], now);
+  const twice = foldEvents(once, [{ ...event({ seq: 100n }) }], now);
+  close(twice.acc.mass, once.acc.mass);
+});
+
+test("foldEvents: the cursor advances to the highest sequence seen", () => {
+  const folded = foldEvents(base(), [event({ seq: 7n }), event({ seq: 41n })], now);
+  assert.equal(folded.cursorSeq, 41n);
+});
+
+test("foldEvents: out-of-order input folds the same as sorted input", () => {
+  const a = event({ seq: 10n, occurredAt: daysBefore(5) });
+  const b = event({ seq: 20n, occurredAt: daysBefore(1) });
+  const sorted = foldEvents(base(), [a, b], now);
+  const shuffled = foldEvents(base(), [b, a], now);
+  close(shuffled.acc.mass, sorted.acc.mass);
+  close(shuffled.acc.outcome, sorted.acc.outcome);
+  assert.equal(shuffled.cursorSeq, sorted.cursorSeq);
+});
+
+// ─── Effort timestamp ──────────────────────────────────────
+
+test("foldEvents: lastEffortAt tracks the latest genuine-effort event", () => {
+  const folded = foldEvents(
+    base(),
+    [
+      event({ occurredAt: daysBefore(10) }),
+      event({ kind: "CARD_REVIEWED", correct: null, score: 0.9, occurredAt: daysBefore(2) }),
+      event({ occurredAt: daysBefore(30) }),
+    ],
+    now,
+  );
+  assert.equal(folded.lastEffortAt?.getTime(), daysBefore(2).getTime());
+});
+
+test("foldEvents: a rapid guess is not effort and does not reset the clock", () => {
+  const folded = foldEvents(
+    base(),
+    [
+      event({ occurredAt: daysBefore(10), seconds: 30 }),
+      event({ occurredAt: daysBefore(1), seconds: 1 }),
+    ],
+    now,
+  );
+  assert.equal(folded.lastEffortAt?.getTime(), daysBefore(10).getTime());
+});
+
+test("foldEvents: an abandoned quiz is not effort", () => {
+  const folded = foldEvents(
+    base(),
+    [event({ kind: "QUIZ_ABANDONED", correct: null, score: null })],
+    now,
+  );
+  assert.equal(folded.lastEffortAt, null);
+});
+
+// ─── The central invariant ─────────────────────────────────
+
+test("foldEvents: incremental catch-up equals a full replay, at every split", () => {
+  const kinds = [
+    { kind: "QUESTION_ANSWERED" as const, correct: true, score: null },
+    { kind: "QUESTION_ANSWERED" as const, correct: false, score: null },
+    { kind: "LESSON_COMPLETED" as const, correct: null, score: 0.7 },
+    { kind: "CARD_REVIEWED" as const, correct: null, score: 0.9 },
+  ];
+  const difficulties = ["BASIC", "INTERMEDIATE", "ADVANCED", null] as const;
+
+  // A deterministic pseudo-random sequence — reproducible on failure.
+  let rng = 12345;
+  const next = () => (rng = (rng * 1103515245 + 12345) % 2147483648) / 2147483648;
+
+  for (let trial = 0; trial < 50; trial += 1) {
+    const count = 5 + Math.floor(next() * 20);
+    const events: FoldEvent[] = [];
+    for (let i = 0; i < count; i += 1) {
+      const shape = kinds[Math.floor(next() * kinds.length)];
+      events.push({
+        seq: BigInt(i + 1),
+        topicId: "t1",
+        kind: shape.kind,
+        correct: shape.correct,
+        score: shape.score,
+        difficulty: difficulties[Math.floor(next() * difficulties.length)],
+        seconds: next() < 0.2 ? 1 : 30,
+        // 120 days back up to 10 days back, ascending with i.
+        occurredAt: daysBefore(120 - i * (110 / count)),
+      });
+    }
+
+    const t1 = daysBefore(5);
+    const t2 = now;
+    const splitAt = 1 + Math.floor(next() * (events.length - 1));
+    const before = events.slice(0, splitAt);
+    const after = events.slice(splitAt);
+
+    const full = foldEvents(emptyAggregate("t1", "subj-1", t1), events, t2);
+    const incremental = foldEvents(
+      foldEvents(emptyAggregate("t1", "subj-1", t1), before, t1),
+      after,
+      t2,
+    );
+
+    const message = `trial ${trial}, split ${splitAt}`;
+    close(incremental.acc.mass, full.acc.mass, 1e-9);
+    close(incremental.acc.outcome, full.acc.outcome, 1e-9);
+    close(incremental.lesson.mass, full.lesson.mass, 1e-9);
+    close(incremental.lesson.outcome, full.lesson.outcome, 1e-9);
+    close(incremental.srs.mass, full.srs.mass, 1e-9);
+    close(incremental.srs.outcome, full.srs.outcome, 1e-9);
+    assert.equal(incremental.cursorSeq, full.cursorSeq, message);
+    assert.equal(
+      incremental.lastEffortAt?.getTime() ?? null,
+      full.lastEffortAt?.getTime() ?? null,
+      message,
+    );
+  }
+});
