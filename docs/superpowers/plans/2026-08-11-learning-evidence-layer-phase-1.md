@@ -1581,7 +1581,7 @@ Loads aggregates, loads only the events past each topic's cursor, and persists t
 
 **Interfaces:**
 - Consumes: `TopicAggregate`, `FoldEvent`, `emptyAggregate`, `foldEvents` from `@/engines/learning/fold`; `SCORING_VERSION` from `@/engines/learning/evidence`.
-- Produces: `type MasteryStoreClient = Pick<PrismaClient, "topicMastery" | "learningEvent">`; `loadFoldedAggregates(client: MasteryStoreClient, studentId: string, topics: ReadonlyMap<string, string>, now: Date): Promise<Map<string, TopicAggregate>>`; `persistAggregates(client: MasteryStoreClient, studentId: string, aggregates: Iterable<TopicAggregate>): Promise<void>`. The `topics` map is topicId → subjectId.
+- Produces: `type MasteryStoreClient = Pick<PrismaClient, "topicMastery" | "learningEvent">`; `loadFoldedAggregates(client: MasteryStoreClient, studentId: string, topics: ReadonlyMap<string, string>, now: Date): Promise<{ aggregates: Map<string, TopicAggregate>; changed: Set<string> }>`; `persistAggregates(client: MasteryStoreClient, studentId: string, aggregates: Iterable<TopicAggregate>): Promise<void>`. The `topics` map is topicId → subjectId. `changed` holds only the topics that folded at least one new event — Task 8 persists those and skips the rest.
 
 - [ ] **Step 1: Write the store**
 
@@ -1689,11 +1689,21 @@ export async function loadFoldedAggregates(
     else byTopic.set(event.topicId, [folded]);
   }
 
+  // `changed` carries the topics that actually folded a new event. Everything
+  // else is byte-identical to what is already stored apart from its decay
+  // anchor, and re-anchoring buys nothing: decayTo is exact from ANY anchor, so
+  // a stale one produces the same numbers on the next read. Without this the
+  // read path would issue N upserts on every dashboard render, classroom page
+  // and lesson access check — writes that carry no new information, awaited in
+  // front of the user.
   const folded = new Map<string, TopicAggregate>();
+  const changed = new Set<string>();
   for (const [topicId, aggregate] of aggregates) {
-    folded.set(topicId, foldEvents(aggregate, byTopic.get(topicId) ?? [], now));
+    const next = foldEvents(aggregate, byTopic.get(topicId) ?? [], now);
+    folded.set(topicId, next);
+    if (next.cursorSeq !== aggregate.cursorSeq) changed.add(topicId);
   }
-  return folded;
+  return { aggregates: folded, changed };
 }
 
 /**
@@ -1811,14 +1821,29 @@ export async function computeTopicState(
     topics.set(topicId, node.subjectId);
   }
 
-  const aggregates = await loadFoldedAggregates(prisma, studentId, topics, now);
+  const { aggregates, changed } = await loadFoldedAggregates(
+    prisma,
+    studentId,
+    topics,
+    now,
+  );
 
   const state: TopicStateMap = new Map();
   for (const [topicId, aggregate] of aggregates) {
     state.set(topicId, scoreAggregate(aggregate, now));
   }
 
-  await persistAggregates(prisma, studentId, aggregates.values());
+  // Only topics that folded a new event are worth writing back. A read that
+  // changed nothing writes nothing — otherwise every dashboard render, every
+  // classroom page and every lesson access check would await N upserts of
+  // identical numbers.
+  if (changed.size > 0) {
+    await persistAggregates(
+      prisma,
+      studentId,
+      [...changed].map((topicId) => aggregates.get(topicId) as TopicAggregate),
+    );
+  }
 
   return state;
 }
