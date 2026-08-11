@@ -1,10 +1,14 @@
-import type { PrismaClient } from "@prisma/client";
 import type { MasteryLevel } from "@/types/prisma";
 import { masteryLevelFromScore } from "@/lib/lesson-engine";
 import { retentionAt } from "@/lib/spaced-repetition";
 import type { KnowledgeGraph } from "./graph";
 import { channelScore, PRIOR_STRENGTH } from "./evidence";
 import type { TopicAggregate, ChannelStats } from "./fold";
+import {
+  loadFoldedAggregates,
+  persistAggregates,
+  type MasteryStoreClient,
+} from "@/lib/topic-mastery-store";
 
 // Learning Path Engine — composite per-topic mastery, the retention curve,
 // and the derived topic state layer (algorithm A).
@@ -107,151 +111,49 @@ export function assembleTopicState(
 }
 
 /**
- * Derives the state layer for every node in the graph from live evidence:
- * completed assessment responses (accuracy), completed-lesson mastery scores,
- * and scheduled flashcard reviews (SRS retention). Pure on-demand read — it
- * never writes rows; the numbers recompute from the source tables each call.
+ * Derives the state layer for every node in the graph by folding the learning
+ * event ledger.
+ *
+ * The per-topic aggregate carries the decayed sufficient statistics forward in
+ * closed form, so only events past its cursor are read — usually none. The
+ * folded result is written back opportunistically; that write is a cache
+ * refresh, not a source of truth, so its failure costs a recomputation and
+ * nothing else.
  */
 export async function computeTopicState(
-  prisma: Pick<
-    PrismaClient,
-    "questionResponse" | "studentProgress" | "flashcardReview"
-  >,
+  prisma: MasteryStoreClient,
   studentId: string,
   graph: KnowledgeGraph,
   now = new Date(),
 ): Promise<TopicStateMap> {
-  const topicIds = [...graph.nodes.keys()];
-  if (topicIds.length === 0) return new Map();
+  if (graph.nodes.size === 0) return new Map();
 
-  const [responses, progress, reviews] = await Promise.all([
-    prisma.questionResponse.findMany({
-      where: {
-        attempt: { studentId, status: "COMPLETED" },
-        question: { topicId: { in: topicIds } },
-      },
-      select: {
-        isCorrect: true,
-        attempt: { select: { completedAt: true, startedAt: true } },
-        question: { select: { topicId: true } },
-      },
-    }),
-    prisma.studentProgress.findMany({
-      where: {
-        studentId,
-        topicId: { in: topicIds },
-        lessonId: { not: null },
-        masteryScore: { not: null },
-      },
-      select: { topicId: true, masteryScore: true, lastAccessedAt: true },
-    }),
-    prisma.flashcardReview.findMany({
-      where: {
-        studentId,
-        state: { in: ["REVIEW", "RELEARNING"] },
-        lastReviewedAt: { not: null },
-        flashcard: {
-          deck: {
-            OR: [
-              { topicId: { in: topicIds } },
-              { lesson: { subtopic: { topicId: { in: topicIds } } } },
-            ],
-          },
-        },
-      },
-      select: {
-        stability: true,
-        lastReviewedAt: true,
-        flashcard: {
-          select: {
-            deck: {
-              select: {
-                topicId: true,
-                lesson: { select: { subtopic: { select: { topicId: true } } } },
-              },
-            },
-          },
-        },
-      },
-    }),
-  ]);
-
-  // Practice accuracy + latest attempt time, per topic.
-  const accByTopic = new Map<
-    string,
-    { correct: number; total: number; last: number }
-  >();
-  for (const response of responses) {
-    const topicId = response.question.topicId;
-    if (!topicId) continue;
-    const entry = accByTopic.get(topicId) ?? { correct: 0, total: 0, last: 0 };
-    entry.total += 1;
-    if (response.isCorrect) entry.correct += 1;
-    const at = (response.attempt.completedAt ?? response.attempt.startedAt).getTime();
-    if (at > entry.last) entry.last = at;
-    accByTopic.set(topicId, entry);
+  const topics = new Map<string, string>();
+  for (const [topicId, node] of graph.nodes) {
+    topics.set(topicId, node.subjectId);
   }
 
-  // Average lesson mastery + latest access time, per topic.
-  const lessonByTopic = new Map<
-    string,
-    { sum: number; count: number; last: number }
-  >();
-  for (const row of progress) {
-    const topicId = row.topicId;
-    if (!topicId || row.masteryScore == null) continue;
-    const entry =
-      lessonByTopic.get(topicId) ?? { sum: 0, count: 0, last: 0 };
-    entry.sum += row.masteryScore;
-    entry.count += 1;
-    if (row.lastAccessedAt) {
-      const at = row.lastAccessedAt.getTime();
-      if (at > entry.last) entry.last = at;
-    }
-    lessonByTopic.set(topicId, entry);
-  }
-
-  // Average predicted SRS retention + latest review time, per topic.
-  const srsByTopic = new Map<string, { sum: number; count: number; last: number }>();
-  for (const review of reviews) {
-    const deck = review.flashcard.deck;
-    const topicId = deck.topicId ?? deck.lesson?.subtopic.topicId ?? null;
-    if (!topicId) continue;
-    const entry = srsByTopic.get(topicId) ?? { sum: 0, count: 0, last: 0 };
-    entry.sum += retentionAt(
-      Math.max(0, (now.getTime() - (review.lastReviewedAt as Date).getTime()) / DAY_MS),
-      review.stability,
-    );
-    entry.count += 1;
-    const at = (review.lastReviewedAt as Date).getTime();
-    if (at > entry.last) entry.last = at;
-    srsByTopic.set(topicId, entry);
-  }
+  const { aggregates, changed } = await loadFoldedAggregates(
+    prisma,
+    studentId,
+    topics,
+    now,
+  );
 
   const state: TopicStateMap = new Map();
-  for (const topicId of topicIds) {
-    const accEntry = accByTopic.get(topicId);
-    const lessonEntry = lessonByTopic.get(topicId);
-    const srsEntry = srsByTopic.get(topicId);
+  for (const [topicId, aggregate] of aggregates) {
+    state.set(topicId, scoreAggregate(aggregate, now));
+  }
 
-    const acc = accEntry ? (accEntry.correct / accEntry.total) * 100 : null;
-    const lessonM = lessonEntry ? lessonEntry.sum / lessonEntry.count : null;
-    const srs = srsEntry ? srsEntry.sum / srsEntry.count : null;
-
-    const lastStudy = Math.max(
-      accEntry?.last ?? 0,
-      lessonEntry?.last ?? 0,
-      srsEntry?.last ?? 0,
-    );
-
-    state.set(
-      topicId,
-      assembleTopicState(topicId, {
-        acc,
-        lessonM,
-        srs,
-        lastStudy: lastStudy > 0 ? new Date(lastStudy) : null,
-      }, now),
+  // Only topics that folded a new event are worth writing back. A read that
+  // changed nothing writes nothing — otherwise every dashboard render, every
+  // classroom page and every lesson access check would await N upserts of
+  // identical numbers.
+  if (changed.size > 0) {
+    await persistAggregates(
+      prisma,
+      studentId,
+      [...changed].map((topicId) => aggregates.get(topicId) as TopicAggregate),
     );
   }
 

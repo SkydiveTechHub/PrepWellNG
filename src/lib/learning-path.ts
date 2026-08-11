@@ -181,9 +181,8 @@ export async function computePathState(
     PrismaClient,
     | "topic"
     | "topicEdge"
-    | "questionResponse"
-    | "studentProgress"
-    | "flashcardReview"
+    | "topicMastery"
+    | "learningEvent"
     | "performanceMetric"
   >,
   studentId: string,

@@ -20,9 +20,8 @@ export type TopicReadyCheck = {
     PrismaClient,
     | "topic"
     | "topicEdge"
-    | "questionResponse"
-    | "studentProgress"
-    | "flashcardReview"
+    | "topicMastery"
+    | "learningEvent"
     | "performanceMetric"
   >;
   studentId: string;
@@ -229,9 +228,9 @@ export async function computeLessonAccess(
     PrismaClient,
     | "topic"
     | "topicEdge"
-    | "questionResponse"
+    | "topicMastery"
+    | "learningEvent"
     | "studentProgress"
-    | "flashcardReview"
     | "lesson"
     | "performanceMetric"
   >,
