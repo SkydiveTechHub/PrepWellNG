@@ -1692,7 +1692,10 @@ The switchover. `computeTopicState` keeps its exact signature, so all four call 
 - Modify: `src/engines/learning/mastery.ts:108-252` (replace `computeTopicState`)
 - Modify: `src/lib/learning-path.ts:180-194` (widen the accepted client type)
 - Modify: `src/engines/learning/availability.ts:20-33, 191-217` (widen the accepted client type)
-- Modify: `src/lib/classroom-data.ts:144` (no change if the client type widens correctly — verify)
+- **Not** `src/lib/classroom-data.ts` — verified: line 144 calls
+  `computeTopicState(db, userId, graph)` with the full `db` client, which
+  structurally satisfies any `Pick<PrismaClient, …>` signature. No change is
+  needed there. Do not edit it.
 - Modify: `scripts/test-learning-path-state.mts` (reframe the state section onto events)
 
 **Interfaces:**
@@ -1777,7 +1780,7 @@ In `src/engines/learning/availability.ts`, apply the same substitution in `Topic
 - [ ] **Step 3: Verify the build**
 
 Run: `npx tsc --noEmit`
-Expected: PASS. If `src/lib/classroom-data.ts:144` errors, widen its client type the same way — do not change its logic.
+Expected: PASS, with no edit to `src/lib/classroom-data.ts` — it passes the full `db` client, which satisfies any narrowed signature. If it does error, report that as a concern rather than editing it; it would mean the parameter types diverged from what this plan assumed.
 
 - [ ] **Step 4: Reframe the state test onto events**
 
@@ -1842,7 +1845,7 @@ Start the dev server and sign in as a student with no history:
 - [ ] **Step 8: Commit**
 
 ```bash
-git add src/engines/learning/mastery.ts src/lib/learning-path.ts src/engines/learning/availability.ts src/lib/classroom-data.ts scripts/test-learning-path-state.mts
+git add src/engines/learning/mastery.ts src/lib/learning-path.ts src/engines/learning/availability.ts scripts/test-learning-path-state.mts
 git commit -m "feat(learning): derive topic state by folding the event ledger"
 ```
 
