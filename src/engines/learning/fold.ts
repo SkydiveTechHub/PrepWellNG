@@ -67,7 +67,9 @@ export function emptyAggregate(
     lesson: { outcome: 0, mass: 0 },
     srs: { outcome: 0, mass: 0 },
     decayAnchor: at,
-    cursorSeq: 0n,
+    // BigInt(0) rather than 0n: tsconfig targets ES2017, which rejects
+    // bigint literals (TS2737). The call form is equivalent and portable.
+    cursorSeq: BigInt(0),
     lastEffortAt: null,
   };
 }
