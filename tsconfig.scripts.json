@@ -1,0 +1,20 @@
+{
+  // The root tsconfig excludes `scripts/`, so the engine's test suites were
+  // never type-checked and had silently drifted from the types they construct.
+  // This config type-checks them without pulling the scratch scripts
+  // (`scripts/_*.mts`, one-off probes) into the main build.
+  //
+  // Run with: npm run typecheck:tests
+  //
+  // `target` is raised to ES2020 purely so bigint literals (`0n`) type-check.
+  // These files are executed by `tsx`, which transpiles without honouring
+  // target, so this affects type-checking only. Source under `src/` still
+  // targets ES2017 and must keep using `BigInt(0)`.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "target": "ES2020"
+  },
+  "include": ["scripts/test-*.mts"],
+  "exclude": ["node_modules"]
+}

@@ -64,6 +64,9 @@ function mkState(
     level,
     stability: stabilityForLevel(level),
     retention: opts.retention !== undefined ? opts.retention : null,
+    // Synthetic state, so no evidence backs it. Nothing in this suite reads
+    // confidence; it is here because TopicState requires it.
+    confidence: 0,
   };
 }
 
