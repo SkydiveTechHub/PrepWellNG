@@ -612,7 +612,9 @@ export function emptyAggregate(
     lesson: { outcome: 0, mass: 0 },
     srs: { outcome: 0, mass: 0 },
     decayAnchor: at,
-    cursorSeq: 0n,
+    // BigInt(0), not 0n: tsconfig targets ES2017, which rejects bigint
+    // literals (TS2737). The call form is equivalent and portable.
+    cursorSeq: BigInt(0),
     lastEffortAt: null,
   };
 }
@@ -1580,7 +1582,9 @@ export async function loadFoldedAggregates(
     where: {
       studentId,
       topicId: { in: topicIds },
-      seq: { gt: lowestCursor ?? 0n },
+      // BigInt(0), not 0n: tsconfig targets ES2017, which rejects bigint
+      // literals (TS2737). The call form is equivalent and portable.
+      seq: { gt: lowestCursor ?? BigInt(0) },
     },
     orderBy: { seq: "asc" },
     select: {
@@ -1623,7 +1627,7 @@ export async function persistAggregates(
 ): Promise<void> {
   const writes = [...aggregates]
     // Nothing folded and nothing stored — no row worth creating.
-    .filter((a) => a.cursorSeq > 0n)
+    .filter((a) => a.cursorSeq > BigInt(0))
     .map((a) =>
       client.topicMastery.upsert({
         where: { studentId_topicId: { studentId, topicId: a.topicId } },
