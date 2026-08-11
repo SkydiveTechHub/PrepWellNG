@@ -1455,39 +1455,92 @@ Add a third entry to the transaction array:
 
 The `const [review] = await db.$transaction([...])` destructure still takes the first element, so adding entries at the end is safe.
 
-- [ ] **Step 5: Emit on pretest pass**
+- [ ] **Step 5: Emit the pretest's answers as evidence**
 
-In `src/lib/pretest.ts`, the pass branch already upserts `performanceMetric` (line 202). Immediately after that `await`, add:
+`src/lib/pretest.ts` has its **own** grading path — `gradePretest` writes
+`QuestionResponse` rows directly and marks the attempt `COMPLETED`, without
+going through `assessment-submit.ts`. Because the old `computeTopicState`
+counted every response on a COMPLETED attempt, pretest answers **already count
+as practice evidence today**. Emitting only `PRETEST_PASSED` here would silently
+stop them counting — a behaviour regression no test would catch. So the answers
+are emitted too.
+
+Add the import:
+
+```ts
+import { type NewLearningEvent } from "./learning-events";
+```
+
+In `gradePretest`, declare an accumulator beside `responseData`:
+
+```ts
+  const learningEvents: NewLearningEvent[] = [];
+```
+
+Inside the `for (const answer of answers)` loop, after the `responseData.push({...})` call, add:
+
+```ts
+    learningEvents.push({
+      studentId,
+      subjectId: question.subjectId,
+      topicId: question.topicId,
+      kind: "QUESTION_ANSWERED",
+      correct: isCorrect,
+      difficulty: question.difficulty,
+      seconds: answer.timeSpentSeconds || null,
+      sourceId: question.id,
+    });
+```
+
+`question` here is the full `Question` record (the query uses
+`include: { question: true }`), so `subjectId`, `topicId` and `difficulty` are
+all in scope.
+
+Then add a third entry to the existing `db.$transaction([...])` array, after the
+`assessmentAttempt.update`:
+
+```ts
+    ...(learningEvents.length > 0
+      ? [db.learningEvent.createMany({ data: learningEvents })]
+      : []),
+```
+
+- [ ] **Step 6: Emit on pretest pass**
+
+In the same file, the pass branch upserts `performanceMetric` inside
+`if (passed) { ... }`. Immediately after that `await`, and still inside the
+`if (passed)` block, add:
 
 ```ts
     await db.learningEvent.createMany({
       data: [
         {
           studentId,
-          subjectId,
-          topicId,
+          subjectId: topic.subjectId,
+          topicId: topic.id,
           kind: "PRETEST_PASSED",
-          sourceId: topicId,
+          sourceId: topic.id,
         },
       ],
     });
 ```
 
-If the surrounding variables are named differently in that scope, use the names already in use for the student, subject and topic ids rather than renaming anything.
+Use `topic.subjectId` and `topic.id` — that is what the surrounding code uses;
+there are no bare `subjectId` / `topicId` variables in this scope.
 
-- [ ] **Step 6: Verify the build and the suite**
+- [ ] **Step 7: Verify the build and the suite**
 
 Run: `npx tsc --noEmit && npm test`
 Expected: PASS.
 
-- [ ] **Step 7: Verify each emitter by hand**
+- [ ] **Step 8: Verify each emitter by hand** (SKIPPED — database unreachable; see Global Constraints)
 
 Start the dev server and, checking `LearningEvent` in `npx prisma studio` after each:
 1. Complete a lesson → one `LESSON_COMPLETED` row with `score` between 0 and 1.
 2. Review a flashcard → one `CARD_REVIEWED` row with `score` matching the grade pressed.
 3. Pass a readiness pretest → one `PRETEST_PASSED` row.
 
-- [ ] **Step 8: Commit**
+- [ ] **Step 9: Commit**
 
 ```bash
 git add src/lib/topic-practice-result.ts src/lib/flashcards.ts src/lib/pretest.ts
