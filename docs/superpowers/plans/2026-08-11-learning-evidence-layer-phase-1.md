@@ -1833,7 +1833,47 @@ In `src/lib/learning-path.ts`, change the `computePathState` prisma parameter ty
   >,
 ```
 
-In `src/engines/learning/availability.ts`, apply the same substitution in `TopicReadyCheck` (line 20) and in `computeLessonAccess` (line 236): replace `"questionResponse" | "studentProgress" | "flashcardReview"` with `"topicMastery" | "learningEvent"`, keeping every other member of each union.
+In `src/engines/learning/availability.ts` there are two unions to change, and
+they are **not** changed the same way. Each function's union must name exactly
+the delegates it still touches, directly or through what it calls.
+
+`TopicReadyCheck` (around line 20) — it only calls `loadPretestPassed`
+(`performanceMetric`), `loadGraph` (`topic`, `topicEdge`) and
+`computeTopicState` (now `topicMastery`, `learningEvent`). Drop all three old
+members:
+
+```ts
+  prisma: Pick<
+    PrismaClient,
+    | "topic"
+    | "topicEdge"
+    | "topicMastery"
+    | "learningEvent"
+    | "performanceMetric"
+  >;
+```
+
+`computeLessonAccess` (around line 236) — this one **still calls
+`prisma.studentProgress.findMany` directly** at line 266, to collect the
+student's completed lesson ids. Keep `"studentProgress"`; drop only
+`"questionResponse"` and `"flashcardReview"`:
+
+```ts
+  prisma: Pick<
+    PrismaClient,
+    | "topic"
+    | "topicEdge"
+    | "topicMastery"
+    | "learningEvent"
+    | "studentProgress"
+    | "lesson"
+    | "performanceMetric"
+  >,
+```
+
+Removing `"studentProgress"` from the second union is a compile error, not a
+tidy-up. If you find yourself deleting a member, check for a direct
+`prisma.<delegate>.` call in that function first.
 
 - [ ] **Step 3: Verify the build**
 
