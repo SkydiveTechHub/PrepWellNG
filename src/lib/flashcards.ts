@@ -15,6 +15,17 @@ import {
 import type { ReviewOutcome } from "@/types/flashcards";
 
 /**
+ * A review grade as a 0..1 outcome for the SRS evidence channel. AGAIN is a
+ * genuine failure to recall; EASY is effortless recall.
+ */
+const REVIEW_OUTCOME: Record<ReviewRating, number> = {
+  AGAIN: 0,
+  HARD: 0.5,
+  GOOD: 0.85,
+  EASY: 1,
+};
+
+/**
  * Page-level flashcard services.
  *
  * The functions in `flashcard-analytics` take their Prisma client as an
@@ -267,7 +278,23 @@ export async function recordFlashcardReview(
         ],
       },
     },
-    select: { id: true, difficulty: true },
+    select: {
+      id: true,
+      difficulty: true,
+      deck: {
+        select: {
+          topicId: true,
+          topic: { select: { subjectId: true } },
+          lesson: {
+            select: {
+              subtopic: {
+                select: { topic: { select: { id: true, subjectId: true } } },
+              },
+            },
+          },
+        },
+      },
+    },
   });
   if (!flashcard) return "flashcard-not-found" as const;
 
@@ -306,6 +333,12 @@ export async function recordFlashcardReview(
     lastReviewedAt: new Date(next.lastReviewedAt ?? now),
   };
 
+  // A deck hangs off either a topic directly or a lesson's subtopic. Cards
+  // with neither still record a review; they just carry no topic evidence.
+  const deckTopic = flashcard.deck.lesson?.subtopic.topic ?? null;
+  const topicId = flashcard.deck.topicId ?? deckTopic?.id ?? null;
+  const subjectId = flashcard.deck.topic?.subjectId ?? deckTopic?.subjectId ?? null;
+
   const [review] = await db.$transaction([
     db.flashcardReview.upsert({
       where: { studentId_flashcardId: { studentId, flashcardId } },
@@ -323,6 +356,24 @@ export async function recordFlashcardReview(
         reviewedAt: now,
       },
     }),
+    ...(topicId && subjectId
+      ? [
+          db.learningEvent.createMany({
+            data: [
+              {
+                studentId,
+                subjectId,
+                topicId,
+                kind: "CARD_REVIEWED" as const,
+                score: REVIEW_OUTCOME[rating],
+                seconds: responseTimeMs ? Math.round(responseTimeMs / 1000) : null,
+                sourceId: flashcardId,
+                occurredAt: now,
+              },
+            ],
+          }),
+        ]
+      : []),
   ]);
 
   const outcome: ReviewOutcome = {

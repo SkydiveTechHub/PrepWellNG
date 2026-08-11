@@ -1,4 +1,5 @@
 import { db } from "./db";
+import { emitLearningEvents } from "./learning-events";
 import { resolveTopicLesson, topicLessonSelect } from "./classroom";
 import {
   bestOfLastThree,
@@ -157,6 +158,18 @@ export async function recordTopicPracticeResult(
           lastUpdated: new Date(),
         },
         update: { masteryLevel, lastUpdated: new Date() },
+      }),
+      db.learningEvent.createMany({
+        data: [
+          {
+            studentId: userId,
+            subjectId,
+            topicId,
+            kind: "LESSON_COMPLETED" as const,
+            score: bestMastery / 100,
+            sourceId: lessonId,
+          },
+        ],
       }),
     ]);
   } else {

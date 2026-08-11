@@ -1,5 +1,6 @@
 import { db } from "./db";
 import { PRETEST_PASS } from "@/engines/learning/availability";
+import { type NewLearningEvent } from "./learning-events";
 import { pickRandomQuestionIds } from "./question-pool";
 
 // Readiness pretest — 5 questions, ≥80% passes, self-certifies a topic so the
@@ -157,6 +158,7 @@ export async function gradePretest(
     timeSpentSeconds: number | null;
     flaggedForReview: boolean;
   }> = [];
+  const learningEvents: NewLearningEvent[] = [];
 
   for (const answer of answers) {
     const question = questionMap.get(answer?.questionId);
@@ -170,6 +172,16 @@ export async function gradePretest(
       isCorrect,
       timeSpentSeconds: answer.timeSpentSeconds || null,
       flaggedForReview: false,
+    });
+    learningEvents.push({
+      studentId,
+      subjectId: question.subjectId,
+      topicId: question.topicId,
+      kind: "QUESTION_ANSWERED",
+      correct: isCorrect,
+      difficulty: question.difficulty,
+      seconds: answer.timeSpentSeconds || null,
+      sourceId: question.id,
     });
   }
 
@@ -194,6 +206,9 @@ export async function gradePretest(
         ),
       },
     }),
+    ...(learningEvents.length > 0
+      ? [db.learningEvent.createMany({ data: learningEvents })]
+      : []),
   ]);
 
   // Earned once: a passing pretest sets the flag permanently.
@@ -214,6 +229,17 @@ export async function gradePretest(
         pretestPassedAt: new Date(),
       },
       update: { pretestPassedAt: new Date() },
+    });
+    await db.learningEvent.createMany({
+      data: [
+        {
+          studentId,
+          subjectId: topic.subjectId,
+          topicId: topic.id,
+          kind: "PRETEST_PASSED",
+          sourceId: topic.id,
+        },
+      ],
     });
     recorded = true;
   }
