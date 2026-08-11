@@ -1621,23 +1621,28 @@ export async function loadFoldedAggregates(
     });
   }
 
-  // One query for every topic, bounded by the lowest cursor among them. Topics
-  // whose own cursor is higher simply skip the extra rows inside the fold, so
-  // this is cheaper than a query per topic and just as correct.
-  let lowestCursor: bigint | null = null;
-  for (const aggregate of aggregates.values()) {
-    if (lowestCursor === null || aggregate.cursorSeq < lowestCursor) {
-      lowestCursor = aggregate.cursorSeq;
-    }
-  }
+  // One clause per topic, each bounded by THAT topic's own cursor.
+  //
+  // The obvious shortcut — take the lowest cursor across all topics and fetch
+  // everything above it — collapses to a full history scan in practice. A topic
+  // the student has never touched has no TopicMastery row, so it enters the map
+  // with cursor 0, and every student has untouched topics in their subjects.
+  // The bound would therefore be 0 on essentially every request, re-reading the
+  // entire ledger each time and defeating the point of keeping an aggregate.
+  //
+  // Each clause is an index range scan on (studentId, topicId, seq), which the
+  // schema declares, and a topic that is fully caught up matches no rows at all.
+  // BigInt(0), not 0n: tsconfig targets ES2017, which rejects bigint literals
+  // (TS2737). The call form is equivalent and portable.
+  const cursorClauses = topicIds.map((topicId) => ({
+    topicId,
+    seq: { gt: aggregates.get(topicId)?.cursorSeq ?? BigInt(0) },
+  }));
 
   const events = await client.learningEvent.findMany({
     where: {
       studentId,
-      topicId: { in: topicIds },
-      // BigInt(0), not 0n: tsconfig targets ES2017, which rejects bigint
-      // literals (TS2737). The call form is equivalent and portable.
-      seq: { gt: lowestCursor ?? BigInt(0) },
+      OR: cursorClauses,
     },
     orderBy: { seq: "asc" },
     select: {
