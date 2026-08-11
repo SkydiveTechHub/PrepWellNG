@@ -1616,7 +1616,7 @@ export async function loadFoldedAggregates(
   studentId: string,
   topics: ReadonlyMap<string, string>,
   now: Date,
-): Promise<Map<string, TopicAggregate>> {
+): Promise<{ aggregates: Map<string, TopicAggregate>; changed: Set<string> }> {
   const topicIds = [...topics.keys()];
   if (topicIds.length === 0) return new Map();
 
