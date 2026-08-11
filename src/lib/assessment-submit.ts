@@ -3,6 +3,7 @@ import { getGrade } from "./utils";
 import { buildAttemptResult } from "./attempt-results";
 import { evaluateAttemptTiming } from "./attempt-timing";
 import { scoreJambPaper } from "./jamb-cbt";
+import { emitLearningEvents, type NewLearningEvent } from "./learning-events";
 
 export type SubmittedAnswer = {
   questionId: string;
@@ -63,6 +64,7 @@ export async function submitAttempt(
                   marks: true,
                   topicId: true,
                   subjectId: true,
+                  difficulty: true,
                   subject: { select: { code: true, name: true } },
                 },
               },
@@ -90,6 +92,7 @@ export async function submitAttempt(
     timeSpentSeconds: number | null;
     flaggedForReview: boolean;
   }[] = [];
+  const learningEvents: NewLearningEvent[] = [];
   const graded: {
     subjectId: string;
     subjectCode: string;
@@ -119,6 +122,17 @@ export async function submitAttempt(
       isCorrect,
       timeSpentSeconds: answer.timeSpentSeconds || null,
       flaggedForReview: answer.flaggedForReview || false,
+    });
+
+    learningEvents.push({
+      studentId,
+      subjectId: question.subjectId,
+      topicId: question.topicId,
+      kind: "QUESTION_ANSWERED",
+      correct: isCorrect,
+      difficulty: question.difficulty,
+      seconds: answer.timeSpentSeconds || null,
+      sourceId: question.id,
     });
   }
 
@@ -180,6 +194,11 @@ export async function submitAttempt(
       data: responseData,
       skipDuplicates: true,
     });
+
+    // In-transaction: the ledger row and the response it describes commit
+    // together or not at all. The compare-and-set above means only the winning
+    // submission reaches here, so a double-tap cannot double-count.
+    await emitLearningEvents(tx, learningEvents);
     return true;
   });
 
