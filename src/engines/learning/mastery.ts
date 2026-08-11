@@ -3,6 +3,8 @@ import type { MasteryLevel } from "@/types/prisma";
 import { masteryLevelFromScore } from "@/lib/lesson-engine";
 import { retentionAt } from "@/lib/spaced-repetition";
 import type { KnowledgeGraph } from "./graph";
+import { channelScore, PRIOR_STRENGTH } from "./evidence";
+import type { TopicAggregate, ChannelStats } from "./fold";
 
 // Learning Path Engine — composite per-topic mastery, the retention curve,
 // and the derived topic state layer (algorithm A).
@@ -34,6 +36,11 @@ export interface TopicState extends TopicEvidence {
   retention: number | null;
   /** Memory strength in days, derived from the mastery level. */
   stability: number;
+  /**
+   * How much of `mastery` comes from data rather than the prior (0..1).
+   * Below CONFIDENCE_FLOOR the number is not worth showing or diagnosing.
+   */
+  confidence: number;
 }
 
 export type TopicStateMap = Map<string, TopicState>;
@@ -96,7 +103,7 @@ export function assembleTopicState(
   const level = masteryLevelFromScore(mastery);
   const stability = stabilityForLevel(level);
   const retention = topicRetention(evidence.lastStudy, stability, now);
-  return { topicId, ...evidence, mastery, level, stability, retention };
+  return { topicId, ...evidence, mastery, level, stability, retention, confidence: 0 };
 }
 
 /**
@@ -249,4 +256,63 @@ export async function computeTopicState(
   }
 
   return state;
+}
+
+/**
+ * Composite mastery from the three channels.
+ *
+ * Each channel's base weight is multiplied by that channel's own confidence,
+ * then renormalised over the channels that have any evidence at all — so a
+ * topic with heavy practice and one flaky flashcard leans on the practice
+ * automatically. With a single channel present the confidence factor cancels,
+ * and mastery is exactly that channel's shrunk score.
+ */
+export function scoreAggregate(
+  aggregate: TopicAggregate,
+  now: Date,
+): TopicState {
+  const acc = channelScore(aggregate.acc.outcome, aggregate.acc.mass);
+  const lesson = channelScore(aggregate.lesson.outcome, aggregate.lesson.mass);
+  const srs = channelScore(aggregate.srs.outcome, aggregate.srs.mass);
+
+  const present: Array<[number, number]> = [];
+  const consider = (
+    stats: ChannelStats,
+    baseWeight: number,
+    scored: { score: number; confidence: number },
+  ) => {
+    if (stats.mass > 0) present.push([baseWeight * scored.confidence, scored.score]);
+  };
+  consider(aggregate.acc, ACC_WEIGHT, acc);
+  consider(aggregate.lesson, LESSON_WEIGHT, lesson);
+  consider(aggregate.srs, SRS_WEIGHT, srs);
+
+  const weightSum = present.reduce((sum, [weight]) => sum + weight, 0);
+  const composite =
+    weightSum > 0
+      ? present.reduce((sum, [weight, score]) => sum + (weight / weightSum) * score, 0)
+      : 0;
+  const mastery = Math.min(100, Math.max(0, Math.round(composite * 100)));
+
+  // Confidence is NOT an average of the channel confidences — averaging would
+  // let an empty channel drag down a well-evidenced topic. Evidence from
+  // different channels accumulates.
+  const totalMass = aggregate.acc.mass + aggregate.lesson.mass + aggregate.srs.mass;
+  const confidence = totalMass / (totalMass + PRIOR_STRENGTH);
+
+  const level = masteryLevelFromScore(mastery);
+  const stability = stabilityForLevel(level);
+
+  return {
+    topicId: aggregate.topicId,
+    acc: aggregate.acc.mass > 0 ? acc.score * 100 : null,
+    lessonM: aggregate.lesson.mass > 0 ? lesson.score * 100 : null,
+    srs: aggregate.srs.mass > 0 ? srs.score : null,
+    lastStudy: aggregate.lastEffortAt,
+    mastery,
+    level,
+    stability,
+    retention: topicRetention(aggregate.lastEffortAt, stability, now),
+    confidence,
+  };
 }

@@ -338,3 +338,95 @@ test("foldEvents: incremental catch-up equals a full replay, at every split", ()
     );
   }
 });
+
+import { scoreAggregate } from "../src/engines/learning/mastery";
+
+function scored(events: FoldEvent[], at: Date = now) {
+  return scoreAggregate(foldEvents(emptyAggregate("t1", "subj-1", at), events, at), at);
+}
+
+// ─── Aggregate → TopicState ────────────────────────────────
+
+test("scoreAggregate: the four worked cases from the spec", () => {
+  assert.equal(scored([event({ correct: true })]).mastery, 56);
+  assert.equal(scored([event({ correct: false })]).mastery, 39);
+
+  const ten = (correct: boolean) =>
+    Array.from({ length: 10 }, () => event({ correct }));
+  assert.equal(scored(ten(true)).mastery, 84);
+  assert.equal(scored(ten(false)).mastery, 24);
+});
+
+test("scoreAggregate: one correct answer leaves the topic below TARGET", () => {
+  assert.ok(scored([event({ correct: true })]).mastery < 70);
+});
+
+test("scoreAggregate: ten wrong answers are firmly weak, with the evidence to say so", () => {
+  const state = scored(Array.from({ length: 10 }, () => event({ correct: false })));
+  assert.ok(state.mastery < 50);
+  assert.ok(state.confidence > 0.35);
+});
+
+test("scoreAggregate: one wrong answer is below the confidence floor", () => {
+  assert.ok(scored([event({ correct: false })]).confidence < 0.35);
+});
+
+test("scoreAggregate: a single channel scores exactly its own shrunk value", () => {
+  // With one channel present the confidence weighting cancels in the
+  // renormalisation, so mastery is the channel score unmodified.
+  const state = scored([event({ correct: true })]);
+  close(state.mastery / 100, channelScore(1, 1).score, 0.005);
+});
+
+test("scoreAggregate: no evidence yields zero mastery and zero confidence", () => {
+  const state = scored([]);
+  assert.equal(state.mastery, 0);
+  assert.equal(state.confidence, 0);
+  assert.equal(state.acc, null);
+  assert.equal(state.lessonM, null);
+  assert.equal(state.srs, null);
+});
+
+test("scoreAggregate: channels with no evidence stay null so hasEvidence still works", () => {
+  const state = scored([event({ correct: true })]);
+  assert.ok(state.acc !== null);
+  assert.equal(state.lessonM, null);
+  assert.equal(state.srs, null);
+});
+
+test("scoreAggregate: confidence accumulates across channels rather than averaging", () => {
+  const practiceOnly = scored(Array.from({ length: 4 }, () => event({ correct: true })));
+  const both = scored([
+    ...Array.from({ length: 4 }, () => event({ correct: true })),
+    event({ kind: "CARD_REVIEWED", correct: null, score: 0.9 }),
+  ]);
+  assert.ok(
+    both.confidence > practiceOnly.confidence,
+    "adding a second channel must raise confidence, not dilute it",
+  );
+});
+
+test("scoreAggregate: the better-evidenced channel dominates the composite", () => {
+  const state = scored([
+    ...Array.from({ length: 20 }, () => event({ correct: true })),
+    event({ kind: "CARD_REVIEWED", correct: null, score: 0.0 }),
+  ]);
+  // Twenty correct answers against one bad card: practice must win.
+  assert.ok(state.mastery > 70, `expected practice to dominate, got ${state.mastery}`);
+});
+
+test("scoreAggregate: retention derives from lastEffortAt, not from lesson access", () => {
+  const state = scored([event({ occurredAt: daysBefore(1) })]);
+  assert.ok(state.retention !== null);
+  assert.equal(state.lastStudy?.getTime(), daysBefore(1).getTime());
+
+  const untouched = scored([event({ kind: "QUIZ_ABANDONED", correct: null, score: null })]);
+  assert.equal(untouched.retention, null);
+  assert.equal(untouched.lastStudy, null);
+});
+
+test("scoreAggregate: mastery maps onto the existing level bands", () => {
+  const strong = scored(Array.from({ length: 60 }, () => event({ correct: true })));
+  assert.equal(strong.level, "STRONG");
+  assert.equal(strong.stability, 60);
+});
