@@ -1,8 +1,82 @@
 # Learning Evidence Layer — Tracked Activity, Hardened Scoring, Forecasting
 
 Date: 2026-08-11
-Status: Draft
+Status: Phase 1 implemented (see "Phase 1 as shipped" below); Phases 2-3 not started
 Role: Senior Learning Experience Designer
+
+## Phase 1 as shipped — read this before trusting the rest of this document
+
+Phase 1 landed in `docs/superpowers/plans/2026-08-11-learning-evidence-layer-phase-1.md`.
+The sections below describe the **full three-phase design**. Several of their
+headline claims are Phase 2 or 3 behaviour and are **not** in the code today.
+
+### What this document claims that Phase 1 does NOT deliver
+
+- **"One wrong answer no longer diagnoses a weakness."** `CONFIDENCE_FLOOR`
+  exists in `src/engines/learning/evidence.ts` but has **zero call sites**.
+  `classifyTopic` in `src/engines/learning/gaps.ts` still gates on the old
+  "any evidence at all" check, so one wrong answer still classifies a topic
+  `WEAK` — at mastery 39 rather than 0, but still `WEAK`. Confidence gating is
+  Phase 2.
+- **The "still measuring" UI state.** Not built. No surface reads `confidence`.
+- **Everything in "Velocity and forecast" and "Difficulty targeting".** Phase 3.
+  No snapshots table exists.
+- **Quiz abandonment and lesson-block granularity.** Phase 2. `QUIZ_ABANDONED`
+  is in the enum and the fold, with no emitter.
+- **The `PerformanceMetric` projection.** Phase 2. The Performance page's
+  subject breakdown still renders zeros.
+
+### Known limitations of Phase 1
+
+- **No reconciliation for skipped sequences.** `LearningEvent.seq` is
+  `BIGSERIAL` — allocated at insert, visible at commit — so a slow-committing
+  transaction can be skipped forever by a read that advances a topic's cursor
+  past it. The daily cursor-reset-and-replay that mitigates this is Phase 3.
+  Until then, **bumping `SCORING_VERSION` is the repair lever**: it forces a
+  full per-topic replay from the ledger on the next read.
+- **`saveLessonProgress` has no emitter.** `src/lib/lesson-progress.ts` writes
+  `StudentProgress.masteryScore`, which the old engine counted as lesson
+  evidence and the new one ignores. Dormant — no client posts `masteryScore`
+  today — but wiring one without also emitting `LESSON_BLOCK_COMPLETED` would
+  silently lose that evidence. There is a tripwire comment at the write site.
+- **The lesson channel counts restatements.** `LESSON_COMPLETED` carries
+  `bestOfLastThree`, itself an aggregate, so a genuine re-pass emits a
+  restatement of a running best that the fold treats as a fresh observation.
+  The practice and SRS channels emit one event per new observation. Revisit if
+  the lesson channel over-weights repeat learners.
+- **The engine test suites are not type-checked.** `tsconfig.json` excludes
+  `scripts/`, and several suites construct `TopicState` literals omitting the
+  now-required `confidence` field. Harmless at runtime; invisible drift.
+
+### Verification still outstanding
+
+**No query in Phase 1 has ever executed.** The development database was
+unreachable throughout implementation (`P1001`), so the migration was authored
+offline with `prisma migrate diff` and has **not been applied**. Coverage is 482
+passing pure-function tests; nothing exercises Prisma.
+
+Before this reaches real traffic, run all of:
+
+1. `npx prisma migrate deploy` — applies
+   `20260811000000_learning_evidence_layer`. Confirm it applies cleanly and
+   drops only the three dead `PerformanceMetric` columns.
+2. Complete a quiz. Confirm one `QUESTION_ANSWERED` row per answer, each
+   carrying `difficulty`, `correct` and `sourceId`.
+3. Complete a lesson, review a flashcard, pass a readiness pretest. Confirm one
+   `LESSON_COMPLETED`, one `CARD_REVIEWED`, and both `PRETEST_PASSED` **and**
+   one `QUESTION_ANSWERED` per pretest answer.
+4. Refresh the lesson-result page several times. Confirm **exactly one**
+   `LESSON_COMPLETED` event survives — this guards the append-only inflation
+   bug fixed in `5b07b0e`.
+5. **The end-to-end check, highest value of all:** as a student with no
+   history, answer one question correctly. The dashboard must show that topic
+   at mastery **56**, not 100, and it must **not** appear under "Tighten your
+   gaps". Then confirm `TopicMastery.cursorSeq` equals the ledger's max `seq`,
+   and that reloading the dashboard changes neither the numbers nor the cursor.
+
+Step 5 exercises the migration, an emitter, the store, the fold and the
+change-gated persist in one pass. It is the difference between "the tests pass"
+and "this works".
 
 ## Problem
 
