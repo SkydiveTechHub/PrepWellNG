@@ -20,6 +20,15 @@
 - **Outcome table:** BASIC `{correct 0.85, wrong 0.0}`, INTERMEDIATE `{correct 1.0, wrong 0.15}`, ADVANCED `{correct 1.0, wrong 0.35}`. A null difficulty is treated as INTERMEDIATE.
 - **The regression gate:** after Task 8, `npm run test:path` must pass with `test-learning-path-graph/-recommend/-revision/-plan/-pretest.mts` **unmodified**. Only `-state.mts` may be edited.
 - Read `node_modules/next/dist/docs/` before touching any Next.js API — this Next.js differs from training data (see `AGENTS.md`).
+- **The development database is unreachable** (`P1001` against the Supabase
+  pooler), and there is no local Postgres. Every step that needs a live
+  connection is deferred to a single catch-up pass, tracked in the ledger:
+  applying the migration (`migrate deploy`), and the hands-on verification in
+  Tasks 4, 5, 6 and 8 that uses Prisma Studio or the dev server. **Skip those
+  steps and say so in your report — do not fake them, and do not report a
+  verification you did not perform.** Everything else proceeds normally:
+  `prisma migrate diff`, `prisma generate`, `tsc --noEmit` and the whole
+  `node:test` suite all work offline, and every task is still reviewed.
 
 ---
 
@@ -1069,14 +1078,44 @@ In `model PerformanceMetric`, delete these three lines. They have never been wri
 Keep `pretestPassedAt` — `computePathState` reads it (`src/lib/learning-path.ts:196`).
 Keep `totalAttempted`, `totalCorrect`, `accuracy`, `averageTimePerQuestion` — they are also unwritten today, but `src/lib/performance.ts:133` reads them and Phase 2 populates them.
 
-- [ ] **Step 5: Migrate and regenerate**
+- [ ] **Step 5: Author the migration offline, and regenerate the client**
+
+The development database is unreachable (`P1001` against the Supabase pooler),
+so `prisma migrate dev` cannot run — it needs a live connection and a shadow
+database. Author the migration from the schema files instead. `prisma migrate
+diff` and `prisma generate` both work fully offline.
+
+First capture the pre-edit schema to diff against (run this from the repo root;
+it reads the committed version, so do it even after you have edited the file):
 
 ```bash
-npx prisma migrate dev --name learning_evidence_layer
+git show HEAD:prisma/schema.prisma > "$TMPDIR/schema-before.prisma"
+```
+
+If `$TMPDIR` is unset, use any scratch path outside the repo — do not write it
+into `prisma/`, or the next diff will pick it up.
+
+Then generate the delta as SQL and place it as a migration:
+
+```bash
+mkdir -p prisma/migrations/20260811000000_learning_evidence_layer
+npx prisma migrate diff \
+  --from-schema-datamodel "$TMPDIR/schema-before.prisma" \
+  --to-schema-datamodel prisma/schema.prisma \
+  --script > prisma/migrations/20260811000000_learning_evidence_layer/migration.sql
 npx prisma generate
 ```
 
-Expected: a new directory under `prisma/migrations/`, and no data-loss prompt beyond the three dropped columns.
+Verify before moving on:
+- `migration.sql` is non-empty and contains `CREATE TYPE "LearningEventKind"`,
+  `CREATE TABLE "LearningEvent"`, `CREATE TABLE "TopicMastery"`, and three
+  `DROP COLUMN` statements against `PerformanceMetric`.
+- It contains nothing else. If it drops or recreates an unrelated table, the
+  before-schema was captured wrongly — stop and report it.
+- `npx prisma generate` succeeds and reports the client written.
+
+Do **not** run `prisma migrate dev`, `migrate deploy`, or `db push`. Applying
+this migration is deferred to a catch-up pass once the database is reachable.
 
 - [ ] **Step 6: Mirror the types**
 
