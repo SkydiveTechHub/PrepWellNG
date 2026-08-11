@@ -214,33 +214,35 @@ export async function gradePretest(
   // Earned once: a passing pretest sets the flag permanently.
   let recorded = false;
   if (passed) {
-    await db.performanceMetric.upsert({
-      where: {
-        studentId_subjectId_topicId: {
+    await db.$transaction([
+      db.performanceMetric.upsert({
+        where: {
+          studentId_subjectId_topicId: {
+            studentId,
+            subjectId: topic.subjectId,
+            topicId: topic.id,
+          },
+        },
+        create: {
           studentId,
           subjectId: topic.subjectId,
           topicId: topic.id,
+          pretestPassedAt: new Date(),
         },
-      },
-      create: {
-        studentId,
-        subjectId: topic.subjectId,
-        topicId: topic.id,
-        pretestPassedAt: new Date(),
-      },
-      update: { pretestPassedAt: new Date() },
-    });
-    await db.learningEvent.createMany({
-      data: [
-        {
-          studentId,
-          subjectId: topic.subjectId,
-          topicId: topic.id,
-          kind: "PRETEST_PASSED",
-          sourceId: topic.id,
-        },
-      ],
-    });
+        update: { pretestPassedAt: new Date() },
+      }),
+      db.learningEvent.createMany({
+        data: [
+          {
+            studentId,
+            subjectId: topic.subjectId,
+            topicId: topic.id,
+            kind: "PRETEST_PASSED",
+            sourceId: topic.id,
+          },
+        ],
+      }),
+    ]);
     recorded = true;
   }
 
