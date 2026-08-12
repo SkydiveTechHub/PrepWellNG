@@ -67,6 +67,9 @@ function mkState(
     // Synthetic state, so no evidence backs it. Nothing in this suite reads
     // confidence; it is here because TopicState requires it.
     confidence: 0,
+    accObservations: 0,
+    lessonObservations: 0,
+    srsObservations: 0,
   };
 }
 

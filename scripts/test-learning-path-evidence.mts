@@ -518,3 +518,33 @@ test("scoreAggregate: mastery maps onto the existing level bands", () => {
   assert.equal(strong.level, "STRONG");
   assert.equal(strong.stability, 60);
 });
+
+test("scoreAggregate: observation counts reach TopicState", () => {
+  const state = scored([
+    event({ correct: true }),
+    event({ correct: false }),
+    event({ kind: "CARD_REVIEWED", correct: null, score: 0.9 }),
+  ]);
+  assert.equal(state.accObservations, 2);
+  assert.equal(state.lessonObservations, 0);
+  assert.equal(state.srsObservations, 1);
+});
+
+test("scoreAggregate: a topic with no evidence reports no observations", () => {
+  const state = scored([]);
+  assert.equal(state.accObservations, 0);
+  assert.equal(state.lessonObservations, 0);
+  assert.equal(state.srsObservations, 0);
+});
+
+test("scoreAggregate: observations survive decay while confidence falls", () => {
+  const fresh = scored(Array.from({ length: 3 }, () => event()));
+  const stale = scored(
+    Array.from({ length: 3 }, () => event({ occurredAt: daysBefore(180) })),
+  );
+  assert.equal(stale.accObservations, fresh.accObservations);
+  assert.ok(
+    stale.confidence < fresh.confidence,
+    "decayed evidence should be less confident despite the same count",
+  );
+});

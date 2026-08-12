@@ -45,6 +45,14 @@ export interface TopicState extends TopicEvidence {
    * Below CONFIDENCE_FLOOR the number is not worth showing or diagnosing.
    */
   confidence: number;
+  /**
+   * Raw counts of the evidence behind this topic, per channel. Unlike mastery
+   * and confidence these do not decay — they answer "what have I actually
+   * done?", which is what the UI shows when confidence is below the floor.
+   */
+  accObservations: number;
+  lessonObservations: number;
+  srsObservations: number;
 }
 
 export type TopicStateMap = Map<string, TopicState>;
@@ -107,7 +115,18 @@ export function assembleTopicState(
   const level = masteryLevelFromScore(mastery);
   const stability = stabilityForLevel(level);
   const retention = topicRetention(evidence.lastStudy, stability, now);
-  return { topicId, ...evidence, mastery, level, stability, retention, confidence: 0 };
+  return {
+    topicId,
+    ...evidence,
+    mastery,
+    level,
+    stability,
+    retention,
+    confidence: 0,
+    accObservations: 0,
+    lessonObservations: 0,
+    srsObservations: 0,
+  };
 }
 
 /**
@@ -216,5 +235,8 @@ export function scoreAggregate(
     stability,
     retention: topicRetention(aggregate.lastEffortAt, stability, now),
     confidence,
+    accObservations: aggregate.acc.observations,
+    lessonObservations: aggregate.lesson.observations,
+    srsObservations: aggregate.srs.observations,
   };
 }
