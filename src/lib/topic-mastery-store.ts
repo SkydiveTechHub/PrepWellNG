@@ -45,9 +45,25 @@ export async function loadFoldedAggregates(
     aggregates.set(topicId, {
       topicId,
       subjectId,
-      acc: { outcome: row.accWeightedOutcome, mass: row.accWeightedMass },
-      lesson: { outcome: row.lessonWeightedOutcome, mass: row.lessonWeightedMass },
-      srs: { outcome: row.srsWeightedOutcome, mass: row.srsWeightedMass },
+      // observations is not yet a column on TopicMastery — Task 3 adds it and
+      // replaces these zeros with row.accObservations / lessonObservations /
+      // srsObservations. Zero is safe in the meantime: a stale scoringVersion
+      // forces a full replay from the ledger, which recomputes the real counts.
+      acc: {
+        outcome: row.accWeightedOutcome,
+        mass: row.accWeightedMass,
+        observations: 0,
+      },
+      lesson: {
+        outcome: row.lessonWeightedOutcome,
+        mass: row.lessonWeightedMass,
+        observations: 0,
+      },
+      srs: {
+        outcome: row.srsWeightedOutcome,
+        mass: row.srsWeightedMass,
+        observations: 0,
+      },
       decayAnchor: row.decayAnchor,
       cursorSeq: row.cursorSeq,
       lastEffortAt: row.lastEffortAt,
