@@ -972,35 +972,38 @@ Expected: PASS, 5 tests.
 
 - [ ] **Step 6: Emit on reap**
 
-In `src/lib/attempt-lifecycle.ts`, extend `reapStaleAttempts`. Change its `select` so each candidate carries its questions' topic and subject ids:
+In `src/lib/attempt-lifecycle.ts`, extend `reapStaleAttempts`.
+
+**Leave the first query exactly as it is.** It selects only `id`, `startedAt`
+and `assessment.timeLimitMinutes` for up to 100 candidates, and that is
+deliberate: `reapStaleAttempts` runs before **every** quiz generation
+(`assessment-generation.ts:93`, `jamb-cbt-generation.ts:132`) and almost always
+finds nothing to reap. Pulling each candidate's questions there would join every
+question of up to 100 attempts — a JAMB CBT paper alone has 180 — on a hot path,
+to discover there is nothing to do.
+
+Keep the existing `expired` computation (a list of ids) unchanged too. Then,
+**after** the `if (expired.length === 0) return 0;` early return, fetch the
+questions for only the handful that actually expired:
 
 ```ts
+  // Second query, and only once something has actually expired: the first query
+  // stays lightweight because it runs on every quiz generation and usually
+  // finds nothing. Here `expired` is typically zero or one attempt.
+  const expiredAttempts = await db.assessmentAttempt.findMany({
+    where: { id: { in: expired } },
     select: {
       id: true,
       startedAt: true,
       assessment: {
         select: {
-          timeLimitMinutes: true,
           questions: {
             select: { question: { select: { topicId: true, subjectId: true } } },
           },
         },
       },
     },
-```
-
-Change the `expired` computation to keep the whole attempt rather than just its id:
-
-```ts
-  const expired = stale.filter((attempt) =>
-    isAttemptStale({
-      startedAt: attempt.startedAt,
-      timeLimitMinutes: attempt.assessment.timeLimitMinutes,
-      now,
-    }),
-  );
-
-  if (expired.length === 0) return 0;
+  });
 ```
 
 Then replace the bare `updateMany` with a transaction that also records the abandonment:
@@ -1013,7 +1016,7 @@ Then replace the bare `updateMany` with a transaction that also records the aban
   // opportunistically when the student next generates a quiz, so an attempt
   // abandoned on Monday may not be noticed until Thursday. The ledger records
   // when the student engaged, not when we found out.
-  const events = expired.flatMap((attempt) =>
+  const events = expiredAttempts.flatMap((attempt) =>
     distinctTopicRefs(
       attempt.assessment.questions.map((aq) => aq.question),
     ).map((ref) => ({
@@ -1028,7 +1031,7 @@ Then replace the bare `updateMany` with a transaction that also records the aban
 
   const [result] = await db.$transaction([
     db.assessmentAttempt.updateMany({
-      where: { id: { in: expired.map((a) => a.id) }, status: "IN_PROGRESS" },
+      where: { id: { in: expired }, status: "IN_PROGRESS" },
       data: { status: "TIMED_OUT" },
     }),
     ...(events.length > 0 ? [db.learningEvent.createMany({ data: events })] : []),
