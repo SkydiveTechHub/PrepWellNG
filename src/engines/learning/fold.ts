@@ -31,7 +31,17 @@ export type FoldEvent = {
 };
 
 /** Decayed sufficient statistics for one evidence channel. */
-export type ChannelStats = { outcome: number; mass: number };
+export type ChannelStats = {
+  outcome: number;
+  mass: number;
+  /**
+   * Raw count of events folded into this channel. Deliberately NOT decayed:
+   * mass falls because an old answer is weaker evidence of current ability,
+   * but "you answered three questions" is a historical fact. This is what the
+   * UI shows when confidence is too low to report a mastery figure.
+   */
+  observations: number;
+};
 
 export type TopicAggregate = {
   topicId: string;
@@ -63,9 +73,9 @@ export function emptyAggregate(
   return {
     topicId,
     subjectId,
-    acc: { outcome: 0, mass: 0 },
-    lesson: { outcome: 0, mass: 0 },
-    srs: { outcome: 0, mass: 0 },
+    acc: { outcome: 0, mass: 0, observations: 0 },
+    lesson: { outcome: 0, mass: 0, observations: 0 },
+    srs: { outcome: 0, mass: 0, observations: 0 },
     decayAnchor: at,
     // BigInt(0) rather than 0n: tsconfig targets ES2017, which rejects
     // bigint literals (TS2737). The call form is equivalent and portable.
@@ -79,7 +89,12 @@ function clamp01(value: number): number {
 }
 
 function scale(channel: ChannelStats, factor: number): ChannelStats {
-  return { outcome: channel.outcome * factor, mass: channel.mass * factor };
+  return {
+    outcome: channel.outcome * factor,
+    mass: channel.mass * factor,
+    // observations is carried through untouched — see ChannelStats.
+    observations: channel.observations,
+  };
 }
 
 /**
@@ -174,6 +189,7 @@ export function foldEvents(
     const channel = channels[contribution.channel];
     channel.outcome += contribution.weight * contribution.outcome;
     channel.mass += contribution.weight;
+    channel.observations += 1;
   }
 
   return { ...carried, ...channels, cursorSeq, lastEffortAt };

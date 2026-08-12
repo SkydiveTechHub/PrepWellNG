@@ -357,7 +357,71 @@ test("foldEvents: incremental catch-up equals a full replay, at every split", ()
       full.lastEffortAt?.getTime() ?? null,
       message,
     );
+    assert.equal(incremental.acc.observations, full.acc.observations, message);
+    assert.equal(incremental.lesson.observations, full.lesson.observations, message);
+    assert.equal(incremental.srs.observations, full.srs.observations, message);
   }
+});
+
+// ─── Observations ──────────────────────────────────────────
+
+test("foldEvents: each contributing event adds one observation", () => {
+  const folded = foldEvents(
+    base(),
+    [
+      event({ correct: true }),
+      event({ correct: false }),
+      event({ kind: "LESSON_COMPLETED", correct: null, score: 0.8 }),
+      event({ kind: "CARD_REVIEWED", correct: null, score: 0.9 }),
+    ],
+    now,
+  );
+  assert.equal(folded.acc.observations, 2);
+  assert.equal(folded.lesson.observations, 1);
+  assert.equal(folded.srs.observations, 1);
+});
+
+test("foldEvents: a rapid guess is one observation but only 0.3 mass", () => {
+  const folded = foldEvents(base(), [event({ seconds: 1 })], now);
+  assert.equal(folded.acc.observations, 1);
+  close(folded.acc.mass, 0.3);
+});
+
+test("foldEvents: events carrying no channel evidence add no observations", () => {
+  const folded = foldEvents(
+    base(),
+    [
+      event({ kind: "PRETEST_PASSED", correct: null, score: null }),
+      event({ kind: "QUIZ_ABANDONED", correct: null, score: null }),
+    ],
+    now,
+  );
+  assert.equal(folded.acc.observations, 0);
+  assert.equal(folded.lesson.observations, 0);
+  assert.equal(folded.srs.observations, 0);
+});
+
+test("decayTo: mass decays but observations do not", () => {
+  const folded = foldEvents(base(), [event(), event()], now);
+  const later = decayTo(folded, new Date(now.getTime() + 45 * DAY_MS));
+  close(later.acc.mass, folded.acc.mass * 0.5);
+  assert.equal(
+    later.acc.observations,
+    2,
+    "observations are a historical fact and must not decay",
+  );
+});
+
+test("foldEvents: an old answer still counts as one observation", () => {
+  const folded = foldEvents(base(), [event({ occurredAt: daysBefore(180) })], now);
+  assert.equal(folded.acc.observations, 1);
+  assert.ok(folded.acc.mass < 0.1, "its mass should have decayed close to nothing");
+});
+
+test("foldEvents: observations are not double-counted at or below the cursor", () => {
+  const once = foldEvents(base(), [event({ seq: 100n })], now);
+  const twice = foldEvents(once, [event({ seq: 100n })], now);
+  assert.equal(twice.acc.observations, once.acc.observations);
 });
 
 import { scoreAggregate } from "../src/engines/learning/mastery";
