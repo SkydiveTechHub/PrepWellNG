@@ -32,6 +32,7 @@
 **Files:**
 - Modify: `src/engines/learning/fold.ts`
 - Modify: `scripts/test-learning-path-evidence.mts` (append)
+- Modify: `src/lib/topic-mastery-store.ts` — **one line per channel only.** Making `observations` required breaks the `ChannelStats` literals this file builds, so it must gain the field here or the build stays broken until Task 3. Set `observations: 0` with the comment in Step 7 below; Task 3 replaces the zeros with the real column.
 
 **Interfaces:**
 - Consumes: nothing new.
@@ -177,10 +178,36 @@ In `foldEvents`, inside the loop, extend the contribution block:
 Run: `npx tsx --test scripts/test-learning-path-evidence.mts`
 Expected: PASS, including the extended invariant test.
 
-- [ ] **Step 7: Verify the build and typechecks**
+- [ ] **Step 7: Keep the build green**
 
-Run: `npx tsc --noEmit && npm run typecheck:tests`
-Expected: PASS on both. If `tsc` complains about `ChannelStats` literals elsewhere, those sites need the field too — report them rather than guessing.
+Making `observations` required breaks `src/lib/topic-mastery-store.ts`, which builds `ChannelStats` literals in `loadFoldedAggregates` (around lines 48-50). The column it will eventually read does not exist until Task 3, so add the field reading zero for now:
+
+```ts
+      // observations is not yet a column on TopicMastery — Task 3 adds it and
+      // replaces these zeros with row.accObservations / lessonObservations /
+      // srsObservations. Zero is safe in the meantime: a stale scoringVersion
+      // forces a full replay from the ledger, which recomputes the real counts.
+      acc: {
+        outcome: row.accWeightedOutcome,
+        mass: row.accWeightedMass,
+        observations: 0,
+      },
+      lesson: {
+        outcome: row.lessonWeightedOutcome,
+        mass: row.lessonWeightedMass,
+        observations: 0,
+      },
+      srs: {
+        outcome: row.srsWeightedOutcome,
+        mass: row.srsWeightedMass,
+        observations: 0,
+      },
+```
+
+Do not touch `persistAggregates` or anything else in that file — Task 3 owns it.
+
+Run: `npx tsc --noEmit && npm run typecheck:tests && npm run test:path`
+Expected: PASS on all three. If `tsc` still complains about `ChannelStats` literals somewhere else, report it rather than guessing.
 
 - [ ] **Step 8: Commit**
 
@@ -351,7 +378,7 @@ Verify before continuing: `migration.sql` contains exactly three `ADD COLUMN` st
 
 - [ ] **Step 4: Read and write the counts in the store**
 
-In `src/lib/topic-mastery-store.ts`, in `loadFoldedAggregates`, extend the three channel objects built from a row:
+In `src/lib/topic-mastery-store.ts`, in `loadFoldedAggregates`, replace the placeholder `observations: 0` values Task 1 added with the real columns:
 
 ```ts
       acc: {
