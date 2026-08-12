@@ -789,6 +789,26 @@ In `toRecommendation`, populate them from the topic state it already reads:
     srsObservations: topic?.srsObservations ?? 0,
 ```
 
+There is a **third** construction site the earlier draft of this plan missed:
+`revisionItemToRecommendation` in `src/engines/learning/revision.ts`, which
+converts a `RevisionQueueItem` into a `NextTopicRecommendation` for the
+dashboard's consolidation fallback. `RevisionQueueItem` carries no per-channel
+counts, and revision items are by definition topics that were mastered and have
+since decayed — so they genuinely have evidence. Add:
+
+```ts
+    // RevisionQueueItem carries no per-channel evidence counts; these items
+    // already have an established mastery figure (mastered, then decayed),
+    // so present as fully confident rather than thinly measured.
+    confidence: 1,
+    accObservations: 0,
+    lessonObservations: 0,
+    srsObservations: 0,
+```
+
+`confidence: 1` makes `evidenceLabel` return `null`, so these keep rendering
+their mastery percentage exactly as before.
+
 In `masteredButDecayed`, the recommendation is built inline from `topic`; add the same four fields there:
 
 ```ts
