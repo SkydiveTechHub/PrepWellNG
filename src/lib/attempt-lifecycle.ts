@@ -55,30 +55,34 @@ export function distinctTopicRefs(
  * accumulating. Cheap enough to run opportunistically before generating.
  */
 export async function reapStaleAttempts(studentId: string): Promise<number> {
-  const stale = await db.assessmentAttempt.findMany({
-    where: { studentId, status: "IN_PROGRESS" },
-    select: {
-      id: true,
-      startedAt: true,
-      assessment: { select: { timeLimitMinutes: true } },
-    },
-    take: 100,
-  });
-
-  const now = new Date();
-  const expired = stale
-    .filter((attempt) =>
-      isAttemptStale({
-        startedAt: attempt.startedAt,
-        timeLimitMinutes: attempt.assessment.timeLimitMinutes,
-        now,
-      }),
-    )
-    .map((attempt) => attempt.id);
-
-  if (expired.length === 0) return 0;
-
+  // Reaping is opportunistic housekeeping that runs before every quiz
+  // generation. Nothing here is worth failing a student's quiz over, so any
+  // failure — including from the initial query — is logged and reported as
+  // zero reaped.
   try {
+    const stale = await db.assessmentAttempt.findMany({
+      where: { studentId, status: "IN_PROGRESS" },
+      select: {
+        id: true,
+        startedAt: true,
+        assessment: { select: { timeLimitMinutes: true } },
+      },
+      take: 100,
+    });
+
+    const now = new Date();
+    const expired = stale
+      .filter((attempt) =>
+        isAttemptStale({
+          startedAt: attempt.startedAt,
+          timeLimitMinutes: attempt.assessment.timeLimitMinutes,
+          now,
+        }),
+      )
+      .map((attempt) => attempt.id);
+
+    if (expired.length === 0) return 0;
+
     // Second query, and only once something has actually expired: the first
     // query stays lightweight because it runs on every quiz generation and
     // usually finds nothing. Here `expired` is typically zero or one attempt.
