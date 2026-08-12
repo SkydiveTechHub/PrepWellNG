@@ -20,7 +20,9 @@
 - **Abandonment explains, it does not rank.** `gapQueue` still orders by bottleneck score descending, then mastery ascending. Do not add a weight.
 - **The database may be unreachable** (`P1001` against the Supabase pooler; no local Postgres or Docker). Author migrations offline with `prisma migrate diff`, run `prisma generate`, and **skip every step needing a live connection — say so in your report rather than faking it.** `tsc`, `eslint` and the `node:test` suites all work offline.
 - **Verification commands:** `npx tsc --noEmit`, `npm run typecheck:tests`, `npm test`, `npm run lint`. All four must be clean before any commit.
-- **Regression gate:** `test-learning-path-recommend.mts`, `-revision.mts`, `-plan.mts`, `-pretest.mts` and `-graph.mts` must pass **unedited**. `gaps.ts` is the only behaviour change this phase. If one of those fails, report it — do not edit the test.
+- **Regression gate:** `test-learning-path-recommend.mts`, `-revision.mts`, `-plan.mts`, `-pretest.mts` and `-graph.mts` must pass with **no assertion changed**. `gaps.ts` is the only behaviour change this phase, so no expected value, test case, or assertion in those five files may move.
+  Adding a newly-required type field to a fixture literal (`accObservations: 0` and friends) **is** permitted and expected — that is precisely what `npm run typecheck:tests` exists to force, and Tasks 2 and 5 instruct it. Adding a field is keeping a fixture in step with its type; changing an assertion is moving the goalposts.
+  **If a suite fails, report it — never adjust an assertion to make it pass.** A failure here means the evidence layer leaked into the engine, which is the signal this gate exists to raise.
 - Read `node_modules/next/dist/docs/` before touching any Next.js API — this Next.js differs from training data (see `AGENTS.md`).
 
 ---
