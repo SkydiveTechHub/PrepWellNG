@@ -629,6 +629,12 @@ model TopicMastery {
   srsWeightedOutcome    Float @default(0)
   srsWeightedMass       Float @default(0)
 
+  /// Raw event counts per channel. Never decayed — see ChannelStats in
+  /// src/engines/learning/fold.ts.
+  accObservations    Int @default(0)
+  lessonObservations Int @default(0)
+  srsObservations    Int @default(0)
+
   /// The instant the stored sums are decayed to.
   decayAnchor    DateTime
   /// Highest LearningEvent.seq already folded in.

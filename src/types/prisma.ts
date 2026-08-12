@@ -219,6 +219,9 @@ export type TopicMastery = {
   lessonWeightedMass: number;
   srsWeightedOutcome: number;
   srsWeightedMass: number;
+  accObservations: number;
+  lessonObservations: number;
+  srsObservations: number;
   decayAnchor: Date;
   cursorSeq: bigint;
   lastEffortAt: Date | null;

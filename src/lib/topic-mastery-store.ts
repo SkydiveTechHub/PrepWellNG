@@ -45,24 +45,20 @@ export async function loadFoldedAggregates(
     aggregates.set(topicId, {
       topicId,
       subjectId,
-      // observations is not yet a column on TopicMastery — Task 3 adds it and
-      // replaces these zeros with row.accObservations / lessonObservations /
-      // srsObservations. Zero is safe in the meantime: a stale scoringVersion
-      // forces a full replay from the ledger, which recomputes the real counts.
       acc: {
         outcome: row.accWeightedOutcome,
         mass: row.accWeightedMass,
-        observations: 0,
+        observations: row.accObservations,
       },
       lesson: {
         outcome: row.lessonWeightedOutcome,
         mass: row.lessonWeightedMass,
-        observations: 0,
+        observations: row.lessonObservations,
       },
       srs: {
         outcome: row.srsWeightedOutcome,
         mass: row.srsWeightedMass,
-        observations: 0,
+        observations: row.srsObservations,
       },
       decayAnchor: row.decayAnchor,
       cursorSeq: row.cursorSeq,
@@ -158,6 +154,9 @@ export async function persistAggregates(
           lessonWeightedMass: a.lesson.mass,
           srsWeightedOutcome: a.srs.outcome,
           srsWeightedMass: a.srs.mass,
+          accObservations: a.acc.observations,
+          lessonObservations: a.lesson.observations,
+          srsObservations: a.srs.observations,
           decayAnchor: a.decayAnchor,
           cursorSeq: a.cursorSeq,
           lastEffortAt: a.lastEffortAt,
@@ -170,6 +169,9 @@ export async function persistAggregates(
           lessonWeightedMass: a.lesson.mass,
           srsWeightedOutcome: a.srs.outcome,
           srsWeightedMass: a.srs.mass,
+          accObservations: a.acc.observations,
+          lessonObservations: a.lesson.observations,
+          srsObservations: a.srs.observations,
           decayAnchor: a.decayAnchor,
           cursorSeq: a.cursorSeq,
           lastEffortAt: a.lastEffortAt,

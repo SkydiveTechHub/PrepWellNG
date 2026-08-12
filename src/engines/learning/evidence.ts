@@ -15,8 +15,13 @@ const DAY_MS = 86_400_000;
  * cursor past it. Phase 1 ships no automatic reconciliation (the spec assigns a
  * daily cursor-reset-and-replay to Phase 3). Until then, bumping this constant
  * forces a full per-topic replay on the next read and repairs any such drift.
+ *
+ * Bumped to 2 in Phase 2, which added per-channel observation counts. Existing
+ * rows have no counts and no write can backfill them; the version mismatch
+ * forces a full replay from the ledger on next read, which recomputes them
+ * from source.
  */
-export const SCORING_VERSION = 1;
+export const SCORING_VERSION = 2;
 
 /**
  * Recency half-life. Deliberately long: this models how much an old answer
