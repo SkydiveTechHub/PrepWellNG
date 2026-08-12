@@ -60,9 +60,10 @@ function mkState(
     level,
     stability: stabilityForLevel(level),
     retention: opts.retention !== undefined ? opts.retention : null,
-    // Synthetic state, so no evidence backs it. Nothing in this suite reads
-    // confidence; it is here because TopicState requires it.
-    confidence: 0,
+    // A well-evidenced synthetic topic: acc is non-null, so real mass exists
+    // and confidence must be above CONFIDENCE_FLOOR. Zero here would describe
+    // a state the fold cannot produce.
+    confidence: 0.8,
     accObservations: 0,
     lessonObservations: 0,
     srsObservations: 0,

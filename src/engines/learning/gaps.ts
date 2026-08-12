@@ -8,6 +8,7 @@ import {
   GAP_RETENTION,
 } from "./recommend";
 import type { TopicStateMap, TopicState } from "./mastery";
+import { CONFIDENCE_FLOOR } from "./evidence";
 
 // Learning Path Engine — learning-gap detection (algorithm D).
 // See docs/superpowers/specs/2026-08-02-learning-path-engine-design.md
@@ -84,8 +85,17 @@ export function classifyTopic(
     return isAvailable(topicId, state, graph, pretestPassed) ? "UNTOUCHED" : null;
   }
 
-  if (topic.mastery < WEAK_MASTERY) return "WEAK";
-  if (topic.retention != null && topic.retention < GAP_RETENTION) {
+  // Enough evidence, not merely some. A topic scored from one answer has a
+  // mastery figure, but acting on it would diagnose a weakness from noise.
+  // Below the floor we withhold judgement rather than guess — the topic is
+  // neither a gap nor untouched, it is simply not yet measured.
+  //
+  // BOTTLENECK is deliberately NOT gated: it asserts something about the graph
+  // and about other topics' mastery, not about how well we know this one.
+  const confident = topic.confidence >= CONFIDENCE_FLOOR;
+
+  if (confident && topic.mastery < WEAK_MASTERY) return "WEAK";
+  if (confident && topic.retention != null && topic.retention < GAP_RETENTION) {
     return "DECAYED";
   }
   const blocked = unmasteredDependents(state, graph, topicId);
