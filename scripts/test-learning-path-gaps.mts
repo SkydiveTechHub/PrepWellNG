@@ -116,3 +116,37 @@ test("gapQueue: a strong topic is not a gap", () => {
   const graph = graphWith(["t"]);
   assert.deepEqual(gapQueue(stateFrom("t", 20, true), graph), []);
 });
+
+test("gapQueue: abandonment counts reach the gap", () => {
+  const graph = graphWith(["t"]);
+  const gaps = gapQueue(
+    stateFrom("t", 10, false),
+    graph,
+    new Set(),
+    new Map([["t", 3]]),
+  );
+  assert.equal(gaps.length, 1);
+  assert.equal(gaps[0].abandonedCount, 3);
+});
+
+test("gapQueue: a topic never abandoned reports zero, not undefined", () => {
+  const graph = graphWith(["t"]);
+  const gaps = gapQueue(stateFrom("t", 10, false), graph);
+  assert.equal(gaps[0].abandonedCount, 0);
+});
+
+test("gapQueue: abandonment does not change the ranking", () => {
+  // `b` has the lower mastery, so it ranks first on the existing rule. Heavy
+  // abandonment on `a` must not move it.
+  const graph = graphWith(["a", "b"]);
+  const state = new Map([
+    ...stateFrom("a", 10, false),
+    ...stateFrom("b", 20, false),
+  ]);
+  const ranked = gapQueue(state, graph, new Set(), new Map([["a", 99]]));
+  assert.deepEqual(
+    ranked.map((g) => g.topicId),
+    gapQueue(state, graph).map((g) => g.topicId),
+    "ranking must be identical with and without abandonment data",
+  );
+});

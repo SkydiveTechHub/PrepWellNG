@@ -153,7 +153,33 @@ async function loadLearningPath(userId: string) {
       ? nextTopics
       : revision.slice(0, 3).map(revisionItemToRecommendation);
 
-  return { subjects, learningPicks, gaps: gapQueue(state, graph, pretestPassed), revision };
+  // Display-only, so it is loaded here rather than folded into the aggregate:
+  // rare, and read on one surface. Same pattern as `pretestPassed`.
+  //
+  // Decoration, not diagnosis: if this fails the gap list loses its reason
+  // lines, which is a far better outcome than failing the dashboard.
+  let abandonedByTopic = new Map<string, number>();
+  try {
+    const abandonedRows = await db.learningEvent.groupBy({
+      by: ["topicId"],
+      where: { studentId: userId, kind: "QUIZ_ABANDONED", topicId: { not: null } },
+      _count: { _all: true },
+    });
+    abandonedByTopic = new Map(
+      abandonedRows
+        .filter((row): row is typeof row & { topicId: string } => row.topicId !== null)
+        .map((row) => [row.topicId, row._count._all]),
+    );
+  } catch (error) {
+    console.error("Loading abandonment counts failed:", error);
+  }
+
+  return {
+    subjects,
+    learningPicks,
+    gaps: gapQueue(state, graph, pretestPassed, abandonedByTopic),
+    revision,
+  };
 }
 
 export async function getDashboardData(userId: string): Promise<DashboardData> {

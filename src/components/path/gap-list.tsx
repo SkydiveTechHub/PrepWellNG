@@ -74,6 +74,12 @@ export function GapList({
                 <span className="text-xs text-muted">
                   {evidenceLabel(gap) ?? `${gap.mastery}% mastery`}
                 </span>
+                {gap.abandonedCount > 0 && (
+                  <span className="text-xs text-muted">
+                    Started {gap.abandonedCount}{" "}
+                    {gap.abandonedCount === 1 ? "time" : "times"} without finishing
+                  </span>
+                )}
               </div>
             </div>
           </div>

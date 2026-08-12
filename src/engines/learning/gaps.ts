@@ -32,6 +32,11 @@ export interface TopicGap {
   accObservations: number;
   lessonObservations: number;
   srsObservations: number;
+  /**
+   * How many times this topic appeared in a quiz the student started and never
+   * finished. Explains a gap; deliberately does not rank it.
+   */
+  abandonedCount: number;
 }
 
 /** All nodes reachable from `topicId` (transitive closure over the DAG). */
@@ -118,6 +123,7 @@ export function gapQueue(
   state: TopicStateMap,
   graph: KnowledgeGraph,
   pretestPassed: ReadonlySet<string> = new Set(),
+  abandonedByTopic: ReadonlyMap<string, number> = new Map(),
 ): TopicGap[] {
   const gaps: TopicGap[] = [];
   for (const [topicId] of state) {
@@ -142,6 +148,7 @@ export function gapQueue(
       accObservations: topic.accObservations,
       lessonObservations: topic.lessonObservations,
       srsObservations: topic.srsObservations,
+      abandonedCount: abandonedByTopic.get(topicId) ?? 0,
     });
   }
   gaps.sort(
