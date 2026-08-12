@@ -27,6 +27,11 @@ export interface TopicGap {
   bottleneckScore: number;
   /** Number of direct dependents still below mastery TARGET. */
   blockedCount: number;
+  /** Evidence behind `mastery`, for deciding whether to show it at all. */
+  confidence: number;
+  accObservations: number;
+  lessonObservations: number;
+  srsObservations: number;
 }
 
 /** All nodes reachable from `topicId` (transitive closure over the DAG). */
@@ -133,6 +138,10 @@ export function gapQueue(
       retention: topic.retention,
       bottleneckScore: bottleneckScore(graph, topicId),
       blockedCount: unmasteredDependents(state, graph, topicId).length,
+      confidence: topic.confidence,
+      accObservations: topic.accObservations,
+      lessonObservations: topic.lessonObservations,
+      srsObservations: topic.srsObservations,
     });
   }
   gaps.sort(

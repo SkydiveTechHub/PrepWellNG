@@ -262,5 +262,12 @@ export function revisionItemToRecommendation(
       freshness: 1,
     },
     unlocks: item.blockedCount,
+    // RevisionQueueItem carries no per-channel evidence counts; these items
+    // already have an established mastery figure (mastered, then decayed),
+    // so present as fully confident rather than thinly measured.
+    confidence: 1,
+    accObservations: 0,
+    lessonObservations: 0,
+    srsObservations: 0,
   };
 }

@@ -3,6 +3,7 @@ import { LuFlame, LuLink2, LuTriangleAlert } from "react-icons/lu";
 import type { TopicGap } from "@/engines/learning/gaps";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { evidenceLabel } from "@/lib/evidence-display";
 import type { SubjectMeta } from "./next-topics";
 
 function gapLabel(gap: TopicGap): string {
@@ -70,7 +71,9 @@ export function GapList({
                   {gapIcon(gap)}
                   {gapLabel(gap)}
                 </Badge>
-                <span className="text-xs text-muted">{gap.mastery}% mastery</span>
+                <span className="text-xs text-muted">
+                  {evidenceLabel(gap) ?? `${gap.mastery}% mastery`}
+                </span>
               </div>
             </div>
           </div>
