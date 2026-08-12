@@ -111,8 +111,18 @@ In `classifyTopic` (`src/engines/learning/gaps.ts`), the existing `hasEvidence`
 check becomes an *enough*-evidence check:
 
 - no evidence at all → `UNTOUCHED` if available, else `null` (unchanged)
-- evidence but `confidence < CONFIDENCE_FLOOR` → **`null`**
+- evidence but `confidence < CONFIDENCE_FLOOR` → `WEAK` and `DECAYED` are
+  withheld; the topic falls through to the `BOTTLENECK` check and, failing
+  that, returns **`null`**
 - otherwise → `WEAK` / `DECAYED` / `BOTTLENECK` as today
+
+**`BOTTLENECK` is deliberately not gated.** `WEAK` and `DECAYED` are claims
+about this student's ability, and acting on one answer's worth of evidence
+diagnoses a weakness from noise. `BOTTLENECK` is structural — "this locked topic
+blocks two or more unmastered dependents" — and its truth does not depend on how
+well-evidenced the student's mastery of it is. Gating it would also suppress the
+category hardest exactly where it matters, since a locked topic has had the
+least opportunity to accumulate evidence.
 
 Below the floor the result is `null`, not `UNTOUCHED`: a topic with one answer
 has been started, so calling it untouched would be wrong. `gapQueue` already

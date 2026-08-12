@@ -594,15 +594,37 @@ In `src/engines/learning/gaps.ts`, add `CONFIDENCE_FLOOR` to the imports from `.
 import { CONFIDENCE_FLOOR } from "./evidence";
 ```
 
-In `classifyTopic`, immediately after the existing `hasEvidence` block, add:
+The gate applies to `WEAK` and `DECAYED` **only** — not to `BOTTLENECK`.
+
+`WEAK` and `DECAYED` are claims about this student's ability: acting on them
+with one answer's worth of evidence diagnoses a weakness from noise.
+`BOTTLENECK` is structural — "this locked topic blocks two or more unmastered
+dependents" — and its truth does not depend on how well-evidenced the student's
+mastery of it is. Gating it would also suppress the category hardest exactly
+where it matters, since a locked topic has had the least opportunity to
+accumulate evidence.
+
+In `classifyTopic`, replace the `WEAK` and `DECAYED` checks so both are guarded,
+leaving the `BOTTLENECK` check untouched below them:
 
 ```ts
   // Enough evidence, not merely some. A topic scored from one answer has a
   // mastery figure, but acting on it would diagnose a weakness from noise.
   // Below the floor we withhold judgement rather than guess — the topic is
   // neither a gap nor untouched, it is simply not yet measured.
-  if (topic.confidence < CONFIDENCE_FLOOR) return null;
+  //
+  // BOTTLENECK is deliberately NOT gated: it asserts something about the graph
+  // and about other topics' mastery, not about how well we know this one.
+  const confident = topic.confidence >= CONFIDENCE_FLOOR;
+
+  if (confident && topic.mastery < WEAK_MASTERY) return "WEAK";
+  if (confident && topic.retention != null && topic.retention < GAP_RETENTION) {
+    return "DECAYED";
+  }
 ```
+
+A thinly-evidenced topic therefore falls through to the `BOTTLENECK` check and,
+failing that, returns `null`.
 
 - [ ] **Step 5: Run to verify it passes**
 
