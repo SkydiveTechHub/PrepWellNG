@@ -50,6 +50,22 @@ export const RAPID_WEIGHT = 0.3;
 export const CONFIDENCE_FLOOR = 0.35;
 
 /**
+ * Minimum raw observations before a topic can be diagnosed DECAYED.
+ *
+ * Confidence decays with age; observation counts do not. DECAYED asks "did
+ * this student once know it and lose it?", which is a question about how much
+ * evidence was ever gathered, not about how fresh that evidence is. Gating it
+ * on confidence made the category chase its own tail: retention and confidence
+ * fall together, so a topic became DECAYED and then silently stopped being
+ * DECAYED while getting staler.
+ *
+ * 3 matches CONFIDENCE_FLOOR for fresh evidence — mass crosses 0.35 on the
+ * third non-rapid answer — so the two gates agree at t=0 and diverge only with
+ * age, which is the intent.
+ */
+export const OBSERVATION_FLOOR = 3;
+
+/**
  * Difficulty adjusts the *outcome*, not the denominator, so the asymmetry
  * runs both ways: an easy question cannot prove mastery, and missing a hard
  * one is not proof of absence.

@@ -47,7 +47,17 @@ function edge(from: string, to: string, overrides: Partial<GraphEdge> = {}): Gra
 
 function mkState(
   topicId: string,
-  opts: { mastery: number; retention?: number | null; lastStudy?: Date | null },
+  opts: {
+    mastery: number;
+    retention?: number | null;
+    lastStudy?: Date | null;
+    /** Defaults to a value above CONFIDENCE_FLOOR (0.35) — a well-evidenced synthetic topic. */
+    confidence?: number;
+    /** Defaults to 3 (== OBSERVATION_FLOOR) split across acc, so DECAYED's gate is clearable. */
+    accObservations?: number;
+    lessonObservations?: number;
+    srsObservations?: number;
+  },
 ): TopicState {
   const level = masteryLevelFromScore(opts.mastery);
   return {
@@ -63,10 +73,12 @@ function mkState(
     // A well-evidenced synthetic topic: acc is non-null, so real mass exists
     // and confidence must be above CONFIDENCE_FLOOR. Zero here would describe
     // a state the fold cannot produce.
-    confidence: 0.8,
-    accObservations: 0,
-    lessonObservations: 0,
-    srsObservations: 0,
+    confidence: opts.confidence ?? 0.8,
+    // 3 == OBSERVATION_FLOOR, matching the default confidence's "well-evidenced"
+    // intent so DECAYED's separate observation gate is cleared by default too.
+    accObservations: opts.accObservations ?? 3,
+    lessonObservations: opts.lessonObservations ?? 0,
+    srsObservations: opts.srsObservations ?? 0,
   };
 }
 
@@ -204,6 +216,35 @@ test("classifyTopic: a locked topic gating ≥2 unmastered dependents is a BOTTL
   const state = stateMap([
     ["p", mkState("p", { mastery: 20 })],
     ["b", mkState("b", { mastery: 60, retention: 0.9, lastStudy: new Date(now.getTime() - 86400000) })],
+    ["c", mkState("c", { mastery: 0 })],
+    ["d", mkState("d", { mastery: 0 })],
+  ]);
+  assert.equal(classifyTopic(state, graph, "b"), "BOTTLENECK");
+});
+
+test("classifyTopic: sub-floor confidence withholds WEAK even with low mastery", () => {
+  // Confidence below CONFIDENCE_FLOOR (0.35) with mastery well below
+  // WEAK_MASTERY. If the confidence gate were deleted, this topic's mastery
+  // alone would satisfy WEAK's threshold and the classification would flip
+  // from null to "WEAK" — so this fails under a reverted/deleted gate.
+  const graph = graphWith(["t"]);
+  const state = stateMap([["t", mkState("t", { mastery: 30, confidence: 0.1 })]]);
+  assert.equal(classifyTopic(state, graph, "t"), null);
+});
+
+test("classifyTopic: BOTTLENECK is exempt from the confidence gate", () => {
+  // b is locked behind p (55 < GATE 60) and gates two unmastered dependents
+  // (c, d), but b's own confidence is below CONFIDENCE_FLOOR. If BOTTLENECK
+  // were made to respect the confidence gate (i.e. required `confident` like
+  // WEAK does), this classification would flip from "BOTTLENECK" to null —
+  // so this fails under that reversal.
+  const graph = graphWith(
+    ["p", "b", "c", "d"],
+    [edge("p", "b"), edge("b", "c"), edge("b", "d")],
+  );
+  const state = stateMap([
+    ["p", mkState("p", { mastery: 55 })],
+    ["b", mkState("b", { mastery: 20, confidence: 0.1 })],
     ["c", mkState("c", { mastery: 0 })],
     ["d", mkState("d", { mastery: 0 })],
   ]);

@@ -48,6 +48,34 @@ function stateFrom(topicId: string, count: number, correct: boolean): TopicState
   return new Map([[topicId, scoreAggregate(aggregate, now)]]);
 }
 
+/**
+ * Same as `stateFrom`, but the answers happened `ageDays` before `now` — the
+ * fixture used to pull confidence and retention down together (they both fall
+ * with age) while the raw observation count stays put. `classifyTopic` is
+ * always scored at `now`, so this is the only way to exercise "old evidence"
+ * rather than "thin evidence".
+ */
+function agedStateFrom(
+  topicId: string,
+  count: number,
+  correct: boolean,
+  ageDays: number,
+): TopicStateMap {
+  const occurredAt = new Date(now.getTime() - ageDays * 86_400_000);
+  const events: FoldEvent[] = Array.from({ length: count }, (_, i) => ({
+    seq: BigInt(i + 1),
+    topicId,
+    kind: "QUESTION_ANSWERED" as const,
+    correct,
+    score: null,
+    difficulty: "INTERMEDIATE" as const,
+    seconds: 30,
+    occurredAt,
+  }));
+  const aggregate = foldEvents(emptyAggregate(topicId, "subj-1", now), events, now);
+  return new Map([[topicId, scoreAggregate(aggregate, now)]]);
+}
+
 // ─── The claim Phase 1 did not deliver ─────────────────────
 
 test("classifyTopic: one wrong answer is not enough to diagnose a weakness", () => {
@@ -133,6 +161,54 @@ test("gapQueue: a topic never abandoned reports zero, not undefined", () => {
   const graph = graphWith(["t"]);
   const gaps = gapQueue(stateFrom("t", 10, false), graph);
   assert.equal(gaps[0].abandonedCount, 0);
+});
+
+// ─── DECAYED gates on observations, not confidence ─────────
+
+test("classifyTopic: a 2-observation faded topic is not DECAYED", () => {
+  const graph = graphWith(["t"]);
+  const state = agedStateFrom("t", 2, true, 200);
+  const topic = state.get("t");
+
+  assert.ok((topic?.retention ?? 1) < 0.8, "evidence has faded");
+  assert.equal(topic?.accObservations, 2);
+  assert.equal(
+    classifyTopic(state, graph, "t"),
+    null,
+    "two observations is below OBSERVATION_FLOOR, so DECAYED is withheld",
+  );
+});
+
+test("classifyTopic: a 3-observation faded topic is DECAYED", () => {
+  const graph = graphWith(["t"]);
+  const state = agedStateFrom("t", 3, true, 200);
+  const topic = state.get("t");
+
+  assert.ok((topic?.retention ?? 1) < 0.8, "evidence has faded");
+  assert.equal(topic?.accObservations, 3);
+  assert.equal(classifyTopic(state, graph, "t"), "DECAYED");
+});
+
+test("classifyTopic: aged evidence is still DECAYED even once confidence has decayed below the floor", () => {
+  // The regression this task exists to fix: confidence and retention both
+  // fall with age, so gating DECAYED on confidence let a topic silently stop
+  // being flagged once its own evidence got old enough. 10 observations, all
+  // correct, 200 days old: plenty of raw evidence, but stale.
+  const graph = graphWith(["t"]);
+  const state = agedStateFrom("t", 10, true, 200);
+  const topic = state.get("t");
+
+  assert.ok(
+    (topic?.confidence ?? 1) < CONFIDENCE_FLOOR,
+    "confidence has decayed below the floor",
+  );
+  assert.ok((topic?.retention ?? 1) < 0.8, "retention has faded below GAP_RETENTION");
+  assert.equal(topic?.accObservations, 10, "the raw observation count does not decay");
+  assert.equal(
+    classifyTopic(state, graph, "t"),
+    "DECAYED",
+    "a topic once measured ten times and now faded must still be flagged DECAYED",
+  );
 });
 
 test("gapQueue: abandonment does not change the ranking", () => {

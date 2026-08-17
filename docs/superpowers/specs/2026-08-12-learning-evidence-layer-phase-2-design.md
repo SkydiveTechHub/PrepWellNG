@@ -44,8 +44,9 @@ they share the same machinery.
 
 ## Goal
 
-- Diagnosis waits for evidence: below `CONFIDENCE_FLOOR`, the gap queue
-  withholds judgement instead of guessing.
+- Diagnosis waits for evidence: on thin evidence the gap queue withholds
+  judgement instead of guessing. `WEAK` waits for `CONFIDENCE_FLOOR`, `DECAYED`
+  for `OBSERVATION_FLOOR` — see "Diagnosis" below for why the two differ.
 - A student can see *why* a topic has no score yet, expressed as the thing that
   resolves it.
 - The Performance page shows real numbers.
@@ -111,18 +112,45 @@ In `classifyTopic` (`src/engines/learning/gaps.ts`), the existing `hasEvidence`
 check becomes an *enough*-evidence check:
 
 - no evidence at all → `UNTOUCHED` if available, else `null` (unchanged)
-- evidence but `confidence < CONFIDENCE_FLOOR` → `WEAK` and `DECAYED` are
-  withheld; the topic falls through to the `BOTTLENECK` check and, failing
-  that, returns **`null`**
+- evidence but `confidence < CONFIDENCE_FLOOR` → `WEAK` is withheld
+- evidence but fewer than `OBSERVATION_FLOOR` raw observations → `DECAYED` is
+  withheld
+- a withheld topic falls through to the `BOTTLENECK` check and, failing that,
+  returns **`null`**
 - otherwise → `WEAK` / `DECAYED` / `BOTTLENECK` as today
 
-**`BOTTLENECK` is deliberately not gated.** `WEAK` and `DECAYED` are claims
-about this student's ability, and acting on one answer's worth of evidence
-diagnoses a weakness from noise. `BOTTLENECK` is structural — "this locked topic
-blocks two or more unmastered dependents" — and its truth does not depend on how
-well-evidenced the student's mastery of it is. Gating it would also suppress the
-category hardest exactly where it matters, since a locked topic has had the
-least opportunity to accumulate evidence.
+**`WEAK` and `DECAYED` are gated differently, and this is deliberate.**
+Amended 2026-08-17 after the Phase 2 whole-branch review.
+
+`WEAK` asks *"is this topic weak?"* — a claim about how well we know the student
+right now — so it gates on `confidence`, which decays with a 45-day half-life.
+
+`DECAYED` asks *"did this student once know it and lose it?"* — a claim about
+how much evidence was ever gathered, not how fresh it is — so it gates on raw
+observation counts, which do not decay. Gating it on confidence made the
+category chase its own tail: `retention` and `confidence` both fall with age, so
+a topic became `DECAYED` and then **silently stopped being `DECAYED` purely by
+getting staler**, which is precisely the case the category exists to catch. The
+review measured the original behaviour against the real engine: a 3-answer topic
+could never be `DECAYED` at all, and a 10-answer topic stopped being `DECAYED`
+after roughly 99 days.
+
+`OBSERVATION_FLOOR` is 3 because `CONFIDENCE_FLOOR` is crossed at mass 2.1538 —
+the third fresh non-rapid answer. The two gates therefore agree exactly for
+fresh evidence and diverge only with age, which is the whole point.
+
+**`BOTTLENECK` is deliberately not gated at all.** `WEAK` and `DECAYED` are
+claims about this student's ability, and acting on one answer's worth of
+evidence diagnoses a weakness from noise. `BOTTLENECK` is structural — "this
+locked topic blocks two or more unmastered dependents" — and its truth does not
+depend on how well-evidenced the student's mastery of it is.
+
+*(Rationale corrected 2026-08-17.* An earlier draft justified the exemption by
+saying a locked topic "has had the least opportunity to accumulate evidence".
+That argument describes a topic with **zero** evidence, which the `hasEvidence`
+guard above already returns on before `BOTTLENECK` is ever reached. The
+exemption only ever rescues the narrow band `0 < confidence < CONFIDENCE_FLOOR`.
+The ruling stands; the stated reason was wrong.*)
 
 Below the floor the result is `null`, not `UNTOUCHED`: a topic with one answer
 has been started, so calling it untouched would be wrong. `gapQueue` already
@@ -275,7 +303,14 @@ now guards their shape against the drift Phase 1 accumulated silently.
   `WEAK`, `gapQueue` includes it. The gate must withhold judgement without
   disabling diagnosis.
 - A topic with no evidence at all still classifies `UNTOUCHED` when available.
-- `DECAYED` and `BOTTLENECK` are gated the same way.
+- `DECAYED` is gated on `OBSERVATION_FLOOR`, **not** on confidence: a topic with
+  ten answers and faded retention is still `DECAYED` a year later, when its
+  confidence has long since fallen below the floor. This is the regression test
+  for the age-window bug.
+- A topic with two observations and faded retention is **not** `DECAYED`; three
+  is.
+- `BOTTLENECK` is not gated at all: a sub-floor topic blocking two or more
+  unmastered dependents is still `BOTTLENECK`.
 
 **Abandonment** — the attempt-to-distinct-topics mapping is extracted as a pure
 function so the dedup is testable without a database: a 40-question paper over
