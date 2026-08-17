@@ -167,6 +167,10 @@ export async function getSubjectPageData(
     const mastery = topicState?.mastery ?? 0;
     const retention = topicState?.retention ?? null;
     const lastStudy = topicState?.lastStudy ?? null;
+    const confidence = topicState?.confidence ?? 0;
+    const accObservations = topicState?.accObservations ?? 0;
+    const lessonObservations = topicState?.lessonObservations ?? 0;
+    const srsObservations = topicState?.srsObservations ?? 0;
     const available = isAvailable(topicId, state, graph, pretestPassed);
 
     let nodeState: GraphNodeState;
@@ -193,6 +197,10 @@ export async function getSubjectPageData(
       orderIndex: node.orderIndex,
       state: nodeState,
       mastery,
+      confidence,
+      accObservations,
+      lessonObservations,
+      srsObservations,
       isNext: false,
     });
   }

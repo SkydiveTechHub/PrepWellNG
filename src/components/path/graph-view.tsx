@@ -9,6 +9,7 @@ import {
   LuZap,
 } from "react-icons/lu";
 import { cn } from "@/lib/utils";
+import { evidenceLabel } from "@/lib/evidence-display";
 
 // Learning Path Engine — graph view (spec Stage 0). Renders a subject's topics
 // as nodes layered by prerequisite depth, with arrows for edges. Node state
@@ -23,6 +24,10 @@ export type GraphViewNode = {
   orderIndex: number;
   state: GraphNodeState;
   mastery: number;
+  confidence: number;
+  accObservations: number;
+  lessonObservations: number;
+  srsObservations: number;
   isNext: boolean;
 };
 
@@ -229,8 +234,8 @@ export function GraphView({
                   {node.state === "MASTERED"
                     ? "Mastered"
                     : node.state === "DECAYED"
-                      ? `Revision due · ${node.mastery}%`
-                      : `${node.mastery}% mastery`}
+                      ? `Revision due · ${evidenceLabel(node) ?? `${node.mastery}%`}`
+                      : (evidenceLabel(node) ?? `${node.mastery}% mastery`)}
                 </span>
               </Link>
             );
