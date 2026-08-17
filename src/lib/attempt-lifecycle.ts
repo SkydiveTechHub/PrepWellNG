@@ -51,6 +51,72 @@ export function distinctTopicRefs(
 }
 
 /**
+ * The minimal transaction surface `reapOneAttempt` needs. Deliberately
+ * structural (not `Prisma.TransactionClient`) so it can be exercised in tests
+ * with a plain fake, without a database.
+ */
+export type ReapTx = {
+  assessmentAttempt: {
+    updateMany: (args: {
+      where: { id: string; status: "IN_PROGRESS" };
+      data: { status: "TIMED_OUT" };
+    }) => Promise<{ count: number }>;
+  };
+  learningEvent: {
+    createMany: (args: {
+      data: Array<{
+        studentId: string;
+        subjectId: string;
+        topicId: string;
+        kind: "QUIZ_ABANDONED";
+        sourceId: string;
+        occurredAt: Date;
+      }>;
+    }) => Promise<unknown>;
+  };
+};
+
+/**
+ * Transitions a single stale attempt and, only if this call is the one that
+ * actually flipped it, emits its abandonment events.
+ *
+ * The `updateMany` is guarded by `status: "IN_PROGRESS"`, so of two overlapping
+ * reaps racing on the same attempt, exactly one sees `count === 1` — the other
+ * sees `count === 0` because the row is already `TIMED_OUT` and emits nothing.
+ * That is the whole fix: the `createMany` that used to run unconditionally for
+ * every reap now runs only for the reap that won the update.
+ */
+export async function reapOneAttempt(
+  tx: ReapTx,
+  studentId: string,
+  attempt: {
+    id: string;
+    startedAt: Date;
+    topicRefs: readonly { topicId: string; subjectId: string }[];
+  },
+): Promise<number> {
+  const { count } = await tx.assessmentAttempt.updateMany({
+    where: { id: attempt.id, status: "IN_PROGRESS" },
+    data: { status: "TIMED_OUT" },
+  });
+  if (count !== 1) return 0;
+
+  if (attempt.topicRefs.length > 0) {
+    await tx.learningEvent.createMany({
+      data: attempt.topicRefs.map((ref) => ({
+        studentId,
+        subjectId: ref.subjectId,
+        topicId: ref.topicId,
+        kind: "QUIZ_ABANDONED" as const,
+        sourceId: attempt.id,
+        occurredAt: attempt.startedAt,
+      })),
+    });
+  }
+  return count;
+}
+
+/**
  * Marks timed-out IN_PROGRESS attempts so they stop being resumable and stop
  * accumulating. Cheap enough to run opportunistically before generating.
  */
@@ -101,34 +167,35 @@ export async function reapStaleAttempts(studentId: string): Promise<number> {
       },
     });
 
-    // The status change and its ledger events commit together — the attempt row
-    // is the domain row these events describe.
+    // Interactive transaction, one attempt at a time: a batch transaction
+    // ran the updateMany and createMany as siblings, so two overlapping reaps
+    // of the same attempt each satisfied their own updateMany's `id: { in }`
+    // filter and both emitted a full event set — the updateMany's
+    // `status: "IN_PROGRESS"` guard made the *status change* idempotent but
+    // did nothing to guard the events. Per attempt, only the reap whose own
+    // update reports `count === 1` (i.e. it actually flipped the row from
+    // IN_PROGRESS) emits that attempt's events; a reap that loses the race
+    // sees `count === 0` and emits nothing.
     //
     // `occurredAt` is the attempt's startedAt, not now: this reaper runs
     // opportunistically when the student next generates a quiz, so an attempt
     // abandoned on Monday may not be noticed until Thursday. The ledger records
     // when the student engaged, not when we found out.
-    const events = expiredAttempts.flatMap((attempt) =>
-      distinctTopicRefs(
-        attempt.assessment.questions.map((aq) => aq.question),
-      ).map((ref) => ({
-        studentId,
-        subjectId: ref.subjectId,
-        topicId: ref.topicId,
-        kind: "QUIZ_ABANDONED" as const,
-        sourceId: attempt.id,
-        occurredAt: attempt.startedAt,
-      })),
-    );
-
-    const [result] = await db.$transaction([
-      db.assessmentAttempt.updateMany({
-        where: { id: { in: expired }, status: "IN_PROGRESS" },
-        data: { status: "TIMED_OUT" },
-      }),
-      ...(events.length > 0 ? [db.learningEvent.createMany({ data: events })] : []),
-    ]);
-    return result.count;
+    //
+    // `expired` is typically zero or one attempt, so the loop is not a hot path.
+    return await db.$transaction(async (tx) => {
+      let reaped = 0;
+      for (const attempt of expiredAttempts) {
+        reaped += await reapOneAttempt(tx, studentId, {
+          id: attempt.id,
+          startedAt: attempt.startedAt,
+          topicRefs: distinctTopicRefs(
+            attempt.assessment.questions.map((aq) => aq.question),
+          ),
+        });
+      }
+      return reaped;
+    });
   } catch (error) {
     console.error("Reaping stale attempts failed:", error);
     return 0;
