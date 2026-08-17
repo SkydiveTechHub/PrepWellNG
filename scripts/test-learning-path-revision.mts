@@ -53,7 +53,15 @@ function edge(from: string, to: string, overrides: Partial<GraphEdge> = {}): Gra
 
 function mkState(
   topicId: string,
-  opts: { mastery: number; retention?: number | null; lastStudy?: Date | null },
+  opts: {
+    mastery: number;
+    retention?: number | null;
+    lastStudy?: Date | null;
+    confidence?: number;
+    accObservations?: number;
+    lessonObservations?: number;
+    srsObservations?: number;
+  },
 ): TopicState {
   const level = masteryLevelFromScore(opts.mastery);
   return {
@@ -66,12 +74,13 @@ function mkState(
     level,
     stability: stabilityForLevel(level),
     retention: opts.retention !== undefined ? opts.retention : null,
-    // Synthetic state, so no evidence backs it. Nothing in this suite reads
-    // confidence; it is here because TopicState requires it.
-    confidence: 0,
-    accObservations: 0,
-    lessonObservations: 0,
-    srsObservations: 0,
+    // revisionItemToRecommendation now passes these through, so default to a
+    // confident, well-observed value to keep existing assertions unaffected;
+    // tests that care about thin evidence pass explicit overrides.
+    confidence: opts.confidence ?? 0.8,
+    accObservations: opts.accObservations ?? 5,
+    lessonObservations: opts.lessonObservations ?? 0,
+    srsObservations: opts.srsObservations ?? 0,
   };
 }
 
@@ -265,4 +274,30 @@ test("revisionItemToRecommendation: hands off to the recommendation shape", () =
   assert.equal(rec.reason, "Retention 70% — re-cement it");
   assert.equal(rec.unlocks, 2);
   assert.equal(rec.score, item.priority);
+});
+
+test("revisionItemToRecommendation: carries the topic's real confidence and observation counts, not a sentinel", () => {
+  const graph = graphWith(["t"]);
+  const studied = new Date(now.getTime() - 86_400_000);
+  // Thinly-evidenced due topic: one wrong answer, confidence below the floor.
+  const state = stateMap([
+    [
+      "t",
+      mkState("t", {
+        mastery: 40,
+        retention: 0.6,
+        lastStudy: studied,
+        confidence: 0.2,
+        accObservations: 1,
+        lessonObservations: 0,
+        srsObservations: 0,
+      }),
+    ],
+  ]);
+  const [item] = revisionQueue(state, graph, extrasMap([["t", extras()]]), { now });
+  const rec = revisionItemToRecommendation(item);
+  assert.equal(rec.confidence, 0.2);
+  assert.equal(rec.accObservations, 1);
+  assert.equal(rec.lessonObservations, 0);
+  assert.equal(rec.srsObservations, 0);
 });
