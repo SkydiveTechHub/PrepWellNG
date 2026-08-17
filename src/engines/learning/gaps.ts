@@ -8,12 +8,12 @@ import {
   GAP_RETENTION,
 } from "./recommend";
 import type { TopicStateMap, TopicState } from "./mastery";
-import { CONFIDENCE_FLOOR, OBSERVATION_FLOOR } from "./evidence";
+import { CONFIDENCE_FLOOR, OBSERVATION_FLOOR, ABANDONED_FLOOR } from "./evidence";
 
 // Learning Path Engine — learning-gap detection (algorithm D).
 // See docs/superpowers/specs/2026-08-02-learning-path-engine-design.md
 
-export type GapCategory = "WEAK" | "DECAYED" | "BOTTLENECK" | "UNTOUCHED";
+export type GapCategory = "WEAK" | "DECAYED" | "BOTTLENECK" | "ABANDONED" | "UNTOUCHED";
 
 export interface TopicGap {
   topicId: string;
@@ -80,18 +80,26 @@ export function bottleneckScore(
  * Diagnosed gaps (WEAK/DECAYED/BOTTLENECK) require evidence: a topic the
  * student has never touched (no lesson, practice or SRS data) has zero
  * mastery, but it is not a weakness — it is simply not started yet.
+ *
+ * ABANDONED is the one exception: a topic with no other evidence but at
+ * least `ABANDONED_FLOOR` abandoned-quiz appearances is still a gap — the
+ * student opened a mock on it and bailed, repeatedly. It only ever rescues
+ * the no-evidence case; a topic that already has evidence keeps whatever
+ * classification that evidence earns it.
  */
 export function classifyTopic(
   state: TopicStateMap,
   graph: KnowledgeGraph,
   topicId: string,
   pretestPassed: ReadonlySet<string> = new Set(),
+  abandonedByTopic: ReadonlyMap<string, number> = new Map(),
 ): GapCategory | null {
   const topic = state.get(topicId);
   if (!topic || !graph.nodes.has(topicId)) return null;
 
   const hasEvidence = topic.acc != null || topic.lessonM != null || topic.srs != null;
   if (!hasEvidence) {
+    if ((abandonedByTopic.get(topicId) ?? 0) >= ABANDONED_FLOOR) return "ABANDONED";
     return isAvailable(topicId, state, graph, pretestPassed) ? "UNTOUCHED" : null;
   }
 
@@ -130,8 +138,16 @@ export function classifyTopic(
 }
 
 /**
- * The gap queue: WEAK ∪ DECAYED ∪ BOTTLENECK, ranked by bottleneck score
- * (descending) then mastery (ascending) — the highest-leverage fix wins.
+ * The gap queue: WEAK ∪ DECAYED ∪ BOTTLENECK ∪ ABANDONED, ranked by
+ * bottleneck score (descending) then mastery (ascending) — the
+ * highest-leverage fix wins.
+ *
+ * ABANDONED sorts into its own bottom tier ahead of that rule: an
+ * unevidenced topic has `mastery` 0 and `bottleneckScore` 0, so under the
+ * plain comparator it would sort *ahead* of every other score-0 gap and
+ * crowd out topics we have actually measured. Abandonment explains a gap, it
+ * does not rank it — WEAK/DECAYED/BOTTLENECK keep their existing relative
+ * order.
  */
 export function gapQueue(
   state: TopicStateMap,
@@ -141,8 +157,13 @@ export function gapQueue(
 ): TopicGap[] {
   const gaps: TopicGap[] = [];
   for (const [topicId] of state) {
-    const category = classifyTopic(state, graph, topicId, pretestPassed);
-    if (category !== "WEAK" && category !== "DECAYED" && category !== "BOTTLENECK") {
+    const category = classifyTopic(state, graph, topicId, pretestPassed, abandonedByTopic);
+    if (
+      category !== "WEAK" &&
+      category !== "DECAYED" &&
+      category !== "BOTTLENECK" &&
+      category !== "ABANDONED"
+    ) {
       continue;
     }
     const node = graph.nodes.get(topicId);
@@ -167,6 +188,7 @@ export function gapQueue(
   }
   gaps.sort(
     (a, b) =>
+      Number(a.category === "ABANDONED") - Number(b.category === "ABANDONED") ||
       b.bottleneckScore - a.bottleneckScore ||
       a.mastery - b.mastery,
   );

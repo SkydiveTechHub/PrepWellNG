@@ -226,3 +226,83 @@ test("gapQueue: abandonment does not change the ranking", () => {
     "ranking must be identical with and without abandonment data",
   );
 });
+
+// ─── Abandonment alone can qualify a topic as a gap ────────
+
+test("classifyTopic: one abandonment on an unevidenced topic is not a gap", () => {
+  const graph = graphWith(["t"]);
+  const state: TopicStateMap = new Map([
+    ["t", scoreAggregate(emptyAggregate("t", "subj-1", now), now)],
+  ]);
+  assert.equal(
+    classifyTopic(state, graph, "t", new Set(), new Map([["t", 1]])),
+    "UNTOUCHED",
+    "one abandonment is below ABANDONED_FLOOR, so the topic falls back to UNTOUCHED",
+  );
+});
+
+test("classifyTopic: two abandonments on an unevidenced topic is ABANDONED", () => {
+  const graph = graphWith(["t"]);
+  const state: TopicStateMap = new Map([
+    ["t", scoreAggregate(emptyAggregate("t", "subj-1", now), now)],
+  ]);
+  assert.equal(
+    classifyTopic(state, graph, "t", new Set(), new Map([["t", 2]])),
+    "ABANDONED",
+  );
+});
+
+test("classifyTopic: an evidenced weak topic with five abandonments is still WEAK", () => {
+  const graph = graphWith(["t"]);
+  const state = stateFrom("t", 10, false);
+  assert.equal(
+    classifyTopic(state, graph, "t", new Set(), new Map([["t", 5]])),
+    "WEAK",
+    "abandonment only rescues the no-evidence case; a topic with evidence keeps its classification",
+  );
+});
+
+test("gapQueue: an unevidenced, twice-abandoned topic enters the queue as ABANDONED", () => {
+  const graph = graphWith(["t"]);
+  const state: TopicStateMap = new Map([
+    ["t", scoreAggregate(emptyAggregate("t", "subj-1", now), now)],
+  ]);
+  const gaps = gapQueue(state, graph, new Set(), new Map([["t", 2]]));
+  assert.equal(gaps.length, 1);
+  assert.equal(gaps[0].category, "ABANDONED");
+  assert.equal(gaps[0].abandonedCount, 2);
+});
+
+test("gapQueue: ABANDONED sorts below WEAK even with lower mastery", () => {
+  // `weak` has real evidence and a positive mastery figure. `abandoned` has no
+  // evidence at all, so its mastery and bottleneckScore are both 0 — under the
+  // plain score-desc/mastery-asc comparator it would sort *ahead* of `weak`.
+  // The tier key must force it to the bottom regardless.
+  const graph = graphWith(["weak", "abandoned"]);
+  const state = new Map<string, ReturnType<typeof scoreAggregate>>([
+    ...stateFrom("weak", 10, false),
+    ["abandoned", scoreAggregate(emptyAggregate("abandoned", "subj-1", now), now)],
+  ]);
+  const gaps = gapQueue(state, graph, new Set(), new Map([["abandoned", 2]]));
+  assert.deepEqual(
+    gaps.map((g) => g.topicId),
+    ["weak", "abandoned"],
+    "ABANDONED must sort after WEAK regardless of mastery",
+  );
+});
+
+test("gapQueue: WEAK/DECAYED/BOTTLENECK ordering among themselves is unchanged", () => {
+  // Two WEAK topics, ranked purely by the existing score-desc/mastery-asc
+  // rule. Neither is abandoned, so the new tier key must not disturb this.
+  const graph = graphWith(["a", "b"]);
+  const state = new Map([
+    ...stateFrom("a", 10, false),
+    ...stateFrom("b", 20, false),
+  ]);
+  const gaps = gapQueue(state, graph);
+  assert.deepEqual(
+    gaps.map((g) => g.topicId),
+    ["b", "a"],
+    "b has lower mastery than a, so it must still rank first",
+  );
+});

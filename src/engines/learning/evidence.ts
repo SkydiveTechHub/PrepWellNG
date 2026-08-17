@@ -66,6 +66,15 @@ export const CONFIDENCE_FLOOR = 0.35;
 export const OBSERVATION_FLOOR = 3;
 
 /**
+ * Minimum times a topic must appear in an abandoned quiz before that alone
+ * qualifies it as a gap (category ABANDONED).
+ *
+ * One abandonment is a misclick, a phone call, a closed laptop. Two is a
+ * pattern. This is the one number here with no prior art in the spec.
+ */
+export const ABANDONED_FLOOR = 2;
+
+/**
  * Difficulty adjusts the *outcome*, not the denominator, so the asymmetry
  * runs both ways: an easy question cannot prove mastery, and missing a hard
  * one is not proof of absence.
