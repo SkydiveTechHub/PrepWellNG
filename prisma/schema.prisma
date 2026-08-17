@@ -571,10 +571,6 @@ model PerformanceMetric {
   subject                Subject      @relation(fields: [subjectId], references: [id])
   topicId                String?
   topic                  Topic?       @relation(fields: [topicId], references: [id])
-  totalAttempted         Int          @default(0)
-  totalCorrect           Int          @default(0)
-  accuracy               Float        @default(0)
-  averageTimePerQuestion Float?
   masteryLevel           MasteryLevel @default(WEAK)
   lastUpdated            DateTime     @default(now())
 

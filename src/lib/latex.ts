@@ -1,4 +1,8 @@
 import katex from "katex";
+import {
+  collectMathRefs,
+  type MathDictionary,
+} from "@/lib/math-dictionary";
 
 // One KaTeX entry point for every surface that renders maths -- lesson prose,
 // flashcards, and anything added later. It previously lived inline in
@@ -34,4 +38,23 @@ export function renderLatex(tex: string, displayMode: boolean): string {
     // blank card or a crashed page.
     return tex;
   }
+}
+
+/**
+ * Pre-renders every formula in a payload, for handing to a client component.
+ *
+ * Importing this module pulls KaTeX in, so this must only ever be called from
+ * a server component — that is the whole point of it. The client counterpart
+ * (`MathProvider` in src/components/lesson/markdown-client.tsx) consumes the
+ * result and never imports KaTeX at all.
+ *
+ * Deduplicated by construction: `collectMathRefs` keys by formula, so a symbol
+ * repeated across thirty cards is rendered once and sent once.
+ */
+export function buildMathDictionary(value: unknown): MathDictionary {
+  const dictionary: MathDictionary = {};
+  for (const [key, ref] of collectMathRefs(value)) {
+    dictionary[key] = renderLatex(ref.tex, ref.displayMode);
+  }
+  return dictionary;
 }

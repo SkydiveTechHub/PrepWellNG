@@ -111,36 +111,67 @@ async function loadWeakTopics(userId: string): Promise<PerformanceSubjectWeakTop
 }
 
 export async function getPerformanceData(userId: string): Promise<PerformanceData> {
-  const [attempts, subjectMetrics] = await db.$transaction([
-    db.assessmentAttempt.findMany({
-      where: { studentId: userId, status: "COMPLETED" },
-      orderBy: { completedAt: "desc" },
-      take: 20,
-      select: {
-        id: true,
-        percentage: true,
-        score: true,
-        totalMarks: true,
-        completedAt: true,
-        assessment: {
-          select: {
-            title: true,
-            subject: { select: { name: true, slug: true } },
-          },
+  const attemptsQuery = db.assessmentAttempt.findMany({
+    where: { studentId: userId, status: "COMPLETED" },
+    orderBy: { completedAt: "desc" },
+    take: 20,
+    select: {
+      id: true,
+      percentage: true,
+      score: true,
+      totalMarks: true,
+      completedAt: true,
+      assessment: {
+        select: {
+          title: true,
+          subject: { select: { name: true, slug: true } },
         },
       },
-    }),
-    db.performanceMetric.findMany({
-      where: { studentId: userId },
-      select: {
-        totalAttempted: true,
-        totalCorrect: true,
-        accuracy: true,
-        subject: { select: { name: true, slug: true, code: true } },
-      },
-      orderBy: { accuracy: "desc" },
-    }),
+    },
+  });
+  const attemptedQuery = db.learningEvent.groupBy({
+    by: ["subjectId"],
+    where: { studentId: userId, kind: "QUESTION_ANSWERED" },
+    _count: { _all: true },
+  });
+  const correctQuery = db.learningEvent.groupBy({
+    by: ["subjectId"],
+    where: { studentId: userId, kind: "QUESTION_ANSWERED", correct: true },
+    _count: { _all: true },
+  });
+
+  const [attempts, attemptedRows, correctRows] = await db.$transaction([
+    attemptsQuery,
+    attemptedQuery,
+    correctQuery,
   ]);
+
+  const correctBySubject = new Map(
+    correctRows.map((row) => [row.subjectId, row._count._all]),
+  );
+  const subjectIds = attemptedRows.map((row) => row.subjectId);
+  const subjects = await db.subject.findMany({
+    where: { id: { in: subjectIds } },
+    select: { id: true, name: true, slug: true, code: true },
+  });
+  const subjectById = new Map(subjects.map((s) => [s.id, s]));
+
+  const subjectMetrics = attemptedRows
+    .flatMap((row) => {
+      const subject = subjectById.get(row.subjectId);
+      if (!subject) return [];
+      const totalAttempted = row._count._all;
+      const totalCorrect = correctBySubject.get(row.subjectId) ?? 0;
+      return [{
+        subjectName: subject.name,
+        subjectSlug: subject.slug,
+        subjectCode: subject.code,
+        totalAttempted,
+        totalCorrect,
+        accuracy: totalAttempted > 0 ? (totalCorrect / totalAttempted) * 100 : 0,
+      }];
+    })
+    .sort((a, b) => b.accuracy - a.accuracy);
 
   return {
     attempts: attempts.map((a) => ({
@@ -152,14 +183,7 @@ export async function getPerformanceData(userId: string): Promise<PerformanceDat
       totalMarks: a.totalMarks,
       completedAt: a.completedAt?.toISOString() ?? null,
     })),
-    subjectMetrics: subjectMetrics.map((m) => ({
-      subjectName: m.subject.name,
-      subjectSlug: m.subject.slug,
-      subjectCode: m.subject.code,
-      totalAttempted: m.totalAttempted,
-      totalCorrect: m.totalCorrect,
-      accuracy: m.accuracy,
-    })),
+    subjectMetrics,
     subjectWeakTopics: await loadWeakTopics(userId),
   };
 }

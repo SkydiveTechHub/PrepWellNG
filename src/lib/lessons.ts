@@ -132,10 +132,14 @@ export function generateLesson(topic: { title: string }, subjectName: string) {
   return { content, summary, keyPoints, blocks };
 }
 
-export async function seedLessons(prisma: PrismaClient) {
+export async function seedLessons(
+  prisma: PrismaClient,
+  opts?: { topicIds?: string[] },
+) {
   console.log("Seeding auto-generated lessons...");
 
   const topics = await prisma.topic.findMany({
+    where: opts?.topicIds ? { id: { in: opts.topicIds } } : undefined,
     include: { subject: { select: { name: true } } },
   });
 

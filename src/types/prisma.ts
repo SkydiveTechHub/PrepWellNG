@@ -187,10 +187,6 @@ export type PerformanceMetric = {
   studentId: string;
   subjectId: string;
   topicId: string | null;
-  totalAttempted: number;
-  totalCorrect: number;
-  accuracy: number;
-  averageTimePerQuestion: number | null;
   masteryLevel: MasteryLevel;
   lastUpdated: Date;
 };

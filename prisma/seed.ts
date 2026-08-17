@@ -2,6 +2,7 @@
 // Run: npx prisma db seed
 // Seeds all subjects + curriculum structure for Physics and Mathematics (SS1–SS3)
 
+import { pathToFileURL } from "node:url";
 import { PrismaClient } from "@prisma/client";
 import { seedLessons } from "../src/lib/lessons";
 
@@ -290,7 +291,8 @@ async function seedSubjects() {
   console.log(`  ✓ ${SUBJECTS.length} subjects seeded`);
 }
 
-async function seedCurriculum(
+export async function seedCurriculum(
+  prisma: PrismaClient,
   subjectCode: string,
   curriculum: TermTopics[]
 ) {
@@ -330,7 +332,9 @@ async function seedCurriculum(
             slug: slugify(topicDef.title),
           },
         },
-        update: {},
+        // Re-home existing topics so a re-run converges on the current term
+        // split; content fields are left alone for hand-edited topics.
+        update: { curriculumLevelId: level.id },
         create: {
           subjectId: subject.id,
           curriculumLevelId: level.id,
@@ -495,7 +499,7 @@ async function seedSubjectResources() {
 
 type ClassTopics = Record<"SS1" | "SS2" | "SS3", string[]>;
 
-const SUBJECT_TOPICS: Record<string, ClassTopics> = {
+export const SUBJECT_TOPICS: Record<string, ClassTopics> = {
   ENG: {
     SS1: ["Comprehension", "Summary Writing", "Essay Writing: Narrative", "Oral English: Vowel Sounds", "Parts of Speech", "Tenses and Aspects"],
     SS2: ["Essay Writing: Descriptive", "Comprehension Practice", "Summary Techniques", "Oral English: Consonant Sounds", "Active and Passive Voice", "Clauses and Sentence Structure", "Idioms and Figures of Speech"],
@@ -704,14 +708,20 @@ const SUBJECT_TOPICS: Record<string, ClassTopics> = {
 };
 
 /** Distribute a subject's per-class topic list across the three terms. */
-function buildCurriculum(code: string, byClass: ClassTopics): TermTopics[] {
+export function buildCurriculum(code: string, byClass: ClassTopics): TermTopics[] {
   const terms = ["FIRST", "SECOND", "THIRD"] as const;
   const out: TermTopics[] = [];
 
   for (const [cls, titles] of Object.entries(byClass)) {
-    const perTerm = Math.max(1, Math.ceil(titles.length / terms.length));
+    // Spread as evenly as possible so no term is left empty: a 4-topic class
+    // becomes 2/1/1, not 2/2/0. Remainders go to the earlier terms.
+    const base = Math.floor(titles.length / terms.length);
+    const extra = titles.length % terms.length;
+    let cursor = 0;
     for (let t = 0; t < terms.length; t++) {
-      const slice = titles.slice(t * perTerm, (t + 1) * perTerm);
+      const take = base + (t < extra ? 1 : 0);
+      const slice = titles.slice(cursor, cursor + take);
+      cursor += take;
       if (slice.length === 0) continue;
       out.push({
         classLevel: cls as "SS1" | "SS2" | "SS3",
@@ -733,12 +743,12 @@ async function main() {
   console.log("🌱 Starting PrepWell NG database seed...\n");
 
   await seedSubjects();
-  await seedCurriculum("PHY", PHYSICS_CURRICULUM);
-  await seedCurriculum("MTH", MATHEMATICS_CURRICULUM);
-  await seedCurriculum("BIO", BIOLOGY_CURRICULUM);
+  await seedCurriculum(prisma, "PHY", PHYSICS_CURRICULUM);
+  await seedCurriculum(prisma, "MTH", MATHEMATICS_CURRICULUM);
+  await seedCurriculum(prisma, "BIO", BIOLOGY_CURRICULUM);
 
   for (const [code, byClass] of Object.entries(SUBJECT_TOPICS)) {
-    await seedCurriculum(code, buildCurriculum(code, byClass));
+    await seedCurriculum(prisma, code, buildCurriculum(code, byClass));
   }
 
   await seedAchievements();
@@ -748,11 +758,19 @@ async function main() {
   console.log("\n✅ Seed completed successfully!");
 }
 
-main()
-  .catch((e) => {
-    console.error("Seed failed:", e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+// Only run the full seed when this file is executed directly, so other scripts
+// (e.g. scripts/seed-resume.ts) can import the curriculum data and helpers.
+const executedDirectly =
+  process.argv[1] !== undefined &&
+  import.meta.url === pathToFileURL(process.argv[1]).href;
+
+if (executedDirectly) {
+  main()
+    .catch((e) => {
+      console.error("Seed failed:", e);
+      process.exit(1);
+    })
+    .finally(async () => {
+      await prisma.$disconnect();
+    });
+}
