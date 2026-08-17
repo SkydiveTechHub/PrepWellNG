@@ -2,8 +2,7 @@ import Link from "next/link";
 import { redirect, notFound } from "next/navigation";
 import { LuArrowLeft, LuLayers } from "react-icons/lu";
 import { auth } from "@/lib/auth";
-import { db } from "@/lib/db";
-import { getStudyQueue } from "@/lib/flashcard-analytics";
+import { getDeckPageData } from "@/lib/flashcards";
 import { Badge } from "@/components/ui/badge";
 import { StudySession } from "@/components/flashcards/study-session";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -21,19 +20,10 @@ export default async function DeckPage({
 
   const { deckId } = await params;
 
-  const deck = await db.flashcardDeck.findUnique({
-    where: { id: deckId },
-    select: {
-      id: true,
-      title: true,
-      description: true,
-      subject: { select: { name: true } },
-      topic: { select: { title: true } },
-    },
-  });
-  if (!deck) notFound();
+  const data = await getDeckPageData(session.user.id, deckId);
+  if (!data) notFound();
 
-  const queue = await getStudyQueue(db, session.user.id, deckId);
+  const { deck, queue } = data;
 
   return (
     <div className="space-y-6">
@@ -51,11 +41,11 @@ export default async function DeckPage({
             {deck.title}
           </h1>
           <div className="mt-1.5 flex flex-wrap items-center gap-2 text-xs text-muted">
-            {deck.subject?.name && <span>{deck.subject.name}</span>}
-            {deck.topic?.title && (
+            {deck.subjectName && <span>{deck.subjectName}</span>}
+            {deck.topicTitle && (
               <>
                 <span>·</span>
-                <span>{deck.topic.title}</span>
+                <span>{deck.topicTitle}</span>
               </>
             )}
             <Badge variant="neutral">

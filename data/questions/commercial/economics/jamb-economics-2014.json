@@ -1,0 +1,898 @@
+[
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "introduction-to-economics",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 2,
+    "questionText": "The choice of how to produce in a command economy is determined by",
+    "options": {
+      "A": "government",
+      "B": "consumer",
+      "C": "industrialists",
+      "D": "labour unions"
+    },
+    "correctAnswer": "A",
+    "explanation": "In a command economy the state owns the means of production and a central planning authority decides what techniques and resources shall be used. Neither consumers nor private firms make that choice.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "introduction-to-economics",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 3,
+    "questionText": "In capitalist economies, questions about what to produce are ultimately answered by the",
+    "options": {
+      "A": "income level of households",
+      "B": "available technical skills in the economy",
+      "C": "output decisions of firms",
+      "D": "holding decision of households"
+    },
+    "correctAnswer": "A",
+    "explanation": "Under capitalism production follows the money votes cast by consumers in the market, and how many votes a household can cast depends on its income. Firms simply respond to that spending power.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "basic-economic-concepts",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 4,
+    "questionText": "The best measure of dispersion to determine the tallest tree in a forest is",
+    "options": {
+      "A": "range",
+      "B": "variance",
+      "C": "standard deviation",
+      "D": "mean deviation"
+    },
+    "correctAnswer": "A",
+    "explanation": "The range is defined by the highest and lowest values in the set, so it is the measure that directly identifies the extremes. Variance and standard deviation describe spread about the mean rather than the extreme values themselves.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "national-income",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 5,
+    "questionText": "What is the percentage contribution of services to the national income?",
+    "questionImageUrl": "/questions/economics/jamb-economics-2014-q5.png",
+    "options": {
+      "A": "15%",
+      "B": "10%",
+      "C": "54%",
+      "D": "24%"
+    },
+    "correctAnswer": "A",
+    "explanation": "Agriculture takes 72°, mining 126° and manufacturing 108°, so services occupy 360 − 306 = 54°. As a share of the whole circle that is 54 ÷ 360 × 100 = 15%.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 7,
+    "questionText": "A combination of factors responsible for a shift from D₀D₀ to D₁D₁ are",
+    "questionImageUrl": "/questions/economics/jamb-economics-2014-q7.png",
+    "options": {
+      "A": "consumers' income and change in technology",
+      "B": "price of the commodity and weather conditions",
+      "C": "consumers' taste and change in price",
+      "D": "consumers' income and population size"
+    },
+    "correctAnswer": "D",
+    "explanation": "Only non-price factors shift a demand curve, so any option containing the commodity's own price is ruled out. Higher incomes and a larger population both raise the quantity demanded at every price, moving the curve outward.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 8,
+    "questionText": "Given that Qd = 40 − 2P and Qs = 6P + 24, calculate the equilibrium quantity.",
+    "options": {
+      "A": "34",
+      "B": "32",
+      "C": "36",
+      "D": "16"
+    },
+    "correctAnswer": "C",
+    "explanation": "Set Qd = Qs: 40 − 2P = 6P + 24, so 16 = 8P and P = 2. Substituting back gives Q = 40 − 2(2) = 36, which the supply equation confirms as 6(2) + 24 = 36.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 9,
+    "questionText": "A change in demand for a normal good implies that there is a",
+    "options": {
+      "A": "change in the quantity demanded as price changes",
+      "B": "shift in the demand curve",
+      "C": "movement along a given demand curve",
+      "D": "change in the price elasticity of demand"
+    },
+    "correctAnswer": "B",
+    "explanation": "A change in demand is caused by a non-price factor such as income or taste, and it moves the entire curve to a new position. Movement along the curve is a change in quantity demanded, not in demand.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 11,
+    "questionText": "From the graph above, the consumer will attain equilibrium at point",
+    "questionImageUrl": "/questions/economics/jamb-economics-2014-q11.png",
+    "options": {
+      "A": "J",
+      "B": "K",
+      "C": "L",
+      "D": "M"
+    },
+    "correctAnswer": "B",
+    "explanation": "The consumer is in equilibrium where a budget line is tangential to the highest indifference curve it can reach. At that point the marginal rate of substitution equals the ratio of the two prices, so no reallocation of spending can raise satisfaction further.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 12,
+    "questionText": "A rightward shift of the budget line is caused by a",
+    "options": {
+      "A": "fall in consumer income",
+      "B": "change in consumer taste",
+      "C": "fall in the commodity relative price",
+      "D": "rise in the commodity relative price"
+    },
+    "correctAnswer": "C",
+    "explanation": "A cheaper commodity means a given income now buys more of it, so the budget line swings outward along that axis. A fall in income would move the line inward, and taste does not affect the budget line at all.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 13,
+    "questionText": "Given the supply function P = ¼(Qs + 10), when P = ₦10, what is Qs?",
+    "options": {
+      "A": "20",
+      "B": "15",
+      "C": "50",
+      "D": "30"
+    },
+    "correctAnswer": "D",
+    "explanation": "Substitute P = 10: 10 = ¼(Qs + 10). Multiplying through by 4 gives 40 = Qs + 10, so Qs = 30.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 14,
+    "questionText": "Study the table below.\n\n| Price (₦) | Quantity supplied |\n| --- | --- |\n| 8 | 20 |\n| 10 | 24 |\n\nFrom the table above, calculate the price elasticity of supply.",
+    "options": {
+      "A": "0.50",
+      "B": "0.80",
+      "C": "2.00",
+      "D": "1.25"
+    },
+    "correctAnswer": "B",
+    "explanation": "Quantity rises by 4 out of 20, which is 20%, while price rises by 2 out of 8, which is 25%. Elasticity is 20 ÷ 25 = 0.80.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 15,
+    "questionText": "When price is set below equilibrium, this will lead to",
+    "options": {
+      "A": "an increase in the quantity supplied",
+      "B": "a new equilibrium",
+      "C": "a decrease in the quantity supplied",
+      "D": "a fall in price"
+    },
+    "correctAnswer": "C",
+    "explanation": "A lower price makes production less profitable, so sellers move down the supply curve and offer less. The result is a shortage, since buyers simultaneously want more.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 16,
+    "questionText": "Price mechanism determines the prices of commodities through",
+    "options": {
+      "A": "auctioning",
+      "B": "market forces",
+      "C": "the sales of treasury bills",
+      "D": "government legislation"
+    },
+    "correctAnswer": "B",
+    "explanation": "The price mechanism is simply the free interaction of demand and supply, which settles price without any directing authority. Prices fixed by legislation are the opposite of a price mechanism.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 17,
+    "questionText": "Study the table below.\n\n| Unit of labour | Total product | Average product | Marginal product |\n| --- | --- | --- | --- |\n| 1 | 8 | 8 | – |\n| 2 | 20 | 10 | 12 |\n| 3 | E | 9 | 7 |\n| 4 | 28 | 7 | F |\n| 5 | 40 | 8 | 12 |\n\nFrom the table above, find the values of E and F respectively.",
+    "options": {
+      "A": "27 and 1",
+      "B": "68 and 12",
+      "C": "28 and 5",
+      "D": "12 and 19"
+    },
+    "correctAnswer": "A",
+    "explanation": "Total product equals average product times the number of units, so E = 9 × 3 = 27. Marginal product is the addition to total product, so F = 28 − 27 = 1.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 18,
+    "questionText": "If the production of a large firm is higher than that of a small firm, it is experiencing",
+    "options": {
+      "A": "external economies of scale",
+      "B": "external diseconomies of scale",
+      "C": "internal economies of scale",
+      "D": "internal diseconomies of scale"
+    },
+    "correctAnswer": "C",
+    "explanation": "The advantage arises from the firm's own size — its specialised machinery, bulk buying and spread overheads. Benefits that come instead from the growth of the whole industry would be external economies.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 19,
+    "questionText": "Division of labour requires that the tasks in a production line be performed",
+    "options": {
+      "A": "by specialists",
+      "B": "in stages",
+      "C": "by all workers",
+      "D": "by unskilled labourers"
+    },
+    "correctAnswer": "B",
+    "explanation": "Division of labour breaks a job into separate operations arranged in sequence, each worker handling one stage before passing the work on. It is that splitting into stages that allows workers to become specialists.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 20,
+    "questionText": "Given that FC = ₦500, VC = ₦1,500 and Q = 50 units, find the average cost of the product.",
+    "options": {
+      "A": "₦30",
+      "B": "₦40",
+      "C": "₦10",
+      "D": "₦20"
+    },
+    "correctAnswer": "B",
+    "explanation": "Total cost is fixed cost plus variable cost: 500 + 1,500 = ₦2,000. Average cost is total cost ÷ output = 2,000 ÷ 50 = ₦40.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 21,
+    "questionText": "Rent and administrative expenses are examples of",
+    "options": {
+      "A": "average fixed costs",
+      "B": "average variable costs",
+      "C": "fixed costs",
+      "D": "variable costs"
+    },
+    "correctAnswer": "C",
+    "explanation": "These must be paid in the same amount whether the firm produces much, little or nothing at all, so they do not vary with output. Costs of that kind are fixed or overhead costs.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "market-structures",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 22,
+    "questionText": "A perfect competitor will continue to expand output up to the point where",
+    "options": {
+      "A": "TC > TR",
+      "B": "MR = AR",
+      "C": "MC < MR",
+      "D": "MC > MR"
+    },
+    "correctAnswer": "C",
+    "explanation": "So long as the cost of the extra unit is below the revenue it brings in, each additional unit adds to profit and is worth producing. Expansion stops only when marginal cost has risen to equal marginal revenue.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "market-structures",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 23,
+    "questionText": "One of the characteristics of a monopolist is that he can influence",
+    "options": {
+      "A": "quantity produced by other producers",
+      "B": "prices charged by other producers",
+      "C": "both price and quantity",
+      "D": "price or quantity"
+    },
+    "correctAnswer": "D",
+    "explanation": "The monopolist faces the whole market demand curve, so he may fix the price and let the market determine how much is bought, or fix the quantity and let the market determine the price. He cannot dictate both at once.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "market-structures",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 24,
+    "questionText": "A monopolist can boost up his revenue by",
+    "options": {
+      "A": "adjusting both price and output upward",
+      "B": "reducing total output to match price",
+      "C": "increasing price",
+      "D": "reducing price"
+    },
+    "correctAnswer": "B",
+    "explanation": "Because he controls supply, the monopolist restricts output so that the smaller quantity clears at a higher price. Simply raising the price without cutting output would leave him with unsold goods.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "national-income",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 25,
+    "questionText": "Which of the following can be used to measure the Gross National Product in an open economy?",
+    "options": {
+      "A": "C + I + G + (X + M)",
+      "B": "C + I + G + X",
+      "C": "C + I + G",
+      "D": "C + I + G + (X − M)"
+    },
+    "correctAnswer": "D",
+    "explanation": "An open economy trades with the rest of the world, so exports are added and imports subtracted to give net exports. C + I + G alone would be the expenditure of a closed economy.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "national-income",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 26,
+    "questionText": "If MPC = 2/3 and investment is ₦100 million, the level of national income is",
+    "options": {
+      "A": "₦100 million",
+      "B": "₦10 million",
+      "C": "₦303 million",
+      "D": "₦300 million"
+    },
+    "correctAnswer": "D",
+    "explanation": "The multiplier is 1 ÷ (1 − 2/3) = 1 ÷ (1/3) = 3. National income is therefore ₦100 million × 3 = ₦300 million.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "money-and-banking",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 27,
+    "questionText": "The precautionary demand for money is determined by",
+    "options": {
+      "A": "the rate of interest",
+      "B": "the level of savings",
+      "C": "the level of income",
+      "D": "general price level"
+    },
+    "correctAnswer": "C",
+    "explanation": "Money held against unforeseen contingencies rises with income, since a richer person can and does set more aside for emergencies. Only the speculative demand for money depends on the rate of interest.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "inflation",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 28,
+    "questionText": "An inflation that co-exists with a high rate of unemployment is",
+    "options": {
+      "A": "hyperinflation",
+      "B": "stagflation",
+      "C": "demand-pull inflation",
+      "D": "cost-push inflation"
+    },
+    "correctAnswer": "B",
+    "explanation": "Stagflation is the combination of stagnant output and heavy unemployment with rising prices. It is difficult to cure because measures that check inflation tend to worsen unemployment.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "money-and-banking",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 29,
+    "questionText": "One of the challenges facing the banking industry in Nigeria is",
+    "options": {
+      "A": "ensuring technological security",
+      "B": "providing employment",
+      "C": "providing loans for investment",
+      "D": "creating more money"
+    },
+    "correctAnswer": "A",
+    "explanation": "As banking has moved onto electronic platforms, fraud and cyber attack have become a serious threat to deposits and to confidence in the system. The other options are functions banks perform, not challenges they face.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "financial-institutions",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 30,
+    "questionText": "Short-term loans for investment are usually obtained through the",
+    "options": {
+      "A": "stock market",
+      "B": "development banks",
+      "C": "money market",
+      "D": "capital market"
+    },
+    "correctAnswer": "C",
+    "explanation": "The money market specialises in funds lent for short periods, through instruments such as treasury bills, call money and commercial paper. Long-dated finance comes from the capital market.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "inflation",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 31,
+    "questionText": "Given a base year and a price index of 175% the following year, which of the following will arise?",
+    "options": {
+      "A": "The cost of living decreases in that year",
+      "B": "The cost of living remains unchanged",
+      "C": "The value of money rises by 75%",
+      "D": "The value of money falls by 75%"
+    },
+    "correctAnswer": "D",
+    "explanation": "An index of 175 means prices are 75% higher than in the base year. Since the value of money moves inversely with prices, the purchasing power of the naira has fallen by that 75%.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "inflation",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 32,
+    "questionText": "Wage freeze is a policy measure aimed at",
+    "options": {
+      "A": "encouraging investors",
+      "B": "curbing inflation",
+      "C": "regulating standard of living",
+      "D": "curbing deflation"
+    },
+    "correctAnswer": "B",
+    "explanation": "Holding wages down restrains both the purchasing power that pulls prices up and the labour costs that push them up. It is a standard income policy against inflation.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "economic-development",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 33,
+    "questionText": "A major obstacle to the development of the Nigerian economy is",
+    "options": {
+      "A": "low capital formation",
+      "B": "rural-urban migration",
+      "C": "over dependence on oil",
+      "D": "poor developmental policies"
+    },
+    "correctAnswer": "C",
+    "explanation": "Relying on a single commodity for the bulk of export earnings and government revenue leaves the whole economy hostage to swings in the world oil price, and it has starved agriculture and manufacturing of attention.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "economic-development",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 34,
+    "questionText": "A major feature of an underdeveloped economy is",
+    "options": {
+      "A": "excess capacity utilization",
+      "B": "low rate of population growth",
+      "C": "low level of standard of living",
+      "D": "low level of unemployment"
+    },
+    "correctAnswer": "C",
+    "explanation": "Underdeveloped economies are marked by low income per head, which shows itself in poor nutrition, housing, health and education. Their population growth is typically high and unemployment heavy.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 35,
+    "questionText": "An important role of agriculture in Nigeria's economic development is the",
+    "options": {
+      "A": "processing of raw materials for industries",
+      "B": "regulation of price system",
+      "C": "provision of infrastructure",
+      "D": "provision of employment"
+    },
+    "correctAnswer": "D",
+    "explanation": "Agriculture engages the largest share of Nigeria's working population, particularly in the rural areas where few other opportunities exist. Processing raw materials is the work of industry, not of agriculture itself.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 36,
+    "questionText": "An advantage of large-scale farming over peasant farming is in the area of",
+    "options": {
+      "A": "providing research and massive employment of labour",
+      "B": "redistributing national income to various regions of the country",
+      "C": "encouraging the use of traditional implements",
+      "D": "encouraging urban-rural migration"
+    },
+    "correctAnswer": "A",
+    "explanation": "A large farm can afford its own research, improved seed and machinery and can take on workers in numbers a peasant holding never could. Peasant farming is precisely what keeps traditional implements in use.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 37,
+    "questionText": "A major disadvantage of localization of industry is",
+    "options": {
+      "A": "the risk of structural unemployment",
+      "B": "over-utilization of installed industrial capacity",
+      "C": "the risk of seasonal unemployment",
+      "D": "under-utilization of installed industrial capacity"
+    },
+    "correctAnswer": "A",
+    "explanation": "When one industry dominates an area and that industry declines, the workers' skills become obsolete and the whole locality is thrown out of work at once. That is structural unemployment.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 38,
+    "questionText": "One major factor that determines the location of an industry is",
+    "options": {
+      "A": "tax exemption grant",
+      "B": "its proximity to the market",
+      "C": "the capital base",
+      "D": "the social responsibility of the firm"
+    },
+    "correctAnswer": "B",
+    "explanation": "Nearness to the market cuts the cost of distributing the finished product and matters most where the product is bulky, fragile or perishable. It is one of the classic determinants of industrial location.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 39,
+    "questionText": "The major contribution of OPEC to the Nigerian economy is the",
+    "options": {
+      "A": "provision of social infrastructures",
+      "B": "granting of subsidies on petroleum products",
+      "C": "stabilization of oil prices",
+      "D": "building of refineries"
+    },
+    "correctAnswer": "C",
+    "explanation": "OPEC coordinates production quotas among its members so as to keep the world price of crude from collapsing. Steadier prices mean steadier export earnings for Nigeria.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 40,
+    "questionText": "The loading of crude oil at the terminal is an activity in the",
+    "options": {
+      "A": "downstream sector of the oil industry",
+      "B": "upstream and downstream sector of the oil industry",
+      "C": "upstream sector of the oil industry",
+      "D": "midstream and upstream sectors of the oil industry"
+    },
+    "correctAnswer": "C",
+    "explanation": "The upstream sector covers exploration, drilling, production and the export of crude oil, and terminal loading is the final step in getting the crude away. The downstream sector begins with refining and the marketing of finished products.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 41,
+    "questionText": "The short-run average variable cost of a firm will rise owing to",
+    "options": {
+      "A": "the expansion of factory space",
+      "B": "the building of new warehouse",
+      "C": "an increase in the cost of labour",
+      "D": "an increase in the salaries of directors"
+    },
+    "correctAnswer": "C",
+    "explanation": "Labour is a variable factor whose use rises and falls with output, so dearer labour raises variable cost per unit. Factory space, warehouses and directors' salaries are all fixed costs in the short run.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 42,
+    "questionText": "Firms embark on vertical integration in order to",
+    "options": {
+      "A": "take over markets formerly controlled by other firms",
+      "B": "prevent other firms from entering the market",
+      "C": "reduce advertisement and management cost",
+      "D": "enjoy economies of large-scale production"
+    },
+    "correctAnswer": "D",
+    "explanation": "Bringing successive stages of production under one roof secures supplies and outlets and spreads overheads over a larger operation, which lowers unit costs. That is the economy-of-scale motive.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 43,
+    "questionText": "The voting power in co-operative societies is vested in",
+    "options": {
+      "A": "management",
+      "B": "members without loan",
+      "C": "shareholders",
+      "D": "members with the highest contribution"
+    },
+    "correctAnswer": "C",
+    "explanation": "The society belongs to its members, who hold its shares and each cast one vote at the general meeting regardless of how much they have contributed. Management merely carries out their decisions.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "population",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 44,
+    "questionText": "An accurate census figure is an important tool for planners in",
+    "options": {
+      "A": "providing employment",
+      "B": "siting industries",
+      "C": "providing social amenities",
+      "D": "allocating resources"
+    },
+    "correctAnswer": "D",
+    "explanation": "Planning is fundamentally about distributing scarce resources among competing areas and needs, and the census tells the planner how many people are where. Employment schemes and amenities are particular cases of that wider allocation.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "population",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 45,
+    "questionText": "An accurate population census is important in order to",
+    "options": {
+      "A": "produce more food for the growing population",
+      "B": "provide employment opportunities for the people",
+      "C": "estimate a country's per capita income",
+      "D": "fast track industrial development"
+    },
+    "correctAnswer": "C",
+    "explanation": "Per capita income is national income divided by population, so the figure is meaningless without a reliable head count. An inaccurate census distorts the whole measure of living standards.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 46,
+    "questionText": "A major determinant of a floating exchange rate is",
+    "options": {
+      "A": "the highest denomination of the currency",
+      "B": "an Act of parliament",
+      "C": "the system of government",
+      "D": "the forces of demand and supply"
+    },
+    "correctAnswer": "D",
+    "explanation": "A floating rate is one left to find its own level in the foreign exchange market, so it is set by the demand for and supply of the currency. A rate fixed by law is a pegged rate, not a floating one.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 47,
+    "questionText": "If the importation of a commodity is limited to a definite quantity, the trade control measure imposed is",
+    "options": {
+      "A": "excise duties",
+      "B": "import duties",
+      "C": "quotas",
+      "D": "tariff"
+    },
+    "correctAnswer": "C",
+    "explanation": "A quota restricts trade by fixing the physical quantity that may be brought in, whereas duties and tariffs work by raising the price. The measure described here is quantitative, so it is a quota.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 48,
+    "questionText": "The main objective of the WTO is to",
+    "options": {
+      "A": "ensure adequate protection of infant industries",
+      "B": "provide a mechanism for tariff reduction",
+      "C": "assist countries with chronic balance of payments problems",
+      "D": "assist developing countries to execute developmental projects"
+    },
+    "correctAnswer": "B",
+    "explanation": "The WTO exists to liberalise world trade, and its rounds of negotiation are directed at cutting tariffs and other barriers. Balance of payments support comes from the IMF and project finance from the World Bank.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "national-income",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 49,
+    "questionText": "The major determinant of the total volume of output in an economy is the",
+    "options": {
+      "A": "level of total expenditure",
+      "B": "composition of consumer spending",
+      "C": "number of farmers",
+      "D": "size of the labour force"
+    },
+    "correctAnswer": "A",
+    "explanation": "Firms produce what they expect to sell, so aggregate demand — total spending by households, firms, government and foreigners — governs how much is actually produced.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "population",
+    "examType": "JAMB",
+    "examYear": 2014,
+    "questionNumber": 50,
+    "questionText": "The labour force of a country is determined by the",
+    "options": {
+      "A": "age structure of the population",
+      "B": "geographical distribution of the population",
+      "C": "sex distribution of the population",
+      "D": "number of people available for work"
+    },
+    "correctAnswer": "D",
+    "explanation": "The labour force is the number of people of working age who are able and willing to work, whether or not they are currently employed. Age structure influences that number but is not itself the labour force.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  }
+]

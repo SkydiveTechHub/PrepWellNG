@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { db } from "@/lib/db";
+import { setUserAvatar } from "@/lib/user-account";
 import {
   UploadRejectedError,
   isImageUploadConfigured,
@@ -61,10 +61,7 @@ export async function POST(req: NextRequest) {
 
     const image = await uploadAvatar(file, session.user.id);
 
-    await db.user.update({
-      where: { id: session.user.id },
-      data: { image },
-    });
+    await setUserAvatar(session.user.id, image);
 
     return NextResponse.json({ message: "Photo updated", image });
   } catch (error) {

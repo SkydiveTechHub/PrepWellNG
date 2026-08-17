@@ -3,6 +3,7 @@ import { LuCompass, LuFlame, LuLockOpen } from "react-icons/lu";
 import type { NextTopicRecommendation } from "@/engines/learning/recommend";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { evidenceLabel } from "@/lib/evidence-display";
 
 export interface SubjectMeta {
   slug: string;
@@ -61,7 +62,9 @@ export function NextTopics({
                   {reasonIcon(item.reason)}
                   {item.reason}
                 </Badge>
-                <span className="text-xs text-muted">{item.mastery}% mastery</span>
+                <span className="text-xs text-muted">
+                  {evidenceLabel(item) ?? `${item.mastery}% mastery`}
+                </span>
               </div>
             </div>
           </div>

@@ -9,6 +9,18 @@ export type AdminGuardResult =
   | { ok: false; response: NextResponse };
 
 /**
+ * Whether the user holds the ADMIN role. Always read from the database — the
+ * JWT caches a `role` for presentation, but it is never trusted for access.
+ */
+export async function isAdminUser(userId: string): Promise<boolean> {
+  const user = await db.user.findUnique({
+    where: { id: userId },
+    select: { role: true },
+  });
+  return user?.role === "ADMIN";
+}
+
+/**
  * Resolves the signed-in admin, or the response the caller should return
  * instead. The session lookup and the role lookup were previously duplicated
  * verbatim in every admin handler, so a fix to one never reached the others.
@@ -22,11 +34,7 @@ export async function requireAdmin(): Promise<AdminGuardResult> {
     };
   }
 
-  const user = await db.user.findUnique({
-    where: { id: session.user.id },
-    select: { role: true },
-  });
-  if (user?.role !== "ADMIN") {
+  if (!(await isAdminUser(session.user.id))) {
     return {
       ok: false,
       response: NextResponse.json(

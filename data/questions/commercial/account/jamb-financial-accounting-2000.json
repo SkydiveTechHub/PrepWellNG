@@ -1,0 +1,724 @@
+[
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "control-accounts",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 1,
+    "questionText": "On November 1, 1998, Zaria Holdings owed ₦13,600 in respect of a creditor. On November 15 it purchased goods worth ₦69,000 and paid a cheque of ₦51,600. On November 29, one of the Holdings' cheques worth ₦3,000 was returned while the creditor granted ₦1,500 discount. The amount owed by Zaria Holdings as at November 29 is",
+    "options": {
+      "A": "₦32,500",
+      "B": "₦32,000",
+      "C": "₦31,000",
+      "D": "₦29,500"
+    },
+    "correctAnswer": "A",
+    "explanation": "Start with ₦13,600 owing, add purchases of ₦69,000, deduct the ₦51,600 paid, add back the ₦3,000 cheque that was dishonoured and deduct the ₦1,500 discount: ₦32,500.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "adjustments",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 2,
+    "questionText": "To write off a bad debt, debit",
+    "options": {
+      "A": "debtor's account and credit provision for bad debt",
+      "B": "bad debt account and credit debtor's account",
+      "C": "debtor's account and credit bad debt",
+      "D": "provision for bad debt and credit profit and loss account"
+    },
+    "correctAnswer": "B",
+    "explanation": "The debt has proved worthless, so the customer's account is cleared by a credit and the loss is charged to a bad debts account, which is later transferred to the profit and loss account.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "bank-reconciliation",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 3,
+    "questionText": "In order to make the cash book balance equal to the bank statement, it is usual to add",
+    "options": {
+      "A": "uncredited cheques",
+      "B": "direct payments by bank",
+      "C": "bank charges",
+      "D": "unpresented cheques"
+    },
+    "correctAnswer": "D",
+    "explanation": "Cheques drawn but not yet presented have already been deducted in the cash book while the bank still shows the money. Adding them to the cash book balance brings it up to the statement figure.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 4,
+    "questionText": "Given:\n\n| Item | ₦ |\n| --- | --- |\n| Sales | 20,000 |\n| Cost of sales | 10,000 |\n| Operating expenses | 2,500 |\n| Expenses prepaid included in operating expenses | 500 |\n\nCalculate the net profit.",
+    "options": {
+      "A": "₦12,500",
+      "B": "₦10,000",
+      "C": "₦8,000",
+      "D": "₦7,500"
+    },
+    "correctAnswer": "C",
+    "explanation": "Gross profit is 20,000 − 10,000 = ₦10,000. Only the expenses belonging to the period are charged, so the ₦500 prepaid is removed leaving ₦2,000, and net profit is 10,000 − 2,000 = ₦8,000.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "interpretation-of-accounts",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 5,
+    "questionText": "What is the gross profit margin?",
+    "options": {
+      "A": "100%",
+      "B": "50%",
+      "C": "40%",
+      "D": "30%"
+    },
+    "correctAnswer": "B",
+    "explanation": "Gross profit of ₦10,000 expressed as a percentage of sales of ₦20,000 gives 50%.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "introduction-to-accounting",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 6,
+    "questionText": "The main object of book keeping is to record economic",
+    "options": {
+      "A": "transactions systematically for routine managerial decision making",
+      "B": "events clearly to ensure adequate checks and balances",
+      "C": "events clearly to facilitate strategic managerial decision-making",
+      "D": "transactions systematically to ascertain the financial position of a business"
+    },
+    "correctAnswer": "D",
+    "explanation": "Book keeping is the orderly recording of transactions so that, at any time, the profit made and the state of affairs of the business can be determined from the books.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "source-documents",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 8,
+    "questionText": "A source document that aids the ascertainment of the amount paid out of a current account is the",
+    "options": {
+      "A": "teller",
+      "B": "cheque stub",
+      "C": "cheque",
+      "D": "teller stub"
+    },
+    "correctAnswer": "B",
+    "explanation": "The cheque itself goes to the payee, but the stub or counterfoil stays in the book as the drawer's record of what was paid and to whom. Tellers relate to money paid in, not out.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "adjustments",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 9,
+    "questionText": "Yahuza Enterprises Trial Balance (Extracts) as at Dec. 31, 1998.\n\n| Item | Dr (₦) | Cr (₦) |\n| --- | --- | --- |\n| Capital | | 21,000 |\n| Premises | 90,000 | |\n| Debtors | 35,000 | |\n| Provision for depreciation 1/1/98 | | 9,000 |\n| Provision for bad and doubtful debts | | 1,500 |\n\nIf premises are to be depreciated at 10% on cost and a 5% provision is to be allowed on debtors, the total assets in the balance sheet is",
+    "options": {
+      "A": "₦125,000",
+      "B": "₦114,500",
+      "C": "₦105,500",
+      "D": "₦105,250"
+    },
+    "correctAnswer": "D",
+    "explanation": "This year's depreciation of ₦9,000 is added to the existing ₦9,000, so premises stand at 90,000 − 18,000 = ₦72,000. The provision on debtors becomes 5% × 35,000 = ₦1,750, leaving debtors at ₦33,250. Together that is ₦105,250.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "books-of-accounts",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 10,
+    "questionText": "The most convenient cash book used by a petty trader operating in an area where there is no banking facility is",
+    "options": {
+      "A": "four column",
+      "B": "three column",
+      "C": "single column",
+      "D": "two column"
+    },
+    "correctAnswer": "C",
+    "explanation": "With no bank account there is no bank column to keep and no discounts of consequence, so a single cash column suffices.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "books-of-accounts",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 11,
+    "questionText": "A general journal contains",
+    "options": {
+      "A": "date, narration, folio, debit and credit",
+      "B": "date, narration, folio, debit and purchases",
+      "C": "folio, credit, date, debit and sales",
+      "D": "debit, credit, narration, date and discount"
+    },
+    "correctAnswer": "A",
+    "explanation": "Each journal entry records the date, the accounts to be debited and credited with their amounts, a folio reference to the ledger, and a narration explaining the transaction.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "trial-balance",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 12,
+    "questionText": "Which of the following errors will affect the trial balance totals?",
+    "options": {
+      "A": "Posting discount allowed to the debit side of the discount allowed account",
+      "B": "Omission of one account from the list when extracting from the ledgers",
+      "C": "Failure to post sales of ₦2,000 and purchases of ₦2,000 from subsidiary ledgers",
+      "D": "Omission of sales of ₦3,000 and purchases of ₦2,000"
+    },
+    "correctAnswer": "B",
+    "explanation": "Leaving out a single balance removes an amount from one side only, so the two columns no longer agree. Errors that omit or misstate both sides equally leave the totals in balance.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 13,
+    "questionText": "An expense account is closed by a debit to",
+    "options": {
+      "A": "an asset account and a credit to the expense account",
+      "B": "the expense account and a credit to an asset account",
+      "C": "profit and loss account and a credit to the expense account",
+      "D": "the expense account and a credit to profit and loss account"
+    },
+    "correctAnswer": "C",
+    "explanation": "At the year end each expense balance is transferred out to the profit and loss account, which is debited with it while the expense account is credited and thereby closed.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "introduction-to-accounting",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 14,
+    "questionText": "The concept which requires that goods taken by the proprietor for personal use should be treated as deductions from capital is",
+    "options": {
+      "A": "cost",
+      "B": "prudence",
+      "C": "consistency",
+      "D": "entity"
+    },
+    "correctAnswer": "D",
+    "explanation": "The entity concept treats the business as separate from its owner, so anything he takes for himself is withdrawn from the business and reduces his capital rather than counting as a business expense.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "control-accounts",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 17,
+    "questionText": "Amin Ltd. Creditors Ledger Control Account (Extracts)\n\n| Item | ₦ |\n| --- | --- |\n| Beginning balances — Debit | 32,000 |\n| Beginning balances — Credit | 61,000 |\n| Purchases during the year — Cash | 30,000 |\n| Purchases during the year — Credit | 60,000 |\n| Payment to suppliers — Cash | 13,000 |\n| Payment to suppliers — Cheque | 29,000 |\n| Debtors' contra | 6,000 |\n\nThe closing control account balance is",
+    "options": {
+      "A": "₦41,000",
+      "B": "₦65,000",
+      "C": "₦71,000",
+      "D": "₦77,000"
+    },
+    "correctAnswer": "A",
+    "explanation": "Only credit purchases pass through the account, so the credit side is 61,000 + 60,000 = ₦121,000. Against it stand the opening debit balance of 32,000, payments of 13,000 + 29,000 and the contra of 6,000, totalling ₦80,000. The balance is ₦41,000.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "manufacturing-accounts",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 18,
+    "questionText": "Given:\n\n| Item | ₦ |\n| --- | --- |\n| Depreciation of plant and machinery | 1,600 |\n| Factory rent | 650 |\n| Indirect wages | 695 |\n| General indirect expenses | 726 |\n| Lubricants | 1,235 |\n| Carriage inwards | 829 |\n| Factory power | 350 |\n| Bank charges | 612 |\n| Carriage outwards | 2,900 |\n\nDetermine the total factory overhead cost.",
+    "options": {
+      "A": "₦4,485",
+      "B": "₦5,256",
+      "C": "₦6,085",
+      "D": "₦6,556"
+    },
+    "correctAnswer": "B",
+    "explanation": "Add only the indirect costs of running the factory: 1,600 + 650 + 695 + 726 + 1,235 + 350 = ₦5,256. Carriage inwards belongs to material cost, while bank charges and carriage outwards are not factory costs at all.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 20,
+    "questionText": "The items entered in an opening statement of affairs of an enterprise that keeps incomplete records are",
+    "options": {
+      "A": "sales income",
+      "B": "receipts from debtors",
+      "C": "fixtures and fittings",
+      "D": "rent paid"
+    },
+    "correctAnswer": "C",
+    "explanation": "A statement of affairs lists assets and liabilities at a date, so only balance sheet items belong in it. Sales, receipts and rent are revenue transactions of a period.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "manufacturing-accounts",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 21,
+    "questionText": "In a manufacturing company, the total cost of goods produced is equivalent to",
+    "options": {
+      "A": "purchases",
+      "B": "sales",
+      "C": "cost of goods sold",
+      "D": "cost of materials used"
+    },
+    "correctAnswer": "A",
+    "explanation": "The cost of production transferred to the trading account performs exactly the role that purchases play for a trader — it is the cost of the goods brought in to be sold.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "control-accounts",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 22,
+    "questionText": "Given: Sales Ledger Control Account (Extracts)\n\n| Item | ₦ |\n| --- | --- |\n| Balance b/f | 10,600 |\n| Total cash payments by debtors | 32,275 |\n| Total credit sales | 59,193 |\n| Discount received | 9,700 |\n| Balance c/f | 20,751 |\n| Discount allowed | 2,890 |\n\nDetermine the sales returns.",
+    "options": {
+      "A": "₦24,577",
+      "B": "₦13,877",
+      "C": "₦7,067",
+      "D": "₦2,890"
+    },
+    "correctAnswer": "B",
+    "explanation": "The debit side is 10,600 + 59,193 = ₦69,793. The known credits are 32,275 + 2,890 + 20,751 = ₦55,916, so the missing returns are 69,793 − 55,916 = ₦13,877. Discount received belongs to the creditors ledger and is a distractor.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 23,
+    "questionText": "The simplest form of single entry procedure consists of keeping a",
+    "options": {
+      "A": "day book or general journal",
+      "B": "cash book and ledger accounts showing debtors and creditors balances",
+      "C": "cash journal, sales journal and purchases journal",
+      "D": "day book in which transactions are described in chronological order"
+    },
+    "correctAnswer": "B",
+    "explanation": "Even the most rudimentary single entry system records the money coming in and going out together with what is owed by and to the business, which is enough to derive profit by comparing capital.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "manufacturing-accounts",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 24,
+    "questionText": "A fixed cost is fixed only in relation to",
+    "options": {
+      "A": "the quantity of goods produced",
+      "B": "the quantity of goods sold",
+      "C": "a given period of time and a range of activities",
+      "D": "a given period of time and the nature of activity"
+    },
+    "correctAnswer": "C",
+    "explanation": "Costs such as rent stay constant only within a stated period and over a relevant range of output. Expand far enough beyond that range and larger premises are needed, so the cost steps up.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 25,
+    "questionText": "One of the shortcomings of single entry procedures is that",
+    "options": {
+      "A": "a trial balance is not available",
+      "B": "profits are overestimated",
+      "C": "there are no subsidiary books",
+      "D": "there are no control accounts"
+    },
+    "correctAnswer": "A",
+    "explanation": "Because the double entry is never completed, the balances cannot be listed and agreed. Without a trial balance there is no arithmetical check on the records at all.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "control-accounts",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 26,
+    "questionText": "When a customer's cheque is returned unpaid in a debtors control accounting system, the treatment will be to",
+    "options": {
+      "A": "debit bank, credit customer and credit control account",
+      "B": "credit bank, debit customer and debit control account",
+      "C": "debit customer, credit control account and credit bank",
+      "D": "credit control account, debit bank and debit customer"
+    },
+    "correctAnswer": "B",
+    "explanation": "The earlier receipt must be reversed: bank is credited because the money never arrived, and the customer's account — with the control account that summarises it — is debited because the debt is once more outstanding.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 30,
+    "questionText": "Which of the following items does not feature in the balance sheet of a club?",
+    "options": {
+      "A": "Arrears of current year's subscription",
+      "B": "Salary arrears paid in the current year",
+      "C": "Rental income received in advance",
+      "D": "Advance subscription in respect of a coming year"
+    },
+    "correctAnswer": "B",
+    "explanation": "Arrears of salary that have now been paid are settled and no longer owing, so nothing remains to show in the balance sheet. The other three are still assets or liabilities at the year end.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "partnership-accounts",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 31,
+    "questionText": "An outright sale of a partnership amounts to the",
+    "options": {
+      "A": "compensation of vendors by the purchaser",
+      "B": "admission of a new partner",
+      "C": "purchase of rights of a dead partner",
+      "D": "change of sharing ratio of vendors"
+    },
+    "correctAnswer": "A",
+    "explanation": "On an outright sale the partners give up the whole business and receive the purchase consideration in exchange. It is a disposal, not a change in the membership of a continuing firm.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "interpretation-of-accounts",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 33,
+    "questionText": "Maimalari Ltd had earnings per share of 30k, a par value of ₦1.20 per share and a market price of ₦1.50 per share. The company's yield is",
+    "options": {
+      "A": "20.00%",
+      "B": "25.00%",
+      "C": "31.33%",
+      "D": "39.17%"
+    },
+    "correctAnswer": "A",
+    "explanation": "Yield relates the return per share to what an investor must pay for it: 30k ÷ ₦1.50 = 0.20, that is 20%. The par value plays no part in the calculation.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "partnership-accounts",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 35,
+    "questionText": "The partnership deed normally specifies",
+    "options": {
+      "A": "how profits or losses are to be shared",
+      "B": "the capital to be contributed annually",
+      "C": "how salaries are paid to employees",
+      "D": "the manner of appointing external auditors"
+    },
+    "correctAnswer": "A",
+    "explanation": "The deed sets out the terms agreed between the partners themselves — the profit-sharing ratio above all, together with interest on capital and drawings and any partners' salaries.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "company-accounts",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 37,
+    "questionText": "When a purchased business is revalued, the effect is that",
+    "options": {
+      "A": "a decrease in the value of assets has no effect on the value of goodwill",
+      "B": "an increase in the value of assets is treated as an increase in the value of goodwill",
+      "C": "a decrease in the value of assets is treated as a decrease in the value of goodwill",
+      "D": "an increase in the value of assets is treated as a decrease in the value of goodwill"
+    },
+    "correctAnswer": "D",
+    "explanation": "Goodwill is the excess of the purchase consideration over the net assets acquired. With the price already fixed, revaluing the assets upward leaves a smaller residue, so goodwill falls.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "partnership-accounts",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 38,
+    "questionText": "An item of appropriation in a partnership profit and loss account is",
+    "options": {
+      "A": "interest on partners' capital",
+      "B": "interest on partners' loan",
+      "C": "employees' salaries",
+      "D": "partners' drawings"
+    },
+    "correctAnswer": "A",
+    "explanation": "Appropriations are divisions of profit among the partners, and interest on capital is one such share. Interest on a partner's loan and employees' salaries are charges against profit, made before it is appropriated.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "partnership-accounts",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 39,
+    "questionText": "Rakiya and Joy are in partnership and agreed that 5% interest per annum is to be charged on drawings. The drawings made by both partners in one year were: Rakiya ₦200 on March 31 and ₦300 on September 30; Joy ₦100 on April 1 and ₦240 on July 1. The interest on Joy's drawings is",
+    "options": {
+      "A": "₦6.00",
+      "B": "₦7.25",
+      "C": "₦9.00",
+      "D": "₦9.75"
+    },
+    "correctAnswer": "D",
+    "explanation": "The ₦100 taken on 1 April is outstanding nine months: 100 × 5% × 9/12 = ₦3.75. The ₦240 taken on 1 July is outstanding six months: 240 × 5% × 6/12 = ₦6.00. Together ₦9.75.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "partnership-accounts",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 40,
+    "questionText": "Assuming that Rakiya was not credited with any income during the period, what is her closing current account balance?",
+    "options": {
+      "A": "₦340.00 credit",
+      "B": "₦349.75 debit",
+      "C": "₦500.00 credit",
+      "D": "₦511.25 debit"
+    },
+    "correctAnswer": "D",
+    "explanation": "Her drawings total ₦500, and the interest charged on them is (200 × 5% × 9/12) + (300 × 5% × 3/12) = 7.50 + 3.75 = ₦11.25. With nothing credited to her, the account is overdrawn by ₦511.25.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "company-accounts",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 41,
+    "questionText": "A business is acquired at par when the",
+    "options": {
+      "A": "purchase consideration equals goodwill",
+      "B": "purchase consideration equals net value",
+      "C": "purchase consideration is greater than the net value",
+      "D": "net value is greater than the liabilities"
+    },
+    "correctAnswer": "B",
+    "explanation": "Buying at par means paying exactly what the net assets are worth, so no goodwill arises and there is no capital reserve on the bargain.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 42,
+    "questionText": "Yola Social Club — Statement of Account, 1999 Financial Year\n\n| Item | ₦ |\n| --- | --- |\n| 31/12/98 Subscriptions in arrears | 21,000 |\n| 31/12/98 Subscriptions in advance | 12,000 |\n| Receipts during 1999 — arrears for 1998 | 21,000 |\n| Receipts during 1999 — dues for 1999 | 48,000 |\n| Receipts during 1999 — advance for 2000 | 11,000 |\n\nThe subscription transferable to the income and expenditure account is",
+    "options": {
+      "A": "₦48,000",
+      "B": "₦59,000",
+      "C": "₦60,000",
+      "D": "₦69,000"
+    },
+    "correctAnswer": "C",
+    "explanation": "The 1999 income is the ₦48,000 of dues collected for the year plus the ₦12,000 that members had paid in advance at the end of 1998, which is earned in 1999. The arrears received relate to 1998 and the advance received relates to 2000, so both are excluded: ₦60,000.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 43,
+    "questionText": "The most appropriate basis for apportioning inventory holding cost among departments is to use the value of",
+    "options": {
+      "A": "purchases",
+      "B": "opening stock",
+      "C": "closing stock",
+      "D": "average stock"
+    },
+    "correctAnswer": "D",
+    "explanation": "The cost of holding stock is incurred throughout the year, so it should follow the stock actually carried over that period. Average stock reflects this better than a figure taken at a single date.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 45,
+    "questionText": "Consider the following reasons:\n\n(i) Meet growth and diversification needs\n(ii) Reach out to particular customers or markets\n(iii) Comply with some regulatory directives\n(iv) Increase employees' income\n\nWhich of the reasons above would be considered in establishing branches?",
+    "options": {
+      "A": "i and ii only",
+      "B": "i, ii and iii only",
+      "C": "ii, iii and iv only",
+      "D": "iii and iv only"
+    },
+    "correctAnswer": "B",
+    "explanation": "Branches are opened to expand the business, to serve customers closer to where they are, and sometimes because regulation requires a local presence. Raising employees' pay is not a reason for opening one.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "public-sector-accounting",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 46,
+    "questionText": "The channel through which all government borrowing and domestic lending transactions pass is called the",
+    "options": {
+      "A": "special trust fund",
+      "B": "agency fund",
+      "C": "national loan fund",
+      "D": "contingency fund"
+    },
+    "correctAnswer": "C",
+    "explanation": "The national loans fund is the account through which the government's borrowings and its own lending are handled, keeping such transactions separate from ordinary revenue and expenditure.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 47,
+    "questionText": "Given:\n\n| Item | Dept A | Dept B |\n| --- | --- | --- |\n| Floor space | 400 m² | 60 m² |\n| Machine hours | 1,200 | 1,400 |\n| Turnover | ₦36 million | ₦64 million |\n| Labour hours | 1,000 | 1,400 |\n\nA joint cost of ₦72 million incurred by the two departments was apportioned ₦30 million to A and ₦42 million to B. The basis used for apportionment must have been",
+    "options": {
+      "A": "labour hours",
+      "B": "floor space",
+      "C": "turnover",
+      "D": "machine hours"
+    },
+    "correctAnswer": "A",
+    "explanation": "The split of ₦30m to ₦42m is a ratio of 5:7. Of the four bases, only labour hours of 1,000 and 1,400 reduce to 5:7; floor space is 20:3, machine hours 6:7 and turnover 9:16.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 49,
+    "questionText": "A major benefit derived from the reconciliation of branch and head office books is to",
+    "options": {
+      "A": "determine accurate returns by the branch",
+      "B": "ascertain the correct profit or loss on branch activities",
+      "C": "enable the branch to keep control over stock",
+      "D": "enable the branch to ascertain debtors' balances"
+    },
+    "correctAnswer": "B",
+    "explanation": "Reconciling the two sets of books settles the items in transit between them, so that the branch result can be measured correctly and combined with the head office figures.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "adjustments",
+    "examType": "JAMB",
+    "examYear": 2000,
+    "questionNumber": 50,
+    "questionText": "Haial Limited, with three departments, has a total of ₦7,200,000 as the net debtors for the year ended 31/12/97. The company's policy provides for 15% bad debt annually. Which of the following represents the total balance of debtors before adjustments?",
+    "options": {
+      "A": "₦6,120,000",
+      "B": "₦6,120,300",
+      "C": "₦8,280,000",
+      "D": "₦8,820,000"
+    },
+    "correctAnswer": "C",
+    "explanation": "The net figure is what remains after the 15% provision has been taken off, so the gross debtors must be restored by adding that provision back: 7,200,000 × 1.15 = ₦8,280,000.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  }
+]

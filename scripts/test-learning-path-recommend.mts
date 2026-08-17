@@ -60,6 +60,13 @@ function mkState(
     level,
     stability: stabilityForLevel(level),
     retention: opts.retention !== undefined ? opts.retention : null,
+    // A well-evidenced synthetic topic: acc is non-null, so real mass exists
+    // and confidence must be above CONFIDENCE_FLOOR. Zero here would describe
+    // a state the fold cannot produce.
+    confidence: 0.8,
+    accObservations: 0,
+    lessonObservations: 0,
+    srsObservations: 0,
   };
 }
 
@@ -76,6 +83,10 @@ function untouchedState(topicId: string): TopicState {
     level,
     stability: stabilityForLevel(level),
     retention: null,
+    confidence: 0,
+    accObservations: 0,
+    lessonObservations: 0,
+    srsObservations: 0,
   };
 }
 

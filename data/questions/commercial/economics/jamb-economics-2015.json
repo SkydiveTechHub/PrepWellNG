@@ -1,0 +1,935 @@
+[
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "population",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 1,
+    "questionText": "The major implication of a high dependency ratio on an economy is",
+    "options": {
+      "A": "high capital formation",
+      "B": "vicious cycle of poverty",
+      "C": "low cost of living",
+      "D": "high standard of living"
+    },
+    "correctAnswer": "B",
+    "explanation": "When few workers must support many dependants, income is consumed rather than saved, savings and investment stay low and incomes remain low in turn. That self-reinforcing circle is the vicious cycle of poverty.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 2,
+    "questionText": "One of the major problems of the agricultural sector in Nigeria is",
+    "options": {
+      "A": "low literacy level of farmers",
+      "B": "small size of farms",
+      "C": "pest attack on crops",
+      "D": "inadequate modern farm implements"
+    },
+    "correctAnswer": "D",
+    "explanation": "Nigerian farming still depends largely on the hoe and cutlass, which limits the area a farmer can cultivate and keeps yields low. Mechanisation is the single greatest constraint on output.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 3,
+    "questionText": "Cooperative societies are characterized by",
+    "options": {
+      "A": "divergent interest of members",
+      "B": "limited liability",
+      "C": "free entry and exit",
+      "D": "unlimited size of membership"
+    },
+    "correctAnswer": "C",
+    "explanation": "Membership of a cooperative is voluntary and open: anyone who can use its services may join and any member may withdraw. Members also share a common, not a divergent, interest.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "national-income",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 4,
+    "questionText": "The marginal propensity to save measures the",
+    "options": {
+      "A": "ratio of change in saving to a change in the level of income",
+      "B": "change in supply as a result of a change in consumption",
+      "C": "ratio of change in consumption to a change in the level of income",
+      "D": "average propensity to consume"
+    },
+    "correctAnswer": "A",
+    "explanation": "MPS is ΔS ÷ ΔY, the fraction of any additional income that is saved rather than spent. The ratio of the change in consumption to the change in income is the marginal propensity to consume.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "economic-development",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 5,
+    "questionText": "Structural unemployment is mainly caused by",
+    "options": {
+      "A": "a change in the consumption pattern",
+      "B": "a change in the business cycle",
+      "C": "decrease in the output level",
+      "D": "seasonal variation"
+    },
+    "correctAnswer": "A",
+    "explanation": "When tastes or techniques shift, the demand for a particular product collapses and the workers whose skills were tied to it are left stranded. Business cycle swings produce cyclical, not structural, unemployment.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "population",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 6,
+    "questionText": "One of the major problems of census in Nigeria is",
+    "options": {
+      "A": "inadequate skilled personnel",
+      "B": "high dependency ratio",
+      "C": "distortion of census figures",
+      "D": "high cost of conducting census"
+    },
+    "correctAnswer": "C",
+    "explanation": "Because revenue allocation and political representation depend on population, figures have repeatedly been inflated for advantage. This deliberate distortion is what has made Nigerian census results so contentious.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "national-income",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 7,
+    "questionText": "A decrease in government expenditure in an economy will cause the general price level to",
+    "options": {
+      "A": "remain constant",
+      "B": "fluctuate",
+      "C": "fall",
+      "D": "rise"
+    },
+    "correctAnswer": "C",
+    "explanation": "Government spending is a component of aggregate demand, so cutting it withdraws purchasing power from the economy. With less money chasing the same goods, prices fall.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 8,
+    "questionText": "Study the table below.\n\n| Unit of labour | TP | AP | MP |\n| --- | --- | --- | --- |\n| 1 | 6 | 6 | – |\n| 2 | 14 | 7 | 8 |\n| 3 | K | 9 | 13 |\n| 4 | 40 | 10 | F |\n\nFrom the table above, find the values of K and F respectively.",
+    "options": {
+      "A": "13 and 27",
+      "B": "27 and 13",
+      "C": "10 and 27",
+      "D": "27 and 10"
+    },
+    "correctAnswer": "B",
+    "explanation": "Total product is average product times the number of units, so K = 9 × 3 = 27. Marginal product is the addition to total product, so F = 40 − 27 = 13.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 9,
+    "questionText": "In the theory of consumer behaviour, the sum of all marginal utilities is",
+    "options": {
+      "A": "average marginal utility",
+      "B": "the initial marginal utility",
+      "C": "total utility",
+      "D": "diminishing marginal utility"
+    },
+    "correctAnswer": "C",
+    "explanation": "Each unit consumed adds its marginal utility to the stock of satisfaction already obtained, so adding all the marginal utilities together gives total utility.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "introduction-to-economics",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 10,
+    "questionText": "In a pure capitalist economy, the means and forces of production are owned and controlled by the",
+    "options": {
+      "A": "public and private sectors",
+      "B": "feudal lords",
+      "C": "public sector",
+      "D": "private sector"
+    },
+    "correctAnswer": "D",
+    "explanation": "Private ownership of the means of production is the defining feature of capitalism. Joint ownership by both sectors describes a mixed economy and state ownership a socialist one.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "national-income",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 11,
+    "questionText": "A factor earning which is paid out as unemployment benefit is referred to as",
+    "options": {
+      "A": "interest rate",
+      "B": "direct rate",
+      "C": "economic rent",
+      "D": "transfer payment"
+    },
+    "correctAnswer": "D",
+    "explanation": "A transfer payment is money the government hands over without receiving any good or service in return, as with unemployment benefit or a pension. Because nothing is produced for it, it is excluded from national income to avoid double counting.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "money-and-banking",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 13,
+    "questionText": "The demand for money is referred to as the",
+    "options": {
+      "A": "amount of money in fixed deposit",
+      "B": "desire to hold money in tangible assets",
+      "C": "need for money to invest",
+      "D": "desire to hold money in liquid form rather than investing it"
+    },
+    "correctAnswer": "D",
+    "explanation": "Keynes called the demand for money liquidity preference: the wish to keep wealth in cash, which earns nothing, rather than in interest-bearing assets. It arises from the transactions, precautionary and speculative motives.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 14,
+    "questionText": "In the theory of production, a producer is at equilibrium at a point where",
+    "options": {
+      "A": "isocost is above the isoquant curve",
+      "B": "isoquant is below the isocost curve",
+      "C": "isocost is tangent to the marginal revenue",
+      "D": "isoquant is tangent to the isocost curve"
+    },
+    "correctAnswer": "D",
+    "explanation": "At the point of tangency the producer obtains the greatest output for a given outlay, because the rate at which he can substitute one factor for another equals the rate at which the market prices them.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 15,
+    "questionText": "Balance of trade shows the relationship between the",
+    "options": {
+      "A": "internal and external trade",
+      "B": "total value of visible imports and exports",
+      "C": "deficit and surplus balance of payments",
+      "D": "total value of invisible imports and exports"
+    },
+    "correctAnswer": "B",
+    "explanation": "The balance of trade records only the tangible goods crossing a country's borders. Services and other invisibles belong to the wider current account, not to the balance of trade.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "money-and-banking",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 16,
+    "questionText": "If the cash reserve ratio is 30%, a new deposit of ₦20 million will increase supply by",
+    "options": {
+      "A": "₦57.8m",
+      "B": "₦47.9m",
+      "C": "₦69.78m",
+      "D": "₦66.7m"
+    },
+    "correctAnswer": "D",
+    "explanation": "The credit multiplier is 1 ÷ cash reserve ratio = 1 ÷ 0.30 = 3.33. Applying it to the deposit gives ₦20 million × 3.33 = ₦66.7 million.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 17,
+    "questionText": "A fall in the price of ostentatious goods will",
+    "options": {
+      "A": "increase the quantity demanded",
+      "B": "decrease the quantity demanded",
+      "C": "decrease demand",
+      "D": "increase demand"
+    },
+    "correctAnswer": "B",
+    "explanation": "Ostentatious or Veblen goods are bought precisely because they are expensive and confer prestige. When the price falls they lose that distinction, so buyers take fewer of them — an exception to the law of demand.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "economic-planning",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 18,
+    "questionText": "Payment of interest on loans and the repayment of the capital sum at a future date is",
+    "options": {
+      "A": "balance debt",
+      "B": "debt servicing",
+      "C": "debt relief",
+      "D": "debt retaking"
+    },
+    "correctAnswer": "B",
+    "explanation": "Debt servicing is the regular discharge of a debt obligation — the interest as it falls due together with the principal at maturity. Debt relief, by contrast, is the cancellation or reduction of what is owed.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "basic-economic-concepts",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 19,
+    "questionText": "The most difficult measure of central tendency to determine in a grouped data is the",
+    "options": {
+      "A": "range",
+      "B": "variance",
+      "C": "mean",
+      "D": "mode"
+    },
+    "correctAnswer": "D",
+    "explanation": "Once data are grouped the individual values are lost, so the mode can only be estimated by interpolation within the modal class rather than read off directly. Range and variance are measures of dispersion, not of central tendency.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 20,
+    "questionText": "Localization of industry is mainly determined by",
+    "options": {
+      "A": "diseconomies of scale",
+      "B": "population growth",
+      "C": "division of labour",
+      "D": "access to raw materials"
+    },
+    "correctAnswer": "D",
+    "explanation": "Firms of an industry gather where the material they work on is found, particularly when it is bulky or loses weight in processing. That is why brewing, quarrying and cement works cluster near their sources.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "population",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 21,
+    "questionText": "Geographical distribution of a population is affected by",
+    "options": {
+      "A": "low birth rate",
+      "B": "the availability of skilled manpower",
+      "C": "the availability of agricultural land",
+      "D": "high birth rate"
+    },
+    "correctAnswer": "C",
+    "explanation": "People settle where they can make a living, and fertile land able to support farming draws them most strongly. Birth rates change the size of a population rather than where it is spread.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 22,
+    "questionText": "A tax burden on a commodity will be shared equally if the demand is",
+    "options": {
+      "A": "fairly elastic",
+      "B": "perfectly inelastic",
+      "C": "fairly inelastic",
+      "D": "unitary elastic"
+    },
+    "correctAnswer": "D",
+    "explanation": "Incidence is divided according to the relative elasticities of demand and supply. Only when demand is unitary elastic, matching supply in responsiveness, do buyer and seller carry the tax in equal shares.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "inflation",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 23,
+    "questionText": "Higher income taxes can be used to control",
+    "options": {
+      "A": "demand-pull inflation",
+      "B": "high interest rates",
+      "C": "cost-push inflation",
+      "D": "hyperinflation"
+    },
+    "correctAnswer": "A",
+    "explanation": "Raising income tax withdraws purchasing power from households, which reduces the excess demand that is pulling prices up. It cannot touch cost-push inflation, whose source is rising costs of production.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 24,
+    "questionText": "From the graph above, a shift of the supply curve from S₀S₀ to S₁S₁ will lead to",
+    "questionImageUrl": "/questions/economics/jamb-economics-2015-q24.png",
+    "options": {
+      "A": "a decrease in price and quantity",
+      "B": "no change in price and quantity",
+      "C": "an increase in price and quantity",
+      "D": "a decrease in price and an increase in quantity"
+    },
+    "correctAnswer": "D",
+    "explanation": "The supply curve moves to the right along an unchanged demand curve, so the intersection slides down that curve. Price falls from P₀ to P₁ while quantity rises from Q₀ to Q₁.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 25,
+    "questionText": "An indifference map is made up of a set of",
+    "options": {
+      "A": "consumers' total utility",
+      "B": "consumer surplus",
+      "C": "budget lines",
+      "D": "indifference curves"
+    },
+    "correctAnswer": "D",
+    "explanation": "An indifference map is the whole family of a consumer's indifference curves drawn on one diagram, each curve further from the origin representing a higher level of satisfaction.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "money-and-banking",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 26,
+    "questionText": "Recapitalization policy will enable commercial banks to",
+    "options": {
+      "A": "employ more qualified workers",
+      "B": "open more branches",
+      "C": "reduce interest rate",
+      "D": "have a very strong capital base"
+    },
+    "correctAnswer": "D",
+    "explanation": "Recapitalisation raises the minimum shareholders' funds a bank must hold, so its direct effect is a stronger capital base able to absorb losses and support larger lending.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 27,
+    "questionText": "The number of persons required to form a private company ranges from",
+    "options": {
+      "A": "ten to twenty",
+      "B": "two to fifty",
+      "C": "two to seven",
+      "D": "seven to ten"
+    },
+    "correctAnswer": "B",
+    "explanation": "A private limited liability company is formed by a minimum of two members and may not exceed fifty, excluding employees. A public company has a minimum of seven with no upper limit.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 28,
+    "questionText": "The major function of the International Monetary Fund is the",
+    "options": {
+      "A": "provision of short-run loans to medium scale industries",
+      "B": "provision of long-term loans for infrastructure",
+      "C": "development of agriculture in member countries",
+      "D": "maintenance of stable exchange rates"
+    },
+    "correctAnswer": "D",
+    "explanation": "The IMF was established to promote orderly exchange arrangements and to lend to members in balance of payments difficulty. Long-term project finance is the business of the World Bank.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 29,
+    "questionText": "One of the major activities in the upstream sector of the Nigerian petroleum industry includes",
+    "options": {
+      "A": "transportation of finished products",
+      "B": "refining of crude oil",
+      "C": "marketing of refined petrol",
+      "D": "exploration of crude oil"
+    },
+    "correctAnswer": "D",
+    "explanation": "The upstream sector covers the search for and extraction of crude oil, that is exploration, drilling and production. Refining, transportation and marketing of finished products all belong to the downstream sector.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 30,
+    "questionText": "The law of supply states that the",
+    "options": {
+      "A": "higher the price the higher the quantity supplied",
+      "B": "quantity supplied is always equal to the quantity demanded",
+      "C": "lower the price the higher the quantity supplied",
+      "D": "higher the price the lower the quantity supplied"
+    },
+    "correctAnswer": "A",
+    "explanation": "A higher price makes production more profitable, so sellers offer more, other things being equal. Price and quantity supplied therefore move in the same direction, giving the supply curve its upward slope.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "market-structures",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 31,
+    "questionText": "One of the features of a perfectly competitive firm is",
+    "options": {
+      "A": "restrictions to entry and exit",
+      "B": "price discrimination",
+      "C": "absence of transportation cost",
+      "D": "product differentiation"
+    },
+    "correctAnswer": "C",
+    "explanation": "Perfect competition assumes there is no transport cost, so a single price rules throughout the market. Restricted entry, price discrimination and differentiated products all belong to imperfect markets.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 32,
+    "questionText": "The basis for international trade is the",
+    "options": {
+      "A": "differences in natural resources endowment",
+      "B": "differences in the population size",
+      "C": "prevailing interest rate on multilateral loans",
+      "D": "economic system in practice"
+    },
+    "correctAnswer": "A",
+    "explanation": "Countries are unequally supplied with land, climate and minerals, so each can produce some things more cheaply than others. That unequal endowment is what makes specialisation and exchange worthwhile.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 33,
+    "questionText": "Training farmers on improved farming techniques is the major activity of",
+    "options": {
+      "A": "intermediate workers",
+      "B": "middlemen",
+      "C": "extension workers",
+      "D": "creditors"
+    },
+    "correctAnswer": "C",
+    "explanation": "Agricultural extension officers take the findings of research stations out to the farms, demonstrating improved seed, fertiliser use and husbandry to the farmers themselves.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 34,
+    "questionText": "In a free market economy, prices are determined by",
+    "options": {
+      "A": "consumers",
+      "B": "producers",
+      "C": "the central government",
+      "D": "the forces of demand and supply"
+    },
+    "correctAnswer": "D",
+    "explanation": "In a free market no authority fixes prices; they settle at the level where the quantity buyers want equals the quantity sellers offer.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "basic-economic-concepts",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 35,
+    "questionText": "The basic economic problem of what to produce in an economy is determined by",
+    "options": {
+      "A": "the availability of labour",
+      "B": "the means of distribution",
+      "C": "the availability of resources",
+      "D": "technological know-how"
+    },
+    "correctAnswer": "C",
+    "explanation": "The problem arises because resources are scarce relative to wants, so what a society can produce is bounded by the resources at its disposal. Choice is forced on it by that scarcity.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "inflation",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 36,
+    "questionText": "In Nigeria, a fall in the supply of petrol would generally affect the",
+    "options": {
+      "A": "import of goods and services",
+      "B": "export of goods and services",
+      "C": "general price level in the country",
+      "D": "exchange rate of the Naira"
+    },
+    "correctAnswer": "C",
+    "explanation": "Petrol drives road transport, on which the movement of virtually every good depends. A shortage raises transport costs and those costs are passed on across the economy, lifting the general price level.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "market-structures",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 37,
+    "questionText": "The short-run equilibrium point of a perfectly competitive firm is attained at a point where",
+    "options": {
+      "A": "total revenue is equal to total cost",
+      "B": "the demand curve is tangential to the marginal cost",
+      "C": "the marginal cost curve is equal to the marginal revenue curve",
+      "D": "the marginal cost is equal to the price of the firm"
+    },
+    "correctAnswer": "C",
+    "explanation": "Profit is greatest where the addition to cost from the last unit exactly equals the addition to revenue, that is where MC = MR. This condition holds in every market structure, not only in perfect competition.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 38,
+    "questionText": "Government can protect consumers from exploitative prices by introducing",
+    "options": {
+      "A": "minimum price",
+      "B": "price differentiation",
+      "C": "price floor",
+      "D": "maximum price"
+    },
+    "correctAnswer": "D",
+    "explanation": "A maximum price is a legal ceiling below the equilibrium, fixed so that essential goods remain within reach of consumers. A minimum price or price floor is set above equilibrium to protect producers instead.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 39,
+    "questionText": "If a fall in the price of commodity K brought about an increase in the demand for commodity Y, the two commodities are",
+    "options": {
+      "A": "composites",
+      "B": "derived in nature",
+      "C": "substitutes",
+      "D": "complements"
+    },
+    "correctAnswer": "D",
+    "explanation": "Goods used together move in this way: cheaper cars raise the demand for petrol. If they were substitutes, a fall in the price of K would have reduced the demand for Y.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 40,
+    "questionText": "In the theory of production, the price of a factor input is determined by",
+    "options": {
+      "A": "the prevailing exchange rates",
+      "B": "its elasticity of demand",
+      "C": "the existence of large market",
+      "D": "the prevailing interest rates"
+    },
+    "correctAnswer": "B",
+    "explanation": "Factor demand is derived from the demand for what the factor helps produce, and how responsive that demand is to price governs what the factor can command. The less elastic the demand for a factor, the higher the reward it can obtain.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "basic-economic-concepts",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 41,
+    "questionText": "From the graph above, find the modal score.",
+    "questionImageUrl": "/questions/economics/jamb-economics-2015-q41.png",
+    "options": {
+      "A": "40",
+      "B": "20",
+      "C": "100",
+      "D": "60"
+    },
+    "correctAnswer": "D",
+    "explanation": "The mode is the score achieved by the greatest number of students, which is the tallest bar on the chart. That bar stands at 20 students against a mark of 60.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "market-structures",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 42,
+    "questionText": "When the selling price of a monopolist is below his short-run marginal cost, he is said to be making",
+    "options": {
+      "A": "an economic profit",
+      "B": "losses",
+      "C": "profit",
+      "D": "supernormal profit"
+    },
+    "correctAnswer": "B",
+    "explanation": "If each additional unit costs more to produce than it fetches in the market, the firm is adding to its deficit with every sale. Price below marginal cost therefore means losses.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "national-income",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 43,
+    "questionText": "The overall economic performance of a country can be assessed through",
+    "options": {
+      "A": "overlooking of its agricultural sector",
+      "B": "employment estimates",
+      "C": "national income estimates",
+      "D": "balance of payment"
+    },
+    "correctAnswer": "C",
+    "explanation": "National income measures the total value of goods and services produced in a year, so comparing successive estimates shows whether the economy as a whole is growing. Employment and the balance of payments cover only parts of the picture.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 44,
+    "questionText": "The supply of agricultural products is mainly determined by",
+    "options": {
+      "A": "consumers' taste",
+      "B": "consumers' income",
+      "C": "technology",
+      "D": "consumers"
+    },
+    "correctAnswer": "C",
+    "explanation": "How much a farmer can bring to market depends on the methods and equipment available to him — improved seed, fertiliser and machinery all raise output. The other options are determinants of demand, not supply.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "basic-economic-concepts",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 45,
+    "questionText": "Determine the median of 6, 10, 5, 12, 20, 18, 20 and 4.",
+    "options": {
+      "A": "11",
+      "B": "9.67",
+      "C": "12.56",
+      "D": "12"
+    },
+    "correctAnswer": "A",
+    "explanation": "Arranged in order the values are 4, 5, 6, 10, 12, 18, 20, 20. With eight items the median is the average of the fourth and fifth: (10 + 12) ÷ 2 = 11.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "basic-economic-concepts",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 46,
+    "questionText": "Study the table below.\n\n| X | 11–20 | 21–30 | 31–40 | 41–50 | 51–60 | 61–70 |\n| --- | --- | --- | --- | --- | --- | --- |\n| F | 4 | 6 | 10 | 50 | 3 | 5 |\n\nFrom the table above, find the range of the distribution.",
+    "options": {
+      "A": "50",
+      "B": "11",
+      "C": "70",
+      "D": "59"
+    },
+    "correctAnswer": "D",
+    "explanation": "The range is the highest value less the lowest. Here that is 70 − 11 = 59.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 47,
+    "questionText": "The failure of the Nigerian industrial sector is mainly associated with",
+    "options": {
+      "A": "lack of raw materials",
+      "B": "inadequate market for industrial goods",
+      "C": "underdeveloped infrastructural facilities",
+      "D": "inadequate capital"
+    },
+    "correctAnswer": "C",
+    "explanation": "Erratic power supply, poor roads and weak transport networks raise production costs and make Nigerian manufactures uncompetitive. Raw materials and a large domestic market are not what the sector lacks.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 48,
+    "questionText": "If Qd = 40 − 4P and P = ₦4, what is the quantity demanded?",
+    "options": {
+      "A": "30",
+      "B": "32",
+      "C": "24",
+      "D": "26"
+    },
+    "correctAnswer": "C",
+    "explanation": "Substitute P = 4 into the equation: Qd = 40 − 4(4) = 40 − 16 = 24.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 49,
+    "questionText": "The long-run total cost curve shows the cost of",
+    "options": {
+      "A": "all fixed factors of production",
+      "B": "the average fixed cost",
+      "C": "all factor inputs that are employed",
+      "D": "variable factors of production"
+    },
+    "correctAnswer": "C",
+    "explanation": "In the long run every factor is variable, so there are no fixed costs and the curve records the cost of all inputs used at each level of output.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2015,
+    "questionNumber": 50,
+    "questionText": "The supply of farm produce is mainly determined by",
+    "options": {
+      "A": "consumers' income",
+      "B": "weather condition",
+      "C": "population",
+      "D": "consumers' taste"
+    },
+    "correctAnswer": "B",
+    "explanation": "Crops depend on rainfall, sunshine and the seasons, so a good year yields plenty and a drought or flood cuts supply sharply. The remaining options all act on demand.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  }
+]

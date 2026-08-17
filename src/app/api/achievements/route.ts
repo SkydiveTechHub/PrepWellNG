@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
-import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
-import { awardAchievements } from "@/lib/achievements";
+import { awardAchievements, getAchievementsApiPayload } from "@/lib/achievements";
 
 export const dynamic = "force-dynamic";
 
@@ -13,31 +12,7 @@ export async function GET() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const [allAchievements, earned] = await Promise.all([
-      db.achievement.findMany({ orderBy: { criteriaValue: "asc" } }),
-      db.studentAchievement.findMany({
-        where: { studentId: session.user.id },
-        include: { achievement: true },
-      }),
-    ]);
-
-    const earnedAtById = new Map(
-      earned.map((e) => [e.achievementId, e.earnedAt]),
-    );
-
-    return NextResponse.json({
-      achievements: allAchievements.map((a) => ({
-        ...a,
-        earned: earnedAtById.has(a.id),
-        earnedAt: earnedAtById.get(a.id) ?? null,
-      })),
-      earned: earned.map((e) => ({
-        id: e.id,
-        achievementId: e.achievementId,
-        achievement: e.achievement,
-        earnedAt: e.earnedAt,
-      })),
-    });
+    return NextResponse.json(await getAchievementsApiPayload(session.user.id));
   } catch (error) {
     console.error("Error fetching achievements:", error);
     return NextResponse.json(

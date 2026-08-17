@@ -1,65 +1,37 @@
 import Link from "next/link";
-import { db } from "@/lib/db";
+import { getAdminOverview } from "@/lib/admin-data";
 import { PageHeader } from "@/components/ui/page-header";
 import { StatusBanner } from "@/components/admin/status-banner";
-import { summariseSubjects, toStatRows, type StatRow } from "@/lib/admin-stats";
+import type { StatRow } from "@/lib/admin-stats";
 
 export const dynamic = "force-dynamic";
 
 const HEADING_CLS = "text-[11px] font-semibold uppercase tracking-wider text-muted";
 
 export default async function AdminOverviewPage() {
-  const [subjects, topicCount, unlinkedCount, byExam, byDifficulty, years] =
-    await Promise.all([
-      db.subject.findMany({
-        select: {
-          id: true,
-          name: true,
-          code: true,
-          _count: { select: { questions: true } },
-        },
-        orderBy: { name: "asc" },
-      }),
-      db.topic.count(),
-      db.question.count({ where: { topicId: null } }),
-      db.question.groupBy({ by: ["examType"], _count: { _all: true } }),
-      db.question.groupBy({ by: ["difficulty"], _count: { _all: true } }),
-      db.question.findMany({
-        where: { examYear: { not: null } },
-        distinct: ["examYear"],
-        select: { examYear: true },
-        orderBy: { examYear: "desc" },
-      }),
-    ]);
+  const {
+    total,
+    subjectCount,
+    topicCount,
+    unlinkedCount,
+    subjectRows,
+    codeBySubjectId,
+    emptySubjects,
+    examRows,
+    difficultyRows,
+    examYears,
+  } = await getAdminOverview();
 
-  const summary = summariseSubjects(
-    subjects.map((s) => ({
-      id: s.id,
-      name: s.name,
-      code: s.code,
-      questionCount: s._count.questions,
-    })),
-  );
-
-  const examRows = toStatRows(
-    byExam.map((r) => ({ key: r.examType, label: r.examType, count: r._count._all })),
-    summary.total,
-  );
-  const difficultyRows = toStatRows(
-    byDifficulty.map((r) => ({ key: r.difficulty, label: r.difficulty, count: r._count._all })),
-    summary.total,
-  );
-
-  const hasGaps = summary.empty.length > 0 || unlinkedCount > 0;
+  const hasGaps = emptySubjects.length > 0 || unlinkedCount > 0;
 
   return (
     <div>
       <PageHeader
         title="Overview"
-        description={`${summary.total} questions across ${subjects.length} subjects, ${topicCount} topics.`}
+        description={`${total} questions across ${subjectCount} subjects, ${topicCount} topics.`}
       />
 
-      {summary.total === 0 ? (
+      {total === 0 ? (
         <StatusBanner
           tone="info"
           title="No questions yet"
@@ -78,11 +50,11 @@ export default async function AdminOverviewPage() {
           <StatTable
             caption="Questions by subject"
             heading="By subject"
-            rows={summary.rows}
+            rows={subjectRows}
             hrefFor={(key) => `/admin/questions?subjectId=${key}`}
             labelPrefix="subject"
             extraColumn="code"
-            subjects={subjects}
+            codeByKey={codeBySubjectId}
           />
 
           <StatTable
@@ -103,18 +75,18 @@ export default async function AdminOverviewPage() {
 
           <section>
             <h2 className={HEADING_CLS}>Exam years covered</h2>
-            {years.length === 0 ? (
+            {examYears.length === 0 ? (
               <p className="mt-2 text-sm text-muted">None recorded</p>
             ) : (
               <ul className="mt-2 flex flex-wrap gap-2">
-                {years.map((y) => (
-                  <li key={y.examYear}>
+                {examYears.map((year) => (
+                  <li key={year}>
                     <Link
-                      href={`/admin/questions?examYear=${y.examYear}`}
-                      aria-label={`Exam year ${y.examYear}: view in questions list`}
+                      href={`/admin/questions?examYear=${year}`}
+                      aria-label={`Exam year ${year}: view in questions list`}
                       className="inline-block rounded-lg border border-border bg-secondary px-2.5 py-1 text-xs font-semibold tabular-nums text-foreground transition-colors hover:bg-secondary/70"
                     >
-                      {y.examYear}
+                      {year}
                     </Link>
                   </li>
                 ))}
@@ -132,15 +104,15 @@ export default async function AdminOverviewPage() {
               />
             ) : (
               <div className="mt-2 flex flex-col gap-4">
-                {summary.empty.length > 0 && (
+                {emptySubjects.length > 0 && (
                   <div>
                     <p className="text-sm text-muted">
-                      {summary.empty.length}{" "}
-                      {summary.empty.length === 1 ? "subject has" : "subjects have"} zero
+                      {emptySubjects.length}{" "}
+                      {emptySubjects.length === 1 ? "subject has" : "subjects have"} zero
                       questions.
                     </p>
                     <ul className="mt-2 flex flex-wrap gap-2">
-                      {summary.empty.map((s) => (
+                      {emptySubjects.map((s) => (
                         <li key={s.id}>
                           <Link
                             href="/admin/questions/import"
@@ -181,7 +153,7 @@ function StatTable({
   hrefFor,
   labelPrefix,
   extraColumn,
-  subjects,
+  codeByKey,
 }: {
   caption: string;
   heading: string;
@@ -189,10 +161,9 @@ function StatTable({
   hrefFor: (key: string) => string;
   labelPrefix: string;
   extraColumn?: "code";
-  subjects?: Array<{ id: string; code: string }>;
+  /** Subject code by subject id — only supplied for the by-subject table. */
+  codeByKey?: Record<string, string>;
 }) {
-  const codeByKey = new Map(subjects?.map((s) => [s.id, s.code]));
-
   return (
     <section>
       <h2 className={HEADING_CLS}>{heading}</h2>
@@ -230,7 +201,7 @@ function StatTable({
                   </Link>
                 </td>
                 {extraColumn === "code" && (
-                  <td className="px-4 py-2.5 text-muted">{codeByKey.get(row.key)}</td>
+                  <td className="px-4 py-2.5 text-muted">{codeByKey?.[row.key]}</td>
                 )}
                 <td className="px-4 py-2.5 text-right tabular-nums text-foreground">
                   {row.count}

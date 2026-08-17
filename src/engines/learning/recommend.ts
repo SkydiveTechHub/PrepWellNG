@@ -55,6 +55,11 @@ export interface NextTopicRecommendation {
   factors: RecommendationFactors;
   /** Number of unmastered dependent topics this unlocks. */
   unlocks: number;
+  /** Evidence behind `mastery`, for deciding whether to show it at all. */
+  confidence: number;
+  accObservations: number;
+  lessonObservations: number;
+  srsObservations: number;
 }
 
 interface Ranked {
@@ -161,6 +166,10 @@ function toRecommendation(
     reason,
     factors: ranked.factors,
     unlocks: ranked.unlocks,
+    confidence: topic?.confidence ?? 0,
+    accObservations: topic?.accObservations ?? 0,
+    lessonObservations: topic?.lessonObservations ?? 0,
+    srsObservations: topic?.srsObservations ?? 0,
   };
 }
 
@@ -197,6 +206,10 @@ function masteredButDecayed(
           freshness: 1,
         },
         unlocks: 0,
+        confidence: topic.confidence,
+        accObservations: topic.accObservations,
+        lessonObservations: topic.lessonObservations,
+        srsObservations: topic.srsObservations,
       },
       retention: topic.retention,
       weight: examWeight(node),

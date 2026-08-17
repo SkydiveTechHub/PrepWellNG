@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
+import { resolveTopicRef } from "@/lib/lesson-progress";
 
 export const dynamic = "force-dynamic";
 
@@ -12,33 +12,15 @@ export async function GET(
   try {
     const { subjectSlug, topicSlug } = await params;
 
-    const subject = await db.subject.findUnique({
-      where: { slug: subjectSlug },
-      select: { id: true, name: true },
-    });
-    if (!subject) {
+    const ref = await resolveTopicRef(subjectSlug, topicSlug);
+    if (ref === "subject-not-found") {
       return NextResponse.json({ error: "Subject not found" }, { status: 404 });
     }
-
-    const topic = await db.topic.findUnique({
-      where: { subjectId_slug: { subjectId: subject.id, slug: topicSlug } },
-      select: {
-        id: true,
-        title: true,
-        _count: { select: { questions: true } },
-      },
-    });
-    if (!topic) {
+    if (ref === "topic-not-found") {
       return NextResponse.json({ error: "Topic not found" }, { status: 404 });
     }
 
-    return NextResponse.json({
-      subjectId: subject.id,
-      subjectName: subject.name,
-      topicId: topic.id,
-      topicTitle: topic.title,
-      questionCount: topic._count.questions,
-    });
+    return NextResponse.json(ref);
   } catch (error) {
     console.error("Error fetching topic:", error);
     return NextResponse.json(

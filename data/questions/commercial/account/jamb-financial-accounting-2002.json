@@ -1,0 +1,648 @@
+[
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "books-of-accounts",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 3,
+    "questionText": "In a petty cash book the imprest is ₦1,380 and the expenses were: stationery ₦350, cleaning material ₦335 and general expenses ₦265. How much was received to maintain the imprest at the end of the month?",
+    "options": {
+      "A": "₦950",
+      "B": "₦970",
+      "C": "₦430",
+      "D": "₦380"
+    },
+    "correctAnswer": "A",
+    "explanation": "Under the imprest system the cashier is reimbursed exactly what he has spent: 350 + 335 + 265 = ₦950, which restores the float to ₦1,380.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 4,
+    "questionText": "Income statement for the year ended June 30, 2001\n\n| Item | ₦ | Item | ₦ |\n| --- | --- | --- | --- |\n| Office rent | 20,000 | Revenue | 820,000 |\n| NEPA (light) | 15,000 | | |\n| Salary of staff | 120,000 | | |\n| Miscellaneous expenses | ? | | |\n\nMiscellaneous expenses are 10% of revenue. Calculate the net income.",
+    "options": {
+      "A": "₦583,000",
+      "B": "₦563,000",
+      "C": "₦483,000",
+      "D": "₦683,000"
+    },
+    "correctAnswer": "A",
+    "explanation": "Miscellaneous expenses are 10% × 820,000 = ₦82,000, so total expenses are 20,000 + 15,000 + 120,000 + 82,000 = ₦237,000. Net income is 820,000 − 237,000 = ₦583,000.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "books-of-accounts",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 5,
+    "questionText": "An entry in a subsidiary book which does not form part of the double entry system is a",
+    "options": {
+      "A": "contra entry",
+      "B": "journal entry",
+      "C": "single entry",
+      "D": "memorandum entry"
+    },
+    "correctAnswer": "D",
+    "explanation": "A memorandum entry is kept for information only and completes no double entry, as with the discount columns of the cash book or the details in a control account.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "the-ledger",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 7,
+    "questionText": "Consider the following accounts:\n\nI. Fixtures account\nII. Machinery account\nIII. Wages account\nIV. Rent account\n\nWhich of the above are nominal accounts?",
+    "options": {
+      "A": "III and IV",
+      "B": "I and II",
+      "C": "I and III",
+      "D": "II and III"
+    },
+    "correctAnswer": "A",
+    "explanation": "Nominal accounts record expenses, losses, incomes and gains, so wages and rent qualify. Fixtures and machinery are real accounts, recording assets.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 8,
+    "questionText": "NAFARA & SONS Balance Sheet items as at 31st December\n\n| Item | ₦ |\n| --- | --- |\n| Capital | 74,480 |\n| Creditors | 15,875 |\n| Prepaid expenses | 580 |\n| Motor vehicles | 34,750 |\n| Furniture | 35,850 |\n| Accrued expenses | 645 |\n| Stock | 8,100 |\n| Cash balances | 9,911 |\n| Debtors | 1,809 |\n\nCompute the value of current assets.",
+    "options": {
+      "A": "₦20,400",
+      "B": "₦20,465",
+      "C": "₦35,695",
+      "D": "₦19,820"
+    },
+    "correctAnswer": "A",
+    "explanation": "Current assets are prepaid expenses 580, stock 8,100, cash 9,911 and debtors 1,809, giving ₦20,400. Motor vehicles and furniture are fixed assets.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "bank-reconciliation",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 11,
+    "questionText": "The normal accounting entry to record the dishonour of a cheque by a businessman is to",
+    "options": {
+      "A": "debit cash book and credit suspense account",
+      "B": "debit cash book and credit drawer",
+      "C": "credit cash book and debit suspense account",
+      "D": "credit cash book and debit drawer"
+    },
+    "correctAnswer": "D",
+    "explanation": "The receipt must be cancelled because the money never came in, so the cash book is credited, and the person who gave the cheque is debited because he still owes the amount.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "interpretation-of-accounts",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 12,
+    "questionText": "Statement of Assets and Liabilities as at 31st December, 2001\n\n| Item | ₦m |\n| --- | --- |\n| Shareholders' interest | 240 |\n| Current liabilities | 20 |\n| Current assets | 110 |\n| Fixed assets | 140 |\n\nWhat is the net working capital?",
+    "options": {
+      "A": "₦90m",
+      "B": "₦70m",
+      "C": "₦100m",
+      "D": "₦80m"
+    },
+    "correctAnswer": "A",
+    "explanation": "Working capital is current assets less current liabilities: 110 − 20 = ₦90 million.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "interpretation-of-accounts",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 13,
+    "questionText": "Determine the value of the trade investment.",
+    "options": {
+      "A": "₦8m",
+      "B": "₦10m",
+      "C": "₦15m",
+      "D": "₦20m"
+    },
+    "correctAnswer": "B",
+    "explanation": "Shareholders' interest is financed by fixed assets, trade investment and working capital: 240 = 140 + investment + 90, so the investment is ₦10 million.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "books-of-accounts",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 14,
+    "questionText": "The concise statement used to explain entries in the general journal is known as",
+    "options": {
+      "A": "narration",
+      "B": "summary",
+      "C": "information",
+      "D": "commentary"
+    },
+    "correctAnswer": "A",
+    "explanation": "Every journal entry carries a short note beneath it, the narration, explaining the nature of the transaction being recorded.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 15,
+    "questionText": "Erero's Trading Account for the month ended 31/05/2001 shows opening stock ₦45,000, purchases ₦110,000 less returns ₦6,000, and sales ₦161,000 less returns ₦4,000. The gross profit ratio for the company is 25%. If total expenses are ₦20,845, what will be the net profit for the company during the month?",
+    "options": {
+      "A": "₦19,149",
+      "B": "₦16,168",
+      "C": "₦21,655",
+      "D": "₦18,405"
+    },
+    "correctAnswer": "D",
+    "explanation": "Net sales are ₦157,000 and a 25% gross profit ratio gives gross profit of ₦39,250. Deducting expenses of ₦20,845 leaves a net profit of ₦18,405.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 16,
+    "questionText": "The closing stock for this company is",
+    "options": {
+      "A": "₦72,000",
+      "B": "₦45,000",
+      "C": "₦42,500",
+      "D": "₦31,250"
+    },
+    "correctAnswer": "D",
+    "explanation": "Cost of sales is net sales less gross profit: 157,000 − 39,250 = ₦117,750. Goods available were opening stock 45,000 plus net purchases 104,000 = ₦149,000, so closing stock is 149,000 − 117,750 = ₦31,250.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 17,
+    "questionText": "In a departmental accounting system, which of the following expenses will most likely be apportioned on the basis of turnover?",
+    "options": {
+      "A": "Carriage outwards",
+      "B": "Carriage inwards",
+      "C": "Discounts received",
+      "D": "Returns outwards"
+    },
+    "correctAnswer": "A",
+    "explanation": "Carriage outwards is the cost of delivering goods to customers, so it varies with what each department sells and is fairly shared in proportion to turnover. Carriage inwards and discounts received follow purchases instead.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "manufacturing-accounts",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 19,
+    "questionText": "Given:\n\n| Item | ₦ |\n| --- | --- |\n| Direct wages | 2,500 |\n| Direct expenses | 1,000 |\n| Factory overheads | 2,000 |\n| Cost of raw materials used | 5,500 |\n\nThe cost of goods manufactured is",
+    "options": {
+      "A": "₦11,000",
+      "B": "₦12,000",
+      "C": "₦14,000",
+      "D": "₦9,000"
+    },
+    "correctAnswer": "A",
+    "explanation": "Prime cost is raw materials used 5,500 plus direct wages 2,500 plus direct expenses 1,000 = ₦9,000. Adding factory overheads of ₦2,000 gives a cost of goods manufactured of ₦11,000.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 21,
+    "questionText": "Adex Ltd. issues stock to its retail branch at cost price. The following particulars relate to the Ede branch:\n\n| Item | ₦ |\n| --- | --- |\n| Stock at branch 1st January at cost | 400 |\n| Goods sent to branch at cost | 8,000 |\n| Returns to head office | 340 |\n| Cash sales | 9,160 |\n| Stock at branch 31st December at cost | 720 |\n\nWhat is the gross profit carried to the profit and loss account?",
+    "options": {
+      "A": "₦1,820",
+      "B": "₦1,640",
+      "C": "₦1,530",
+      "D": "₦1,870"
+    },
+    "correctAnswer": "A",
+    "explanation": "Cost of goods sold at the branch is 400 + 8,000 − 340 − 720 = ₦7,340. Gross profit is sales of ₦9,160 less that cost, giving ₦1,820.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 22,
+    "questionText": "Calculate the cost of goods credited to the head office trading account.",
+    "options": {
+      "A": "₦7,660",
+      "B": "₦7,500",
+      "C": "₦7,460",
+      "D": "₦7,200"
+    },
+    "correctAnswer": "A",
+    "explanation": "The head office credits its trading account with the goods it sent out, net of what came back: 8,000 − 340 = ₦7,660.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "manufacturing-accounts",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 23,
+    "questionText": "Nasara Manufacturing Plc has three direct labour employees that work 40 hours each a week for 50 weeks a year. Factory overhead costs of ₦60,000 are distributed on the basis of direct labour hours. Compute the overhead rate.",
+    "options": {
+      "A": "₦12 per hour",
+      "B": "₦16 per hour",
+      "C": "₦10 per hour",
+      "D": "₦15 per hour"
+    },
+    "correctAnswer": "C",
+    "explanation": "Total direct labour hours are 3 × 40 × 50 = 6,000. The overhead rate is 60,000 ÷ 6,000 = ₦10 per hour.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 26,
+    "questionText": "Given:\n\n| Item | Total (₦) | Dept. P (₦) | Dept. Q (₦) |\n| --- | --- | --- | --- |\n| Sales | 10,000 | 6,000 | 4,000 |\n| Purchases | 4,000 | 1,000 | 3,000 |\n| Discount received | 1,000 | ? | |\n| Discounts allowed | 2,000 | | ? |\n\nDiscounts allowed and received are apportioned to the two departments on the basis of departmental sales and purchases respectively. Department P's share of discount received is",
+    "options": {
+      "A": "₦750",
+      "B": "₦1,000",
+      "C": "₦250",
+      "D": "₦500"
+    },
+    "correctAnswer": "C",
+    "explanation": "Discount received arises from buying, so it follows purchases. P's purchases are ₦1,000 out of ₦4,000, a quarter, so its share is 25% × 1,000 = ₦250.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 27,
+    "questionText": "What is department Q's share of discount allowed?",
+    "options": {
+      "A": "₦2,000",
+      "B": "₦1,500",
+      "C": "₦800",
+      "D": "₦1,200"
+    },
+    "correctAnswer": "C",
+    "explanation": "Discount allowed arises from selling, so it follows sales. Q's sales are ₦4,000 out of ₦10,000, that is 40%, giving 40% × 2,000 = ₦800.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 28,
+    "questionText": "An Income and Expenditure Account shows wages ₦12,000, electricity ₦5,000, depreciation of furniture ₦1,000, subscriptions received ₦20,000, donations received ₦10,000 and profit on sale of investment ₦5,000. It is the tradition of the club to write off an amount equal to 25% of the subscriptions received as other expenses. What is the amount to be written off as other expenses?",
+    "options": {
+      "A": "₦4,500",
+      "B": "₦6,000",
+      "C": "₦4,000",
+      "D": "₦5,000"
+    },
+    "correctAnswer": "D",
+    "explanation": "Twenty-five per cent of the ₦20,000 subscriptions received is ₦5,000.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 29,
+    "questionText": "Determine the club's excess of income over expenditure.",
+    "options": {
+      "A": "₦12,000",
+      "B": "₦15,000",
+      "C": "₦10,000",
+      "D": "₦14,500"
+    },
+    "correctAnswer": "A",
+    "explanation": "Income is 20,000 + 10,000 + 5,000 = ₦35,000. Expenditure is wages 12,000, electricity 5,000, depreciation 1,000 and other expenses 5,000, totalling ₦23,000. The excess is ₦12,000.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "manufacturing-accounts",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 30,
+    "questionText": "The gross profit on manufactured goods is the difference between the cost of goods manufactured and the",
+    "options": {
+      "A": "market value of goods produced",
+      "B": "prime cost of production",
+      "C": "indirect cost of production",
+      "D": "goods produced"
+    },
+    "correctAnswer": "A",
+    "explanation": "Where output is transferred to the trading account at what it would have cost to buy in, the excess of that market value over the cost of manufacture is the profit the factory has made.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 31,
+    "questionText": "Given that 1/3 of the ₦6,000 stock held by a branch is purchased from outsiders, and goods are invoiced to the branch at 25% on cost, the provision for unrealized profit is",
+    "options": {
+      "A": "₦1,000.00",
+      "B": "₦333.33",
+      "C": "₦666.66",
+      "D": "₦800.00"
+    },
+    "correctAnswer": "D",
+    "explanation": "Two-thirds of the stock, ₦4,000, came from head office at cost plus 25%. The loading contained in that figure is 4,000 × 25/125 = ₦800.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "manufacturing-accounts",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 33,
+    "questionText": "Costs that vary in proportion to the level of production in a manufacturing environment are known as",
+    "options": {
+      "A": "control costs",
+      "B": "overheads",
+      "C": "direct costs",
+      "D": "indirect costs"
+    },
+    "correctAnswer": "C",
+    "explanation": "Direct costs such as raw materials and direct wages are incurred for each unit made, so they rise and fall directly with output. Overheads remain largely unaffected by the level of production.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "control-accounts",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 35,
+    "questionText": "Given:\n\n| Item | ₦ |\n| --- | --- |\n| Cash purchases | 25,000 |\n| Trade creditors (closing) | 45,000 |\n| Opening balance of trade creditors | 35,000 |\n\nCalculate the purchases for the period.",
+    "options": {
+      "A": "₦80,000",
+      "B": "₦35,000",
+      "C": "₦105,000",
+      "D": "₦70,000"
+    },
+    "correctAnswer": "B",
+    "explanation": "Credit purchases are the increase in what is owed to suppliers: 45,000 − 35,000 = ₦10,000. Adding cash purchases of ₦25,000 gives total purchases of ₦35,000.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 36,
+    "questionText": "Which method of pricing can be used satisfactorily in either a rising or falling price situation?",
+    "options": {
+      "A": "Standard price",
+      "B": "Market price",
+      "C": "FIFO",
+      "D": "Average method"
+    },
+    "correctAnswer": "D",
+    "explanation": "Averaging smooths out fluctuations by blending old and new costs, so it gives a reasonable valuation whichever way prices happen to be moving.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 37,
+    "questionText": "Given: capital at start ₦3,250; capital at close ₦6,250; additional capital during the period ₦1,000. Calculate the profit or loss.",
+    "options": {
+      "A": "₦8,500 loss",
+      "B": "₦2,000 loss",
+      "C": "₦2,000 profit",
+      "D": "₦8,500 profit"
+    },
+    "correctAnswer": "C",
+    "explanation": "Capital grew by 6,250 − 3,250 = ₦3,000, but ₦1,000 of that came from the owner rather than from trading. The profit is therefore ₦2,000.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "control-accounts",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 38,
+    "questionText": "In a control account, discount received is found on the",
+    "options": {
+      "A": "debit side of the purchases ledger control account",
+      "B": "debit side of the sales ledger control account",
+      "C": "credit side of the purchases ledger control account",
+      "D": "credit side of the sales ledger control account"
+    },
+    "correctAnswer": "A",
+    "explanation": "Discount received reduces what the business owes its suppliers, so in the purchases ledger control account it appears on the debit side alongside payments and returns outwards.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 39,
+    "questionText": "In an incomplete record system, a trading account cannot be prepared until the",
+    "options": {
+      "A": "day book has been balanced",
+      "B": "amount of personal drawings has been established",
+      "C": "cash book has been balanced",
+      "D": "amount of sales and purchases has been established"
+    },
+    "correctAnswer": "D",
+    "explanation": "The trading account is built from sales on the one side and purchases with stock on the other, so those totals must first be reconstructed from the debtors and creditors accounts before anything can be drawn up.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 42,
+    "questionText": "Given an incomplete record without sufficient information to determine profit, the necessary thing to do is to",
+    "options": {
+      "A": "draw up the statement of affairs",
+      "B": "draw up a T-account to establish the amount",
+      "C": "compare the journal entries with the cash book",
+      "D": "cross-check the cash book for further information"
+    },
+    "correctAnswer": "A",
+    "explanation": "Where the records will not yield a trading account, profit is found by comparing capital at the beginning and end of the year, and each figure comes from a statement of affairs.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "control-accounts",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 43,
+    "questionText": "Control accounts help to verify the arithmetic accuracy of the postings from the",
+    "options": {
+      "A": "subsidiary books into the trial balance",
+      "B": "ledgers into the trial balance",
+      "C": "journals into the ledgers",
+      "D": "subsidiary books into the ledgers"
+    },
+    "correctAnswer": "D",
+    "explanation": "The control account is written up from the totals of the day books, and its balance is compared with the sum of the individual accounts in the ledger. Agreement shows the postings from one to the other were correct.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 44,
+    "questionText": "Keeping records under the single entry system has the advantage of",
+    "options": {
+      "A": "duality in terms of records",
+      "B": "completeness in terms of records",
+      "C": "accuracy in terms of operation",
+      "D": "simplicity in terms of operation"
+    },
+    "correctAnswer": "D",
+    "explanation": "Single entry needs neither training nor elaborate books, which is why small traders adopt it. Duality, completeness and accuracy are precisely what it sacrifices.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 45,
+    "questionText": "Given:\n\n| Item | ₦ |\n| --- | --- |\n| Sales | 195,200 |\n| Stock 1st January | 34,000 |\n| Purchases | 126,000 |\n| Sales returns | 1,200 |\n| Purchases returns | 2,000 |\n\nIf the gross profit is ₦66,000, what is the value of stock at 31st December?",
+    "options": {
+      "A": "₦30,000",
+      "B": "₦40,000",
+      "C": "₦50,000",
+      "D": "₦20,000"
+    },
+    "correctAnswer": "A",
+    "explanation": "Net sales are 195,200 − 1,200 = ₦194,000, so cost of sales is 194,000 − 66,000 = ₦128,000. Goods available were 34,000 + 126,000 − 2,000 = ₦158,000, leaving closing stock of ₦30,000.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "partnership-accounts",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 49,
+    "questionText": "Upon the dissolution of a partnership, the Partnership Act provides that the amount realized should be",
+    "options": {
+      "A": "used to pay all taxes due to government",
+      "B": "used to start a new partnership business by members who are willing",
+      "C": "shared equally by the existing partners",
+      "D": "used in paying the debts and liabilities of the firm to persons who are not partners"
+    },
+    "correctAnswer": "D",
+    "explanation": "Outside creditors rank first on the proceeds of realisation. Only after they are satisfied are partners' loans repaid, and the partners' capitals come last of all.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "public-sector-accounting",
+    "examType": "JAMB",
+    "examYear": 2002,
+    "questionNumber": 50,
+    "questionText": "In the public sector, the method of accounting that reports revenues and expenditures in the period in which they are received and paid is called",
+    "options": {
+      "A": "fund accounting",
+      "B": "commitment accounting",
+      "C": "cash accounting",
+      "D": "accrual accounting"
+    },
+    "correctAnswer": "C",
+    "explanation": "Cash accounting recognises nothing until money actually moves, which is the traditional basis for government departments because it shows plainly what was collected and spent within the year.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  }
+]

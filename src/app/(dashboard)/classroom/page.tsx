@@ -2,13 +2,12 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { LuLayoutGrid, LuFilter, LuArrowRight } from "react-icons/lu";
 import { auth } from "@/lib/auth";
-import { db } from "@/lib/db";
+import { getClassroomSubjects } from "@/lib/classroom-data";
 import {
   TRACK_CATEGORIES,
   TRACK_COLORS,
   TRACK_LABELS,
   type TrackCategory,
-  relevantTrackCategories,
 } from "@/lib/subjects";
 import { PageHeader } from "@/components/ui/page-header";
 import { Badge } from "@/components/ui/badge";
@@ -25,30 +24,7 @@ export default async function ClassroomPage({
   const showAll = all === "1";
 
   const track = (session.user as { track?: string | null }).track ?? null;
-  const relevant = relevantTrackCategories(track);
-  const hasNarrowing = relevant.length < TRACK_CATEGORIES.length;
-
-  const subjects = await db.subject.findMany({
-    where: showAll || !hasNarrowing ? {} : { trackCategory: { in: [...relevant] } },
-    orderBy: [{ trackCategory: "asc" }, { name: "asc" }],
-    select: {
-      code: true,
-      name: true,
-      slug: true,
-      trackCategory: true,
-      isWaec: true,
-      isJamb: true,
-      isNeco: true,
-      _count: { select: { topics: true, questions: true } },
-    },
-  });
-
-  const grouped = new Map<string, typeof subjects>();
-  for (const subject of subjects) {
-    const list = grouped.get(subject.trackCategory) ?? [];
-    list.push(subject);
-    grouped.set(subject.trackCategory, list);
-  }
+  const { byCategory, hasNarrowing } = await getClassroomSubjects(track, showAll);
 
   return (
     <div>
@@ -82,7 +58,7 @@ export default async function ClassroomPage({
       />
 
       {TRACK_CATEGORIES.map((category) => {
-        const list = grouped.get(category);
+        const list = byCategory[category];
         if (!list?.length) return null;
 
         return (
@@ -110,9 +86,9 @@ export default async function ClassroomPage({
                       {subject.isWaec && <Badge variant="blue">WAEC</Badge>}
                       {subject.isJamb && <Badge variant="green">JAMB</Badge>}
                       {subject.isNeco && <Badge variant="orange">NECO</Badge>}
-                      {subject._count.questions > 0 && (
+                      {subject.questionCount > 0 && (
                         <span className="text-[11px] font-semibold text-muted">
-                          {subject._count.questions} questions
+                          {subject.questionCount} questions
                         </span>
                       )}
                     </div>

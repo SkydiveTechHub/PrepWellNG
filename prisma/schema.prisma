@@ -151,6 +151,15 @@ enum EdgeKind {
   RELATED
 }
 
+enum LearningEventKind {
+  QUESTION_ANSWERED
+  QUIZ_ABANDONED
+  LESSON_BLOCK_COMPLETED
+  LESSON_COMPLETED
+  CARD_REVIEWED
+  PRETEST_PASSED
+}
+
 // ─── User & Auth ──────────────────────────────────────────
 
 model User {
@@ -177,6 +186,10 @@ model User {
   achievements StudentAchievement[]
   accounts     Account[]
   sessions     Session[]
+
+  // Learning Evidence Layer (see docs/superpowers/specs/2026-08-11-learning-evidence-layer-design.md)
+  learningEvents LearningEvent[]
+  topicMastery   TopicMastery[]
 
   // Flashcards (see docs/superpowers/specs/2026-08-01-flashcards-design.md)
   flashcardReviews     FlashcardReview[]
@@ -326,6 +339,9 @@ model Topic {
   // Learning Path Engine (see docs/superpowers/specs/2026-08-02-learning-path-engine-design.md)
   prereqEdges    TopicEdge[] @relation("GraphDependent")
   dependentEdges TopicEdge[] @relation("GraphPrereq")
+
+  // Learning Evidence Layer (see docs/superpowers/specs/2026-08-11-learning-evidence-layer-design.md)
+  topicMastery TopicMastery[]
 
   @@unique([subjectId, slug])
   @@index([subjectId, orderIndex])
@@ -555,22 +571,77 @@ model PerformanceMetric {
   subject                Subject      @relation(fields: [subjectId], references: [id])
   topicId                String?
   topic                  Topic?       @relation(fields: [topicId], references: [id])
-  totalAttempted         Int          @default(0)
-  totalCorrect           Int          @default(0)
-  accuracy               Float        @default(0)
-  averageTimePerQuestion Float?
   masteryLevel           MasteryLevel @default(WEAK)
   lastUpdated            DateTime     @default(now())
 
   // Learning Path Engine (see docs/superpowers/specs/2026-08-02-learning-path-engine-design.md)
-  masteryScore  Float?    // composite 0..100 (practice + lesson + SRS)
-  lastStudiedAt DateTime? // latest evidence timestamp, drives retention decay
-  revisionDueAt DateTime? // next merged revision due date
   pretestPassedAt DateTime? // readiness pretest passed (≥80% on 5 questions)
 
   @@unique([studentId, subjectId, topicId])
   @@index([studentId, subjectId])
   @@index([studentId, masteryLevel])
+}
+
+// ─── Learning Evidence Layer ──────────────────────────────
+// See docs/superpowers/specs/2026-08-11-learning-evidence-layer-design.md
+
+/// Append-only record of what the student did. Never updated, never deleted
+/// except by cascade. TopicMastery is a fold of this table.
+model LearningEvent {
+  seq        BigInt            @id @default(autoincrement())
+  studentId  String
+  student    User              @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  subjectId  String
+  topicId    String?
+  kind       LearningEventKind
+  correct    Boolean?
+  /// 0..1 outcome for non-binary evidence (lesson mastery, review grade).
+  score      Float?
+  /// The authored difficulty label at the moment the question was answered.
+  difficulty Difficulty?
+  seconds    Int?
+  /// questionId / lessonId / flashcardId — for audit, not for logic.
+  sourceId   String?
+  occurredAt DateTime          @default(now())
+
+  @@index([studentId, topicId, seq])
+  @@index([studentId, seq])
+}
+
+/// Decayed sufficient statistics per (student, topic) — a cache of the fold
+/// over LearningEvent, not a second source of truth. Reset cursorSeq to 0 to
+/// force a full replay.
+model TopicMastery {
+  studentId String
+  student   User   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  subjectId String
+  topicId   String
+  topic     Topic  @relation(fields: [topicId], references: [id], onDelete: Cascade)
+
+  accWeightedOutcome    Float @default(0)
+  accWeightedMass       Float @default(0)
+  lessonWeightedOutcome Float @default(0)
+  lessonWeightedMass    Float @default(0)
+  srsWeightedOutcome    Float @default(0)
+  srsWeightedMass       Float @default(0)
+
+  /// Raw event counts per channel. Never decayed — see ChannelStats in
+  /// src/engines/learning/fold.ts.
+  accObservations    Int @default(0)
+  lessonObservations Int @default(0)
+  srsObservations    Int @default(0)
+
+  /// The instant the stored sums are decayed to.
+  decayAnchor    DateTime
+  /// Highest LearningEvent.seq already folded in.
+  cursorSeq      BigInt    @default(0)
+  /// Latest genuine-effort event. Lesson *access* never advances this.
+  lastEffortAt   DateTime?
+  scoringVersion Int       @default(1)
+  updatedAt      DateTime  @updatedAt
+
+  @@id([studentId, topicId])
+  @@index([studentId, subjectId])
 }
 
 // ─── Study Planning ───────────────────────────────────────

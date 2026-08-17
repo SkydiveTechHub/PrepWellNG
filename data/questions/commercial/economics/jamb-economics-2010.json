@@ -1,0 +1,914 @@
+[
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "introduction-to-economics",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 2,
+    "questionText": "Economics is the study of human behaviour as it relates to the",
+    "options": {
+      "A": "efficient allocation of resources",
+      "B": "production of goods",
+      "C": "operation of companies",
+      "D": "generation of income"
+    },
+    "correctAnswer": "A",
+    "explanation": "Economics studies how people allocate scarce resources that have alternative uses in order to satisfy unlimited wants. Production, company operations and income generation are all particular activities within that broader problem of efficient allocation.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "introduction-to-economics",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 3,
+    "questionText": "The downturn in the prices of shares on stock markets is a highlight of",
+    "options": {
+      "A": "efficient allocation of resources",
+      "B": "the invisible hand",
+      "C": "the regulatory nature of the market",
+      "D": "consumer rationality"
+    },
+    "correctAnswer": "B",
+    "explanation": "Share prices fall without any central authority ordering them to; the impersonal forces of demand and supply push them down. That self-adjusting price mechanism is what Adam Smith called the invisible hand.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "basic-economic-concepts",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 4,
+    "questionText": "If Σfx = 6 and N = 6, determine the value of the mean.",
+    "options": {
+      "A": "36",
+      "B": "12",
+      "C": "1",
+      "D": "72"
+    },
+    "correctAnswer": "C",
+    "explanation": "The arithmetic mean is Σfx ÷ N. Here that is 6 ÷ 6 = 1.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "basic-economic-concepts",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 5,
+    "questionText": "The standard deviation of a set of data is",
+    "options": {
+      "A": "always measured from the mode",
+      "B": "the most representative of averages",
+      "C": "always measured from the median",
+      "D": "a measure of dispersion"
+    },
+    "correctAnswer": "D",
+    "explanation": "Standard deviation measures how far the individual values spread out from the mean, so it is a measure of dispersion rather than an average. It is computed from the mean, not the mode or the median.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "basic-economic-concepts",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 6,
+    "questionText": "The mean is the best measure of central tendency because it",
+    "options": {
+      "A": "is not affected by extreme values in a data",
+      "B": "is a midpoint value in an array of data",
+      "C": "is a balancing point in an observation",
+      "D": "can be calculated from incomplete data"
+    },
+    "correctAnswer": "C",
+    "explanation": "The mean takes every observation into account, so the deviations above it exactly cancel the deviations below it — it balances the distribution. It is in fact affected by extreme values, the midpoint of an array is the median, and it cannot be computed from incomplete data.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "basic-economic-concepts",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 7,
+    "questionText": "The most popular sizes of dresses and shoes are determined by the",
+    "options": {
+      "A": "range",
+      "B": "mean",
+      "C": "mode",
+      "D": "median"
+    },
+    "correctAnswer": "C",
+    "explanation": "The mode is the value that occurs most frequently, so a manufacturer wanting the most popular size looks for the modal size. This is the classic practical use of the mode.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 8,
+    "questionText": "If the demand for a good is more elastic than its supply, the tax burden is borne",
+    "options": {
+      "A": "equally by consumers and producers",
+      "B": "more by producers",
+      "C": "more by consumers",
+      "D": "more by retailers and producers"
+    },
+    "correctAnswer": "B",
+    "explanation": "Tax incidence falls more heavily on the side of the market that is less elastic, because it is less able to escape the tax by changing quantity. With demand more elastic than supply, consumers can cut back easily, so producers bear the larger share.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 9,
+    "questionText": "If the price of a commodity with elastic demand increases, the revenue accruing to the producer will",
+    "options": {
+      "A": "double",
+      "B": "increase",
+      "C": "be constant",
+      "D": "decrease"
+    },
+    "correctAnswer": "D",
+    "explanation": "When demand is elastic the percentage fall in quantity demanded exceeds the percentage rise in price, so total revenue (price × quantity) falls.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 10,
+    "questionText": "An excess demand for beans will result in",
+    "options": {
+      "A": "an increase in the price of beans",
+      "B": "a decrease in the price of beans",
+      "C": "an increase in the supply of beans",
+      "D": "a decrease in the supply of beans"
+    },
+    "correctAnswer": "A",
+    "explanation": "Excess demand means quantity demanded exceeds quantity supplied at the ruling price. Competition among buyers bids the price up until the shortage is eliminated.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 11,
+    "questionText": "Consumer surplus tends to be higher when demand is",
+    "options": {
+      "A": "inelastic",
+      "B": "perfectly elastic",
+      "C": "elastic",
+      "D": "unitarily elastic"
+    },
+    "correctAnswer": "A",
+    "explanation": "Consumer surplus is the gap between what buyers are willing to pay and what they actually pay. Inelastic demand means buyers value the good highly and would have paid much more, so the area between the steep demand curve and the price is large.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 12,
+    "questionText": "One of the assumptions of ordinal utility theory is that",
+    "options": {
+      "A": "choice is not consistent",
+      "B": "utility can be ranked",
+      "C": "total utility is a function of price",
+      "D": "satisfaction is measurable"
+    },
+    "correctAnswer": "B",
+    "explanation": "Ordinal utility theory holds that satisfaction cannot be measured in absolute units but can be ordered — the consumer can say he prefers A to B. Measurability of satisfaction is the assumption of the rival cardinal utility approach.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 13,
+    "questionText": "The law of diminishing marginal utility explains why",
+    "options": {
+      "A": "the slope of a normal demand curve is negative",
+      "B": "an abnormal demand curve slopes upwards",
+      "C": "the slope of a normal demand curve is positive",
+      "D": "the consumption of inferior goods increases with income"
+    },
+    "correctAnswer": "A",
+    "explanation": "Because each additional unit yields less satisfaction, a consumer will only buy more if the price is lower. That gives the demand curve its downward (negative) slope.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 14,
+    "questionText": "If a consumer plans to spend 120k on four oranges but spent 80k, his consumer surplus is",
+    "options": {
+      "A": "₦1.50",
+      "B": "₦0.40",
+      "C": "₦1.00",
+      "D": "₦2.00"
+    },
+    "correctAnswer": "B",
+    "explanation": "Consumer surplus is what he was willing to pay less what he actually paid: 120k − 80k = 40k, which is ₦0.40.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 15,
+    "questionText": "A set of factors that can shift the supply curve are changes in",
+    "options": {
+      "A": "weather, price and technology",
+      "B": "technology, weather and population",
+      "C": "technology, price and taste",
+      "D": "population, price and taste"
+    },
+    "correctAnswer": "B",
+    "explanation": "Only non-price determinants shift a supply curve; a change in the good's own price causes movement along it. Technology, weather and population are all non-price factors, so option B is the only set free of price.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 16,
+    "questionText": "If the coefficient of price elasticity of supply is greater than one, the supply is said to be",
+    "options": {
+      "A": "perfectly elastic",
+      "B": "fairly inelastic",
+      "C": "infinitely inelastic",
+      "D": "fairly elastic"
+    },
+    "correctAnswer": "D",
+    "explanation": "A coefficient greater than one means quantity supplied responds more than proportionately to price, which is elastic (fairly elastic) supply. Perfectly elastic supply would require an infinite coefficient.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 17,
+    "questionText": "If commodity X is a by-product of commodity Y, this implies that both commodities are",
+    "options": {
+      "A": "in competitive supply",
+      "B": "in composite supply",
+      "C": "jointly supplied",
+      "D": "in excess supply"
+    },
+    "correctAnswer": "C",
+    "explanation": "Joint supply exists where producing one good automatically produces another, as beef and hides come from the same cattle. A by-product is the standard example.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "market-structures",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 18,
+    "questionText": "In perfect competition, price is determined by the",
+    "options": {
+      "A": "government",
+      "B": "sellers",
+      "C": "buyers",
+      "D": "market"
+    },
+    "correctAnswer": "D",
+    "explanation": "Under perfect competition every firm is a price taker; price is set by the interaction of total market demand and total market supply, and no individual buyer or seller can influence it.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 19,
+    "questionText": "In order to reduce hardship faced by consumers due to high prices, government can introduce",
+    "options": {
+      "A": "maximum prices",
+      "B": "commodity boards",
+      "C": "minimum prices",
+      "D": "price control boards"
+    },
+    "correctAnswer": "A",
+    "explanation": "A maximum (ceiling) price set below the equilibrium keeps essential goods affordable to consumers. A minimum price would protect producers instead, and commodity boards deal with produce marketing.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 20,
+    "questionText": "Average product is less than marginal product when",
+    "options": {
+      "A": "there is constant returns to scale",
+      "B": "there is increasing returns to scale",
+      "C": "there is decreasing returns to scale",
+      "D": "diminishing returns set in"
+    },
+    "correctAnswer": "B",
+    "explanation": "Whenever marginal product lies above average product, it pulls the average up — that is the phase of increasing returns. The two are equal at the peak of the average product curve and marginal falls below it thereafter.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 21,
+    "questionText": "A firm enjoying economies of scale is said to be",
+    "options": {
+      "A": "reducing average cost as production increases",
+      "B": "benefiting from the activities of other firms",
+      "C": "maximizing profits as production increases",
+      "D": "having an upward-sloping average cost curve"
+    },
+    "correctAnswer": "A",
+    "explanation": "Economies of scale are the cost advantages a firm gains as output expands, shown by a falling long-run average cost curve. Benefits derived from other firms are external economies, not economies of scale.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 22,
+    "questionText": "The rising portion of the long-run average cost curve of a firm is an indication that it is experiencing",
+    "options": {
+      "A": "increasing efficiency",
+      "B": "economies of scale",
+      "C": "diseconomies of scale",
+      "D": "increasing marginal returns"
+    },
+    "correctAnswer": "C",
+    "explanation": "Once the firm grows past its optimum size, management becomes unwieldy and long-run average cost begins to rise. That rising section of the curve is the region of diseconomies of scale.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "market-structures",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 23,
+    "questionText": "An industry's supply curve is more likely to be elastic when firms are",
+    "options": {
+      "A": "enjoying free entry and exit",
+      "B": "operating at full capacity",
+      "C": "operating below capacity",
+      "D": "maximizing profits"
+    },
+    "correctAnswer": "A",
+    "explanation": "Supply is elastic when output can be adjusted readily. Free entry and exit lets new firms flood in when price rises and leave when it falls, so industry output responds strongly to price.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "market-structures",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 24,
+    "questionText": "One of the characteristics of monopolistic competition is that",
+    "options": {
+      "A": "there is mobility of factors of production",
+      "B": "no single seller dominates the market",
+      "C": "the firms are price-takers",
+      "D": "consumers have perfect knowledge of price"
+    },
+    "correctAnswer": "B",
+    "explanation": "Monopolistic competition has many sellers of differentiated products, so no one firm controls the market. Product differentiation gives each firm some price-setting power, and knowledge is imperfect, which rules out C and D.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 25,
+    "questionText": "The demand curve for factors of production",
+    "options": {
+      "A": "is perfectly elastic",
+      "B": "slopes upwards",
+      "C": "slopes downwards",
+      "D": "is perfectly inelastic"
+    },
+    "correctAnswer": "C",
+    "explanation": "Factor demand is a derived demand governed by the factor's marginal revenue product, which falls as more of the factor is employed. The curve therefore slopes downwards like an ordinary demand curve.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "market-structures",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 26,
+    "questionText": "An agreement among firms on price and market segmentation is termed",
+    "options": {
+      "A": "cartel",
+      "B": "collusion",
+      "C": "haggling",
+      "D": "specialization"
+    },
+    "correctAnswer": "A",
+    "explanation": "A cartel is a formal association of independent firms that fixes prices and shares out the market between members, OPEC being the best-known example.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "national-income",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 27,
+    "questionText": "In national income accounting, tax is determined by the",
+    "options": {
+      "A": "level of income",
+      "B": "level of consumption",
+      "C": "level of investment",
+      "D": "rate of savings"
+    },
+    "correctAnswer": "A",
+    "explanation": "In the standard national income model taxation is treated as a function of income, T = tY, so tax revenue rises and falls with the level of national income.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "national-income",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 28,
+    "questionText": "A decrease in aggregate spending in an economy will ultimately lead to",
+    "options": {
+      "A": "boom",
+      "B": "inflation",
+      "C": "deflation",
+      "D": "recession"
+    },
+    "correctAnswer": "D",
+    "explanation": "Falling aggregate demand reduces output and employment through the multiplier, and a sustained contraction of that kind is a recession.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "national-income",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 29,
+    "questionText": "If MPC is 0.7 while government expenditure increased by ₦150m, the equilibrium national income is",
+    "options": {
+      "A": "₦214 million",
+      "B": "₦45 million",
+      "C": "₦105 million",
+      "D": "₦500 million"
+    },
+    "correctAnswer": "D",
+    "explanation": "The multiplier is 1 ÷ (1 − MPC) = 1 ÷ 0.3 = 3.33. Multiplying the ₦150m injection gives 150 × 3.33 = ₦500 million.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "money-and-banking",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 30,
+    "questionText": "The function of money which makes division of labour possible is its",
+    "options": {
+      "A": "unit of account",
+      "B": "store of value",
+      "C": "medium of exchange",
+      "D": "standard of deferred payment"
+    },
+    "correctAnswer": "C",
+    "explanation": "Specialists produce only one thing and must exchange it for everything else they need. Money as a medium of exchange removes the double coincidence of wants that would otherwise make such specialisation impossible.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "money-and-banking",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 31,
+    "questionText": "By buying treasury bills, the Central Bank of Nigeria intends to",
+    "options": {
+      "A": "increase money supply in the economy",
+      "B": "reduce the cash reserve ratio for banks",
+      "C": "reduce money supply in the economy",
+      "D": "increase the capital base of commercial banks"
+    },
+    "correctAnswer": "A",
+    "explanation": "In open market operations the central bank pays cash to the holders of the bills it buys, injecting money into the banking system. Selling bills would do the opposite and mop up money.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "money-and-banking",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 32,
+    "questionText": "The velocity of money is represented as",
+    "options": {
+      "A": "Money supply ÷ Real GDP",
+      "B": "Real GDP ÷ Money supply",
+      "C": "Nominal GDP ÷ Money supply",
+      "D": "Real GDP ÷ Nominal GDP"
+    },
+    "correctAnswer": "C",
+    "explanation": "From the equation of exchange MV = PQ, velocity V = PQ ÷ M, and PQ is nominal GDP. So velocity is nominal GDP divided by the money supply.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "money-and-banking",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 33,
+    "questionText": "One of the functions of commercial banks is",
+    "options": {
+      "A": "maintaining stable price in the economy",
+      "B": "regulating monetary policies",
+      "C": "granting loans to customers",
+      "D": "issuing bank notes and coins"
+    },
+    "correctAnswer": "C",
+    "explanation": "Accepting deposits and lending them out is the core business of a commercial bank. Price stability, monetary regulation and currency issue are all functions of the central bank.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "economic-planning",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 34,
+    "questionText": "A strategy for curbing unemployment is to",
+    "options": {
+      "A": "implement government stabilization policy",
+      "B": "increase taxes and decrease government expenditure",
+      "C": "increase government expenditure and decrease taxes",
+      "D": "ensure even distribution of job opportunities"
+    },
+    "correctAnswer": "C",
+    "explanation": "Unemployment calls for expansionary fiscal policy: higher government spending injects demand while lower taxes leave households more to spend, and both raise the demand for labour. Option B is contractionary and would worsen unemployment.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "economic-planning",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 35,
+    "questionText": "In Nigeria, the creation of job opportunities is best stimulated through",
+    "options": {
+      "A": "balanced budgeting",
+      "B": "deficit budgeting",
+      "C": "surplus budgeting",
+      "D": "zero budgeting"
+    },
+    "correctAnswer": "B",
+    "explanation": "A deficit budget means government spends more than it collects in revenue, injecting extra demand into the economy and creating jobs. A surplus budget withdraws demand and a balanced budget is neutral.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "economic-planning",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 36,
+    "questionText": "National development plans in Nigeria fail mainly because of",
+    "options": {
+      "A": "overdependence on foreign aids",
+      "B": "inadequate funding of projects",
+      "C": "poor implementation strategies",
+      "D": "shortage of skilled manpower"
+    },
+    "correctAnswer": "C",
+    "explanation": "Nigeria's development plans have generally been well drafted; what has repeatedly let them down is execution — abandoned projects, weak monitoring and policy discontinuity. The failure is one of implementation rather than of planning.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 37,
+    "questionText": "The ultimate aim of agricultural policies in Nigeria is to achieve",
+    "options": {
+      "A": "food sufficiency",
+      "B": "industrialization",
+      "C": "full employment",
+      "D": "industrial capacity utilization"
+    },
+    "correctAnswer": "A",
+    "explanation": "Every major agricultural programme in Nigeria, from Operation Feed the Nation onward, has been aimed at producing enough food for the population. Industrial growth and employment are welcome by-products, not the ultimate objective.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 38,
+    "questionText": "Government can boost agricultural output in Nigeria primarily by",
+    "options": {
+      "A": "embarking on buffer stock programmes",
+      "B": "placing embargo on food importation",
+      "C": "granting subsidies on farm inputs",
+      "D": "placing farmers on monthly income"
+    },
+    "correctAnswer": "C",
+    "explanation": "Subsidising fertiliser, improved seed and machinery lowers farmers' costs directly and raises the quantity they can profitably produce. Buffer stocks only stabilise prices and an import embargo does not by itself increase domestic capacity.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 39,
+    "questionText": "Localization of industries refers to the",
+    "options": {
+      "A": "spread of firms producing different products",
+      "B": "siting of industries near the market",
+      "C": "concentration of firms of an industry",
+      "D": "siting of firms producing different products"
+    },
+    "correctAnswer": "C",
+    "explanation": "Localization is the concentration of firms belonging to the same industry in one geographical area, as with brewing in Lagos or textiles in Kaduna. It gives rise to external economies such as a pool of skilled labour.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 40,
+    "questionText": "In developing countries, governments influence the location of industries in order to",
+    "options": {
+      "A": "spread development",
+      "B": "redistribute wealth",
+      "C": "encourage entrepreneurs",
+      "D": "encourage industries to earn high profits"
+    },
+    "correctAnswer": "A",
+    "explanation": "Left to themselves, firms cluster in a few favoured cities and leave the rest of the country behind. Government intervenes with incentives and siting rules so that industry, and the jobs and infrastructure that follow it, reach the neglected regions.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 41,
+    "questionText": "A disadvantage of Nigeria's dependence on imported petroleum products is the",
+    "options": {
+      "A": "instability in the demand for the products",
+      "B": "dominance of multinational firms",
+      "C": "instability in the supply of the product",
+      "D": "poor maintenance of the refineries"
+    },
+    "correctAnswer": "C",
+    "explanation": "When fuel must come from abroad, any disruption in shipping, foreign exchange or world prices leaves the country short. That is why import dependence shows itself in recurrent scarcity and queues at the pumps.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 42,
+    "questionText": "The maximum number of shareholders for a public limited liability company is",
+    "options": {
+      "A": "twenty",
+      "B": "five",
+      "C": "seven",
+      "D": "infinite"
+    },
+    "correctAnswer": "D",
+    "explanation": "A public company begins with a minimum of seven members but has no upper limit, since its shares are offered to the general public and traded freely. Only a private company is capped, at fifty.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 43,
+    "questionText": "The primary motive for an individual engaging in production is to",
+    "options": {
+      "A": "make profit",
+      "B": "satisfy basic human wants",
+      "C": "redistribute wealth",
+      "D": "put inputs into use"
+    },
+    "correctAnswer": "A",
+    "explanation": "Satisfying wants is what production achieves for society, but the private producer undertakes it because he expects a surplus of revenue over cost. Profit is the motive that draws the individual into the activity.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "population",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 45,
+    "questionText": "Study the table below.\n\n| Year | Population (000) | Working population (000) |\n| --- | --- | --- |\n| 2000 | 25 | 13 |\n| 2001 | 30 | 19 |\n| 2002 | 40 | 32 |\n| 2003 | 50 | 49 |\n\nThe percentage of working population in 2002 is",
+    "options": {
+      "A": "50%",
+      "B": "25%",
+      "C": "8%",
+      "D": "80%"
+    },
+    "correctAnswer": "D",
+    "explanation": "Express the working population as a fraction of the total and convert to a percentage: 32 ÷ 40 × 100 = 80%.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 46,
+    "questionText": "One of the characteristics of a free trade zone is",
+    "options": {
+      "A": "common tariff against non-member countries",
+      "B": "different trade policies of non-member countries",
+      "C": "free factor mobility within the zone",
+      "D": "harmonized trade among member countries"
+    },
+    "correctAnswer": "D",
+    "explanation": "In a free trade area members remove tariffs and quotas on trade between themselves while each keeps its own policy towards outsiders. A common external tariff would make it a customs union, and free movement of factors a common market.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 47,
+    "questionText": "If Nigeria imports vehicles from Japan, the transaction will appear as a",
+    "options": {
+      "A": "debit on Japan's balance of payments",
+      "B": "credit on Japan's balance of payments",
+      "C": "credit on Nigeria's balance of trade",
+      "D": "credit on Nigeria's balance of payment"
+    },
+    "correctAnswer": "B",
+    "explanation": "The transaction is an export for Japan, bringing foreign exchange in, so it is entered as a credit in Japan's accounts. For Nigeria it is an import and therefore a debit.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "economic-development",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 48,
+    "questionText": "One of the objectives of the African Development Bank (ADB) is to",
+    "options": {
+      "A": "provide subsidies on imported goods to member countries",
+      "B": "mobilize short-term loans for member countries",
+      "C": "promote economic and social development of member countries",
+      "D": "provide technical assistance to only poor member countries"
+    },
+    "correctAnswer": "C",
+    "explanation": "The ADB was established to finance development projects and programmes that raise economic and social conditions across the continent. Its lending is long term and open to all member states, not only the poorest.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 49,
+    "questionText": "The choice of the method of production in an economy is determined by the",
+    "options": {
+      "A": "level of technical know-how",
+      "B": "rate of population growth",
+      "C": "availability of natural resources",
+      "D": "level of income"
+    },
+    "correctAnswer": "A",
+    "explanation": "Whether a country produces by labour-intensive or capital-intensive methods depends on the techniques its people command. A society cannot adopt a method its level of technology does not support.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2010,
+    "questionNumber": 50,
+    "questionText": "The amount of labour hired depends on",
+    "options": {
+      "A": "number of skilled labour available",
+      "B": "skill of labour",
+      "C": "marginal productivity of labour",
+      "D": "price of the inputs"
+    },
+    "correctAnswer": "C",
+    "explanation": "A firm goes on hiring while the extra output a worker contributes is worth at least the wage paid. Employment therefore settles where the marginal revenue product of labour equals the wage.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  }
+]

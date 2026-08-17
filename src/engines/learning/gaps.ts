@@ -8,6 +8,7 @@ import {
   GAP_RETENTION,
 } from "./recommend";
 import type { TopicStateMap, TopicState } from "./mastery";
+import { CONFIDENCE_FLOOR } from "./evidence";
 
 // Learning Path Engine — learning-gap detection (algorithm D).
 // See docs/superpowers/specs/2026-08-02-learning-path-engine-design.md
@@ -26,6 +27,16 @@ export interface TopicGap {
   bottleneckScore: number;
   /** Number of direct dependents still below mastery TARGET. */
   blockedCount: number;
+  /** Evidence behind `mastery`, for deciding whether to show it at all. */
+  confidence: number;
+  accObservations: number;
+  lessonObservations: number;
+  srsObservations: number;
+  /**
+   * How many times this topic appeared in a quiz the student started and never
+   * finished. Explains a gap; deliberately does not rank it.
+   */
+  abandonedCount: number;
 }
 
 /** All nodes reachable from `topicId` (transitive closure over the DAG). */
@@ -84,8 +95,17 @@ export function classifyTopic(
     return isAvailable(topicId, state, graph, pretestPassed) ? "UNTOUCHED" : null;
   }
 
-  if (topic.mastery < WEAK_MASTERY) return "WEAK";
-  if (topic.retention != null && topic.retention < GAP_RETENTION) {
+  // Enough evidence, not merely some. A topic scored from one answer has a
+  // mastery figure, but acting on it would diagnose a weakness from noise.
+  // Below the floor we withhold judgement rather than guess — the topic is
+  // neither a gap nor untouched, it is simply not yet measured.
+  //
+  // BOTTLENECK is deliberately NOT gated: it asserts something about the graph
+  // and about other topics' mastery, not about how well we know this one.
+  const confident = topic.confidence >= CONFIDENCE_FLOOR;
+
+  if (confident && topic.mastery < WEAK_MASTERY) return "WEAK";
+  if (confident && topic.retention != null && topic.retention < GAP_RETENTION) {
     return "DECAYED";
   }
   const blocked = unmasteredDependents(state, graph, topicId);
@@ -103,6 +123,7 @@ export function gapQueue(
   state: TopicStateMap,
   graph: KnowledgeGraph,
   pretestPassed: ReadonlySet<string> = new Set(),
+  abandonedByTopic: ReadonlyMap<string, number> = new Map(),
 ): TopicGap[] {
   const gaps: TopicGap[] = [];
   for (const [topicId] of state) {
@@ -123,6 +144,11 @@ export function gapQueue(
       retention: topic.retention,
       bottleneckScore: bottleneckScore(graph, topicId),
       blockedCount: unmasteredDependents(state, graph, topicId).length,
+      confidence: topic.confidence,
+      accObservations: topic.accObservations,
+      lessonObservations: topic.lessonObservations,
+      srsObservations: topic.srsObservations,
+      abandonedCount: abandonedByTopic.get(topicId) ?? 0,
     });
   }
   gaps.sort(

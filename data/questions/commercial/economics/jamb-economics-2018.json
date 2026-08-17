@@ -1,0 +1,748 @@
+[
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "population",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 1,
+    "questionText": "Occupational distribution of population is mainly influenced by",
+    "options": {
+      "A": "economic factors",
+      "B": "religious factors",
+      "C": "geographical factors",
+      "D": "social factors"
+    },
+    "correctAnswer": "A",
+    "explanation": "People take up the occupations where work and reward are to be found, so the structure of the economy and the wages on offer decide how the working population is distributed among farming, industry and services.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 2,
+    "questionText": "The reward for capital is",
+    "options": {
+      "A": "interest",
+      "B": "rent",
+      "C": "risk",
+      "D": "premium"
+    },
+    "correctAnswer": "A",
+    "explanation": "Each factor of production has its own reward: rent to land, wages to labour, interest to capital and profit to the entrepreneur.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 3,
+    "questionText": "The reduction in the value of a country's currency in relation to the value of the currencies of other nations is known as",
+    "options": {
+      "A": "deflation",
+      "B": "inflation",
+      "C": "devaluation",
+      "D": "revaluation"
+    },
+    "correctAnswer": "C",
+    "explanation": "Devaluation is a deliberate lowering of the external value of a currency, undertaken to make exports cheaper and imports dearer. Revaluation is the opposite, and deflation and inflation refer to the domestic price level.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "financial-institutions",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 4,
+    "questionText": "Mortgage banks give loans to investors on a long-term basis to",
+    "options": {
+      "A": "finance agriculture",
+      "B": "establish banks",
+      "C": "acquire machinery",
+      "D": "build houses"
+    },
+    "correctAnswer": "D",
+    "explanation": "Mortgage institutions specialise in lending for property, the house itself standing as security for the loan. Agriculture and industry are served by other development banks.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "introduction-to-economics",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 5,
+    "questionText": "In a capitalist economy, factors of production are owned and controlled by the",
+    "options": {
+      "A": "citizens",
+      "B": "businessmen",
+      "C": "government",
+      "D": "foreigners"
+    },
+    "correctAnswer": "B",
+    "explanation": "Capitalism rests on private ownership of the means of production, which are held and directed by private entrepreneurs for profit. State ownership would make it a socialist economy.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 6,
+    "questionText": "The establishment of industries in rural areas will help to reduce",
+    "options": {
+      "A": "urban-rural migration",
+      "B": "rural-urban migration",
+      "C": "rural-rural migration",
+      "D": "urban-urban migration"
+    },
+    "correctAnswer": "B",
+    "explanation": "People leave the villages for the towns chiefly in search of work. Providing employment where they already live removes that reason for moving.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 7,
+    "questionText": "International trade is an application of the principle of",
+    "options": {
+      "A": "industrial production",
+      "B": "mass production",
+      "C": "regional production",
+      "D": "comparative cost advantage"
+    },
+    "correctAnswer": "D",
+    "explanation": "Ricardo showed that a country gains by specialising in the goods it produces at the lowest relative cost and trading for the rest, even if it is more efficient at everything.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "population",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 8,
+    "questionText": "The number of people who are qualified to work and who offer themselves for employment is called",
+    "options": {
+      "A": "migrant labour",
+      "B": "working population",
+      "C": "labour turnover",
+      "D": "mobility of labour"
+    },
+    "correctAnswer": "B",
+    "explanation": "The working population, or labour force, consists of those of working age who are able and willing to work, whether or not they are currently employed.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 9,
+    "questionText": "Which of the following is an advantage of localisation of industry?",
+    "options": {
+      "A": "Development of subsidiary firms",
+      "B": "Creation of parallel markets",
+      "C": "Development of slums",
+      "D": "Attraction of foreign capital"
+    },
+    "correctAnswer": "A",
+    "explanation": "Where firms of one industry concentrate, ancillary businesses spring up to supply components and services to them. This is one of the external economies that localisation confers; slums are among its disadvantages.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 10,
+    "questionText": "The Economic Community of West African States (ECOWAS) has been slow in achieving its objectives because of",
+    "options": {
+      "A": "the activities of multinationals",
+      "B": "inadequate personnel at the secretariat",
+      "C": "political instability",
+      "D": "inadequate international support"
+    },
+    "correctAnswer": "C",
+    "explanation": "Frequent coups, civil wars and abrupt changes of government in member states have repeatedly disrupted agreed programmes and discouraged the commitment the community needs.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 11,
+    "questionText": "Joint ventures are partnerships involving",
+    "options": {
+      "A": "the poor and the rich",
+      "B": "employers and workers",
+      "C": "government and private investors",
+      "D": "multinationals and individuals"
+    },
+    "correctAnswer": "C",
+    "explanation": "A joint venture brings public and private capital together in one enterprise, with the state and private investors sharing the ownership, risk and profit. Nigeria's oil operations are the standard example.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 12,
+    "questionText": "In which of the following business units are the owners mostly the customers?",
+    "options": {
+      "A": "co-operatives",
+      "B": "limited liability companies",
+      "C": "partnership",
+      "D": "public corporations"
+    },
+    "correctAnswer": "A",
+    "explanation": "In a consumer co-operative the members subscribe the capital and also buy the goods, so the customers are the owners and share in the surplus.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 13,
+    "questionText": "The formula (index of export prices ÷ index of import prices) × 100 is used to measure the",
+    "options": {
+      "A": "volume of trade between countries",
+      "B": "direction of international trade",
+      "C": "commodity terms of trade",
+      "D": "volume of imports"
+    },
+    "correctAnswer": "C",
+    "explanation": "The commodity terms of trade compare export prices with import prices to show how much a country's exports will buy abroad. A rising figure means the terms of trade have moved in its favour.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 14,
+    "questionText": "Study the table below.\n\n| Products | Ghana | Sierra Leone |\n| --- | --- | --- |\n| Coffee | 8 tonnes | 2 tonnes |\n| Cocoa | 7 tonnes | 9 tonnes |\n\nIf specialisation should take place, then",
+    "options": {
+      "A": "Ghana should produce coffee and cocoa",
+      "B": "Ghana would benefit by producing cocoa only",
+      "C": "Sierra Leone should not produce any of the products",
+      "D": "Sierra Leone should produce cocoa and Ghana coffee"
+    },
+    "correctAnswer": "D",
+    "explanation": "Ghana is relatively better at coffee, producing 8 tonnes against Sierra Leone's 2, while Sierra Leone is better at cocoa with 9 tonnes against Ghana's 7. Each should specialise where its comparative advantage lies and trade for the other good.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 15,
+    "questionText": "Which of the following is an invisible item?",
+    "options": {
+      "A": "Petroleum services",
+      "B": "Processed rice",
+      "C": "Processed milk",
+      "D": "Banking services"
+    },
+    "correctAnswer": "D",
+    "explanation": "Invisible items are services rather than tangible goods, and banking is a service traded across borders. Rice and milk are physical commodities and therefore visible items.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 16,
+    "questionText": "The full meaning of OPEC is",
+    "options": {
+      "A": "Oil and Petroleum Exporting Countries",
+      "B": "Original Petroleum Exporting Countries",
+      "C": "Organisation of Petrol Exporting Countries",
+      "D": "Organisation of Petroleum Exporting Countries"
+    },
+    "correctAnswer": "D",
+    "explanation": "OPEC stands for the Organisation of Petroleum Exporting Countries, formed in 1960 to coordinate the petroleum policies of its members. Nigeria joined in 1971.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "introduction-to-economics",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 17,
+    "questionText": "The main concern of economists is to",
+    "options": {
+      "A": "control the growth of population",
+      "B": "redistribute income between the rich and the poor",
+      "C": "satisfy all human wants",
+      "D": "allocate scarce resources to satisfy human wants"
+    },
+    "correctAnswer": "D",
+    "explanation": "Because wants are unlimited and resources are not, every society must choose how to use what it has. Economics is the study of that allocation; satisfying all wants is impossible by definition.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 18,
+    "questionText": "Productive resources can also be called",
+    "options": {
+      "A": "principles of production",
+      "B": "factors of production",
+      "C": "items of production",
+      "D": "labour and material resources"
+    },
+    "correctAnswer": "B",
+    "explanation": "The resources used to produce goods and services — land, labour, capital and the entrepreneur — are collectively known as the factors of production.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "introduction-to-economics",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 19,
+    "questionText": "The study of Economics becomes necessary because of the",
+    "options": {
+      "A": "large population size of the world",
+      "B": "scarcity of resources",
+      "C": "opportunity cost of goods and services",
+      "D": "need to satisfy every desire of man"
+    },
+    "correctAnswer": "B",
+    "explanation": "Scarcity is the fundamental economic problem: resources are limited while wants are not. Opportunity cost is a consequence of scarcity rather than its cause.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 20,
+    "questionText": "The type of demand that exists between torchlight and battery is",
+    "options": {
+      "A": "competitive demand",
+      "B": "complementary demand",
+      "C": "composite demand",
+      "D": "independent demand"
+    },
+    "correctAnswer": "B",
+    "explanation": "The two goods are used together and neither is much use without the other, so they are demanded jointly. A fall in the price of torches would raise the demand for batteries.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "basic-economic-concepts",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 22,
+    "questionText": "Study the table below.\n\n| X | 2 | 3 | 4 | 5 |\n| --- | --- | --- | --- | --- |\n| F | 2 | 5 | 2 | 1 |\n\nFrom the table, the mean of the distribution is",
+    "options": {
+      "A": "2.2",
+      "B": "2.5",
+      "C": "3.2",
+      "D": "4.5"
+    },
+    "correctAnswer": "C",
+    "explanation": "Σfx = (2×2) + (3×5) + (4×2) + (5×1) = 4 + 15 + 8 + 5 = 32, and Σf = 10. The mean is 32 ÷ 10 = 3.2.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "basic-economic-concepts",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 23,
+    "questionText": "Study the table below.\n\n| X | 2 | 3 | 4 | 5 |\n| --- | --- | --- | --- | --- |\n| F | 2 | 5 | 2 | 1 |\n\nWhat is the median of the distribution?",
+    "options": {
+      "A": "5",
+      "B": "4",
+      "C": "3",
+      "D": "2"
+    },
+    "correctAnswer": "C",
+    "explanation": "Written out in order the ten values are 2, 2, 3, 3, 3, 3, 3, 4, 4, 5. The median is the average of the fifth and sixth, both of which are 3.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "basic-economic-concepts",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 24,
+    "questionText": "Human wants are insatiable because wants are",
+    "options": {
+      "A": "limited while means are scarce",
+      "B": "unlimited and means are also unlimited",
+      "C": "limited and means are also limited",
+      "D": "unlimited while means are scarce"
+    },
+    "correctAnswer": "D",
+    "explanation": "However much is produced, new wants appear, while the resources available to meet them remain limited. That permanent gap between unlimited wants and scarce means is the basic economic problem.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "economic-planning",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 25,
+    "questionText": "A country's budget allocation to various sectors of the economy is shown in the pie chart above. If the budget of the country was $7,200.00, how much is allocated to education?",
+    "questionImageUrl": "/questions/economics/jamb-economics-2018-q25.png",
+    "options": {
+      "A": "$2,400.00",
+      "B": "$2,000.00",
+      "C": "$200.00",
+      "D": "$1,000.00"
+    },
+    "correctAnswer": "A",
+    "explanation": "Education occupies 120° of the 360° circle, that is one third of the budget. One third of $7,200 is $2,400.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "economic-planning",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 26,
+    "questionText": "What is the ratio of expenditure on health to agriculture?",
+    "questionImageUrl": "/questions/economics/jamb-economics-2018-q25.png",
+    "options": {
+      "A": "2:3",
+      "B": "3:4",
+      "C": "4:3",
+      "D": "5:4"
+    },
+    "correctAnswer": "B",
+    "explanation": "Health takes 60° and agriculture 80°. The ratio 60:80 reduces to 3:4.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 27,
+    "questionText": "Which of the following items is not an example of circulating capital?",
+    "options": {
+      "A": "Raw material",
+      "B": "Money",
+      "C": "Fuel",
+      "D": "Machinery"
+    },
+    "correctAnswer": "D",
+    "explanation": "Circulating capital is used up in a single round of production, as raw materials, fuel and money are. Machinery lasts through many rounds and is therefore fixed capital.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 28,
+    "questionText": "The principle of comparative cost advantage was propounded by",
+    "options": {
+      "A": "David Ricardo",
+      "B": "Alfred Marshall",
+      "C": "J.S. Mill",
+      "D": "Adam Smith"
+    },
+    "correctAnswer": "A",
+    "explanation": "Ricardo showed that trade benefits both parties when each specialises where its relative cost is lower, even if one is absolutely more efficient at everything. Adam Smith had earlier argued the case for absolute advantage.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 29,
+    "questionText": "The rate at which a country's exports is exchanged for her imports is",
+    "options": {
+      "A": "trade balance",
+      "B": "balance of payments",
+      "C": "terms of trade",
+      "D": "balance of currency account"
+    },
+    "correctAnswer": "C",
+    "explanation": "The terms of trade compare export prices with import prices, showing how much a country's exports will buy abroad. The balance of trade and balance of payments record values, not this exchange rate.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 30,
+    "questionText": "Efficiency of labour in a country is determined by the following except the",
+    "options": {
+      "A": "social attitude to work",
+      "B": "education and training",
+      "C": "total population",
+      "D": "working conditions of workers"
+    },
+    "correctAnswer": "C",
+    "explanation": "Efficiency concerns how well each worker performs, which depends on training, attitude and conditions of work. The sheer number of people in the country affects the size of the labour force, not its quality.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 31,
+    "questionText": "The diagram below represents a production function. At which of the points does diminishing returns set in?",
+    "questionImageUrl": "/questions/economics/jamb-economics-2018-q31.png",
+    "options": {
+      "A": "R",
+      "B": "S",
+      "C": "T",
+      "D": "V"
+    },
+    "correctAnswer": "B",
+    "explanation": "Up to S the total product curve rises ever more steeply, so each extra unit of the variable factor adds more than the last. At S the curve changes shape and begins to rise at a decreasing rate, which is where diminishing returns set in. T is near the maximum, where marginal product has fallen to zero.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "economic-planning",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 32,
+    "questionText": "Taxes and government expenditures are instruments of",
+    "options": {
+      "A": "monetary policy",
+      "B": "tax policy",
+      "C": "economic policy",
+      "D": "fiscal policy"
+    },
+    "correctAnswer": "D",
+    "explanation": "Fiscal policy is the use of government revenue and spending to influence the economy. Monetary policy works instead through the money supply and interest rates.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 33,
+    "questionText": "A situation in which a commodity is sold abroad below its cost of production in the home country is known as",
+    "options": {
+      "A": "dumping",
+      "B": "counter trade",
+      "C": "bilateral trade",
+      "D": "trade liberalisation"
+    },
+    "correctAnswer": "A",
+    "explanation": "Dumping is selling in a foreign market at a price below cost, often to dispose of a surplus or to drive out local competitors. Importing countries commonly respond with anti-dumping duties.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "economic-development",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 34,
+    "questionText": "The Family Support Programme in Nigeria essentially focuses on",
+    "options": {
+      "A": "the generation of employment",
+      "B": "the alleviation of poverty",
+      "C": "agricultural and industrial development",
+      "D": "economic emancipation of women"
+    },
+    "correctAnswer": "D",
+    "explanation": "The Family Support Programme was directed at improving the position of women and children, particularly by giving rural women the means to earn an independent income.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 35,
+    "questionText": "The Economic Commission for Africa was set up by the",
+    "options": {
+      "A": "UNO",
+      "B": "ECOWAS",
+      "C": "OAU",
+      "D": "IMF"
+    },
+    "correctAnswer": "A",
+    "explanation": "The ECA is one of the regional commissions established by the United Nations Economic and Social Council, founded in 1958 to promote the economic development of Africa.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "basic-economic-concepts",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 36,
+    "questionText": "Use the histogram above to answer this question. If the pass mark was 40, how many students passed the examination?",
+    "questionImageUrl": "/questions/economics/jamb-economics-2018-q36.png",
+    "options": {
+      "A": "100",
+      "B": "120",
+      "C": "160",
+      "D": "200"
+    },
+    "correctAnswer": "C",
+    "explanation": "Add the bars from the 40 mark upwards: 100 students in the 40–49 class, 40 in the 60–69 class and 20 in the 70–100 class, giving 160 in all.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "basic-economic-concepts",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 37,
+    "questionText": "How many students took the examination?",
+    "questionImageUrl": "/questions/economics/jamb-economics-2018-q36.png",
+    "options": {
+      "A": "280",
+      "B": "240",
+      "C": "200",
+      "D": "80"
+    },
+    "correctAnswer": "A",
+    "explanation": "Add the heights of all five bars: 40 + 80 + 100 + 40 + 20 = 280 students.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 38,
+    "questionText": "Utility is the satisfaction derived from",
+    "options": {
+      "A": "production",
+      "B": "distribution",
+      "C": "consumption",
+      "D": "demand"
+    },
+    "correctAnswer": "C",
+    "explanation": "Utility is the want-satisfying power a person obtains from actually consuming a good or service.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 39,
+    "questionText": "When a union is composed of workers with the same skill it is called",
+    "options": {
+      "A": "an industrial union",
+      "B": "a workers' union",
+      "C": "a craft union",
+      "D": "a technical union"
+    },
+    "correctAnswer": "C",
+    "explanation": "A craft union draws its members from a single trade or skill, such as carpenters or printers, wherever they happen to work. An industrial union takes in all workers in one industry regardless of their trade.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "economic-planning",
+    "examType": "JAMB",
+    "examYear": 2018,
+    "questionNumber": 40,
+    "questionText": "The major objective of a revenue allocation formula in a country is to",
+    "options": {
+      "A": "share revenue between the public and private sectors",
+      "B": "ensure the financial viability of the country",
+      "C": "share revenue between the different tiers of government",
+      "D": "divert revenue from areas of surplus to areas of needs"
+    },
+    "correctAnswer": "C",
+    "explanation": "A revenue allocation formula sets out how nationally collected revenue is divided among the federal, state and local governments so that each tier can meet its constitutional responsibilities.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  }
+]

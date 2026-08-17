@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
-import { db } from "@/lib/db";
-import { relevantTrackCategories } from "@/lib/subjects";
+import { getLibraryShelfTolerant, getSubjectResources } from "@/lib/library";
 
 export const dynamic = "force-dynamic";
 
@@ -20,11 +19,7 @@ export async function GET(request: Request) {
 
   if (subjectId) {
     try {
-      const resources = await db.subjectResource.findMany({
-        where: { subjectId },
-        orderBy: [{ orderIndex: "asc" }, { title: "asc" }],
-      });
-      return NextResponse.json(resources);
+      return NextResponse.json(await getSubjectResources(subjectId));
     } catch (error) {
       console.error("Library resources error:", error);
       return NextResponse.json(
@@ -34,36 +29,8 @@ export async function GET(request: Request) {
     }
   }
 
-  // User's track decides which subjects are relevant. If the lookup fails,
-  // fall back to showing everything rather than erroring out.
-  let track: string | null = null;
   try {
-    const user = await db.user.findUnique({
-      where: { id: token.sub },
-      select: { track: true },
-    });
-    track = user?.track ?? null;
-  } catch (error) {
-    console.error("Library track lookup error:", error);
-  }
-
-  const relevant = relevantTrackCategories(track);
-
-  try {
-    const subjects = await db.subject.findMany({
-      where: { trackCategory: { in: [...relevant] } },
-      orderBy: [{ trackCategory: "asc" }, { name: "asc" }],
-      select: {
-        id: true,
-        name: true,
-        slug: true,
-        code: true,
-        description: true,
-        trackCategory: true,
-        _count: { select: { resources: true } },
-      },
-    });
-    return NextResponse.json(subjects);
+    return NextResponse.json(await getLibraryShelfTolerant(token.sub));
   } catch (error) {
     console.error("Library subjects error:", error);
     return NextResponse.json(

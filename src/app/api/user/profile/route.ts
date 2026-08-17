@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Prisma } from "@prisma/client";
 import { auth } from "@/lib/auth";
-import { db } from "@/lib/db";
+import { updateUserProfile } from "@/lib/user-account";
 import { updateProfileSchema } from "@/lib/validators";
 
 export const dynamic = "force-dynamic";
@@ -22,51 +21,20 @@ export async function PATCH(req: NextRequest) {
       );
     }
 
-    const { firstName, lastName, phone, state, classLevel, track } = parsed.data;
+    const result = await updateUserProfile(session.user.id, parsed.data);
 
-    // Build the update from present keys only, so the profile section never
-    // overwrites the academic section's fields and vice versa.
-    const data: Prisma.UserUpdateInput = {};
-    if (firstName !== undefined) data.firstName = firstName;
-    if (lastName !== undefined) data.lastName = lastName;
-    if (classLevel !== undefined) data.classLevel = classLevel;
-    if (track !== undefined) data.track = track;
-    // A cleared field must become NULL, not "": the unique index on phone
-    // would otherwise collide across every user who left it blank.
-    if (phone !== undefined) data.phone = phone || null;
-    if (state !== undefined) data.state = state || null;
-
-    if (Object.keys(data).length === 0) {
+    if (result === "nothing-to-update") {
       return NextResponse.json({ error: "Nothing to update" }, { status: 400 });
     }
-
-    const user = await db.user.update({
-      // Always the session's own id — never one supplied by the caller.
-      where: { id: session.user.id },
-      data,
-      select: {
-        id: true,
-        firstName: true,
-        lastName: true,
-        phone: true,
-        state: true,
-        classLevel: true,
-        track: true,
-      },
-    });
-
-    return NextResponse.json({ message: "Profile updated", user });
-  } catch (error) {
-    if (
-      error instanceof Prisma.PrismaClientKnownRequestError &&
-      error.code === "P2002"
-    ) {
+    if (result === "phone-taken") {
       return NextResponse.json(
         { error: "That phone number is already linked to another account" },
         { status: 409 },
       );
     }
 
+    return NextResponse.json({ message: "Profile updated", user: result });
+  } catch (error) {
     console.error("Profile update failed:", error);
     return NextResponse.json(
       { error: "Something went wrong. Please try again." },

@@ -1,0 +1,938 @@
+[
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "introduction-to-economics",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 2,
+    "questionText": "An economy in which both the public and private sectors contribute to economic growth is a",
+    "options": {
+      "A": "feudal economy",
+      "B": "capitalist economy",
+      "C": "socialist economy",
+      "D": "mixed economy"
+    },
+    "correctAnswer": "D",
+    "explanation": "A mixed economy combines private enterprise with state participation, so both sectors own resources and take part in production. Nigeria operates this system.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "basic-economic-concepts",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 3,
+    "questionText": "If the standard deviation of a given data is 53, what is the variance?",
+    "options": {
+      "A": "2,082",
+      "B": "2,809",
+      "C": "2,808",
+      "D": "2,209"
+    },
+    "correctAnswer": "B",
+    "explanation": "Variance is the square of the standard deviation. Here 53 × 53 = 2,809.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "basic-economic-concepts",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 4,
+    "questionText": "Which of the following sets of statistical tools is used for further economic analysis?",
+    "options": {
+      "A": "the median and standard deviation",
+      "B": "the mean and mode",
+      "C": "the mean and standard deviation",
+      "D": "the mode and median"
+    },
+    "correctAnswer": "C",
+    "explanation": "The mean and the standard deviation are both computed from every observation and are algebraically tractable, which is why they feed directly into correlation, regression and other further analysis. The mode and median are positional measures and cannot be manipulated in the same way.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "basic-economic-concepts",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 5,
+    "questionText": "An advantage of the range as a measure of dispersion is that it",
+    "options": {
+      "A": "can be used to calculate open-ended distribution",
+      "B": "makes use of all values of observations in a distribution",
+      "C": "takes all values into consideration",
+      "D": "is useful for further statistical calculation"
+    },
+    "correctAnswer": "A",
+    "explanation": "The range needs only the largest and smallest values, so it can be obtained where a distribution has open-ended classes. Its weakness is precisely that it ignores every other observation, which rules out the other options.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "basic-economic-concepts",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 6,
+    "questionText": "Find the median of the following set of data: 35, 10, 14, 38, 15, 18, 22, 30 and 28.",
+    "options": {
+      "A": "10",
+      "B": "38",
+      "C": "35",
+      "D": "22"
+    },
+    "correctAnswer": "D",
+    "explanation": "Arranged in order the values are 10, 14, 15, 18, 22, 28, 30, 35, 38. With nine items the median is the fifth value, which is 22.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 7,
+    "questionText": "An increase in demand without a corresponding change in supply will lead to",
+    "options": {
+      "A": "a decrease in equilibrium price and increase in equilibrium quantity",
+      "B": "an increase in equilibrium price and quantity",
+      "C": "a decrease in equilibrium price and quantity",
+      "D": "an increase in equilibrium price and a decrease in equilibrium quantity"
+    },
+    "correctAnswer": "B",
+    "explanation": "The demand curve shifts right along a fixed supply curve, so the new intersection lies higher up that curve. Both the equilibrium price and the equilibrium quantity therefore rise.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 8,
+    "questionText": "An increase in the price of a commodity will result in",
+    "options": {
+      "A": "a decrease in the quantity demanded",
+      "B": "an increase in demand",
+      "C": "an increase in quantity demanded",
+      "D": "a decrease in demand"
+    },
+    "correctAnswer": "A",
+    "explanation": "By the law of demand a higher own-price causes buyers to take less, a contraction along the same demand curve. Demand itself only changes when a non-price factor changes.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 9,
+    "questionText": "If the price of a bicycle changes from ₦120 to ₦80 and quantity bought changes from 300 to 500 units, the elasticity of demand for the bicycle is",
+    "options": {
+      "A": "66.7",
+      "B": "0.5",
+      "C": "1.5",
+      "D": "2.0"
+    },
+    "correctAnswer": "D",
+    "explanation": "Quantity rises by 200 out of 300, that is 66.7%, while price falls by 40 out of 120, that is 33.3%. Elasticity is 66.7 ÷ 33.3 = 2.0, so demand is elastic.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 10,
+    "questionText": "From the graph above, the price elasticity of demand is",
+    "questionImageUrl": "/questions/economics/jamb-economics-2013-q10.png",
+    "options": {
+      "A": "unitarily elastic",
+      "B": "perfectly elastic",
+      "C": "perfectly inelastic",
+      "D": "fairly inelastic"
+    },
+    "correctAnswer": "C",
+    "explanation": "The demand curve is vertical, so the same quantity OQ is taken whatever the price. Quantity does not respond at all, which gives an elasticity of zero — perfectly inelastic demand.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 11,
+    "questionText": "One of the assumptions of the cardinalist approach is",
+    "options": {
+      "A": "diminishing marginal rate of substitution",
+      "B": "the consistency and transitivity of choice",
+      "C": "that total utility depends on the quantity of the commodities consumed",
+      "D": "unstable marginal utility of money"
+    },
+    "correctAnswer": "C",
+    "explanation": "The cardinal approach treats utility as measurable and expresses total utility as a function of the quantities consumed. A diminishing marginal rate of substitution and consistency of choice belong to the ordinal, indifference-curve approach.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 12,
+    "questionText": "Utility is the satisfaction derived from the",
+    "options": {
+      "A": "distribution of goods and services",
+      "B": "use of goods and services",
+      "C": "demand of goods and services",
+      "D": "production of goods and services"
+    },
+    "correctAnswer": "B",
+    "explanation": "Utility is the want-satisfying power a consumer obtains from actually using or consuming a good or service.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 13,
+    "questionText": "From the indifference curves above, the consumer will prefer combination",
+    "questionImageUrl": "/questions/economics/jamb-economics-2013-q13.png",
+    "options": {
+      "A": "F",
+      "B": "S",
+      "C": "M",
+      "D": "K"
+    },
+    "correctAnswer": "B",
+    "explanation": "The further an indifference curve lies from the origin, the greater the satisfaction it represents. S lies on I₃, the highest of the three curves, so it is preferred to M and N on I₂ and to F and K on I₁.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 14,
+    "questionText": "One of the major factors that brings about changes in supply is",
+    "options": {
+      "A": "market discrimination",
+      "B": "availability of storage facilities",
+      "C": "the cost of storage",
+      "D": "incentives granted to workers"
+    },
+    "correctAnswer": "C",
+    "explanation": "Storage is part of the cost of bringing goods to market, so a change in it alters the profitability of supplying at every price and shifts the whole supply curve.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 15,
+    "questionText": "If P = ¼(Qs + 10), what is the quantity supplied at ₦14?",
+    "options": {
+      "A": "14",
+      "B": "60",
+      "C": "46",
+      "D": "32"
+    },
+    "correctAnswer": "C",
+    "explanation": "Substitute P = 14 into the equation: 14 = ¼(Qs + 10). Multiplying through by 4 gives 56 = Qs + 10, so Qs = 46.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 16,
+    "questionText": "If the supply of a product is elastic, a small reduction in price will",
+    "options": {
+      "A": "reduce the cost of production",
+      "B": "reduce the quantity supplied",
+      "C": "increase the quantity supplied",
+      "D": "lead to no change in the quantity supplied"
+    },
+    "correctAnswer": "B",
+    "explanation": "Supply moves in the same direction as price, so a fall in price contracts the quantity offered. Because supply is elastic, even a small price cut produces a proportionately larger fall in quantity supplied.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 17,
+    "questionText": "The supply of beverages by firms in a monopolistic market is an example of",
+    "options": {
+      "A": "derived demand",
+      "B": "competitive supply",
+      "C": "composite supply",
+      "D": "joint demand"
+    },
+    "correctAnswer": "C",
+    "explanation": "Composite supply exists where a single want is met from several different sources, as the demand for a beverage can be satisfied by any of the competing brands on offer.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 18,
+    "questionText": "If the price of a commodity is fixed below equilibrium, this will lead to",
+    "options": {
+      "A": "excess demand",
+      "B": "a decrease in price",
+      "C": "an increase in price",
+      "D": "excess supply"
+    },
+    "correctAnswer": "A",
+    "explanation": "At a price below equilibrium buyers want more than sellers are willing to offer, so a shortage develops. This excess demand is what gives rise to queues and black markets under price control.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 19,
+    "questionText": "One of the criticisms of the price mechanism is that",
+    "options": {
+      "A": "producers are sovereign",
+      "B": "it provides low degree of freedom",
+      "C": "it widens the inequitable gap",
+      "D": "consumers are sovereign"
+    },
+    "correctAnswer": "C",
+    "explanation": "The market responds to purchasing power rather than to need, so those who already have money command the goods while the poor go without. It therefore tends to widen the gap between rich and poor.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 20,
+    "questionText": "In Nigeria, government can reduce the cost of accommodation by fixing rent",
+    "options": {
+      "A": "at the prevailing rate",
+      "B": "at the equilibrium price",
+      "C": "above the equilibrium price",
+      "D": "below the equilibrium price"
+    },
+    "correctAnswer": "D",
+    "explanation": "To make housing cheaper the government must impose a maximum rent, which by definition lies below the equilibrium. A ceiling set at or above equilibrium would have no effect on what tenants pay.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 21,
+    "questionText": "If a refinery achieves a reduction in cost by purchasing and transporting crude oil in large quantities, it enjoys",
+    "options": {
+      "A": "economies of scale",
+      "B": "specialization",
+      "C": "division of labour",
+      "D": "diseconomies of scale"
+    },
+    "correctAnswer": "A",
+    "explanation": "Buying and moving materials in bulk lowers the cost per unit as output expands, which is a marketing economy of scale.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 22,
+    "questionText": "An isoquant lying above and to the right of another represents",
+    "options": {
+      "A": "a higher output level",
+      "B": "constant returns to scale",
+      "C": "over-capacity utilization",
+      "D": "a lower output level"
+    },
+    "correctAnswer": "A",
+    "explanation": "Each isoquant shows the factor combinations yielding a given output, and one further from the origin uses more of both factors. It therefore represents a higher level of output.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 23,
+    "questionText": "From the graph above, R represents",
+    "questionImageUrl": "/questions/economics/jamb-economics-2013-q23.png",
+    "options": {
+      "A": "marginal cost",
+      "B": "total cost",
+      "C": "variable cost",
+      "D": "fixed cost"
+    },
+    "correctAnswer": "B",
+    "explanation": "T is horizontal, so it is total fixed cost, and M rises from the origin, so it is total variable cost. R starts on the vertical axis at the level of the fixed cost and lies above M throughout, which makes it total cost — the sum of the other two.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "market-structures",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 24,
+    "questionText": "The optimum level of output of the firm is",
+    "questionImageUrl": "/questions/economics/jamb-economics-2013-q24.png",
+    "options": {
+      "A": "BC",
+      "B": "OB",
+      "C": "OS",
+      "D": "BS"
+    },
+    "correctAnswer": "B",
+    "explanation": "Profit is greatest where marginal cost cuts marginal revenue, which the diagram shows at point C. Dropping from C to the output axis gives the quantity OB.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "market-structures",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 25,
+    "questionText": "The total revenue of the firm is represented by",
+    "questionImageUrl": "/questions/economics/jamb-economics-2013-q24.png",
+    "options": {
+      "A": "GHEF",
+      "B": "GHJC",
+      "C": "EFJC",
+      "D": "GHOB"
+    },
+    "correctAnswer": "D",
+    "explanation": "Total revenue is price multiplied by quantity. The price is OH, read where the output OB meets the demand curve at G, so the revenue is the rectangle bounded by O, H, G and B.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "national-income",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 26,
+    "questionText": "A measure of national income used as a comparison of standard of living among nations is",
+    "options": {
+      "A": "net national product",
+      "B": "gross domestic product",
+      "C": "gross national product",
+      "D": "per capita income"
+    },
+    "correctAnswer": "D",
+    "explanation": "Per capita income divides national income by population, so it expresses output per person and allows countries of different sizes to be compared. Total figures such as GDP say nothing about how many people must share them.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "money-and-banking",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 27,
+    "questionText": "The speculative demand for money is inversely related to the",
+    "options": {
+      "A": "interest rate",
+      "B": "level of income",
+      "C": "exchange rate",
+      "D": "inflation rate"
+    },
+    "correctAnswer": "A",
+    "explanation": "Holding cash means forgoing the interest that bonds would pay, so the dearer money becomes the less of it people choose to hold idle. The speculative demand therefore falls as the interest rate rises.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "money-and-banking",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 28,
+    "questionText": "If Mr. K obtains a ₦50,000 loan from a bank for the purpose of providing household needs, the demand for money is said to be",
+    "options": {
+      "A": "transactionary",
+      "B": "speculative",
+      "C": "precautionary and speculative",
+      "D": "transactional and speculative"
+    },
+    "correctAnswer": "A",
+    "explanation": "The money is wanted to meet ordinary day-to-day purchases, which is the transactions motive. It is neither being set aside against emergencies nor held in the hope of a gain from changing asset prices.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "money-and-banking",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 29,
+    "questionText": "Which of the following is used by the Central Bank of Nigeria to control inflation?",
+    "options": {
+      "A": "Tariff on imports",
+      "B": "Tax rate",
+      "C": "Exchange rate",
+      "D": "Discount rate"
+    },
+    "correctAnswer": "D",
+    "explanation": "The discount or rediscount rate is a monetary instrument in the central bank's own hands: raising it makes borrowing dearer and contracts the money supply. Tariffs and taxes are fiscal measures set by government.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "money-and-banking",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 30,
+    "questionText": "If the CBN reduces money supply, the interest rate will",
+    "options": {
+      "A": "fluctuate",
+      "B": "rise",
+      "C": "fall",
+      "D": "remain unchanged"
+    },
+    "correctAnswer": "B",
+    "explanation": "Interest is the price of money. Reducing the quantity available while the demand for it is unchanged bids that price up.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "economic-planning",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 31,
+    "questionText": "An example of an expansionary fiscal policy action is",
+    "options": {
+      "A": "decrease in the corporate profit tax rates",
+      "B": "decrease in welfare payments",
+      "C": "purchase of government securities",
+      "D": "decrease in the bank rate"
+    },
+    "correctAnswer": "A",
+    "explanation": "Cutting company tax leaves firms with more to invest and so expands demand, and because it works through taxation it is a fiscal measure. Buying securities and lowering the bank rate are monetary instruments.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "national-income",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 32,
+    "questionText": "A tax on land will ultimately fall",
+    "options": {
+      "A": "partly on agents and users",
+      "B": "entirely on users",
+      "C": "entirely on owners",
+      "D": "partly on users and owners"
+    },
+    "correctAnswer": "C",
+    "explanation": "The supply of land is fixed, so its owners cannot escape a tax by offering less of it. The whole burden therefore rests on the landowner, which is why economists have long regarded a land tax as impossible to shift.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "economic-planning",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 33,
+    "questionText": "One of the goals of development plans in Nigeria is to",
+    "options": {
+      "A": "increase the profitability of multinational businesses",
+      "B": "improve the country's GDP",
+      "C": "achieve higher standard of living for the citizens",
+      "D": "deregulate the economy"
+    },
+    "correctAnswer": "C",
+    "explanation": "Development planning is undertaken for the welfare of the people, so the ultimate objective is a better standard of living. A rising GDP is only the means by which that end is pursued.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "financial-institutions",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 34,
+    "questionText": "Life insurance companies contribute to economic development by holding a part of their assets in",
+    "options": {
+      "A": "long-term financial instruments",
+      "B": "money market instruments",
+      "C": "cash and near money",
+      "D": "short-term financial instruments"
+    },
+    "correctAnswer": "A",
+    "explanation": "Life policies mature only after many years, so insurers can tie their funds up in shares, bonds and other long-dated securities. That is how they channel household savings into long-term investment.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 35,
+    "questionText": "In order to add value to Nigeria's agricultural produce, there is need to",
+    "options": {
+      "A": "cultivate high breed crops",
+      "B": "process them into finished goods",
+      "C": "adopt modern storage methods",
+      "D": "advertise them in European markets"
+    },
+    "correctAnswer": "B",
+    "explanation": "Value is added when raw produce is transformed into a finished article, as when cocoa beans become chocolate. Processing raises the price the produce fetches and creates industrial employment at home.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 36,
+    "questionText": "The main reason for low agricultural produce in West Africa is",
+    "options": {
+      "A": "the presence of large-scale agro-allied industries",
+      "B": "high dependency ratio",
+      "C": "over dependence on agriculture for subsistence",
+      "D": "the use of crude implements in the farming process"
+    },
+    "correctAnswer": "D",
+    "explanation": "Farming in the sub-region is still dominated by the hoe and cutlass on small scattered holdings, which severely limits the area one farmer can work. Mechanisation is what raises yields elsewhere.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 37,
+    "questionText": "The most important determinant for the location of a brick industry is the availability of",
+    "options": {
+      "A": "market",
+      "B": "power supply",
+      "C": "water",
+      "D": "raw materials"
+    },
+    "correctAnswer": "D",
+    "explanation": "Clay is heavy, bulky and cheap relative to the cost of moving it, so brickworks are sited on the clay deposit itself. Industries using weight-losing raw materials are always material oriented.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "economic-planning",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 38,
+    "questionText": "In Nigeria, efficiency in public corporations can be achieved through",
+    "options": {
+      "A": "public offer",
+      "B": "indigenization",
+      "C": "privatization",
+      "D": "nationalization"
+    },
+    "correctAnswer": "C",
+    "explanation": "Transferring ownership to private hands subjects the enterprise to the profit motive and to competition, which forces costs down and service up. Nationalisation moves in the opposite direction.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 39,
+    "questionText": "Government participation in the oil industry was necessitated by the",
+    "options": {
+      "A": "annual increase in production",
+      "B": "formation of OPEC",
+      "C": "high demand for crude oil",
+      "D": "huge investment outlay"
+    },
+    "correctAnswer": "B",
+    "explanation": "OPEC required its members to acquire a participating interest in the oil operations within their territories, and Nigeria's entry in 1971 led directly to the state taking equity in the producing companies.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 40,
+    "questionText": "The deregulation of the petroleum sector in Nigeria will bring about",
+    "options": {
+      "A": "efficiency in pricing and distribution of the products",
+      "B": "an end to the importation of fuel",
+      "C": "an end to foreign firms' dominance",
+      "D": "fixing appropriate production quotas"
+    },
+    "correctAnswer": "A",
+    "explanation": "Removing controls allows market forces to set prices and admits more operators into distribution, which improves efficiency and supply. It does not of itself stop importation or displace foreign firms.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 41,
+    "questionText": "A distinguishing characteristic of a consumer co-operative society is that",
+    "options": {
+      "A": "the maximum number of shareholders is 20",
+      "B": "members are the owners",
+      "C": "members are the workers",
+      "D": "the minimum number of shareholders is 5"
+    },
+    "correctAnswer": "B",
+    "explanation": "In a consumer co-operative the customers themselves subscribe the capital and own the society, buying goods from a body they control and sharing the surplus as patronage dividend.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 42,
+    "questionText": "A major disadvantage of partnership business is",
+    "options": {
+      "A": "difficulty in the transfer of shares",
+      "B": "distrust among members",
+      "C": "limited liability",
+      "D": "large capital outlay"
+    },
+    "correctAnswer": "B",
+    "explanation": "Every partner is bound by the acts of the others, so a single careless or dishonest partner can ruin the rest. Mutual suspicion is a common source of disagreement and dissolution.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 43,
+    "questionText": "The quality of labour force in Nigeria can be improved by",
+    "options": {
+      "A": "establishing more tertiary institutions",
+      "B": "creating sufficient job opportunities",
+      "C": "encouraging the study of science and technology",
+      "D": "establishing more skills acquisition centres"
+    },
+    "correctAnswer": "D",
+    "explanation": "Quality of labour means the practical competence workers bring to the job, and skills acquisition centres impart exactly that. Creating jobs raises employment but not the ability of those employed.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "population",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 44,
+    "questionText": "The effect of emigration on a country's population is",
+    "options": {
+      "A": "decrease in the population",
+      "B": "decrease in job opportunities",
+      "C": "increase in population",
+      "D": "increase in dependency ratio"
+    },
+    "correctAnswer": "A",
+    "explanation": "Emigration is the movement of people out of a country to settle elsewhere, so it directly reduces the number of people resident there.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 45,
+    "questionText": "A measure for preventing the external value of the naira from falling is for the government to",
+    "options": {
+      "A": "increase its spending with foreign reserve",
+      "B": "sell its own currency",
+      "C": "reduce interest rate",
+      "D": "buy its currency with foreign reserve"
+    },
+    "correctAnswer": "D",
+    "explanation": "Using foreign reserves to buy naira raises the demand for the currency and props up its exchange rate. Selling naira would add to supply and push the rate down further.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "economic-planning",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 46,
+    "questionText": "A fiscal policy instrument that can influence the demand pattern in an economy is",
+    "options": {
+      "A": "government spending",
+      "B": "interest rate",
+      "C": "income tax",
+      "D": "tariff"
+    },
+    "correctAnswer": "C",
+    "explanation": "Income tax is a fiscal instrument that acts directly on disposable income, so changing it alters how much households can spend and on what. Interest rate is a monetary instrument, not a fiscal one.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 47,
+    "questionText": "One of the main achievements of the Economic Commission for Africa is",
+    "options": {
+      "A": "eliminating trade restrictions among States",
+      "B": "encouraging transport and communication development",
+      "C": "guaranteeing a steady flow of foreign investment into Africa",
+      "D": "providing the machinery for collaboration on monetary issues"
+    },
+    "correctAnswer": "B",
+    "explanation": "The ECA has concentrated on studies and programmes for trans-African roads, railways and telecommunications, which is where its practical impact has been greatest. It has no power to remove trade barriers or guarantee investment flows.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "money-and-banking",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 48,
+    "questionText": "The rate of interest charged on loans depends largely on",
+    "options": {
+      "A": "the prevailing exchange rate",
+      "B": "marginal efficiency of capital",
+      "C": "the risk associated with the loan",
+      "D": "the prevailing tax rate"
+    },
+    "correctAnswer": "C",
+    "explanation": "Interest includes a premium for the possibility that the borrower will default, so the greater the risk the higher the rate demanded. This is why unsecured lending costs more than secured lending.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 49,
+    "questionText": "A valid explanation for real wage growth is",
+    "options": {
+      "A": "an increase in the rate of productivity",
+      "B": "the rising cost of capital accumulation",
+      "C": "a contraction of employment in service industries",
+      "D": "an increase in the quantity of labour"
+    },
+    "correctAnswer": "A",
+    "explanation": "Real wages can only rise sustainably if each worker produces more, since it is the extra output that pays for the extra reward. Simply increasing the quantity of labour would depress wages instead.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "economic-development",
+    "examType": "JAMB",
+    "examYear": 2013,
+    "questionNumber": 50,
+    "questionText": "If Mr. X lost his clerical job at a store and searched for a similar job for ten months before finding one, this implies that Mr. X was",
+    "options": {
+      "A": "structurally unemployed",
+      "B": "frictionally unemployed",
+      "C": "seasonally unemployed",
+      "D": "cyclically unemployed"
+    },
+    "correctAnswer": "B",
+    "explanation": "Frictional unemployment is the interval spent moving between jobs while searching for a suitable vacancy. His skills were still in demand, which rules out structural unemployment.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  }
+]

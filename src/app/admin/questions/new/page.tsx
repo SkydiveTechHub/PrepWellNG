@@ -1,20 +1,11 @@
 import Link from "next/link";
-import { db } from "@/lib/db";
+import { getQuestionFormOptions } from "@/lib/admin-data";
 import { PageHeader } from "@/components/ui/page-header";
 import { buttonClass } from "@/components/ui/button";
 import { QuestionForm } from "@/components/admin/question-form";
 
 export default async function NewQuestionPage() {
-  const [subjects, topics] = await Promise.all([
-    db.subject.findMany({
-      select: { id: true, name: true, code: true },
-      orderBy: { name: "asc" },
-    }),
-    db.topic.findMany({
-      select: { id: true, title: true, subjectId: true },
-      orderBy: { title: "asc" },
-    }),
-  ]);
+  const { subjects, topics } = await getQuestionFormOptions();
 
   return (
     <div>

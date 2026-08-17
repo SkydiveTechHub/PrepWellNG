@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
+import { setDeckEnrollment } from "@/lib/flashcards";
 import { toggleEnrollmentSchema } from "@/lib/validators";
 
 export const dynamic = "force-dynamic";
@@ -18,14 +18,6 @@ export async function POST(
 
     const { deckId } = await params;
 
-    const deck = await db.flashcardDeck.findUnique({
-      where: { id: deckId },
-      select: { id: true },
-    });
-    if (!deck) {
-      return NextResponse.json({ error: "Deck not found" }, { status: 404 });
-    }
-
     const body = await req.json();
     const parsed = toggleEnrollmentSchema.safeParse(body);
     if (!parsed.success) {
@@ -37,16 +29,9 @@ export async function POST(
 
     const { enrolled } = parsed.data;
 
-    if (enrolled) {
-      await db.flashcardEnrollment.upsert({
-        where: { studentId_deckId: { studentId: session.user.id, deckId } },
-        create: { studentId: session.user.id, deckId },
-        update: {},
-      });
-    } else {
-      await db.flashcardEnrollment.deleteMany({
-        where: { studentId: session.user.id, deckId },
-      });
+    const result = await setDeckEnrollment(session.user.id, deckId, enrolled);
+    if (result === "deck-not-found") {
+      return NextResponse.json({ error: "Deck not found" }, { status: 404 });
     }
 
     return NextResponse.json({ deckId, enrolled });

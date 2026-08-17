@@ -1,32 +1,15 @@
 import Link from "next/link";
-import { db } from "@/lib/db";
 import { PageHeader } from "@/components/ui/page-header";
 import { buttonClass } from "@/components/ui/button";
-import { parseBlocks } from "@/lib/lesson-engine";
-import { isAuthored } from "@/lib/admin-lesson";
-import { resolveTopicLesson, topicLessonSelectWith } from "@/lib/classroom";
 import { LessonFilterBar } from "@/components/admin/lesson-filter-bar";
-import {
-  groupByClass,
-  levelsPresent,
-  normaliseFilter,
-  type RawFilterParams,
-} from "@/lib/admin-lesson-browse";
-import { TERM_LABELS, type ClassLevel, type Term } from "@/lib/curriculum-scope";
+import { normaliseFilter, type RawFilterParams } from "@/lib/admin-lesson-browse";
+import { getAdminLessonBrowseData, type LessonTopicRow } from "@/lib/admin-data";
+import { TERM_LABELS, type ClassLevel } from "@/lib/curriculum-scope";
 import { cn } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
 const TH_CLS = "text-[11px] font-semibold uppercase tracking-wider text-muted";
-
-interface TopicRow {
-  topicId: string;
-  topicTitle: string;
-  classLevel: ClassLevel;
-  term: Term;
-  blockCount: number;
-  authored: boolean;
-}
 
 export default async function AdminLessonsPage({
   searchParams,
@@ -35,71 +18,15 @@ export default async function AdminLessonsPage({
 }) {
   const filter = normaliseFilter(await searchParams);
 
-  // Always cheap, and it drives both dropdowns.
-  const subjects = await db.subject.findMany({
-    orderBy: { name: "asc" },
-    select: { id: true, name: true, trackCategory: true },
-  });
-
-  // Only a chosen subject pulls topics and their lesson blocks. With nothing
-  // selected the page does no topic work at all — the flat list this page used
-  // to render loaded every lesson in the database.
-  const topics = filter.subjectId
-    ? await db.topic.findMany({
-        where: {
-          subjectId: filter.subjectId,
-          curriculumLevel: {
-            ...(filter.classLevel ? { classLevel: filter.classLevel } : {}),
-            ...(filter.term ? { term: filter.term } : {}),
-          },
-        },
-        orderBy: [
-          { curriculumLevel: { classLevel: "asc" } },
-          { curriculumLevel: { term: "asc" } },
-          { orderIndex: "asc" },
-        ],
-        select: {
-          id: true,
-          title: true,
-          curriculumLevel: { select: { classLevel: true, term: true } },
-          // Canonical fragment, so this list reports on the same lesson the
-          // Classroom renders. Hand-rolling the shape here is how the two
-          // drifted apart.
-          subtopics: topicLessonSelectWith({ blocks: true, createdBy: true }),
-        },
-      })
-    : [];
-
-  const rows: TopicRow[] = topics.map((topic) => {
-    const lesson = resolveTopicLesson(topic);
-    return {
-      topicId: topic.id,
-      topicTitle: topic.title,
-      classLevel: topic.curriculumLevel.classLevel as ClassLevel,
-      term: topic.curriculumLevel.term as Term,
-      blockCount: lesson ? parseBlocks(lesson.blocks).length : 0,
-      authored: lesson ? isAuthored(lesson.createdBy) : false,
-    };
-  });
-
-  // Dropdown options come from the subject's *whole* topic set, never from the
-  // filtered rows: deriving them from `topics` would leave the current class as
-  // the only class on offer and strand the admin there. Ids only, so it stays
-  // cheap next to the query above.
-  const levelSource = filter.subjectId
-    ? await db.topic.findMany({
-        where: { subjectId: filter.subjectId },
-        select: { curriculumLevel: { select: { classLevel: true, term: true } } },
-      })
-    : [];
-  const { classLevels, terms } = levelsPresent(
-    levelSource.map((t) => t.curriculumLevel),
-    filter.classLevel,
-  );
-
-  const authoredCount = rows.filter((r) => r.authored).length;
-  const sections = groupByClass(rows);
-  const selectedSubject = subjects.find((s) => s.id === filter.subjectId);
+  const {
+    subjects,
+    rows,
+    sections,
+    classLevels,
+    terms,
+    authoredCount,
+    selectedSubjectName,
+  } = await getAdminLessonBrowseData(filter);
 
   return (
     <div>
@@ -123,14 +50,14 @@ export default async function AdminLessonsPage({
         <>
           <p className="mb-4 text-sm text-muted">
             <span className="font-semibold tabular-nums text-foreground">{authoredCount}</span> of{" "}
-            <span className="tabular-nums">{rows.length}</span> {selectedSubject?.name} topics have
+            <span className="tabular-nums">{rows.length}</span> {selectedSubjectName} topics have
             an authored lesson note.
           </p>
 
           <div className="overflow-x-auto rounded-lg border border-border-strong bg-card">
             <table className="w-full text-sm">
               <caption className="sr-only">
-                {selectedSubject?.name} topics and their lesson note status
+                {selectedSubjectName} topics and their lesson note status
               </caption>
               <thead>
                 <tr className="border-b border-border-strong bg-secondary/50">
@@ -162,7 +89,7 @@ export default async function AdminLessonsPage({
   );
 }
 
-function Section({ classLevel, rows }: { classLevel: ClassLevel; rows: TopicRow[] }) {
+function Section({ classLevel, rows }: { classLevel: ClassLevel; rows: LessonTopicRow[] }) {
   return (
     <>
       <tr className="bg-secondary/30">

@@ -1,14 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Prisma } from "@prisma/client";
-import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/admin-guard";
 import { recordAudit } from "@/lib/admin-audit";
 import { adminQuestionUpdateSchema } from "@/lib/validators";
-import {
-  checkQuestionInvariants,
-  checkTopicOwnership,
-  normalizeOptions,
-} from "@/lib/admin-question";
+import { getAdminQuestion, updateAdminQuestion } from "@/lib/admin-question-data";
 import { revalidateTag } from "next/cache";
 import { CATALOGUE_TAG } from "@/lib/catalogue";
 
@@ -25,13 +19,7 @@ export async function GET(
 
     const { id } = await params;
 
-    const question = await db.question.findUnique({
-      where: { id },
-      include: {
-        subject: { select: { id: true, name: true, code: true } },
-        topic: { select: { id: true, title: true } },
-      },
-    });
+    const question = await getAdminQuestion(id);
     if (!question) {
       return NextResponse.json({ error: "Question not found" }, { status: 404 });
     }
@@ -67,83 +55,27 @@ export async function PATCH(
     }
     const patch = parsed.data;
 
-    const existing = await db.question.findUnique({
-      where: { id },
-      select: {
-        id: true,
-        subjectId: true,
-        topicId: true,
-        questionType: true,
-        options: true,
-        correctAnswer: true,
-      },
-    });
-    if (!existing) {
+    const result = await updateAdminQuestion(id, patch);
+
+    if (result.outcome === "not-found") {
       return NextResponse.json({ error: "Question not found" }, { status: 404 });
     }
-
-    // Merge before checking: the patch is partial, the invariants are not.
-    const mergedType = patch.questionType ?? existing.questionType;
-    const mergedOptions =
-      patch.options !== undefined
-        ? (patch.options ?? null)
-        : ((existing.options as Record<string, string> | null) ?? null);
-    const mergedAnswer = patch.correctAnswer ?? existing.correctAnswer;
-    const mergedSubjectId = patch.subjectId ?? existing.subjectId;
-    const mergedTopicId =
-      patch.topicId !== undefined ? (patch.topicId ?? null) : existing.topicId;
-
-    const issues = checkQuestionInvariants({
-      questionType: mergedType,
-      options: mergedOptions,
-      correctAnswer: mergedAnswer,
-    });
-    if (issues.length > 0) {
+    if (result.outcome === "invalid") {
       return NextResponse.json(
-        { error: issues[0].message, field: issues[0].field, issues },
+        {
+          error: result.issues[0].message,
+          field: result.issues[0].field,
+          issues: result.issues,
+        },
         { status: 400 },
       );
     }
-
-    // Only re-check ownership when either side of the pair moved.
-    if (patch.subjectId !== undefined || patch.topicId !== undefined) {
-      const topic = mergedTopicId
-        ? await db.topic.findUnique({
-            where: { id: mergedTopicId },
-            select: { subjectId: true },
-          })
-        : null;
-      const ownership = checkTopicOwnership({
-        topicRef: mergedTopicId,
-        topicSubjectId: topic?.subjectId ?? null,
-        subjectId: mergedSubjectId,
-      });
-      if (ownership) {
-        return NextResponse.json(
-          { error: ownership.message, field: ownership.field },
-          { status: 400 },
-        );
-      }
+    if (result.outcome === "bad-topic") {
+      return NextResponse.json(
+        { error: result.ownership.message, field: result.ownership.field },
+        { status: 400 },
+      );
     }
-
-    const { options: normalizedOptions } = normalizeOptions(mergedOptions);
-
-    await db.question.update({
-      where: { id },
-      data: {
-        ...patch,
-        // Nulls on these two columns need explicit handling rather than the
-        // spread's undefined-vs-null ambiguity.
-        options:
-          patch.options !== undefined
-            ? (normalizedOptions ?? Prisma.DbNull)
-            : undefined,
-        correctAnswer:
-          patch.correctAnswer !== undefined
-            ? patch.correctAnswer.trim().toUpperCase()
-            : undefined,
-      },
-    });
 
     await recordAudit({
       actorId: guard.actor.id,

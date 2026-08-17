@@ -33,38 +33,106 @@ export type ResumableAttempt = {
 };
 
 /**
+ * The distinct topics a paper covers, for recording abandonment.
+ *
+ * One event per topic, not per question: a 40-question mock spanning 12 topics
+ * means the student abandoned 12 topics once, not 40 times. Without the dedup
+ * "started 3 times" would read as 120.
+ */
+export function distinctTopicRefs(
+  questions: readonly { topicId: string | null; subjectId: string }[],
+): Array<{ topicId: string; subjectId: string }> {
+  const seen = new Map<string, string>();
+  for (const question of questions) {
+    if (!question.topicId) continue;
+    if (!seen.has(question.topicId)) seen.set(question.topicId, question.subjectId);
+  }
+  return [...seen].map(([topicId, subjectId]) => ({ topicId, subjectId }));
+}
+
+/**
  * Marks timed-out IN_PROGRESS attempts so they stop being resumable and stop
  * accumulating. Cheap enough to run opportunistically before generating.
  */
 export async function reapStaleAttempts(studentId: string): Promise<number> {
-  const stale = await db.assessmentAttempt.findMany({
-    where: { studentId, status: "IN_PROGRESS" },
-    select: {
-      id: true,
-      startedAt: true,
-      assessment: { select: { timeLimitMinutes: true } },
-    },
-    take: 100,
-  });
+  // Reaping is opportunistic housekeeping that runs before every quiz
+  // generation. Nothing here is worth failing a student's quiz over, so any
+  // failure — including from the initial query — is logged and reported as
+  // zero reaped.
+  try {
+    const stale = await db.assessmentAttempt.findMany({
+      where: { studentId, status: "IN_PROGRESS" },
+      select: {
+        id: true,
+        startedAt: true,
+        assessment: { select: { timeLimitMinutes: true } },
+      },
+      take: 100,
+    });
 
-  const now = new Date();
-  const expired = stale
-    .filter((attempt) =>
-      isAttemptStale({
-        startedAt: attempt.startedAt,
-        timeLimitMinutes: attempt.assessment.timeLimitMinutes,
-        now,
+    const now = new Date();
+    const expired = stale
+      .filter((attempt) =>
+        isAttemptStale({
+          startedAt: attempt.startedAt,
+          timeLimitMinutes: attempt.assessment.timeLimitMinutes,
+          now,
+        }),
+      )
+      .map((attempt) => attempt.id);
+
+    if (expired.length === 0) return 0;
+
+    // Second query, and only once something has actually expired: the first
+    // query stays lightweight because it runs on every quiz generation and
+    // usually finds nothing. Here `expired` is typically zero or one attempt.
+    const expiredAttempts = await db.assessmentAttempt.findMany({
+      where: { id: { in: expired } },
+      select: {
+        id: true,
+        startedAt: true,
+        assessment: {
+          select: {
+            questions: {
+              select: { question: { select: { topicId: true, subjectId: true } } },
+            },
+          },
+        },
+      },
+    });
+
+    // The status change and its ledger events commit together — the attempt row
+    // is the domain row these events describe.
+    //
+    // `occurredAt` is the attempt's startedAt, not now: this reaper runs
+    // opportunistically when the student next generates a quiz, so an attempt
+    // abandoned on Monday may not be noticed until Thursday. The ledger records
+    // when the student engaged, not when we found out.
+    const events = expiredAttempts.flatMap((attempt) =>
+      distinctTopicRefs(
+        attempt.assessment.questions.map((aq) => aq.question),
+      ).map((ref) => ({
+        studentId,
+        subjectId: ref.subjectId,
+        topicId: ref.topicId,
+        kind: "QUIZ_ABANDONED" as const,
+        sourceId: attempt.id,
+        occurredAt: attempt.startedAt,
+      })),
+    );
+
+    const [result] = await db.$transaction([
+      db.assessmentAttempt.updateMany({
+        where: { id: { in: expired }, status: "IN_PROGRESS" },
+        data: { status: "TIMED_OUT" },
       }),
-    )
-    .map((attempt) => attempt.id);
-
-  if (expired.length === 0) return 0;
-
-  const result = await db.assessmentAttempt.updateMany({
-    where: { id: { in: expired }, status: "IN_PROGRESS" },
-    data: { status: "TIMED_OUT" },
-  });
-  return result.count;
+      ...(events.length > 0 ? [db.learningEvent.createMany({ data: events })] : []),
+    ]);
+    return result.count;
+  } catch (error) {
+    console.error("Reaping stale attempts failed:", error);
+    return 0;
+  }
 }
 
 /**

@@ -1,0 +1,938 @@
+[
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "inflation",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 2,
+    "questionText": "An effective way of controlling inflation in a mixed economy is to",
+    "options": {
+      "A": "increase productivity",
+      "B": "reduce income tax",
+      "C": "ration available output",
+      "D": "increase imports"
+    },
+    "correctAnswer": "A",
+    "explanation": "Inflation arises when too much money chases too few goods, so raising productivity increases the supply of goods and closes the gap. Reducing income tax would add to spending power and make matters worse.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "basic-economic-concepts",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 3,
+    "questionText": "One of the limitations of the production possibility curve (PPC) assumption is that there is",
+    "options": {
+      "A": "no indication of technological development",
+      "B": "no recognition of preferred goods for countries",
+      "C": "technical inefficiency",
+      "D": "abundant resources"
+    },
+    "correctAnswer": "A",
+    "explanation": "The PPC is drawn on the assumption that the state of technology is fixed, so it cannot show how technical progress expands what an economy can produce. In reality technology changes and shifts the whole curve outward.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "basic-economic-concepts",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 4,
+    "questionText": "A major disadvantage of the arithmetic mean is that it is",
+    "options": {
+      "A": "not useful for large data",
+      "B": "not suitable for further statistical analysis",
+      "C": "cumbersome to determine the actual value",
+      "D": "affected by extreme data"
+    },
+    "correctAnswer": "D",
+    "explanation": "Because the mean uses every observation in its computation, one unusually large or small value drags it away from the centre of the distribution. This sensitivity to outliers is its main weakness.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 5,
+    "questionText": "Demand patterns are determined by the market on the basis of",
+    "options": {
+      "A": "scale of preference",
+      "B": "consumer sovereignty",
+      "C": "consumer rationality",
+      "D": "price of the commodity"
+    },
+    "correctAnswer": "B",
+    "explanation": "Consumer sovereignty means the consumer's spending decisions dictate what the market produces. The pattern of demand in the market is therefore the collective expression of that sovereignty.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 6,
+    "questionText": "A consumer surplus measures the",
+    "options": {
+      "A": "benefits derived from consuming a cheap commodity",
+      "B": "excess of total expenditure over total utility",
+      "C": "difference between marginal utility and marginal cost",
+      "D": "excess of marginal utility over price"
+    },
+    "correctAnswer": "D",
+    "explanation": "Consumer surplus is the amount by which the satisfaction a buyer derives from a unit exceeds what he actually pays for it. Expressed at the margin, it is marginal utility minus price.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 7,
+    "questionText": "If the demand for one commodity excludes another, it is said to be",
+    "options": {
+      "A": "complementary demand",
+      "B": "competitive demand",
+      "C": "composite demand",
+      "D": "derived demand"
+    },
+    "correctAnswer": "B",
+    "explanation": "Competitive demand arises between substitutes: buying one, such as butter, means not buying the other, such as margarine. Complementary goods are demanded together, not in place of each other.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 8,
+    "questionText": "Study the schedule below.\n\n| Price (₦) | Quantity (kg) |\n| --- | --- |\n| 1 | 100 |\n| 2 | 120 |\n| 3 | 150 |\n| 4 | 180 |\n| 5 | 200 |\n\nThe graph of the schedule above will depict",
+    "options": {
+      "A": "a kinked demand curve",
+      "B": "a normal demand curve",
+      "C": "an abnormal demand curve",
+      "D": "a diminishing marginal utility curve"
+    },
+    "correctAnswer": "C",
+    "explanation": "Quantity rises from 100 kg to 200 kg as price rises from ₦1 to ₦5, so the curve slopes upwards from left to right. A demand curve with a positive slope is an abnormal (exceptional) demand curve.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 75
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "basic-economic-concepts",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 9,
+    "questionText": "The median of an odd-numbered set of scores is the",
+    "options": {
+      "A": "middle value in the set",
+      "B": "highest value in the set",
+      "C": "arithmetic mean of the set",
+      "D": "most frequently occurring score"
+    },
+    "correctAnswer": "A",
+    "explanation": "After arranging the scores in order of size, the median is the value that divides the set into two equal halves. With an odd number of scores that is simply the middle one.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 10,
+    "questionText": "If demand increases without a change in supply, equilibrium price and quantity will",
+    "options": {
+      "A": "remain unchanged",
+      "B": "shift inward",
+      "C": "fall",
+      "D": "rise"
+    },
+    "correctAnswer": "D",
+    "explanation": "A rightward shift of the demand curve along an unchanged supply curve moves the intersection up the supply curve, so both the equilibrium price and the equilibrium quantity rise.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 11,
+    "questionText": "In the process of production, total output is at maximum when",
+    "options": {
+      "A": "MP = 0",
+      "B": "MP > 0",
+      "C": "AP = 0",
+      "D": "AP > 0"
+    },
+    "correctAnswer": "A",
+    "explanation": "Marginal product is the addition to total output from one more unit of the variable factor. Total product stops rising exactly when that addition falls to zero, so total output peaks where MP = 0.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 12,
+    "questionText": "Study the schedule below.\n\n| Price (₦) | Quantity (bags) |\n| --- | --- |\n| 1 | 60 |\n| 2 | 120 |\n\nFrom the table above, the price elasticity of supply is",
+    "options": {
+      "A": "4",
+      "B": "25",
+      "C": "1",
+      "D": "2"
+    },
+    "correctAnswer": "C",
+    "explanation": "Elasticity of supply is the percentage change in quantity divided by the percentage change in price. Quantity rises by 60/60 = 100% while price rises by 1/1 = 100%, so the coefficient is 100 ÷ 100 = 1.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 13,
+    "questionText": "When a consumer is at equilibrium, the marginal rate of substitution of x for y is equal to the",
+    "options": {
+      "A": "sum of the prices",
+      "B": "product of the two prices",
+      "C": "ratio of the two prices",
+      "D": "difference of the two prices"
+    },
+    "correctAnswer": "C",
+    "explanation": "Consumer equilibrium occurs where the indifference curve is tangential to the budget line. At that point the slope of the indifference curve, the MRS, equals the slope of the budget line, which is the price ratio Px/Py.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 14,
+    "questionText": "Minimum price legislation by government will",
+    "options": {
+      "A": "reduce supply",
+      "B": "increase supply",
+      "C": "reduce demand and create surplus",
+      "D": "increase demand and create scarcity"
+    },
+    "correctAnswer": "C",
+    "explanation": "A minimum price is fixed above the equilibrium to protect producers. At that higher price buyers take less while sellers offer more, so the quantity demanded falls and an unsold surplus builds up.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 15,
+    "questionText": "Ranking is the method used in measuring",
+    "options": {
+      "A": "marginal utility",
+      "B": "ordinal utility",
+      "C": "cardinal utility",
+      "D": "total utility"
+    },
+    "correctAnswer": "B",
+    "explanation": "The ordinal approach holds that satisfaction cannot be counted in units but can be placed in order of preference. Cardinal utility, by contrast, assumes satisfaction can be measured numerically in utils.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 16,
+    "questionText": "If a firm is faced with an elastic supply curve, its revenue will",
+    "options": {
+      "A": "be supplied at a higher price",
+      "B": "double at a higher price",
+      "C": "increase by more than the percentage increase in price",
+      "D": "equal percentage change in price"
+    },
+    "correctAnswer": "C",
+    "explanation": "Elastic supply means quantity responds more than proportionately to price. Since revenue is price times quantity, a given percentage rise in price raises revenue by a larger percentage.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "market-structures",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 17,
+    "questionText": "The optimal range of output for a perfectly competitive firm is where",
+    "options": {
+      "A": "AC is lowest",
+      "B": "AVC is lowest",
+      "C": "MC is rising",
+      "D": "MC is falling"
+    },
+    "correctAnswer": "A",
+    "explanation": "The optimum or most efficient level of output is the one produced at the least cost per unit, that is at the minimum point of the average cost curve. In long-run perfect competition the firm is driven to exactly that point.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 18,
+    "questionText": "A firm will experience diseconomies of scale when",
+    "options": {
+      "A": "there are difficulties in coordinating production",
+      "B": "there is shortage in labour supply",
+      "C": "the size of market is small",
+      "D": "there is an increase in the price of raw materials"
+    },
+    "correctAnswer": "A",
+    "explanation": "Diseconomies of scale come from within the firm as it grows too large: management becomes unwieldy, decisions slow down and coordination costs rise, pushing average cost up. Raw material prices are an external cost, not a scale effect.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 19,
+    "questionText": "The law of variable proportions is applicable only",
+    "options": {
+      "A": "in the long-run period",
+      "B": "to large-scale enterprises",
+      "C": "to small-scale enterprises",
+      "D": "in the short-run period"
+    },
+    "correctAnswer": "D",
+    "explanation": "The law requires at least one factor to be fixed while another is varied, and that is the definition of the short run. In the long run every factor can be varied, which is the domain of returns to scale.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 20,
+    "questionText": "From the diagram above, the optimal point of production is",
+    "questionImageUrl": "/questions/economics/jamb-economics-2011-q20.png",
+    "options": {
+      "A": "R",
+      "B": "T",
+      "C": "U",
+      "D": "S"
+    },
+    "correctAnswer": "D",
+    "explanation": "The straight line UT is the isocost, showing what the producer can afford, and curves I, II and III are isoquants. The best attainable output is where the isocost just touches the highest reachable isoquant, which is the point of tangency S. R lies on a higher curve but is unaffordable, and T lies on a lower one.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "inflation",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 21,
+    "questionText": "If real income increases while nominal income remains the same, it can be inferred that",
+    "options": {
+      "A": "unemployment rate has decreased",
+      "B": "general prices have fallen",
+      "C": "employment rate has risen",
+      "D": "general prices have risen"
+    },
+    "correctAnswer": "B",
+    "explanation": "Real income is nominal income adjusted for the price level. If the money figure is unchanged but it now buys more, the only explanation is that prices have fallen.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "market-structures",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 22,
+    "questionText": "One of the characteristics of oligopoly is the availability of",
+    "options": {
+      "A": "few sellers",
+      "B": "few buyers",
+      "C": "many sellers",
+      "D": "a single seller"
+    },
+    "correctAnswer": "A",
+    "explanation": "Oligopoly is a market dominated by a small number of large sellers, each of whom must watch the reactions of the others. A single seller is monopoly and many sellers give perfect or monopolistic competition.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 23,
+    "questionText": "The average total cost when 20 units are produced is",
+    "questionImageUrl": "/questions/economics/jamb-economics-2011-q23.png",
+    "options": {
+      "A": "₦20.00",
+      "B": "₦23.00",
+      "C": "₦13.00",
+      "D": "₦15.00"
+    },
+    "correctAnswer": "D",
+    "explanation": "Read up from 20 on the quantity axis to the ATC curve, then across to the price axis: the value is ₦15.00.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 24,
+    "questionText": "When 20 units of output is produced, TC will be",
+    "questionImageUrl": "/questions/economics/jamb-economics-2011-q23.png",
+    "options": {
+      "A": "₦360",
+      "B": "₦300",
+      "C": "₦460",
+      "D": "₦400"
+    },
+    "correctAnswer": "B",
+    "explanation": "Total cost is average total cost multiplied by output. The diagram gives an ATC of ₦15 at 20 units, so TC = 15 × 20 = ₦300.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "market-structures",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 25,
+    "questionText": "The profit of a monopolist can be eliminated where price equals",
+    "options": {
+      "A": "AFC",
+      "B": "MC",
+      "C": "AC",
+      "D": "AVC"
+    },
+    "correctAnswer": "C",
+    "explanation": "Abnormal profit is the excess of price over average cost. Forcing price down to average cost leaves the monopolist covering all costs including normal profit, with no supernormal profit remaining.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "money-and-banking",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 26,
+    "questionText": "Bank consolidation policy in Nigeria is a measure to increase",
+    "options": {
+      "A": "the capital base of banks",
+      "B": "employment opportunities in banks",
+      "C": "the number of shareholders",
+      "D": "the number of branches"
+    },
+    "correctAnswer": "A",
+    "explanation": "The 2004-2005 consolidation exercise raised the minimum capital requirement to ₦25 billion, forcing banks to merge or recapitalise. Its purpose was to strengthen the capital base and so the stability of the banking system.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "inflation",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 27,
+    "questionText": "An increase in the circulation of money without a corresponding increase in output will lead to",
+    "options": {
+      "A": "a rise in income levels",
+      "B": "stagflation",
+      "C": "inflation",
+      "D": "deflation"
+    },
+    "correctAnswer": "C",
+    "explanation": "More money chasing the same quantity of goods bids prices up. This is the classic demand-pull inflation described by the quantity theory of money.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "national-income",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 28,
+    "questionText": "In national income accounts, an item counted as part of government spending is",
+    "options": {
+      "A": "salaries and wages",
+      "B": "pension",
+      "C": "scholarship",
+      "D": "social welfare"
+    },
+    "correctAnswer": "A",
+    "explanation": "Government spending in the accounts covers payments made in exchange for goods and services, such as the salaries of civil servants. Pensions, scholarships and welfare payments are transfer payments and are excluded to avoid double counting.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "national-income",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 29,
+    "questionText": "If aggregate demand is lower than total output in an economy, national income will",
+    "options": {
+      "A": "be constant",
+      "B": "be at equilibrium",
+      "C": "increase",
+      "D": "fall"
+    },
+    "correctAnswer": "D",
+    "explanation": "When planned spending falls short of what is produced, stocks pile up unsold and firms respond by cutting output and laying off workers. National income therefore falls until it matches aggregate demand.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "money-and-banking",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 30,
+    "questionText": "During the era of barter, money was generally in the form of",
+    "options": {
+      "A": "notes",
+      "B": "precious metals",
+      "C": "coins",
+      "D": "commodities"
+    },
+    "correctAnswer": "D",
+    "explanation": "Before coinage, ordinary goods such as cowries, salt, cattle and manilas served as the medium of exchange. This is why the earliest form of money is called commodity money.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "economic-development",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 31,
+    "questionText": "A country achieves economic development when there is",
+    "options": {
+      "A": "an increase in military expenditure",
+      "B": "an increase in capacity utilization",
+      "C": "a sustained increase in per capita income",
+      "D": "an even distribution of goods and services"
+    },
+    "correctAnswer": "C",
+    "explanation": "Development is measured by a lasting rise in output per head, which is what actually improves living standards. A rise in total output alone can be swallowed up by population growth.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "economic-development",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 32,
+    "questionText": "An indicator of growth in an economy over a period of time is the",
+    "options": {
+      "A": "GDP gap",
+      "B": "GDP at factor cost",
+      "C": "GDP at market price",
+      "D": "GDP deflator"
+    },
+    "correctAnswer": "C",
+    "explanation": "Economic growth is measured by the change in gross domestic product valued at market prices from one period to the next. The GDP gap measures unused capacity and the deflator measures the price level, not growth.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "economic-planning",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 33,
+    "questionText": "A country embarks on deficit financing in order to",
+    "options": {
+      "A": "increase revenue",
+      "B": "reduce aggregate demand",
+      "C": "curb inflation",
+      "D": "stimulate investment"
+    },
+    "correctAnswer": "D",
+    "explanation": "Deficit financing means deliberately spending beyond revenue and borrowing the difference, so as to inject demand and encourage investment and employment. It is an expansionary measure and would add to inflation rather than curb it.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "national-income",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 34,
+    "questionText": "The deflationary gap is defined by",
+    "questionImageUrl": "/questions/economics/jamb-economics-2011-q34.png",
+    "options": {
+      "A": "X",
+      "B": "K",
+      "C": "X + K",
+      "D": "X − K"
+    },
+    "correctAnswer": "B",
+    "explanation": "To the right of the equilibrium point E the aggregate supply line lies above the aggregate demand line, so planned spending falls short of what the economy produces. That shortfall, marked K, is the deflationary gap.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "national-income",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 35,
+    "questionText": "What does X represent?",
+    "questionImageUrl": "/questions/economics/jamb-economics-2011-q34.png",
+    "options": {
+      "A": "recessionary gap",
+      "B": "GNP gap",
+      "C": "inflationary gap",
+      "D": "deflationary gap"
+    },
+    "correctAnswer": "C",
+    "explanation": "To the left of E the aggregate demand line lies above aggregate supply, so spending exceeds the output available at those income levels. That excess, marked X, is the inflationary gap.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 36,
+    "questionText": "The import-substitution strategy of industrialization is to encourage",
+    "options": {
+      "A": "domestic production",
+      "B": "large-scale production",
+      "C": "importation",
+      "D": "exportation"
+    },
+    "correctAnswer": "A",
+    "explanation": "Import substitution sets out to manufacture at home the goods a country has been buying abroad, so as to save foreign exchange and build local industry behind protective tariffs.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 37,
+    "questionText": "Upstream oil activities involve the",
+    "options": {
+      "A": "management of pollution",
+      "B": "marketing of refined products",
+      "C": "exploration of crude oil",
+      "D": "refining of crude oil"
+    },
+    "correctAnswer": "C",
+    "explanation": "The upstream sector covers the search for and extraction of crude — exploration, drilling and production. Refining and marketing belong to the downstream sector.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 38,
+    "questionText": "Agricultural production in Nigeria is constrained by",
+    "options": {
+      "A": "ineffective use of stabilization measures",
+      "B": "inadequate demand",
+      "C": "poor implementation of policies",
+      "D": "balance of payments deficits"
+    },
+    "correctAnswer": "C",
+    "explanation": "Successive agricultural programmes have been well conceived on paper but poorly executed, with funds diverted and schemes abandoned. Demand for food is never the binding constraint.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 39,
+    "questionText": "The main function of the NNPC is to",
+    "options": {
+      "A": "oversee the development of the oil sector",
+      "B": "develop the oil producing area",
+      "C": "fix the price of products",
+      "D": "ensure regular supply of products"
+    },
+    "correctAnswer": "A",
+    "explanation": "The Nigerian National Petroleum Corporation holds the government's interest in the industry and supervises exploration, production, refining and marketing across the sector. Developing the oil-producing communities is the mandate of other agencies.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 40,
+    "questionText": "Investing heavily in the agricultural sector will lead to",
+    "options": {
+      "A": "sufficient food production",
+      "B": "a vibrant commodity market",
+      "C": "capital inflow",
+      "D": "stable export prices"
+    },
+    "correctAnswer": "A",
+    "explanation": "The direct return on investment in farming is a larger harvest, which is what secures the nation's food supply and cuts the food import bill.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 41,
+    "questionText": "Industrial development in Nigeria can be encouraged through",
+    "options": {
+      "A": "signing WTO treaty",
+      "B": "granting subsidies",
+      "C": "the provision of efficient infrastructure",
+      "D": "direct government participation"
+    },
+    "correctAnswer": "C",
+    "explanation": "Reliable power, good roads and functioning ports cut the cost of production for every firm at once. Without them, subsidies merely offset the losses that poor infrastructure creates.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 42,
+    "questionText": "The record of a country's transactions in international trade is her",
+    "options": {
+      "A": "capital account",
+      "B": "balance of payments",
+      "C": "current account",
+      "D": "balance of trade"
+    },
+    "correctAnswer": "B",
+    "explanation": "The balance of payments is the complete statement of a country's dealings with the rest of the world. The current account, capital account and balance of trade are all parts of it.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "economic-planning",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 43,
+    "questionText": "The transfer of public shareholding in corporations to private enterprises is",
+    "options": {
+      "A": "concession",
+      "B": "incorporation",
+      "C": "commercialization",
+      "D": "privatization"
+    },
+    "correctAnswer": "D",
+    "explanation": "Privatisation is the sale of government-held equity in an enterprise to private buyers. Commercialisation leaves ownership with the state but requires the enterprise to run on business lines.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 44,
+    "questionText": "A condition in which official and autonomous exchange rates coexist is",
+    "options": {
+      "A": "dual exchange rate system",
+      "B": "managed floating rate system",
+      "C": "market determined exchange rate system",
+      "D": "multiple exchange rate system"
+    },
+    "correctAnswer": "A",
+    "explanation": "Two rates running side by side — one fixed by the authorities and one set in the open market — is a dual exchange rate. Nigeria has operated such an arrangement at several points.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "population",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 45,
+    "questionText": "In modern economies, the Malthusian theory of population is ineffective because of",
+    "options": {
+      "A": "birth control measures",
+      "B": "technical progress",
+      "C": "government policies",
+      "D": "natural disasters"
+    },
+    "correctAnswer": "B",
+    "explanation": "Malthus could not foresee the advances in farming — improved seed, fertiliser and machinery — that have raised food output far faster than he thought possible. Technology, not the checks he predicted, is what falsified him.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "population",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 46,
+    "questionText": "Optimum population enables an economy to attain the highest level of",
+    "options": {
+      "A": "industrial development",
+      "B": "income per head",
+      "C": "revenue generation",
+      "D": "economic development"
+    },
+    "correctAnswer": "B",
+    "explanation": "The optimum population is the size that, combined with the country's resources and technology, yields the greatest output per person. Any more or any fewer people lowers income per head.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 47,
+    "questionText": "A change from one industry to another by a worker is an example of",
+    "options": {
+      "A": "geographical mobility",
+      "B": "horizontal mobility",
+      "C": "professional advancement",
+      "D": "vertical mobility"
+    },
+    "correctAnswer": "B",
+    "explanation": "Horizontal mobility is movement between jobs at the same level, such as a driver leaving a bakery for a brewery. Vertical mobility is promotion to a higher grade and geographical mobility is movement between places.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 48,
+    "questionText": "The money paid per hour for work done is",
+    "options": {
+      "A": "salary",
+      "B": "wage rate",
+      "C": "cost",
+      "D": "bonus"
+    },
+    "correctAnswer": "B",
+    "explanation": "A wage rate is payment calculated per unit of time worked or per unit produced, typically per hour. A salary is a fixed monthly or annual payment that does not vary with hours.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 49,
+    "questionText": "Trade takes place because of",
+    "options": {
+      "A": "marginal utility",
+      "B": "inefficiency in production",
+      "C": "opportunity cost",
+      "D": "comparative advantage"
+    },
+    "correctAnswer": "D",
+    "explanation": "Countries gain by specialising in what they produce at the lowest relative cost and exchanging for the rest. Ricardo's principle of comparative advantage is the basis of that gain from trade.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2011,
+    "questionNumber": 50,
+    "questionText": "The World Trade Organization is responsible for",
+    "options": {
+      "A": "stabilizing and harmonizing oil prices",
+      "B": "ensuring equal participation of countries in trade",
+      "C": "modernising world economies",
+      "D": "minimizing obstacles to international trade and investment"
+    },
+    "correctAnswer": "D",
+    "explanation": "The WTO administers the rules of world trade and works to reduce tariffs, quotas and other barriers between member countries. Stabilising oil prices is the work of OPEC.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  }
+]

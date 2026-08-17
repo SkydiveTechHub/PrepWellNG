@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
-import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
-import { getFlashcardStats } from "@/lib/flashcard-analytics";
+import { getFlashcardStatsFor } from "@/lib/flashcards";
 
 export const dynamic = "force-dynamic";
 
@@ -13,7 +12,7 @@ export async function GET() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const stats = await getFlashcardStats(db, session.user.id);
+    const stats = await getFlashcardStatsFor(session.user.id);
     return NextResponse.json({ stats });
   } catch (error) {
     console.error("Error fetching flashcard stats:", error);

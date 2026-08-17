@@ -1,0 +1,705 @@
+[
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "bank-reconciliation",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 1,
+    "questionText": "Which of the following is used to update the cash book in bank reconciliation?",
+    "options": {
+      "A": "Interest received and unpresented cheques",
+      "B": "Commission and debit note",
+      "C": "Unpresented cheques and direct credit",
+      "D": "Interest received and direct credit"
+    },
+    "correctAnswer": "D",
+    "explanation": "Only items the bank knows of but the business does not are used to bring the cash book up to date, and interest credited by the bank and direct credits from customers are both of that kind. Unpresented cheques adjust the bank statement side instead.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "introduction-to-accounting",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 2,
+    "questionText": "The two legally recognized professional accounting bodies in Nigeria are the",
+    "options": {
+      "A": "Institute of Certified Public Accountants of Nigeria and the Institute of Cost and Management Accountants of Nigeria",
+      "B": "Association of Accountants of Nigeria and the Institute of Management Accountants of Nigeria",
+      "C": "Institute of Chartered Accountants of Nigeria and the Association of National Accountants of Nigeria",
+      "D": "Nigeria Accounting Association and the Executive Cost and Management Accountants of Nigeria"
+    },
+    "correctAnswer": "C",
+    "explanation": "ICAN and ANAN are the two bodies established by statute to regulate the accountancy profession in Nigeria.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "source-documents",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 3,
+    "questionText": "Verifiability in accounting is only possible when there are",
+    "options": {
+      "A": "minutes of meetings",
+      "B": "payment vouchers",
+      "C": "source documents",
+      "D": "audit certificates"
+    },
+    "correctAnswer": "C",
+    "explanation": "Every entry must be traceable to the original evidence of the transaction. Source documents provide that objective proof, which is what allows another person to confirm the records.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "trial-balance",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 4,
+    "questionText": "Given:\n\n| Item | ₦ |\n| --- | --- |\n| Capital | 2,000 |\n| Bank | 1,200 |\n| Purchases | 2,500 |\n| Sales | 6,700 |\n| Stock | 1,300 |\n| Creditors | 1,000 |\n| Fixed assets | 3,700 |\n| Drawings | ? |\n\nDrawings are always estimated at 50% of capital. The trial balance total is",
+    "options": {
+      "A": "₦9,700",
+      "B": "₦8,700",
+      "C": "₦7,900",
+      "D": "₦7,800"
+    },
+    "correctAnswer": "A",
+    "explanation": "Drawings are 50% of ₦2,000 = ₦1,000. Debits are bank 1,200, purchases 2,500, stock 1,300, fixed assets 3,700 and drawings 1,000 = ₦9,700, which agrees with credits of capital 2,000, sales 6,700 and creditors 1,000.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "books-of-accounts",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 6,
+    "questionText": "A trader's sales are split 95% cash and 5% credit. He took the total cash sales of ₦19,000 from the business tray and banked it. The credit sales for the period would be",
+    "options": {
+      "A": "₦5,000",
+      "B": "₦1,900",
+      "C": "₦1,000",
+      "D": "₦950"
+    },
+    "correctAnswer": "C",
+    "explanation": "If ₦19,000 represents 95% of sales, total sales are 19,000 ÷ 0.95 = ₦20,000. Credit sales are the remaining 5%, that is ₦1,000.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "books-of-accounts",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 7,
+    "questionText": "The transaction would be recorded in the cash book as debit",
+    "options": {
+      "A": "cash and credit bank",
+      "B": "bank and credit cash",
+      "C": "cash and credit cash",
+      "D": "bank and credit bank"
+    },
+    "correctAnswer": "B",
+    "explanation": "Money moves from the till into the bank account, so bank is debited as the receiver and cash credited as the giver. This is a contra entry, completed entirely within the cash book.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "introduction-to-accounting",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 8,
+    "questionText": "Which accounting concept supports the assertion that economic reality takes precedence over legal issues?",
+    "options": {
+      "A": "Realization concept",
+      "B": "Substance over form",
+      "C": "Conservatism",
+      "D": "Measurement concept"
+    },
+    "correctAnswer": "B",
+    "explanation": "Substance over form requires transactions to be accounted for according to their commercial reality rather than their legal wrapping, as with an asset held on hire purchase appearing in the books of the user.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "books-of-accounts",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 9,
+    "questionText": "The transaction that completes its double entry in the same ledger account appears in",
+    "options": {
+      "A": "cash account and personal account",
+      "B": "bank account and general ledger",
+      "C": "discount received and discount allowed",
+      "D": "cash account and bank account"
+    },
+    "correctAnswer": "D",
+    "explanation": "A transfer between cash and bank is a contra entry: both accounts sit in the cash book, so the debit and the credit are made within the same book.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "introduction-to-accounting",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 10,
+    "questionText": "Given: Capital ₦1,000; Liabilities ₦500; Assets ₦1,500. The accounting equation can be expressed as",
+    "options": {
+      "A": "₦1,000 + ₦500 + ₦1,500 = ₦3,000",
+      "B": "₦1,000 − ₦500 + ₦1,500 = ₦2,000",
+      "C": "₦1,000 + ₦500 = ₦1,500",
+      "D": "₦1,500 + ₦500 = ₦2,000"
+    },
+    "correctAnswer": "C",
+    "explanation": "The accounting equation states that capital plus liabilities equals assets, and here 1,000 + 500 = ₦1,500.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "introduction-to-accounting",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 11,
+    "questionText": "The recording phase of accounting is known as",
+    "options": {
+      "A": "bookkeeping",
+      "B": "trial balancing",
+      "C": "ledger accounting",
+      "D": "final accounting"
+    },
+    "correctAnswer": "A",
+    "explanation": "Book keeping is the routine, systematic recording of transactions. Accounting proper goes further, classifying, summarising and interpreting what has been recorded.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "adjustments",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 17,
+    "questionText": "Provision for discount allowed can be recorded as a debit to",
+    "options": {
+      "A": "the profit and loss account and a credit to provision for discount allowed",
+      "B": "provision for discount allowed and a credit to the profit and loss account",
+      "C": "discount allowed and a credit to the profit and loss account",
+      "D": "expenses and a credit to customers' account"
+    },
+    "correctAnswer": "A",
+    "explanation": "Creating the provision charges an expected future cost against this year's profit, so the profit and loss account is debited and the provision account credited. The provision is then deducted from debtors in the balance sheet.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "control-accounts",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 20,
+    "questionText": "A purchases ledger control account shows: balance b/d ₦2,900; discount received ₦1,000; bills payable ₦1,500; cash paid to suppliers ₦8,000; returns outwards ₦3,000; bills payable dishonoured ₦1,600; dishonoured cheques ₦2,000. Credit purchases are always put at 150% of the total cash paid to suppliers. Calculate the closing balance of the ledger account.",
+    "options": {
+      "A": "₦6,900",
+      "B": "₦6,400",
+      "C": "₦5,000",
+      "D": "₦4,000"
+    },
+    "correctAnswer": "C",
+    "explanation": "Credit purchases are 150% × 8,000 = ₦12,000, so the credit side totals 2,900 + 12,000 + 1,600 + 2,000 = ₦18,500. The debit side is 1,000 + 1,500 + 8,000 + 3,000 = ₦13,500, leaving a balance of ₦5,000.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "control-accounts",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 21,
+    "questionText": "Determine the credit purchases.",
+    "options": {
+      "A": "₦15,500",
+      "B": "₦13,500",
+      "C": "₦13,400",
+      "D": "₦12,000"
+    },
+    "correctAnswer": "D",
+    "explanation": "Credit purchases are stated to be 150% of the cash paid to suppliers: 150% × ₦8,000 = ₦12,000.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 23,
+    "questionText": "The stock valuation data is important because it enables management to",
+    "options": {
+      "A": "separate debtors from creditors",
+      "B": "determine the cost of stock at the end of business",
+      "C": "determine the cost of stock at the beginning of business",
+      "D": "determine the total cost of goods purchased"
+    },
+    "correctAnswer": "B",
+    "explanation": "Closing stock must be valued before gross profit can be computed and before the balance sheet can be drawn up, so its cost at the year end is what the valuation establishes.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "adjustments",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 24,
+    "questionText": "During the year ended 31st December 2001, Nuju Enterprises paid rent as follows: Jan 20 ₦24,000 for a period of 4 months; May 16 ₦30,000 for 5 months; Oct 15 ₦36,000 for 6 months. What is the overpaid portion of the rent?",
+    "options": {
+      "A": "₦36,000",
+      "B": "₦18,000",
+      "C": "₦12,000",
+      "D": "₦6,000"
+    },
+    "correctAnswer": "B",
+    "explanation": "The October payment of ₦36,000 covers six months at ₦6,000 a month, but only three of those months fall in 2001. The remaining three months, ₦18,000, are prepaid.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "manufacturing-accounts",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 26,
+    "questionText": "Four broad classifications of overheads are",
+    "options": {
+      "A": "production, selling, distribution and material",
+      "B": "production, selling, distribution and administration",
+      "C": "selling, distribution, production and wages",
+      "D": "distribution, selling, administration and material"
+    },
+    "correctAnswer": "B",
+    "explanation": "Overheads are grouped by the function that incurs them — the factory, the sales effort, distribution of the goods and general administration. Materials and wages are direct costs, not overhead classes.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "manufacturing-accounts",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 27,
+    "questionText": "Given: cost of raw material issued to production ₦37,000; opening stock of raw material ₦2,000; purchases of raw material ₦38,000; wages ₦5,000. What is the closing stock of raw material?",
+    "options": {
+      "A": "₦4,000",
+      "B": "₦3,000",
+      "C": "₦2,000",
+      "D": "₦1,000"
+    },
+    "correctAnswer": "B",
+    "explanation": "Opening stock plus purchases gives ₦40,000 available. Deducting the ₦37,000 issued to production leaves closing stock of ₦3,000; wages have no bearing on the materials account.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "manufacturing-accounts",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 28,
+    "questionText": "PQ Manufacturing Company:\n\n| Item | ₦ |\n| --- | --- |\n| Raw materials (1/1/2001) | 3,500 |\n| Raw materials (31/12/2001) | 4,900 |\n| Purchase of raw materials | 56,000 |\n| Salary | 63,000 |\n| Wages | 148,050 |\n| Factory lighting | 3,080 |\n| Plant depreciation | 2,800 |\n| Factory insurance | 2,170 |\n\nThe overhead cost is",
+    "options": {
+      "A": "₦71,050",
+      "B": "₦68,250",
+      "C": "₦67,970",
+      "D": "₦66,080"
+    },
+    "correctAnswer": "A",
+    "explanation": "Overheads are the indirect costs: salary 63,000, factory lighting 3,080, plant depreciation 2,800 and factory insurance 2,170, giving ₦71,050. Wages and materials are direct costs.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "manufacturing-accounts",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 29,
+    "questionText": "The company consumed raw materials worth",
+    "options": {
+      "A": "₦54,600",
+      "B": "₦56,000",
+      "C": "₦57,400",
+      "D": "₦59,500"
+    },
+    "correctAnswer": "A",
+    "explanation": "Opening stock 3,500 plus purchases 56,000 less closing stock 4,900 = ₦54,600.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 30,
+    "questionText": "An income and expenditure account is more informative than a receipts and payments account because it discloses",
+    "options": {
+      "A": "cash",
+      "B": "cheques",
+      "C": "debtors",
+      "D": "stocks"
+    },
+    "correctAnswer": "C",
+    "explanation": "Being prepared on the accruals basis, it brings in amounts earned but not yet received — subscriptions in arrears and similar debtors — which a purely cash statement ignores.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 31,
+    "questionText": "A company has two departments X and Y. Y transferred goods to X at a profit margin of 25%. ₦10,000 worth of goods was not sold at the end of the accounting period. How much is the unrealized profit?",
+    "options": {
+      "A": "₦2,000",
+      "B": "₦2,500",
+      "C": "₦12,000",
+      "D": "₦12,500"
+    },
+    "correctAnswer": "B",
+    "explanation": "A margin of 25% means the profit is a quarter of the transfer value, so ₦10,000 × 25% = ₦2,500 must be removed as unrealised until the goods are sold outside the business.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 34,
+    "questionText": "Given: total sales of tickets ₦300,000; amount received from the sales ₦260,000; cash purchase of the club house ₦100,000; credit purchase of equipment ₦60,000; electricity bill paid ₦5,000; salaries owed ₦2,000. What is the receipts and payments account balance?",
+    "options": {
+      "A": "₦260,000",
+      "B": "₦233,000",
+      "C": "₦155,000",
+      "D": "₦100,000"
+    },
+    "correctAnswer": "C",
+    "explanation": "The account records cash only: receipts of ₦260,000 less the ₦100,000 paid for the club house and ₦5,000 for electricity, leaving ₦155,000. The credit purchase and the salaries owed involve no cash.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 35,
+    "questionText": "What is the balance of the income and expenditure account?",
+    "options": {
+      "A": "₦300,000",
+      "B": "₦293,000",
+      "C": "₦193,000",
+      "D": "₦133,000"
+    },
+    "correctAnswer": "B",
+    "explanation": "On the accruals basis the full ₦300,000 of ticket sales is income, against which the electricity of ₦5,000 and the salaries owed of ₦2,000 are charged, leaving a surplus of ₦293,000. The club house is capital expenditure.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 36,
+    "questionText": "The first step in converting a single entry to a double entry system of bookkeeping is to prepare a",
+    "options": {
+      "A": "suspense account",
+      "B": "statement of affairs",
+      "C": "realization account",
+      "D": "trial balance"
+    },
+    "correctAnswer": "B",
+    "explanation": "Opening capital must be established before anything else can be done, and that comes from listing the assets and liabilities at the start in a statement of affairs.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 37,
+    "questionText": "Emeka Enterprises Statement of Affairs at start:\n\n| Assets | ₦ | Liabilities | ₦ |\n| --- | --- | --- | --- |\n| Cash | 70,000 | Creditors | 85,000 |\n| Inventory | 58,000 | Bank loan | 60,000 |\n| Machines | 100,000 | | |\n\nWhat is the capital at start?",
+    "options": {
+      "A": "₦53,000",
+      "B": "₦63,000",
+      "C": "₦73,000",
+      "D": "₦83,000"
+    },
+    "correctAnswer": "D",
+    "explanation": "Assets total 70,000 + 58,000 + 100,000 = ₦228,000 and liabilities 85,000 + 60,000 = ₦145,000. Capital is the difference, ₦83,000.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 38,
+    "questionText": "A receipts and payments account is the summary of a",
+    "options": {
+      "A": "income and expenditure account",
+      "B": "cash book",
+      "C": "balance sheet",
+      "D": "profit and loss account"
+    },
+    "correctAnswer": "B",
+    "explanation": "It collects all the money received and paid in the year, which is exactly the content of the cash book.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "control-accounts",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 39,
+    "questionText": "Given: total debtors b/d 31/12/99 ₦25,000; cheques received from debtors ₦225,000; total debtors c/d 31/12/00 ₦15,000. Determine the sales figure.",
+    "options": {
+      "A": "₦295,000",
+      "B": "₦265,000",
+      "C": "₦245,000",
+      "D": "₦215,000"
+    },
+    "correctAnswer": "D",
+    "explanation": "Sales are receipts plus closing debtors less opening debtors: 225,000 + 15,000 − 25,000 = ₦215,000.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "public-sector-accounting",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 40,
+    "questionText": "Which of these is a capital expenditure warrant?",
+    "options": {
+      "A": "Provisional general warrant",
+      "B": "Development fund general warrant",
+      "C": "Reserved expenditure general warrant",
+      "D": "Supplementary warrant"
+    },
+    "correctAnswer": "B",
+    "explanation": "Capital projects are financed from the development fund, so the warrant authorising such spending is the development fund general warrant.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "public-sector-accounting",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 42,
+    "questionText": "Given: the consolidated revenue fund balance b/d ₦650,000; issues from the contingency fund amounted to ₦240,000; amount transferred to the contingency fund is ₦210,000. What is the consolidated revenue fund balance?",
+    "options": {
+      "A": "₦1,100,000",
+      "B": "₦680,000",
+      "C": "₦440,000",
+      "D": "₦410,000"
+    },
+    "correctAnswer": "B",
+    "explanation": "Money issued from the contingency fund comes into the consolidated revenue fund and money transferred to it goes out: 650,000 + 240,000 − 210,000 = ₦680,000.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 43,
+    "questionText": "Given:\n\n| Item | ₦ |\n| --- | --- |\n| Goods from head office | 13,400 |\n| Returns to head office | 118 |\n| Rates and insurance paid | 188 |\n| Wages paid | 913 |\n| Cash remitted to head office | 16,625 |\n| Stock at 1/1/2000 | 1,875 |\n| Rent paid | 325 |\n| Stock at 31/12/2000 | 1,975 |\n| Sundry expenses | 200 |\n\nThe profit realized from the trade is",
+    "options": {
+      "A": "₦4,069",
+      "B": "₦1,817",
+      "C": "₦1,440",
+      "D": "₦1,328"
+    },
+    "correctAnswer": "B",
+    "explanation": "Cost of sales is 1,875 + 13,400 − 118 − 1,975 = ₦13,182, so gross profit on sales of ₦16,625 is ₦3,443. Deducting expenses of 188 + 913 + 325 + 200 = ₦1,626 leaves ₦1,817.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 44,
+    "questionText": "What is the total expenses?",
+    "options": {
+      "A": "₦1,875",
+      "B": "₦1,764",
+      "C": "₦1,626",
+      "D": "₦1,426"
+    },
+    "correctAnswer": "C",
+    "explanation": "Add the branch's running costs: rates and insurance 188, wages 913, rent 325 and sundry expenses 200, giving ₦1,626.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "company-accounts",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 45,
+    "questionText": "The necessary accounts to be opened on the issue of ordinary share capital are",
+    "options": {
+      "A": "preference share capital, cash and allotment accounts",
+      "B": "bank and ordinary share capital accounts",
+      "C": "cash and ordinary share capital accounts",
+      "D": "nominal value and ordinary share capital accounts"
+    },
+    "correctAnswer": "C",
+    "explanation": "Money is received and the shareholders' claim is created, so the entry is through cash and the ordinary share capital account.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 46,
+    "questionText": "The amount of each invoiced goods sent to the branch is debited to",
+    "options": {
+      "A": "branch expense account and credited to branch debtors' account",
+      "B": "branch stock account and credited to the goods sent to branch account",
+      "C": "branch debtors' account and credited to branch expense account",
+      "D": "goods sent to branch account and credited to branch expense account"
+    },
+    "correctAnswer": "B",
+    "explanation": "The branch receives the goods, so branch stock is debited, and the head office records what it has despatched by crediting goods sent to branch.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "company-accounts",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 47,
+    "questionText": "A balance sheet shows capital ₦100,000 and creditors ₦30,000 against land and buildings ₦50,000, furniture ₦10,000, stock ₦30,000, debtors ₦30,000 and cash ₦10,000. The business was acquired on 1st April 2002 for a purchase consideration of ₦120,000 by SOZ. All assets and liabilities were taken over except the cash. The goodwill on purchase is",
+    "options": {
+      "A": "₦90,000",
+      "B": "₦30,000",
+      "C": "₦19,000",
+      "D": "₦18,000"
+    },
+    "correctAnswer": "B",
+    "explanation": "The assets taken over are ₦130,000 less the ₦10,000 cash retained, that is ₦120,000, and deducting creditors of ₦30,000 leaves net assets of ₦90,000. Goodwill is the excess of the ₦120,000 paid over that, namely ₦30,000.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "company-accounts",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 48,
+    "questionText": "Calculate the net worth of the business.",
+    "options": {
+      "A": "₦120,000",
+      "B": "₦90,000",
+      "C": "₦80,000",
+      "D": "₦30,000"
+    },
+    "correctAnswer": "B",
+    "explanation": "Net worth is the assets acquired less the liabilities assumed: ₦120,000 − ₦30,000 = ₦90,000.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 49,
+    "questionText": "Gross profit in the branch adjustment account is transferred to the branch",
+    "options": {
+      "A": "trading account",
+      "B": "receipts and payments account",
+      "C": "profit and loss account",
+      "D": "income and expenditure account"
+    },
+    "correctAnswer": "C",
+    "explanation": "The adjustment account yields the branch's gross profit, which is then carried to the branch profit and loss account where the branch expenses are set against it.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "company-accounts",
+    "examType": "JAMB",
+    "examYear": 2003,
+    "questionNumber": 50,
+    "questionText": "Mamza Nigeria Limited issued ordinary shares of ₦1.50 per share. On 2nd July 2002, 1,500 ordinary shares were fully subscribed for and their monies received as below: on application ₦0.40, on allotment ₦0.20, first call ₦0.70 (including premium of ₦0.50). The last and final call was yet to be made. What is the balance of the ordinary share capital account after the first call was received?",
+    "options": {
+      "A": "₦300",
+      "B": "₦1,050",
+      "C": "₦1,200",
+      "D": "₦1,950"
+    },
+    "correctAnswer": "C",
+    "explanation": "Of the ₦0.70 first call, ₦0.50 is premium and only ₦0.20 is capital. Capital received per share is therefore 0.40 + 0.20 + 0.20 = ₦0.80, and on 1,500 shares that is ₦1,200.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  }
+]

@@ -1,0 +1,895 @@
+[
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "introduction-to-accounting",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 1,
+    "questionText": "The term 'accounting period' is used to refer to the",
+    "options": {
+      "A": "time span during which taxes are paid to the Inland Revenue Board",
+      "B": "budget period, usually one year, relied on by the accountant",
+      "C": "time span, usually one year, covered by financial statements",
+      "D": "period within which debtors are expected to settle accounts"
+    },
+    "correctAnswer": "C",
+    "explanation": "An accounting period is the stretch of time for which the books are closed and the final accounts prepared, conventionally twelve months. It exists so that performance can be reported at regular intervals rather than only when the business ends.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "introduction-to-accounting",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 2,
+    "questionText": "Assigning revenues to the accounting period in which goods were sold or services rendered, and expenses incurred, is known as",
+    "options": {
+      "A": "passing of entries",
+      "B": "consistency convention",
+      "C": "matching concept",
+      "D": "adjusting for revenue"
+    },
+    "correctAnswer": "C",
+    "explanation": "The matching concept requires revenue to be set against the expenses incurred in earning it within the same period, regardless of when cash changes hands. It is what makes accrual accounting give a true measure of profit.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "introduction-to-accounting",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 3,
+    "questionText": "The accounting convention which states that 'profit must not be recognized until realized while all losses should be adequately provided for' is termed",
+    "options": {
+      "A": "materiality",
+      "B": "objectivity",
+      "C": "consistency",
+      "D": "conservatism"
+    },
+    "correctAnswer": "D",
+    "explanation": "Conservatism, also called prudence, tells the accountant to anticipate no profit but to provide for all foreseeable losses. It guards against overstating the health of a business.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "introduction-to-accounting",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 4,
+    "questionText": "Accounting information is used by investors and creditors of a company to predict",
+    "options": {
+      "A": "future cash flows of the company",
+      "B": "future tax payments of the company",
+      "C": "potential merger candidates for the company",
+      "D": "appropriate remuneration for the company's staff"
+    },
+    "correctAnswer": "A",
+    "explanation": "Investors want to know whether the company will generate enough cash to pay dividends and creditors whether it can meet its debts. Both are judgements about future cash flows.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "books-of-accounts",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 5,
+    "questionText": "Antics Electronics Company recently bought six generators. Which of the following is the correct method of recording this transaction?",
+    "options": {
+      "A": "Debit generator account and credit cash account",
+      "B": "Debit purchases account and credit cash account",
+      "C": "Debit cash account and credit purchases account",
+      "D": "Debit cash account and credit generator account"
+    },
+    "correctAnswer": "A",
+    "explanation": "The generators are a fixed asset acquired for use, not goods bought for resale, so they go to a generator (asset) account rather than to purchases. The asset increases and is debited while cash decreases and is credited.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "introduction-to-accounting",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 6,
+    "questionText": "When a business incurs labour cost in installing a fixed asset, the cost is treated as",
+    "options": {
+      "A": "additional cost to the asset",
+      "B": "business wages and salaries",
+      "C": "installation cost of the asset",
+      "D": "business cost of the asset"
+    },
+    "correctAnswer": "A",
+    "explanation": "Any expenditure needed to bring an asset into working condition is capitalised as part of its cost rather than written off as an expense. The installation labour therefore adds to the carrying amount of the asset.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "books-of-accounts",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 7,
+    "questionText": "What is the cardinal rule of the double entry system?",
+    "options": {
+      "A": "Debit the increasing account and credit the decreasing account",
+      "B": "Debit the receiving account and credit the giving account",
+      "C": "Debit the asset account and credit the liability account",
+      "D": "Debit the revenue account and credit the expenditure account"
+    },
+    "correctAnswer": "B",
+    "explanation": "Every transaction has a receiver and a giver, and the rule is to debit the account that receives value and credit the one that gives it. This is what keeps total debits equal to total credits.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "trial-balance",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 8,
+    "questionText": "Malam Gambo bought a freezer for his shop costing ₦10,500. In recording, he debited office expenses account and credited the bank account. What book keeping error is this?",
+    "options": {
+      "A": "Error of commission",
+      "B": "Error of reversal of entries",
+      "C": "Error of principle",
+      "D": "Compensating error"
+    },
+    "correctAnswer": "C",
+    "explanation": "A capital item has been posted to a revenue account — the freezer is a fixed asset but was treated as an expense. Entering a transaction in a wholly wrong class of account is an error of principle, and it does not disturb the trial balance.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "the-ledger",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 9,
+    "questionText": "The use of the folio in the ledger is for",
+    "options": {
+      "A": "referencing purposes",
+      "B": "particulars of the transaction",
+      "C": "the account titles",
+      "D": "only credit items"
+    },
+    "correctAnswer": "A",
+    "explanation": "The folio column carries the page number of the book from which an entry came, so that the two sides of a transaction can be traced to each other. It is a cross-referencing device and forms no part of the arithmetic.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "the-ledger",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 10,
+    "questionText": "Account of Tanko Nig. Ltd.\n\n| Dr | ₦ | Cr | ₦ |\n| --- | --- | --- | --- |\n| 1/10 Bal. b/f | 5,000 | 2/10 Cash | 3,000 |\n| Sales | 10,000 | 15/10 Bank | 6,500 |\n\nWhat is the closing balance of the account shown above?",
+    "options": {
+      "A": "₦5,000",
+      "B": "₦6,500",
+      "C": "₦5,500",
+      "D": "₦15,000"
+    },
+    "correctAnswer": "C",
+    "explanation": "The debit side totals 5,000 + 10,000 = ₦15,000 and the credit side 3,000 + 6,500 = ₦9,500. The balance carried down is the difference, ₦5,500, on the debit side.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "trial-balance",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 11,
+    "questionText": "The suspense account is used to correct book keeping errors where the",
+    "options": {
+      "A": "amount involved is quite significant",
+      "B": "item involved is not material",
+      "C": "item involved is unknown",
+      "D": "error does not affect the agreement of the trial balance"
+    },
+    "correctAnswer": "C",
+    "explanation": "A suspense account holds a difference whose cause has not yet been traced, so that the trial balance can be agreed and the accounts prepared meanwhile. Once the item is identified the balance is cleared.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "books-of-accounts",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 12,
+    "questionText": "The discount column of a three column cashbook is not balanced off but periodically transferred to the discount accounts because discounts",
+    "options": {
+      "A": "are not important in cash book",
+      "B": "are cash items only",
+      "C": "do not form part of double entry",
+      "D": "are used for bank reconciliation"
+    },
+    "correctAnswer": "C",
+    "explanation": "The discount columns are only memorandum totals; the cash book acts here as a book of original entry rather than as a ledger account. The totals are carried to the discount allowed and discount received accounts to complete the double entry there.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "books-of-accounts",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 13,
+    "questionText": "When is a petty cash account debited?",
+    "options": {
+      "A": "When the fund is established and every time money is spent",
+      "B": "When the fund is established and every time it is replenished",
+      "C": "When the fund is established and when the size of the float is decreased",
+      "D": "Every time money is drawn from the petty cash"
+    },
+    "correctAnswer": "B",
+    "explanation": "Under the imprest system the petty cash account receives value when the float is first advanced and again each time it is topped up to the imprest amount. Payments out of the fund are credits, not debits.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "bank-reconciliation",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 14,
+    "questionText": "When preparing a bank reconciliation statement, which of the following is deducted from the balance per bank statement?",
+    "options": {
+      "A": "Bank charges",
+      "B": "Uncleared cheques",
+      "C": "Returned cheques",
+      "D": "Unpresented cheques"
+    },
+    "correctAnswer": "D",
+    "explanation": "Cheques drawn but not yet presented have already reduced the cash book balance while the bank statement still shows the money. Starting from the bank statement figure, they must be deducted to reach the cash book balance.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 15,
+    "questionText": "The financial position of an organization at a particular time can be ascertained from the",
+    "options": {
+      "A": "statement of sources and application of funds",
+      "B": "statement of retained earnings",
+      "C": "balance sheet",
+      "D": "profit and loss account"
+    },
+    "correctAnswer": "C",
+    "explanation": "The balance sheet lists assets, liabilities and capital as they stand on one date, so it is a statement of position. The profit and loss account covers performance over a period instead.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 16,
+    "questionText": "Given the following:\n\n| Item | ₦ |\n| --- | --- |\n| Purchases | 20,000 |\n| Sales | 40,000 |\n| Carriage inwards | 5,000 |\n| Carriage outwards | 5,000 |\n| Opening stock | 10,000 |\n| Closing stock | 5,000 |\n\nWhat is the cost of goods sold?",
+    "options": {
+      "A": "₦30,000",
+      "B": "₦25,000",
+      "C": "₦20,000",
+      "D": "₦15,000"
+    },
+    "correctAnswer": "A",
+    "explanation": "Cost of goods sold is opening stock plus purchases plus carriage inwards less closing stock: 10,000 + 20,000 + 5,000 − 5,000 = ₦30,000. Carriage outwards is a selling expense and belongs in the profit and loss account, not here.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 17,
+    "questionText": "The net profit or loss for the year is determined in the profit and loss account after",
+    "options": {
+      "A": "deducting purchases from sales",
+      "B": "deducting cost of goods sold from sales and adding administrative expenses",
+      "C": "adding commissions received to gross profit",
+      "D": "eliminating all expenses from gross profit and adding any other income"
+    },
+    "correctAnswer": "D",
+    "explanation": "Gross profit comes from the trading account; the profit and loss account then deducts every expense of running the business and adds incomes such as commission or rent received. What remains is net profit.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 18,
+    "questionText": "Study the stock records below.\n\n| Stock | Cost price (₦) | Qty (units) |\n| --- | --- | --- |\n| Opening balance 1/1/90 | 3.00 | 3,000 |\n| Purchases January | 3.50 | 15,000 |\n| Purchases February | 4.00 | 25,000 |\n| Sales January | 4.50 | 13,000 |\n| Sales February | 5.00 | 28,000 |\n\nUsing LIFO, determine the value of closing stock.",
+    "options": {
+      "A": "₦9,600",
+      "B": "₦7,600",
+      "C": "₦6,000",
+      "D": "₦2,000"
+    },
+    "correctAnswer": "C",
+    "explanation": "Units available are 3,000 + 15,000 + 25,000 = 43,000 and units sold are 13,000 + 28,000 = 41,000, leaving 2,000 units. Under LIFO the latest purchases are treated as sold first, so the stock remaining is the earliest: 2,000 × ₦3.00 = ₦6,000.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 19,
+    "questionText": "Using the stock records above, what is the gross profit at the end of February if the closing stock were valued at ₦20,000?",
+    "options": {
+      "A": "₦65,000",
+      "B": "₦57,000",
+      "C": "₦48,000",
+      "D": "₦37,000"
+    },
+    "correctAnswer": "B",
+    "explanation": "Sales are (13,000 × 4.50) + (28,000 × 5.00) = 58,500 + 140,000 = ₦198,500. Cost of goods sold is opening stock 9,000 plus purchases (52,500 + 100,000) less closing stock 20,000 = ₦141,500. Gross profit is 198,500 − 141,500 = ₦57,000.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "adjustments",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 20,
+    "questionText": "A trial balance shows provision for doubtful debts ₦190 and debtors ₦6,000. It is required to write off a further ₦320 as bad debts and maintain the provision at 2½% of debtors. To do this, the profit and loss account should show a",
+    "options": {
+      "A": "credit of ₦20 and a debit of ₦100",
+      "B": "credit of ₦28 and a debit of ₦300",
+      "C": "credit of ₦48",
+      "D": "debit entry of ₦414"
+    },
+    "correctAnswer": "C",
+    "explanation": "After writing off ₦320 the debtors stand at ₦5,680, and 2½% of that is ₦142. The existing provision of ₦190 exceeds what is needed by ₦48, and that reduction is written back as a credit to the profit and loss account.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "adjustments",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 21,
+    "questionText": "If a bad debt previously written off is subsequently repaid, the amount collected is recorded as an",
+    "options": {
+      "A": "income in the profit and loss account",
+      "B": "income in the balance sheet",
+      "C": "additional cash in the profit and loss account",
+      "D": "expense in the balance sheet"
+    },
+    "correctAnswer": "A",
+    "explanation": "The debt was charged as an expense when written off, so its recovery is a gain of the current period and is credited to the profit and loss account as bad debts recovered.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "control-accounts",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 23,
+    "questionText": "From which of the following sources are creditors control accounts most likely to be posted?",
+    "options": {
+      "A": "Supplier's invoices",
+      "B": "Cash disbursements journal",
+      "C": "Subsidiary debtor's ledger",
+      "D": "Purchases journal"
+    },
+    "correctAnswer": "D",
+    "explanation": "The creditors control account is built from the totals of the subsidiary books, and credit purchases reach it through the total of the purchases journal. Individual invoices are posted to the personal accounts, not to the control account.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "manufacturing-accounts",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 26,
+    "questionText": "Which of the following categories of labour cost will be classified as direct?",
+    "options": {
+      "A": "Accountant's salary",
+      "B": "Factory workers' salary",
+      "C": "Managing director's salary",
+      "D": "Cashier's salary"
+    },
+    "correctAnswer": "B",
+    "explanation": "Direct labour is the wages of those who work on the product itself and whose cost can be traced to it. Administrative staff such as accountants and cashiers are indirect and form part of overheads.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 27,
+    "questionText": "Study the inventory records below.\n\n| | Units | Unit cost (₦) | Total cost (₦) | Units sold |\n| --- | --- | --- | --- | --- |\n| Beginning inventory | 20 | 6 | 120 | |\n| Sale No. 1 | | | | 18 |\n| Purchase No. 1 | 30 | 8 | 240 | |\n| Sale No. 2 | | | | 20 |\n| Purchase No. 2 | 10 | 9 | 90 | |\n| Total | 60 | | | 38 |\n\nUsing the FIFO method of stock valuation, the ending inventory cost is",
+    "options": {
+      "A": "₦146",
+      "B": "₦165",
+      "C": "₦186",
+      "D": "₦314"
+    },
+    "correctAnswer": "C",
+    "explanation": "Of 60 units available, 38 were sold, leaving 22. Under FIFO the units remaining are the most recent: 10 at ₦9 = ₦90 and 12 at ₦8 = ₦96, giving ₦186.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 28,
+    "questionText": "Using the inventory records above and the LIFO inventory procedure, the ending inventory cost is",
+    "options": {
+      "A": "₦136",
+      "B": "₦176",
+      "C": "₦196",
+      "D": "₦264"
+    },
+    "correctAnswer": "A",
+    "explanation": "The same 22 units remain, but under LIFO the latest purchases are treated as sold, so the stock left is the oldest: 20 at ₦6 = ₦120 and 2 at ₦8 = ₦16, giving ₦136.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 29,
+    "questionText": "The major difference between the receipt and payment account and the income and expenditure account is that while the former",
+    "options": {
+      "A": "is kept by the treasurer, the latter is not",
+      "B": "deals with all receipts and payments in the year regardless of the period they relate to, the latter is for just that year",
+      "C": "is a T-account, the latter is not",
+      "D": "is not in the ledger, the latter is"
+    },
+    "correctAnswer": "B",
+    "explanation": "A receipts and payments account is simply a summary of cash movements, including amounts belonging to other periods. The income and expenditure account is prepared on the accruals basis and shows only what relates to the year under review.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 30,
+    "questionText": "Given the following subscription details:\n\n| Item | ₦ |\n| --- | --- |\n| Subscription owing at the beginning | 40 |\n| Subscription owing at the end | 35 |\n| Subscription received in advance at the beginning | 15 |\n| Subscription received during the period | 2,560 |\n\nThe amount to be shown in the income and expenditure account would be",
+    "options": {
+      "A": "₦2,500",
+      "B": "₦2,540",
+      "C": "₦2,570",
+      "D": "₦2,590"
+    },
+    "correctAnswer": "C",
+    "explanation": "Start with cash received of 2,560, deduct the 40 owing at the start because it belongs to the previous year, add the 35 owing at the end which has been earned but not received, and add the 15 received in advance last year which is earned now: 2,560 − 40 + 35 + 15 = ₦2,570.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 31,
+    "questionText": "The net profit from the trading account of a non-profit making organization would be treated as income in the",
+    "options": {
+      "A": "income and expenditure account",
+      "B": "receipt and payment account",
+      "C": "balance sheet",
+      "D": "statement of affairs"
+    },
+    "correctAnswer": "A",
+    "explanation": "A club may run a trading activity such as a bar, and the profit it yields is one of the club's incomes for the year. It is therefore carried into the income and expenditure account alongside subscriptions and other receipts earned.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "partnership-accounts",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 32,
+    "questionText": "Ada and Udo are lawyers who went into partnership as Ado & Co. Ada brought cash of ₦12,000, furnishings worth ₦18,000 and a motor vehicle worth ₦70,000. Udo brought in cash ₦10,000, his building valued at ₦5,000 and a personal computer worth ₦135,000. What is the capital of Ado & Co.?",
+    "options": {
+      "A": "₦22,000",
+      "B": "₦100,000",
+      "C": "₦150,000",
+      "D": "₦250,000"
+    },
+    "correctAnswer": "D",
+    "explanation": "Ada contributes 12,000 + 18,000 + 70,000 = ₦100,000 and Udo 10,000 + 5,000 + 135,000 = ₦150,000. The firm's capital is the sum of both, ₦250,000.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "partnership-accounts",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 33,
+    "questionText": "What is the profit sharing ratio if it is based on capital contributed by Ada and Udo?",
+    "options": {
+      "A": "2:1",
+      "B": "3:2",
+      "C": "2:3",
+      "D": "1:2"
+    },
+    "correctAnswer": "C",
+    "explanation": "Ada's ₦100,000 against Udo's ₦150,000 gives 100:150, which reduces to 2:3.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "partnership-accounts",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 34,
+    "questionText": "The major distinguishing element between the final accounts of a partnership and a sole trader is the",
+    "options": {
+      "A": "drawings account",
+      "B": "appropriation account",
+      "C": "capital account",
+      "D": "creditors account"
+    },
+    "correctAnswer": "B",
+    "explanation": "A partnership must show how the net profit is divided among the partners — interest on capital, salaries and the residue in the agreed ratio — and that is done in the appropriation account. A sole trader takes the whole profit and needs no such account.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "partnership-accounts",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 35,
+    "questionText": "Goodwill appears in the books of a business only if it has been",
+    "options": {
+      "A": "purchased at a certain price",
+      "B": "raised in connection with the admission of a new partner",
+      "C": "raised to account for the true value of a business on the death of a partner",
+      "D": "raised in order to prevent the balance sheet showing that the business is insolvent"
+    },
+    "correctAnswer": "A",
+    "explanation": "Only purchased goodwill, supported by an actual transaction and a verifiable price, may be recognised. Internally generated goodwill is not recorded because it cannot be measured objectively.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "partnership-accounts",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 36,
+    "questionText": "Kayode, Akpan and Kachalla are in partnership. Their respective capital accounts had the following balances: ₦40,000, ₦50,000 and ₦70,000. The partners agree to admit Wamo as a new partner with a one-fifth interest in the partnership capital in exchange for ₦50,000 cash. Wamo's equity in the resulting partnership is",
+    "options": {
+      "A": "₦32,000",
+      "B": "₦50,000",
+      "C": "₦42,000",
+      "D": "₦45,000"
+    },
+    "correctAnswer": "C",
+    "explanation": "The existing capitals total 40,000 + 50,000 + 70,000 = ₦160,000, and Wamo's ₦50,000 brings the firm's capital to ₦210,000. One-fifth of that is ₦42,000.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "partnership-accounts",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 37,
+    "questionText": "Which of the following will cause a partnership to be dissolved?",
+    "options": {
+      "A": "Change of the partnership's head office",
+      "B": "Admission of a new partner",
+      "C": "Purchase of a large quantity of fixed assets",
+      "D": "Retirement of a manager who is not a partner"
+    },
+    "correctAnswer": "B",
+    "explanation": "A partnership is a relationship between specific persons, so altering its membership ends the old firm and creates a new one. Moving premises, buying assets or losing an employee leaves the partnership itself intact.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "company-accounts",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 38,
+    "questionText": "When shares issued are paid for, the accounting entry required is",
+    "options": {
+      "A": "debit bank or cash account and credit share capital and/or premium account",
+      "B": "credit bank or cash account and debit share capital and/or premium account",
+      "C": "debit shares account and credit capital account",
+      "D": "credit shares account and debit capital account"
+    },
+    "correctAnswer": "A",
+    "explanation": "The company receives money, so bank or cash is debited, and the claim of the shareholders on the company increases, so share capital — with any premium taken to a separate account — is credited.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "company-accounts",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 39,
+    "questionText": "A limited liability company has an authorized share capital of ₦50 million split into 100 million shares. 80 million shares were offered for subscription at 60k per share payable in full on application. These have been fully subscribed and issued. What is the nominal value of each share?",
+    "options": {
+      "A": "₦2",
+      "B": "₦0.80",
+      "C": "₦0.60",
+      "D": "₦0.50"
+    },
+    "correctAnswer": "D",
+    "explanation": "Nominal value is the authorised capital divided by the number of shares into which it is split: ₦50,000,000 ÷ 100,000,000 = ₦0.50. The 60k is the issue price, which exceeds the nominal value by a 10k premium.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "company-accounts",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 40,
+    "questionText": "What is the issued capital?",
+    "options": {
+      "A": "₦40 million",
+      "B": "₦48 million",
+      "C": "₦50 million",
+      "D": "₦80 million"
+    },
+    "correctAnswer": "A",
+    "explanation": "Issued capital is stated at nominal value: 80 million shares × ₦0.50 = ₦40 million. The extra ₦8 million collected is share premium, not share capital.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "company-accounts",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 41,
+    "questionText": "The document setting out the regulations regarding shares, meetings and internal organization of a company is known as",
+    "options": {
+      "A": "memorandum of association",
+      "B": "articles of association",
+      "C": "prospectus",
+      "D": "company law"
+    },
+    "correctAnswer": "B",
+    "explanation": "The articles govern the company's internal affairs — the rights attaching to shares, the conduct of meetings and the powers of directors. The memorandum instead defines the company's relationship with the outside world.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "interpretation-of-accounts",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 42,
+    "questionText": "An advantage of using accounting ratios is that they",
+    "options": {
+      "A": "can be easily calculated",
+      "B": "facilitate decision-making",
+      "C": "are stipulated by law",
+      "D": "show errors and frauds"
+    },
+    "correctAnswer": "B",
+    "explanation": "Ratios reduce bulky figures to comparable measures of profitability, liquidity and efficiency, so that management, investors and lenders can judge performance and act on it.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "interpretation-of-accounts",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 43,
+    "questionText": "The accounts of Buba (Nig.) Plc showed the following for the year ended December 31, 1993:\n\n| Item | ₦ |\n| --- | --- |\n| Gross sales | 219,900 |\n| Sales returns and allowances | 4,900 |\n| Net sales | 215,000 |\n| Accounts receivable (net) 1/1/93 | 20,000 |\n| Accounts receivable (net) 31/12/93 | 30,000 |\n\nThe turnover of accounts receivable is",
+    "options": {
+      "A": "6.14 times per year",
+      "B": "8.14 times per year",
+      "C": "8.60 times per year",
+      "D": "8.64 times per year"
+    },
+    "correctAnswer": "C",
+    "explanation": "Average receivables are (20,000 + 30,000) ÷ 2 = ₦25,000. Dividing net sales by that average gives 215,000 ÷ 25,000 = 8.60 times.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "interpretation-of-accounts",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 44,
+    "questionText": "Given sales of ₦20,000 and cost of sales of ₦15,000, the gross profit margin would be",
+    "options": {
+      "A": "33.33%",
+      "B": "25.00%",
+      "C": "20.00%",
+      "D": "14.28%"
+    },
+    "correctAnswer": "B",
+    "explanation": "Gross profit is 20,000 − 15,000 = ₦5,000, and the margin expresses this as a percentage of sales: 5,000 ÷ 20,000 × 100 = 25%. Expressing it on cost instead would give the mark-up of 33.33%.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 45,
+    "questionText": "Perebeni Enterprises has two departments A and B, with the following information.\n\n| Item | A (₦) | B (₦) |\n| --- | --- | --- |\n| Opening stock | 5,000 | 1,500 |\n| Purchases | 26,000 | 3,000 |\n| Closing stock | 7,000 | 2,500 |\n| Sales | 45,000 | 4,000 |\n\nThe following expenses are to be shared in the ratio 4:1 — Rent ₦8,300 and General Expenses ₦3,200.\n\nWhat is the company's gross profit for the year?",
+    "options": {
+      "A": "₦11,500",
+      "B": "₦12,500",
+      "C": "₦20,000",
+      "D": "₦23,000"
+    },
+    "correctAnswer": "D",
+    "explanation": "Department A's cost of sales is 5,000 + 26,000 − 7,000 = ₦24,000, giving gross profit of 45,000 − 24,000 = ₦21,000. Department B's is 1,500 + 3,000 − 2,500 = ₦2,000, giving 4,000 − 2,000 = ₦2,000. Together that is ₦23,000.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "final-accounts",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 46,
+    "questionText": "What is the net profit or loss of Department B?",
+    "options": {
+      "A": "₦2,000",
+      "B": "(₦2,000)",
+      "C": "(₦300)",
+      "D": "₦300"
+    },
+    "correctAnswer": "C",
+    "explanation": "Total expenses are 8,300 + 3,200 = ₦11,500, and B's one-fifth share is ₦2,300. Set against B's gross profit of ₦2,000 this leaves a net loss of ₦300.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "public-sector-accounting",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 47,
+    "questionText": "The expenditure on a good or service which is consumed either immediately or within a current accounting period is called",
+    "options": {
+      "A": "fixed expenditure",
+      "B": "capital expenditure",
+      "C": "annual expenditure",
+      "D": "recurrent expenditure"
+    },
+    "correctAnswer": "D",
+    "explanation": "Recurrent expenditure is spending whose benefit is used up within the period, such as salaries and maintenance. Capital expenditure buys assets that yield benefits over several years.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "public-sector-accounting",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 48,
+    "questionText": "The receipts from a special tax levy to pay maturing interest obligations are recorded in the",
+    "options": {
+      "A": "Capital Project Fund",
+      "B": "Debt Service Fund",
+      "C": "Tax Assessment Fund",
+      "D": "Special Revenue Fund"
+    },
+    "correctAnswer": "B",
+    "explanation": "A debt service fund is established specifically to accumulate resources for the payment of interest and principal on long-term debt, so a levy raised for that purpose is credited to it.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "public-sector-accounting",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 49,
+    "questionText": "The cash basis of accounting requires the recognition of revenue only when it is",
+    "options": {
+      "A": "due",
+      "B": "earned",
+      "C": "paid",
+      "D": "received"
+    },
+    "correctAnswer": "D",
+    "explanation": "Under the cash basis nothing is recorded until money actually changes hands, so revenue is recognised on receipt. Recognising it when earned is the accruals basis.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ACC",
+    "topicSlug": "public-sector-accounting",
+    "examType": "JAMB",
+    "examYear": 1994,
+    "questionNumber": 50,
+    "questionText": "The amount for individual items on a government budget is called a",
+    "options": {
+      "A": "vote",
+      "B": "deposit",
+      "C": "loan",
+      "D": "grant"
+    },
+    "correctAnswer": "A",
+    "explanation": "A vote is the sum the legislature approves for a particular head of expenditure, and spending is authorised only up to that figure.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  }
+]

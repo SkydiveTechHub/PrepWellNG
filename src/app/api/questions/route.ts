@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
+import { listQuestions } from "@/lib/questions";
 
 export const dynamic = "force-dynamic";
 
@@ -8,48 +8,22 @@ export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
 
-    const subjectId = searchParams.get("subjectId");
-    const topicId = searchParams.get("topicId");
-    const examType = searchParams.get("examType");
-    const examYear = searchParams.get("examYear");
-    const difficulty = searchParams.get("difficulty");
     const page = parseInt(searchParams.get("page") || "1");
     const limit = Math.min(parseInt(searchParams.get("limit") || "20"), 50);
 
-    // Build filter
-    const where: Record<string, unknown> = {};
-    if (subjectId) where.subjectId = subjectId;
-    if (topicId) where.topicId = topicId;
-    if (examType) where.examType = examType;
-    if (examYear) where.examYear = parseInt(examYear);
-    if (difficulty) where.difficulty = difficulty;
-
-    const [questions, total] = await Promise.all([
-      db.question.findMany({
-        where,
-        include: {
-          subject: { select: { id: true, name: true, slug: true } },
-          topic: { select: { id: true, title: true, slug: true } },
+    return NextResponse.json(
+      await listQuestions(
+        {
+          subjectId: searchParams.get("subjectId"),
+          topicId: searchParams.get("topicId"),
+          examType: searchParams.get("examType"),
+          examYear: searchParams.get("examYear"),
+          difficulty: searchParams.get("difficulty"),
         },
-        orderBy: [
-          { examYear: "desc" },
-          { questionNumber: "asc" },
-        ],
-        skip: (page - 1) * limit,
-        take: limit,
-      }),
-      db.question.count({ where }),
-    ]);
-
-    return NextResponse.json({
-      questions,
-      pagination: {
         page,
         limit,
-        total,
-        totalPages: Math.ceil(total / limit),
-      },
-    });
+      ),
+    );
   } catch (error) {
     console.error("Error fetching questions:", error);
     return NextResponse.json(

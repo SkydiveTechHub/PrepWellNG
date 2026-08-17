@@ -6,8 +6,7 @@ import {
   LuSparkles,
 } from "react-icons/lu";
 import { auth } from "@/lib/auth";
-import { db } from "@/lib/db";
-import { getDeckSummaries, getFlashcardRecommendations } from "@/lib/flashcard-analytics";
+import { getFlashcardsPageData } from "@/lib/flashcards";
 import { PageHeader } from "@/components/ui/page-header";
 import { EmptyState } from "@/components/ui/empty-state";
 import { buttonClass } from "@/components/ui/button";
@@ -21,28 +20,15 @@ export default async function FlashcardsPage() {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
 
-  const [decks, recommendations, completedLessons] = await Promise.all([
-    getDeckSummaries(db, session.user.id),
-    getFlashcardRecommendations(db, session.user.id),
-    db.studentProgress.findMany({
-      where: { studentId: session.user.id, status: "COMPLETED", lessonId: { not: null } },
-      select: { lesson: { select: { id: true, title: true } } },
-      orderBy: { lastAccessedAt: "desc" },
-      take: 12,
-    }),
-  ]);
-
-  const totalDue = decks.reduce((sum, d) => sum + d.due, 0);
-  const totalFresh = decks.reduce((sum, d) => sum + d.fresh, 0);
-  const bestDeck =
-    decks.length > 0
-      ? decks.reduce((a, b) => (b.due > a.due ? b : a))
-      : null;
-
-  const lessons = completedLessons
-    .map((p) => p.lesson)
-    .filter((l): l is { id: string; title: string } => l !== null)
-    .map((l) => ({ lessonId: l.id, title: l.title }));
+  const {
+    decks,
+    recommendations,
+    totalDue,
+    totalFresh,
+    bestDeckId,
+    decksWithDue,
+    lessons,
+  } = await getFlashcardsPageData(session.user.id);
 
   return (
     <div className="space-y-8">
@@ -78,9 +64,9 @@ export default async function FlashcardsPage() {
                     ? "Fresh cards are ready to learn. They start easy and stick fast."
                     : "Nothing due. Turn a finished lesson into cards to keep the momentum."}
               </p>
-              {bestDeck && (totalDue > 0 || totalFresh > 0) && (
+              {bestDeckId && (totalDue > 0 || totalFresh > 0) && (
                 <Link
-                  href={`/flashcards/${bestDeck.id}`}
+                  href={`/flashcards/${bestDeckId}`}
                   className="mt-5 inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-bold text-hero-from shadow-soft transition-transform hover:scale-[1.02] active:scale-[0.98]"
                 >
                   <LuSparkles className="h-4 w-4" />
@@ -93,8 +79,8 @@ export default async function FlashcardsPage() {
               <div className="rounded-2xl bg-white/10 px-6 py-4 text-center backdrop-blur">
                 <p className="text-3xl font-bold text-white">{totalDue}</p>
                 <p className="mt-0.5 text-xs font-medium text-hero-ink">
-                  due across {decks.filter((d) => d.due > 0).length} deck
-                  {decks.filter((d) => d.due > 0).length === 1 ? "" : "s"}
+                  due across {decksWithDue} deck
+                  {decksWithDue === 1 ? "" : "s"}
                 </p>
               </div>
             )}

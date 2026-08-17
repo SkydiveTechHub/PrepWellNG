@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { LuArrowLeft, LuShield } from "react-icons/lu";
 import { auth } from "@/lib/auth";
-import { db } from "@/lib/db";
+import { isAdminUser } from "@/lib/admin-guard";
 import { AdminNav } from "@/components/admin/admin-nav";
 
 export default async function AdminLayout({
@@ -13,11 +13,7 @@ export default async function AdminLayout({
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
 
-  const user = await db.user.findUnique({
-    where: { id: session.user.id },
-    select: { role: true },
-  });
-  if (user?.role !== "ADMIN") redirect("/dashboard");
+  if (!(await isAdminUser(session.user.id))) redirect("/dashboard");
 
   return (
     <div className="min-h-full">

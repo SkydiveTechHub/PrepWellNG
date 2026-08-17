@@ -26,6 +26,74 @@ export const getAchievementCatalogue = unstable_cache(
   { revalidate: 3600, tags: ["achievements"] },
 );
 
+export type StudentAchievement = {
+  id: string;
+  title: string;
+  description: string;
+  iconUrl: string | null;
+  criteriaType: string;
+  criteriaValue: number;
+  earned: boolean;
+  /** ISO timestamp, or null when not yet earned. */
+  earnedAt: string | null;
+};
+
+/**
+ * The catalogue with the student's earned set folded in. The catalogue half is
+ * shared and cached; only the earned lookup is per-request.
+ */
+export async function getStudentAchievements(
+  studentId: string,
+): Promise<StudentAchievement[]> {
+  const [catalogue, earned] = await Promise.all([
+    getAchievementCatalogue(),
+    db.studentAchievement.findMany({
+      where: { studentId },
+      select: { achievementId: true, earnedAt: true },
+    }),
+  ]);
+
+  const earnedAtById = new Map(earned.map((e) => [e.achievementId, e.earnedAt]));
+
+  return catalogue.map((a) => ({
+    ...a,
+    earned: earnedAtById.has(a.id),
+    earnedAt: earnedAtById.get(a.id)?.toISOString() ?? null,
+  }));
+}
+
+/**
+ * The full achievement rows plus the student's earned records, as
+ * `GET /api/achievements` returns them. Distinct from
+ * `getStudentAchievements`, which serves the page and returns only the
+ * catalogue fields the UI renders.
+ */
+export async function getAchievementsApiPayload(studentId: string) {
+  const [allAchievements, earned] = await Promise.all([
+    db.achievement.findMany({ orderBy: { criteriaValue: "asc" } }),
+    db.studentAchievement.findMany({
+      where: { studentId },
+      include: { achievement: true },
+    }),
+  ]);
+
+  const earnedAtById = new Map(earned.map((e) => [e.achievementId, e.earnedAt]));
+
+  return {
+    achievements: allAchievements.map((a) => ({
+      ...a,
+      earned: earnedAtById.has(a.id),
+      earnedAt: earnedAtById.get(a.id) ?? null,
+    })),
+    earned: earned.map((e) => ({
+      id: e.id,
+      achievementId: e.achievementId,
+      achievement: e.achievement,
+      earnedAt: e.earnedAt,
+    })),
+  };
+}
+
 // Achievement awarding — one implementation.
 //
 // This logic previously existed twice: inline in the assessment submit route and

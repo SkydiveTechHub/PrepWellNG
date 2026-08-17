@@ -1,0 +1,708 @@
+[
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "basic-economic-concepts",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 1,
+    "questionText": "If the arithmetic mean of 2, 3, 5, 8, Z, 10 and 12 is 7, what is the value of Z?",
+    "options": {
+      "A": "8",
+      "B": "9",
+      "C": "10",
+      "D": "7"
+    },
+    "correctAnswer": "B",
+    "explanation": "With seven items and a mean of 7 the total must be 49. The known values add up to 40, so Z = 49 − 40 = 9.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 2,
+    "questionText": "The most important function of agriculture to the Nigerian economy is",
+    "options": {
+      "A": "the guarantee of food security",
+      "B": "technical skill development",
+      "C": "technological development",
+      "D": "industrial development"
+    },
+    "correctAnswer": "A",
+    "explanation": "Feeding the population is the primary duty of agriculture, and a country that cannot do so must spend scarce foreign exchange on food imports. Its contributions to industry and skills follow from that basic role.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 3,
+    "questionText": "Given that Qd = 15 − 2P and Qs = 5 + 3P, determine the equilibrium price.",
+    "options": {
+      "A": "₦3.00",
+      "B": "₦5.00",
+      "C": "₦2.00",
+      "D": "₦6.00"
+    },
+    "correctAnswer": "C",
+    "explanation": "Equilibrium is where Qd = Qs, so 15 − 2P = 5 + 3P. Collecting terms gives 10 = 5P, hence P = ₦2.00.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "basic-economic-concepts",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 4,
+    "questionText": "Scale of preference is referred to as the",
+    "options": {
+      "A": "choices consumers make",
+      "B": "array of consumer's needs",
+      "C": "consumer preference for luxurious goods",
+      "D": "consumer wants in order of priority"
+    },
+    "correctAnswer": "D",
+    "explanation": "A scale of preference is a list of wants arranged from the most pressing to the least, drawn up because income cannot satisfy them all. It is from this list that choice and opportunity cost arise.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "market-structures",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 5,
+    "questionText": "One of the basic assumptions of monopoly is",
+    "options": {
+      "A": "perfect information of the market condition",
+      "B": "the ability to either control price or output",
+      "C": "perfect mobility of factors of production",
+      "D": "large number of buyers and sellers"
+    },
+    "correctAnswer": "B",
+    "explanation": "Being the only seller, the monopolist faces the whole market demand curve and may fix either the price or the quantity, but not both independently. The other options describe perfect competition.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 6,
+    "questionText": "The major advantage of a public limited liability company over a private limited liability company is",
+    "options": {
+      "A": "limited liability enjoyed by owners",
+      "B": "separate legal entity",
+      "C": "easy transferability of shares",
+      "D": "perpetual existence"
+    },
+    "correctAnswer": "C",
+    "explanation": "Shares in a public company are quoted and may be bought and sold freely on the stock exchange, whereas a private company restricts transfer. Limited liability, legal personality and perpetual succession belong to both.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 7,
+    "questionText": "The main activity in the upstream oil sector in Nigeria is",
+    "options": {
+      "A": "marketing of petroleum products",
+      "B": "distribution of petroleum products",
+      "C": "extraction of crude oil",
+      "D": "refining of crude oil"
+    },
+    "correctAnswer": "C",
+    "explanation": "The upstream sector is concerned with finding and bringing up the crude, that is exploration, drilling and production. Refining, distribution and marketing all belong to the downstream sector.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "population",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 8,
+    "questionText": "The natural growth of population is calculated as",
+    "options": {
+      "A": "birth rate + death rate",
+      "B": "labour force + dependant",
+      "C": "death rate − birth rate",
+      "D": "birth rate − death rate"
+    },
+    "correctAnswer": "D",
+    "explanation": "Natural increase counts only births against deaths, leaving migration out of account. Where births exceed deaths the population grows naturally.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "population",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 9,
+    "questionText": "The study of the age structure of a population is important because it",
+    "options": {
+      "A": "determines the exchange rate",
+      "B": "provides the government with statistics on the prevailing interest rate",
+      "C": "reveals the cost of living",
+      "D": "provides the government with statistics on the present size of the labour force"
+    },
+    "correctAnswer": "D",
+    "explanation": "Age structure divides the population into children, working-age adults and the aged, which is exactly how the size of the labour force and the dependency ratio are established.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 10,
+    "questionText": "If the demand for palm oil is for the purpose of soap production and cooking, the demand is said to be",
+    "options": {
+      "A": "competitive",
+      "B": "complementary",
+      "C": "composite",
+      "D": "derived"
+    },
+    "correctAnswer": "C",
+    "explanation": "Composite demand exists where a single commodity is wanted for several different uses, so the total demand is the sum of the demands from each use. The uses then compete with one another for the available supply.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 11,
+    "questionText": "The institution established to enhance the activities of Nigeria's exports is the",
+    "options": {
+      "A": "Nigerian Export and Import Bank",
+      "B": "Import-substitution strategy",
+      "C": "Nigerian Export Promotion Council",
+      "D": "Bank of Industry"
+    },
+    "correctAnswer": "C",
+    "explanation": "The Nigerian Export Promotion Council was set up specifically to develop and diversify non-oil exports and to assist exporters with information and incentives.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "national-income",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 12,
+    "questionText": "From the pie chart above, the percentage contribution of the entrepreneur is",
+    "questionImageUrl": "/questions/economics/jamb-economics-2017-q12.png",
+    "options": {
+      "A": "2.77%",
+      "B": "33.33%",
+      "C": "27.70%",
+      "D": "3.33%"
+    },
+    "correctAnswer": "B",
+    "explanation": "The entrepreneur's sector measures 120° out of the full 360°. Expressed as a percentage that is 120 ÷ 360 × 100 = 33.33%.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "economic-development",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 13,
+    "questionText": "A sustained increase in per capita income accompanied by an increase in output is",
+    "options": {
+      "A": "economies of scale",
+      "B": "economic efficiency",
+      "C": "economic development",
+      "D": "economic growth"
+    },
+    "correctAnswer": "C",
+    "explanation": "A rise in output alone is growth; when it is sustained and raises income per head so that living standards genuinely improve, it amounts to development.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 14,
+    "questionText": "The reward for capital as a factor of production is",
+    "options": {
+      "A": "interest",
+      "B": "rent",
+      "C": "profit",
+      "D": "wage"
+    },
+    "correctAnswer": "A",
+    "explanation": "Each factor has its own reward: rent to land, wages to labour, interest to capital and profit to the entrepreneur.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "inflation",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 15,
+    "questionText": "The type of inflation that emanates from excess demand over supply is",
+    "options": {
+      "A": "galloping inflation",
+      "B": "cost-push inflation",
+      "C": "demand-pull inflation",
+      "D": "imported inflation"
+    },
+    "correctAnswer": "C",
+    "explanation": "When buyers want more than the economy can supply, they bid prices up — demand pulls the price level higher. Cost-push inflation arises instead from rising costs of production.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "national-income",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 16,
+    "questionText": "Which of the following problems is associated with national income measurement?",
+    "options": {
+      "A": "High interest rate",
+      "B": "Inflation and deflation",
+      "C": "Overpopulation",
+      "D": "Population growth"
+    },
+    "correctAnswer": "B",
+    "explanation": "National income is measured in money, so a change in the price level alters the figure even when real output is unchanged. Comparisons over time are meaningless until the totals are deflated to constant prices.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "introduction-to-economics",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 17,
+    "questionText": "Freedom of consumption and production are characteristics of",
+    "options": {
+      "A": "socialism",
+      "B": "feudalism",
+      "C": "capitalism",
+      "D": "communism"
+    },
+    "correctAnswer": "C",
+    "explanation": "Capitalism rests on private ownership and free enterprise, so individuals may produce what they like and spend their income as they choose. Under socialism and communism the state directs both.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 18,
+    "questionText": "Cost of raw materials in production is an example of",
+    "options": {
+      "A": "marginal cost",
+      "B": "variable cost",
+      "C": "total cost",
+      "D": "fixed cost"
+    },
+    "correctAnswer": "B",
+    "explanation": "The more a firm produces the more material it consumes, so this cost rises and falls directly with output. Costs that behave that way are variable costs.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "money-and-banking",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 19,
+    "questionText": "Foreign exchange control in Nigeria is administered by the",
+    "options": {
+      "A": "money deposit banks",
+      "B": "Central Bank of Nigeria",
+      "C": "discount houses",
+      "D": "Securities and Exchange Commission"
+    },
+    "correctAnswer": "B",
+    "explanation": "As the nation's monetary authority the CBN holds the external reserves and decides how foreign exchange is allocated and at what rate. The SEC regulates the capital market instead.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "national-income",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 21,
+    "questionText": "The volume of output in an economy is determined by",
+    "options": {
+      "A": "the foreign exchange rate",
+      "B": "the standard of living of citizens",
+      "C": "population density of a country",
+      "D": "efficiency in the use of factors of production"
+    },
+    "correctAnswer": "D",
+    "explanation": "How much an economy produces depends on the resources it commands and how well they are combined. Greater efficiency yields more output from the same factors.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 22,
+    "questionText": "Given Qd = 30 − 3P and Qs = 9P − 18, determine the equilibrium quantity.",
+    "options": {
+      "A": "18",
+      "B": "20",
+      "C": "25",
+      "D": "27"
+    },
+    "correctAnswer": "A",
+    "explanation": "Set Qd = Qs: 30 − 3P = 9P − 18, so 48 = 12P and P = 4. Substituting gives Q = 30 − 3(4) = 18, which the supply equation confirms as 9(4) − 18 = 18.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 23,
+    "questionText": "In Nigeria, industrial development can be enhanced by",
+    "options": {
+      "A": "ensuring stable prices for manufactured goods",
+      "B": "reducing government expenditure on imported goods",
+      "C": "providing efficient infrastructure",
+      "D": "increasing the rate of interest"
+    },
+    "correctAnswer": "C",
+    "explanation": "Reliable power, roads and ports lower costs for every manufacturer at once and make local goods competitive. Raising interest rates would instead make the capital that industry needs dearer.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "national-income",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 25,
+    "questionText": "Capital gains tax is an example of",
+    "options": {
+      "A": "Value Added Tax",
+      "B": "purchase tax",
+      "C": "sales tax",
+      "D": "income tax"
+    },
+    "correctAnswer": "D",
+    "explanation": "The tax falls on the gain a person realises when he disposes of an asset, which is a form of income accruing to him. It is therefore a direct tax of the income tax family, not a tax on expenditure.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "national-income",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 26,
+    "questionText": "Which of the following is NOT a source of government revenue?",
+    "options": {
+      "A": "Taxes, fees, licenses and fines",
+      "B": "Interest, dividends, profits and earnings",
+      "C": "Personal income, disposable income and transfer earnings",
+      "D": "Grants, aids and borrowing"
+    },
+    "correctAnswer": "C",
+    "explanation": "Personal income, disposable income and transfer earnings accrue to households, not to the treasury. Government draws its revenue from taxation, its own investments and borrowing or aid.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "money-and-banking",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 27,
+    "questionText": "One of the important qualities that money must possess is",
+    "options": {
+      "A": "heterogeneity",
+      "B": "easy availability",
+      "C": "homogeneity",
+      "D": "flexibility in value"
+    },
+    "correctAnswer": "C",
+    "explanation": "Every unit of money must be identical to every other of the same denomination, so that one naira is accepted as exactly equal to another. Money must also be scarce and stable in value, which rules out easy availability and flexibility.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 28,
+    "questionText": "The graph above represents",
+    "questionImageUrl": "/questions/economics/jamb-economics-2017-q28.png",
+    "options": {
+      "A": "a decrease in quantity supplied",
+      "B": "an increase in supply",
+      "C": "an increase in quantity supplied",
+      "D": "a decrease in supply"
+    },
+    "correctAnswer": "C",
+    "explanation": "There is only one supply curve in the diagram and the movement runs up it, from P₁Q₁ to P₂Q₂, as price rises. That is an extension along the curve — an increase in quantity supplied, not a shift of supply itself.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "national-income",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 29,
+    "questionText": "From the diagram above, the arrow marked M indicates",
+    "questionImageUrl": "/questions/economics/jamb-economics-2017-q29.png",
+    "options": {
+      "A": "payments made for goods and services",
+      "B": "payments made to factors of production",
+      "C": "the flow of capital goods",
+      "D": "the flow of economic rent"
+    },
+    "correctAnswer": "A",
+    "explanation": "In the circular flow every real flow has a money flow running against it. M is the arc paired with the movement of goods and services from firms to households, so it is the money households pay for those goods and services.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 30,
+    "questionText": "A change in the quantity supplied of a commodity is influenced by",
+    "options": {
+      "A": "the price of substitutes",
+      "B": "the price of the commodity",
+      "C": "consumer's tastes",
+      "D": "technological know-how"
+    },
+    "correctAnswer": "B",
+    "explanation": "A change in quantity supplied is a movement along the supply curve, and only the good's own price produces it. Technology and other non-price factors shift the whole curve, which is a change in supply.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "money-and-banking",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 32,
+    "questionText": "One of the functions of money deposit banks in economic development is",
+    "options": {
+      "A": "that it is banker to the government",
+      "B": "the provision of credit facilities",
+      "C": "the formulation of monetary policies",
+      "D": "issuing of currency notes"
+    },
+    "correctAnswer": "B",
+    "explanation": "By lending out the deposits they accept, commercial banks put savings at the disposal of farmers, traders and manufacturers and so finance investment. Acting as banker to government, framing monetary policy and issuing currency are all central bank functions.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "market-structures",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 33,
+    "questionText": "One of the arguments against the practice of monopoly is",
+    "options": {
+      "A": "merging of producers",
+      "B": "competition",
+      "C": "exploitation",
+      "D": "non-government ownership"
+    },
+    "correctAnswer": "C",
+    "explanation": "With no rival to turn to, consumers can be charged a price well above cost for a restricted output. This exploitation of the buyer is the principal case against monopoly.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 34,
+    "questionText": "The main reason why countries engage in international trade is the",
+    "options": {
+      "A": "opportunity to earn high profit in trading",
+      "B": "use of capital-intensive method of production",
+      "C": "difference in their endowment of economic resources",
+      "D": "difference in the population structure"
+    },
+    "correctAnswer": "C",
+    "explanation": "No country possesses all the resources it needs, and each can produce some things more cheaply than others. That unequal endowment makes specialisation and exchange mutually profitable.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 35,
+    "questionText": "Study the table below.\n\n| Cups of milk taken | Total utility | Marginal utility |\n| --- | --- | --- |\n| 1 | 18 | 18 |\n| 2 | 24 | 6 |\n| 3 | 29 | 5 |\n| 4 | X | 3 |\n| 5 | 34 | Z |\n| 6 | 35 | 1 |\n| 7 | 35 | 0 |\n\nFrom the table above, what is the value of X?",
+    "options": {
+      "A": "32",
+      "B": "35",
+      "C": "34",
+      "D": "30"
+    },
+    "correctAnswer": "A",
+    "explanation": "Total utility at any point is the previous total plus the marginal utility of the extra unit. Here X = 29 + 3 = 32.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 36,
+    "questionText": "Study the table below.\n\n| Quantity consumed | Total utility | Marginal utility |\n| --- | --- | --- |\n| 0 | 0 | – |\n| 1 | 10 | 10 |\n| 2 | 15 | 5 |\n| 3 | 17 | 2 |\n| 4 | 18 | 1 |\n| 5 | 18 | 0 |\n\nFrom the table above, it can be inferred that there is",
+    "options": {
+      "A": "diminishing returns to scale",
+      "B": "excess of demand",
+      "C": "diminishing marginal utility",
+      "D": "diminishing marginal productivity"
+    },
+    "correctAnswer": "C",
+    "explanation": "Marginal utility falls steadily from 10 to 0 as consumption rises, so each extra unit yields less satisfaction than the one before. That is the law of diminishing marginal utility.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "population",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 37,
+    "questionText": "A well conducted census is important for",
+    "options": {
+      "A": "economic planning",
+      "B": "providing economic opportunities in the rural areas",
+      "C": "distribution of educational materials in the cities",
+      "D": "revenue generation"
+    },
+    "correctAnswer": "A",
+    "explanation": "Planning requires knowing how many people there are, where they live and what their age structure is, since schools, hospitals, jobs and revenue allocation all follow from those figures.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 38,
+    "questionText": "The cost-saving advantages which a large firm can achieve on its own is called",
+    "options": {
+      "A": "internal economies of scale",
+      "B": "diseconomies of large scale",
+      "C": "external diseconomies of scale",
+      "D": "external economies of scale"
+    },
+    "correctAnswer": "A",
+    "explanation": "Internal economies arise within the firm from its own expansion, through bulk buying, specialised machinery and the spreading of overheads. External economies come instead from the growth of the whole industry.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 39,
+    "questionText": "A country uses the foreign exchange control measure to eliminate a balance of payments deficit by",
+    "options": {
+      "A": "limiting her imports to the currency value of her exports",
+      "B": "limiting her exports to the currency value of her imports",
+      "C": "overvaluing the country's currency",
+      "D": "reducing the nation's domestic price level"
+    },
+    "correctAnswer": "A",
+    "explanation": "Exchange control rations the foreign currency released to importers, so that no more is spent abroad than the country earns from its exports. That closes the gap in the balance of payments.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2017,
+    "questionNumber": 40,
+    "questionText": "The role of the IBRD as an international institution is to",
+    "options": {
+      "A": "improve trading among member nations",
+      "B": "finance private businesses in member nations",
+      "C": "facilitate the development of infrastructure in member nations",
+      "D": "solve the problem of balance of payments of member nations"
+    },
+    "correctAnswer": "C",
+    "explanation": "The IBRD, the World Bank proper, lends long term to governments for roads, power, water and other development projects. Balance of payments support is the province of the IMF.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  }
+]

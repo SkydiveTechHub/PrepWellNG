@@ -1,0 +1,938 @@
+[
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "introduction-to-economics",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 2,
+    "questionText": "A major disadvantage of a socialist economy is that",
+    "options": {
+      "A": "corruption is rampant",
+      "B": "consumer's sovereignty is lost",
+      "C": "income inequality is entrenched",
+      "D": "there is high level of unemployment"
+    },
+    "correctAnswer": "B",
+    "explanation": "Under socialism the state decides what is produced and in what quantity, so the consumer can no longer dictate production through his spending. Income inequality is a feature of capitalism, not socialism.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "introduction-to-economics",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 3,
+    "questionText": "\"The privatization of public enterprises will lead to efficient management of resources in the economy.\" This statement can best be described as",
+    "options": {
+      "A": "normative reasoning",
+      "B": "inductive reasoning",
+      "C": "deductive reasoning",
+      "D": "positive reasoning"
+    },
+    "correctAnswer": "A",
+    "explanation": "The statement expresses a judgement about what is desirable rather than a fact that can be verified by observation. Such value-laden statements belong to normative economics.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "basic-economic-concepts",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 4,
+    "questionText": "The sign of the slope of a graph in economic analysis is important because it",
+    "options": {
+      "A": "shows whether a good is normal or inferior",
+      "B": "shows the relationship between variables",
+      "C": "reveals the magnitude of the change between variables",
+      "D": "helps to determine the unit of measurement of variables"
+    },
+    "correctAnswer": "B",
+    "explanation": "A positive sign tells us the two variables move in the same direction and a negative sign that they move in opposite directions. The magnitude of the change is given by the size of the slope, not its sign.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "national-income",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 5,
+    "questionText": "The percentage contribution of the manufacturing sector is",
+    "questionImageUrl": "/questions/economics/jamb-economics-2012-q5.png",
+    "options": {
+      "A": "67.5",
+      "B": "40.0",
+      "C": "32.4",
+      "D": "25.0"
+    },
+    "correctAnswer": "D",
+    "explanation": "A full circle is 360°, so a sector's share is its angle divided by 360 and multiplied by 100. The manufacturing wedge measures 90°, giving 90 ÷ 360 × 100 = 25%.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "national-income",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 6,
+    "questionText": "If the GDP is ₦60 billion, what is the difference between the contributions of the oil and manufacturing sectors?",
+    "questionImageUrl": "/questions/economics/jamb-economics-2012-q5.png",
+    "options": {
+      "A": "₦11.7 billion",
+      "B": "₦13.3 billion",
+      "C": "₦21.7 billion",
+      "D": "₦26.6 billion"
+    },
+    "correctAnswer": "A",
+    "explanation": "Oil occupies 160° and manufacturing 90°, a difference of 70°. That share of GDP is 70 ÷ 360 × ₦60 billion = ₦11.7 billion.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 7,
+    "questionText": "If the quantity of rice bought decreases from 250 tonnes to 200 tonnes owing to a 2% rise in price, it shows that there is a change in",
+    "options": {
+      "A": "consumers' income",
+      "B": "demand",
+      "C": "consumers' tastes",
+      "D": "quantity demanded"
+    },
+    "correctAnswer": "D",
+    "explanation": "The good's own price is what changed, so the consumer simply moves along the same demand curve to a smaller quantity. A change in demand proper would require a non-price factor such as income or taste.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 8,
+    "questionText": "A rise in income will, ceteris paribus, bring about",
+    "options": {
+      "A": "a movement along the demand curve",
+      "B": "a leftward shift of the demand curve",
+      "C": "a rightward shift of the demand curve",
+      "D": "no effect on the demand curve"
+    },
+    "correctAnswer": "C",
+    "explanation": "Income is a non-price determinant, so a change in it shifts the whole curve. With more income the consumer buys more at every price, which moves the demand curve to the right.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 9,
+    "questionText": "Study the schedule below.\n\n| Price (₦) | Quantity (kg) |\n| --- | --- |\n| 50 | 500 |\n| 70 | 400 |\n\nFrom the above, calculate the price elasticity of demand.",
+    "options": {
+      "A": "5.0",
+      "B": "2.0",
+      "C": "1.0",
+      "D": "0.5"
+    },
+    "correctAnswer": "D",
+    "explanation": "Quantity falls by 100 out of 500, a change of 20%, while price rises by 20 out of 50, a change of 40%. Elasticity is 20 ÷ 40 = 0.5, so demand is inelastic.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 10,
+    "questionText": "If the price of an item increases by 8% while the quantity demanded falls from 1500 units to 1492 units, the demand is said to be",
+    "options": {
+      "A": "perfectly elastic",
+      "B": "inelastic",
+      "C": "elastic",
+      "D": "perfectly inelastic"
+    },
+    "correctAnswer": "B",
+    "explanation": "Quantity falls by only 8 units out of 1500, which is about 0.53%, against an 8% rise in price. The coefficient of about 0.07 is well below one, so demand is inelastic — though not perfectly so, since quantity did respond.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 11,
+    "questionText": "Comparison of interpersonal utility is impossible because",
+    "options": {
+      "A": "utility is measured in utils",
+      "B": "marginal utility is not observable",
+      "C": "utility is subjectively determined",
+      "D": "individual incomes differ"
+    },
+    "correctAnswer": "C",
+    "explanation": "Satisfaction exists only in the mind of the person experiencing it, so there is no common yardstick by which one person's utility can be set against another's.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 12,
+    "questionText": "When the slope of the total utility curve is declining, the marginal utility of a consumer will be increasing if he",
+    "options": {
+      "A": "stops consuming more of the commodity",
+      "B": "reduces the quantity consumed",
+      "C": "increases the quantity consumed",
+      "D": "consumes more of another commodity"
+    },
+    "correctAnswer": "B",
+    "explanation": "A falling slope of total utility means marginal utility is declining as consumption rises. Moving back down the scale by consuming fewer units therefore returns the consumer to the earlier units, where marginal utility is higher.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 13,
+    "questionText": "The consumer is at equilibrium at point",
+    "questionImageUrl": "/questions/economics/jamb-economics-2012-q13.png",
+    "options": {
+      "A": "N",
+      "B": "P",
+      "C": "M",
+      "D": "K"
+    },
+    "correctAnswer": "D",
+    "explanation": "Equilibrium is where the budget line just touches the highest indifference curve the consumer can reach, and that point of tangency is K. N and M lie on the budget line but on a lower curve, while P is inside it.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 14,
+    "questionText": "To move from point M to K, the consumer has to increase the",
+    "questionImageUrl": "/questions/economics/jamb-economics-2012-q13.png",
+    "options": {
+      "A": "consumption of X and reduce the consumption of Y",
+      "B": "expenditure on Y",
+      "C": "expenditure on X",
+      "D": "consumption of Y and reduce the consumption of X"
+    },
+    "correctAnswer": "D",
+    "explanation": "K lies above and to the left of M on the same budget line. Moving up the line means taking more of Y, and because total outlay is fixed the extra Y must be paid for by giving up some X.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 15,
+    "questionText": "The supply of cocoa is influenced by",
+    "options": {
+      "A": "seasonal conditions",
+      "B": "the efficacy of fertilizer used",
+      "C": "the demand for beverages",
+      "D": "the availability of close substitutes"
+    },
+    "correctAnswer": "A",
+    "explanation": "Cocoa is an agricultural crop with a fixed growing and harvesting season, so rainfall, sunshine and the time of year determine how much reaches the market. The other options bear on demand or on yield only indirectly.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 16,
+    "questionText": "If quantity supplied is constant irrespective of price changes, the supply elasticity is",
+    "options": {
+      "A": "unitary",
+      "B": "infinity",
+      "C": "fairly elastic",
+      "D": "perfectly inelastic"
+    },
+    "correctAnswer": "D",
+    "explanation": "No response at all in quantity gives a coefficient of zero, which is perfectly inelastic supply and a vertical supply curve. This is typical of goods in fixed supply, such as land or a fresh catch of fish.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 17,
+    "questionText": "The cost elasticity of supply is a useful instrument for measuring",
+    "options": {
+      "A": "profit",
+      "B": "productivity",
+      "C": "national income",
+      "D": "price index"
+    },
+    "correctAnswer": "B",
+    "explanation": "Relating the change in cost to the change in output shows how efficiently the firm converts inputs into product, which is a measure of productivity.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "introduction-to-economics",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 18,
+    "questionText": "The invisible hand promotes the interests of",
+    "options": {
+      "A": "consumers",
+      "B": "society",
+      "C": "government",
+      "D": "producers"
+    },
+    "correctAnswer": "B",
+    "explanation": "Adam Smith's argument is that each person pursuing his own gain is led as if by an invisible hand to promote an end that was no part of his intention, namely the good of society as a whole.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 19,
+    "questionText": "Fixing price above equilibrium will cause",
+    "options": {
+      "A": "demand and supply to remain constant",
+      "B": "an increase in quantity supplied",
+      "C": "an increase in supply",
+      "D": "a decrease in quantity supplied"
+    },
+    "correctAnswer": "B",
+    "explanation": "A higher price makes production more profitable, so sellers move up the existing supply curve and offer more. This is an extension of quantity supplied, not a shift of the supply curve itself.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "demand-and-supply",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 20,
+    "questionText": "An important function of the price system is to",
+    "options": {
+      "A": "ensure that producers' profits remain high",
+      "B": "guarantee full employment of resources",
+      "C": "allocate resources to most productive uses",
+      "D": "protect the economic interests of government"
+    },
+    "correctAnswer": "C",
+    "explanation": "Prices signal where goods are scarce and where they are abundant, drawing resources towards the uses society values most highly. That allocative role is the central function of the price mechanism.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 21,
+    "questionText": "If all factors are variable in the long run, firms will experience",
+    "options": {
+      "A": "decreasing returns to scale",
+      "B": "increasing returns to scale",
+      "C": "diminishing returns",
+      "D": "economies of scale"
+    },
+    "correctAnswer": "D",
+    "explanation": "Because every factor can be varied in the long run, the firm can expand its whole plant and enjoy the falling unit costs known as economies of scale. Diminishing returns is a short-run law that requires a fixed factor.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 22,
+    "questionText": "The equilibrium point of a firm is attained at the point where the isoquant is",
+    "options": {
+      "A": "greater than the isocost",
+      "B": "less than the isocost",
+      "C": "tangent to the isocost",
+      "D": "greater than the output"
+    },
+    "correctAnswer": "C",
+    "explanation": "At the point of tangency the firm reaches the highest output attainable for a given outlay, because the rate at which it can substitute the factors equals the rate at which the market prices them.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 23,
+    "questionText": "The long-run average cost curve touches the short-run average cost curves at the",
+    "options": {
+      "A": "minimum points of all short-run average cost curves",
+      "B": "declining points of all short-run average cost curves",
+      "C": "minimum point of only one of the short-run cost curves",
+      "D": "rising points of all short-run average cost curves"
+    },
+    "correctAnswer": "C",
+    "explanation": "The long-run curve is an envelope of the short-run curves, touching each at one point only. It coincides with a minimum point in just one case, the plant that is optimal at the lowest point of the long-run curve.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 24,
+    "questionText": "If a firm doubles all inputs in the long run and the total output is less than doubled, this results in",
+    "options": {
+      "A": "diminishing returns",
+      "B": "constant returns to scale",
+      "C": "increasing returns to scale",
+      "D": "decreasing returns to scale"
+    },
+    "correctAnswer": "D",
+    "explanation": "Output rising by a smaller proportion than inputs is the definition of decreasing returns to scale. It is a long-run concept, distinct from the short-run law of diminishing returns.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "market-structures",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 25,
+    "questionText": "Patents and copyrights enable monopolists to",
+    "options": {
+      "A": "determine the quality of their products",
+      "B": "determine the scale of their products",
+      "C": "restrict information flow to new firms",
+      "D": "restrict entry of new firms"
+    },
+    "correctAnswer": "D",
+    "explanation": "A patent gives its holder the sole legal right to produce the article for a period of years, so rivals are barred by law from entering. Legal barriers to entry are one of the main sources of monopoly power.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "market-structures",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 26,
+    "questionText": "A discriminatory monopoly is characterized by",
+    "options": {
+      "A": "a common elasticity in different markets",
+      "B": "different elasticities in different markets",
+      "C": "a finite elasticity in all markets",
+      "D": "zero elasticity in all markets"
+    },
+    "correctAnswer": "B",
+    "explanation": "Price discrimination is only profitable when the separated markets differ in elasticity, allowing the monopolist to charge more where demand is inelastic and less where it is elastic. Equal elasticities would leave nothing to gain.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "national-income",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 27,
+    "questionText": "Net National Product is derived by deducting",
+    "options": {
+      "A": "net exports from GNP",
+      "B": "subsidies from GDP",
+      "C": "taxes from GDP",
+      "D": "depreciation from GNP"
+    },
+    "correctAnswer": "D",
+    "explanation": "Part of each year's output merely replaces capital that has worn out. Subtracting that capital consumption allowance, or depreciation, from gross national product gives net national product.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "national-income",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 28,
+    "questionText": "The investment expenditure of an economy changes by ₦2 million and the MPC is 0.75. What is the change in income?",
+    "options": {
+      "A": "₦0.5m",
+      "B": "₦1.5m",
+      "C": "₦2.6m",
+      "D": "₦8.0m"
+    },
+    "correctAnswer": "D",
+    "explanation": "The multiplier is 1 ÷ (1 − 0.75) = 4. The change in income is therefore ₦2 million × 4 = ₦8.0 million.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "national-income",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 29,
+    "questionText": "The investment expenditure of an economy changes by ₦2 million and the MPC is 0.75. The multiplier is",
+    "options": {
+      "A": "8",
+      "B": "4",
+      "C": "3",
+      "D": "2"
+    },
+    "correctAnswer": "B",
+    "explanation": "The multiplier is 1 ÷ (1 − MPC). With an MPC of 0.75 the marginal propensity to save is 0.25, so the multiplier is 1 ÷ 0.25 = 4.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "money-and-banking",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 30,
+    "questionText": "The money that commands a higher market value than its face value is called",
+    "options": {
+      "A": "paper money",
+      "B": "standard money",
+      "C": "commodity money",
+      "D": "fiat money"
+    },
+    "correctAnswer": "C",
+    "explanation": "Commodity money is worth something in its own right as a commodity, so when the metal or good it is made of rises in price its market value exceeds the value stamped on it. Fiat money has no such intrinsic worth.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "inflation",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 31,
+    "questionText": "If a basket of commodities cost ₦120 in the base year and ₦240 in the current year, calculate the price index.",
+    "options": {
+      "A": "100",
+      "B": "200",
+      "C": "240",
+      "D": "300"
+    },
+    "correctAnswer": "B",
+    "explanation": "The price index is current-year cost ÷ base-year cost × 100, that is 240 ÷ 120 × 100 = 200. Prices have therefore doubled since the base year.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "money-and-banking",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 32,
+    "questionText": "The minimum amount which banks are required to deposit with the central bank is determined by the",
+    "options": {
+      "A": "liquidity ratio",
+      "B": "cash reserve ratio",
+      "C": "minimum lending rate",
+      "D": "aggregate credit ceiling"
+    },
+    "correctAnswer": "B",
+    "explanation": "The cash reserve ratio fixes the proportion of a bank's deposits that must be lodged with the central bank. Raising it leaves banks with less to lend and so contracts the money supply.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "financial-institutions",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 33,
+    "questionText": "The major function of the money market is to",
+    "options": {
+      "A": "provide funds for long-term financing",
+      "B": "provide funds for short-term financing",
+      "C": "stabilize the value of the local currency",
+      "D": "stabilize domestic prices"
+    },
+    "correctAnswer": "B",
+    "explanation": "The money market deals in short-dated instruments such as treasury bills and call money, meeting the working-capital needs of government and business. Long-term finance is the business of the capital market.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "national-income",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 34,
+    "questionText": "An ad valorem tax is imposed on",
+    "options": {
+      "A": "special commodities",
+      "B": "exports",
+      "C": "imports",
+      "D": "the value of a commodity"
+    },
+    "correctAnswer": "D",
+    "explanation": "Ad valorem means \"according to value\", so the tax is charged as a percentage of the price of the good. A specific tax, by contrast, is a fixed sum per unit regardless of value.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "economic-planning",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 35,
+    "questionText": "A huge national debt is an indication that the gold reserves of a nation has",
+    "options": {
+      "A": "appreciated",
+      "B": "decreased",
+      "C": "depreciated",
+      "D": "stagnated"
+    },
+    "correctAnswer": "B",
+    "explanation": "Heavy borrowing is normally resorted to when a country's own external reserves are inadequate to meet its obligations. A large debt therefore points to reserves that have been run down.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "economic-development",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 36,
+    "questionText": "Rapid economic development in Nigeria is realizable by",
+    "options": {
+      "A": "continuous dependence on oil",
+      "B": "concentrating more on agriculture",
+      "C": "developing the tourism industry",
+      "D": "diversifying the economy"
+    },
+    "correctAnswer": "D",
+    "explanation": "Reliance on a single commodity leaves the country exposed to swings in its world price. Spreading production across agriculture, manufacturing, services and solid minerals broadens the revenue base and steadies growth.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "economic-development",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 37,
+    "questionText": "The primary reason for desiring economic growth is to",
+    "options": {
+      "A": "control inflation",
+      "B": "reduce poverty",
+      "C": "redistribute income",
+      "D": "raise standard of living"
+    },
+    "correctAnswer": "D",
+    "explanation": "Growth means more goods and services are available per head, which is what raises the general standard of living. Poverty reduction and redistribution are consequences that depend on how the extra output is shared.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 38,
+    "questionText": "An emerging agricultural export crop in Nigeria is",
+    "options": {
+      "A": "cassava",
+      "B": "cotton",
+      "C": "cocoa",
+      "D": "soya beans"
+    },
+    "correctAnswer": "A",
+    "explanation": "Cassava has moved from being a purely local staple to an export item in the form of chips, starch and flour under recent government initiatives. Cocoa and cotton are long-established rather than emerging exports.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 39,
+    "questionText": "A strategy for improving agriculture in Nigeria will involve",
+    "options": {
+      "A": "controlling the prices of agricultural products",
+      "B": "ensuring self-sufficiency in food production",
+      "C": "reducing agricultural exports",
+      "D": "establishing commodity boards"
+    },
+    "correctAnswer": "B",
+    "explanation": "Directing policy at producing enough food domestically raises output, saves foreign exchange on food imports and secures the nation's food supply. Price controls and reduced exports would discourage farmers instead.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 40,
+    "questionText": "A sugar industry is best located near the source of",
+    "options": {
+      "A": "labour",
+      "B": "raw materials",
+      "C": "power",
+      "D": "capital"
+    },
+    "correctAnswer": "B",
+    "explanation": "Sugar cane is bulky and perishable and loses much of its weight in processing, so hauling it far is wasteful. Such weight-losing, perishable materials pull the industry to the growing area.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 41,
+    "questionText": "An important contribution of small-scale industries to the Nigerian economy is in the area of",
+    "options": {
+      "A": "technological development",
+      "B": "foreign exchange earnings",
+      "C": "raw materials processing",
+      "D": "labour employment"
+    },
+    "correctAnswer": "D",
+    "explanation": "Small-scale enterprises are labour intensive and require little capital, so they absorb large numbers of workers across the country. They are consequently the largest single source of employment outside agriculture.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "agriculture-and-industry",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 42,
+    "questionText": "A change in the pump price of petrol in Nigeria has a direct effect on the",
+    "options": {
+      "A": "prices of consumer goods",
+      "B": "prices of essential goods",
+      "C": "cost of raw materials",
+      "D": "cost of transportation"
+    },
+    "correctAnswer": "D",
+    "explanation": "Petrol is the direct input into road transport, so its price feeds immediately into fares and haulage charges. The prices of other goods rise only afterwards, as the higher transport cost is passed on.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "financial-institutions",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 43,
+    "questionText": "Long-term funds for investment projects are sourced from the",
+    "options": {
+      "A": "money market",
+      "B": "commodity market",
+      "C": "foreign exchange market",
+      "D": "capital market"
+    },
+    "correctAnswer": "D",
+    "explanation": "The capital market deals in shares, debentures and long-dated bonds, which is where firms and governments raise finance for projects lasting many years.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "economic-planning",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 44,
+    "questionText": "A policy aimed at enhancing globalization of the Nigerian economy is",
+    "options": {
+      "A": "indigenization",
+      "B": "deregulation",
+      "C": "commercialization",
+      "D": "privatization"
+    },
+    "correctAnswer": "B",
+    "explanation": "Deregulation removes the controls that shut an economy off from world markets, opening it to foreign capital, goods and competition. Indigenization does the opposite by reserving businesses for nationals.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "population",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 45,
+    "questionText": "The Malthusian theory was concerned about the relationship between",
+    "options": {
+      "A": "population growth rates of the rich and the poor nations",
+      "B": "population density and national income",
+      "C": "population growth rate and natural resources",
+      "D": "age distribution of population"
+    },
+    "correctAnswer": "C",
+    "explanation": "Malthus argued that population tends to grow geometrically while the food that land can yield grows only arithmetically, so numbers press against the means of subsistence.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "population",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 46,
+    "questionText": "In a village of 50 persons, 10 immigrated, 25 died and 5 emigrated in a year. Determine the total population.",
+    "options": {
+      "A": "10",
+      "B": "20",
+      "C": "30",
+      "D": "50"
+    },
+    "correctAnswer": "C",
+    "explanation": "Add arrivals and subtract deaths and departures: 50 + 10 − 25 − 5 = 30.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 47,
+    "questionText": "A deficit balance of payments is measured by subtracting the debits from the credits in the",
+    "options": {
+      "A": "current account",
+      "B": "current and capital accounts",
+      "C": "current and escrow accounts",
+      "D": "capital and escrow accounts"
+    },
+    "correctAnswer": "B",
+    "explanation": "The balance of payments records all transactions with the rest of the world, which are grouped into the current account and the capital account. A deficit exists when total debits on both exceed total credits.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "international-trade",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 48,
+    "questionText": "One of the functions of ECOWAS is to",
+    "options": {
+      "A": "provide funds for infrastructural development",
+      "B": "determine prices of exports",
+      "C": "redistribute income among citizens",
+      "D": "provide employment for citizens of member nations"
+    },
+    "correctAnswer": "D",
+    "explanation": "ECOWAS guarantees free movement of persons, residence and establishment within the sub-region, so a citizen of one member state may live and work in another. It does not fix export prices or redistribute incomes.",
+    "difficulty": "INTERMEDIATE",
+    "marks": 1,
+    "timeEstimateSeconds": 60
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 49,
+    "questionText": "The reward on machinery and equipment in the process of production is known as",
+    "options": {
+      "A": "profit",
+      "B": "interest",
+      "C": "rent",
+      "D": "wage"
+    },
+    "correctAnswer": "B",
+    "explanation": "Machinery and equipment are capital, and the reward to capital is interest. Rent goes to land, wages to labour and profit to the entrepreneur.",
+    "difficulty": "BASIC",
+    "marks": 1,
+    "timeEstimateSeconds": 45
+  },
+  {
+    "subjectCode": "ECO",
+    "topicSlug": "production",
+    "examType": "JAMB",
+    "examYear": 2012,
+    "questionNumber": 50,
+    "questionText": "From this diagram, the minimum wage OW will lead to",
+    "questionImageUrl": "/questions/economics/jamb-economics-2012-q50.png",
+    "options": {
+      "A": "full employment of resources",
+      "B": "unemployment",
+      "C": "inflation",
+      "D": "full employment of factors of production"
+    },
+    "correctAnswer": "B",
+    "explanation": "The minimum wage OW is fixed above the level where the demand for and supply of labour intersect. At that higher wage more workers offer themselves than employers wish to hire, and the excess supply of labour is unemployment.",
+    "difficulty": "ADVANCED",
+    "marks": 1,
+    "timeEstimateSeconds": 90
+  }
+]

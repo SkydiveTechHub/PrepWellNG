@@ -2,8 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { LuArrowLeft } from "react-icons/lu";
 import { auth } from "@/lib/auth";
-import { db } from "@/lib/db";
-import { getFlashcardStats } from "@/lib/flashcard-analytics";
+import { getFlashcardStatsFor } from "@/lib/flashcards";
 import { PageHeader } from "@/components/ui/page-header";
 import { StatsDashboard } from "@/components/flashcards/stats-dashboard";
 
@@ -13,7 +12,7 @@ export default async function FlashcardsStatsPage() {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
 
-  const stats = await getFlashcardStats(db, session.user.id);
+  const stats = await getFlashcardStatsFor(session.user.id);
 
   return (
     <div>
