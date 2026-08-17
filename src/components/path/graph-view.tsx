@@ -28,6 +28,12 @@ export type GraphViewNode = {
   accObservations: number;
   lessonObservations: number;
   srsObservations: number;
+  /**
+   * ISO string, not a Date — this node crosses the server -> client boundary
+   * as a prop into this "use client" component, and this project's
+   * convention for that boundary is ISO strings (see lib/performance.ts).
+   */
+  lastStudy: string | null;
   isNext: boolean;
 };
 

@@ -171,6 +171,7 @@ export async function getSubjectPageData(
     const accObservations = topicState?.accObservations ?? 0;
     const lessonObservations = topicState?.lessonObservations ?? 0;
     const srsObservations = topicState?.srsObservations ?? 0;
+    const lastStudyIso = topicState?.lastStudy?.toISOString() ?? null;
     const available = isAvailable(topicId, state, graph, pretestPassed);
 
     let nodeState: GraphNodeState;
@@ -201,6 +202,7 @@ export async function getSubjectPageData(
       accObservations,
       lessonObservations,
       srsObservations,
+      lastStudy: lastStudyIso,
       isNext: false,
     });
   }

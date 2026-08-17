@@ -48,6 +48,8 @@ export interface RevisionQueueItem {
   accObservations: number;
   lessonObservations: number;
   srsObservations: number;
+  /** ISO string — see EvidenceCounts.lastStudy in lib/evidence-display.ts. */
+  lastStudy: string | null;
 }
 
 /**
@@ -160,6 +162,7 @@ export function revisionQueue(
       accObservations: topic.accObservations,
       lessonObservations: topic.lessonObservations,
       srsObservations: topic.srsObservations,
+      lastStudy: topic.lastStudy?.toISOString() ?? null,
     });
   }
 
@@ -274,5 +277,6 @@ export function revisionItemToRecommendation(
     accObservations: item.accObservations,
     lessonObservations: item.lessonObservations,
     srsObservations: item.srsObservations,
+    lastStudy: item.lastStudy,
   };
 }

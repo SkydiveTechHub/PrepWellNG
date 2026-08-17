@@ -32,6 +32,8 @@ export interface TopicGap {
   accObservations: number;
   lessonObservations: number;
   srsObservations: number;
+  /** ISO string — see EvidenceCounts.lastStudy in lib/evidence-display.ts. */
+  lastStudy: string | null;
   /**
    * How many times this topic appeared in a quiz the student started and never
    * finished. Explains a gap; deliberately does not rank it.
@@ -183,6 +185,7 @@ export function gapQueue(
       accObservations: topic.accObservations,
       lessonObservations: topic.lessonObservations,
       srsObservations: topic.srsObservations,
+      lastStudy: topic.lastStudy?.toISOString() ?? null,
       abandonedCount: abandonedByTopic.get(topicId) ?? 0,
     });
   }

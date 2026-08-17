@@ -60,6 +60,8 @@ export interface NextTopicRecommendation {
   accObservations: number;
   lessonObservations: number;
   srsObservations: number;
+  /** ISO string — see EvidenceCounts.lastStudy in lib/evidence-display.ts. */
+  lastStudy: string | null;
 }
 
 interface Ranked {
@@ -170,6 +172,7 @@ function toRecommendation(
     accObservations: topic?.accObservations ?? 0,
     lessonObservations: topic?.lessonObservations ?? 0,
     srsObservations: topic?.srsObservations ?? 0,
+    lastStudy: topic?.lastStudy?.toISOString() ?? null,
   };
 }
 
@@ -210,6 +213,7 @@ function masteredButDecayed(
         accObservations: topic.accObservations,
         lessonObservations: topic.lessonObservations,
         srsObservations: topic.srsObservations,
+        lastStudy: topic.lastStudy?.toISOString() ?? null,
       },
       retention: topic.retention,
       weight: examWeight(node),
