@@ -637,6 +637,13 @@ model TopicMastery {
   cursorSeq      BigInt    @default(0)
   /// Latest genuine-effort event. Lesson *access* never advances this.
   lastEffortAt   DateTime?
+  /// Mirrors SCORING_VERSION in src/engines/learning/evidence.ts, which is the
+  /// authority. A row whose version differs is refolded from cursor 0 on the
+  /// next read, so bumping the constant is how a scoring change is rolled out.
+  /// The default below is deliberately NOT kept in step: nothing but the store
+  /// inserts these rows, and the store always writes the constant explicitly,
+  /// so a stale default is inert — and changing it would cost a migration for
+  /// no behavioural gain.
   scoringVersion Int       @default(1)
   updatedAt      DateTime  @updatedAt
 
