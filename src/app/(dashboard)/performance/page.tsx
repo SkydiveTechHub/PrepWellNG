@@ -114,7 +114,9 @@ export default async function PerformancePage() {
                               {metric.subjectName}
                             </p>
                             <p className="text-xs text-muted">
-                              {metric.totalAttempted} questions · {metric.totalCorrect} correct
+                              {metric.totalAttempted}{" "}
+                              {metric.totalAttempted === 1 ? "question" : "questions"} ·{" "}
+                              {metric.totalCorrect} correct
                             </p>
                           </div>
                         </div>
