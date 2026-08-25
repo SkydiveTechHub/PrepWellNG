@@ -6,6 +6,7 @@ import {
   getStudyQueue,
 } from "./flashcard-analytics";
 import { generateCardsFromLesson } from "./flashcard-content";
+import { diffDeck, diffCounts, type ExistingCard } from "./flashcard-diff";
 import {
   initialState,
   reviewCard,
@@ -179,9 +180,15 @@ export async function setDeckEnrollment(
 }
 
 /**
- * Converts a lesson's blocks into a shared deck (source: LESSON). Idempotent
- * per lesson via the @@unique([lessonId, source]) constraint — repeat calls
- * replace the existing deck's cards in place.
+ * Converts a lesson's blocks into a shared deck (source: LESSON), re-syncing in
+ * place when the deck already exists.
+ *
+ * This deliberately does NOT delete and recreate. Deleting a Flashcard cascades
+ * away every student's FlashcardReview and FlashcardReviewLog rows for it, and
+ * lesson decks are shared — one student re-running the build used to reset the
+ * whole cohort's memory state. Cards are matched to stored rows by the id of
+ * the lesson block that produced them, so unchanged cards keep their schedule
+ * and only a card whose block is genuinely gone is deleted.
  *
  * `"lesson-not-found"` and `"no-cards"` are outcomes, not exceptions, so the
  * caller can map them to 404 and 422.
@@ -201,16 +208,7 @@ export async function generateDeckFromLesson(userId: string, lessonId: string) {
   const subjectId = lesson.subtopic.topic.subjectId;
   const topicId = lesson.subtopic.topicId;
 
-  const deck = await db.$transaction(async (tx) => {
-    const existing = await tx.flashcardDeck.findUnique({
-      where: { lessonId_source: { lessonId, source: "LESSON" } },
-      select: { id: true },
-    });
-
-    if (existing) {
-      await tx.flashcard.deleteMany({ where: { deckId: existing.id } });
-    }
-
+  const result = await db.$transaction(async (tx) => {
     const deckRow = await tx.flashcardDeck.upsert({
       where: { lessonId_source: { lessonId, source: "LESSON" } },
       create: {
@@ -230,21 +228,71 @@ export async function generateDeckFromLesson(userId: string, lessonId: string) {
       },
     });
 
-    await tx.flashcard.createMany({
-      data: generated.cards.map((card, index) => ({
-        deckId: deckRow.id,
-        cardType: card.cardType,
-        prompt: card.prompt,
-        payload: card.payload as object,
-        difficulty: card.difficulty,
-        orderIndex: index,
-      })),
+    const existing: ExistingCard[] = await tx.flashcard.findMany({
+      where: { deckId: deckRow.id },
+      select: {
+        id: true,
+        sourceKey: true,
+        orderIndex: true,
+        cardType: true,
+        prompt: true,
+        payload: true,
+        difficulty: true,
+      },
     });
 
-    return deckRow;
+    const diff = diffDeck(existing, generated.cards);
+
+    // Removals first: a deleted row frees its (deckId, sourceKey) slot before
+    // any surviving card is written into it.
+    if (diff.removed.length > 0) {
+      await tx.flashcard.deleteMany({
+        where: { id: { in: diff.removed.map((r) => r.id) } },
+      });
+    }
+
+    for (const entry of diff.updated) {
+      await tx.flashcard.update({
+        where: { id: entry.id },
+        data: {
+          sourceKey: entry.card.sourceKey,
+          cardType: entry.card.cardType,
+          prompt: entry.card.prompt,
+          payload: entry.card.payload as object,
+          difficulty: entry.card.difficulty,
+          orderIndex: entry.orderIndex,
+        },
+      });
+    }
+
+    // Unchanged cards keep their review state untouched; only position and a
+    // missing key are ever written, and only when they actually differ.
+    for (const entry of diff.unchanged) {
+      if (!entry.needsWrite) continue;
+      await tx.flashcard.update({
+        where: { id: entry.id },
+        data: { sourceKey: entry.card.sourceKey, orderIndex: entry.orderIndex },
+      });
+    }
+
+    if (diff.created.length > 0) {
+      await tx.flashcard.createMany({
+        data: diff.created.map((entry) => ({
+          deckId: deckRow.id,
+          sourceKey: entry.card.sourceKey,
+          cardType: entry.card.cardType,
+          prompt: entry.card.prompt,
+          payload: entry.card.payload as object,
+          difficulty: entry.card.difficulty,
+          orderIndex: entry.orderIndex,
+        })),
+      });
+    }
+
+    return { deck: deckRow, counts: diffCounts(diff) };
   });
 
-  return { deck, cardCount: generated.cards.length };
+  return { ...result, cardCount: generated.cards.length };
 }
 
 export type RecordReviewInput = {
