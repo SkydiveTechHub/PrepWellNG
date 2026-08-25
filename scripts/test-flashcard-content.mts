@@ -100,3 +100,33 @@ test("no generated card repeats its prompt as its whole answer", () => {
     );
   }
 });
+
+test("each card records the id of the block that produced it", () => {
+  const cards = cardsFor([
+    concept({ id: "c-alpha", title: "Density", text: "Mass per unit volume." }),
+    { type: "mistake", id: "m-beta", wrong: "Mass is weight.", right: "Weight is a force." } as LessonBlock,
+    { type: "tip", id: "t-gamma", text: "Always convert to SI first." } as LessonBlock,
+  ]);
+  assert.deepEqual(
+    cards.map((c) => c.sourceKey),
+    ["c-alpha", "m-beta", "t-gamma"],
+  );
+});
+
+test("source keys are unique across a generated deck", () => {
+  const blocks = [
+    concept({ id: "c-1", title: "One", text: "First." }),
+    concept({ id: "c-2", title: "Two", text: "Second." }),
+    concept({ id: "c-3", title: "Three", text: "Third." }),
+  ];
+  const keys = cardsFor(blocks).map((c) => c.sourceKey);
+  assert.equal(new Set(keys).size, keys.length);
+});
+
+test("a skipped block contributes no source key", () => {
+  const cards = cardsFor([
+    concept({ id: "objectives-1", title: "Learning Objectives", text: "By the end of this lesson, students should be able to:\n1. Define x" }),
+    concept({ id: "c-real", title: "Real Content", text: "Something teachable." }),
+  ]);
+  assert.deepEqual(cards.map((c) => c.sourceKey), ["c-real"]);
+});

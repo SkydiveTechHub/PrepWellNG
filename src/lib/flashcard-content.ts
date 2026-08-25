@@ -259,6 +259,8 @@ export function lintFlashcard(
 // ─── Lesson → deck generation ───────────────────────────────
 
 export type GeneratedCard = {
+  /** id of the lesson block this card was generated from. */
+  sourceKey: string;
   cardType: FlashcardType;
   prompt: string;
   payload: FlashcardPayload;
@@ -317,6 +319,7 @@ function isScaffolding(block: { title?: string; text: string }): boolean {
  * footnote.
  */
 function conceptToCards(block: {
+  id: string;
   title?: string;
   text: string;
   reveal?: string;
@@ -335,7 +338,7 @@ function conceptToCards(block: {
       question,
       answer: block.reveal.trim(),
     };
-    return { cardType: "SCENARIO", prompt: question, payload, difficulty: "BASIC" };
+    return { sourceKey: block.id, cardType: "SCENARIO", prompt: question, payload, difficulty: "BASIC" };
   }
 
   const payload: DefinitionPayload = {
@@ -343,10 +346,11 @@ function conceptToCards(block: {
     definition: block.text,
     ...(block.reveal ? { example: block.reveal } : {}),
   };
-  return { cardType: "DEFINITION", prompt: title, payload, difficulty: "BASIC" };
+  return { sourceKey: block.id, cardType: "DEFINITION", prompt: title, payload, difficulty: "BASIC" };
 }
 
 function checkToCard(block: {
+  id: string;
   question: string;
   options: Record<string, string>;
   answer: string;
@@ -360,6 +364,7 @@ function checkToCard(block: {
     explanation: block.explanation,
   };
   return {
+    sourceKey: block.id,
     cardType: "SCENARIO",
     prompt: shortLabel(block.question, 40),
     payload,
@@ -367,13 +372,14 @@ function checkToCard(block: {
   };
 }
 
-function mistakeToCard(block: { wrong: string; right: string }): GeneratedCard {
+function mistakeToCard(block: { id: string; wrong: string; right: string }): GeneratedCard {
   const payload: TrueFalsePayload = {
     statement: block.wrong,
     answer: false,
     explanation: block.right,
   };
   return {
+    sourceKey: block.id,
     cardType: "TRUE_FALSE",
     prompt: shortLabel(block.wrong, 40),
     payload,
@@ -382,6 +388,7 @@ function mistakeToCard(block: { wrong: string; right: string }): GeneratedCard {
 }
 
 function mnemonicToCard(block: {
+  id: string;
   phrase: string;
   encoded: string[];
 }): GeneratedCard {
@@ -390,6 +397,7 @@ function mnemonicToCard(block: {
     definition: `"${block.phrase}" encodes:\n${block.encoded.join(", ")}`,
   };
   return {
+    sourceKey: block.id,
     cardType: "DEFINITION",
     prompt: block.phrase,
     payload,
@@ -398,6 +406,7 @@ function mnemonicToCard(block: {
 }
 
 function exampleToCard(block: {
+  id: string;
   problem: string;
   steps: string[];
   answer: string;
@@ -409,6 +418,7 @@ function exampleToCard(block: {
     explanation: block.steps.join("\n"),
   };
   return {
+    sourceKey: block.id,
     cardType: "SCENARIO",
     prompt: shortLabel(block.problem, 40),
     payload,
@@ -416,12 +426,13 @@ function exampleToCard(block: {
   };
 }
 
-function tipToCard(block: { text: string }): GeneratedCard {
+function tipToCard(block: { id: string; text: string }): GeneratedCard {
   const payload: DefinitionPayload = {
     term: "Exam tip",
     definition: block.text,
   };
   return {
+    sourceKey: block.id,
     cardType: "DEFINITION",
     prompt: "Exam tip",
     payload,
