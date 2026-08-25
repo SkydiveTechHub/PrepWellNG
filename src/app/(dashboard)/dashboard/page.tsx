@@ -10,7 +10,6 @@ import {
   LuTimer,
   LuMonitor,
   LuBook,
-  LuAward,
   LuSparkles,
   LuCompass,
   LuTriangleAlert,
@@ -95,13 +94,6 @@ const QUICK_LINKS = [
     href: "/library",
     icon: LuBook,
     tile: "bg-tone-amber-soft text-tone-amber-ink",
-  },
-  {
-    title: "Achievements",
-    description: "Badges & streaks",
-    href: "/achievements",
-    icon: LuAward,
-    tile: "bg-tone-red-soft text-tone-red-ink",
   },
 ];
 

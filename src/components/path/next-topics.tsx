@@ -1,6 +1,9 @@
 import Link from "next/link";
-import { LuCompass, LuFlame, LuLockOpen } from "react-icons/lu";
-import type { NextTopicRecommendation } from "@/engines/learning/recommend";
+import { LuCompass, LuFlame, LuLockOpen, LuRotateCcw } from "react-icons/lu";
+import {
+  CONTINUE_REASON,
+  type NextTopicRecommendation,
+} from "@/engines/learning/recommend";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { evidenceLabel } from "@/lib/evidence-display";
@@ -13,7 +16,8 @@ export interface SubjectMeta {
 
 function reasonVariant(
   reason: string,
-): "purple" | "blue" | "amber" | "neutral" {
+): "purple" | "blue" | "amber" | "green" | "neutral" {
+  if (reason === CONTINUE_REASON) return "green";
   if (reason.startsWith("Unlocks")) return "purple";
   if (reason.startsWith("High-yield")) return "blue";
   if (reason.startsWith("Fading") || reason.startsWith("Consolidate")) {
@@ -23,6 +27,7 @@ function reasonVariant(
 }
 
 function reasonIcon(reason: string) {
+  if (reason === CONTINUE_REASON) return <LuRotateCcw className="h-3 w-3" />;
   if (reason.startsWith("Unlocks")) return <LuLockOpen className="h-3 w-3" />;
   if (reason.startsWith("Fading") || reason.startsWith("Consolidate")) {
     return <LuFlame className="h-3 w-3" />;

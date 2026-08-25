@@ -1,7 +1,7 @@
 import type { KnowledgeGraph, GraphNode } from "./graph";
 import { incomingEdges, outgoingEdges } from "./graph";
 import { isAvailable, TARGET } from "./availability";
-import type { TopicStateMap } from "./mastery";
+import type { TopicState, TopicStateMap } from "./mastery";
 
 // Learning Path Engine — next-topic recommendation (algorithm C).
 // See docs/superpowers/specs/2026-08-02-learning-path-engine-design.md
@@ -62,6 +62,30 @@ export interface NextTopicRecommendation {
   srsObservations: number;
   /** ISO string — see EvidenceCounts.lastStudy in lib/evidence-display.ts. */
   lastStudy: string | null;
+}
+
+/** The reason line carried by a pick that came from the student's own lessons. */
+export const CONTINUE_REASON = "Continue where you left off";
+
+export interface RecommendOptions {
+  k?: number;
+  now?: Date;
+  pretestPassed?: ReadonlySet<string>;
+  /** Topic ids to leave out — already picked by a rail upstream. */
+  exclude?: ReadonlySet<string>;
+  /**
+   * Skip topics with no observations in any channel. Their mastery is the
+   * untouched prior rather than a measurement, so recommending one states
+   * something about the student that nothing has established.
+   */
+  evidenceOnly?: boolean;
+}
+
+/** Whether any channel has actually observed this topic. */
+export function hasEvidence(topic: TopicState): boolean {
+  return (
+    topic.accObservations + topic.lessonObservations + topic.srsObservations > 0
+  );
 }
 
 interface Ranked {
@@ -185,11 +209,13 @@ function masteredButDecayed(
   state: TopicStateMap,
   graph: KnowledgeGraph,
   k: number,
+  exclude: ReadonlySet<string> = new Set<string>(),
 ): NextTopicRecommendation[] {
   const picks: Array<{ rec: NextTopicRecommendation; retention: number; weight: number }> = [];
   for (const [topicId, topic] of state) {
     const node = graph.nodes.get(topicId);
     if (!node) continue;
+    if (exclude.has(topicId)) continue;
     if (topic.mastery < TARGET) continue;
     if (topic.retention == null || topic.retention >= DECAY_RETENTION) continue;
     picks.push({
@@ -237,16 +263,19 @@ function masteredButDecayed(
 export function recommendNext(
   state: TopicStateMap,
   graph: KnowledgeGraph,
-  options: { k?: number; now?: Date; pretestPassed?: ReadonlySet<string> } = {},
+  options: RecommendOptions = {},
 ): NextTopicRecommendation[] {
   const k = options.k ?? 3;
   const now = options.now ?? new Date();
   const pretestPassed = options.pretestPassed ?? new Set<string>();
+  const exclude = options.exclude ?? new Set<string>();
 
   const candidates: NextTopicRecommendation[] = [];
   for (const [topicId, topic] of state) {
     const node = graph.nodes.get(topicId);
     if (!node) continue;
+    if (exclude.has(topicId)) continue;
+    if (options.evidenceOnly && !hasEvidence(topic)) continue;
     if (!isAvailable(topicId, state, graph, pretestPassed)) continue;
     if (topic.mastery >= TARGET) continue;
     const ranked = rankCandidate(topicId, state, graph, now);
@@ -265,5 +294,80 @@ export function recommendNext(
     candidates.sort((a, b) => b.score - a.score);
     return candidates.slice(0, k);
   }
-  return masteredButDecayed(state, graph, k);
+  return masteredButDecayed(state, graph, k, exclude);
+}
+
+/**
+ * Topics behind the student's most recent lessons that are still short of
+ * TARGET, newest first and one card per topic.
+ *
+ * These bypass `isAvailable`: the student has already been inside the lesson,
+ * so a readiness gate saying they cannot reach it would be arguing with
+ * something that already happened.
+ */
+function recentLessonPicks(
+  recentLessonTopicIds: readonly string[],
+  state: TopicStateMap,
+  graph: KnowledgeGraph,
+  now: Date,
+  k: number,
+): NextTopicRecommendation[] {
+  const picks: NextTopicRecommendation[] = [];
+  const seen = new Set<string>();
+  for (const topicId of recentLessonTopicIds) {
+    if (picks.length >= k) break;
+    if (seen.has(topicId)) continue;
+    seen.add(topicId);
+    const topic = state.get(topicId);
+    if (!topic || !graph.nodes.has(topicId)) continue;
+    if (topic.mastery >= TARGET) continue;
+    picks.push(
+      toRecommendation(
+        topicId,
+        state,
+        graph,
+        rankCandidate(topicId, state, graph, now),
+        CONTINUE_REASON,
+      ),
+    );
+  }
+  return picks;
+}
+
+/**
+ * What the dashboard's "Keep learning" rail shows: the topics behind the
+ * student's last k lessons that they have not mastered yet, topped up with
+ * ranked recommendations when fewer than k of those qualify.
+ *
+ * The top-up is restricted to topics the student has actually touched
+ * (`evidenceOnly`). Ranked across the whole catalog the engine will happily
+ * surface a topic with no observations at all — its mastery is the untouched
+ * prior, so it reads as maximally urgent — and the card then asserts a topic
+ * and subject the student has never met. A short rail beats a confident guess.
+ */
+export function keepLearning(
+  state: TopicStateMap,
+  graph: KnowledgeGraph,
+  recentLessonTopicIds: readonly string[],
+  options: RecommendOptions = {},
+): NextTopicRecommendation[] {
+  const k = options.k ?? 3;
+  const now = options.now ?? new Date();
+  const picks = recentLessonPicks(recentLessonTopicIds, state, graph, now, k);
+  if (picks.length >= k) return picks;
+
+  const exclude = new Set([
+    ...(options.exclude ?? []),
+    ...picks.map((pick) => pick.topicId),
+  ]);
+  return [
+    ...picks,
+    ...recommendNext(state, graph, {
+      ...options,
+      k: k - picks.length,
+      now,
+      exclude,
+      evidenceOnly: true,
+    }),
+  ];
 }
