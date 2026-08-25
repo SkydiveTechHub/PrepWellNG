@@ -295,6 +295,72 @@ export async function generateDeckFromLesson(userId: string, lessonId: string) {
   return { ...result, cardCount: generated.cards.length };
 }
 
+export type DeckPreview = {
+  /** A deck already exists for this lesson. */
+  exists: boolean;
+  total: number;
+  byType: { cardType: string; count: number }[];
+  counts: ReturnType<typeof diffCounts>;
+  samples: { cardType: string; prompt: string }[];
+};
+
+/**
+ * What building this lesson's deck would do — same generator, same diff, no
+ * writes. Sharing diffDeck with the write path is the point: a preview that can
+ * disagree with the result is worse than no preview.
+ */
+export async function previewDeckFromLesson(
+  lessonId: string,
+): Promise<DeckPreview | "lesson-not-found"> {
+  const lesson = await db.lesson.findUnique({
+    where: { id: lessonId },
+    select: { id: true, title: true, blocks: true },
+  });
+  if (!lesson) return "lesson-not-found" as const;
+
+  const generated = generateCardsFromLesson(lesson);
+
+  const deck = await db.flashcardDeck.findUnique({
+    where: { lessonId_source: { lessonId, source: "LESSON" } },
+    select: { id: true },
+  });
+
+  const existing: ExistingCard[] = deck
+    ? await db.flashcard.findMany({
+        where: { deckId: deck.id },
+        select: {
+          id: true,
+          sourceKey: true,
+          orderIndex: true,
+          cardType: true,
+          prompt: true,
+          payload: true,
+          difficulty: true,
+        },
+      })
+    : [];
+
+  const counts = diffCounts(diffDeck(existing, generated.cards));
+
+  const byType = new Map<string, number>();
+  for (const card of generated.cards) {
+    byType.set(card.cardType, (byType.get(card.cardType) ?? 0) + 1);
+  }
+
+  return {
+    exists: deck !== null,
+    total: generated.cards.length,
+    byType: [...byType.entries()]
+      .map(([cardType, count]) => ({ cardType, count }))
+      .sort((a, b) => b.count - a.count || a.cardType.localeCompare(b.cardType)),
+    counts,
+    samples: generated.cards.slice(0, 5).map((c) => ({
+      cardType: c.cardType,
+      prompt: c.prompt,
+    })),
+  };
+}
+
 export type RecordReviewInput = {
   flashcardId: string;
   rating: ReviewRating;

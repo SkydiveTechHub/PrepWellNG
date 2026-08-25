@@ -298,6 +298,10 @@ export const generateFlashcardDeckSchema = z.object({
   lessonId: z.string(),
 });
 
+export const previewFlashcardDeckSchema = z.object({
+  lessonId: z.string().min(1),
+});
+
 export const toggleEnrollmentSchema = z.object({
   enrolled: z.boolean(),
 });
@@ -320,5 +324,6 @@ export type BulkImportQuestionInput = z.infer<typeof bulkImportQuestionSchema>;
 export type BulkImportInput = z.infer<typeof bulkImportSchema>;
 export type SubmitFlashcardReviewInput = z.infer<typeof submitFlashcardReviewSchema>;
 export type GenerateFlashcardDeckInput = z.infer<typeof generateFlashcardDeckSchema>;
+export type PreviewFlashcardDeckInput = z.infer<typeof previewFlashcardDeckSchema>;
 export type ToggleEnrollmentInput = z.infer<typeof toggleEnrollmentSchema>;
 export type CreateFlashcardDeckInput = z.infer<typeof createFlashcardDeckSchema>;
