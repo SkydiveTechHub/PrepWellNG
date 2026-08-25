@@ -43,7 +43,14 @@ export type FlashcardsPageData = {
   bestDeckId: string | null;
   decksWithDue: number;
   /** Finished lessons that can be turned into a deck. */
-  lessons: { lessonId: string; title: string }[];
+  lessons: {
+    lessonId: string;
+    title: string;
+    subjectName: string;
+    topicTitle: string;
+    /** The deck already built from this lesson, if there is one. */
+    deck: { id: string; cardCount: number } | null;
+  }[];
 };
 
 export async function getFlashcardsPageData(
@@ -54,11 +61,51 @@ export async function getFlashcardsPageData(
     getFlashcardRecommendations(db, userId),
     db.studentProgress.findMany({
       where: { studentId: userId, status: "COMPLETED", lessonId: { not: null } },
-      select: { lesson: { select: { id: true, title: true } } },
+      select: {
+        lesson: {
+          select: {
+            id: true,
+            title: true,
+            subtopic: {
+              select: {
+                topic: {
+                  select: { title: true, subject: { select: { name: true } } },
+                },
+              },
+            },
+          },
+        },
+      },
       orderBy: { lastAccessedAt: "desc" },
-      take: 12,
     }),
   ]);
+
+  const lessonRows = completedLessons
+    .map((p) => p.lesson)
+    .filter((l): l is NonNullable<typeof l> => l !== null);
+
+  // One grouped lookup marks which of those lessons already has a deck, so the
+  // picker can say "already built" instead of silently offering a re-sync.
+  const builtDecks =
+    lessonRows.length === 0
+      ? []
+      : await db.flashcardDeck.findMany({
+          where: {
+            source: "LESSON",
+            lessonId: { in: lessonRows.map((l) => l.id) },
+          },
+          select: {
+            id: true,
+            lessonId: true,
+            _count: { select: { cards: true } },
+          },
+        });
+
+  const deckByLesson = new Map(
+    builtDecks
+      .filter((d): d is typeof d & { lessonId: string } => d.lessonId !== null)
+      .map((d) => [d.lessonId, { id: d.id, cardCount: d._count.cards }]),
+  );
 
   const bestDeck =
     decks.length > 0 ? decks.reduce((a, b) => (b.due > a.due ? b : a)) : null;
@@ -70,10 +117,13 @@ export async function getFlashcardsPageData(
     totalFresh: decks.reduce((sum, d) => sum + d.fresh, 0),
     bestDeckId: bestDeck?.id ?? null,
     decksWithDue: decks.filter((d) => d.due > 0).length,
-    lessons: completedLessons
-      .map((p) => p.lesson)
-      .filter((l): l is { id: string; title: string } => l !== null)
-      .map((l) => ({ lessonId: l.id, title: l.title })),
+    lessons: lessonRows.map((l) => ({
+      lessonId: l.id,
+      title: l.title,
+      subjectName: l.subtopic.topic.subject.name,
+      topicTitle: l.subtopic.topic.title,
+      deck: deckByLesson.get(l.id) ?? null,
+    })),
   };
 }
 
