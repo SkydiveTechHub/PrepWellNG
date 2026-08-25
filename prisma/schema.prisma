@@ -765,12 +765,18 @@ model Flashcard {
   difficulty Difficulty    @default(INTERMEDIATE)
   tags       Json?
   orderIndex Int           @default(0)
+  // id of the lesson block this card was generated from. Nullable: rows that
+  // predate re-sync have no key (stamped on first re-sync), and AUTHORED decks
+  // have no source block at all. Postgres does not collide nulls under a
+  // unique index, so any number of them coexist in one deck.
+  sourceKey  String?
 
   reviews   FlashcardReview[]
   reviewLog FlashcardReviewLog[]
 
   createdAt DateTime @default(now())
 
+  @@unique([deckId, sourceKey])
   @@index([deckId, orderIndex])
 }
 
