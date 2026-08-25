@@ -7,6 +7,7 @@ import {
 } from "./flashcard-analytics";
 import { generateCardsFromLesson } from "./flashcard-content";
 import { diffDeck, diffCounts, type ExistingCard } from "./flashcard-diff";
+import { canManageDeck } from "./flashcard-ownership";
 import {
   initialState,
   reviewCard,
@@ -134,11 +135,25 @@ export type DeckPageData = {
     description: string | null;
     subjectName: string | null;
     topicTitle: string | null;
+    /** This student created it, so they may prune or delete it. */
+    isOwner: boolean;
+    /** Other students following this deck — zero for a private one. */
+    followerCount: number;
+    /** The lesson it was built from, so a deleted deck can be rebuilt. */
+    lessonId: string | null;
   };
+  /** Every card in the deck, in order — the queue is only what is due today. */
+  cards: {
+    id: string;
+    cardType: string;
+    prompt: string | null;
+    difficulty: string;
+    orderIndex: number;
+  }[];
   queue: Awaited<ReturnType<typeof getStudyQueue>>;
 };
 
-/** A deck and its due queue, or null when the deck does not exist. */
+/** A deck, its full card list and its due queue, or null when it does not exist. */
 export async function getDeckPageData(
   userId: string,
   deckId: string,
@@ -149,11 +164,29 @@ export async function getDeckPageData(
       id: true,
       title: true,
       description: true,
+      createdBy: true,
+      lessonId: true,
       subject: { select: { name: true } },
       topic: { select: { title: true } },
+      _count: { select: { enrollments: true } },
     },
   });
   if (!deck) return null;
+
+  const [cards, queue] = await Promise.all([
+    db.flashcard.findMany({
+      where: { deckId },
+      orderBy: { orderIndex: "asc" },
+      select: {
+        id: true,
+        cardType: true,
+        prompt: true,
+        difficulty: true,
+        orderIndex: true,
+      },
+    }),
+    getStudyQueue(db, userId, deckId),
+  ]);
 
   return {
     deck: {
@@ -162,9 +195,58 @@ export async function getDeckPageData(
       description: deck.description,
       subjectName: deck.subject?.name ?? null,
       topicTitle: deck.topic?.title ?? null,
+      isOwner: canManageDeck(deck, userId),
+      followerCount: deck._count.enrollments,
+      lessonId: deck.lessonId,
     },
-    queue: await getStudyQueue(db, userId, deckId),
+    cards,
+    queue,
   };
+}
+
+/**
+ * Deletes one card from a deck the student created.
+ *
+ * Ownership is the whole check: deleting a Flashcard cascades away every
+ * enrolled student's FlashcardReview and FlashcardReviewLog rows for it, so a
+ * follower must not be able to reach this. `"forbidden"` is returned rather
+ * than thrown so the route can map it to 403.
+ *
+ * A card deleted from a LESSON deck comes back if the lesson is re-synced —
+ * its block is still in the note, so the diff sees a card with no row. That is
+ * deliberate: rebuilding from the lesson is the way back.
+ */
+export async function deleteFlashcard(userId: string, cardId: string) {
+  const card = await db.flashcard.findUnique({
+    where: { id: cardId },
+    select: { id: true, deckId: true, deck: { select: { createdBy: true } } },
+  });
+  if (!card) return "card-not-found" as const;
+  if (!canManageDeck(card.deck, userId)) return "forbidden" as const;
+
+  await db.flashcard.delete({ where: { id: card.id } });
+  const remaining = await db.flashcard.count({ where: { deckId: card.deckId } });
+  return { deckId: card.deckId, remaining };
+}
+
+/**
+ * Deletes a whole deck the student created, and every card in it.
+ *
+ * There is no soft delete and no unfollow to fall back on: the creator is not
+ * enrolled in their own deck, so removing it from their list means removing it.
+ * Cards, and with them every student's review history for this deck, cascade.
+ * The caller is expected to have said so before calling.
+ */
+export async function deleteDeck(userId: string, deckId: string) {
+  const deck = await db.flashcardDeck.findUnique({
+    where: { id: deckId },
+    select: { id: true, createdBy: true },
+  });
+  if (!deck) return "deck-not-found" as const;
+  if (!canManageDeck(deck, userId)) return "forbidden" as const;
+
+  await db.flashcardDeck.delete({ where: { id: deck.id } });
+  return { deckId: deck.id };
 }
 
 /** Retention, activity and leech statistics for the stats dashboard. */
