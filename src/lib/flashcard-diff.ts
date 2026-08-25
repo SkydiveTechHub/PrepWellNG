@@ -91,7 +91,30 @@ export function diffDeck(
     }
   });
 
-  // Pass 2 — legacy rows only. Cards were written in block order, so for a deck
+  // Pass 2 — identical bodies. A card whose text is unchanged is the same card
+  // wherever it moved to, so this rescues a deck the generator itself has moved
+  // on from: an older generator emitted cards the current one drops, and every
+  // survivor shifts a slot. Position matches nothing there; the bodies match.
+  // Exact equality only, so a match here can never be a guess.
+  const byBody = new Map<string, ExistingCard[]>();
+  for (const row of existing) {
+    if (claimed.has(row.id)) continue;
+    const body = storedBodyOf(row);
+    byBody.set(body, [...(byBody.get(body) ?? []), row]);
+  }
+  generated.forEach((card, index) => {
+    if (matches.has(index)) return;
+    const queue = byBody.get(bodyOf(card));
+    if (!queue) return;
+    // Duplicate bodies are possible in a legacy deck; each card takes its own
+    // row rather than both landing on the first one.
+    const row = queue.shift();
+    if (!row) return;
+    claimed.add(row.id);
+    matches.set(index, row);
+  });
+
+  // Pass 3 — legacy rows only. Cards were written in block order, so for a deck
   // predating sourceKey, position *is* the old identity. Runs once per deck:
   // the caller stamps the key, and the next re-sync is pure pass 1.
   const legacy = existing

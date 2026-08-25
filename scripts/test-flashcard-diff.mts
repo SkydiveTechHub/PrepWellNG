@@ -124,18 +124,74 @@ test("keyed rows win before the positional fallback runs", () => {
   assert.equal(diff.unchanged.find((u) => u.card.sourceKey === "z")?.id, "legacy-1");
 });
 
-test("a legacy deck that gained a leading block shifts every positional match", () => {
-  // Documented consequence, not an accident: with no keys to match on, position
-  // is all there is, so inserting at the top re-points every legacy row. Those
-  // two cards lose their schedule — once, and only for decks predating the key.
+test("a legacy deck that gained a leading block keeps its cards by body", () => {
+  // A card whose text is unchanged is the same card wherever it moved to, so
+  // inserting at the top no longer re-points every legacy row onto its
+  // neighbour's schedule.
   const rows = [
     row({ id: "legacy-0", sourceKey: null, orderIndex: 0, bodyKey: "a" }),
     row({ id: "legacy-1", sourceKey: null, orderIndex: 1, bodyKey: "b" }),
   ];
   const diff = diffDeck(rows, [card("new"), card("a"), card("b")]);
 
-  assert.deepEqual(diffCounts(diff), { unchanged: 0, updated: 2, created: 1, removed: 0 });
-  assert.equal(diff.updated.find((u) => u.id === "legacy-0")?.card.sourceKey, "new");
+  assert.deepEqual(diffCounts(diff), { unchanged: 2, updated: 0, created: 1, removed: 0 });
+  assert.equal(diff.unchanged.find((u) => u.id === "legacy-0")?.card.sourceKey, "a");
+  assert.equal(diff.created[0].card.sourceKey, "new");
+});
+
+test("a legacy deck that lost its leading block keeps the rest by body", () => {
+  // The real shape of the "Measurement and Units" deck: an older generator
+  // emitted a scaffolding card the current one drops, shifting every survivor
+  // up one slot. Position matches nothing; the bodies match everything.
+  const rows = [
+    row({ id: "legacy-0", sourceKey: null, orderIndex: 0, bodyKey: "objectives" }),
+    row({ id: "legacy-1", sourceKey: null, orderIndex: 1, bodyKey: "a" }),
+    row({ id: "legacy-2", sourceKey: null, orderIndex: 2, bodyKey: "b" }),
+  ];
+  const diff = diffDeck(rows, [card("a"), card("b")]);
+
+  assert.deepEqual(diffCounts(diff), { unchanged: 2, updated: 0, created: 0, removed: 1 });
+  assert.deepEqual(diff.removed, [{ id: "legacy-0" }]);
+  assert.equal(diff.unchanged.find((u) => u.card.sourceKey === "a")?.id, "legacy-1");
+});
+
+test("a body match never steals a row a key already claimed", () => {
+  const rows = [
+    row({ id: "keyed-a", sourceKey: "a", orderIndex: 0, bodyKey: "a" }),
+    row({ id: "twin", sourceKey: null, orderIndex: 1, bodyKey: "a" }),
+  ];
+  const diff = diffDeck(rows, [card("a")]);
+
+  assert.deepEqual(diffCounts(diff), { unchanged: 1, updated: 0, created: 0, removed: 1 });
+  assert.equal(diff.unchanged[0].id, "keyed-a", "the keyed row wins");
+  assert.deepEqual(diff.removed, [{ id: "twin" }]);
+});
+
+test("two identical bodies claim two distinct rows", () => {
+  // Duplicate bodies are possible in a legacy deck. Each generated card must
+  // take its own row rather than both landing on the first one.
+  const rows = [
+    row({ id: "dup-0", sourceKey: null, orderIndex: 0, bodyKey: "same" }),
+    row({ id: "dup-1", sourceKey: null, orderIndex: 1, bodyKey: "same" }),
+  ];
+  const diff = diffDeck(rows, [card("same"), card("same")]);
+
+  assert.deepEqual(diffCounts(diff), { unchanged: 2, updated: 0, created: 0, removed: 0 });
+  assert.equal(new Set(diff.unchanged.map((u) => u.id)).size, 2);
+});
+
+test("what the body pass cannot match still falls back to position", () => {
+  // "a" moved and is matched by body; the edited card has no body twin, so the
+  // one row left over is paired with it positionally and reported as updated.
+  const rows = [
+    row({ id: "legacy-0", sourceKey: null, orderIndex: 0, bodyKey: "edited", text: "OLD" }),
+    row({ id: "legacy-1", sourceKey: null, orderIndex: 1, bodyKey: "a" }),
+  ];
+  const diff = diffDeck(rows, [card("a"), card("edited", "NEW")]);
+
+  assert.deepEqual(diffCounts(diff), { unchanged: 1, updated: 1, created: 0, removed: 0 });
+  assert.equal(diff.unchanged[0].id, "legacy-1");
+  assert.equal(diff.updated[0].id, "legacy-0");
 });
 
 test("an empty stored deck creates everything", () => {
