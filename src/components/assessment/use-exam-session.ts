@@ -117,7 +117,18 @@ export function useExamSession({
   // handlers and effects — never during render.
   const answersRef = useRef<AnswerMap>({});
   const questionStartRef = useRef(0);
-  const startedRef = useRef(false);
+  /**
+   * The one generation in flight (or already settled) for a session key.
+   *
+   * React double-invokes effects in development, and refs survive that remount.
+   * Holding the promise rather than a "started" flag lets the second run await
+   * the same generation the first run kicked off: still exactly one assessment
+   * row per key, but the run that outlives the remount is the one that commits.
+   */
+  const startRef = useRef<{
+    key: string;
+    promise: Promise<GeneratedExam>;
+  } | null>(null);
   const submittedRef = useRef(false);
 
   const questions = useMemo(() => data?.questions ?? [], [data]);
@@ -141,11 +152,6 @@ export function useExamSession({
 
   // ── Start or resume ──────────────────────────────────────
   useEffect(() => {
-    // Guard against React's double-invoked effects in development: without it
-    // every mount generated (and abandoned) a second assessment row.
-    if (startedRef.current) return;
-    startedRef.current = true;
-
     let cancelled = false;
 
     (async () => {
@@ -169,7 +175,13 @@ export function useExamSession({
       }
 
       try {
-        const exam = await generate();
+        // Started once per key. The assignment lands before the first await,
+        // so the remounted run always finds this rather than racing it, and a
+        // genuinely new key still generates a paper of its own.
+        if (startRef.current?.key !== sessionKey) {
+          startRef.current = { key: sessionKey, promise: generate() };
+        }
+        const exam = await startRef.current.promise;
         if (cancelled) return;
         // Prefer the server's deadline; it is what submission is judged against.
         // No server deadline and no configured time limit means an untimed
@@ -201,9 +213,11 @@ export function useExamSession({
         if (exam.resumed) setResumed(true);
         setLoading(false);
       } catch (err) {
+        // Dropped before the cancelled check so a retry regenerates rather
+        // than re-awaiting the promise that just failed.
+        if (startRef.current?.key === sessionKey) startRef.current = null;
         if (cancelled) return;
         // A failed start is unrecoverable in place — surface it as a hard error.
-        startedRef.current = false;
         setError(
           err instanceof Error ? err.message : "Network error. Please try again.",
         );

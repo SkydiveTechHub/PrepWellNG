@@ -7,22 +7,24 @@ const practiceOptions = [
   {
     title: "Past Questions",
     description:
-      "Browse and practice actual WAEC, JAMB, and NECO past questions organized by subject and year. Detailed explanations for every answer.",
+      "Browse and practice actual JAMB past questions organized by subject and year, with detailed explanations for every answer. WAEC and NECO papers are coming soon.",
     href: "/practice/past-questions",
     icon: LuFileText,
     tile: "bg-tone-green-soft text-tone-green-ink",
-    stats: "WAEC • JAMB • NECO",
+    stats: "JAMB",
     badge: "green" as const,
+    comingSoon: "WAEC & NECO coming soon",
   },
   {
     title: "Mock Exam",
     description:
-      "Take a full-length exam under timed conditions. Simulates real WAEC (Objective + Theory) or NECO format with auto-grading.",
+      "Take a full-length exam under timed conditions, with auto-grading. JAMB format today; WAEC (Objective + Theory) and NECO are coming soon.",
     href: "/practice/mock-exam",
     icon: LuTimer,
     tile: "bg-tone-purple-soft text-tone-purple-ink",
     stats: "Timed • Full-length",
     badge: "purple" as const,
+    comingSoon: "WAEC & NECO coming soon",
   },
   {
     title: "JAMB CBT Practice",
@@ -33,6 +35,7 @@ const practiceOptions = [
     tile: "bg-tone-blue-soft text-tone-blue-ink",
     stats: "180 questions • 2 hours",
     badge: "blue" as const,
+    comingSoon: null,
   },
 ];
 
@@ -60,6 +63,7 @@ export default function PracticePage() {
               <div className="flex flex-wrap items-center gap-2">
                 <h3 className="font-bold text-foreground">{option.title}</h3>
                 <Badge variant={option.badge}>{option.stats}</Badge>
+                {option.comingSoon && <Badge>{option.comingSoon}</Badge>}
               </div>
               <p className="mt-1.5 text-sm leading-relaxed text-muted">
                 {option.description}

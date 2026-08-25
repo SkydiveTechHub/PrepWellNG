@@ -5,7 +5,6 @@ import { auth } from "@/lib/auth";
 import { getDeckPageData } from "@/lib/flashcards";
 import { Badge } from "@/components/ui/badge";
 import { StudySession } from "@/components/flashcards/study-session";
-import { DeckCards } from "@/components/flashcards/deck-cards";
 import { DeleteDeckButton } from "@/components/flashcards/delete-deck-button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { buttonClass } from "@/components/ui/button";
@@ -25,7 +24,7 @@ export default async function DeckPage({
   const data = await getDeckPageData(session.user.id, deckId);
   if (!data) notFound();
 
-  const { deck, cards, queue } = data;
+  const { deck, queue } = data;
   const fromLesson = deck.lessonId !== null;
 
   return (
@@ -86,17 +85,6 @@ export default async function DeckPage({
           }
         />
       )}
-
-      {/* Every card, not just today's queue — the only place a deck can be pruned. */}
-      <section>
-        <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-          <h2 className="section-label">
-            All cards
-            <span className="ml-2 font-normal text-muted">({cards.length})</span>
-          </h2>
-        </div>
-        <DeckCards cards={cards} isOwner={deck.isOwner} fromLesson={fromLesson} />
-      </section>
 
       {deck.isOwner && (
         <section className="border-t border-border pt-5">

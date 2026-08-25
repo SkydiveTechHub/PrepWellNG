@@ -67,3 +67,13 @@ export const NIGERIAN_STATES = [
   "Lagos", "Nasarawa", "Niger", "Ogun", "Ondo", "Osun",
   "Oyo", "Plateau", "Rivers", "Sokoto", "Taraba", "Yobe", "Zamfara",
 ] as const;
+
+// Boards whose content isn't ready to sit yet. JAMB is the only board with a
+// complete, syllabus-tagged question bank, so WAEC and NECO are surfaced but
+// held back — visible in the pickers with a "Coming soon" tag, and not
+// selectable. Removing a board from this set is all it takes to ship it.
+export const COMING_SOON_BOARDS = new Set<string>(["WAEC", "NECO"]);
+
+export function isComingSoonBoard(examType: string): boolean {
+  return COMING_SOON_BOARDS.has(examType);
+}

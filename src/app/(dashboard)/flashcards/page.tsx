@@ -117,7 +117,7 @@ export default async function FlashcardsPage() {
             Build cards from a lesson
           </h2>
           <p className="mt-1 text-xs leading-relaxed text-muted">
-            Pick a lesson you finished and turn its concepts, examples and
+            Pick a lesson you’ve taken and turn its concepts, examples and
             mistakes into a deck. Already built one? Re-syncing pulls in your
             latest edits and keeps your review progress.
           </p>

@@ -29,7 +29,17 @@ export async function GET(req: NextRequest) {
   } catch (error) {
     console.error("Error loading mock exam options:", error);
     return NextResponse.json(
-      { error: "Failed to load subjects" },
+      {
+        error: "Failed to load subjects",
+        // The line above is all a student should ever read, but on its own it
+        // made this route's failures undiagnosable from the browser: a 500 here
+        // named neither the cause nor the Prisma code. Development only, so a
+        // deployed instance still says nothing about its internals.
+        ...(process.env.NODE_ENV === "development" && {
+          detail: error instanceof Error ? error.message : String(error),
+          code: (error as { code?: string }).code ?? null,
+        }),
+      },
       { status: 500 },
     );
   }

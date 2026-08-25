@@ -43,47 +43,84 @@ export type FlashcardsPageData = {
   /** Deck with the most cards due — the "start studying" target. */
   bestDeckId: string | null;
   decksWithDue: number;
-  /** Finished lessons that can be turned into a deck. */
+  /** Lessons the student has taken, newest first, that can become a deck. */
   lessons: {
     lessonId: string;
     title: string;
     subjectName: string;
     topicTitle: string;
+    /** They reached the end of it — finished lessons are offered first. */
+    completed: boolean;
+    /** How far through they are, 0..100. */
+    completionPercent: number;
     /** The deck already built from this lesson, if there is one. */
     deck: { id: string; cardCount: number } | null;
   }[];
 };
 
+/** The lesson shape the picker needs, wherever the lesson came from. */
+const LESSON_PICKER_SELECT = {
+  id: true,
+  title: true,
+  subtopic: {
+    select: {
+      topic: { select: { title: true, subject: { select: { name: true } } } },
+    },
+  },
+} as const;
+
 export async function getFlashcardsPageData(
   userId: string,
 ): Promise<FlashcardsPageData> {
-  const [decks, recommendations, completedLessons] = await Promise.all([
+  const [decks, recommendations, takenLessons, ownDecks] = await Promise.all([
     getDeckSummaries(db, userId),
     getFlashcardRecommendations(db, userId),
+    // Every lesson they have opened, not only the finished ones: a lesson is
+    // worth carding as soon as it has been read, and "COMPLETED" is only
+    // written when the player reaches the end.
     db.studentProgress.findMany({
-      where: { studentId: userId, status: "COMPLETED", lessonId: { not: null } },
+      where: { studentId: userId, lessonId: { not: null } },
       select: {
-        lesson: {
-          select: {
-            id: true,
-            title: true,
-            subtopic: {
-              select: {
-                topic: {
-                  select: { title: true, subject: { select: { name: true } } },
-                },
-              },
-            },
-          },
-        },
+        status: true,
+        completionPercent: true,
+        lesson: { select: LESSON_PICKER_SELECT },
       },
       orderBy: { lastAccessedAt: "desc" },
     }),
+    // A deck they already built keeps its lesson in the picker even with no
+    // progress row behind it, so re-syncing it stays reachable.
+    db.flashcardDeck.findMany({
+      where: { source: "LESSON", createdBy: userId, lessonId: { not: null } },
+      select: { lesson: { select: LESSON_PICKER_SELECT } },
+    }),
   ]);
 
-  const lessonRows = completedLessons
-    .map((p) => p.lesson)
-    .filter((l): l is NonNullable<typeof l> => l !== null);
+  type PickerLesson = {
+    lesson: NonNullable<(typeof takenLessons)[number]["lesson"]>;
+    completed: boolean;
+    completionPercent: number;
+  };
+
+  // Progress rows first so their status wins over the deck-only fallback.
+  const byLessonId = new Map<string, PickerLesson>();
+  for (const row of takenLessons) {
+    if (!row.lesson) continue;
+    byLessonId.set(row.lesson.id, {
+      lesson: row.lesson,
+      completed: row.status === "COMPLETED",
+      completionPercent: row.completionPercent,
+    });
+  }
+  for (const deck of ownDecks) {
+    if (!deck.lesson || byLessonId.has(deck.lesson.id)) continue;
+    byLessonId.set(deck.lesson.id, {
+      lesson: deck.lesson,
+      completed: false,
+      completionPercent: 0,
+    });
+  }
+
+  const lessonRows = [...byLessonId.values()];
 
   // One grouped lookup marks which of those lessons already has a deck, so the
   // picker can say "already built" instead of silently offering a re-sync.
@@ -93,7 +130,7 @@ export async function getFlashcardsPageData(
       : await db.flashcardDeck.findMany({
           where: {
             source: "LESSON",
-            lessonId: { in: lessonRows.map((l) => l.id) },
+            lessonId: { in: lessonRows.map((l) => l.lesson.id) },
           },
           select: {
             id: true,
@@ -118,12 +155,14 @@ export async function getFlashcardsPageData(
     totalFresh: decks.reduce((sum, d) => sum + d.fresh, 0),
     bestDeckId: bestDeck?.id ?? null,
     decksWithDue: decks.filter((d) => d.due > 0).length,
-    lessons: lessonRows.map((l) => ({
-      lessonId: l.id,
-      title: l.title,
-      subjectName: l.subtopic.topic.subject.name,
-      topicTitle: l.subtopic.topic.title,
-      deck: deckByLesson.get(l.id) ?? null,
+    lessons: lessonRows.map((row) => ({
+      lessonId: row.lesson.id,
+      title: row.lesson.title,
+      subjectName: row.lesson.subtopic.topic.subject.name,
+      topicTitle: row.lesson.subtopic.topic.title,
+      completed: row.completed,
+      completionPercent: row.completionPercent,
+      deck: deckByLesson.get(row.lesson.id) ?? null,
     })),
   };
 }
@@ -135,25 +174,17 @@ export type DeckPageData = {
     description: string | null;
     subjectName: string | null;
     topicTitle: string | null;
-    /** This student created it, so they may prune or delete it. */
+    /** This student created it, so they may delete it. */
     isOwner: boolean;
     /** Other students following this deck — zero for a private one. */
     followerCount: number;
     /** The lesson it was built from, so a deleted deck can be rebuilt. */
     lessonId: string | null;
   };
-  /** Every card in the deck, in order — the queue is only what is due today. */
-  cards: {
-    id: string;
-    cardType: string;
-    prompt: string | null;
-    difficulty: string;
-    orderIndex: number;
-  }[];
   queue: Awaited<ReturnType<typeof getStudyQueue>>;
 };
 
-/** A deck, its full card list and its due queue, or null when it does not exist. */
+/** A deck and its due queue, or null when it does not exist. */
 export async function getDeckPageData(
   userId: string,
   deckId: string,
@@ -173,20 +204,7 @@ export async function getDeckPageData(
   });
   if (!deck) return null;
 
-  const [cards, queue] = await Promise.all([
-    db.flashcard.findMany({
-      where: { deckId },
-      orderBy: { orderIndex: "asc" },
-      select: {
-        id: true,
-        cardType: true,
-        prompt: true,
-        difficulty: true,
-        orderIndex: true,
-      },
-    }),
-    getStudyQueue(db, userId, deckId),
-  ]);
+  const queue = await getStudyQueue(db, userId, deckId);
 
   return {
     deck: {
@@ -199,34 +217,8 @@ export async function getDeckPageData(
       followerCount: deck._count.enrollments,
       lessonId: deck.lessonId,
     },
-    cards,
     queue,
   };
-}
-
-/**
- * Deletes one card from a deck the student created.
- *
- * Ownership is the whole check: deleting a Flashcard cascades away every
- * enrolled student's FlashcardReview and FlashcardReviewLog rows for it, so a
- * follower must not be able to reach this. `"forbidden"` is returned rather
- * than thrown so the route can map it to 403.
- *
- * A card deleted from a LESSON deck comes back if the lesson is re-synced —
- * its block is still in the note, so the diff sees a card with no row. That is
- * deliberate: rebuilding from the lesson is the way back.
- */
-export async function deleteFlashcard(userId: string, cardId: string) {
-  const card = await db.flashcard.findUnique({
-    where: { id: cardId },
-    select: { id: true, deckId: true, deck: { select: { createdBy: true } } },
-  });
-  if (!card) return "card-not-found" as const;
-  if (!canManageDeck(card.deck, userId)) return "forbidden" as const;
-
-  await db.flashcard.delete({ where: { id: card.id } });
-  const remaining = await db.flashcard.count({ where: { deckId: card.deckId } });
-  return { deckId: card.deckId, remaining };
 }
 
 /**
