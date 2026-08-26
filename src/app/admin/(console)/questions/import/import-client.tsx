@@ -41,7 +41,7 @@ type ServerResult =
     }
   | { ok: false; message: string };
 
-export default function AdminImportPage() {
+export function ImportClient() {
   const [phase, setPhase] = useState<Phase>("input");
 
   const [raw, setRaw] = useState("");
