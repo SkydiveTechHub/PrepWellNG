@@ -20,6 +20,7 @@ import {
   type ExamQuestion,
   type SessionData,
 } from "./exam-state";
+import { nextAwayCount } from "./exam-focus";
 
 // React glue around `exam-state`. All the rules that decide whether a student
 // keeps their work live in that module, where they are unit-tested; this file
@@ -60,12 +61,19 @@ function writeStored(
   data: SessionData,
   answers: AnswerMap,
   currentIndex: number,
+  awayEvents: number,
 ) {
   if (typeof window === "undefined") return;
   try {
     window.localStorage.setItem(
       storageKeyFor(sessionKey),
-      JSON.stringify({ ...data, v: STORAGE_VERSION, answers, currentIndex }),
+      JSON.stringify({
+        ...data,
+        v: STORAGE_VERSION,
+        answers,
+        currentIndex,
+        awayEvents,
+      }),
     );
   } catch {
     // storage disabled / quota — the in-memory session still works
@@ -130,6 +138,13 @@ export function useExamSession({
     promise: Promise<GeneratedExam>;
   } | null>(null);
   const submittedRef = useRef(false);
+  /**
+   * How many times the student has left, and when the current absence began.
+   * Refs, not state: a tab switch must not re-render a 180-question paper, and
+   * the count is only ever read at submit time.
+   */
+  const awayCountRef = useRef(0);
+  const hiddenAtRef = useRef<number | null>(null);
 
   const questions = useMemo(() => data?.questions ?? [], [data]);
   const attemptId = data?.attemptId ?? "";
@@ -145,7 +160,7 @@ export function useExamSession({
   const persist = useCallback(
     (index: number) => {
       if (!data) return;
-      writeStored(sessionKey, data, answersRef.current, index);
+      writeStored(sessionKey, data, answersRef.current, index, awayCountRef.current);
     },
     [data, sessionKey],
   );
@@ -159,6 +174,7 @@ export function useExamSession({
       if (stored) {
         if (cancelled) return;
         answersRef.current = stored.answers;
+        awayCountRef.current = stored.awayEvents;
         questionStartRef.current = Date.now();
         setData({
           attemptId: stored.attemptId,
@@ -205,7 +221,7 @@ export function useExamSession({
         };
         answersRef.current = emptyAnswers(exam.questions);
         questionStartRef.current = Date.now();
-        writeStored(sessionKey, session, answersRef.current, 0);
+        writeStored(sessionKey, session, answersRef.current, 0, 0);
         setData(session);
         setAnswers(answersRef.current);
         // The server may have handed back an unfinished attempt — e.g. after
@@ -245,6 +261,38 @@ export function useExamSession({
       document.removeEventListener("visibilitychange", tick);
     };
   }, [deadlineAt]);
+
+  // ── Focus tracking ───────────────────────────────────────
+  // `visibilitychange` only, never `blur`: blur fires for the devtools, the URL
+  // bar and a `<select>` popup, none of which mean the student left. The count
+  // is recorded on *return*, so the absence is measured rather than assumed,
+  // and anything under `AWAY_FLOOR_MS` is dropped — on a phone that is a
+  // screenshot or a notification banner, not cheating.
+  useEffect(() => {
+    if (!attemptId) return;
+
+    function onVisibilityChange() {
+      if (document.hidden) {
+        hiddenAtRef.current = Date.now();
+        return;
+      }
+      const previous = awayCountRef.current;
+      awayCountRef.current = nextAwayCount(
+        previous,
+        hiddenAtRef.current,
+        Date.now(),
+      );
+      hiddenAtRef.current = null;
+      // Written through on the spot rather than waiting for the next answer or
+      // navigation: a student who leaves, comes back and immediately refreshes
+      // would otherwise resume with the absence forgotten.
+      if (awayCountRef.current !== previous) persist(currentIndex);
+    }
+
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    return () =>
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+  }, [attemptId, persist, currentIndex]);
 
   // ── Mutations ────────────────────────────────────────────
   const recordTimeOnQuestion = useCallback(() => {
@@ -301,6 +349,11 @@ export function useExamSession({
         body: JSON.stringify({
           attemptId,
           answers: buildSubmission(questions, answersRef.current),
+          // Omitted when zero: the server defaults it, and the common case
+          // should not carry a field that says nothing.
+          ...(awayCountRef.current > 0
+            ? { awayEvents: awayCountRef.current }
+            : {}),
         }),
       });
 
