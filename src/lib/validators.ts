@@ -5,6 +5,10 @@ import { checkQuestionInvariants } from "@/lib/admin-question";
 // ─── Auth ─────────────────────────────────────────
 
 export const registerSchema = z.object({
+  // TEACHER is offered in the UI as "Coming soon" and is deliberately not
+  // accepted here — a hand-crafted POST must not mint a teacher through a door
+  // the interface has not opened.
+  role: z.literal("STUDENT").default("STUDENT"),
   firstName: z.string().min(2, "First name is required"),
   lastName: z.string().min(2, "Last name is required"),
   email: z.string().email("Invalid email address"),

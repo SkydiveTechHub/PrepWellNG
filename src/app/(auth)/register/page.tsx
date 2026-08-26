@@ -31,6 +31,7 @@ export default function RegisterPage() {
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({
+    role: "STUDENT" as string,
     firstName: "",
     lastName: "",
     email: "",
@@ -176,6 +177,35 @@ export default function RegisterPage() {
         {/* Step 1: Personal info */}
         {step === 1 && (
           <>
+            <div>
+              <label className="mb-2 block text-sm font-semibold text-foreground">
+                I am signing up as
+              </label>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  aria-pressed={form.role === "STUDENT"}
+                  onClick={() => update("role", "STUDENT")}
+                  className={optionClass(form.role === "STUDENT")}
+                >
+                  Student
+                </button>
+
+                {/* Teacher capabilities are not built yet. Disabled rather than hidden so
+                    the path is visibly planned — and the API rejects TEACHER regardless. */}
+                <button
+                  type="button"
+                  disabled
+                  aria-disabled="true"
+                  className={`${optionClass(false)} cursor-not-allowed opacity-50`}
+                >
+                  Teacher
+                  <span className="ml-1.5 rounded bg-secondary px-1.5 py-0.5 text-[10px] font-semibold uppercase text-muted">
+                    Coming soon
+                  </span>
+                </button>
+              </div>
+            </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="mb-1.5 block text-sm font-semibold text-foreground">
