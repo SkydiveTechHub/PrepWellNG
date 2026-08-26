@@ -12,7 +12,6 @@ export type AdminPrincipal = {
   isOwner: boolean;
 };
 
-/** Admins created through the console are always non-owners. */
 export function canAccessConsole(
   admin: Pick<AdminPrincipal, "isActive"> | null,
 ): boolean {
