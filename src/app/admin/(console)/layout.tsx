@@ -1,19 +1,18 @@
-import { redirect } from "next/navigation";
-import Link from "next/link";
-import { LuArrowLeft, LuShield } from "react-icons/lu";
-import { auth } from "@/lib/auth";
-import { isAdminUser } from "@/lib/admin-guard";
+import { LuShield } from "react-icons/lu";
+import { requireAdminPage } from "@/lib/admin-session";
 import { AdminNav } from "@/components/admin/admin-nav";
+import { AdminSignOut } from "@/components/admin/admin-sign-out";
+import { AdminSessionProvider } from "@/components/admin/admin-session-provider";
 
-export default async function AdminLayout({
+export default async function ConsoleLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth();
-  if (!session?.user?.id) redirect("/login");
-
-  if (!(await isAdminUser(session.user.id))) redirect("/dashboard");
+  // Chrome only. Each page calls requireAdminPage() itself — Partial Rendering
+  // means this layout does not re-run on client-side navigation between admin
+  // routes, so it cannot be the wall.
+  const admin = await requireAdminPage();
 
   return (
     <div className="min-h-full">
@@ -24,25 +23,21 @@ export default async function AdminLayout({
         Skip to content
       </a>
       <div className="flex min-h-full">
-        {/* Admin sidebar */}
         <aside className="w-56 border-r border-border bg-card flex-shrink-0 hidden lg:block">
           <div className="flex items-center gap-2 px-4 py-5 border-b border-border">
             <LuShield className="w-5 h-5 text-primary" />
             <span className="font-bold text-foreground text-sm">Admin</span>
           </div>
-          <AdminNav variant="sidebar" />
+          <AdminNav variant="sidebar" isOwner={admin.isOwner} />
           <div className="px-3 pt-3 border-t border-border mt-3">
-            <Link
-              href="/dashboard"
-              className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium text-muted hover:text-foreground transition-colors"
-            >
-              <LuArrowLeft className="w-3.5 h-3.5" />
-              Back to Dashboard
-            </Link>
+            {/* AdminSignOut calls next-auth/react signOut, which needs the
+                admin base path or it targets the student instance. */}
+            <AdminSessionProvider>
+              <AdminSignOut />
+            </AdminSessionProvider>
           </div>
         </aside>
 
-        {/* Main */}
         <main id="admin-main" tabIndex={-1} className="flex-1 pb-24 lg:pb-0">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
             {children}
@@ -50,8 +45,7 @@ export default async function AdminLayout({
         </main>
       </div>
 
-      {/* Mobile admin nav */}
-      <AdminNav variant="mobile" />
+      <AdminNav variant="mobile" isOwner={admin.isOwner} />
     </div>
   );
 }
