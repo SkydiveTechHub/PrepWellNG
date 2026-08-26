@@ -19,9 +19,9 @@ const SESSION_MAX_AGE = 60 * 60 * 8;
 const useSecureCookies = process.env.NODE_ENV === "production";
 
 /**
- * Scoped to /admin, which is why the admin API lives at /admin/api rather than
- * /api/admin: the browser must send this cookie to the API routes, and must
- * never send it to a student route.
+ * Scoped to /admin, which is why the admin API lives under that same prefix
+ * (at /admin/api): the browser must send this cookie to the API routes, and
+ * must never send it to a student route.
  */
 const cookieOptions = {
   httpOnly: true,

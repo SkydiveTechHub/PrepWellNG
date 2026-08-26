@@ -5,7 +5,10 @@ export type AuditAction =
   | "question.update"
   | "question.delete"
   | "question.import"
-  | "lesson.import";
+  | "lesson.import"
+  | "admin.create"
+  | "admin.deactivate"
+  | "admin.reactivate";
 
 export type AuditEntry = {
   actorId: string;

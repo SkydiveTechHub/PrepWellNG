@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { requireAdmin } from "@/lib/admin-guard";
+import { requireAdminApi } from "@/lib/admin-session";
 import { recordAudit } from "@/lib/admin-audit";
 import {
   adminQuestionCreateSchema,
@@ -15,10 +15,10 @@ import { CATALOGUE_TAG } from "@/lib/catalogue";
 
 export const dynamic = "force-dynamic";
 
-// GET /api/admin/questions — list/search questions (admin)
+// GET /admin/api/questions — list/search questions (admin)
 export async function GET(req: NextRequest) {
   try {
-    const guard = await requireAdmin();
+    const guard = await requireAdminApi();
     if (!guard.ok) return guard.response;
 
     const { searchParams } = new URL(req.url);
@@ -50,10 +50,10 @@ export async function GET(req: NextRequest) {
   }
 }
 
-// POST /api/admin/questions — create a question
+// POST /admin/api/questions — create a question
 export async function POST(req: NextRequest) {
   try {
-    const guard = await requireAdmin();
+    const guard = await requireAdminApi();
     if (!guard.ok) return guard.response;
 
     const parsed = adminQuestionCreateSchema.safeParse(await req.json());
@@ -94,13 +94,13 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// DELETE /api/admin/questions?id=xxx — delete a single question (compat) or
-// DELETE /api/admin/questions with a JSON body of { ids } — bulk delete.
+// DELETE /admin/api/questions?id=xxx — delete a single question (compat) or
+// DELETE /admin/api/questions with a JSON body of { ids } — bulk delete.
 // Dependents (question responses and assessment slots) are counted first and
 // refused explicitly rather than left to surface as an opaque FK-restrict 500.
 export async function DELETE(req: NextRequest) {
   try {
-    const guard = await requireAdmin();
+    const guard = await requireAdminApi();
     if (!guard.ok) return guard.response;
 
     // Single-id query param kept for compatibility; a body of ids is the

@@ -423,7 +423,7 @@ export function QuestionForm(props: {
 
       setSubmitting(true);
       try {
-        const res = await fetch("/api/admin/questions", {
+        const res = await fetch("/admin/api/questions", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(parsed.data),
@@ -459,7 +459,7 @@ export function QuestionForm(props: {
 
     setSubmitting(true);
     try {
-      const res = await fetch(`/api/admin/questions/${initial.id}`, {
+      const res = await fetch(`/admin/api/questions/${initial.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(parsed.data),

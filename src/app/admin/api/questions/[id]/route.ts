@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { requireAdmin } from "@/lib/admin-guard";
+import { requireAdminApi } from "@/lib/admin-session";
 import { recordAudit } from "@/lib/admin-audit";
 import { adminQuestionUpdateSchema } from "@/lib/validators";
 import { getAdminQuestion, updateAdminQuestion } from "@/lib/admin-question-data";
@@ -8,13 +8,13 @@ import { CATALOGUE_TAG } from "@/lib/catalogue";
 
 export const dynamic = "force-dynamic";
 
-// GET /api/admin/questions/[id] — single question for the edit form
+// GET /admin/api/questions/[id] — single question for the edit form
 export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const guard = await requireAdmin();
+    const guard = await requireAdminApi();
     if (!guard.ok) return guard.response;
 
     const { id } = await params;
@@ -31,7 +31,7 @@ export async function GET(
   }
 }
 
-// PATCH /api/admin/questions/[id] — partial update.
+// PATCH /admin/api/questions/[id] — partial update.
 // The invariants must be checked against the record MERGED with the patch,
 // not the patch alone — a patch that rewrites `options` without resending
 // `correctAnswer` would otherwise pass validation and leave a question whose
@@ -41,7 +41,7 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const guard = await requireAdmin();
+    const guard = await requireAdminApi();
     if (!guard.ok) return guard.response;
 
     const { id } = await params;

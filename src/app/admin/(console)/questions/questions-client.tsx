@@ -154,7 +154,7 @@ function AdminQuestionsPageInner() {
         if (difficultyFilter) params.set("difficulty", difficultyFilter);
         if (examYearFilter) params.set("examYear", examYearFilter);
 
-        const res = await fetch(`/api/admin/questions?${params}`, { signal });
+        const res = await fetch(`/admin/api/questions?${params}`, { signal });
         const data = await res.json();
         if (!res.ok) {
           // Previously this fell through to the empty state, so a 500 was
@@ -237,7 +237,7 @@ function AdminQuestionsPageInner() {
     setDeleteError(null);
     setDeleting(q.id);
     try {
-      const res = await fetch(`/api/admin/questions/${q.id}/usage`);
+      const res = await fetch(`/admin/api/questions/${q.id}/usage`);
       const data = await res.json().catch(() => null);
       if (!res.ok || !data) {
         setDeleteError("Could not check whether this question can be deleted.");
@@ -267,7 +267,7 @@ function AdminQuestionsPageInner() {
     // where the row is still visible and must stay selected.
     let rowRemoved = false;
     try {
-      const res = await fetch(`/api/admin/questions?id=${deleteTarget.id}`, { method: "DELETE" });
+      const res = await fetch(`/admin/api/questions?id=${deleteTarget.id}`, { method: "DELETE" });
       const data = await res.json().catch(() => null);
       if (!res.ok) {
         setDeleteError(data?.error ?? `Could not delete question (${res.status}).`);
@@ -318,7 +318,7 @@ function AdminQuestionsPageInner() {
     setDeleteError(null);
     setOutcome(null);
     try {
-      const res = await fetch("/api/admin/questions", {
+      const res = await fetch("/admin/api/questions", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ids: [...selected] }),

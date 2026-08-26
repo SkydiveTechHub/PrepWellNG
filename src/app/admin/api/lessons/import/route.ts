@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { requireAdmin } from "@/lib/admin-guard";
+import { requireAdminApi } from "@/lib/admin-session";
 import { recordAudit } from "@/lib/admin-audit";
 import { adminLessonImportSchema } from "@/lib/validators";
 import { validateLessonMarkdown } from "@/lib/lesson-markdown";
@@ -9,10 +9,10 @@ import { CATALOGUE_TAG } from "@/lib/catalogue";
 
 export const dynamic = "force-dynamic";
 
-// POST /api/admin/lessons/import — replace a topic's lesson from markdown.
+// POST /admin/api/lessons/import — replace a topic's lesson from markdown.
 export async function POST(req: NextRequest) {
   try {
-    const guard = await requireAdmin();
+    const guard = await requireAdminApi();
     if (!guard.ok) return guard.response;
 
     const body = await req.json();
