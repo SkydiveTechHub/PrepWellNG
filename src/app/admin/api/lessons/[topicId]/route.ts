@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { requireAdmin } from "@/lib/admin-guard";
+import { requireAdminApi } from "@/lib/admin-session";
 import { getStoredLesson } from "@/lib/admin-data";
 
 export const dynamic = "force-dynamic";
 
-// GET /api/admin/lessons/[topicId] — what is currently stored, so the upload
+// GET /admin/api/lessons/[topicId] — what is currently stored, so the upload
 // form can show the admin what they are about to replace.
 export async function GET(
   _req: NextRequest,
@@ -14,7 +14,7 @@ export async function GET(
   // questions/[id]/route.ts): an unhandled throw here would surface to the
   // upload form as an opaque failure with nothing in the server log.
   try {
-    const guard = await requireAdmin();
+    const guard = await requireAdminApi();
     if (!guard.ok) return guard.response;
 
     const { topicId } = await params;

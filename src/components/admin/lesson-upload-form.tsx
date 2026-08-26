@@ -120,7 +120,7 @@ export function LessonUploadForm({
     setCurrentStatus(nextTopicId ? "loading" : "idle");
     if (!nextTopicId) return;
     try {
-      const res = await fetch(`/api/admin/lessons/${nextTopicId}`, {
+      const res = await fetch(`/admin/api/lessons/${nextTopicId}`, {
         signal: controller.signal,
       });
       // `abort()` does not always reject a fetch that has already resolved, so
@@ -193,7 +193,7 @@ export function LessonUploadForm({
   async function handleSave() {
     setSubmitting(true);
     try {
-      const res = await fetch("/api/admin/lessons/import", {
+      const res = await fetch("/admin/api/lessons/import", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ topicId, markdown, confirm: true }),

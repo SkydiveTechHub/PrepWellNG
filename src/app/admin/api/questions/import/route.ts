@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { requireAdmin } from "@/lib/admin-guard";
+import { requireAdminApi } from "@/lib/admin-session";
 import { recordAudit } from "@/lib/admin-audit";
 import { bulkImportSchema } from "@/lib/validators";
 import { importQuestions } from "@/lib/admin-import-data";
@@ -8,10 +8,10 @@ import { CATALOGUE_TAG } from "@/lib/catalogue";
 
 export const dynamic = "force-dynamic";
 
-// POST /api/admin/questions/import — bulk import questions
+// POST /admin/api/questions/import — bulk import questions
 export async function POST(req: NextRequest) {
   try {
-    const guard = await requireAdmin();
+    const guard = await requireAdminApi();
     if (!guard.ok) return guard.response;
 
     const body = await req.json();

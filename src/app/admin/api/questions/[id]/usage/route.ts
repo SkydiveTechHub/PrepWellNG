@@ -1,16 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getQuestionUsage } from "@/lib/admin-data";
-import { requireAdmin } from "@/lib/admin-guard";
+import { requireAdminApi } from "@/lib/admin-session";
 
 export const dynamic = "force-dynamic";
 
-// GET /api/admin/questions/[id]/usage — dependent counts powering the
+// GET /admin/api/questions/[id]/usage — dependent counts powering the
 // delete-confirmation dialog.
 export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  const guard = await requireAdmin();
+  const guard = await requireAdminApi();
   if (!guard.ok) return guard.response;
 
   const { id } = await params;

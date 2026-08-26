@@ -101,7 +101,7 @@ export function ImportClient() {
     setSubmitting(true);
     setPhase("result");
     try {
-      const res = await fetch("/api/admin/questions/import", {
+      const res = await fetch("/admin/api/questions/import", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ questions: rows, skipDuplicates }),
