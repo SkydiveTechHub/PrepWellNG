@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { requireAdminPage } from "@/lib/admin-session";
 import { getAdminOverview } from "@/lib/admin-data";
 import { PageHeader } from "@/components/ui/page-header";
 import { StatusBanner } from "@/components/admin/status-banner";
@@ -9,6 +10,10 @@ export const dynamic = "force-dynamic";
 const HEADING_CLS = "text-[11px] font-semibold uppercase tracking-wider text-muted";
 
 export default async function AdminOverviewPage() {
+  // The layout's check does not re-run on client-side navigation between admin
+  // routes, so each page carries its own.
+  await requireAdminPage();
+
   const {
     total,
     subjectCount,

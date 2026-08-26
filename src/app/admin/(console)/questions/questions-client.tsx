@@ -61,7 +61,7 @@ const TH_CLS = "text-[11px] font-semibold uppercase tracking-wider text-muted";
 // that calls it, or a static build fails ("Missing Suspense boundary with
 // useSearchParams"). See node_modules/next/dist/docs/01-app/03-api-reference/
 // 04-functions/use-search-params.md.
-export default function AdminQuestionsPage() {
+export function QuestionsClient() {
   return (
     <Suspense fallback={<QuestionsPageFallback />}>
       <AdminQuestionsPageInner />

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { requireAdminPage } from "@/lib/admin-session";
 import { PageHeader } from "@/components/ui/page-header";
 import { buttonClass } from "@/components/ui/button";
 import { LessonFilterBar } from "@/components/admin/lesson-filter-bar";
@@ -16,6 +17,10 @@ export default async function AdminLessonsPage({
 }: {
   searchParams: Promise<RawFilterParams>;
 }) {
+  // The layout's check does not re-run on client-side navigation between admin
+  // routes, so each page carries its own.
+  await requireAdminPage();
+
   const filter = normaliseFilter(await searchParams);
 
   const {
