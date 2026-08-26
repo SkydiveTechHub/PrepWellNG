@@ -87,6 +87,10 @@ export const submitAssessmentSchema = z.object({
         new Set(answers.map((a) => a.questionId)).size === answers.length,
       { message: "Duplicate questionId in answers" }
     ),
+  // Client-reported and forgeable, so bounded rather than trusted. Optional so
+  // a client from before this shipped, or a session stored back then, still
+  // submits successfully; absent means zero.
+  awayEvents: z.number().int().min(0).max(10_000).optional(),
 });
 
 // JAMB CBT: English is added by the system, so only the other three are sent.
