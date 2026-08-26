@@ -14,6 +14,8 @@ datasource db {
 
 // ─── Enums ────────────────────────────────────────────────
 
+/// STUDENT and TEACHER only. ADMIN is retained because Postgres has no
+/// DROP VALUE, but it is never assigned — admins live in the Admin model.
 enum Role {
   STUDENT
   TEACHER
@@ -196,9 +198,6 @@ model User {
   flashcardReviewLogs  FlashcardReviewLog[]
   flashcardEnrollments FlashcardEnrollment[]
   flashcardDecks       FlashcardDeck[]       @relation("FlashcardDeckAuthor")
-
-  // Admin
-  adminAudits AdminAudit[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -835,10 +834,33 @@ model FlashcardEnrollment {
 
 // ─── Admin ──────────────────────────────────────────────────
 
+/// Admins are a separate identity from students — see
+/// docs/superpowers/specs/2026-08-26-admin-identity-design.md.
+/// No Account/Session relations: the admin auth instance uses the credentials
+/// provider with a JWT strategy and never touches the Prisma adapter.
+model Admin {
+  id           String    @id @default(cuid())
+  email        String?   @unique
+  username     String?   @unique
+  passwordHash String
+  isOwner      Boolean   @default(false)
+  isActive     Boolean   @default(true)
+  lastLoginAt  DateTime?
+
+  createdById   String?
+  createdBy     Admin?  @relation("AdminCreator", fields: [createdById], references: [id])
+  createdAdmins Admin[] @relation("AdminCreator")
+
+  audits AdminAudit[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model AdminAudit {
   id        String   @id @default(cuid())
   actorId   String
-  actor     User     @relation(fields: [actorId], references: [id], onDelete: Cascade)
+  actor     Admin    @relation(fields: [actorId], references: [id], onDelete: Cascade)
   action    String // "question.create" | "question.update" | "question.delete" | "question.import"
   entity    String // "Question"
   entityId  String?
