@@ -35,6 +35,11 @@ test("the login prefix does not swallow neighbouring routes", () => {
   assert.equal(classifyAdminPath("/admin/loginsomething"), "console");
 });
 
+test("the auth prefix does not swallow neighbouring routes", () => {
+  // /admin/api/authorize must not inherit the unauthenticated auth passthrough.
+  assert.equal(classifyAdminPath("/admin/api/authorize"), "console");
+});
+
 test("isAdminPath requires a path boundary, not just a prefix match", () => {
   assert.equal(isAdminPath("/admin"), true);
   assert.equal(isAdminPath("/admin/questions"), true);

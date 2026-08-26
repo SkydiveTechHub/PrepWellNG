@@ -18,6 +18,24 @@ const SESSION_MAX_AGE = 60 * 60 * 8;
 
 const useSecureCookies = process.env.NODE_ENV === "production";
 
+// NextAuth's own default (node_modules/next-auth/lib/env.js) does
+// `config.secret ??= process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET`.
+// So an unset ADMIN_AUTH_SECRET would silently make this instance sign ADMIN
+// tokens with the STUDENT secret — collapsing the separation this file exists
+// to enforce, and letting a leaked student secret forge admin sessions.
+// Failing loudly at boot beats shipping forging-capable tokens to production.
+if (
+  !process.env.ADMIN_AUTH_SECRET ||
+  process.env.ADMIN_AUTH_SECRET === process.env.AUTH_SECRET
+) {
+  throw new Error(
+    "ADMIN_AUTH_SECRET is missing or identical to AUTH_SECRET. Generate a " +
+      "distinct value with: node -e \"console.log(require('crypto').randomBytes(32).toString('base64'))\" " +
+      "and set it as ADMIN_AUTH_SECRET. It must differ from AUTH_SECRET, or a " +
+      "leaked student secret could forge admin tokens.",
+  );
+}
+
 /**
  * Scoped to /admin, which is why the admin API lives under that same prefix
  * (at /admin/api): the browser must send this cookie to the API routes, and
