@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import { LuShield, LuLock, LuUser } from "react-icons/lu";
 import { AdminSessionProvider } from "@/components/admin/admin-session-provider";
+import { isAdminPath } from "@/lib/admin-route";
 
 function AdminLoginForm() {
   const router = useRouter();
@@ -12,10 +13,7 @@ function AdminLoginForm() {
   // Relative paths under /admin only — anything else is an open redirect or a
   // way to bounce an admin into the student app.
   const requested = searchParams.get("callbackUrl");
-  const callbackUrl =
-    requested && requested.startsWith("/admin") && !requested.startsWith("//")
-      ? requested
-      : "/admin";
+  const callbackUrl = requested && isAdminPath(requested) ? requested : "/admin";
 
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
