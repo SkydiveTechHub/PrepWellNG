@@ -20,6 +20,15 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Environment Variables
+
+- `ADMIN_AUTH_SECRET` — signs the admin session (a second, separate NextAuth
+  instance mounted at `/admin/api/auth`, distinct from the student instance
+  at `/api/auth`). It **must differ** from `AUTH_SECRET`: sharing one would
+  let a leaked student secret forge admin tokens. Generate it with
+  `node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"`.
+  Admin sign-in fails until this is set.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
