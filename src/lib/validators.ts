@@ -313,6 +313,19 @@ export const createFlashcardDeckSchema = z.object({
   topicId: z.string().optional(),
 });
 
+// ─── Admin team (owner-only) ───────────────────────
+
+// isOwner is deliberately absent — it is written as a literal false by the
+// create route and only ever true via scripts/create-admin.ts.
+export const createAdminSchema = z.object({
+  identifier: z.string().min(3, "Enter an email or a username"),
+  password: z.string().min(12, "Password must be at least 12 characters"),
+});
+
+export const adminStatusSchema = z.object({
+  isActive: z.boolean(),
+});
+
 // Type exports
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
@@ -327,3 +340,5 @@ export type GenerateFlashcardDeckInput = z.infer<typeof generateFlashcardDeckSch
 export type PreviewFlashcardDeckInput = z.infer<typeof previewFlashcardDeckSchema>;
 export type ToggleEnrollmentInput = z.infer<typeof toggleEnrollmentSchema>;
 export type CreateFlashcardDeckInput = z.infer<typeof createFlashcardDeckSchema>;
+export type CreateAdminInput = z.infer<typeof createAdminSchema>;
+export type AdminStatusInput = z.infer<typeof adminStatusSchema>;

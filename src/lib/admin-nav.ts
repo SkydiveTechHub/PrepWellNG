@@ -3,6 +3,7 @@ import {
   LuDatabase,
   LuLayoutDashboard,
   LuUpload,
+  LuUsers,
 } from "react-icons/lu";
 import type { IconType } from "react-icons";
 
@@ -21,4 +22,5 @@ export const ADMIN_NAV: readonly AdminNavItem[] = [
   { name: "Questions", href: "/admin/questions", icon: LuDatabase },
   { name: "Import", href: "/admin/questions/import", icon: LuUpload },
   { name: "Lessons", href: "/admin/lessons", icon: LuBookOpen },
+  { name: "Team", href: "/admin/team", icon: LuUsers, ownerOnly: true },
 ];
