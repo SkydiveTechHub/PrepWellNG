@@ -29,10 +29,11 @@ ALTER TABLE "Admin" ADD CONSTRAINT "Admin_createdById_fkey"
     FOREIGN KEY ("createdById") REFERENCES "Admin"("id")
     ON DELETE SET NULL ON UPDATE CASCADE;
 
--- Repoint the audit trail. Existing rows hold User ids, which the new foreign
--- key would reject, so they are remapped to the owner first. This is the one
--- destructive step: where several admins already acted, that attribution is
--- lost. Acceptable only because there is currently one.
+-- Repoint the audit trail's foreign key from User to Admin. Admin is still
+-- empty at this point in the script, so every existing row's actorId fails
+-- the new constraint and this DELETE clears the whole table, not just
+-- orphans. Acceptable only because AdminAudit is empty here; on an
+-- environment with real rows this would need the owner to exist first.
 DELETE FROM "AdminAudit"
 WHERE "actorId" NOT IN (SELECT "id" FROM "Admin");
 
