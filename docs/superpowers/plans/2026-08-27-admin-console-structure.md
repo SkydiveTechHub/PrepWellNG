@@ -3620,18 +3620,14 @@ In `src/lib/auth.ts`:
           // Suspension and force sign-out have to bite on a token that is
           // already live, not only at the next sign-in. This runs at most once
           // per PROFILE_TTL_MS, so the delay is bounded by that.
-          if (isSessionRevoked(profile, token.iat as number | undefined)) {
+          if (isSessionRevoked(profile, token.iat)) {
             return null;
           }
 ```
 
-**Before writing this, confirm how this next-auth version signals an invalid token from the `jwt` callback.** Returning `null` is the documented v5 behaviour, but this project pins a beta (`next-auth@^5.0.0-beta.32`). Check the installed types:
+**Contract already verified against the installed beta — returning `null` is correct.** `node_modules/@auth/core/index.d.ts:331` types the callback as `jwt?: (params: {...}) => Awaitable<JWT | null>`, so `return null` is permitted and is how an invalid token is signalled.
 
-```bash
-grep -rn "jwt?:" node_modules/next-auth/lib/types.d.ts node_modules/@auth/core/types.d.ts 2>/dev/null | head
-```
-
-If the signature does not permit `null`, use whatever the installed types do permit and leave a comment recording what was checked.
+`token.iat` needs **no cast**: `DefaultJWT` declares `iat?: number` (`node_modules/@auth/core/jwt.d.ts:82`), so it is already `number | undefined` — exactly the second parameter `isSessionRevoked` expects.
 
 The existing `catch` around the profile fetch must stay exactly as it is — it keeps the cached profile on a database failure rather than throwing. A database outage must sign nobody out.
 
