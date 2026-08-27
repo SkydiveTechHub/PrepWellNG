@@ -8,7 +8,13 @@ export type AuditAction =
   | "lesson.import"
   | "admin.create"
   | "admin.deactivate"
-  | "admin.reactivate";
+  | "admin.reactivate"
+  | "student.update"
+  | "student.suspend"
+  | "student.reactivate"
+  | "student.tier"
+  | "student.force_signout"
+  | "student.delete";
 
 export type AuditEntry = {
   actorId: string;

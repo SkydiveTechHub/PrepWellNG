@@ -3,6 +3,7 @@ import { STUDENT_PAGE_SIZE, type StudentFilter } from "@/lib/admin-student";
 import type { SubscriptionTier } from "@/lib/subscription";
 import type { ClassLevel } from "@/lib/curriculum-scope";
 import type { Track } from "@/lib/admin-student";
+import type { StudentProfileInput } from "@/lib/validators";
 
 export interface StudentRow {
   id: string;
@@ -201,4 +202,21 @@ export async function getStudentDeletionImpact(
     "Flashcard reviews": reviews,
     "Authored flashcard decks": decks,
   };
+}
+
+export async function updateStudentProfile(
+  id: string,
+  data: StudentProfileInput,
+): Promise<void> {
+  await db.user.update({ where: { id }, data });
+}
+
+export async function setStudentTier(
+  id: string,
+  tier: SubscriptionTier,
+): Promise<void> {
+  await db.user.update({
+    where: { id },
+    data: { tier, tierUpdatedAt: new Date() },
+  });
 }

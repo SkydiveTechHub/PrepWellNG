@@ -379,3 +379,4 @@ export type ToggleEnrollmentInput = z.infer<typeof toggleEnrollmentSchema>;
 export type CreateFlashcardDeckInput = z.infer<typeof createFlashcardDeckSchema>;
 export type CreateAdminInput = z.infer<typeof createAdminSchema>;
 export type AdminStatusInput = z.infer<typeof adminStatusSchema>;
+export type StudentProfileInput = z.infer<typeof studentProfileSchema>;
