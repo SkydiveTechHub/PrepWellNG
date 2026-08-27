@@ -98,7 +98,7 @@ export default async function AdminLessonsPage({
 function Section({ classLevel, rows }: { classLevel: ClassLevel; rows: LessonTopicRow[] }) {
   return (
     <>
-      <tr className="bg-secondary/30">
+      <tr className="border-b border-border-strong bg-secondary/30">
         <th scope="colgroup" colSpan={5} className="px-4 py-2 text-left text-xs font-semibold text-foreground">
           {classLevel}
           <span className="ml-2 font-normal tabular-nums text-muted">
