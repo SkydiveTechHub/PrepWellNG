@@ -2186,10 +2186,15 @@ export async function listStudents(
 ): Promise<{ rows: StudentRow[]; total: number }> {
   const where = whereFor(filter);
 
-  // Counted and fetched in one round trip rather than two sequential ones.
-  const [total, users] = await Promise.all([
-    db.user.count({ where }),
-    db.user.findMany({
+  // Counted FIRST, not in parallel with the fetch: the row query has to skip by
+  // a page number that is already clamped to the real page count, or ?page=999
+  // skips past the end and renders "no matches" over a full result set. One
+  // extra round trip is the price of the page being correct.
+  const total = await db.user.count({ where });
+  const totalPages = Math.max(1, Math.ceil(total / STUDENT_PAGE_SIZE));
+  const page = Math.min(Math.max(1, filter.page), totalPages);
+
+  const users = await db.user.findMany({
       where,
       select: {
         id: true,
@@ -2209,10 +2214,9 @@ export async function listStudents(
         },
       },
       orderBy: { createdAt: "desc" },
-      skip: (filter.page - 1) * STUDENT_PAGE_SIZE,
+      skip: (page - 1) * STUDENT_PAGE_SIZE,
       take: STUDENT_PAGE_SIZE,
-    }),
-  ]);
+  });
 
   return {
     total,
