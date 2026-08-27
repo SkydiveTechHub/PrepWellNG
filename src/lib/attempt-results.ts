@@ -47,6 +47,7 @@ export async function buildAttemptResult(attemptId: string, studentId: string) {
       totalMarks: true,
       percentage: true,
       timeSpentSeconds: true,
+      awayEvents: true,
       assessment: {
         select: { title: true, assessmentType: true, examYear: true },
       },
@@ -156,6 +157,7 @@ export async function buildAttemptResult(attemptId: string, studentId: string) {
     gradeRemark: gradeInfo.remark,
     isCredit: gradeInfo.isCredit,
     timeSpentSeconds: attempt.timeSpentSeconds ?? 0,
+    awayEvents: attempt.awayEvents,
     totalQuestions: results.length,
     correctCount: results.filter((r) => r.isCorrect).length,
     results,
