@@ -303,6 +303,17 @@ tiers carry real data.
 
 - **Profile** — name, email, phone, class level, track, school, state.
   Inline-editable by any active admin.
+
+  **Known limitation: fields can be corrected but not cleared.** The optional
+  fields are `.optional()` rather than nullable, and the form omits empty
+  inputs rather than sending them, so a blank input means "leave unchanged",
+  not "erase". An admin can change a wrong email to a right one, but cannot
+  remove an email from an account that should be phone-only. This is a
+  deliberate trade: the same behaviour that prevents a half-filled form from
+  silently wiping stored contact details also prevents an intentional erase.
+  Clearing needs nullable fields plus a form that distinguishes absent from
+  emptied, and belongs in a later round with the delete-vs-blank UI thought
+  through.
 - **Plan** — current tier, `tierUpdatedAt`, manual override control.
 - **Activity** — attempts, topic mastery summary, flashcard activity, last seen.
   Read-only aggregates.
