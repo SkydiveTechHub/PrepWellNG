@@ -3148,14 +3148,18 @@ export async function PATCH(
     // them "the email is already in use" after a connection drop or a bad
     // schoolId sends them chasing a duplicate that does not exist — so the
     // blame is only assigned when the database says so.
-    const code =
-      typeof error === "object" && error !== null && "code" in error
-        ? (error as { code?: string }).code
-        : undefined;
-
-    if (code === "P2002") {
-      const target = (error as { meta?: { target?: string[] } }).meta?.target;
-      const field = target?.includes("phone") ? "phone number" : "email";
+    //
+    // Narrowed with the guard this codebase already uses (see
+    // admin/api/admins/route.ts:64 and lib/user-account.ts:70). Duck-typing on
+    // a `code` property would accept any object that happens to carry one and
+    // report a duplicate-key conflict for something that was not one.
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2002"
+    ) {
+      const target = error.meta?.target;
+      const field =
+        Array.isArray(target) && target.includes("phone") ? "phone number" : "email";
       return NextResponse.json(
         { error: `That ${field} already belongs to another account.` },
         { status: 409 },
