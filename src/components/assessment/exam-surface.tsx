@@ -87,10 +87,14 @@ export function ExamSurface({
   } = session;
   const untimed = deadlineAt == null;
 
-  // Armed only once there is an attempt to lose, and stood down the moment the
-  // student submits — that navigation to the results page is the one departure
-  // we must not interrupt.
+  // `armed` covers the whole life of the attempt, including the submit
+  // request itself — the history sentinel must stay in place until the
+  // student actually lands on results. `active` stands down for that same
+  // window so the student can navigate the confirmation UI a slow or failed
+  // submit produces; that navigation to the results page is the one
+  // departure we must not interrupt.
   const { pending, confirmLeave, cancelLeave } = useNavigationGuard({
+    armed: Boolean(attemptId),
     active: Boolean(attemptId) && !submitting,
     fallbackHref: backHref ?? "/practice",
   });

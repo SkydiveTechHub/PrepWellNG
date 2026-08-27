@@ -17,10 +17,22 @@ export type NavigationGuard = ReturnType<typeof useNavigationGuard>;
 
 export function useNavigationGuard({
   active,
+  armed,
   fallbackHref,
 }: {
-  /** True while an exam is in progress. */
+  /**
+   * True only while clicks should be intercepted. Goes false during a submit
+   * request so the student can navigate the confirmation UI it produces, but
+   * the attempt is still at risk until that request resolves — see `armed`.
+   */
   active: boolean;
+  /**
+   * True whenever an attempt exists and could still be lost, including
+   * across the submit window. Governs the history sentinel and the
+   * `popstate` listener, which must stay attached for the whole life of the
+   * attempt — a pop during submit still needs to be caught and repaired.
+   */
+  armed: boolean;
   /** Where the browser's back button lands once the student confirms. */
   fallbackHref: string;
 }) {
@@ -95,13 +107,27 @@ export function useNavigationGuard({
   // stay armed. Both entries carry the exam's own URL, so nothing visibly moves.
   //
   // The sentinel is pushed at most once per mount, guarded by a ref: this
-  // effect re-runs on every submit failure (`active` toggles false→true), and
+  // effect re-runs on every submit failure (`armed` toggles false→true), and
   // pushing a fresh entry each time would stack one extra history entry per
   // failed submit, forcing the student to press back once per retry just to
   // reach the exam URL they're already on.
+  //
+  // This effect is keyed on `armed`, not `active`, so the listener (and the
+  // sentinel it maintains) stays attached for the whole life of the attempt,
+  // including while a submit request is in flight and clicks are briefly not
+  // being intercepted.
   const sentinelPushedRef = useRef(false);
+
+  // Mirrored into a ref so the popstate handler (registered while `armed`,
+  // which spans the submit window) can still tell whether clicks are
+  // currently being intercepted, without retriggering the effect below.
+  const activeRef = useRef(active);
   useEffect(() => {
-    if (!active) return;
+    activeRef.current = active;
+  }, [active]);
+
+  useEffect(() => {
+    if (!armed) return;
 
     if (!sentinelPushedRef.current) {
       window.history.pushState(null, "", window.location.href);
@@ -110,13 +136,18 @@ export function useNavigationGuard({
 
     function onPopState() {
       if (leavingRef.current) return;
+      // Always re-push, even mid-submit: this is what repairs the stack when
+      // a pop sneaks through while `active` is false. Only surface the
+      // dialog when clicks are currently being intercepted — a pop that
+      // lands during a submit request is a moment from the results page and
+      // must not interrupt the student with a prompt they can't act on yet.
       window.history.pushState(null, "", window.location.href);
-      setPending({ kind: "back" });
+      if (activeRef.current) setPending({ kind: "back" });
     }
 
     window.addEventListener("popstate", onPopState);
     return () => window.removeEventListener("popstate", onPopState);
-  }, [active]);
+  }, [armed]);
 
   const confirmLeave = useCallback(() => {
     if (!pending) return;
