@@ -3,6 +3,7 @@ import {
   LuDatabase,
   LuGraduationCap,
   LuLayoutDashboard,
+  LuScrollText,
   LuUsers,
 } from "react-icons/lu";
 import type { IconType } from "react-icons";
@@ -44,6 +45,10 @@ export const ADMIN_NAV_GROUPS: readonly AdminNavGroup[] = [
       { name: "Students", href: "/admin/students", icon: LuGraduationCap },
       { name: "Team", href: "/admin/team", icon: LuUsers, ownerOnly: true },
     ],
+  },
+  {
+    label: "System",
+    items: [{ name: "Audit log", href: "/admin/audit", icon: LuScrollText }],
   },
 ];
 
