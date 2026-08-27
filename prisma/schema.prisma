@@ -34,6 +34,12 @@ enum Track {
   COMMERCIAL
 }
 
+enum SubscriptionTier {
+  FREEMIUM
+  STANDARD
+  PREMIUM
+}
+
 enum Term {
   FIRST
   SECOND
@@ -180,6 +186,19 @@ model User {
   schoolId      String?
   school        School?     @relation(fields: [schoolId], references: [id])
 
+  // Subscription. Tier is the denormalised read column: when billing lands, a
+  // Subscription model becomes the source of truth that WRITES this, and every
+  // gate written against hasAtLeast() keeps working unchanged.
+  tier          SubscriptionTier @default(FREEMIUM)
+  tierUpdatedAt DateTime?
+
+  // Account status. Suspension is reversible; deletion is not.
+  isActive        Boolean   @default(true)
+  suspendedAt     DateTime?
+  suspendedReason String?
+  /** Tokens issued before this instant are rejected. Powers force sign-out. */
+  sessionsValidFrom DateTime?
+
   // Relations
   progress     StudentProgress[]
   attempts     AssessmentAttempt[]
@@ -203,6 +222,8 @@ model User {
   updatedAt DateTime @updatedAt
 
   @@index([classLevel, track])
+  @@index([tier])
+  @@index([isActive])
 }
 
 model Account {
