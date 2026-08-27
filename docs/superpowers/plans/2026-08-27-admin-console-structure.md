@@ -2692,7 +2692,7 @@ export async function getStudentDetail(id: string): Promise<StudentDetail | null
     suspendedAt: user.suspendedAt,
     suspendedReason: user.suspendedReason,
     createdAt: user.createdAt,
-    lastActiveAt: user.learningEvents[0]?.createdAt ?? null,
+    lastActiveAt: user.learningEvents[0]?.occurredAt ?? null,
     attemptCount: user._count.attempts,
     masteredTopicCount: user._count.topicMastery,
     flashcardReviewCount: user._count.flashcardReviews,
