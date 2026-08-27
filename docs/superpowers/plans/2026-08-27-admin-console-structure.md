@@ -3763,17 +3763,68 @@ npm test
 npm run dev
 ```
 
-Then, in two browsers:
+**The two-browser test cannot be run from here** — it needs a student's password, which nobody working this plan has. It is handed to the repository owner as a follow-up (see "Owner follow-up" below). In its place, prove the same chain in two halves: the data half by execution, the wiring half by inspection.
 
-1. Sign in as a student in browser A and confirm the dashboard loads.
-2. In browser B (admin), suspend that student with a reason.
-3. In browser A, navigate — within 60 seconds the student must be signed out. **This is the critical assertion of this task.** If they stay signed in past a minute, the `jwt` callback change is not taking effect; do not proceed.
-4. Try to sign in again as that student — it must fail.
-5. Reactivate from browser B, then sign in as the student again — it must succeed.
-6. Confirm the audit rows:
-   ```sql
-   SELECT action, summary FROM "AdminAudit" WHERE action LIKE 'student.%' ORDER BY "createdAt" DESC LIMIT 5;
-   ```
+**6a. Data half — execute it against the real database.** Write a THROWAWAY script (do not commit it; delete it when done) that wraps everything in an interactive transaction and throws at the end so it ROLLS BACK, leaving no student actually suspended:
+
+```ts
+// scripts/zz-suspension-check.mts — temporary, delete after running
+import { PrismaClient } from "@prisma/client";
+import { isSessionRevoked } from "../src/lib/account-status";
+
+const db = new PrismaClient();
+const PROFILE = { isActive: true, sessionsValidFrom: true } as const;
+const IAT = Math.floor(Date.now() / 1000);
+
+await db
+  .$transaction(async (tx) => {
+    const s = await tx.user.findFirstOrThrow({ where: { role: "STUDENT" }, select: { id: true } });
+
+    const before = await tx.user.findUniqueOrThrow({ where: { id: s.id }, select: PROFILE });
+    console.log("active   ->", isSessionRevoked(before, IAT), "(expect false)");
+
+    await tx.user.update({
+      where: { id: s.id },
+      data: { isActive: false, suspendedAt: new Date(), suspendedReason: "rollback probe" },
+    });
+    const after = await tx.user.findUniqueOrThrow({ where: { id: s.id }, select: PROFILE });
+    console.log("suspended->", isSessionRevoked(after, IAT), "(expect true)");
+
+    await tx.user.update({
+      where: { id: s.id },
+      data: { isActive: true, suspendedAt: null, suspendedReason: null, sessionsValidFrom: new Date() },
+    });
+    const revoked = await tx.user.findUniqueOrThrow({ where: { id: s.id }, select: PROFILE });
+    console.log("signed-out->", isSessionRevoked(revoked, IAT), "(expect true)");
+    console.log("fresh token->", isSessionRevoked(revoked, IAT + 120), "(expect false)");
+
+    throw new Error("ROLLBACK");
+  })
+  .catch((e) => {
+    if (e.message !== "ROLLBACK") throw e;
+    console.log("rolled back — no student left suspended");
+  })
+  .finally(() => db.$disconnect());
+```
+
+Expected: `false`, `true`, `true`, `false`, then the rollback line. That proves the columns, the `PROFILE_SELECT` shape and the revocation rule agree against real data — including that a token issued after a force sign-out survives, so an account is not permanently locked out. Confirm afterwards that the student is still active:
+
+```sql
+SELECT "isActive", "suspendedReason" FROM "User" WHERE role = 'STUDENT';
+```
+
+**6b. Wiring half — quote the three lines in your report.** The parts only NextAuth can exercise:
+1. `authorize()` returns `null` when `!user.isActive`.
+2. `PROFILE_SELECT` contains BOTH `isActive: true` and `sessionsValidFrom: true`.
+3. The `jwt` callback calls `isSessionRevoked(profile, token.iat)` and `return null`s on true — and the existing `catch` that keeps the cached profile on a database failure is UNCHANGED, so an outage signs nobody out.
+
+**6c. Audit rows.** Suspend and reactivate a student through the admin UI (this is reversible and leaves the account active), then:
+
+```sql
+SELECT action, summary FROM "AdminAudit" WHERE action LIKE 'student.%' ORDER BY "createdAt" DESC LIMIT 5;
+```
+
+**Owner follow-up (cannot be automated):** with a known student login, sign in as that student in browser A, suspend them from the admin in browser B, and confirm browser A is signed out within 60 seconds; then confirm they cannot sign in again, and that reactivating restores access. This is the only step that exercises the live token path end to end.
 
 - [ ] **Step 7: Commit**
 
