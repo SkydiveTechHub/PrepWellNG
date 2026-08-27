@@ -245,6 +245,15 @@ live token until it expired. Both points are therefore required:
 against the token's issued-at claim, so force sign-out reuses this one
 invalidation path rather than adding a second mechanism.
 
+**A third case shares the same path: the user no longer exists.** When the
+profile lookup returns no row, the callback returns `null` too. Without this, a
+deleted student's token would stay valid until it expired naturally while a
+merely suspended student's is revoked within the TTL — the more severe action
+getting the weaker enforcement. The lookup returning nothing is authoritative:
+a database failure throws and is caught, keeping the cached profile, so an
+absent row means the account is genuinely gone rather than temporarily
+unreachable. This is what makes deletion (below) take effect on live sessions.
+
 The exact NextAuth v5 token-invalidation contract must be confirmed against
 `node_modules/next/dist/docs/` and the next-auth beta types before
 implementation, per `AGENTS.md`.

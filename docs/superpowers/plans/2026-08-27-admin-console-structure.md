@@ -3649,16 +3649,29 @@ In `src/lib/auth.ts`:
 
    **Do NOT add them to `CachedProfile` or to the `cache.profile = { … }` assignment.** They are read fresh on every refresh purely to decide revocation, and are then discarded. Caching them would be worse than useless: a cached `isActive: true` is exactly the stale value the whole mechanism exists to avoid trusting, and `sessionsValidFrom` is a `Date`, which does not belong in a JWT payload. `CachedProfile` holds display data only — the existing assignment lists its fields explicitly, so leave that list alone and the two new fields will correctly stay out of the token.
 2. Import the rule: `import { isSessionRevoked } from "@/lib/account-status";`
-3. Inside the `jwt` callback's `try` block, immediately after `if (profile) {`, add the revocation check before the cache is written:
+3. Inside the `jwt` callback's `try` block, handle BOTH the missing-user case and the revoked case. Replace the bare `if (profile) {` with:
 
 ```ts
-          // Suspension and force sign-out have to bite on a token that is
-          // already live, not only at the next sign-in. This runs at most once
-          // per PROFILE_TTL_MS, so the delay is bounded by that.
-          if (isSessionRevoked(profile, token.iat)) {
-            return null;
-          }
+        // A user row that no longer exists has no session. `findUnique`
+        // returning null is authoritative here: a database outage THROWS and
+        // is caught below, keeping the cached profile, so null means the row
+        // is genuinely gone — deleted. Without this, a deleted student's token
+        // stays valid until it expires, while a merely suspended student's is
+        // revoked within the TTL — the more severe action getting the weaker
+        // enforcement.
+        if (!profile) return null;
+
+        // Suspension and force sign-out have to bite on a token that is
+        // already live, not only at the next sign-in. This runs at most once
+        // per PROFILE_TTL_MS, so the delay is bounded by that.
+        if (isSessionRevoked(profile, token.iat)) {
+          return null;
+        }
 ```
+
+and de-indent the `cache.profile = { … }` / `cache.profileAt = …` assignments out of the old `if (profile)` block, since the early return now guarantees `profile` is non-null.
+
+**Why the ordering matters:** the `!profile` check must sit INSIDE the existing `try`, so that a thrown database error still reaches the `catch` and keeps the cached profile. Moving it outside would turn an outage into a mass sign-out.
 
 **Contract already verified against the installed beta — returning `null` is correct.** `node_modules/@auth/core/index.d.ts:331` types the callback as `jwt?: (params: {...}) => Awaitable<JWT | null>`, so `return null` is permitted and is how an invalid token is signalled.
 
