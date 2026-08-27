@@ -2201,8 +2201,8 @@ export async function listStudents(
         isActive: true,
         createdAt: true,
         learningEvents: {
-          select: { createdAt: true },
-          orderBy: { createdAt: "desc" },
+          select: { occurredAt: true },
+          orderBy: { occurredAt: "desc" },
           take: 1,
         },
       },
@@ -2225,13 +2225,13 @@ export async function listStudents(
       tier: user.tier as SubscriptionTier,
       isActive: user.isActive,
       createdAt: user.createdAt,
-      lastActiveAt: user.learningEvents[0]?.createdAt ?? null,
+      lastActiveAt: user.learningEvents[0]?.occurredAt ?? null,
     })),
   };
 }
 ```
 
-If `LearningEvent` has no `createdAt` field, use its timestamp column instead — check with `sed -n '/^model LearningEvent /,/^}/p' prisma/schema.prisma` and adjust the `select` and `orderBy` accordingly.
+**Field names already verified against the schema — use exactly these:** `LearningEvent` has **no `createdAt`**; its timestamp is `occurredAt` and its User FK is `studentId` (not `userId`). The `User` relation field is `learningEvents`. The `_count` relation names `attempts`, `topicMastery` and `flashcardReviews` are correct as written.
 
 - [ ] **Step 2: Create the filter bar**
 
@@ -2657,8 +2657,8 @@ export async function getStudentDetail(id: string): Promise<StudentDetail | null
       suspendedReason: true,
       createdAt: true,
       learningEvents: {
-        select: { createdAt: true },
-        orderBy: { createdAt: "desc" },
+        select: { occurredAt: true },
+        orderBy: { occurredAt: "desc" },
         take: 1,
       },
       _count: {
@@ -2708,13 +2708,13 @@ export async function getStudentDeletionImpact(
 ): Promise<Record<string, number>> {
   const [attempts, responses, progress, mastery, events, reviews, decks] =
     await Promise.all([
-      db.assessmentAttempt.count({ where: { userId: id } }),
-      db.questionResponse.count({ where: { attempt: { userId: id } } }),
-      db.studentProgress.count({ where: { userId: id } }),
-      db.topicMastery.count({ where: { userId: id } }),
-      db.learningEvent.count({ where: { userId: id } }),
-      db.flashcardReview.count({ where: { userId: id } }),
-      db.flashcardDeck.count({ where: { authorId: id } }),
+      db.assessmentAttempt.count({ where: { studentId: id } }),
+      db.questionResponse.count({ where: { attempt: { studentId: id } } }),
+      db.studentProgress.count({ where: { studentId: id } }),
+      db.topicMastery.count({ where: { studentId: id } }),
+      db.learningEvent.count({ where: { studentId: id } }),
+      db.flashcardReview.count({ where: { studentId: id } }),
+      db.flashcardDeck.count({ where: { createdBy: id } }),
     ]);
 
   return {
@@ -2729,13 +2729,7 @@ export async function getStudentDeletionImpact(
 }
 ```
 
-The relation field names (`userId`, `authorId`, `attempt`) must match the schema. Verify each before running:
-
-```bash
-sed -n '/^model AssessmentAttempt /,/^}/p;/^model QuestionResponse /,/^}/p;/^model FlashcardDeck /,/^}/p' prisma/schema.prisma
-```
-
-Adjust any name that differs.
+**Relation field names already verified against the schema — use exactly these.** This codebase names its User foreign keys `studentId`, **not** `userId`, on every learning-domain model (`AssessmentAttempt`, `StudentProgress`, `TopicMastery`, `LearningEvent`, `FlashcardReview`). Only `Account` and `Session` use `userId`. `QuestionResponse` has no direct User link — it reaches one through `attempt`. `FlashcardDeck`'s author FK is **`createdBy`**, not `authorId`.
 
 - [ ] **Step 2: Create the detail page**
 
