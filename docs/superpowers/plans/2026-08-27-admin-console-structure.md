@@ -3646,6 +3646,8 @@ In `src/lib/auth.ts`, inside `authorize()`, after the `if (!user || !user.passwo
 In `src/lib/auth.ts`:
 
 1. Add `isActive: true` and `sessionsValidFrom: true` to the `PROFILE_SELECT` object.
+
+   **Do NOT add them to `CachedProfile` or to the `cache.profile = { … }` assignment.** They are read fresh on every refresh purely to decide revocation, and are then discarded. Caching them would be worse than useless: a cached `isActive: true` is exactly the stale value the whole mechanism exists to avoid trusting, and `sessionsValidFrom` is a `Date`, which does not belong in a JWT payload. `CachedProfile` holds display data only — the existing assignment lists its fields explicitly, so leave that list alone and the two new fields will correctly stay out of the token.
 2. Import the rule: `import { isSessionRevoked } from "@/lib/account-status";`
 3. Inside the `jwt` callback's `try` block, immediately after `if (profile) {`, add the revocation check before the cache is written:
 
