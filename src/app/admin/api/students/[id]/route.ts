@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Prisma } from "@prisma/client";
 import { requireAdminApi } from "@/lib/admin-session";
 import { canEditStudent } from "@/lib/admin-access";
 import { recordAudit } from "@/lib/admin-audit";
@@ -43,13 +44,8 @@ export async function PATCH(
     // them "the email is already in use" after a connection drop or a bad
     // schoolId sends them chasing a duplicate that does not exist — so the
     // blame is only assigned when the database says so.
-    const code =
-      typeof error === "object" && error !== null && "code" in error
-        ? (error as { code?: string }).code
-        : undefined;
-
-    if (code === "P2002") {
-      const target = (error as { meta?: { target?: string[] } }).meta?.target;
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
+      const target = error.meta?.target as string[] | undefined;
       const field = target?.includes("phone") ? "phone number" : "email";
       return NextResponse.json(
         { error: `That ${field} already belongs to another account.` },
