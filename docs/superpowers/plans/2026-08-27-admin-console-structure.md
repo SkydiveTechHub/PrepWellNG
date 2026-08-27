@@ -4054,14 +4054,23 @@ Signed in as the **owner**:
 2. Open the delete control — the impact list shows real counts; the button stays disabled until the name is typed exactly.
 3. Delete a throwaway test account — you are returned to the list and it is gone.
 
-Signed in as a **non-owner admin**: the force sign-out and delete controls are absent, and calling the routes directly is refused:
+**The non-owner 403 path — verify by inspection, not by signing in.** This database currently holds exactly one admin, the owner, so there is no non-owner account to sign in as. Do **not** create one to run this check: adding an admin to the live database is a side effect outside this task's scope.
+
+Verify instead, and record each in the report:
+
+1. Both owner-only route files call `requireOwnerApi()` as their FIRST statement and return `guard.response` when `!guard.ok` — read `src/app/admin/api/students/[id]/force-signout/route.ts` and the `DELETE` handler in `src/app/admin/api/students/[id]/route.ts` and quote the lines.
+2. The detail page passes `canForceSignOutStudent(admin)` and `canDeleteStudent(admin)` into `StudentDangerZone`, and that component renders each control only when its flag is true.
+3. `scripts/test-admin-access.mts` already pins both predicates as false for a non-owner and false for a deactivated owner (added in Task 7, reviewed clean). Re-run that file and cite the result.
+
+Together these show the refusal is enforced server-side regardless of what the UI shows. If the owner later creates a second admin at `/admin/team`, the live `curl` check is worth running then:
 
 ```bash
 curl -i -X DELETE http://localhost:3000/admin/api/students/<id> \
   -H "Cookie: prepwell.admin-session=<non-owner session cookie>"
+# Expected: 403
 ```
 
-Expected: `403`. Then confirm the audit rows exist for both actions.
+Then confirm the audit rows exist for both actions.
 
 - [ ] **Step 6: Commit**
 
