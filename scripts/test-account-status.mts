@@ -4,6 +4,7 @@ import {
   describeAccountStatus,
   isAccountStatus,
   isSessionRevoked,
+  sessionStartedAt,
 } from "../src/lib/account-status";
 
 // Token issued-at claims are seconds since the epoch, not milliseconds.
@@ -64,6 +65,84 @@ test("a token with no issued-at claim survives when no stamp exists", () => {
   assert.equal(
     isSessionRevoked({ isActive: true, sessionsValidFrom: null }, undefined),
     false,
+  );
+});
+
+test("sessionStartedAt: sign-in always returns now, even with no fallback values", () => {
+  const now = 1_800_000_000;
+  assert.equal(
+    sessionStartedAt({
+      isSignIn: true,
+      storedStartedAt: undefined,
+      tokenIssuedAt: undefined,
+      nowSeconds: now,
+    }),
+    now,
+  );
+});
+
+test("sessionStartedAt: non-sign-in prefers the stored stamp", () => {
+  assert.equal(
+    sessionStartedAt({
+      isSignIn: false,
+      storedStartedAt: 100,
+      tokenIssuedAt: 200,
+      nowSeconds: 300,
+    }),
+    100,
+  );
+});
+
+test("sessionStartedAt: non-sign-in falls back to iat when no stored stamp", () => {
+  assert.equal(
+    sessionStartedAt({
+      isSignIn: false,
+      storedStartedAt: undefined,
+      tokenIssuedAt: 200,
+      nowSeconds: 300,
+    }),
+    200,
+  );
+});
+
+test("sessionStartedAt: non-sign-in with neither returns undefined", () => {
+  assert.equal(
+    sessionStartedAt({
+      isSignIn: false,
+      storedStartedAt: undefined,
+      tokenIssuedAt: undefined,
+      nowSeconds: 300,
+    }),
+    undefined,
+  );
+});
+
+test("a fresh sign-in after a force sign-out is NOT revoked", () => {
+  // The bug: sign-in tokens carry no `iat`, so borrowing it made
+  // isSessionRevoked treat a brand-new session as revoked and locked the
+  // account out permanently, with no console remedy.
+  const revokedAt = new Date("2026-08-27T10:00:00Z");
+  const startedAt = sessionStartedAt({
+    isSignIn: true,
+    storedStartedAt: undefined,
+    tokenIssuedAt: undefined,
+    nowSeconds: Math.floor(revokedAt.getTime() / 1000) + 60,
+  });
+  assert.equal(
+    isSessionRevoked({ isActive: true, sessionsValidFrom: revokedAt }, startedAt),
+    false,
+  );
+});
+
+test("a suspended account is still refused at sign-in", () => {
+  // The lockout fix must not weaken suspension.
+  const startedAt = sessionStartedAt({
+    isSignIn: true, storedStartedAt: undefined, tokenIssuedAt: undefined,
+    nowSeconds: 1_800_000_000,
+  });
+  assert.equal(
+    isSessionRevoked({ isActive: false, sessionsValidFrom: null }, startedAt),
+    true,
   );
 });
 

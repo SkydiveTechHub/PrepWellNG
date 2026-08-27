@@ -53,6 +53,29 @@ export function isSessionRevoked(
   return tokenIssuedAtSeconds <= validFromSeconds;
 }
 
+/**
+ * Which instant a session should be judged from.
+ *
+ * At sign-in the token is being minted right now and carries no `iat` — Auth.js
+ * adds that later, at encode time — so borrowing `iat` here would compare a
+ * brand-new session against a past revocation and reject it, locking the
+ * account out permanently. A session starting now is by definition newer than
+ * any revocation that already happened.
+ *
+ * @param nowSeconds current time in SECONDS since the epoch
+ */
+export function sessionStartedAt(args: {
+  isSignIn: boolean;
+  storedStartedAt: number | undefined;
+  tokenIssuedAt: number | undefined;
+  nowSeconds: number;
+}): number | undefined {
+  if (args.isSignIn) return args.nowSeconds;
+  // Prefer our own stamp; fall back to `iat` for tokens minted before this
+  // existed, so a deploy does not invalidate every live session.
+  return args.storedStartedAt ?? args.tokenIssuedAt;
+}
+
 export function describeAccountStatus(account: { isActive: boolean }): {
   label: string;
   tone: "success" | "warning";

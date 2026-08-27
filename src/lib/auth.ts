@@ -5,7 +5,7 @@ import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { db } from "./db";
 import { z } from "zod";
-import { isSessionRevoked } from "@/lib/account-status";
+import { isSessionRevoked, sessionStartedAt } from "@/lib/account-status";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -150,7 +150,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     // in a separate `Admin` table, authenticated by the entirely separate
     // instance in admin-auth.ts, so this cached role cannot grant admin access.
     async jwt({ token, user, trigger }) {
-      const cache = token as { profile?: CachedProfile; profileAt?: number };
+      const cache = token as {
+        profile?: CachedProfile;
+        profileAt?: number;
+        sessionStartedAt?: number;
+      };
       const isSignIn = Boolean(user);
 
       if (isSignIn && user?.id) token.sub = user.id;
@@ -178,7 +182,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         // Suspension and force sign-out have to bite on a token that is
         // already live, not only at the next sign-in. This runs at most once
         // per PROFILE_TTL_MS, so the delay is bounded by that.
-        if (isSessionRevoked(profile, token.iat)) {
+        const startedAt = sessionStartedAt({
+          isSignIn,
+          storedStartedAt: cache.sessionStartedAt,
+          tokenIssuedAt: token.iat,
+          nowSeconds: Math.floor(Date.now() / 1000),
+        });
+        if (isSignIn) cache.sessionStartedAt = startedAt;
+
+        if (isSessionRevoked(profile, startedAt)) {
           return null;
         }
 
