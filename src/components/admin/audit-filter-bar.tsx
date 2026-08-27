@@ -1,7 +1,12 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { AUDIT_ACTIONS, type AuditFilter } from "@/lib/admin-audit-filter";
+import {
+  AUDIT_ACTIONS,
+  AUDIT_ENTITIES,
+  auditFilterParams,
+  type AuditFilter,
+} from "@/lib/admin-audit-filter";
 
 const SELECT_CLS =
   "px-3 py-2 rounded-lg border border-border bg-card text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60";
@@ -22,13 +27,10 @@ export function AuditFilterBar({
 
   // Any change resets to page 1: staying on page 7 of a narrower result set
   // shows an empty table.
-  function go(next: Partial<Record<"actor" | "action" | "from" | "to", string>>) {
-    const params = new URLSearchParams({
-      ...(filter.actorId ? { actor: filter.actorId } : {}),
-      ...(filter.action ? { action: filter.action } : {}),
-      ...(filter.from ? { from: toDateInput(filter.from) } : {}),
-      ...(filter.to ? { to: toDateInput(filter.to) } : {}),
-    });
+  function go(
+    next: Partial<Record<"actor" | "action" | "entity" | "from" | "to", string>>,
+  ) {
+    const params = new URLSearchParams(auditFilterParams(filter));
     for (const [key, value] of Object.entries(next)) {
       if (value) params.set(key, value);
       else params.delete(key);
@@ -72,6 +74,25 @@ export function AuditFilterBar({
           {AUDIT_ACTIONS.map((action) => (
             <option key={action} value={action}>
               {action}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="flex flex-col gap-1">
+        <label htmlFor="audit-entity" className={LABEL_CLS}>
+          Entity
+        </label>
+        <select
+          id="audit-entity"
+          value={filter.entity ?? ""}
+          onChange={(e) => go({ entity: e.target.value })}
+          className={SELECT_CLS}
+        >
+          <option value="">All entities</option>
+          {AUDIT_ENTITIES.map((entity) => (
+            <option key={entity} value={entity}>
+              {entity}
             </option>
           ))}
         </select>

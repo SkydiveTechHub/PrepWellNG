@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { CLASS_LEVELS } from "@/lib/curriculum-scope";
 import { SUBSCRIPTION_TIERS, TIER_LABELS } from "@/lib/subscription";
 import { ACCOUNT_STATUSES } from "@/lib/account-status";
-import { TRACKS, type StudentFilter } from "@/lib/admin-student";
+import { TRACKS, studentFilterParams, type StudentFilter } from "@/lib/admin-student";
 
 const SELECT_CLS =
   "px-3 py-2 rounded-lg border border-border bg-card text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60";
@@ -23,13 +23,7 @@ export function StudentFilterBar({ filter }: { filter: StudentFilter }) {
   // Any change resets to page 1: staying on page 7 of a narrower result set
   // shows an empty table.
   function go(next: Partial<Record<"q" | "class" | "track" | "tier" | "status", string>>) {
-    const params = new URLSearchParams({
-      ...(filter.search ? { q: filter.search } : {}),
-      ...(filter.classLevel ? { class: filter.classLevel } : {}),
-      ...(filter.track ? { track: filter.track } : {}),
-      ...(filter.tier ? { tier: filter.tier } : {}),
-      ...(filter.status ? { status: filter.status } : {}),
-    });
+    const params = new URLSearchParams(studentFilterParams(filter));
     for (const [key, value] of Object.entries(next)) {
       if (value) params.set(key, value);
       else params.delete(key);
