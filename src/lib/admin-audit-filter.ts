@@ -78,7 +78,7 @@ export function normaliseAuditFilter(params: RawAuditParams): AuditFilter {
       : null;
 
   return {
-    actorId: params.actor?.trim() ? params.actor : null,
+    actorId: params.actor?.trim() ? params.actor.trim() : null,
     action,
     entity,
     from,

@@ -2,6 +2,7 @@ import { z } from "zod";
 
 import { checkQuestionInvariants } from "@/lib/admin-question";
 import { SUBSCRIPTION_TIERS } from "@/lib/subscription";
+import { CLASS_LEVELS } from "@/lib/curriculum-scope";
 
 // ─── Auth ─────────────────────────────────────────
 
@@ -341,10 +342,9 @@ export const studentProfileSchema = z.object({
   lastName: z.string().trim().min(1, "Last name is required"),
   email: z.string().trim().toLowerCase().email("Enter a valid email").optional(),
   phone: z.string().trim().min(7, "Enter a valid phone number").optional(),
-  classLevel: z.enum(["SS1", "SS2", "SS3"]).optional(),
+  classLevel: z.enum([...CLASS_LEVELS]).optional(),
   track: z.enum(["SCIENCE", "ARTS", "COMMERCIAL"]).optional(),
   state: z.string().trim().min(1).optional(),
-  schoolId: z.string().trim().min(1).optional(),
 });
 
 // A reason is required to suspend and meaningless to reactivate. An audit row
