@@ -3981,7 +3981,7 @@ export async function DELETE(
     }`,
   });
 
-  await db.user.delete({ where: { id } });
+  await deleteStudent(id);
 
   return NextResponse.json({ ok: true });
 }
@@ -3990,11 +3990,10 @@ export async function DELETE(
 Add the imports this handler needs at the top of the file:
 
 ```ts
-import { db } from "@/lib/db";
-import { getStudentDeletionImpact } from "@/lib/admin-student-data";
+import { deleteStudent, getStudentDeletionImpact } from "@/lib/admin-student-data";
 ```
 
-(`deleteStudent` from Step 1 is equivalent; call `db.user.delete` directly here or swap in `deleteStudent(id)` — pick one and use it consistently.)
+Use the `deleteStudent` helper from Step 1 rather than calling `db.user.delete` inline. Both work, but routing every student write through `admin-student-data.ts` is what keeps this plan's lib split intact — a route file importing `db` directly is the first crack in it. The route should not import `db` at all.
 
 - [ ] **Step 4: Add both controls to the danger zone**
 
