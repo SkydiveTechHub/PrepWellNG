@@ -129,9 +129,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     // PROFILE_TTL_MS. `trigger: "update"` forces it immediately.
     //
     // Tradeoff: a name or avatar change can take up to the TTL to appear in the
-    // sidebar chrome. Only presentation data is cached — `role` is re-checked
-    // against the database by the admin layout and every admin route handler,
-    // so a stale token cannot grant access.
+    // sidebar chrome. Only presentation data is cached — `role` is display-only
+    // here. Admin access is no longer gated by `User.role` at all: admins live
+    // in a separate `Admin` table, authenticated by the entirely separate
+    // instance in admin-auth.ts, so this cached role cannot grant admin access.
     async jwt({ token, user, trigger }) {
       const cache = token as { profile?: CachedProfile; profileAt?: number };
       const isSignIn = Boolean(user);

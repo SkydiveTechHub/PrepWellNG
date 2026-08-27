@@ -78,7 +78,7 @@ export const topicLessonSelect = {
  * dropped `orderBy: { createdAt: "asc" }` on the way, so they resolved
  * "the topic's lesson" by database order while the classroom resolved it by
  * creation order. That was harmless only while every subtopic had exactly one
- * lesson; `POST /api/admin/lessons/import` can now create a second one.
+ * lesson; `POST /admin/api/lessons/import` can now create a second one.
  *
  * Narrowing columns is therefore the one thing a call site may vary — `lesson`
  * names the lesson columns, `subtopic` any extra subtopic columns (the import

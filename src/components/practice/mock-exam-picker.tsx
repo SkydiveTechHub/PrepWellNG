@@ -10,8 +10,10 @@ import {
   LuCheck,
 } from "react-icons/lu";
 import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
+import { isComingSoonBoard } from "@/lib/constants/exam-types";
 import {
   CLASS_LEVELS,
   TERMS,
@@ -157,42 +159,26 @@ export function MockExamPicker({
 
   const scopeText = describeScopeRange(from, effectiveTo);
 
-  async function start() {
+  // Navigation only. The session page generates the paper, and that is the one
+  // actually sat — posting here as well drew a whole second paper that was
+  // thrown away unread, costing two round-trips and two rate-limit slots per
+  // start. `available` already gates the empty-scope case from the counts the
+  // picker holds, and a generation that does fail surfaces on the session
+  // screen, which has a way back here.
+  function start() {
     if (!board || !subjectId || available === 0) return;
     setStarting(true);
     setError("");
-    try {
-      const res = await fetch("/api/assessments/mock-exam/scoped", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          examType: board,
-          subjectId,
-          from,
-          to: effectiveTo,
-          count: Math.min(count, available),
-        }),
-      });
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        setError(data.error || "Couldn't start the exam. Please try again.");
-        setStarting(false);
-        return;
-      }
-      const params = new URLSearchParams({
-        examType: board,
-        subjectId,
-        fromClass: from.classLevel,
-        fromTerm: from.term,
-        toClass: effectiveTo.classLevel,
-        toTerm: effectiveTo.term,
-        count: String(Math.min(count, available)),
-      });
-      router.push(`/practice/mock-exam/session?${params.toString()}`);
-    } catch {
-      setError("Network error. Please check your connection and try again.");
-      setStarting(false);
-    }
+    const params = new URLSearchParams({
+      examType: board,
+      subjectId,
+      fromClass: from.classLevel,
+      fromTerm: from.term,
+      toClass: effectiveTo.classLevel,
+      toTerm: effectiveTo.term,
+      count: String(Math.min(count, available)),
+    });
+    router.push(`/practice/mock-exam/session?${params.toString()}`);
   }
 
   return (
@@ -201,22 +187,30 @@ export function MockExamPicker({
       <section>
         <h2 className="section-label mb-3">1 · Choose the exam</h2>
         <div className="grid grid-cols-3 gap-3">
-          {BOARDS.map((b) => (
-            <button
-              key={b}
-              type="button"
-              onClick={() => chooseBoard(b)}
-              aria-pressed={board === b}
-              className={cn(
-                "rounded-xl border py-4 text-sm font-bold transition-all",
-                board === b
-                  ? "border-primary bg-primary-soft text-primary ring-4 ring-primary/15"
-                  : "border-border bg-card text-foreground hover:border-primary/40",
-              )}
-            >
-              {b}
-            </button>
-          ))}
+          {BOARDS.map((b) => {
+            // Held back until the board has a syllabus-tagged bank of its own.
+            const comingSoon = isComingSoonBoard(b);
+            return (
+              <button
+                key={b}
+                type="button"
+                onClick={() => chooseBoard(b)}
+                disabled={comingSoon}
+                aria-pressed={board === b}
+                className={cn(
+                  "flex flex-col items-center justify-center gap-1.5 rounded-xl border py-4 text-sm font-bold transition-all",
+                  comingSoon
+                    ? "cursor-not-allowed border-border bg-muted/40 text-muted"
+                    : board === b
+                      ? "border-primary bg-primary-soft text-primary ring-4 ring-primary/15"
+                      : "border-border bg-card text-foreground hover:border-primary/40",
+                )}
+              >
+                {b}
+                {comingSoon && <Badge>Coming soon</Badge>}
+              </button>
+            );
+          })}
         </div>
       </section>
 

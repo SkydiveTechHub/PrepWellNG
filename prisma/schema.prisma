@@ -14,6 +14,8 @@ datasource db {
 
 // ─── Enums ────────────────────────────────────────────────
 
+/// STUDENT and TEACHER only. ADMIN is retained because Postgres has no
+/// DROP VALUE, but it is never assigned — admins live in the Admin model.
 enum Role {
   STUDENT
   TEACHER
@@ -196,9 +198,6 @@ model User {
   flashcardReviewLogs  FlashcardReviewLog[]
   flashcardEnrollments FlashcardEnrollment[]
   flashcardDecks       FlashcardDeck[]       @relation("FlashcardDeckAuthor")
-
-  // Admin
-  adminAudits AdminAudit[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -637,6 +636,13 @@ model TopicMastery {
   cursorSeq      BigInt    @default(0)
   /// Latest genuine-effort event. Lesson *access* never advances this.
   lastEffortAt   DateTime?
+  /// Mirrors SCORING_VERSION in src/engines/learning/evidence.ts, which is the
+  /// authority. A row whose version differs is refolded from cursor 0 on the
+  /// next read, so bumping the constant is how a scoring change is rolled out.
+  /// The default below is deliberately NOT kept in step: nothing but the store
+  /// inserts these rows, and the store always writes the constant explicitly,
+  /// so a stale default is inert — and changing it would cost a migration for
+  /// no behavioural gain.
   scoringVersion Int       @default(1)
   updatedAt      DateTime  @updatedAt
 
@@ -758,12 +764,18 @@ model Flashcard {
   difficulty Difficulty    @default(INTERMEDIATE)
   tags       Json?
   orderIndex Int           @default(0)
+  // id of the lesson block this card was generated from. Nullable: rows that
+  // predate re-sync have no key (stamped on first re-sync), and AUTHORED decks
+  // have no source block at all. Postgres does not collide nulls under a
+  // unique index, so any number of them coexist in one deck.
+  sourceKey  String?
 
   reviews   FlashcardReview[]
   reviewLog FlashcardReviewLog[]
 
   createdAt DateTime @default(now())
 
+  @@unique([deckId, sourceKey])
   @@index([deckId, orderIndex])
 }
 
@@ -822,11 +834,34 @@ model FlashcardEnrollment {
 
 // ─── Admin ──────────────────────────────────────────────────
 
+/// Admins are a separate identity from students — see
+/// docs/superpowers/specs/2026-08-26-admin-identity-design.md.
+/// No Account/Session relations: the admin auth instance uses the credentials
+/// provider with a JWT strategy and never touches the Prisma adapter.
+model Admin {
+  id           String    @id @default(cuid())
+  email        String?   @unique
+  username     String?   @unique
+  passwordHash String
+  isOwner      Boolean   @default(false)
+  isActive     Boolean   @default(true)
+  lastLoginAt  DateTime?
+
+  createdById   String?
+  createdBy     Admin?  @relation("AdminCreator", fields: [createdById], references: [id])
+  createdAdmins Admin[] @relation("AdminCreator")
+
+  audits AdminAudit[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model AdminAudit {
   id        String   @id @default(cuid())
   actorId   String
-  actor     User     @relation(fields: [actorId], references: [id], onDelete: Cascade)
-  action    String // "question.create" | "question.update" | "question.delete" | "question.import"
+  actor     Admin    @relation(fields: [actorId], references: [id], onDelete: Cascade)
+  action    String // "question.create" | "question.update" | "question.delete" | "question.import" | "lesson.import" | "admin.create" | "admin.deactivate" | "admin.reactivate"
   entity    String // "Question"
   entityId  String?
   summary   String   @db.Text

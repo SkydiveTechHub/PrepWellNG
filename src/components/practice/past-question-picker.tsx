@@ -5,7 +5,9 @@ import { useEffect, useMemo, useState } from "react";
 import { LuCheck, LuPencil, LuChevronRight, LuInbox } from "react-icons/lu";
 import { isRelevantSubject, relevantTrackCategories } from "@/lib/subjects";
 import { TRACK_CATEGORIES } from "@/lib/subjects";
+import { isComingSoonBoard } from "@/lib/constants/exam-types";
 import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Spinner } from "@/components/ui/spinner";
 
@@ -127,19 +129,36 @@ export function PastQuestionPicker({ track }: { track: string | null }) {
       ) : (
         <Step number={1} title="Choose an exam">
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-            {exams.map(([type, questionCount]) => (
-              <button
-                key={type}
-                type="button"
-                onClick={() => setExam(type)}
-                className="card card-interactive p-4 text-left"
-              >
-                <Badge variant={EXAM_BADGES[type] ?? "neutral"}>{type}</Badge>
-                <p className="mt-2 text-sm text-muted">
-                  {questionCount} question{questionCount === 1 ? "" : "s"}
-                </p>
-              </button>
-            ))}
+            {exams.map(([type, questionCount]) => {
+              // Papers may already be imported for a board we aren't opening
+              // up yet — list it so students can see it's on the way, but
+              // don't let them walk into it.
+              const comingSoon = isComingSoonBoard(type);
+              return (
+                <button
+                  key={type}
+                  type="button"
+                  onClick={() => setExam(type)}
+                  disabled={comingSoon}
+                  className={cn(
+                    "card p-4 text-left",
+                    comingSoon
+                      ? "cursor-not-allowed opacity-60"
+                      : "card-interactive",
+                  )}
+                >
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Badge variant={EXAM_BADGES[type] ?? "neutral"}>{type}</Badge>
+                    {comingSoon && <Badge>Coming soon</Badge>}
+                  </div>
+                  <p className="mt-2 text-sm text-muted">
+                    {comingSoon
+                      ? "Not open for practice yet"
+                      : `${questionCount} question${questionCount === 1 ? "" : "s"}`}
+                  </p>
+                </button>
+              );
+            })}
           </div>
         </Step>
       )}

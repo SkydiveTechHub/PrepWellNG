@@ -8,6 +8,7 @@ import type { TopicState } from "@/engines/learning/mastery";
 import {
   deriveObjectives,
   parseBlocks,
+  parseCheckpointState,
   parsePrerequisiteLabels,
   type CheckBlock,
   type LessonBlock,
@@ -297,6 +298,11 @@ export type TopicStudyData = {
   lockedReason: string | null;
   passMarkPercent: number;
   practiceCount: number;
+  /** Where they left off last time, so re-opening resumes instead of restarting. */
+  checkpoint: {
+    visited: string[];
+    checks: Record<string, { attempts: number; correct: boolean }>;
+  };
   legacy: { content: string; keyPoints: string[]; summary: string | null };
 };
 
@@ -322,6 +328,14 @@ export async function getTopicStudyData(
   );
   const locked = !lessonReady;
   const unmetPrereqs = prereqs.filter((prereq) => !prereq.met);
+
+  // The cards they have already worked through. Without this the player starts
+  // empty every time and posts a first-card percentage over the real one.
+  const progress = await db.studentProgress.findFirst({
+    where: { studentId: userId, lessonId: lesson.id },
+    select: { checkpointData: true },
+  });
+  const { visited, checks } = parseCheckpointState(progress?.checkpointData);
 
   const prerequisiteLabels = parsePrerequisiteLabels(lesson.prerequisites);
   for (const prereq of unmetPrereqs) {
@@ -350,6 +364,7 @@ export async function getTopicStudyData(
       : null,
     passMarkPercent: lesson.passMarkPercent,
     practiceCount: lesson.practiceCount,
+    checkpoint: { visited, checks },
     legacy: {
       content: lesson.content,
       keyPoints: Array.isArray(lesson.keyPoints) ? (lesson.keyPoints as string[]) : [],

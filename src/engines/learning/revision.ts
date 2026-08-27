@@ -44,6 +44,12 @@ export interface RevisionQueueItem {
   blockedCount: number;
   dueSrsCards: number;
   cadenceDue: boolean;
+  confidence: number;
+  accObservations: number;
+  lessonObservations: number;
+  srsObservations: number;
+  /** ISO string — see EvidenceCounts.lastStudy in lib/evidence-display.ts. */
+  lastStudy: string | null;
 }
 
 /**
@@ -152,6 +158,11 @@ export function revisionQueue(
       cadenceDue:
         topicExtras.cadenceDueAt != null &&
         topicExtras.cadenceDueAt.getTime() <= now.getTime(),
+      confidence: topic.confidence,
+      accObservations: topic.accObservations,
+      lessonObservations: topic.lessonObservations,
+      srsObservations: topic.srsObservations,
+      lastStudy: topic.lastStudy?.toISOString() ?? null,
     });
   }
 
@@ -262,12 +273,10 @@ export function revisionItemToRecommendation(
       freshness: 1,
     },
     unlocks: item.blockedCount,
-    // RevisionQueueItem carries no per-channel evidence counts; these items
-    // already have an established mastery figure (mastered, then decayed),
-    // so present as fully confident rather than thinly measured.
-    confidence: 1,
-    accObservations: 0,
-    lessonObservations: 0,
-    srsObservations: 0,
+    confidence: item.confidence,
+    accObservations: item.accObservations,
+    lessonObservations: item.lessonObservations,
+    srsObservations: item.srsObservations,
+    lastStudy: item.lastStudy,
   };
 }

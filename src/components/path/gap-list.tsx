@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LuFlame, LuLink2, LuTriangleAlert } from "react-icons/lu";
+import { LuFlame, LuLink2, LuCircleSlash, LuTriangleAlert } from "react-icons/lu";
 import type { TopicGap } from "@/engines/learning/gaps";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -11,6 +11,7 @@ function gapLabel(gap: TopicGap): string {
     return `Blocks ${gap.blockedCount} topic${gap.blockedCount === 1 ? "" : "s"}`;
   }
   if (gap.category === "DECAYED") return "Fading fast";
+  if (gap.category === "ABANDONED") return "Started without finishing";
   return "Weak";
 }
 
@@ -19,6 +20,7 @@ function gapVariant(
 ): "red" | "amber" | "orange" | "neutral" {
   if (gap.category === "BOTTLENECK") return "red";
   if (gap.category === "DECAYED") return "orange";
+  if (gap.category === "ABANDONED") return "neutral";
   return "amber";
 }
 
@@ -27,6 +29,7 @@ function gapIcon(gap: TopicGap) {
     return <LuLink2 className="h-3 w-3" />;
   }
   if (gap.category === "DECAYED") return <LuFlame className="h-3 w-3" />;
+  if (gap.category === "ABANDONED") return <LuCircleSlash className="h-3 w-3" />;
   return <LuTriangleAlert className="h-3 w-3" />;
 }
 
@@ -52,7 +55,9 @@ export function GapList({
                   ? "bg-tone-red-soft text-tone-red-ink"
                   : gap.category === "DECAYED"
                     ? "bg-tone-orange-soft text-tone-orange-ink"
-                    : "bg-tone-amber-soft text-tone-amber-ink",
+                    : gap.category === "ABANDONED"
+                      ? "bg-secondary text-secondary-foreground"
+                      : "bg-tone-amber-soft text-tone-amber-ink",
               )}
             >
               <LuTriangleAlert className="h-5 w-5" />

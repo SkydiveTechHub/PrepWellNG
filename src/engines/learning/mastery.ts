@@ -105,7 +105,17 @@ export function topicRetention(
   return retentionAt(days, stability);
 }
 
-/** Pure assembly: evidence → full topic state. */
+/**
+ * Pure assembly: evidence → full topic state.
+ *
+ * TEST-ONLY. This predates the evidence ledger and has no access to per-channel
+ * observation counts, so it hardcodes `confidence: 0` and zero observations —
+ * which means any state it builds sits permanently below CONFIDENCE_FLOOR and
+ * can never be classified WEAK or DECAYED. Production state comes from
+ * `scoreAggregate`, which derives both from the fold. Do not reach for this in
+ * app code: the two constructors of TopicState disagree about the very field
+ * that gates diagnosis.
+ */
 export function assembleTopicState(
   topicId: string,
   evidence: TopicEvidence,

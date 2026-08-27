@@ -408,7 +408,14 @@ export async function getFlashcardRecommendations(
         select: { id: true, title: true },
       }),
       db.studentProgress.findMany({
-        where: { studentId, lessonId: { not: null }, status: "COMPLETED" },
+        // Worked through, not necessarily "completed": COMPLETED is earned by
+        // passing the practice exit, but a lesson is worth carding the moment
+        // the student has read it end to end.
+        where: {
+          studentId,
+          lessonId: { not: null },
+          OR: [{ status: "COMPLETED" }, { completionPercent: { gte: 100 } }],
+        },
         select: { lessonId: true },
       }),
       db.performanceMetric.findMany({
@@ -506,7 +513,7 @@ export async function getFlashcardRecommendations(
     });
   }
 
-  // Lessons completed but never turned into a deck.
+  // Lessons read through but never turned into a deck.
   const lessonIds = completedLessons
     .map((p) => p.lessonId)
     .filter((id): id is string => id !== null);
@@ -521,7 +528,6 @@ export async function getFlashcardRecommendations(
   const untappedLessons = await db.studentProgress.findMany({
     where: {
       studentId,
-      status: "COMPLETED",
       lessonId: { in: lessonIds.filter((id) => !existingDeckLessons.has(id)) },
     },
     select: { lesson: { select: { id: true, title: true } } },
@@ -534,7 +540,7 @@ export async function getFlashcardRecommendations(
       priority: "medium",
       title: `Turn "${progress.lesson.title}" into cards`,
       rationale:
-        "You finished this lesson. Converting it to flashcards is the highest-leverage move you can make today.",
+        "You’ve read this lesson end to end. Converting it to flashcards is the highest-leverage move you can make today.",
       href: `/flashcards?lesson=${progress.lesson.id}`,
     });
   }

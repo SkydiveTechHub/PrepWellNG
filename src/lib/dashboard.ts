@@ -1,7 +1,7 @@
 import { db } from "./db";
 import { computePathState, loadStudentSubjectIds } from "./learning-path";
 import {
-  recommendNext,
+  keepLearning,
   type NextTopicRecommendation,
 } from "@/engines/learning/recommend";
 import { gapQueue, type TopicGap } from "@/engines/learning/gaps";
@@ -54,6 +54,16 @@ export type DashboardData = {
 
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 
+/** How many cards the "Keep learning" rail shows. */
+const KEEP_LEARNING_K = 3;
+
+/**
+ * How far back the recent-lesson scan reads. More than KEEP_LEARNING_K because
+ * the rail shows one card per topic, and a student working through one topic
+ * generates several lesson rows for it.
+ */
+const RECENT_LESSON_SCAN = 12;
+
 /** The eight counters behind the hero and the stat row, in one round trip. */
 async function loadStats(userId: string) {
   const [
@@ -62,7 +72,7 @@ async function loadStats(userId: string) {
     distinctTopics,
     recentAttempts,
     lastWeekActivity,
-    completedLessons,
+    lessonActivity,
     reviewCount,
     activePlanCount,
   ] = await db.$transaction([
@@ -95,8 +105,16 @@ async function loadStats(userId: string) {
         completedAt: { gte: new Date(Date.now() - WEEK_MS) },
       },
     }),
+    // Started, not finished: opening a lesson is activity, and the "Keep
+    // learning" rail keys off the same rows — a student whose only engagement
+    // is an in-progress lesson would otherwise be told they have no activity
+    // while the rail has something to say about them.
     db.studentProgress.count({
-      where: { studentId: userId, status: "COMPLETED", lessonId: { not: null } },
+      where: {
+        studentId: userId,
+        status: { not: "NOT_STARTED" },
+        lessonId: { not: null },
+      },
     }),
     db.flashcardReview.count({ where: { studentId: userId } }),
     // Counted rather than fetched: the hero only needs to know whether a plan
@@ -116,7 +134,7 @@ async function loadStats(userId: string) {
     topicCount,
     recentAttempts,
     lastWeekActivity,
-    completedLessons,
+    lessonActivity,
     reviewCount,
     hasStudyPlan: activePlanCount > 0,
   };
@@ -145,13 +163,38 @@ async function loadLearningPath(userId: string) {
   const revisionExtras = await loadRevisionExtras(db, userId, graph, now);
   const revision = revisionQueue(state, graph, revisionExtras, { now, k: 6 });
 
-  // Algorithm C's consolidation fallback: when nothing is available to learn,
-  // the "Keep learning" rail hands off to the merged revision queue.
-  const nextTopics = recommendNext(state, graph, { k: 3, pretestPassed });
+  // The rail leads with the student's own recent lessons — see keepLearning.
+  // Newest first, one row per lesson, so a topic can repeat; keepLearning
+  // collapses the duplicates.
+  const recentLessonRows = await db.studentProgress.findMany({
+    where: {
+      studentId: userId,
+      lessonId: { not: null },
+      topicId: { not: null },
+      status: { not: "NOT_STARTED" },
+    },
+    // Nulls last, not Postgres' DESC default of nulls first: a row that has
+    // never been accessed is the least recent thing there is, not the most.
+    orderBy: { lastAccessedAt: { sort: "desc", nulls: "last" } },
+    take: RECENT_LESSON_SCAN,
+    select: { topicId: true },
+  });
+  const recentLessonTopicIds = recentLessonRows
+    .map((row) => row.topicId)
+    .filter((id): id is string => id !== null);
+
+  // Algorithm C's consolidation fallback: when neither the student's recent
+  // lessons nor the engine has anything to offer, the "Keep learning" rail
+  // hands off to the merged revision queue.
+  const nextTopics = keepLearning(state, graph, recentLessonTopicIds, {
+    k: KEEP_LEARNING_K,
+    now,
+    pretestPassed,
+  });
   const learningPicks =
     nextTopics.length > 0
       ? nextTopics
-      : revision.slice(0, 3).map(revisionItemToRecommendation);
+      : revision.slice(0, KEEP_LEARNING_K).map(revisionItemToRecommendation);
 
   // Display-only, so it is loaded here rather than folded into the aggregate:
   // rare, and read on one surface. Same pattern as `pretestPassed`.
@@ -186,7 +229,7 @@ export async function getDashboardData(userId: string): Promise<DashboardData> {
   const stats = await loadStats(userId);
 
   const hasActivity =
-    stats.totalResponses > 0 || stats.completedLessons > 0 || stats.reviewCount > 0;
+    stats.totalResponses > 0 || stats.lessonActivity > 0 || stats.reviewCount > 0;
 
   const path = hasActivity
     ? await loadLearningPath(userId)

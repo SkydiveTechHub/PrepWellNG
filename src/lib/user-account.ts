@@ -117,6 +117,7 @@ export type RegisterInput = {
   classLevel: Prisma.UserCreateInput["classLevel"];
   track: Prisma.UserCreateInput["track"];
   state?: string | null;
+  role: Prisma.UserCreateInput["role"];
 };
 
 /**
@@ -140,7 +141,7 @@ export async function registerUser(input: RegisterInput) {
       classLevel: input.classLevel,
       track: input.track,
       state: input.state,
-      role: "STUDENT",
+      role: input.role,
     },
     select: {
       id: true,

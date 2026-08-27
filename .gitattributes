@@ -1,0 +1,5 @@
+# Prisma hashes migration files byte-for-byte and stores the result in
+# _prisma_migrations. A CRLF checkout would change the hash and make
+# `prisma migrate status` report drift against migrations that are already
+# applied, so these must stay LF regardless of core.autocrlf.
+prisma/migrations/**/*.sql text eol=lf

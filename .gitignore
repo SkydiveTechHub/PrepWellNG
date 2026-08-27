@@ -32,6 +32,9 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# ...except the example file, which is meant to be tracked as a template.
+# It must NEVER contain real values — placeholders only.
+!.env.example
 
 # vercel
 .vercel
@@ -46,3 +49,6 @@ scripts/_*.mts
 
 # agent scratch (subagent-driven development ledger, briefs, review packages)
 .superpowers/
+
+# Worktrees created for isolated feature work (see superpowers:using-git-worktrees).
+.claude/worktrees/

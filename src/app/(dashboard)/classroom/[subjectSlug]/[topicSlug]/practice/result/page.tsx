@@ -11,7 +11,7 @@ import {
   LuX,
 } from "react-icons/lu";
 import { auth } from "@/lib/auth";
-import { recordTopicPracticeResult } from "@/lib/topic-practice-result";
+import { getTopicPracticeResult } from "@/lib/topic-practice-result";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { PracticeResultActions } from "@/components/lesson/practice-result-actions";
@@ -47,7 +47,7 @@ export default async function TopicPracticeResultPage({
   const studyHref = `${topicHref}/study`;
   if (!attemptId) redirect(studyHref);
 
-  const outcome = await recordTopicPracticeResult(
+  const outcome = await getTopicPracticeResult(
     session.user.id,
     subjectSlug,
     topicSlug,

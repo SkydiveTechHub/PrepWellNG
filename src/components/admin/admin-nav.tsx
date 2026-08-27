@@ -5,12 +5,20 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { ADMIN_NAV } from "@/lib/admin-nav";
 
-export function AdminNav({ variant }: { variant: "sidebar" | "mobile" }) {
+export function AdminNav({
+  variant,
+  isOwner,
+}: {
+  variant: "sidebar" | "mobile";
+  isOwner: boolean;
+}) {
   const pathname = usePathname();
 
   // Exact match only. Prefix matching would light "Questions" while the user
   // is on "Questions › Import", and "Overview" on every admin page.
   const isActive = (href: string) => pathname === href;
+
+  const items = ADMIN_NAV.filter((item) => !item.ownerOnly || isOwner);
 
   if (variant === "mobile") {
     return (
@@ -19,7 +27,7 @@ export function AdminNav({ variant }: { variant: "sidebar" | "mobile" }) {
         className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-card lg:hidden"
       >
         <div className="flex items-center justify-around py-2">
-          {ADMIN_NAV.map((item) => (
+          {items.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -41,7 +49,7 @@ export function AdminNav({ variant }: { variant: "sidebar" | "mobile" }) {
 
   return (
     <nav aria-label="Admin" className="space-y-0.5 p-3">
-      {ADMIN_NAV.map((item) => (
+      {items.map((item) => (
         <Link
           key={item.href}
           href={item.href}

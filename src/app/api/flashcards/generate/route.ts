@@ -6,9 +6,10 @@ import { generateDeckFromLesson } from "@/lib/flashcards";
 export const dynamic = "force-dynamic";
 
 // POST /api/flashcards/generate
-// Converts a lesson's blocks into a shared deck (source: LESSON). Idempotent per
-// lesson via the @@unique([lessonId, source]) constraint — repeat calls update
-// the existing deck's cards in place.
+// Builds or re-syncs a lesson's shared deck (source: LESSON). Idempotent per
+// lesson via @@unique([lessonId, source]). A repeat call updates cards in place
+// rather than recreating them, so students' review schedules survive; the
+// response carries a counts breakdown of what changed.
 export async function POST(req: NextRequest) {
   try {
     const session = await auth();

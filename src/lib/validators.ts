@@ -5,6 +5,10 @@ import { checkQuestionInvariants } from "@/lib/admin-question";
 // ─── Auth ─────────────────────────────────────────
 
 export const registerSchema = z.object({
+  // TEACHER is offered in the UI as "Coming soon" and is deliberately not
+  // accepted here — a hand-crafted POST must not mint a teacher through a door
+  // the interface has not opened.
+  role: z.literal("STUDENT").default("STUDENT"),
   firstName: z.string().min(2, "First name is required"),
   lastName: z.string().min(2, "Last name is required"),
   email: z.string().email("Invalid email address"),
@@ -87,6 +91,13 @@ export const submitAssessmentSchema = z.object({
         new Set(answers.map((a) => a.questionId)).size === answers.length,
       { message: "Duplicate questionId in answers" }
     ),
+  // Set by the lesson practice exit so grading also records the lesson progress
+  // the attempt earned. Only slugs travel: the attempt's ownership and score are
+  // re-read server-side, so a forged pair can at most record against a topic the
+  // student is allowed to practise anyway.
+  practiceExit: z
+    .object({ subjectSlug: z.string().min(1), topicSlug: z.string().min(1) })
+    .optional(),
 });
 
 // JAMB CBT: English is added by the system, so only the other three are sent.
@@ -298,6 +309,10 @@ export const generateFlashcardDeckSchema = z.object({
   lessonId: z.string(),
 });
 
+export const previewFlashcardDeckSchema = z.object({
+  lessonId: z.string().min(1),
+});
+
 export const toggleEnrollmentSchema = z.object({
   enrolled: z.boolean(),
 });
@@ -307,6 +322,19 @@ export const createFlashcardDeckSchema = z.object({
   description: z.string().max(500).optional(),
   subjectId: z.string().optional(),
   topicId: z.string().optional(),
+});
+
+// ─── Admin team (owner-only) ───────────────────────
+
+// isOwner is deliberately absent — it is written as a literal false by the
+// create route and only ever true via scripts/create-admin.ts.
+export const createAdminSchema = z.object({
+  identifier: z.string().min(3, "Enter an email or a username"),
+  password: z.string().min(12, "Password must be at least 12 characters"),
+});
+
+export const adminStatusSchema = z.object({
+  isActive: z.boolean(),
 });
 
 // Type exports
@@ -320,5 +348,8 @@ export type BulkImportQuestionInput = z.infer<typeof bulkImportQuestionSchema>;
 export type BulkImportInput = z.infer<typeof bulkImportSchema>;
 export type SubmitFlashcardReviewInput = z.infer<typeof submitFlashcardReviewSchema>;
 export type GenerateFlashcardDeckInput = z.infer<typeof generateFlashcardDeckSchema>;
+export type PreviewFlashcardDeckInput = z.infer<typeof previewFlashcardDeckSchema>;
 export type ToggleEnrollmentInput = z.infer<typeof toggleEnrollmentSchema>;
 export type CreateFlashcardDeckInput = z.infer<typeof createFlashcardDeckSchema>;
+export type CreateAdminInput = z.infer<typeof createAdminSchema>;
+export type AdminStatusInput = z.infer<typeof adminStatusSchema>;

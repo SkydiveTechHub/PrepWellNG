@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { firstName, lastName, email, password, classLevel, track, state } =
+    const { role, firstName, lastName, email, password, classLevel, track, state } =
       parsed.data;
 
     const user = await registerUser({
@@ -38,6 +38,7 @@ export async function POST(req: NextRequest) {
       classLevel: classLevel as ClassLevel,
       track: track as Track,
       state,
+      role,
     });
 
     if (user === "email-taken") {

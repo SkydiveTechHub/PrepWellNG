@@ -6,6 +6,8 @@ import {
   getStudyQueue,
 } from "./flashcard-analytics";
 import { generateCardsFromLesson } from "./flashcard-content";
+import { diffDeck, diffCounts, type ExistingCard } from "./flashcard-diff";
+import { canManageDeck } from "./flashcard-ownership";
 import {
   initialState,
   reviewCard,
@@ -41,23 +43,107 @@ export type FlashcardsPageData = {
   /** Deck with the most cards due — the "start studying" target. */
   bestDeckId: string | null;
   decksWithDue: number;
-  /** Finished lessons that can be turned into a deck. */
-  lessons: { lessonId: string; title: string }[];
+  /** Lessons the student has taken, newest first, that can become a deck. */
+  lessons: {
+    lessonId: string;
+    title: string;
+    subjectName: string;
+    topicTitle: string;
+    /** They reached the end of it — finished lessons are offered first. */
+    completed: boolean;
+    /** How far through they are, 0..100. */
+    completionPercent: number;
+    /** The deck already built from this lesson, if there is one. */
+    deck: { id: string; cardCount: number } | null;
+  }[];
 };
+
+/** The lesson shape the picker needs, wherever the lesson came from. */
+const LESSON_PICKER_SELECT = {
+  id: true,
+  title: true,
+  subtopic: {
+    select: {
+      topic: { select: { title: true, subject: { select: { name: true } } } },
+    },
+  },
+} as const;
 
 export async function getFlashcardsPageData(
   userId: string,
 ): Promise<FlashcardsPageData> {
-  const [decks, recommendations, completedLessons] = await Promise.all([
+  const [decks, recommendations, takenLessons, ownDecks] = await Promise.all([
     getDeckSummaries(db, userId),
     getFlashcardRecommendations(db, userId),
+    // Every lesson they have opened, not only the finished ones: a lesson is
+    // worth carding as soon as it has been read, and "COMPLETED" is only
+    // written when the player reaches the end.
     db.studentProgress.findMany({
-      where: { studentId: userId, status: "COMPLETED", lessonId: { not: null } },
-      select: { lesson: { select: { id: true, title: true } } },
+      where: { studentId: userId, lessonId: { not: null } },
+      select: {
+        status: true,
+        completionPercent: true,
+        lesson: { select: LESSON_PICKER_SELECT },
+      },
       orderBy: { lastAccessedAt: "desc" },
-      take: 12,
+    }),
+    // A deck they already built keeps its lesson in the picker even with no
+    // progress row behind it, so re-syncing it stays reachable.
+    db.flashcardDeck.findMany({
+      where: { source: "LESSON", createdBy: userId, lessonId: { not: null } },
+      select: { lesson: { select: LESSON_PICKER_SELECT } },
     }),
   ]);
+
+  type PickerLesson = {
+    lesson: NonNullable<(typeof takenLessons)[number]["lesson"]>;
+    completed: boolean;
+    completionPercent: number;
+  };
+
+  // Progress rows first so their status wins over the deck-only fallback.
+  const byLessonId = new Map<string, PickerLesson>();
+  for (const row of takenLessons) {
+    if (!row.lesson) continue;
+    byLessonId.set(row.lesson.id, {
+      lesson: row.lesson,
+      completed: row.status === "COMPLETED",
+      completionPercent: row.completionPercent,
+    });
+  }
+  for (const deck of ownDecks) {
+    if (!deck.lesson || byLessonId.has(deck.lesson.id)) continue;
+    byLessonId.set(deck.lesson.id, {
+      lesson: deck.lesson,
+      completed: false,
+      completionPercent: 0,
+    });
+  }
+
+  const lessonRows = [...byLessonId.values()];
+
+  // One grouped lookup marks which of those lessons already has a deck, so the
+  // picker can say "already built" instead of silently offering a re-sync.
+  const builtDecks =
+    lessonRows.length === 0
+      ? []
+      : await db.flashcardDeck.findMany({
+          where: {
+            source: "LESSON",
+            lessonId: { in: lessonRows.map((l) => l.lesson.id) },
+          },
+          select: {
+            id: true,
+            lessonId: true,
+            _count: { select: { cards: true } },
+          },
+        });
+
+  const deckByLesson = new Map(
+    builtDecks
+      .filter((d): d is typeof d & { lessonId: string } => d.lessonId !== null)
+      .map((d) => [d.lessonId, { id: d.id, cardCount: d._count.cards }]),
+  );
 
   const bestDeck =
     decks.length > 0 ? decks.reduce((a, b) => (b.due > a.due ? b : a)) : null;
@@ -69,10 +155,15 @@ export async function getFlashcardsPageData(
     totalFresh: decks.reduce((sum, d) => sum + d.fresh, 0),
     bestDeckId: bestDeck?.id ?? null,
     decksWithDue: decks.filter((d) => d.due > 0).length,
-    lessons: completedLessons
-      .map((p) => p.lesson)
-      .filter((l): l is { id: string; title: string } => l !== null)
-      .map((l) => ({ lessonId: l.id, title: l.title })),
+    lessons: lessonRows.map((row) => ({
+      lessonId: row.lesson.id,
+      title: row.lesson.title,
+      subjectName: row.lesson.subtopic.topic.subject.name,
+      topicTitle: row.lesson.subtopic.topic.title,
+      completed: row.completed,
+      completionPercent: row.completionPercent,
+      deck: deckByLesson.get(row.lesson.id) ?? null,
+    })),
   };
 }
 
@@ -83,11 +174,17 @@ export type DeckPageData = {
     description: string | null;
     subjectName: string | null;
     topicTitle: string | null;
+    /** This student created it, so they may delete it. */
+    isOwner: boolean;
+    /** Other students following this deck — zero for a private one. */
+    followerCount: number;
+    /** The lesson it was built from, so a deleted deck can be rebuilt. */
+    lessonId: string | null;
   };
   queue: Awaited<ReturnType<typeof getStudyQueue>>;
 };
 
-/** A deck and its due queue, or null when the deck does not exist. */
+/** A deck and its due queue, or null when it does not exist. */
 export async function getDeckPageData(
   userId: string,
   deckId: string,
@@ -98,11 +195,16 @@ export async function getDeckPageData(
       id: true,
       title: true,
       description: true,
+      createdBy: true,
+      lessonId: true,
       subject: { select: { name: true } },
       topic: { select: { title: true } },
+      _count: { select: { enrollments: true } },
     },
   });
   if (!deck) return null;
+
+  const queue = await getStudyQueue(db, userId, deckId);
 
   return {
     deck: {
@@ -111,9 +213,32 @@ export async function getDeckPageData(
       description: deck.description,
       subjectName: deck.subject?.name ?? null,
       topicTitle: deck.topic?.title ?? null,
+      isOwner: canManageDeck(deck, userId),
+      followerCount: deck._count.enrollments,
+      lessonId: deck.lessonId,
     },
-    queue: await getStudyQueue(db, userId, deckId),
+    queue,
   };
+}
+
+/**
+ * Deletes a whole deck the student created, and every card in it.
+ *
+ * There is no soft delete and no unfollow to fall back on: the creator is not
+ * enrolled in their own deck, so removing it from their list means removing it.
+ * Cards, and with them every student's review history for this deck, cascade.
+ * The caller is expected to have said so before calling.
+ */
+export async function deleteDeck(userId: string, deckId: string) {
+  const deck = await db.flashcardDeck.findUnique({
+    where: { id: deckId },
+    select: { id: true, createdBy: true },
+  });
+  if (!deck) return "deck-not-found" as const;
+  if (!canManageDeck(deck, userId)) return "forbidden" as const;
+
+  await db.flashcardDeck.delete({ where: { id: deck.id } });
+  return { deckId: deck.id };
 }
 
 /** Retention, activity and leech statistics for the stats dashboard. */
@@ -179,9 +304,15 @@ export async function setDeckEnrollment(
 }
 
 /**
- * Converts a lesson's blocks into a shared deck (source: LESSON). Idempotent
- * per lesson via the @@unique([lessonId, source]) constraint — repeat calls
- * replace the existing deck's cards in place.
+ * Converts a lesson's blocks into a shared deck (source: LESSON), re-syncing in
+ * place when the deck already exists.
+ *
+ * This deliberately does NOT delete and recreate. Deleting a Flashcard cascades
+ * away every student's FlashcardReview and FlashcardReviewLog rows for it, and
+ * lesson decks are shared — one student re-running the build used to reset the
+ * whole cohort's memory state. Cards are matched to stored rows by the id of
+ * the lesson block that produced them, so unchanged cards keep their schedule
+ * and only a card whose block is genuinely gone is deleted.
  *
  * `"lesson-not-found"` and `"no-cards"` are outcomes, not exceptions, so the
  * caller can map them to 404 and 422.
@@ -201,16 +332,7 @@ export async function generateDeckFromLesson(userId: string, lessonId: string) {
   const subjectId = lesson.subtopic.topic.subjectId;
   const topicId = lesson.subtopic.topicId;
 
-  const deck = await db.$transaction(async (tx) => {
-    const existing = await tx.flashcardDeck.findUnique({
-      where: { lessonId_source: { lessonId, source: "LESSON" } },
-      select: { id: true },
-    });
-
-    if (existing) {
-      await tx.flashcard.deleteMany({ where: { deckId: existing.id } });
-    }
-
+  const result = await db.$transaction(async (tx) => {
     const deckRow = await tx.flashcardDeck.upsert({
       where: { lessonId_source: { lessonId, source: "LESSON" } },
       create: {
@@ -230,21 +352,137 @@ export async function generateDeckFromLesson(userId: string, lessonId: string) {
       },
     });
 
-    await tx.flashcard.createMany({
-      data: generated.cards.map((card, index) => ({
-        deckId: deckRow.id,
-        cardType: card.cardType,
-        prompt: card.prompt,
-        payload: card.payload as object,
-        difficulty: card.difficulty,
-        orderIndex: index,
-      })),
+    const existing: ExistingCard[] = await tx.flashcard.findMany({
+      where: { deckId: deckRow.id },
+      select: {
+        id: true,
+        sourceKey: true,
+        orderIndex: true,
+        cardType: true,
+        prompt: true,
+        payload: true,
+        difficulty: true,
+      },
     });
 
-    return deckRow;
+    const diff = diffDeck(existing, generated.cards);
+
+    // Removals first: a deleted row frees its (deckId, sourceKey) slot before
+    // any surviving card is written into it.
+    if (diff.removed.length > 0) {
+      await tx.flashcard.deleteMany({
+        where: { id: { in: diff.removed.map((r) => r.id) } },
+      });
+    }
+
+    for (const entry of diff.updated) {
+      await tx.flashcard.update({
+        where: { id: entry.id },
+        data: {
+          sourceKey: entry.card.sourceKey,
+          cardType: entry.card.cardType,
+          prompt: entry.card.prompt,
+          payload: entry.card.payload as object,
+          difficulty: entry.card.difficulty,
+          orderIndex: entry.orderIndex,
+        },
+      });
+    }
+
+    // Unchanged cards keep their review state untouched; only position and a
+    // missing key are ever written, and only when they actually differ.
+    for (const entry of diff.unchanged) {
+      if (!entry.needsWrite) continue;
+      await tx.flashcard.update({
+        where: { id: entry.id },
+        data: { sourceKey: entry.card.sourceKey, orderIndex: entry.orderIndex },
+      });
+    }
+
+    if (diff.created.length > 0) {
+      await tx.flashcard.createMany({
+        data: diff.created.map((entry) => ({
+          deckId: deckRow.id,
+          sourceKey: entry.card.sourceKey,
+          cardType: entry.card.cardType,
+          prompt: entry.card.prompt,
+          payload: entry.card.payload as object,
+          difficulty: entry.card.difficulty,
+          orderIndex: entry.orderIndex,
+        })),
+      });
+    }
+
+    return { deck: deckRow, counts: diffCounts(diff) };
   });
 
-  return { deck, cardCount: generated.cards.length };
+  return { ...result, cardCount: generated.cards.length };
+}
+
+export type DeckPreview = {
+  /** A deck already exists for this lesson. */
+  exists: boolean;
+  total: number;
+  byType: { cardType: string; count: number }[];
+  counts: ReturnType<typeof diffCounts>;
+  samples: { cardType: string; prompt: string }[];
+};
+
+/**
+ * What building this lesson's deck would do — same generator, same diff, no
+ * writes. Sharing diffDeck with the write path is the point: a preview that can
+ * disagree with the result is worse than no preview.
+ */
+export async function previewDeckFromLesson(
+  lessonId: string,
+): Promise<DeckPreview | "lesson-not-found"> {
+  const lesson = await db.lesson.findUnique({
+    where: { id: lessonId },
+    select: { id: true, title: true, blocks: true },
+  });
+  if (!lesson) return "lesson-not-found" as const;
+
+  const generated = generateCardsFromLesson(lesson);
+
+  const deck = await db.flashcardDeck.findUnique({
+    where: { lessonId_source: { lessonId, source: "LESSON" } },
+    select: { id: true },
+  });
+
+  const existing: ExistingCard[] = deck
+    ? await db.flashcard.findMany({
+        where: { deckId: deck.id },
+        select: {
+          id: true,
+          sourceKey: true,
+          orderIndex: true,
+          cardType: true,
+          prompt: true,
+          payload: true,
+          difficulty: true,
+        },
+      })
+    : [];
+
+  const counts = diffCounts(diffDeck(existing, generated.cards));
+
+  const byType = new Map<string, number>();
+  for (const card of generated.cards) {
+    byType.set(card.cardType, (byType.get(card.cardType) ?? 0) + 1);
+  }
+
+  return {
+    exists: deck !== null,
+    total: generated.cards.length,
+    byType: [...byType.entries()]
+      .map(([cardType, count]) => ({ cardType, count }))
+      .sort((a, b) => b.count - a.count || a.cardType.localeCompare(b.cardType)),
+    counts,
+    samples: generated.cards.slice(0, 5).map((c) => ({
+      cardType: c.cardType,
+      prompt: c.prompt,
+    })),
+  };
 }
 
 export type RecordReviewInput = {

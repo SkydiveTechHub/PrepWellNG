@@ -5,6 +5,7 @@ import { auth } from "@/lib/auth";
 import { getDeckPageData } from "@/lib/flashcards";
 import { Badge } from "@/components/ui/badge";
 import { StudySession } from "@/components/flashcards/study-session";
+import { DeleteDeckButton } from "@/components/flashcards/delete-deck-button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { buttonClass } from "@/components/ui/button";
 
@@ -24,6 +25,7 @@ export default async function DeckPage({
   if (!data) notFound();
 
   const { deck, queue } = data;
+  const fromLesson = deck.lessonId !== null;
 
   return (
     <div className="space-y-6">
@@ -82,6 +84,17 @@ export default async function DeckPage({
             </Link>
           }
         />
+      )}
+
+      {deck.isOwner && (
+        <section className="border-t border-border pt-5">
+          <DeleteDeckButton
+            deckId={deck.id}
+            deckTitle={deck.title}
+            followerCount={deck.followerCount}
+            fromLesson={fromLesson}
+          />
+        </section>
       )}
     </div>
   );

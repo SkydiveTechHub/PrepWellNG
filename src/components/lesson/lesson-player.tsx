@@ -43,6 +43,11 @@ type LessonPlayerProps = {
   topicSlug: string;
   passMarkPercent: number;
   practiceCount: number;
+  /** Cards already worked through, so a return visit resumes where it stopped. */
+  checkpoint?: {
+    visited: string[];
+    checks: Record<string, CheckResult>;
+  };
 };
 
 const DIFFICULTY_BADGE: Record<string, "green" | "amber" | "red"> = {
@@ -127,11 +132,27 @@ function LessonHeader({
 }
 
 function BlockLesson(props: LessonPlayerProps) {
+  // Saved checkpoint state seeds the first render: a returning student keeps
+  // the cards they cleared, and pressing on resumes at the first one they have
+  // not seen instead of walking the lesson from the top again.
+  // Blocks can be re-authored under a student, so ids that no longer exist are
+  // dropped rather than counted towards progress.
+  const savedVisited = (props.checkpoint?.visited ?? []).filter((id) =>
+    props.blocks.some((block) => block.id === id),
+  );
+  const firstUnvisited = props.blocks.findIndex(
+    (block) => !savedVisited.includes(block.id),
+  );
+
   const [phase, setPhase] = useState<"orient" | "learn" | "complete">("orient");
-  const [stepIndex, setStepIndex] = useState(0);
-  const [visited, setVisited] = useState<Set<string>>(new Set());
+  const [stepIndex, setStepIndex] = useState(
+    firstUnvisited === -1 ? 0 : firstUnvisited,
+  );
+  const [visited, setVisited] = useState<Set<string>>(
+    () => new Set(savedVisited),
+  );
   const [checkResults, setCheckResults] = useState<Record<string, CheckResult>>(
-    {},
+    () => ({ ...(props.checkpoint?.checks ?? {}) }),
   );
 
   const block = props.blocks[stepIndex];

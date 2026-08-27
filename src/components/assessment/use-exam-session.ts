@@ -86,12 +86,19 @@ export function useExamSession({
   generate,
   resultHref,
   defaultTimeLimitMinutes = 60,
+  practiceExit,
 }: {
   /** Stable per exam configuration. Distinct configs must not share a session. */
   sessionKey: string;
   generate: () => Promise<GeneratedExam>;
   resultHref: (attemptId: string) => string;
   defaultTimeLimitMinutes?: number;
+  /**
+   * Set by a lesson practice exit. Grading then also records the completion,
+   * mastery and revision date the attempt earned, rather than the result page
+   * doing it as a side effect of rendering.
+   */
+  practiceExit?: { subjectSlug: string; topicSlug: string };
 }) {
   const router = useRouter();
 
@@ -117,7 +124,18 @@ export function useExamSession({
   // handlers and effects — never during render.
   const answersRef = useRef<AnswerMap>({});
   const questionStartRef = useRef(0);
-  const startedRef = useRef(false);
+  /**
+   * The one generation in flight (or already settled) for a session key.
+   *
+   * React double-invokes effects in development, and refs survive that remount.
+   * Holding the promise rather than a "started" flag lets the second run await
+   * the same generation the first run kicked off: still exactly one assessment
+   * row per key, but the run that outlives the remount is the one that commits.
+   */
+  const startRef = useRef<{
+    key: string;
+    promise: Promise<GeneratedExam>;
+  } | null>(null);
   const submittedRef = useRef(false);
 
   const questions = useMemo(() => data?.questions ?? [], [data]);
@@ -141,11 +159,6 @@ export function useExamSession({
 
   // ── Start or resume ──────────────────────────────────────
   useEffect(() => {
-    // Guard against React's double-invoked effects in development: without it
-    // every mount generated (and abandoned) a second assessment row.
-    if (startedRef.current) return;
-    startedRef.current = true;
-
     let cancelled = false;
 
     (async () => {
@@ -169,7 +182,13 @@ export function useExamSession({
       }
 
       try {
-        const exam = await generate();
+        // Started once per key. The assignment lands before the first await,
+        // so the remounted run always finds this rather than racing it, and a
+        // genuinely new key still generates a paper of its own.
+        if (startRef.current?.key !== sessionKey) {
+          startRef.current = { key: sessionKey, promise: generate() };
+        }
+        const exam = await startRef.current.promise;
         if (cancelled) return;
         // Prefer the server's deadline; it is what submission is judged against.
         // No server deadline and no configured time limit means an untimed
@@ -201,9 +220,11 @@ export function useExamSession({
         if (exam.resumed) setResumed(true);
         setLoading(false);
       } catch (err) {
+        // Dropped before the cancelled check so a retry regenerates rather
+        // than re-awaiting the promise that just failed.
+        if (startRef.current?.key === sessionKey) startRef.current = null;
         if (cancelled) return;
         // A failed start is unrecoverable in place — surface it as a hard error.
-        startedRef.current = false;
         setError(
           err instanceof Error ? err.message : "Network error. Please try again.",
         );
@@ -287,6 +308,7 @@ export function useExamSession({
         body: JSON.stringify({
           attemptId,
           answers: buildSubmission(questions, answersRef.current),
+          ...(practiceExit ? { practiceExit } : {}),
         }),
       });
 
@@ -312,7 +334,15 @@ export function useExamSession({
       );
       setSubmitting(false);
     }
-  }, [attemptId, questions, recordTimeOnQuestion, resultHref, router, sessionKey]);
+  }, [
+    attemptId,
+    practiceExit,
+    questions,
+    recordTimeOnQuestion,
+    resultHref,
+    router,
+    sessionKey,
+  ]);
 
   // Kept in a ref so the timer can reach the newest closure without restarting.
   const submitRef = useRef(handleSubmit);

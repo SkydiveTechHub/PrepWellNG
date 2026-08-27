@@ -1,9 +1,24 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { evidenceLabel } from "../src/lib/evidence-display";
+import { OBSERVATION_FLOOR } from "../src/engines/learning/evidence";
 
-const confident = { confidence: 0.8, accObservations: 0, lessonObservations: 0, srsObservations: 0 };
-const thin = { confidence: 0.2, accObservations: 0, lessonObservations: 0, srsObservations: 0 };
+const now = new Date("2026-08-17T09:00:00Z");
+
+const confident = {
+  confidence: 0.8,
+  accObservations: 0,
+  lessonObservations: 0,
+  srsObservations: 0,
+  lastStudy: null,
+};
+const thin = {
+  confidence: 0.2,
+  accObservations: 0,
+  lessonObservations: 0,
+  srsObservations: 0,
+  lastStudy: null,
+};
 
 test("evidenceLabel: above the floor there is no label — show the mastery figure", () => {
   assert.equal(evidenceLabel({ ...confident, accObservations: 20 }), null);
@@ -39,4 +54,38 @@ test("evidenceLabel: card reviews are reported by count, with plurals", () => {
 
 test("evidenceLabel: no evidence at all has no label", () => {
   assert.equal(evidenceLabel(thin), null);
+});
+
+test("evidenceLabel: stale evidence (observations at the floor, old lastStudy) reads as a relative age, not a count", () => {
+  const lastStudy = new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000).toISOString();
+  const label = evidenceLabel(
+    { ...thin, accObservations: OBSERVATION_FLOOR, lastStudy },
+    now,
+  );
+  assert.match(label ?? "", /ago$/);
+  assert.doesNotMatch(label ?? "", /answered$/);
+});
+
+test("evidenceLabel: one observation below the floor with an old lastStudy still reads as a count, not stale", () => {
+  const lastStudy = new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000).toISOString();
+  assert.equal(
+    evidenceLabel({ ...thin, accObservations: OBSERVATION_FLOOR - 1, lastStudy }, now),
+    `${OBSERVATION_FLOOR - 1} questions answered`,
+  );
+});
+
+test("evidenceLabel: exactly OBSERVATION_FLOOR observations with an old lastStudy crosses into stale", () => {
+  const lastStudy = new Date(now.getTime() - 200 * 24 * 60 * 60 * 1000).toISOString();
+  const label = evidenceLabel(
+    { ...thin, accObservations: OBSERVATION_FLOOR, lastStudy },
+    now,
+  );
+  assert.match(label ?? "", /ago$/);
+});
+
+test("evidenceLabel: observations above the floor but no lastStudy falls back to the count copy without crashing", () => {
+  assert.equal(
+    evidenceLabel({ ...thin, accObservations: OBSERVATION_FLOOR, lastStudy: null }, now),
+    `${OBSERVATION_FLOOR} questions answered`,
+  );
 });
