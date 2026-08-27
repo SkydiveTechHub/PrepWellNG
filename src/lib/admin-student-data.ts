@@ -220,3 +220,16 @@ export async function setStudentTier(
     data: { tier, tierUpdatedAt: new Date() },
   });
 }
+
+export async function setStudentActive(
+  id: string,
+  isActive: boolean,
+  reason: string | null,
+): Promise<void> {
+  await db.user.update({
+    where: { id },
+    data: isActive
+      ? { isActive: true, suspendedAt: null, suspendedReason: null }
+      : { isActive: false, suspendedAt: new Date(), suspendedReason: reason },
+  });
+}

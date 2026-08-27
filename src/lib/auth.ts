@@ -5,6 +5,7 @@ import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { db } from "./db";
 import { z } from "zod";
+import { isSessionRevoked } from "@/lib/account-status";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -33,6 +34,8 @@ const PROFILE_SELECT = {
   firstName: true,
   lastName: true,
   image: true,
+  isActive: true,
+  sessionsValidFrom: true,
 } as const;
 
 // The session.user shape the callbacks extend — structural so it doesn't rely
@@ -98,6 +101,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         if (!user || !user.passwordHash) return null;
 
+        // A suspended account must not be able to start a new session. The jwt
+        // callback below handles the sessions that are already live.
+        if (!user.isActive) return null;
+
         const isValid = await bcrypt.compare(password, user.passwordHash);
         if (!isValid) return null;
 
@@ -151,6 +158,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           select: PROFILE_SELECT,
         });
         if (profile) {
+          // Suspension and force sign-out have to bite on a token that is
+          // already live, not only at the next sign-in. This runs at most once
+          // per PROFILE_TTL_MS, so the delay is bounded by that.
+          if (isSessionRevoked(profile, token.iat)) {
+            return null;
+          }
+
           cache.profile = {
             role: profile.role,
             classLevel: profile.classLevel,
