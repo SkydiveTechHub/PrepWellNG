@@ -1343,7 +1343,7 @@ npm test
 grep -rn "TH_CLS\s*=" src/app/ src/components/admin/
 ```
 
-Expected: the first three PASS; the `grep` returns exactly one line — the definition in `src/components/admin/admin-table.tsx`.
+Expected: the first three PASS. The `grep` returns **three** lines — the definition in `src/components/admin/admin-table.tsx`, plus the two Questions-page files (`questions-client.tsx` and `questions/import/import-client.tsx`) that keep their local copies because migrating them is explicitly out of scope for this plan. What this step actually checks is that **Overview and Lessons no longer declare their own** — neither `src/app/admin/(console)/page.tsx` nor `src/app/admin/(console)/lessons/page.tsx` may appear in the output. Those two Questions files collapse onto the shared constant in the later Questions-migration round.
 
 - [ ] **Step 6: Commit**
 
@@ -2524,8 +2524,10 @@ import { cn } from "@/lib/utils";
 const TONE_CLS: Record<string, string> = {
   neutral: "border-border-strong bg-secondary text-muted",
   info: "border-border-strong bg-secondary text-foreground",
-  success: "border-success/30 bg-success/10 text-success",
-  warning: "border-warning/30 bg-warning/10 text-warning",
+  // Mirrors StatusBanner's treatment (border-<tone>/30 + bg-<tone>-soft) so a
+  // badge and a banner of the same tone read as the same colour.
+  success: "border-success/30 bg-success-soft text-success",
+  warning: "border-warning/30 bg-warning-soft text-warning",
 };
 
 export function Badge({
@@ -2548,13 +2550,7 @@ export function Badge({
 }
 ```
 
-Before using `text-success` and `text-warning`, confirm those tokens exist:
-
-```bash
-grep -rn "\-\-color-success\|--color-warning\|success\|warning" src/app/globals.css | head
-```
-
-If they do not exist, use the tones already in the codebase — check what `StatusBanner` uses (`src/components/admin/status-banner.tsx`) and mirror those exact classes rather than inventing tokens.
+**Tokens already verified — use exactly these classes.** `--color-success`, `--color-success-soft`, `--color-warning` and `--color-warning-soft` are all defined in `src/app/globals.css` (light, dark, and the explicit `[data-theme]` block), so `text-warning`, `bg-warning-soft` and `border-warning/30` all resolve. Note that `StatusBanner` accepts only `error | success | info` — it has **no** `warning` tone, so do not pass one to it. `Badge` is the component that carries `warning`.
 
 - [ ] **Step 5: Verify the page renders**
 
