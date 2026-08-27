@@ -4403,6 +4403,14 @@ export async function listAuditEntries(
             ...(filter.from ? { gte: filter.from } : {}),
             // The `to` date is a day, so include everything within it rather
             // than stopping at midnight and silently dropping that day's rows.
+            //
+            // Both bounds are UTC: `new Date("2026-08-01")` parses as UTC
+            // midnight, so in WAT (+01:00) a day runs 01:00 to 00:59 local.
+            // An action logged at 00:30 local therefore falls under the
+            // previous day's filter. Acceptable for a coarse date-range
+            // filter over a log that also shows each row's exact timestamp;
+            // fixing it properly means resolving the admin's timezone rather
+            // than assuming one, which is not worth it here.
             ...(filter.to
               ? { lte: new Date(filter.to.getTime() + 24 * 60 * 60 * 1000 - 1) }
               : {}),
