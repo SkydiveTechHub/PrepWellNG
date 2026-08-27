@@ -103,6 +103,10 @@ export function PracticeExit(props: PracticeExitProps) {
         title={`${props.lessonTitle} — Practice Exit`}
         resultHref={resultHref}
         backHref={props.backHref}
+        practiceExit={{
+          subjectSlug: props.subjectSlug,
+          topicSlug: props.topicSlug,
+        }}
       />
     </div>
   );

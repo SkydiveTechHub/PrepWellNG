@@ -86,12 +86,19 @@ export function useExamSession({
   generate,
   resultHref,
   defaultTimeLimitMinutes = 60,
+  practiceExit,
 }: {
   /** Stable per exam configuration. Distinct configs must not share a session. */
   sessionKey: string;
   generate: () => Promise<GeneratedExam>;
   resultHref: (attemptId: string) => string;
   defaultTimeLimitMinutes?: number;
+  /**
+   * Set by a lesson practice exit. Grading then also records the completion,
+   * mastery and revision date the attempt earned, rather than the result page
+   * doing it as a side effect of rendering.
+   */
+  practiceExit?: { subjectSlug: string; topicSlug: string };
 }) {
   const router = useRouter();
 
@@ -301,6 +308,7 @@ export function useExamSession({
         body: JSON.stringify({
           attemptId,
           answers: buildSubmission(questions, answersRef.current),
+          ...(practiceExit ? { practiceExit } : {}),
         }),
       });
 
@@ -326,7 +334,15 @@ export function useExamSession({
       );
       setSubmitting(false);
     }
-  }, [attemptId, questions, recordTimeOnQuestion, resultHref, router, sessionKey]);
+  }, [
+    attemptId,
+    practiceExit,
+    questions,
+    recordTimeOnQuestion,
+    resultHref,
+    router,
+    sessionKey,
+  ]);
 
   // Kept in a ref so the timer can reach the newest closure without restarting.
   const submitRef = useRef(handleSubmit);

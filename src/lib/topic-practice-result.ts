@@ -8,6 +8,7 @@ import {
   nextRevisionDate,
   parseCheckpointState,
 } from "./lesson-engine";
+import { withPracticeRecord } from "./lesson-progress-rules";
 
 export type PracticeMissedQuestion = {
   id: string;
@@ -43,33 +44,33 @@ export type TopicPracticeResultOutcome =
   | { status: "ok"; result: TopicPracticeResult };
 
 /**
- * Scores a finished topic practice attempt and records the progress it earned.
+ * Loads everything both the read and the write path need, and derives the
+ * scoring from it. Writes nothing.
  *
- * NOTE: this writes. It is called during a page render, so a browser refresh
- * re-records the attempt against the student's practice history. That predates
- * this extraction and is left as-is here, but it belongs in a POST — see the
- * note in the accompanying refactor summary.
+ * Both paths compute from the same inputs, so the result page shows the same
+ * numbers whether or not the recording has landed yet — the attempt it is
+ * scoring is included in the practice history either way.
  */
-export async function recordTopicPracticeResult(
+async function loadTopicPractice(
   userId: string,
   subjectSlug: string,
   topicSlug: string,
   attemptId: string,
-): Promise<TopicPracticeResultOutcome> {
+) {
   const subject = await db.subject.findUnique({
     where: { slug: subjectSlug },
     select: { id: true, name: true },
   });
-  if (!subject) return { status: "not-found" };
+  if (!subject) return { status: "not-found" as const };
 
   const topic = await db.topic.findUnique({
     where: { subjectId_slug: { subjectId: subject.id, slug: topicSlug } },
     select: { id: true, title: true, subtopics: topicLessonSelect },
   });
-  if (!topic) return { status: "not-found" };
+  if (!topic) return { status: "not-found" as const };
 
   const lesson = resolveTopicLesson(topic);
-  if (!lesson) return { status: "no-lesson" };
+  if (!lesson) return { status: "no-lesson" as const };
 
   const attempt = await db.assessmentAttempt.findFirst({
     where: { id: attemptId, studentId: userId, status: "COMPLETED" },
@@ -80,7 +81,7 @@ export async function recordTopicPracticeResult(
       },
     },
   });
-  if (!attempt) return { status: "no-attempt" };
+  if (!attempt) return { status: "no-attempt" as const };
 
   const subjectId = subject.id;
   const topicId = topic.id;
@@ -103,10 +104,14 @@ export async function recordTopicPracticeResult(
   // 0.3 × KC accuracy + 0.7 × practice accuracy.
   const checkpoint = parseCheckpointState(progress?.checkpointData);
   const kcScore = kcAccuracyFromCheckpoints(checkpoint.checks);
-  const practiceRecords = [
-    ...(checkpoint.practice ?? []),
-    { attemptId, percentage, passed, at: new Date().toISOString() },
-  ];
+  // One entry per attempt, however many times this runs for it: the same
+  // attempt recorded twice would count twice towards the best-of-three.
+  const practiceRecords = withPracticeRecord(checkpoint.practice, {
+    attemptId,
+    percentage,
+    passed,
+    at: new Date().toISOString(),
+  });
   const compositeScores = practiceRecords.map((p) =>
     computeMasteryScore(kcScore, p.percentage / 100),
   );
@@ -114,13 +119,87 @@ export async function recordTopicPracticeResult(
   const masteryLevel = masteryLevelFromScore(bestMastery);
   const revisionDueAt = nextRevisionDate(new Date(), lesson.revisionDays);
 
-  // This function runs during a page render, so a refresh re-enters it with the
-  // same attemptId. StudentProgress is an upsert and absorbs that, but the
-  // ledger is append-only: emitting again would fold one lesson completion as
-  // several independent observations, permanently inflating the lesson channel.
+  // The ledger is append-only: emitting again would fold one lesson completion
+  // as several independent observations, permanently inflating the lesson
+  // channel. A re-submit of the same attempt must therefore stay silent.
   const alreadyRecorded = (checkpoint.practice ?? []).some(
     (record) => record.attemptId === attemptId,
   );
+
+  return {
+    status: "ok" as const,
+    data: {
+      userId,
+      subjectId,
+      topicId,
+      lessonId,
+      topicTitle: topic.title,
+      passMarkPercent: lesson.passMarkPercent,
+      attempt,
+      progress,
+      checkpoint,
+      practiceRecords,
+      percentage,
+      passed,
+      bestMastery,
+      masteryLevel,
+      revisionDueAt,
+      alreadyRecorded,
+    },
+  };
+}
+
+type LoadedPractice = Extract<
+  Awaited<ReturnType<typeof loadTopicPractice>>,
+  { status: "ok" }
+>["data"];
+
+/**
+ * The result page's read model. Writes nothing — a refresh of the result URL
+ * re-renders the same numbers without touching the student's record.
+ */
+export async function getTopicPracticeResult(
+  userId: string,
+  subjectSlug: string,
+  topicSlug: string,
+  attemptId: string,
+): Promise<TopicPracticeResultOutcome> {
+  const loaded = await loadTopicPractice(userId, subjectSlug, topicSlug, attemptId);
+  if (loaded.status !== "ok") return { status: loaded.status };
+  return { status: "ok", result: toResult(loaded.data) };
+}
+
+/**
+ * Records the progress a finished practice attempt earned: completion when it
+ * passed, the attempt in the practice history either way, the topic's mastery
+ * level, and one LESSON_COMPLETED event per genuine pass.
+ *
+ * Called from the submit endpoint (inside `after()`), never from a render.
+ * Idempotent per attempt, so a re-submit of an already-graded attempt replays
+ * without double-counting it.
+ */
+export async function recordTopicPracticeResult(
+  userId: string,
+  subjectSlug: string,
+  topicSlug: string,
+  attemptId: string,
+): Promise<TopicPracticeResultOutcome> {
+  const loaded = await loadTopicPractice(userId, subjectSlug, topicSlug, attemptId);
+  if (loaded.status !== "ok") return { status: loaded.status };
+
+  const {
+    subjectId,
+    topicId,
+    lessonId,
+    checkpoint,
+    practiceRecords,
+    progress,
+    passed,
+    bestMastery,
+    masteryLevel,
+    revisionDueAt,
+    alreadyRecorded,
+  } = loaded.data;
 
   if (passed) {
     await db.$transaction([
@@ -207,36 +286,40 @@ export async function recordTopicPracticeResult(
         completionPercent: progress?.completionPercent ?? 0,
         checkpointData: { ...checkpoint, practice: practiceRecords },
       },
+      // A failed retake records the attempt but must not revoke a completion
+      // the student already earned — passing once is passing.
       update: {
-        status: "IN_PROGRESS",
+        ...(progress?.status === "COMPLETED" ? {} : { status: "IN_PROGRESS" }),
         checkpointData: { ...checkpoint, practice: practiceRecords },
         lastAccessedAt: new Date(),
       },
     });
   }
 
+  return { status: "ok", result: toResult(loaded.data) };
+}
+
+/** The display payload, derived from the same numbers the write path stores. */
+function toResult(data: LoadedPractice): TopicPracticeResult {
   return {
-    status: "ok",
-    result: {
-      topicTitle: topic.title,
-      passMarkPercent: lesson.passMarkPercent,
-      percentage,
-      passed,
-      bestMastery,
-      masteryLevel,
-      score: attempt.score,
-      totalMarks: attempt.totalMarks,
-      completedAt: attempt.completedAt?.toISOString() ?? null,
-      nextRevisionAt: revisionDueAt.toISOString(),
-      missed: attempt.responses
-        .filter((r) => r.isCorrect === false)
-        .map((r) => ({
-          id: r.id,
-          questionText: r.question.questionText,
-          options: (r.question.options as Record<string, string> | null) ?? null,
-          correctAnswer: r.question.correctAnswer,
-          explanation: r.question.explanation,
-        })),
-    },
+    topicTitle: data.topicTitle,
+    passMarkPercent: data.passMarkPercent,
+    percentage: data.percentage,
+    passed: data.passed,
+    bestMastery: data.bestMastery,
+    masteryLevel: data.masteryLevel,
+    score: data.attempt.score,
+    totalMarks: data.attempt.totalMarks,
+    completedAt: data.attempt.completedAt?.toISOString() ?? null,
+    nextRevisionAt: data.revisionDueAt.toISOString(),
+    missed: data.attempt.responses
+      .filter((r) => r.isCorrect === false)
+      .map((r) => ({
+        id: r.id,
+        questionText: r.question.questionText,
+        options: (r.question.options as Record<string, string> | null) ?? null,
+        correctAnswer: r.question.correctAnswer,
+        explanation: r.question.explanation,
+      })),
   };
 }

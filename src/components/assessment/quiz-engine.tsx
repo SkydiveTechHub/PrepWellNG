@@ -14,6 +14,11 @@ type QuizEngineProps = {
   resultHref?: (attemptId: string) => string;
   /** No countdown, no deadline — for short, low-stakes checks like the topic quick quiz. */
   untimed?: boolean;
+  /**
+   * Marks this quiz as a lesson's practice exit, so submitting it records the
+   * lesson progress it earned. Only the exit sets this.
+   */
+  practiceExit?: { subjectSlug: string; topicSlug: string };
 };
 
 /**
@@ -30,6 +35,7 @@ export function QuizEngine({
   title: titleOverride,
   resultHref,
   untimed = false,
+  practiceExit,
 }: QuizEngineProps) {
   const sessionKey = useMemo(
     () =>
@@ -64,11 +70,24 @@ export function QuizEngine({
     [resultHref],
   );
 
+  // Stable identity: the submit callback depends on this, and a fresh object
+  // every render would rebuild it on every tick of the timer.
+  const exitSubjectSlug = practiceExit?.subjectSlug;
+  const exitTopicSlug = practiceExit?.topicSlug;
+  const exitContext = useMemo(
+    () =>
+      exitSubjectSlug && exitTopicSlug
+        ? { subjectSlug: exitSubjectSlug, topicSlug: exitTopicSlug }
+        : undefined,
+    [exitSubjectSlug, exitTopicSlug],
+  );
+
   const session = useExamSession({
     sessionKey,
     generate,
     resultHref: toResult,
     defaultTimeLimitMinutes: untimed ? 0 : undefined,
+    practiceExit: exitContext,
   });
 
   return (

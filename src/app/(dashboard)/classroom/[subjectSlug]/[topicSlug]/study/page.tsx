@@ -49,6 +49,7 @@ export default async function StudyPage({
         topicSlug={topicSlug}
         passMarkPercent={data.passMarkPercent}
         practiceCount={data.practiceCount}
+        checkpoint={data.checkpoint}
       />
     </div>
   );
