@@ -1,6 +1,7 @@
 import {
   LuBookOpen,
   LuDatabase,
+  LuGraduationCap,
   LuLayoutDashboard,
   LuUsers,
 } from "react-icons/lu";
@@ -40,18 +41,20 @@ export const ADMIN_NAV_GROUPS: readonly AdminNavGroup[] = [
   {
     label: "People",
     items: [
+      { name: "Students", href: "/admin/students", icon: LuGraduationCap },
       { name: "Team", href: "/admin/team", icon: LuUsers, ownerOnly: true },
     ],
   },
 ];
 
-// The three real routes on the mobile bar; the fourth slot is "More". Task 9
-// swaps Lessons for Students here once /admin/students exists — an href with
-// no routed entry is skipped, so this list only ever names live routes.
+// The three real routes on the mobile bar; the fourth slot is "More". Students
+// takes Lessons' slot here — students are the higher-value mobile
+// destination, and Lessons stays reachable through the "More" sheet. An href
+// with no routed entry is skipped, so this list only ever names live routes.
 export const MOBILE_NAV_HREFS: readonly string[] = [
   "/admin",
   "/admin/questions",
-  "/admin/lessons",
+  "/admin/students",
 ];
 
 function permitted(item: AdminNavItem, isOwner: boolean): boolean {
