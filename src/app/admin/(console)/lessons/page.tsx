@@ -38,6 +38,11 @@ export default async function AdminLessonsPage({
       <PageHeader
         title="Lessons"
         description="Upload a markdown lesson note against a topic. Uploaded notes replace the generated placeholder."
+        action={
+          <Link href="/admin/lessons/upload" className={buttonClass("primary", "md")}>
+            Upload note
+          </Link>
+        }
       />
 
       <LessonFilterBar

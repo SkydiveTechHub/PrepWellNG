@@ -390,9 +390,14 @@ function AdminQuestionsPageInner() {
         title="Questions"
         description={pagination ? `${pagination.total} total` : "Loading…"}
         action={
-          <Link href="/admin/questions/new" className={buttonClass("primary", "md")}>
-            New question
-          </Link>
+          <div className="flex flex-wrap gap-2">
+            <Link href="/admin/questions/import" className={buttonClass("secondary", "md")}>
+              Import
+            </Link>
+            <Link href="/admin/questions/new" className={buttonClass("primary", "md")}>
+              New question
+            </Link>
+          </div>
         }
       />
 
