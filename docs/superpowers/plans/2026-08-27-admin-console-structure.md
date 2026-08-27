@@ -2092,7 +2092,9 @@ import { SUBSCRIPTION_TIERS } from "@/lib/subscription";
 node --import tsx --test --test-force-exit scripts/test-admin-student.mts
 ```
 
-Expected: PASS — 17 tests. If `z.enum(SUBSCRIPTION_TIERS)` is rejected by the Zod 4 types because the array is `readonly`, spread it: `z.enum([...SUBSCRIPTION_TIERS])`.
+Expected: PASS — 17 tests.
+
+**All three schemas were probed against the installed Zod 4.4.3 before this task was written — they behave exactly as the tests above require.** Confirmed directly: `z.enum()` accepts the `readonly` tuple as-is (no spread needed); `z.string().trim().toLowerCase().email()` both normalises (`"  Ada@Example.COM "` → `"ada@example.com"`) and rejects malformed input while staying `.optional()`; and the `.refine()` on `studentStatusSchema` rejects a suspension with no reason while allowing a reactivation without one. `z.string().email()` is deprecated in Zod 4 but still functional, and is what `validators.ts` already uses at lines 14 and 22 — stay consistent with that rather than switching to `z.email()`.
 
 - [ ] **Step 6: Register the test and verify**
 
