@@ -1,10 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Prisma } from "@prisma/client";
-import { requireAdminApi } from "@/lib/admin-session";
+import { requireAdminApi, requireOwnerApi } from "@/lib/admin-session";
 import { canEditStudent } from "@/lib/admin-access";
 import { recordAudit } from "@/lib/admin-audit";
 import { studentProfileSchema } from "@/lib/validators";
-import { getStudentDetail, updateStudentProfile } from "@/lib/admin-student-data";
+import {
+  deleteStudent,
+  getStudentDeletionImpact,
+  getStudentDetail,
+  updateStudentProfile,
+} from "@/lib/admin-student-data";
 import { fullName } from "@/lib/admin-student";
 
 export const dynamic = "force-dynamic";
@@ -73,6 +78,45 @@ export async function PATCH(
     entityId: id,
     summary: `Updated ${fullName(before)}${changes ? ` — ${changes}` : " — no fields changed"}`,
   });
+
+  return NextResponse.json({ ok: true });
+}
+
+export async function DELETE(
+  _req: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  // Owner only, and enforced here regardless of what the UI showed.
+  const guard = await requireOwnerApi();
+  if (!guard.ok) return guard.response;
+
+  const { id } = await params;
+
+  const target = await getStudentDetail(id);
+  if (!target) {
+    return NextResponse.json({ error: "Student not found" }, { status: 404 });
+  }
+
+  const name = fullName(target);
+  const impact = await getStudentDeletionImpact(id);
+  const destroyed = Object.entries(impact)
+    .filter(([, count]) => count > 0)
+    .map(([label, count]) => `${label}: ${count}`)
+    .join("; ");
+
+  // Audited BEFORE the delete: the cascade takes the account with it, and a
+  // failed audit write must not be what leaves the deletion unrecorded.
+  await recordAudit({
+    actorId: guard.actor.id,
+    action: "student.delete",
+    entity: "User",
+    entityId: id,
+    summary: `Deleted ${name} (${target.email ?? target.phone ?? "no contact"})${
+      destroyed ? ` — destroyed ${destroyed}` : " — no associated records"
+    }`,
+  });
+
+  await deleteStudent(id);
 
   return NextResponse.json({ ok: true });
 }

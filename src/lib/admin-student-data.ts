@@ -233,3 +233,22 @@ export async function setStudentActive(
       : { isActive: false, suspendedAt: new Date(), suspendedReason: reason },
   });
 }
+
+/**
+ * Stamps the revocation instant. Every token issued at or before it is rejected
+ * on the next profile refresh — see isSessionRevoked in account-status.ts.
+ *
+ * This is not a password reset: the account keeps its password and the student
+ * simply signs in again. Real password reset needs a reset-token model and an
+ * email subsystem, neither of which exists yet.
+ */
+export async function revokeStudentSessions(id: string): Promise<void> {
+  await db.user.update({
+    where: { id },
+    data: { sessionsValidFrom: new Date() },
+  });
+}
+
+export async function deleteStudent(id: string): Promise<void> {
+  await db.user.delete({ where: { id } });
+}
