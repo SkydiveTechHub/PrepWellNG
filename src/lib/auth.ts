@@ -103,6 +103,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         // A suspended account must not be able to start a new session. The jwt
         // callback below handles the sessions that are already live.
+        //
+        // This gate covers the Credentials provider only — authorize() never
+        // runs for OAuth. A suspended Google-linked student is still blocked,
+        // just not here: on OAuth sign-in the jwt callback runs with
+        // isSignIn === true, which makes the `!isSignIn && …` TTL fast-path
+        // false, so the callback always reaches the profile fetch and the
+        // revocation check below, which returns null. Don't "fix" this by
+        // adding a parallel gate for Google — enforcement already holds via
+        // that path.
         if (!user.isActive) return null;
 
         const isValid = await bcrypt.compare(password, user.passwordHash);
@@ -157,24 +166,31 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           where: { id: token.sub },
           select: PROFILE_SELECT,
         });
-        if (profile) {
-          // Suspension and force sign-out have to bite on a token that is
-          // already live, not only at the next sign-in. This runs at most once
-          // per PROFILE_TTL_MS, so the delay is bounded by that.
-          if (isSessionRevoked(profile, token.iat)) {
-            return null;
-          }
+        // A user row that no longer exists has no session. `findUnique`
+        // returning null is authoritative here: a database outage THROWS and
+        // is caught below, keeping the cached profile, so null means the row
+        // is genuinely gone — deleted. Without this, a deleted student's token
+        // stays valid until it expires, while a merely suspended student's is
+        // revoked within the TTL — the more severe action getting the weaker
+        // enforcement.
+        if (!profile) return null;
 
-          cache.profile = {
-            role: profile.role,
-            classLevel: profile.classLevel,
-            track: profile.track,
-            firstName: profile.firstName,
-            lastName: profile.lastName,
-            image: profile.image,
-          };
-          cache.profileAt = Date.now();
+        // Suspension and force sign-out have to bite on a token that is
+        // already live, not only at the next sign-in. This runs at most once
+        // per PROFILE_TTL_MS, so the delay is bounded by that.
+        if (isSessionRevoked(profile, token.iat)) {
+          return null;
         }
+
+        cache.profile = {
+          role: profile.role,
+          classLevel: profile.classLevel,
+          track: profile.track,
+          firstName: profile.firstName,
+          lastName: profile.lastName,
+          image: profile.image,
+        };
+        cache.profileAt = Date.now();
       } catch {
         // Keep whatever is cached rather than throwing a JWTSessionError, which
         // would take the whole request down. Retried on the next expiry check.
