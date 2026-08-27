@@ -45,7 +45,9 @@
 | `src/components/admin/pagination.tsx` | URL-driven server pagination. |
 | `src/components/admin/detail-shell.tsx` | Breadcrumb + title + actions for detail pages. |
 | `src/components/admin/admin-nav-more.tsx` | Mobile "More" bottom sheet. |
+| `src/components/admin/badge.tsx` | Tone-coded pill for plan and status columns. |
 | `src/components/admin/student-filter-bar.tsx` | URL-writing filters for the student list. |
+| `src/components/admin/audit-filter-bar.tsx` | URL-writing filters for the audit log. |
 | `src/components/admin/student-danger-zone.tsx` | Suspend / force sign-out / delete controls. |
 | `src/components/admin/student-profile-form.tsx` | Inline profile editing. |
 | `src/components/admin/student-tier-control.tsx` | Manual tier override. |
@@ -817,11 +819,13 @@ export const ADMIN_NAV_GROUPS: readonly AdminNavGroup[] = [
   },
 ];
 
-/** The three real routes on the mobile bar; the fourth slot is "More". */
+// The three real routes on the mobile bar; the fourth slot is "More". Task 9
+// swaps Lessons for Students here once /admin/students exists — an href with
+// no routed entry is skipped, so this list only ever names live routes.
 export const MOBILE_NAV_HREFS: readonly string[] = [
   "/admin",
   "/admin/questions",
-  "/admin/students",
+  "/admin/lessons",
 ];
 
 function permitted(item: AdminNavItem, isOwner: boolean): boolean {
@@ -2572,6 +2576,16 @@ In `src/lib/admin-nav.ts`, add to the `People` group, **before** the Team entry:
 
 and add `LuGraduationCap` to the `react-icons/lu` import.
 
+Then promote Students onto the mobile bar in place of Lessons — students are the higher-value mobile destination, and Lessons stays reachable through the "More" sheet:
+
+```ts
+export const MOBILE_NAV_HREFS: readonly string[] = [
+  "/admin",
+  "/admin/questions",
+  "/admin/students",
+];
+```
+
 - [ ] **Step 7: Verify the nav tests still pass**
 
 ```bash
@@ -2579,7 +2593,7 @@ node --import tsx --test --test-force-exit scripts/test-admin-nav.mts
 npm test
 ```
 
-Expected: PASS. The mobile-bar test now finds `/admin/students` routed, so `mobileBarItems` returns all three entries.
+Expected: PASS. `mobileBarItems` still returns three entries, now ending in Students, and the "no route is orphaned on mobile" test confirms Lessons moved into the More sheet rather than disappearing.
 
 - [ ] **Step 8: Commit**
 
