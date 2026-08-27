@@ -4389,24 +4389,29 @@ export async function listAuditEntries(
       : {}),
   };
 
-  const [total, entries] = await Promise.all([
-    db.adminAudit.count({ where }),
-    db.adminAudit.findMany({
-      where,
-      select: {
-        id: true,
-        action: true,
-        entity: true,
-        entityId: true,
-        summary: true,
-        createdAt: true,
-        actor: { select: { email: true, username: true } },
-      },
-      orderBy: { createdAt: "desc" },
-      skip: (filter.page - 1) * AUDIT_PAGE_SIZE,
-      take: AUDIT_PAGE_SIZE,
-    }),
-  ]);
+  // Counted FIRST, not in parallel with the fetch — same rule as listStudents.
+  // Skipping by an unclamped page walks past the end of the log and renders
+  // "no matching activity" over a log full of entries, which reads as "nothing
+  // happened" rather than "your page number is out of range".
+  const total = await db.adminAudit.count({ where });
+  const totalPages = Math.max(1, Math.ceil(total / AUDIT_PAGE_SIZE));
+  const page = Math.min(Math.max(1, filter.page), totalPages);
+
+  const entries = await db.adminAudit.findMany({
+    where,
+    select: {
+      id: true,
+      action: true,
+      entity: true,
+      entityId: true,
+      summary: true,
+      createdAt: true,
+      actor: { select: { email: true, username: true } },
+    },
+    orderBy: { createdAt: "desc" },
+    skip: (page - 1) * AUDIT_PAGE_SIZE,
+    take: AUDIT_PAGE_SIZE,
+  });
 
   return {
     total,
