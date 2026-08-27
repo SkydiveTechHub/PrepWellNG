@@ -378,7 +378,12 @@ Follows the routes already in place:
 | Not signed in, or inactive admin | `401` via `requireAdminApi` |
 | Non-owner on an owner route | `403` via `requireOwnerApi` |
 | Unknown id | `404` |
+| Duplicate email or phone (Prisma `P2002`) | `409` naming the offending field |
 | Unexpected | logged server-side, generic `500` |
+
+A write failure is only blamed on the admin when the database says so. Assigning
+`P2002`'s message to every error would tell someone their email is taken after a
+dropped connection, sending them to hunt a duplicate that does not exist.
 
 Pages surface these through the existing `StatusBanner`.
 

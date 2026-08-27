@@ -3142,12 +3142,29 @@ export async function PATCH(
   try {
     await updateStudentProfile(id, parsed.data);
   } catch (error) {
-    // A duplicate email or phone is the expected failure here — both columns
-    // are unique — and it is the admin's mistake, not a server fault.
     console.error("Student profile update failed:", error);
+
+    // Only P2002 (unique constraint) is actually the admin's mistake. Telling
+    // them "the email is already in use" after a connection drop or a bad
+    // schoolId sends them chasing a duplicate that does not exist — so the
+    // blame is only assigned when the database says so.
+    const code =
+      typeof error === "object" && error !== null && "code" in error
+        ? (error as { code?: string }).code
+        : undefined;
+
+    if (code === "P2002") {
+      const target = (error as { meta?: { target?: string[] } }).meta?.target;
+      const field = target?.includes("phone") ? "phone number" : "email";
+      return NextResponse.json(
+        { error: `That ${field} already belongs to another account.` },
+        { status: 409 },
+      );
+    }
+
     return NextResponse.json(
-      { error: "Could not save. The email or phone may already be in use." },
-      { status: 400 },
+      { error: "Could not save. Please try again." },
+      { status: 500 },
     );
   }
 
