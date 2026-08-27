@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Prisma } from "@prisma/client";
 import { requireAdminApi, requireOwnerApi } from "@/lib/admin-session";
-import { canEditStudent } from "@/lib/admin-access";
+import { canDeleteStudent, canEditStudent } from "@/lib/admin-access";
 import { recordAudit } from "@/lib/admin-audit";
 import { studentProfileSchema } from "@/lib/validators";
 import {
@@ -89,6 +89,10 @@ export async function DELETE(
   // Owner only, and enforced here regardless of what the UI showed.
   const guard = await requireOwnerApi();
   if (!guard.ok) return guard.response;
+
+  if (!canDeleteStudent(guard.actor)) {
+    return NextResponse.json({ error: "Not permitted" }, { status: 403 });
+  }
 
   const { id } = await params;
 

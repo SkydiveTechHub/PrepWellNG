@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { requireOwnerApi } from "@/lib/admin-session";
+import { canForceSignOutStudent } from "@/lib/admin-access";
 import { recordAudit } from "@/lib/admin-audit";
 import { getStudentDetail, revokeStudentSessions } from "@/lib/admin-student-data";
 import { fullName } from "@/lib/admin-student";
@@ -12,6 +13,10 @@ export async function POST(
 ) {
   const guard = await requireOwnerApi();
   if (!guard.ok) return guard.response;
+
+  if (!canForceSignOutStudent(guard.actor)) {
+    return NextResponse.json({ error: "Not permitted" }, { status: 403 });
+  }
 
   const { id } = await params;
 
