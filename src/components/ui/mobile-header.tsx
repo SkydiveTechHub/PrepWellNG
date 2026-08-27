@@ -11,6 +11,7 @@ import {
   BRAND,
 } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
+import { useExamActive } from "@/components/assessment/exam-active";
 
 export function MobileHeader({
   user,
@@ -30,6 +31,10 @@ export function MobileHeader({
     return pathname === href || (href !== "/" && pathname.startsWith(href));
   }
 
+  // See `Sidebar` — mid-exam these are all behind a "leave this exam?" prompt,
+  // and opening the drawer would otherwise prefetch every one of them.
+  const prefetch = useExamActive() ? false : undefined;
+
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-card/90 backdrop-blur-md lg:hidden">
       <div className="flex h-14 items-center justify-between px-4">
@@ -42,7 +47,11 @@ export function MobileHeader({
           >
             <LuMenu className="h-5 w-5" />
           </button>
-          <Link href="/dashboard" className="flex items-center gap-2">
+          <Link
+            href="/dashboard"
+            prefetch={prefetch}
+            className="flex items-center gap-2"
+          >
             <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-brand">
               <BRAND.icon className="h-4 w-4 text-white" />
             </div>
@@ -95,6 +104,7 @@ export function MobileHeader({
                         <Link
                           key={item.href}
                           href={item.href}
+                          prefetch={prefetch}
                           onClick={() => setOpen(false)}
                           aria-current={active ? "page" : undefined}
                           className={cn(
@@ -119,6 +129,7 @@ export function MobileHeader({
               ))}
               <Link
                 href={SETTINGS_ITEM.href}
+                prefetch={prefetch}
                 onClick={() => setOpen(false)}
                 aria-current={isActive(SETTINGS_ITEM.href) ? "page" : undefined}
                 className={cn(

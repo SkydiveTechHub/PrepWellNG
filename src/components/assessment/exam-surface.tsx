@@ -20,6 +20,8 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { QuestionImage } from "@/components/ui/question-image";
 import { formatExamTime, type ExamSession } from "./use-exam-session";
+import { Modal } from "@/components/ui/modal";
+import { useNavigationGuard } from "./use-navigation-guard";
 
 /** A named block of questions in the navigator — one per subject on a mock exam. */
 export type QuestionGroup = {
@@ -57,6 +59,7 @@ export function ExamSurface({
     submitError,
     submitting,
     resumed,
+    attemptId,
     title,
     questions,
     currentIndex,
@@ -83,6 +86,14 @@ export function ExamSurface({
     isAnswered,
   } = session;
   const untimed = deadlineAt == null;
+
+  // Armed only once there is an attempt to lose, and stood down the moment the
+  // student submits — that navigation to the results page is the one departure
+  // we must not interrupt.
+  const { pending, confirmLeave, cancelLeave } = useNavigationGuard({
+    active: Boolean(attemptId) && !submitting,
+    fallbackHref: backHref ?? "/practice",
+  });
 
   // ── Keyboard shortcuts ───────────────────────────────────
   useEffect(() => {
@@ -623,7 +634,65 @@ export function ExamSurface({
           onConfirm={handleSubmit}
         />
       )}
+
+      <LeaveExamDialog
+        open={pending !== null}
+        untimed={untimed}
+        onStay={cancelLeave}
+        onLeave={confirmLeave}
+      />
     </div>
+  );
+}
+
+/**
+ * Shown when a student clicks away mid-exam.
+ *
+ * Deliberately reassuring rather than accusing: leaving loses no answers, and
+ * the only real cost — a timer that keeps running — is stated plainly instead
+ * of threatened. Staying is the primary action; leaving stays one click away.
+ */
+function LeaveExamDialog({
+  open,
+  untimed,
+  onStay,
+  onLeave,
+}: {
+  open: boolean;
+  untimed: boolean;
+  onStay: () => void;
+  onLeave: () => void;
+}) {
+  return (
+    <Modal
+      open={open}
+      title="Leave this exam?"
+      onClose={onStay}
+      className="max-w-sm"
+      footer={
+        <div className="flex gap-3">
+          <Button variant="outline" className="flex-1" onClick={onLeave}>
+            Leave anyway
+          </Button>
+          <Button className="flex-1" onClick={onStay}>
+            Stay in exam
+          </Button>
+        </div>
+      }
+    >
+      <div className="space-y-2 text-sm leading-relaxed text-muted">
+        <p>
+          Your answers are saved. You can come back and pick up exactly where
+          you left off.
+        </p>
+        {!untimed && (
+          <p className="rounded-lg bg-warning-soft px-3 py-2 font-medium text-warning">
+            The timer keeps running while you are away. If it runs out before
+            you return, your exam is submitted with the answers you have so far.
+          </p>
+        )}
+      </div>
+    </Modal>
   );
 }
 
