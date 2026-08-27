@@ -98,3 +98,107 @@ export async function listStudents(
     })),
   };
 }
+
+export interface StudentDetail extends StudentRow {
+  state: string | null;
+  schoolId: string | null;
+  schoolName: string | null;
+  suspendedAt: Date | null;
+  suspendedReason: string | null;
+  tierUpdatedAt: Date | null;
+  attemptCount: number;
+  masteredTopicCount: number;
+  flashcardReviewCount: number;
+}
+
+export async function getStudentDetail(id: string): Promise<StudentDetail | null> {
+  const user = await db.user.findFirst({
+    where: { id, role: "STUDENT" },
+    select: {
+      id: true,
+      firstName: true,
+      lastName: true,
+      email: true,
+      phone: true,
+      classLevel: true,
+      track: true,
+      state: true,
+      schoolId: true,
+      school: { select: { name: true } },
+      tier: true,
+      tierUpdatedAt: true,
+      isActive: true,
+      suspendedAt: true,
+      suspendedReason: true,
+      createdAt: true,
+      learningEvents: {
+        select: { occurredAt: true },
+        orderBy: { occurredAt: "desc" },
+        take: 1,
+      },
+      _count: {
+        select: {
+          attempts: true,
+          topicMastery: true,
+          flashcardReviews: true,
+        },
+      },
+    },
+  });
+
+  if (!user) return null;
+
+  return {
+    id: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    phone: user.phone,
+    classLevel: user.classLevel as ClassLevel | null,
+    track: user.track as Track | null,
+    state: user.state,
+    schoolId: user.schoolId,
+    schoolName: user.school?.name ?? null,
+    tier: user.tier as SubscriptionTier,
+    tierUpdatedAt: user.tierUpdatedAt,
+    isActive: user.isActive,
+    suspendedAt: user.suspendedAt,
+    suspendedReason: user.suspendedReason,
+    createdAt: user.createdAt,
+    lastActiveAt: user.learningEvents[0]?.occurredAt ?? null,
+    attemptCount: user._count.attempts,
+    masteredTopicCount: user._count.topicMastery,
+    flashcardReviewCount: user._count.flashcardReviews,
+  };
+}
+
+/**
+ * What deleting this account would destroy, per relation.
+ *
+ * Following /admin/api/questions/[id]/usage: an admin about to delete is shown
+ * the actual counts, not a generic warning.
+ */
+export async function getStudentDeletionImpact(
+  id: string,
+): Promise<Record<string, number>> {
+  const [attempts, responses, progress, mastery, events, reviews, decks] =
+    await Promise.all([
+      db.assessmentAttempt.count({ where: { studentId: id } }),
+      db.questionResponse.count({ where: { attempt: { studentId: id } } }),
+      db.studentProgress.count({ where: { studentId: id } }),
+      db.topicMastery.count({ where: { studentId: id } }),
+      db.learningEvent.count({ where: { studentId: id } }),
+      db.flashcardReview.count({ where: { studentId: id } }),
+      db.flashcardDeck.count({ where: { createdBy: id } }),
+    ]);
+
+  return {
+    "Assessment attempts": attempts,
+    "Question responses": responses,
+    "Progress records": progress,
+    "Topic mastery records": mastery,
+    "Learning events": events,
+    "Flashcard reviews": reviews,
+    "Authored flashcard decks": decks,
+  };
+}
