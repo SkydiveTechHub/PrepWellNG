@@ -2779,7 +2779,13 @@ export default async function AdminStudentDetailPage({
   const student = await getStudentDetail(id);
   if (!student) notFound();
 
-  const impact = await getStudentDeletionImpact(id);
+  // Seven COUNT queries, and only the owner can ever act on them. Computing
+  // them for every admin viewing any student would tax every page view for a
+  // control most viewers cannot even see.
+  const impact = canDeleteStudent(admin)
+    ? await getStudentDeletionImpact(id)
+    : {};
+
   const tier = describeTier(student);
   const status = describeAccountStatus(student);
 
