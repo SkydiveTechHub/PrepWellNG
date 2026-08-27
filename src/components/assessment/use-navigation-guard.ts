@@ -40,11 +40,22 @@ export function useNavigationGuard({
     return () => setExamActive(false);
   }, [active]);
 
+  // Re-arm on every activation. Today the component always unmounts on exit,
+  // so this is inert, but if a guarded link ever reused the same component
+  // instance (same route, different params), a stale `true` here would leave
+  // the guard silently disarmed for the rest of the exam.
+  useEffect(() => {
+    if (active) leavingRef.current = false;
+  }, [active]);
+
   // ── In-app links ─────────────────────────────────────────
   // One capture-phase listener on the document catches the sidebar, the mobile
-  // nav and the user menu without any of them knowing an exam exists. Capture
-  // runs before React's own root listener, so `stopPropagation` keeps `Link`
-  // from starting the navigation at all rather than racing it.
+  // nav and the user menu without any of them knowing an exam exists. Only
+  // `preventDefault` is called, never `stopPropagation`: Next's Link handler
+  // runs the anchor's own `onClick` (e.g. closing a mobile drawer) before
+  // checking `event.defaultPrevented` and bailing out of navigation, so
+  // stopping propagation here would silently swallow that `onClick` along
+  // with the navigation we're trying to block.
   useEffect(() => {
     if (!active) return;
 
@@ -70,7 +81,6 @@ export function useNavigationGuard({
       if (!destination) return;
 
       event.preventDefault();
-      event.stopPropagation();
       setPending({ kind: "link", href: destination });
     }
 
@@ -83,10 +93,20 @@ export function useNavigationGuard({
   // nothing left to cancel. The fix is a duplicate entry pushed up front: back
   // pops that instead of leaving the exam, and we immediately push another to
   // stay armed. Both entries carry the exam's own URL, so nothing visibly moves.
+  //
+  // The sentinel is pushed at most once per mount, guarded by a ref: this
+  // effect re-runs on every submit failure (`active` toggles false→true), and
+  // pushing a fresh entry each time would stack one extra history entry per
+  // failed submit, forcing the student to press back once per retry just to
+  // reach the exam URL they're already on.
+  const sentinelPushedRef = useRef(false);
   useEffect(() => {
     if (!active) return;
 
-    window.history.pushState(null, "", window.location.href);
+    if (!sentinelPushedRef.current) {
+      window.history.pushState(null, "", window.location.href);
+      sentinelPushedRef.current = true;
+    }
 
     function onPopState() {
       if (leavingRef.current) return;

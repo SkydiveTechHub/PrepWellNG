@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { checkQuestionInvariants } from "@/lib/admin-question";
+import { MAX_AWAY_EVENTS } from "@/components/assessment/exam-focus";
 
 // ─── Auth ─────────────────────────────────────────
 
@@ -90,7 +91,7 @@ export const submitAssessmentSchema = z.object({
   // Client-reported and forgeable, so bounded rather than trusted. Optional so
   // a client from before this shipped, or a session stored back then, still
   // submits successfully; absent means zero.
-  awayEvents: z.number().int().min(0).max(10_000).optional(),
+  awayEvents: z.number().int().min(0).max(MAX_AWAY_EVENTS).optional(),
 });
 
 // JAMB CBT: English is added by the system, so only the other three are sent.

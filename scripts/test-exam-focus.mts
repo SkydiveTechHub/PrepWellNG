@@ -2,6 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
   AWAY_FLOOR_MS,
+  MAX_AWAY_EVENTS,
   countsAsAway,
   nextAwayCount,
   sanitiseAwayCount,
@@ -54,4 +55,12 @@ test("a corrupt stored count reads as zero", () => {
   assert.equal(sanitiseAwayCount(-3), 0);
   assert.equal(sanitiseAwayCount(Number.NaN), 0);
   assert.equal(sanitiseAwayCount(2.7), 2);
+});
+
+test("a stored count above the submit validator's bound clamps to it", () => {
+  assert.equal(sanitiseAwayCount(MAX_AWAY_EVENTS + 1), MAX_AWAY_EVENTS);
+});
+
+test("a stored count exactly at the bound is unchanged", () => {
+  assert.equal(sanitiseAwayCount(MAX_AWAY_EVENTS), MAX_AWAY_EVENTS);
 });

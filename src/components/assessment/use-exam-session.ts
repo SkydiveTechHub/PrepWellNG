@@ -220,6 +220,7 @@ export function useExamSession({
           startedAt: Date.now(),
         };
         answersRef.current = emptyAnswers(exam.questions);
+        awayCountRef.current = 0;
         questionStartRef.current = Date.now();
         writeStored(sessionKey, session, answersRef.current, 0, 0);
         setData(session);

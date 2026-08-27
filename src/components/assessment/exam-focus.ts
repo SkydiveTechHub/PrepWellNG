@@ -13,6 +13,15 @@
 export const AWAY_FLOOR_MS = 3000;
 
 /**
+ * The same bound `submitAssessmentSchema` enforces on `awayEvents`. Clamping
+ * to it here — rather than only validating server-side — keeps a hand-edited
+ * or otherwise out-of-range stored value from making an exam unsubmittable:
+ * without this, a count above the server's max is restored, sent, and
+ * rejected with a flat 400 on every retry.
+ */
+export const MAX_AWAY_EVENTS = 10_000;
+
+/**
  * Whether a return to visibility should be recorded as having left.
  *
  * `hiddenAt` is null when the session never saw the matching departure — a
@@ -39,5 +48,5 @@ export function nextAwayCount(
  */
 export function sanitiseAwayCount(value: unknown): number {
   if (typeof value !== "number" || !Number.isFinite(value) || value < 0) return 0;
-  return Math.floor(value);
+  return Math.min(Math.floor(value), MAX_AWAY_EVENTS);
 }
