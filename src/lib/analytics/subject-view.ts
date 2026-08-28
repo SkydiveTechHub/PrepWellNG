@@ -11,12 +11,27 @@ import { selectInsights, type Insight } from "@/engines/analytics/insight";
 // only fetches and hands over.
 // See docs/superpowers/specs/2026-08-28-performance-analytics-design.md §4.
 
+/**
+ * Answers required before this page will state an accuracy figure or a grade.
+ *
+ * Deliberately the same floor the profile uses to decide whether it will
+ * describe *how* a student answers: it would be incoherent to refuse to
+ * describe their answering below 20 answers while confidently grading how well
+ * they answer off one. A precise-looking figure the evidence cannot support is
+ * worse than no figure — so below this we show the raw count instead, which is
+ * what tells the student how to resolve the uncertainty.
+ */
+export const MIN_GRADED_ANSWERS = 20;
+
 export type SubjectChoice = {
   id: string;
   name: string;
   slug: string;
   code: string;
-  /** Accuracy across all recorded answers, 0..100, or null with no answers. */
+  /**
+   * Accuracy across all recorded answers, 0..100, or null below
+   * MIN_GRADED_ANSWERS — including with no answers at all.
+   */
   accuracy: number | null;
   answered: number;
 };
@@ -75,7 +90,10 @@ export async function getSubjectChoices(userId: string): Promise<SubjectChoice[]
         {
           ...subject,
           answered,
-          accuracy: answered > 0 ? (right / answered) * 100 : null,
+          // The chips render this figure, so it is gated by the same floor as
+          // the verdict — a "PHY 100%" chip off one answer is not a fact.
+          accuracy:
+            answered >= MIN_GRADED_ANSWERS ? (right / answered) * 100 : null,
         },
       ];
     })
@@ -148,7 +166,10 @@ export async function getSubjectPerformance(
 
   const answered = samples.length;
   const correctCount = samples.filter((sample) => sample.correct).length;
-  const accuracy = answered > 0 ? (correctCount / answered) * 100 : null;
+  // `answered` and `correct` below stay the real counts even when we withhold
+  // the figure: the count is what tells the student how to resolve it.
+  const accuracy =
+    answered >= MIN_GRADED_ANSWERS ? (correctCount / answered) * 100 : null;
   // Coverage is defined by evidence volume, not by which group a topic landed
   // in: `classifyTopic` routes BOTTLENECK on graph position with no volume gate
   // and WEAK on decaying confidence, so "not UNPROVEN" is not the same question.
