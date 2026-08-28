@@ -154,7 +154,7 @@ export function groupTopics(
       bottleneckScore: bottleneckScore(graph, topicId),
       lastStudy: topic?.lastStudy?.toISOString() ?? null,
       stale:
-        group === "SOLID" && retention !== null && retention <= STALE_RETENTION,
+        group === "SOLID" && retention !== null && retention < STALE_RETENTION,
     });
   }
 

@@ -144,7 +144,7 @@ test("Needs work is ordered by leverage then mastery, matching the gap queue", (
 
 test("a stale Solid topic is flagged", () => {
   const graph = graphWith(["t1"]);
-  const state = stateFor([{ topicId: "t1", count: 40, correct: true, ageDays: 60 }]);
+  const state = stateFor([{ topicId: "t1", count: 40, correct: true, ageDays: 150 }]);
   const groups = groupTopics(state, graph, new Set(), new Map(), now);
   const row = [...groups.SOLID, ...groups.NEEDS_REVISION, ...groups.COMING_ALONG].find(
     (r) => r.topicId === "t1",
@@ -154,4 +154,17 @@ test("a stale Solid topic is flagged", () => {
     row.stale || row.group === "NEEDS_REVISION",
     "aged strong evidence should read as stale or as needing revision",
   );
+});
+
+test("a topic just past STALE_RETENTION stays Solid but flagged stale", () => {
+  // ageDays 70 folds to retention ~0.886 and mastery ~88 for this fixture —
+  // comfortably inside (GAP_RETENTION, STALE_RETENTION) and above TARGET, so
+  // this exercises the strict `<` on STALE_RETENTION without landing on the
+  // exact float-equality boundary the way ageDays 60 does.
+  const graph = graphWith(["t1"]);
+  const state = stateFor([{ topicId: "t1", count: 40, correct: true, ageDays: 70 }]);
+  const groups = groupTopics(state, graph, new Set(), new Map(), now);
+  const row = groups.SOLID.find((r) => r.topicId === "t1");
+  assert.ok(row, "topic should be Solid");
+  assert.equal(row?.stale, true);
 });
