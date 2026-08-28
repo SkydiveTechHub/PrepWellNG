@@ -17,7 +17,7 @@ export type AdminPathKind = "auth" | "login" | "console";
 
 export function classifyAdminPath(pathname: string): AdminPathKind | null {
   if (pathname !== "/admin" && !pathname.startsWith("/admin/")) return null;
-  if (pathname.startsWith("/admin/api/auth")) return "auth";
+  if (pathname === "/admin/api/auth" || pathname.startsWith("/admin/api/auth/")) return "auth";
   if (pathname === "/admin/login") return "login";
   return "console";
 }

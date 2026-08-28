@@ -32,6 +32,9 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# ...except the example file, which is meant to be tracked as a template.
+# It must NEVER contain real values — placeholders only.
+!.env.example
 
 # vercel
 .vercel

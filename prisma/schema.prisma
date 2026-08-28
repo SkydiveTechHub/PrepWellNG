@@ -863,7 +863,7 @@ model AdminAudit {
   id        String   @id @default(cuid())
   actorId   String
   actor     Admin    @relation(fields: [actorId], references: [id], onDelete: Cascade)
-  action    String // "question.create" | "question.update" | "question.delete" | "question.import"
+  action    String // "question.create" | "question.update" | "question.delete" | "question.import" | "lesson.import" | "admin.create" | "admin.deactivate" | "admin.reactivate"
   entity    String // "Question"
   entityId  String?
   summary   String   @db.Text

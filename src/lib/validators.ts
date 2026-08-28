@@ -6,6 +6,10 @@ import { MAX_AWAY_EVENTS } from "@/components/assessment/exam-focus";
 // ─── Auth ─────────────────────────────────────────
 
 export const registerSchema = z.object({
+  // TEACHER is offered in the UI as "Coming soon" and is deliberately not
+  // accepted here — a hand-crafted POST must not mint a teacher through a door
+  // the interface has not opened.
+  role: z.literal("STUDENT").default("STUDENT"),
   firstName: z.string().min(2, "First name is required"),
   lastName: z.string().min(2, "Last name is required"),
   email: z.string().email("Invalid email address"),
@@ -88,10 +92,13 @@ export const submitAssessmentSchema = z.object({
         new Set(answers.map((a) => a.questionId)).size === answers.length,
       { message: "Duplicate questionId in answers" }
     ),
-  // Client-reported and forgeable, so bounded rather than trusted. Optional so
-  // a client from before this shipped, or a session stored back then, still
-  // submits successfully; absent means zero.
-  awayEvents: z.number().int().min(0).max(MAX_AWAY_EVENTS).optional(),
+  // Set by the lesson practice exit so grading also records the lesson progress
+  // the attempt earned. Only slugs travel: the attempt's ownership and score are
+  // re-read server-side, so a forged pair can at most record against a topic the
+  // student is allowed to practise anyway.
+  practiceExit: z
+    .object({ subjectSlug: z.string().min(1), topicSlug: z.string().min(1) })
+    .optional(),
 });
 
 // JAMB CBT: English is added by the system, so only the other three are sent.
