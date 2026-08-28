@@ -152,6 +152,33 @@ test("an insufficient profile produces no pacing or guessing claims", () => {
   assert.ok(!out.some((i) => i.kind === "PACING_SLOW" || i.kind === "RAPID_GUESSING"));
 });
 
+test("singular counts of one produce grammatical headlines", () => {
+  const out = subjectInsights(
+    input({
+      groups: groups({
+        NEEDS_REVISION: [row("t1", { group: "NEEDS_REVISION", category: "DECAYED" })],
+        SOLID: [row("t2", { group: "SOLID", category: null, mastery: 85, stale: true })],
+      }),
+    }),
+  );
+
+  const decayed = out.find((i) => i.kind === "DECAYED_TOPIC");
+  assert.ok(decayed);
+  assert.ok(!/\b1 topic here need\b/.test(decayed.headline));
+  assert.equal(
+    decayed.headline,
+    "You knew Topic t1 and it has faded — worth revising before the exam.",
+  );
+
+  const stale = out.find((i) => i.kind === "STALE_TOPIC");
+  assert.ok(stale);
+  assert.ok(!/\b1 strong topic here haven't\b/.test(stale.headline));
+  assert.equal(
+    stale.headline,
+    "1 strong topic here hasn't been touched in a while.",
+  );
+});
+
 test("every insight carries a non-empty headline", () => {
   const out = subjectInsights(
     input({

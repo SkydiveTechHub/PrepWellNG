@@ -60,7 +60,10 @@ export function subjectInsights(input: {
       severity: "WARNING",
       subjectId,
       topicId: first.topicId,
-      headline: `You knew ${first.title} and it has faded — ${plural(groups.NEEDS_REVISION.length, "topic")} here need revision.`,
+      headline:
+        groups.NEEDS_REVISION.length === 1
+          ? `You knew ${first.title} and it has faded — worth revising before the exam.`
+          : `You knew ${first.title} and it has faded — ${groups.NEEDS_REVISION.length} topics here need revision.`,
       action: {
         label: "Revise",
         href: `/classroom/${subjectSlug}/${first.slug}`,
@@ -75,7 +78,10 @@ export function subjectInsights(input: {
       severity: "INFO",
       subjectId,
       topicId: stale[0].topicId,
-      headline: `${plural(stale.length, "strong topic")} here haven't been touched in a while.`,
+      headline:
+        stale.length === 1
+          ? `1 strong topic here hasn't been touched in a while.`
+          : `${stale.length} strong topics here haven't been touched in a while.`,
       detail: "Still solid, but worth a quick review before the exam.",
     });
   }
