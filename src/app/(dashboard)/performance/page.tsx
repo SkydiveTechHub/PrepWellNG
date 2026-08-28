@@ -5,7 +5,6 @@ import { auth } from "@/lib/auth";
 import { getGrade, getPerformanceData } from "@/lib/performance";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { PageHeader } from "@/components/ui/page-header";
 import { EmptyState } from "@/components/ui/empty-state";
 import { buttonClass } from "@/components/ui/button";
 
@@ -64,12 +63,7 @@ export default async function PerformancePage() {
   ];
 
   return (
-    <div className="animate-fade-in">
-      <PageHeader
-        title="Performance"
-        description="Track your progress, see your grades, and identify topics that need more attention."
-      />
-
+    <>
       {data.attempts.length > 0 ? (
         <>
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
@@ -213,6 +207,6 @@ export default async function PerformancePage() {
           }
         />
       )}
-    </div>
+    </>
   );
 }
