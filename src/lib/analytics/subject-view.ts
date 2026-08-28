@@ -2,6 +2,7 @@ import { db } from "../db";
 import { getGrade } from "../performance";
 import { computePathState } from "../learning-path";
 import { groupTopics, type TopicGroups } from "@/engines/analytics/topic-groups";
+import { OBSERVATION_FLOOR } from "@/engines/learning/evidence";
 import { buildProfile, type AnswerSample, type Profile } from "@/engines/analytics/profile";
 import { subjectInsights } from "@/engines/analytics/subject-insights";
 import { selectInsights, type Insight } from "@/engines/analytics/insight";
@@ -148,12 +149,16 @@ export async function getSubjectPerformance(
   const answered = samples.length;
   const correctCount = samples.filter((sample) => sample.correct).length;
   const accuracy = answered > 0 ? (correctCount / answered) * 100 : null;
+  // Coverage is defined by evidence volume, not by which group a topic landed
+  // in: `classifyTopic` routes BOTTLENECK on graph position with no volume gate
+  // and WEAK on decaying confidence, so "not UNPROVEN" is not the same question.
   const covered = [
     ...groups.NEEDS_WORK,
     ...groups.NEEDS_REVISION,
+    ...groups.UNPROVEN,
     ...groups.COMING_ALONG,
     ...groups.SOLID,
-  ].length;
+  ].filter((row) => row.observations >= OBSERVATION_FLOOR).length;
 
   return {
     subject,
