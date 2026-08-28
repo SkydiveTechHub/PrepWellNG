@@ -5,6 +5,7 @@ import Link from "next/link";
 import { PageHeader } from "@/components/ui/page-header";
 import { Button, buttonClass } from "@/components/ui/button";
 import { StatusBanner } from "@/components/admin/status-banner";
+import { TH_CLS } from "@/components/admin/admin-table";
 import { cn } from "@/lib/utils";
 import {
   parseImportPayload,
@@ -12,8 +13,6 @@ import {
   type BulkImportQuestion,
   type ImportRowError,
 } from "@/lib/admin-import";
-
-const TH_CLS = "text-[11px] font-semibold uppercase tracking-wider text-muted";
 
 const SAMPLE = `[
   {

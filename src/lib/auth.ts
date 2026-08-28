@@ -5,6 +5,7 @@ import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { db } from "./db";
 import { z } from "zod";
+import { isSessionRevoked, sessionStartedAt } from "@/lib/account-status";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -33,6 +34,8 @@ const PROFILE_SELECT = {
   firstName: true,
   lastName: true,
   image: true,
+  isActive: true,
+  sessionsValidFrom: true,
 } as const;
 
 // The session.user shape the callbacks extend — structural so it doesn't rely
@@ -98,6 +101,19 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         if (!user || !user.passwordHash) return null;
 
+        // A suspended account must not be able to start a new session. The jwt
+        // callback below handles the sessions that are already live.
+        //
+        // This gate covers the Credentials provider only — authorize() never
+        // runs for OAuth. A suspended Google-linked student is still blocked,
+        // just not here: on OAuth sign-in the jwt callback runs with
+        // isSignIn === true, which makes the `!isSignIn && …` TTL fast-path
+        // false, so the callback always reaches the profile fetch and the
+        // revocation check below, which returns null. Don't "fix" this by
+        // adding a parallel gate for Google — enforcement already holds via
+        // that path.
+        if (!user.isActive) return null;
+
         const isValid = await bcrypt.compare(password, user.passwordHash);
         if (!isValid) return null;
 
@@ -134,7 +150,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     // in a separate `Admin` table, authenticated by the entirely separate
     // instance in admin-auth.ts, so this cached role cannot grant admin access.
     async jwt({ token, user, trigger }) {
-      const cache = token as { profile?: CachedProfile; profileAt?: number };
+      const cache = token as {
+        profile?: CachedProfile;
+        profileAt?: number;
+        sessionStartedAt?: number;
+      };
       const isSignIn = Boolean(user);
 
       if (isSignIn && user?.id) token.sub = user.id;
@@ -150,17 +170,39 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           where: { id: token.sub },
           select: PROFILE_SELECT,
         });
-        if (profile) {
-          cache.profile = {
-            role: profile.role,
-            classLevel: profile.classLevel,
-            track: profile.track,
-            firstName: profile.firstName,
-            lastName: profile.lastName,
-            image: profile.image,
-          };
-          cache.profileAt = Date.now();
+        // A user row that no longer exists has no session. `findUnique`
+        // returning null is authoritative here: a database outage THROWS and
+        // is caught below, keeping the cached profile, so null means the row
+        // is genuinely gone — deleted. Without this, a deleted student's token
+        // stays valid until it expires, while a merely suspended student's is
+        // revoked within the TTL — the more severe action getting the weaker
+        // enforcement.
+        if (!profile) return null;
+
+        // Suspension and force sign-out have to bite on a token that is
+        // already live, not only at the next sign-in. This runs at most once
+        // per PROFILE_TTL_MS, so the delay is bounded by that.
+        const startedAt = sessionStartedAt({
+          isSignIn,
+          storedStartedAt: cache.sessionStartedAt,
+          tokenIssuedAt: token.iat,
+          nowSeconds: Math.floor(Date.now() / 1000),
+        });
+        if (isSignIn) cache.sessionStartedAt = startedAt;
+
+        if (isSessionRevoked(profile, startedAt)) {
+          return null;
         }
+
+        cache.profile = {
+          role: profile.role,
+          classLevel: profile.classLevel,
+          track: profile.track,
+          firstName: profile.firstName,
+          lastName: profile.lastName,
+          image: profile.image,
+        };
+        cache.profileAt = Date.now();
       } catch {
         // Keep whatever is cached rather than throwing a JWTSessionError, which
         // would take the whole request down. Retried on the next expiry check.

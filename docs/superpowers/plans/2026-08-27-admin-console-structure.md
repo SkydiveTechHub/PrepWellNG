@@ -45,7 +45,9 @@
 | `src/components/admin/pagination.tsx` | URL-driven server pagination. |
 | `src/components/admin/detail-shell.tsx` | Breadcrumb + title + actions for detail pages. |
 | `src/components/admin/admin-nav-more.tsx` | Mobile "More" bottom sheet. |
+| `src/components/admin/badge.tsx` | Tone-coded pill for plan and status columns. |
 | `src/components/admin/student-filter-bar.tsx` | URL-writing filters for the student list. |
+| `src/components/admin/audit-filter-bar.tsx` | URL-writing filters for the audit log. |
 | `src/components/admin/student-danger-zone.tsx` | Suspend / force sign-out / delete controls. |
 | `src/components/admin/student-profile-form.tsx` | Inline profile editing. |
 | `src/components/admin/student-tier-control.tsx` | Manual tier override. |
@@ -817,11 +819,13 @@ export const ADMIN_NAV_GROUPS: readonly AdminNavGroup[] = [
   },
 ];
 
-/** The three real routes on the mobile bar; the fourth slot is "More". */
+// The three real routes on the mobile bar; the fourth slot is "More". Task 9
+// swaps Lessons for Students here once /admin/students exists — an href with
+// no routed entry is skipped, so this list only ever names live routes.
 export const MOBILE_NAV_HREFS: readonly string[] = [
   "/admin",
   "/admin/questions",
-  "/admin/students",
+  "/admin/lessons",
 ];
 
 function permitted(item: AdminNavItem, isOwner: boolean): boolean {
@@ -1339,7 +1343,7 @@ npm test
 grep -rn "TH_CLS\s*=" src/app/ src/components/admin/
 ```
 
-Expected: the first three PASS; the `grep` returns exactly one line — the definition in `src/components/admin/admin-table.tsx`.
+Expected: the first three PASS. The `grep` returns **three** lines — the definition in `src/components/admin/admin-table.tsx`, plus the two Questions-page files (`questions-client.tsx` and `questions/import/import-client.tsx`) that keep their local copies because migrating them is explicitly out of scope for this plan. What this step actually checks is that **Overview and Lessons no longer declare their own** — neither `src/app/admin/(console)/page.tsx` nor `src/app/admin/(console)/lessons/page.tsx` may appear in the output. Those two Questions files collapse onto the shared constant in the later Questions-migration round.
 
 - [ ] **Step 6: Commit**
 
@@ -2088,7 +2092,9 @@ import { SUBSCRIPTION_TIERS } from "@/lib/subscription";
 node --import tsx --test --test-force-exit scripts/test-admin-student.mts
 ```
 
-Expected: PASS — 17 tests. If `z.enum(SUBSCRIPTION_TIERS)` is rejected by the Zod 4 types because the array is `readonly`, spread it: `z.enum([...SUBSCRIPTION_TIERS])`.
+Expected: PASS — 17 tests.
+
+**All three schemas were probed against the installed Zod 4.4.3 before this task was written — they behave exactly as the tests above require.** Confirmed directly: `z.enum()` accepts the `readonly` tuple as-is (no spread needed); `z.string().trim().toLowerCase().email()` both normalises (`"  Ada@Example.COM "` → `"ada@example.com"`) and rejects malformed input while staying `.optional()`; and the `.refine()` on `studentStatusSchema` rejects a suspension with no reason while allowing a reactivation without one. `z.string().email()` is deprecated in Zod 4 but still functional, and is what `validators.ts` already uses at lines 14 and 22 — stay consistent with that rather than switching to `z.email()`.
 
 - [ ] **Step 6: Register the test and verify**
 
@@ -2180,10 +2186,15 @@ export async function listStudents(
 ): Promise<{ rows: StudentRow[]; total: number }> {
   const where = whereFor(filter);
 
-  // Counted and fetched in one round trip rather than two sequential ones.
-  const [total, users] = await Promise.all([
-    db.user.count({ where }),
-    db.user.findMany({
+  // Counted FIRST, not in parallel with the fetch: the row query has to skip by
+  // a page number that is already clamped to the real page count, or ?page=999
+  // skips past the end and renders "no matches" over a full result set. One
+  // extra round trip is the price of the page being correct.
+  const total = await db.user.count({ where });
+  const totalPages = Math.max(1, Math.ceil(total / STUDENT_PAGE_SIZE));
+  const page = Math.min(Math.max(1, filter.page), totalPages);
+
+  const users = await db.user.findMany({
       where,
       select: {
         id: true,
@@ -2197,16 +2208,15 @@ export async function listStudents(
         isActive: true,
         createdAt: true,
         learningEvents: {
-          select: { createdAt: true },
-          orderBy: { createdAt: "desc" },
+          select: { occurredAt: true },
+          orderBy: { occurredAt: "desc" },
           take: 1,
         },
       },
       orderBy: { createdAt: "desc" },
-      skip: (filter.page - 1) * STUDENT_PAGE_SIZE,
+      skip: (page - 1) * STUDENT_PAGE_SIZE,
       take: STUDENT_PAGE_SIZE,
-    }),
-  ]);
+  });
 
   return {
     total,
@@ -2221,13 +2231,13 @@ export async function listStudents(
       tier: user.tier as SubscriptionTier,
       isActive: user.isActive,
       createdAt: user.createdAt,
-      lastActiveAt: user.learningEvents[0]?.createdAt ?? null,
+      lastActiveAt: user.learningEvents[0]?.occurredAt ?? null,
     })),
   };
 }
 ```
 
-If `LearningEvent` has no `createdAt` field, use its timestamp column instead — check with `sed -n '/^model LearningEvent /,/^}/p' prisma/schema.prisma` and adjust the `select` and `orderBy` accordingly.
+**Field names already verified against the schema — use exactly these:** `LearningEvent` has **no `createdAt`**; its timestamp is `occurredAt` and its User FK is `studentId` (not `userId`). The `User` relation field is `learningEvents`. The `_count` relation names `attempts`, `topicMastery` and `flashcardReviews` are correct as written.
 
 - [ ] **Step 2: Create the filter bar**
 
@@ -2520,8 +2530,10 @@ import { cn } from "@/lib/utils";
 const TONE_CLS: Record<string, string> = {
   neutral: "border-border-strong bg-secondary text-muted",
   info: "border-border-strong bg-secondary text-foreground",
-  success: "border-success/30 bg-success/10 text-success",
-  warning: "border-warning/30 bg-warning/10 text-warning",
+  // Mirrors StatusBanner's treatment (border-<tone>/30 + bg-<tone>-soft) so a
+  // badge and a banner of the same tone read as the same colour.
+  success: "border-success/30 bg-success-soft text-success",
+  warning: "border-warning/30 bg-warning-soft text-warning",
 };
 
 export function Badge({
@@ -2544,13 +2556,7 @@ export function Badge({
 }
 ```
 
-Before using `text-success` and `text-warning`, confirm those tokens exist:
-
-```bash
-grep -rn "\-\-color-success\|--color-warning\|success\|warning" src/app/globals.css | head
-```
-
-If they do not exist, use the tones already in the codebase — check what `StatusBanner` uses (`src/components/admin/status-banner.tsx`) and mirror those exact classes rather than inventing tokens.
+**Tokens already verified — use exactly these classes.** `--color-success`, `--color-success-soft`, `--color-warning` and `--color-warning-soft` are all defined in `src/app/globals.css` (light, dark, and the explicit `[data-theme]` block), so `text-warning`, `bg-warning-soft` and `border-warning/30` all resolve. Note that `StatusBanner` accepts only `error | success | info` — it has **no** `warning` tone, so do not pass one to it. `Badge` is the component that carries `warning`.
 
 - [ ] **Step 5: Verify the page renders**
 
@@ -2572,6 +2578,16 @@ In `src/lib/admin-nav.ts`, add to the `People` group, **before** the Team entry:
 
 and add `LuGraduationCap` to the `react-icons/lu` import.
 
+Then promote Students onto the mobile bar in place of Lessons — students are the higher-value mobile destination, and Lessons stays reachable through the "More" sheet:
+
+```ts
+export const MOBILE_NAV_HREFS: readonly string[] = [
+  "/admin",
+  "/admin/questions",
+  "/admin/students",
+];
+```
+
 - [ ] **Step 7: Verify the nav tests still pass**
 
 ```bash
@@ -2579,7 +2595,7 @@ node --import tsx --test --test-force-exit scripts/test-admin-nav.mts
 npm test
 ```
 
-Expected: PASS. The mobile-bar test now finds `/admin/students` routed, so `mobileBarItems` returns all three entries.
+Expected: PASS. `mobileBarItems` still returns three entries, now ending in Students, and the "no route is orphaned on mobile" test confirms Lessons moved into the More sheet rather than disappearing.
 
 - [ ] **Step 8: Commit**
 
@@ -2643,8 +2659,8 @@ export async function getStudentDetail(id: string): Promise<StudentDetail | null
       suspendedReason: true,
       createdAt: true,
       learningEvents: {
-        select: { createdAt: true },
-        orderBy: { createdAt: "desc" },
+        select: { occurredAt: true },
+        orderBy: { occurredAt: "desc" },
         take: 1,
       },
       _count: {
@@ -2676,7 +2692,7 @@ export async function getStudentDetail(id: string): Promise<StudentDetail | null
     suspendedAt: user.suspendedAt,
     suspendedReason: user.suspendedReason,
     createdAt: user.createdAt,
-    lastActiveAt: user.learningEvents[0]?.createdAt ?? null,
+    lastActiveAt: user.learningEvents[0]?.occurredAt ?? null,
     attemptCount: user._count.attempts,
     masteredTopicCount: user._count.topicMastery,
     flashcardReviewCount: user._count.flashcardReviews,
@@ -2694,13 +2710,13 @@ export async function getStudentDeletionImpact(
 ): Promise<Record<string, number>> {
   const [attempts, responses, progress, mastery, events, reviews, decks] =
     await Promise.all([
-      db.assessmentAttempt.count({ where: { userId: id } }),
-      db.questionResponse.count({ where: { attempt: { userId: id } } }),
-      db.studentProgress.count({ where: { userId: id } }),
-      db.topicMastery.count({ where: { userId: id } }),
-      db.learningEvent.count({ where: { userId: id } }),
-      db.flashcardReview.count({ where: { userId: id } }),
-      db.flashcardDeck.count({ where: { authorId: id } }),
+      db.assessmentAttempt.count({ where: { studentId: id } }),
+      db.questionResponse.count({ where: { attempt: { studentId: id } } }),
+      db.studentProgress.count({ where: { studentId: id } }),
+      db.topicMastery.count({ where: { studentId: id } }),
+      db.learningEvent.count({ where: { studentId: id } }),
+      db.flashcardReview.count({ where: { studentId: id } }),
+      db.flashcardDeck.count({ where: { createdBy: id } }),
     ]);
 
   return {
@@ -2715,13 +2731,7 @@ export async function getStudentDeletionImpact(
 }
 ```
 
-The relation field names (`userId`, `authorId`, `attempt`) must match the schema. Verify each before running:
-
-```bash
-sed -n '/^model AssessmentAttempt /,/^}/p;/^model QuestionResponse /,/^}/p;/^model FlashcardDeck /,/^}/p' prisma/schema.prisma
-```
-
-Adjust any name that differs.
+**Relation field names already verified against the schema — use exactly these.** This codebase names its User foreign keys `studentId`, **not** `userId`, on every learning-domain model (`AssessmentAttempt`, `StudentProgress`, `TopicMastery`, `LearningEvent`, `FlashcardReview`). Only `Account` and `Session` use `userId`. `QuestionResponse` has no direct User link — it reaches one through `attempt`. `FlashcardDeck`'s author FK is **`createdBy`**, not `authorId`.
 
 - [ ] **Step 2: Create the detail page**
 
@@ -2769,7 +2779,13 @@ export default async function AdminStudentDetailPage({
   const student = await getStudentDetail(id);
   if (!student) notFound();
 
-  const impact = await getStudentDeletionImpact(id);
+  // Seven COUNT queries, and only the owner can ever act on them. Computing
+  // them for every admin viewing any student would tax every page view for a
+  // control most viewers cannot even see.
+  const impact = canDeleteStudent(admin)
+    ? await getStudentDeletionImpact(id)
+    : {};
+
   const tier = describeTier(student);
   const status = describeAccountStatus(student);
 
@@ -3126,12 +3142,33 @@ export async function PATCH(
   try {
     await updateStudentProfile(id, parsed.data);
   } catch (error) {
-    // A duplicate email or phone is the expected failure here — both columns
-    // are unique — and it is the admin's mistake, not a server fault.
     console.error("Student profile update failed:", error);
+
+    // Only P2002 (unique constraint) is actually the admin's mistake. Telling
+    // them "the email is already in use" after a connection drop or a bad
+    // schoolId sends them chasing a duplicate that does not exist — so the
+    // blame is only assigned when the database says so.
+    //
+    // Narrowed with the guard this codebase already uses (see
+    // admin/api/admins/route.ts:64 and lib/user-account.ts:70). Duck-typing on
+    // a `code` property would accept any object that happens to carry one and
+    // report a duplicate-key conflict for something that was not one.
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2002"
+    ) {
+      const target = error.meta?.target;
+      const field =
+        Array.isArray(target) && target.includes("phone") ? "phone number" : "email";
+      return NextResponse.json(
+        { error: `That ${field} already belongs to another account.` },
+        { status: 409 },
+      );
+    }
+
     return NextResponse.json(
-      { error: "Could not save. The email or phone may already be in use." },
-      { status: 400 },
+      { error: "Could not save. Please try again." },
+      { status: 500 },
     );
   }
 
@@ -3609,25 +3646,36 @@ In `src/lib/auth.ts`, inside `authorize()`, after the `if (!user || !user.passwo
 In `src/lib/auth.ts`:
 
 1. Add `isActive: true` and `sessionsValidFrom: true` to the `PROFILE_SELECT` object.
+
+   **Do NOT add them to `CachedProfile` or to the `cache.profile = { … }` assignment.** They are read fresh on every refresh purely to decide revocation, and are then discarded. Caching them would be worse than useless: a cached `isActive: true` is exactly the stale value the whole mechanism exists to avoid trusting, and `sessionsValidFrom` is a `Date`, which does not belong in a JWT payload. `CachedProfile` holds display data only — the existing assignment lists its fields explicitly, so leave that list alone and the two new fields will correctly stay out of the token.
 2. Import the rule: `import { isSessionRevoked } from "@/lib/account-status";`
-3. Inside the `jwt` callback's `try` block, immediately after `if (profile) {`, add the revocation check before the cache is written:
+3. Inside the `jwt` callback's `try` block, handle BOTH the missing-user case and the revoked case. Replace the bare `if (profile) {` with:
 
 ```ts
-          // Suspension and force sign-out have to bite on a token that is
-          // already live, not only at the next sign-in. This runs at most once
-          // per PROFILE_TTL_MS, so the delay is bounded by that.
-          if (isSessionRevoked(profile, token.iat as number | undefined)) {
-            return null;
-          }
+        // A user row that no longer exists has no session. `findUnique`
+        // returning null is authoritative here: a database outage THROWS and
+        // is caught below, keeping the cached profile, so null means the row
+        // is genuinely gone — deleted. Without this, a deleted student's token
+        // stays valid until it expires, while a merely suspended student's is
+        // revoked within the TTL — the more severe action getting the weaker
+        // enforcement.
+        if (!profile) return null;
+
+        // Suspension and force sign-out have to bite on a token that is
+        // already live, not only at the next sign-in. This runs at most once
+        // per PROFILE_TTL_MS, so the delay is bounded by that.
+        if (isSessionRevoked(profile, token.iat)) {
+          return null;
+        }
 ```
 
-**Before writing this, confirm how this next-auth version signals an invalid token from the `jwt` callback.** Returning `null` is the documented v5 behaviour, but this project pins a beta (`next-auth@^5.0.0-beta.32`). Check the installed types:
+and de-indent the `cache.profile = { … }` / `cache.profileAt = …` assignments out of the old `if (profile)` block, since the early return now guarantees `profile` is non-null.
 
-```bash
-grep -rn "jwt?:" node_modules/next-auth/lib/types.d.ts node_modules/@auth/core/types.d.ts 2>/dev/null | head
-```
+**Why the ordering matters:** the `!profile` check must sit INSIDE the existing `try`, so that a thrown database error still reaches the `catch` and keeps the cached profile. Moving it outside would turn an outage into a mass sign-out.
 
-If the signature does not permit `null`, use whatever the installed types do permit and leave a comment recording what was checked.
+**Contract already verified against the installed beta — returning `null` is correct.** `node_modules/@auth/core/index.d.ts:331` types the callback as `jwt?: (params: {...}) => Awaitable<JWT | null>`, so `return null` is permitted and is how an invalid token is signalled.
+
+`token.iat` needs **no cast**: `DefaultJWT` declares `iat?: number` (`node_modules/@auth/core/jwt.d.ts:82`), so it is already `number | undefined` — exactly the second parameter `isSessionRevoked` expects.
 
 The existing `catch` around the profile fetch must stay exactly as it is — it keeps the cached profile on a database failure rather than throwing. A database outage must sign nobody out.
 
@@ -3761,17 +3809,68 @@ npm test
 npm run dev
 ```
 
-Then, in two browsers:
+**The two-browser test cannot be run from here** — it needs a student's password, which nobody working this plan has. It is handed to the repository owner as a follow-up (see "Owner follow-up" below). In its place, prove the same chain in two halves: the data half by execution, the wiring half by inspection.
 
-1. Sign in as a student in browser A and confirm the dashboard loads.
-2. In browser B (admin), suspend that student with a reason.
-3. In browser A, navigate — within 60 seconds the student must be signed out. **This is the critical assertion of this task.** If they stay signed in past a minute, the `jwt` callback change is not taking effect; do not proceed.
-4. Try to sign in again as that student — it must fail.
-5. Reactivate from browser B, then sign in as the student again — it must succeed.
-6. Confirm the audit rows:
-   ```sql
-   SELECT action, summary FROM "AdminAudit" WHERE action LIKE 'student.%' ORDER BY "createdAt" DESC LIMIT 5;
-   ```
+**6a. Data half — execute it against the real database.** Write a THROWAWAY script (do not commit it; delete it when done) that wraps everything in an interactive transaction and throws at the end so it ROLLS BACK, leaving no student actually suspended:
+
+```ts
+// scripts/zz-suspension-check.mts — temporary, delete after running
+import { PrismaClient } from "@prisma/client";
+import { isSessionRevoked } from "../src/lib/account-status";
+
+const db = new PrismaClient();
+const PROFILE = { isActive: true, sessionsValidFrom: true } as const;
+const IAT = Math.floor(Date.now() / 1000);
+
+await db
+  .$transaction(async (tx) => {
+    const s = await tx.user.findFirstOrThrow({ where: { role: "STUDENT" }, select: { id: true } });
+
+    const before = await tx.user.findUniqueOrThrow({ where: { id: s.id }, select: PROFILE });
+    console.log("active   ->", isSessionRevoked(before, IAT), "(expect false)");
+
+    await tx.user.update({
+      where: { id: s.id },
+      data: { isActive: false, suspendedAt: new Date(), suspendedReason: "rollback probe" },
+    });
+    const after = await tx.user.findUniqueOrThrow({ where: { id: s.id }, select: PROFILE });
+    console.log("suspended->", isSessionRevoked(after, IAT), "(expect true)");
+
+    await tx.user.update({
+      where: { id: s.id },
+      data: { isActive: true, suspendedAt: null, suspendedReason: null, sessionsValidFrom: new Date() },
+    });
+    const revoked = await tx.user.findUniqueOrThrow({ where: { id: s.id }, select: PROFILE });
+    console.log("signed-out->", isSessionRevoked(revoked, IAT), "(expect true)");
+    console.log("fresh token->", isSessionRevoked(revoked, IAT + 120), "(expect false)");
+
+    throw new Error("ROLLBACK");
+  })
+  .catch((e) => {
+    if (e.message !== "ROLLBACK") throw e;
+    console.log("rolled back — no student left suspended");
+  })
+  .finally(() => db.$disconnect());
+```
+
+Expected: `false`, `true`, `true`, `false`, then the rollback line. That proves the columns, the `PROFILE_SELECT` shape and the revocation rule agree against real data — including that a token issued after a force sign-out survives, so an account is not permanently locked out. Confirm afterwards that the student is still active:
+
+```sql
+SELECT "isActive", "suspendedReason" FROM "User" WHERE role = 'STUDENT';
+```
+
+**6b. Wiring half — quote the three lines in your report.** The parts only NextAuth can exercise:
+1. `authorize()` returns `null` when `!user.isActive`.
+2. `PROFILE_SELECT` contains BOTH `isActive: true` and `sessionsValidFrom: true`.
+3. The `jwt` callback calls `isSessionRevoked(profile, token.iat)` and `return null`s on true — and the existing `catch` that keeps the cached profile on a database failure is UNCHANGED, so an outage signs nobody out.
+
+**6c. Audit rows.** Suspend and reactivate a student through the admin UI (this is reversible and leaves the account active), then:
+
+```sql
+SELECT action, summary FROM "AdminAudit" WHERE action LIKE 'student.%' ORDER BY "createdAt" DESC LIMIT 5;
+```
+
+**Owner follow-up (cannot be automated):** with a known student login, sign in as that student in browser A, suspend them from the admin in browser B, and confirm browser A is signed out within 60 seconds; then confirm they cannot sign in again, and that reactivating restores access. This is the only step that exercises the live token path end to end.
 
 - [ ] **Step 7: Commit**
 
@@ -3901,7 +4000,7 @@ export async function DELETE(
     }`,
   });
 
-  await db.user.delete({ where: { id } });
+  await deleteStudent(id);
 
   return NextResponse.json({ ok: true });
 }
@@ -3910,11 +4009,10 @@ export async function DELETE(
 Add the imports this handler needs at the top of the file:
 
 ```ts
-import { db } from "@/lib/db";
-import { getStudentDeletionImpact } from "@/lib/admin-student-data";
+import { deleteStudent, getStudentDeletionImpact } from "@/lib/admin-student-data";
 ```
 
-(`deleteStudent` from Step 1 is equivalent; call `db.user.delete` directly here or swap in `deleteStudent(id)` — pick one and use it consistently.)
+Use the `deleteStudent` helper from Step 1 rather than calling `db.user.delete` inline. Both work, but routing every student write through `admin-student-data.ts` is what keeps this plan's lib split intact — a route file importing `db` directly is the first crack in it. The route should not import `db` at all.
 
 - [ ] **Step 4: Add both controls to the danger zone**
 
@@ -4052,14 +4150,23 @@ Signed in as the **owner**:
 2. Open the delete control — the impact list shows real counts; the button stays disabled until the name is typed exactly.
 3. Delete a throwaway test account — you are returned to the list and it is gone.
 
-Signed in as a **non-owner admin**: the force sign-out and delete controls are absent, and calling the routes directly is refused:
+**The non-owner 403 path — verify by inspection, not by signing in.** This database currently holds exactly one admin, the owner, so there is no non-owner account to sign in as. Do **not** create one to run this check: adding an admin to the live database is a side effect outside this task's scope.
+
+Verify instead, and record each in the report:
+
+1. Both owner-only route files call `requireOwnerApi()` as their FIRST statement and return `guard.response` when `!guard.ok` — read `src/app/admin/api/students/[id]/force-signout/route.ts` and the `DELETE` handler in `src/app/admin/api/students/[id]/route.ts` and quote the lines.
+2. The detail page passes `canForceSignOutStudent(admin)` and `canDeleteStudent(admin)` into `StudentDangerZone`, and that component renders each control only when its flag is true.
+3. `scripts/test-admin-access.mts` already pins both predicates as false for a non-owner and false for a deactivated owner (added in Task 7, reviewed clean). Re-run that file and cite the result.
+
+Together these show the refusal is enforced server-side regardless of what the UI shows. If the owner later creates a second admin at `/admin/team`, the live `curl` check is worth running then:
 
 ```bash
 curl -i -X DELETE http://localhost:3000/admin/api/students/<id> \
   -H "Cookie: prepwell.admin-session=<non-owner session cookie>"
+# Expected: 403
 ```
 
-Expected: `403`. Then confirm the audit rows exist for both actions.
+Then confirm the audit rows exist for both actions.
 
 - [ ] **Step 6: Commit**
 
@@ -4315,6 +4422,14 @@ export async function listAuditEntries(
             ...(filter.from ? { gte: filter.from } : {}),
             // The `to` date is a day, so include everything within it rather
             // than stopping at midnight and silently dropping that day's rows.
+            //
+            // Both bounds are UTC: `new Date("2026-08-01")` parses as UTC
+            // midnight, so in WAT (+01:00) a day runs 01:00 to 00:59 local.
+            // An action logged at 00:30 local therefore falls under the
+            // previous day's filter. Acceptable for a coarse date-range
+            // filter over a log that also shows each row's exact timestamp;
+            // fixing it properly means resolving the admin's timezone rather
+            // than assuming one, which is not worth it here.
             ...(filter.to
               ? { lte: new Date(filter.to.getTime() + 24 * 60 * 60 * 1000 - 1) }
               : {}),
@@ -4323,24 +4438,29 @@ export async function listAuditEntries(
       : {}),
   };
 
-  const [total, entries] = await Promise.all([
-    db.adminAudit.count({ where }),
-    db.adminAudit.findMany({
-      where,
-      select: {
-        id: true,
-        action: true,
-        entity: true,
-        entityId: true,
-        summary: true,
-        createdAt: true,
-        actor: { select: { email: true, username: true } },
-      },
-      orderBy: { createdAt: "desc" },
-      skip: (filter.page - 1) * AUDIT_PAGE_SIZE,
-      take: AUDIT_PAGE_SIZE,
-    }),
-  ]);
+  // Counted FIRST, not in parallel with the fetch — same rule as listStudents.
+  // Skipping by an unclamped page walks past the end of the log and renders
+  // "no matching activity" over a log full of entries, which reads as "nothing
+  // happened" rather than "your page number is out of range".
+  const total = await db.adminAudit.count({ where });
+  const totalPages = Math.max(1, Math.ceil(total / AUDIT_PAGE_SIZE));
+  const page = Math.min(Math.max(1, filter.page), totalPages);
+
+  const entries = await db.adminAudit.findMany({
+    where,
+    select: {
+      id: true,
+      action: true,
+      entity: true,
+      entityId: true,
+      summary: true,
+      createdAt: true,
+      actor: { select: { email: true, username: true } },
+    },
+    orderBy: { createdAt: "desc" },
+    skip: (page - 1) * AUDIT_PAGE_SIZE,
+    take: AUDIT_PAGE_SIZE,
+  });
 
   return {
     total,

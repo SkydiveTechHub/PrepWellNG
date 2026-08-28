@@ -38,6 +38,40 @@ export function canDeactivate(
   return !target.isOwner;
 }
 
+/**
+ * Student capabilities.
+ *
+ * Two levels, not a role enum: the reversible actions are every active admin's,
+ * the irreversible ones are the owner's. Hiding a control in the UI is
+ * presentation — the routes call these too.
+ */
+
+export function canEditStudent(
+  actor: Pick<AdminPrincipal, "isActive"> | null,
+): boolean {
+  return canAccessConsole(actor);
+}
+
+/** Reversible, so it is not held back to the owner. */
+export function canSuspendStudent(
+  actor: Pick<AdminPrincipal, "isActive"> | null,
+): boolean {
+  return canAccessConsole(actor);
+}
+
+/** Cascades across progress, attempts, mastery and flashcards. Owner only. */
+export function canDeleteStudent(
+  actor: Pick<AdminPrincipal, "isActive" | "isOwner"> | null,
+): boolean {
+  return canManageAdmins(actor);
+}
+
+export function canForceSignOutStudent(
+  actor: Pick<AdminPrincipal, "isActive" | "isOwner"> | null,
+): boolean {
+  return canManageAdmins(actor);
+}
+
 export type Identifier = { email: string } | { username: string };
 
 const USERNAME_RE = /^[a-z0-9._-]{3,32}$/;

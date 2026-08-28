@@ -3,7 +3,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { ADMIN_NAV } from "@/lib/admin-nav";
+import { mobileBarItems, visibleGroups } from "@/lib/admin-nav";
+import { AdminNavMore } from "@/components/admin/admin-nav-more";
+
+const LABEL_CLS = "text-[11px] font-semibold uppercase tracking-wider text-muted";
 
 export function AdminNav({
   variant,
@@ -18,8 +21,6 @@ export function AdminNav({
   // is on "Questions › Import", and "Overview" on every admin page.
   const isActive = (href: string) => pathname === href;
 
-  const items = ADMIN_NAV.filter((item) => !item.ownerOnly || isOwner);
-
   if (variant === "mobile") {
     return (
       <nav
@@ -27,7 +28,7 @@ export function AdminNav({
         className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-card lg:hidden"
       >
         <div className="flex items-center justify-around py-2">
-          {items.map((item) => (
+          {mobileBarItems(isOwner).map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -42,34 +43,42 @@ export function AdminNav({
               {item.name}
             </Link>
           ))}
+          <AdminNavMore isOwner={isOwner} />
         </div>
       </nav>
     );
   }
 
   return (
-    <nav aria-label="Admin" className="space-y-0.5 p-3">
-      {items.map((item) => (
-        <Link
-          key={item.href}
-          href={item.href}
-          aria-current={isActive(item.href) ? "page" : undefined}
-          className={cn(
-            "relative flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-semibold transition-colors",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60",
-            isActive(item.href)
-              ? "bg-secondary text-foreground"
-              : "text-muted hover:bg-secondary hover:text-foreground",
-          )}
-        >
-          {isActive(item.href) && (
-            // A left rule rather than the student app's soft pill — the admin
-            // reads as an instrument panel.
-            <span className="absolute left-0 top-1/2 h-5 w-0.5 -translate-y-1/2 rounded-r bg-primary" />
-          )}
-          <item.icon className="h-4 w-4 flex-shrink-0" />
-          {item.name}
-        </Link>
+    <nav aria-label="Admin" className="space-y-5 p-3">
+      {visibleGroups(isOwner).map((group) => (
+        <div key={group.label}>
+          <p className={cn(LABEL_CLS, "px-3 pb-1.5")}>{group.label}</p>
+          <div className="space-y-0.5">
+            {group.items.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={isActive(item.href) ? "page" : undefined}
+                className={cn(
+                  "relative flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-semibold transition-colors",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60",
+                  isActive(item.href)
+                    ? "bg-secondary text-foreground"
+                    : "text-muted hover:bg-secondary hover:text-foreground",
+                )}
+              >
+                {isActive(item.href) && (
+                  // A left rule rather than the student app's soft pill — the
+                  // admin reads as an instrument panel.
+                  <span className="absolute left-0 top-1/2 h-5 w-0.5 -translate-y-1/2 rounded-r bg-primary" />
+                )}
+                <item.icon className="h-4 w-4 flex-shrink-0" />
+                {item.name}
+              </Link>
+            ))}
+          </div>
+        </div>
       ))}
     </nav>
   );

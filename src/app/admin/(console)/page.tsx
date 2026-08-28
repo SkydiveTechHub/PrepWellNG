@@ -3,11 +3,16 @@ import { requireAdminPage } from "@/lib/admin-session";
 import { getAdminOverview } from "@/lib/admin-data";
 import { PageHeader } from "@/components/ui/page-header";
 import { StatusBanner } from "@/components/admin/status-banner";
+import {
+  AdminTable,
+  AdminTd,
+  AdminTh,
+  AdminTr,
+  TH_CLS,
+} from "@/components/admin/admin-table";
 import type { StatRow } from "@/lib/admin-stats";
 
 export const dynamic = "force-dynamic";
-
-const HEADING_CLS = "text-[11px] font-semibold uppercase tracking-wider text-muted";
 
 export default async function AdminOverviewPage() {
   // The layout's check does not re-run on client-side navigation between admin
@@ -79,7 +84,7 @@ export default async function AdminOverviewPage() {
           />
 
           <section>
-            <h2 className={HEADING_CLS}>Exam years covered</h2>
+            <h2 className={TH_CLS}>Exam years covered</h2>
             {examYears.length === 0 ? (
               <p className="mt-2 text-sm text-muted">None recorded</p>
             ) : (
@@ -100,7 +105,7 @@ export default async function AdminOverviewPage() {
           </section>
 
           <section>
-            <h2 className={HEADING_CLS}>Gaps</h2>
+            <h2 className={TH_CLS}>Gaps</h2>
             {!hasGaps ? (
               <StatusBanner
                 tone="success"
@@ -171,65 +176,52 @@ function StatTable({
 }) {
   return (
     <section>
-      <h2 className={HEADING_CLS}>{heading}</h2>
-      <div className="mt-2 overflow-hidden rounded-lg border border-border-strong bg-card">
-        <table className="w-full text-sm">
-          <caption className="sr-only">{caption}</caption>
-          <thead>
-            <tr className="border-b border-border-strong">
-              <th scope="col" className={`px-4 py-2.5 text-left ${HEADING_CLS}`}>
-                Name
-              </th>
+      <h2 className={TH_CLS}>{heading}</h2>
+      <AdminTable caption={caption} className="mt-2">
+        <thead>
+          <tr className="border-b border-border-strong">
+            <AdminTh>Name</AdminTh>
+            {extraColumn === "code" && <AdminTh>Code</AdminTh>}
+            <AdminTh align="right">Count</AdminTh>
+            <AdminTh align="right">Percent</AdminTh>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row) => (
+            <AdminTr key={row.key}>
+              <AdminTd>
+                <Link
+                  href={hrefFor(row.key)}
+                  aria-label={`${row.label} (${labelPrefix}): ${row.count} questions, ${row.percent} percent of total — view in questions list`}
+                  className="font-medium text-foreground hover:text-primary hover:underline"
+                >
+                  {row.label}
+                </Link>
+              </AdminTd>
               {extraColumn === "code" && (
-                <th scope="col" className={`px-4 py-2.5 text-left ${HEADING_CLS}`}>
-                  Code
-                </th>
+                <AdminTd className="text-muted">{codeByKey?.[row.key]}</AdminTd>
               )}
-              <th scope="col" className={`px-4 py-2.5 text-right ${HEADING_CLS}`}>
-                Count
-              </th>
-              <th scope="col" className={`px-4 py-2.5 text-right ${HEADING_CLS}`}>
-                Percent
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row) => (
-              <tr key={row.key} className="border-b border-border-strong last:border-0">
-                <td className="px-4 py-2.5">
-                  <Link
-                    href={hrefFor(row.key)}
-                    aria-label={`${row.label} (${labelPrefix}): ${row.count} questions, ${row.percent} percent of total — view in questions list`}
-                    className="font-medium text-foreground hover:text-primary hover:underline"
+              <AdminTd align="right" className="tabular-nums text-foreground">
+                {row.count}
+              </AdminTd>
+              <AdminTd align="right">
+                <div className="flex items-center justify-end gap-2">
+                  <div
+                    className="h-1.5 w-16 overflow-hidden rounded-lg bg-secondary"
+                    aria-hidden
                   >
-                    {row.label}
-                  </Link>
-                </td>
-                {extraColumn === "code" && (
-                  <td className="px-4 py-2.5 text-muted">{codeByKey?.[row.key]}</td>
-                )}
-                <td className="px-4 py-2.5 text-right tabular-nums text-foreground">
-                  {row.count}
-                </td>
-                <td className="px-4 py-2.5 text-right">
-                  <div className="flex items-center justify-end gap-2">
                     <div
-                      className="h-1.5 w-16 overflow-hidden rounded-lg bg-secondary"
-                      aria-hidden
-                    >
-                      <div
-                        className="h-full bg-primary"
-                        style={{ width: `${row.percent}%` }}
-                      />
-                    </div>
-                    <span className="tabular-nums text-muted">{row.percent}%</span>
+                      className="h-full bg-primary"
+                      style={{ width: `${row.percent}%` }}
+                    />
                   </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+                  <span className="tabular-nums text-muted">{row.percent}%</span>
+                </div>
+              </AdminTd>
+            </AdminTr>
+          ))}
+        </tbody>
+      </AdminTable>
     </section>
   );
 }

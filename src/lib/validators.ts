@@ -1,6 +1,8 @@
 import { z } from "zod";
 
 import { checkQuestionInvariants } from "@/lib/admin-question";
+import { SUBSCRIPTION_TIERS } from "@/lib/subscription";
+import { CLASS_LEVELS } from "@/lib/curriculum-scope";
 import { MAX_AWAY_EVENTS } from "@/components/assessment/exam-focus";
 
 // ─── Auth ─────────────────────────────────────────
@@ -338,6 +340,37 @@ export const adminStatusSchema = z.object({
   isActive: z.boolean(),
 });
 
+// ─── Admin students ───────────────────────────────
+
+// Email is optional because phone-only accounts exist, but a supplied value is
+// still validated — an admin correcting a typo must not be able to store a
+// second malformed one.
+export const studentProfileSchema = z.object({
+  firstName: z.string().trim().min(1, "First name is required"),
+  lastName: z.string().trim().min(1, "Last name is required"),
+  email: z.string().trim().toLowerCase().email("Enter a valid email").optional(),
+  phone: z.string().trim().min(7, "Enter a valid phone number").optional(),
+  classLevel: z.enum([...CLASS_LEVELS]).optional(),
+  track: z.enum(["SCIENCE", "ARTS", "COMMERCIAL"]).optional(),
+  state: z.string().trim().min(1).optional(),
+});
+
+// A reason is required to suspend and meaningless to reactivate. An audit row
+// reading "suspended, no reason given" helps nobody three months later.
+export const studentStatusSchema = z
+  .object({
+    isActive: z.boolean(),
+    reason: z.string().trim().min(3).max(500).optional(),
+  })
+  .refine((value) => value.isActive || Boolean(value.reason), {
+    message: "A reason is required when suspending an account",
+    path: ["reason"],
+  });
+
+export const studentTierSchema = z.object({
+  tier: z.enum(SUBSCRIPTION_TIERS),
+});
+
 // Type exports
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
@@ -354,3 +387,4 @@ export type ToggleEnrollmentInput = z.infer<typeof toggleEnrollmentSchema>;
 export type CreateFlashcardDeckInput = z.infer<typeof createFlashcardDeckSchema>;
 export type CreateAdminInput = z.infer<typeof createAdminSchema>;
 export type AdminStatusInput = z.infer<typeof adminStatusSchema>;
+export type StudentProfileInput = z.infer<typeof studentProfileSchema>;
