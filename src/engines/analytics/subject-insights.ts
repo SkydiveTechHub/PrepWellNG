@@ -45,7 +45,7 @@ export function subjectInsights(input: {
       topicId: topic.topicId,
       headline: isBottleneck
         ? `${topic.title} is holding up other topics you need.`
-        : `${topic.title} is your weakest topic here, at ${Math.round(topic.mastery)}% mastery.`,
+        : `${topic.title} needs work — you're at ${Math.round(topic.mastery)}% mastery here.`,
       action: {
         label: "Practise this topic",
         href: `/practice/past-questions?topic=${topic.slug}`,

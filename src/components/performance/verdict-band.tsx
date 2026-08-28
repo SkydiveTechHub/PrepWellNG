@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import type { SubjectVerdict } from "@/lib/analytics/subject-view";
+import { MIN_GRADED_ANSWERS, type SubjectVerdict } from "@/lib/analytics/subject-view";
 
 function gradeVariant(grade: string): "green" | "blue" | "amber" | "orange" | "red" {
   switch (grade) {
@@ -9,6 +9,22 @@ function gradeVariant(grade: string): "green" | "blue" | "amber" | "orange" | "r
     case "D": return "orange";
     default: return "red";
   }
+}
+
+/** "an A", "a B" — the vowel sound is in the letter's name, not its spelling. */
+function gradeArticle(grade: string): "a" | "an" {
+  return grade === "A" || grade === "F" ? "an" : "a";
+}
+
+function verdictSentence(verdict: SubjectVerdict, subjectName: string): string {
+  if (verdict.answered === 0) {
+    return `You haven't answered any ${subjectName} questions yet.`;
+  }
+  if (verdict.accuracy === null || verdict.grade === null) {
+    const remaining = MIN_GRADED_ANSWERS - verdict.answered;
+    return `You've answered ${verdict.answered} ${verdict.answered === 1 ? "question" : "questions"} in ${subjectName} so far — answer ${remaining} more and I'll show you a grade.`;
+  }
+  return `You're at ${Math.round(verdict.accuracy)}% accuracy in ${subjectName} across ${verdict.answered} ${verdict.answered === 1 ? "question" : "questions"} — ${gradeArticle(verdict.grade)} ${verdict.grade}.`;
 }
 
 export function VerdictBand({
@@ -39,9 +55,7 @@ export function VerdictBand({
     <section className="card p-5">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <p className="max-w-prose text-sm font-semibold leading-relaxed text-foreground">
-          {verdict.accuracy === null
-            ? `You haven't answered any ${subjectName} questions yet.`
-            : `You're at ${Math.round(verdict.accuracy)}% accuracy in ${subjectName} across ${verdict.answered} ${verdict.answered === 1 ? "question" : "questions"} — a ${verdict.grade}.`}
+          {verdictSentence(verdict, subjectName)}
         </p>
         {verdict.grade && (
           <Badge variant={gradeVariant(verdict.grade)}>{verdict.grade}</Badge>

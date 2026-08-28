@@ -21,7 +21,7 @@ export function ProfileBand({ profile }: { profile: Profile }) {
         <p className="text-sm text-muted">
           Answer {profile.needed - profile.answered} more{" "}
           {profile.needed - profile.answered === 1 ? "question" : "questions"} here and
-          you'll see how you do by difficulty, and whether your pace would survive a
+          you&apos;ll see how you do by difficulty, and whether your pace would survive a
           timed paper.
         </p>
       </div>

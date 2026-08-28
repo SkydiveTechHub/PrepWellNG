@@ -61,6 +61,10 @@ test("names the weak topics", () => {
   assert.equal(weak.length, 2, "at most the top two weak topics are named");
   assert.ok(weak[0].headline.includes("Topic t1"));
   assert.equal(weak[0].topicId, "t1");
+  assert.ok(weak[1].headline.includes("Topic t2"));
+  // The list is ordered by leverage, not by mastery, so no row may claim to be
+  // the weakest — two rows would both claim it.
+  assert.ok(weak.every((i) => !/weakest/i.test(i.headline)));
 });
 
 test("a bottleneck outranks a plain weakness", () => {
