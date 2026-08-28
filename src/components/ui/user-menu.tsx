@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { LuSettings, LuLogOut, LuChevronDown } from "react-icons/lu";
 import { Avatar } from "./avatar";
 import { cn } from "@/lib/utils";
+import { useExamActive } from "@/components/assessment/exam-active";
 
 export type ProfileUser = {
   firstName?: string | null;
@@ -40,15 +41,29 @@ export function UserMenu({
 }) {
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const examActive = useExamActive();
+  /**
+   * Sign out is a button, so the exam's link guard never sees it. Rather than
+   * reach a modal across the tree, mid-exam it simply asks twice — enough that
+   * a mistap can't end a paper, and nothing at all in the way otherwise.
+   */
+  const [armedSignOut, setArmedSignOut] = useState(false);
+  /** Derived, so finishing the exam drops the second step on its own. */
+  const confirmingSignOut = armedSignOut && examActive;
+
+  const closeMenu = useCallback(() => {
+    setOpen(false);
+    setArmedSignOut(false);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
 
     function onPointerDown(event: MouseEvent) {
-      if (!containerRef.current?.contains(event.target as Node)) setOpen(false);
+      if (!containerRef.current?.contains(event.target as Node)) closeMenu();
     }
     function onKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key === "Escape") closeMenu();
     }
 
     document.addEventListener("mousedown", onPointerDown);
@@ -57,9 +72,13 @@ export function UserMenu({
       document.removeEventListener("mousedown", onPointerDown);
       document.removeEventListener("keydown", onKeyDown);
     };
-  }, [open]);
+  }, [open, closeMenu]);
 
   async function handleSignOut() {
+    if (examActive && !confirmingSignOut) {
+      setArmedSignOut(true);
+      return;
+    }
     const { signOut } = await import("next-auth/react");
     signOut({ callbackUrl: "/login" });
   }
@@ -71,7 +90,7 @@ export function UserMenu({
     <div ref={containerRef} className="relative">
       <button
         type="button"
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => (open ? closeMenu() : setOpen(true))}
         aria-haspopup="menu"
         aria-expanded={open}
         aria-label="Account menu"
@@ -134,7 +153,8 @@ export function UserMenu({
           <Link
             href="/settings"
             role="menuitem"
-            onClick={() => setOpen(false)}
+            prefetch={examActive ? false : undefined}
+            onClick={closeMenu}
             className="flex items-center gap-2.5 px-3 py-2 text-sm text-foreground hover:bg-secondary transition-colors"
           >
             <LuSettings className="w-4 h-4 text-muted" />
@@ -147,9 +167,15 @@ export function UserMenu({
             onClick={handleSignOut}
             className="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-danger hover:bg-secondary transition-colors"
           >
-            <LuLogOut className="w-4 h-4" />
-            Sign out
+            <LuLogOut className="w-4 h-4 flex-shrink-0" />
+            {confirmingSignOut ? "Sign out mid-exam?" : "Sign out"}
           </button>
+          {confirmingSignOut && (
+            <p className="px-3 pb-2 text-xs leading-relaxed text-muted">
+              Your answers are saved — tap again to sign out, or close this menu
+              to keep going.
+            </p>
+          )}
         </div>
       )}
     </div>

@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { checkQuestionInvariants } from "@/lib/admin-question";
+import { MAX_AWAY_EVENTS } from "@/components/assessment/exam-focus";
 
 // ─── Auth ─────────────────────────────────────────
 

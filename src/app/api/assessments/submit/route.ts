@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
 
     const { attemptId, answers, practiceExit } = parsed.data;
 
-    const outcome = await submitAttempt(studentId, attemptId, answers);
+    const outcome = await submitAttempt(studentId, attemptId, answers, awayEvents);
 
     if (outcome.outcome === "not-found") {
       return NextResponse.json(
