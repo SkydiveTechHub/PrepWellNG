@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { LuTarget, LuChevronRight, LuTriangleAlert, LuGauge, LuLayers, LuFileCheck } from "react-icons/lu";
+import { LuTarget, LuChevronRight, LuGauge, LuLayers, LuFileCheck } from "react-icons/lu";
 import { auth } from "@/lib/auth";
 import { getGrade, getPerformanceData } from "@/lib/performance";
 import { Badge } from "@/components/ui/badge";
@@ -86,16 +86,13 @@ export default async function PerformancePage() {
             <h2 className="section-label mb-4">Subject Performance</h2>
             <div className="space-y-4">
               {data.subjectMetrics.map((metric) => {
-                const weakEntry = data.subjectWeakTopics.find(
-                  (w) => w.subject.slug === metric.subjectSlug
-                );
                 const accuracy = Math.round(metric.accuracy);
                 const grade = getGrade(accuracy);
 
                 return (
                   <div key={metric.subjectCode} className="card overflow-hidden">
                     <Link
-                      href={`/classroom/${metric.subjectSlug}`}
+                      href={`/performance/subjects?subject=${metric.subjectSlug}`}
                       className="block p-5 transition-colors hover:bg-secondary/40"
                     >
                       <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
@@ -121,31 +118,6 @@ export default async function PerformancePage() {
                       </div>
                       <Progress value={accuracy} tone="auto" />
                     </Link>
-
-                    {weakEntry && weakEntry.topics.length > 0 && (
-                      <div className="border-t border-border bg-secondary/30 px-5 py-4">
-                        <p className="mb-2.5 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-muted">
-                          <LuTriangleAlert className="h-3.5 w-3.5 text-warning" />
-                          Topics to improve
-                        </p>
-                        <div className="grid grid-cols-1 gap-1.5 sm:grid-cols-2">
-                          {weakEntry.topics.map((topic) => (
-                            <Link
-                              key={topic.slug}
-                              href={`/practice/past-questions?topic=${topic.slug}`}
-                              className="group flex items-center justify-between gap-2 rounded-xl border border-border bg-card px-3 py-2 transition-colors hover:border-primary/30"
-                            >
-                              <span className="truncate text-xs font-medium text-foreground">
-                                {topic.title}
-                              </span>
-                              <Badge variant="red" className="flex-shrink-0">
-                                {topic.wrongCount} wrong
-                              </Badge>
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-                    )}
                   </div>
                 );
               })}
