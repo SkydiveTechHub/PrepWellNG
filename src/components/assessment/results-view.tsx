@@ -71,11 +71,18 @@ type ResultData = {
   gradeRemark: string;
   isCredit: boolean;
   timeSpentSeconds: number;
+  /** How many times the student left the exam. Shown on high-stakes types only. */
+  awayEvents?: number;
   totalQuestions: number;
   correctCount: number;
   results: QuestionResult[];
   topicBreakdown: TopicBreakdown[];
 };
+
+// High-stakes papers only. A ten-question topic quiz that flags a student for
+// taking a phone call is noise, and noise is what teaches people to ignore a
+// flag when it matters.
+const FLAGGED_TYPES = ["MOCK_EXAM", "CBT_PRACTICE", "PAST_PAPER"];
 
 function formatDuration(seconds: number): string {
   const mins = Math.floor(seconds / 60);
@@ -156,6 +163,10 @@ export function ResultsView({ result }: { result: ResultData }) {
     : filteredResults.slice(0, 10);
 
   const cheer = encouragement(result.percentage);
+
+  const awayEvents = result.awayEvents ?? 0;
+  const showAwayEvents =
+    awayEvents > 0 && FLAGGED_TYPES.includes(result.assessmentType);
 
   return (
     <div className="mx-auto max-w-3xl space-y-6 animate-fade-in">
@@ -276,6 +287,13 @@ export function ResultsView({ result }: { result: ResultData }) {
               </p>
             </div>
           </div>
+
+          {showAwayEvents && (
+            <p className="mt-3 rounded-xl border border-border bg-card px-3 py-2 text-center text-xs font-medium text-muted">
+              Left the exam{" "}
+              {awayEvents === 1 ? "once" : `${awayEvents} times`}.
+            </p>
+          )}
 
           {/* Actions */}
           <div className="mt-6 flex flex-wrap gap-3">

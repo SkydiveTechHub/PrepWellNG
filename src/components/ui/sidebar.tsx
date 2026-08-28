@@ -10,6 +10,7 @@ import {
   BRAND,
 } from "@/lib/navigation";
 import { LuCalendarDays } from "react-icons/lu";
+import { useExamActive } from "@/components/assessment/exam-active";
 
 export function Sidebar({
   user,
@@ -28,11 +29,17 @@ export function Sidebar({
     return pathname === href || (href !== "/" && pathname.startsWith(href));
   }
 
+  // Mid-exam every one of these sits behind a "leave this exam?" prompt, so
+  // prefetching them spends the student's data on a route we are talking them
+  // out of. Undefined rather than true off-exam, to keep Next's own default.
+  const prefetch = useExamActive() ? false : undefined;
+
   return (
     <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-border bg-card lg:flex">
       {/* Brand */}
       <Link
         href="/dashboard"
+        prefetch={prefetch}
         className="flex items-center gap-2.5 border-b border-border px-6 py-5"
       >
         <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-brand shadow-soft">
@@ -62,6 +69,7 @@ export function Sidebar({
                   <Link
                     key={item.href}
                     href={item.href}
+                    prefetch={prefetch}
                     aria-current={active ? "page" : undefined}
                     className={cn(
                       "group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-colors",
@@ -92,6 +100,7 @@ export function Sidebar({
         {/* Settings */}
         <Link
           href={SETTINGS_ITEM.href}
+          prefetch={prefetch}
           aria-current={isActive(SETTINGS_ITEM.href) ? "page" : undefined}
           className={cn(
             "group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-colors",

@@ -46,6 +46,12 @@ function typeLabel(cardType: string): string {
   return CARD_TYPE_LABEL[cardType as FlashcardType] ?? cardType;
 }
 
+/** Finished beats read-through beats part-read, so the best cards come first. */
+function rank(lesson: TakenLesson): number {
+  if (lesson.completed) return 2;
+  return lesson.completionPercent >= 100 ? 1 : 0;
+}
+
 /**
  * Turns a lesson the student has taken into a deck.
  *
@@ -79,7 +85,7 @@ export function GenerateDeckForm({ lessons }: { lessons: TakenLesson[] }) {
         : lessons
     )
       .slice()
-      .sort((a, b) => Number(b.completed) - Number(a.completed));
+      .sort((a, b) => rank(b) - rank(a));
 
     const bySubject = new Map<string, Map<string, TakenLesson[]>>();
     for (const lesson of matches) {
@@ -275,6 +281,8 @@ export function GenerateDeckForm({ lessons }: { lessons: TakenLesson[] }) {
                               </Badge>
                             ) : lesson.completed ? (
                               <Badge variant="green">Finished</Badge>
+                            ) : lesson.completionPercent >= 100 ? (
+                              <Badge variant="blue">Read</Badge>
                             ) : (
                               <Badge variant="neutral">
                                 {Math.round(lesson.completionPercent)}% read

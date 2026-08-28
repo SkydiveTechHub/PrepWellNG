@@ -3,6 +3,7 @@
 // guard a student's two hours of work can be tested directly.
 
 import { UNTIMED_STALE_HOURS } from "@/lib/attempt-timing";
+import { sanitiseAwayCount } from "./exam-focus";
 
 const UNTIMED_STALE_MS = UNTIMED_STALE_HOURS * 60 * 60 * 1000;
 
@@ -54,6 +55,14 @@ export type StoredSession = SessionData & {
   v: number;
   answers: AnswerMap;
   currentIndex: number;
+  /**
+   * How many times the student has left the exam so far.
+   *
+   * Optional on the wire and defaulted on read, deliberately: bumping
+   * STORAGE_VERSION to make it required would discard every in-progress exam
+   * on the deploy that shipped it.
+   */
+  awayEvents: number;
 };
 
 export const STORAGE_PREFIX = "prepwell:exam:";
@@ -127,7 +136,7 @@ export function parseStoredSession(
     if (now - parsed.startedAt > UNTIMED_STALE_MS) return null;
   }
   if (!parsed.answers || typeof parsed.answers !== "object") return null;
-  return parsed;
+  return { ...parsed, awayEvents: sanitiseAwayCount(parsed.awayEvents) };
 }
 
 /** Clamps a restored cursor into range for the restored question list. */

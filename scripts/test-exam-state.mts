@@ -54,6 +54,7 @@ function storedSession(
     startedAt: NOW,
     answers: emptyAnswers(questions),
     currentIndex: 0,
+    awayEvents: 0,
     ...overrides,
   };
 }
@@ -190,6 +191,28 @@ test("a stored session from the previous STORAGE_VERSION is rejected", () => {
   // rather than misreading them as having no start time.
   const session = storedSession({ v: STORAGE_VERSION - 1 });
   assert.equal(parseStoredSession(JSON.stringify(session), NOW), null);
+});
+
+test("parseStoredSession defaults awayEvents on a session stored before the field existed", () => {
+  // A session written by the client that shipped before this field existed. The
+  // key is absent entirely, which is exactly what a live resume will look like
+  // on the deploy that adds it.
+  const { awayEvents, ...legacy } = storedSession();
+  assert.equal(parseStoredSession(JSON.stringify(legacy), NOW)?.awayEvents, 0);
+});
+
+test("parseStoredSession keeps a stored awayEvents count", () => {
+  const session = storedSession({ awayEvents: 4 });
+  assert.equal(parseStoredSession(JSON.stringify(session), NOW)?.awayEvents, 4);
+});
+
+test("parseStoredSession does not discard a session over a corrupt awayEvents", () => {
+  // The count is worth far less than the answers it travels with: a bad value
+  // is floored to zero, never a reason to throw the session away.
+  const session = { ...storedSession(), awayEvents: "lots" };
+  const parsed = parseStoredSession(JSON.stringify(session), NOW);
+  assert.equal(parsed?.attemptId, "attempt_1");
+  assert.equal(parsed?.awayEvents, 0);
 });
 
 // ─── expiry and clock ──────────────────────────────────────

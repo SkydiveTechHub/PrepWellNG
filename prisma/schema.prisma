@@ -527,6 +527,8 @@ model AssessmentAttempt {
   percentage       Float?
   grade            String?
   status           AttemptStatus @default(IN_PROGRESS)
+  /// How many times the student left the exam. Client-reported; see the spec.
+  awayEvents       Int           @default(0)
 
   responses QuestionResponse[]
 

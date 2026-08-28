@@ -3,6 +3,7 @@ import { z } from "zod";
 import { checkQuestionInvariants } from "@/lib/admin-question";
 import { SUBSCRIPTION_TIERS } from "@/lib/subscription";
 import { CLASS_LEVELS } from "@/lib/curriculum-scope";
+import { MAX_AWAY_EVENTS } from "@/components/assessment/exam-focus";
 
 // ─── Auth ─────────────────────────────────────────
 
@@ -93,6 +94,13 @@ export const submitAssessmentSchema = z.object({
         new Set(answers.map((a) => a.questionId)).size === answers.length,
       { message: "Duplicate questionId in answers" }
     ),
+  // Set by the lesson practice exit so grading also records the lesson progress
+  // the attempt earned. Only slugs travel: the attempt's ownership and score are
+  // re-read server-side, so a forged pair can at most record against a topic the
+  // student is allowed to practise anyway.
+  practiceExit: z
+    .object({ subjectSlug: z.string().min(1), topicSlug: z.string().min(1) })
+    .optional(),
 });
 
 // JAMB CBT: English is added by the system, so only the other three are sent.

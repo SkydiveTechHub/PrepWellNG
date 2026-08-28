@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import { submitAssessmentSchema } from "@/lib/validators";
 import { submitAttempt } from "@/lib/assessment-submit";
 import { awardAchievements } from "@/lib/achievements";
+import { recordTopicPracticeResult } from "@/lib/topic-practice-result";
 
 export const dynamic = "force-dynamic";
 
@@ -28,9 +29,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { attemptId, answers } = parsed.data;
+    const { attemptId, answers, practiceExit } = parsed.data;
 
-    const outcome = await submitAttempt(studentId, attemptId, answers);
+    const outcome = await submitAttempt(studentId, attemptId, answers, awayEvents);
 
     if (outcome.outcome === "not-found") {
       return NextResponse.json(
@@ -58,6 +59,31 @@ export async function POST(req: NextRequest) {
           await awardAchievements(studentId);
         } catch (error) {
           console.error("Achievement check failed:", error);
+        }
+      });
+    }
+
+    // The lesson practice exit earns completion, mastery and a ledger event.
+    // This used to happen while rendering the result page, where a refresh
+    // re-recorded the attempt; grading is the write, so it belongs here. It runs
+    // on a replay too — recording is idempotent per attempt, and a student whose
+    // first submit was graded before a retry must still get their progress.
+    if (practiceExit) {
+      after(async () => {
+        try {
+          const recorded = await recordTopicPracticeResult(
+            studentId,
+            practiceExit.subjectSlug,
+            practiceExit.topicSlug,
+            attemptId,
+          );
+          if (recorded.status !== "ok") {
+            console.error(
+              `Practice exit not recorded (${recorded.status}) for attempt ${attemptId}`,
+            );
+          }
+        } catch (error) {
+          console.error("Practice exit recording failed:", error);
         }
       });
     }

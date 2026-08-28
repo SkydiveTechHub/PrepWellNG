@@ -1,5 +1,6 @@
 import type { Prisma, ProgressStatus } from "@prisma/client";
 import { db } from "./db";
+import { forwardOnlyProgress } from "./lesson-progress-rules";
 
 export type LessonProgressPatch = {
   status?: ProgressStatus;
@@ -15,6 +16,12 @@ export type LessonProgressPatch = {
  *
  * The lesson's subject and topic are resolved from the lesson itself rather
  * than trusted from the request. Returns `"lesson-not-found"` for an unknown id.
+ *
+ * Progress here only ever moves forward. The player posts `IN_PROGRESS` and a
+ * percentage derived from the cards visited *this sitting*, so without these
+ * guards re-opening a lesson would demote a COMPLETED row and reset its
+ * percentage to one card's worth. Completion is granted by the practice exit
+ * (`recordTopicPracticeResult`) and is not the player's to take away.
  */
 export async function saveLessonProgress(
   studentId: string,
@@ -34,10 +41,34 @@ export async function saveLessonProgress(
   const { status, completionPercent, checkpointData, masteryScore, timeSpentMinutes } =
     patch;
 
+  const key = {
+    studentId_subjectId_topicId_lessonId: {
+      studentId,
+      subjectId,
+      topicId,
+      lessonId,
+    },
+  };
+
+  const existing = await db.studentProgress.findUnique({
+    where: key,
+    select: { status: true, completionPercent: true, checkpointData: true },
+  });
+
+  const forward = forwardOnlyProgress(existing, {
+    status,
+    completionPercent,
+    checkpointData,
+  });
+
   const changed = {
-    ...(status !== undefined && { status }),
-    ...(completionPercent !== undefined && { completionPercent }),
-    ...(checkpointData !== undefined && { checkpointData }),
+    ...(forward.status !== undefined && { status: forward.status }),
+    ...(forward.completionPercent !== undefined && {
+      completionPercent: forward.completionPercent,
+    }),
+    ...(forward.checkpointData !== undefined && {
+      checkpointData: forward.checkpointData as Prisma.InputJsonValue,
+    }),
     // masteryScore written here is NOT evidence. Since the learning evidence
     // layer landed, mastery is derived from the LearningEvent ledger, not from
     // this column. Nothing currently posts masteryScore; if you wire a client
@@ -50,14 +81,7 @@ export async function saveLessonProgress(
   };
 
   return db.studentProgress.upsert({
-    where: {
-      studentId_subjectId_topicId_lessonId: {
-        studentId,
-        subjectId,
-        topicId,
-        lessonId,
-      },
-    },
+    where: key,
     create: {
       studentId,
       subjectId,

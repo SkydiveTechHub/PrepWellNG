@@ -44,6 +44,7 @@ export async function submitAttempt(
   studentId: string,
   attemptId: string,
   answers: SubmittedAnswer[],
+  awayEvents = 0,
 ): Promise<SubmitAttemptResult> {
   const attempt = await db.assessmentAttempt.findFirst({
     where: { id: attemptId, studentId },
@@ -185,6 +186,7 @@ export async function submitAttempt(
         percentage,
         grade: gradeInfo.grade,
         timeSpentSeconds: timing.timeSpentSeconds,
+        awayEvents,
       },
     });
 
