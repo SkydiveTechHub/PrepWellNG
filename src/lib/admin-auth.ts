@@ -3,7 +3,11 @@ import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { db } from "./db";
 import { normalizeIdentifier } from "./admin-access";
-import { ADMIN_SESSION_COOKIE, ADMIN_AUTH_BASE_PATH } from "./admin-route";
+import {
+  ADMIN_SESSION_COOKIE,
+  ADMIN_AUTH_BASE_PATH,
+  ADMIN_CREDENTIALS_PROVIDER_ID,
+} from "./admin-route";
 
 /**
  * The admin authentication instance — entirely separate from `auth.ts`.
@@ -74,7 +78,11 @@ export const {
 
   providers: [
     Credentials({
-      name: "admin-credentials",
+      // `id` is what the callback URL is keyed on; `name` is only the label
+      // shown on a rendered sign-in page. Without this the id defaults to
+      // "credentials" and every sign-in attempt 302s to ?error=Configuration.
+      id: ADMIN_CREDENTIALS_PROVIDER_ID,
+      name: "Admin credentials",
       credentials: {
         identifier: { label: "Email or username", type: "text" },
         password: { label: "Password", type: "password" },

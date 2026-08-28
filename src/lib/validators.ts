@@ -94,6 +94,12 @@ export const submitAssessmentSchema = z.object({
         new Set(answers.map((a) => a.questionId)).size === answers.length,
       { message: "Duplicate questionId in answers" }
     ),
+  // How many times the student left the exam, counted client-side. Absent from
+  // older clients and from non-exam submissions, so it defaults rather than
+  // failing. The max mirrors MAX_AWAY_EVENTS in exam-focus.ts, which clamps to
+  // it before sending — a stored count above the bound would otherwise make the
+  // attempt unsubmittable on every retry.
+  awayEvents: z.number().int().min(0).max(10_000).optional(),
   // Set by the lesson practice exit so grading also records the lesson progress
   // the attempt earned. Only slugs travel: the attempt's ownership and score are
   // re-read server-side, so a forged pair can at most record against a topic the

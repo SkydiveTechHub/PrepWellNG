@@ -357,6 +357,7 @@ export function useExamSession({
         body: JSON.stringify({
           attemptId,
           answers: buildSubmission(questions, answersRef.current),
+          awayEvents: awayCountRef.current,
           ...(practiceExit ? { practiceExit } : {}),
         }),
       });

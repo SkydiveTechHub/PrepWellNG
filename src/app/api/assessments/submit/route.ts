@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { attemptId, answers, practiceExit } = parsed.data;
+    const { attemptId, answers, practiceExit, awayEvents } = parsed.data;
 
     const outcome = await submitAttempt(studentId, attemptId, answers, awayEvents);
 

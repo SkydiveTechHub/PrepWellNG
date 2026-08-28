@@ -2,9 +2,9 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
-import { LuShield, LuLock, LuUser } from "react-icons/lu";
+import { LuShield, LuLock, LuUser, LuEye, LuEyeOff } from "react-icons/lu";
 import { AdminSessionProvider } from "@/components/admin/admin-session-provider";
-import { isAdminPath } from "@/lib/admin-route";
+import { isAdminPath, ADMIN_CREDENTIALS_PROVIDER_ID } from "@/lib/admin-route";
 
 function AdminLoginForm() {
   const router = useRouter();
@@ -17,6 +17,7 @@ function AdminLoginForm() {
 
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -27,7 +28,7 @@ function AdminLoginForm() {
 
     try {
       const { signIn } = await import("next-auth/react");
-      const result = await signIn("admin-credentials", {
+      const result = await signIn(ADMIN_CREDENTIALS_PROVIDER_ID, {
         identifier,
         password,
         redirect: false,
@@ -81,14 +82,38 @@ function AdminLoginForm() {
           <span className="mb-1.5 flex items-center gap-1.5 text-sm font-semibold text-foreground">
             <LuLock className="h-4 w-4" /> Password
           </span>
-          <input
-            type="password"
-            autoComplete="current-password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full rounded-xl border border-border bg-card px-4 py-3 text-sm text-foreground outline-none focus:border-primary"
-          />
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              autoComplete="current-password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              // Right padding keeps the typed value clear of the toggle.
+              className="w-full rounded-xl border border-border bg-card py-3 pl-4 pr-12 text-sm text-foreground outline-none focus:border-primary"
+            />
+            <button
+              // Not a submit button: inside a form, an unqualified button
+              // submits it, so revealing the password would post the form.
+              type="button"
+              onClick={() => setShowPassword((shown) => !shown)}
+              // The label is the action, and it flips with the state — a
+              // screen reader announcing a static "Toggle password" cannot say
+              // whether the password is currently exposed.
+              aria-label={showPassword ? "Hide password" : "Show password"}
+              aria-pressed={showPassword}
+              // Skipped in the tab order: tabbing from the password field
+              // should reach Sign in, not a display control.
+              tabIndex={-1}
+              className="absolute inset-y-0 right-0 flex items-center px-4 text-muted transition-colors hover:text-foreground focus-visible:text-foreground focus-visible:outline-none"
+            >
+              {showPassword ? (
+                <LuEyeOff className="h-4 w-4" />
+              ) : (
+                <LuEye className="h-4 w-4" />
+              )}
+            </button>
+          </div>
         </label>
 
         <button
