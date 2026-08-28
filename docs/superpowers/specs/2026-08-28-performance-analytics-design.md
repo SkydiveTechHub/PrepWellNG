@@ -174,11 +174,21 @@ page in the app. Bands in the exam view are therefore letter ranges (`B–C`), n
 numeral ranges. Adding true WAEC numerals is a separate change to `getGrade` and
 its callers.
 
-**Scope** means the topics of the subject under the student's `CurriculumLevel`
-rows up to and including their current `classLevel` — an SS2 student is not
-marked down for SS3 topics they have not been taught. The exam view widens this
-to the full syllabus (section 6.2), because an exam does not care what has been
-taught yet.
+**Scope** means every topic in the subject's knowledge graph — the same
+population `computePathState` already builds for the learning path, not a subset
+filtered by the student's `classLevel`.
+
+Filtering by class level was the first instinct, and it is wrong twice over. The
+graph is a DAG with cross-level prerequisite edges, so cutting nodes out of it by
+class level severs edges and changes what `classifyTopic` reports as a bottleneck
+— the page would disagree with the learning path about which topics exist and
+which are blocking. And an SS2 student who has genuinely covered an SS3 topic
+would find their own evidence missing from the page.
+
+Not-yet-taught topics are not a problem to be filtered away: they land in
+**Unproven**, which already says "unknown, not weakness" and is the honest place
+for them. The exam view uses the same population for a different reason
+(section 6.2) — an exam does not care what has been taught yet.
 
 **Band 2 — the topic breakdown.** Every topic in the subject's curriculum scope,
 not only the ones with data: an untouched topic is a finding, not an absence.
@@ -233,7 +243,7 @@ So `engines/analytics/topic-groups.ts` is a thin presentation layer that calls
 | **Needs work** | WEAK, BOTTLENECK | Measured, and weak. Practise these. |
 | **Needs revision** | DECAYED | You knew this and it has faded. |
 | **Unproven** | UNTOUCHED, ABANDONED, and `null` below `OBSERVATION_FLOOR` | Not a weakness — an unknown. |
-| **Coming along** | `null`, at or above the floor, mastery in `[WEAK_MASTERY, TARGET)` | Real progress, not finished. |
+| **Coming along** | `null`, at or above the floor, mastery `< TARGET` | Real progress, not finished. |
 | **Solid** | `null`, at or above the floor, mastery `>= TARGET` | Strong. Flagged *stale* when retention has fallen. |
 
 Five groups, not four: `WEAK_MASTERY` is 50 and `TARGET` is 70, so a topic
@@ -242,6 +252,15 @@ that band to one or the other, and both roundings lie — calling a 62 "solid"
 tells a student to stop when they are eight points short of the threshold the
 learning path itself uses, and calling it weak buries the genuine gaps beneath
 topics that are going fine. It gets its own group and its own verb.
+
+Coming along is bounded by `TARGET` alone, not by `WEAK_MASTERY`, because one
+more case reaches `null`: a topic with enough observations but confidence below
+`CONFIDENCE_FLOOR` — old evidence — whose mastery is under 50. `classifyTopic`
+withholds WEAK there by design, and this view must not overturn that
+withholding by routing the topic into Needs work through a side door. It is a
+topic the student has worked and we can no longer confidently judge, which is
+"keep going", not "you are weak at this". The five groups are therefore total
+over every `GapCategory` and every `null`, with no unhandled case.
 
 Four rules this encodes, each of which the current page gets wrong:
 
@@ -489,10 +508,16 @@ export type Insight = {
 ```
 
 `InsightKind` is a closed union: `UNTOUCHED_SUBJECT`, `LOW_COVERAGE`,
-`WEAK_TOPIC`, `DECAYED_TOPIC`, `BOTTLENECK_TOPIC`, `RAPID_GUESSING`,
-`PACING_SLOW`, `PACING_RUSHED`, `DIFFICULTY_DRIFT`, `IMPROVING`, `PLATEAU`,
-`SLIPPING`, `INSUFFICIENT_EVIDENCE`, `LOW_CONSISTENCY`, `EXAM_RULE_VIOLATION`,
+`WEAK_TOPIC`, `DECAYED_TOPIC`, `STALE_TOPIC`, `BOTTLENECK_TOPIC`,
+`RAPID_GUESSING`, `PACING_SLOW`, `PACING_RUSHED`, `DIFFICULTY_DRIFT`,
+`IMPROVING`, `PLATEAU`, `SLIPPING`, `INSUFFICIENT_EVIDENCE`,
+`LOW_CONSISTENCY`, `SUBJECT_STRENGTH`, `EXAM_RULE_VIOLATION`,
 `COURSE_REQUIREMENT_RISK`.
+
+`STALE_TOPIC` and `SUBJECT_STRENGTH` carry the two findings the subject view
+produces that no other kind covers: a Solid topic whose retention has slipped,
+and a subject with no gaps at all — the `WIN` that stops the section reading as
+an unbroken list of failings.
 
 Today these render as the sentences described above. Later, a recommendation
 engine consumes the same array and turns it into `StudyPlanItem`s — the seam
