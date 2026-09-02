@@ -520,15 +520,19 @@ one pays a single API call.
 
 ### The year is collected and then discarded
 
-The picker's third step is a year, but
-`src/app/(dashboard)/practice/past-questions/[subjectSlug]/page.tsx:12` sends
-only `?exam=`, and `generateQuizSchema` (`src/lib/validators.ts:60-76`) has no
-`examYear` field. Today a "2022 JAMB Chemistry" pick generates from every JAMB
-Chemistry year in the bank.
+The picker's link already carries the year —
+`src/components/practice/past-question-picker.tsx:224` builds
+`?exam=...&year=...`. It is dropped one layer down:
+`src/app/(dashboard)/practice/past-questions/[subjectSlug]/page.tsx:12` reads
+only `exam`, and `generateQuizSchema` (`src/lib/validators.ts:60-76`) has no
+`examYear` field to receive it in any case. Today a "2022 JAMB Chemistry" pick
+generates from every JAMB Chemistry year in the bank.
 
 Our cache key is (subject, examType, year), so this must be fixed regardless.
-`examYear` is added to `generateQuizSchema`, threaded through the picker link,
-and passed into `generateQuiz`.
+`examYear` is added to `generateQuizSchema` and to `QuestionPoolFilter`, read
+from the search params in the quiz page, and passed through `generateQuiz` —
+including into `findResumableAttempt`, or picking 2022 would resume an
+unfinished 2019 paper of the same subject and length.
 
 ### Building the catalogue
 
