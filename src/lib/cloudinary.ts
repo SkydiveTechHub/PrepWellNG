@@ -85,3 +85,56 @@ export async function uploadAvatar(file: File, userId: string) {
 
   return json.secure_url;
 }
+
+/**
+ * Copy a remote image into our own Cloudinary account and return our URL.
+ *
+ * Used when importing provider questions: their `image` field points at a
+ * third party's Cloudinary (`res.cloudinary.com/aloc-ng/...`) which we neither
+ * control nor pay for. Storing their URL would leave every imported diagram
+ * one deletion away from breaking. Cloudinary fetches `file` server-side when
+ * it is a URL, so the bytes never pass through us.
+ */
+export async function uploadRemoteImage(
+  sourceUrl: string,
+  publicId: string,
+): Promise<string> {
+  const creds = credentials();
+  if (!creds) throw new Error("Image uploads aren't configured");
+
+  const timestamp = Math.floor(Date.now() / 1000);
+  const fullPublicId = `prepwell/questions/${publicId}`;
+
+  const toSign = `overwrite=true&public_id=${fullPublicId}&timestamp=${timestamp}`;
+  const signature = crypto
+    .createHash("sha1")
+    .update(toSign + creds.apiSecret)
+    .digest("hex");
+
+  const body = new FormData();
+  body.append("file", sourceUrl);
+  body.append("api_key", creds.apiKey);
+  body.append("timestamp", String(timestamp));
+  body.append("public_id", fullPublicId);
+  body.append("overwrite", "true");
+  body.append("signature", signature);
+
+  const res = await fetch(
+    `https://api.cloudinary.com/v1_1/${creds.cloudName}/image/upload`,
+    { method: "POST", body },
+  );
+
+  if (!res.ok) {
+    const detail = (await res.json().catch(() => null)) as {
+      error?: { message?: string };
+    } | null;
+    throw new UploadRejectedError(
+      detail?.error?.message ?? "Cloudinary rejected the remote image",
+      res.status < 500,
+    );
+  }
+
+  const json = (await res.json()) as { secure_url?: string };
+  if (!json.secure_url) throw new Error("Cloudinary returned no image URL");
+  return json.secure_url;
+}
