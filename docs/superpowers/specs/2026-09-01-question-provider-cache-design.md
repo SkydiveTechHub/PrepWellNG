@@ -111,6 +111,30 @@ A filter is `SATURATED` when any of three conditions holds:
 
 Once saturated we never call out for that filter again.
 
+### 5. Explanations stay required; explanation-less questions wait in staging
+
+`Question.explanation` is `String @db.Text` — required. It stays that way, and
+no existing table is altered.
+
+**Rejected: relaxing the column to `String?`.** It would raise the promotion
+rate, but it changes a shared schema and two student-facing render sites for
+the benefit of imported content only, and it lets a question reach a student
+with nothing to read after they get it wrong. The explanation is the part of a
+past question that actually teaches.
+
+**Chosen:** a payload with no `solution` fails validation and stays
+`REJECTED` in `ProviderQuestion` with its raw payload intact.
+
+This costs nothing that the staging design was not already built to absorb. The
+fetch still counts toward saturation, so we never pay for that filter twice;
+the content is ours permanently; and when an explanation source appears — an
+author, or a generated-then-reviewed pass — those rows promote through the
+normal `MAPPER_VERSION` sweep with no new API calls.
+
+The open risk is **yield**: if most of their bank lacks `solution`, the
+promoted fraction could be small. This is now the primary question the probe
+must answer before step 4 (see "Open questions").
+
 ## Provider API (as documented)
 
 ```
@@ -176,14 +200,14 @@ script rather than guessed.
   questions therefore serve past-paper and subject-level practice only. The
   imported bank and the curriculum bank remain separate populations until
   something tags them.
-- **`explanation` becomes nullable.** Many provider questions have no
-  `solution`. Rejecting them would discard most of a catalogue we have already
-  paid to fetch, and the question is still perfectly answerable.
+- **Questions without a `solution` are never served.** `Question.explanation`
+  stays required, so a payload with no solution cannot be promoted. It is
+  captured, held in staging with a recorded reason, and waits for an
+  explanation. See decision 5.
 
 ## Data model
 
-Three new tables, three new fields on `Question`, and one back-relation on
-`Subject`.
+Three new tables. **No columns are added to or altered on any existing table.**
 
 ```prisma
 enum QuestionProvider { SDASH }
@@ -261,19 +285,20 @@ model ProviderCatalogue {
 }
 ```
 
-On `Question`:
+`Question` and `Subject` each gain one **back-relation** so Prisma can validate
+the two new foreign keys:
 
 ```prisma
-  explanation String?  @db.Text   // was required
-  needsReview Boolean  @default(false)
+// on Question
   providerQuestion ProviderQuestion?
-```
 
-And on `Subject`, the back-relation Prisma requires for `ProviderCatalogue`:
-
-```prisma
+// on Subject
   providerCatalogue ProviderCatalogue[]
 ```
+
+These are virtual fields. Prisma back-relations produce **no database column
+and no DDL** — the foreign keys live on `ProviderQuestion` and
+`ProviderCatalogue`. `Question` is untouched at the SQL level.
 
 `ProviderQuestion.providerQuestionId` is nullable and carries a unique
 constraint. That is intentional and safe: Postgres permits multiple `NULL`s in
@@ -455,14 +480,15 @@ Per staged payload, in one transaction:
 - Fewer than `MIN_OBJECTIVE_OPTIONS` (4) usable options.
 - Empty or whitespace-only `question`.
 - `examyear` that will not parse to an integer.
-
-### Explicitly does not reject
-
-A missing or empty `solution`. It promotes with `explanation: null` and
-`needsReview: true`. This is the case the nullable column exists for.
+- Missing, `null`, or whitespace-only `solution` — `Question.explanation` is
+  required (decision 5). Reason field `explanation`, so the admin console can
+  filter this cohort on its own; it is the one rejection class that is a
+  content gap rather than a data defect, and the one most likely to be
+  recoverable in bulk.
 
 Everything rejected keeps its raw payload and is eligible for re-promotion when
-`MAPPER_VERSION` bumps.
+`MAPPER_VERSION` bumps — or, for the `explanation` cohort, as soon as an
+explanation exists for it.
 
 ## Testing
 
@@ -472,9 +498,9 @@ The interesting logic is pure, so it tests in the existing `node --test` +
 
 - **`test-provider-mapper.mts`** — the documented payload as a fixture, plus
   mutations that must reject (`answer: "e"` against options a–d, three options,
-  empty `question`, `examyear: "n/a"`) and mutations that must promote
-  (`solution: null` → `explanation: null, needsReview: true`; `image` present;
-  lower-case answer key).
+  empty `question`, `examyear: "n/a"`, and `solution: null` / `solution: "  "`)
+  and mutations that must promote (`image` present, `image: null`, lower-case
+  answer key, options given out of order).
 - **`test-provider-cache-key.mts`** — `chemistry/JAMB/2022` and
   `Chemistry/jamb/2022 ` produce one key; different years never collide.
 - **`test-provider-alias.mts`** — `utme→JAMB`, `wassce→WAEC`, `neco→NECO`;
@@ -503,18 +529,17 @@ unreachable from the dev machine).
 2. Apply it through the Supabase SQL editor, then **verify against
    `information_schema`** rather than trusting the success message; that editor
    reports success on partly-applied batches.
-3. Contents: three enums, three tables, plus on `Question`:
-   `ALTER COLUMN "explanation" DROP NOT NULL` and the `needsReview` column.
+3. Contents: three enums and three tables. **No `ALTER TABLE` on any existing
+   table** — the migration is purely additive, which makes rolling it back a
+   matter of dropping the new objects.
 4. **Stop the dev server before `prisma generate`** — otherwise it fails EPERM
    on the query engine DLL and leaves a stale client throwing bogus `tsc`
    errors.
 
-The nullable `explanation` needs its read sites updated in the same change:
-`src/components/assessment/results-view.tsx:514`, the classroom practice result
-page (`.../practice/result/page.tsx:228`),
-`src/components/admin/question-form.tsx`, and the zod schemas in
-`src/lib/validators.ts`. Both render sites get an honest "No explanation
-available yet" empty state.
+No existing render site changes. `src/components/assessment/results-view.tsx`,
+the classroom practice result page, `src/components/admin/question-form.tsx`
+and the zod schemas in `src/lib/validators.ts` all keep treating `explanation`
+as a non-null string, because it still is one.
 
 ## Environment
 
@@ -536,7 +561,11 @@ once the integration is wired up.
 Six independently shippable steps. Imported-question quality is verified before
 any student sees one.
 
-1. Migration, schema, regenerated client. Nothing references it yet.
+0. `probe-sdash.ts` against a handful of subject/year combinations, to measure
+   `solution` coverage before anything is built. If the promoted fraction would
+   be very low, that is worth knowing while the cost is one afternoon.
+1. Migration, schema, regenerated client. Purely additive; nothing references
+   it yet.
 2. Pure modules and their tests. No behaviour change.
 3. Adapter plus `sync-provider-catalogue.ts`. Run it; `ProviderCatalogue` fills
    from `/v1/subjects` and `/v1/years`. Still dark.
@@ -550,6 +579,13 @@ any student sees one.
 
 ## Open questions
 
+- **What fraction of their bank has a `solution`?** The most important unknown,
+  because `Question.explanation` is required and this fraction is therefore the
+  promotion ceiling. Measured by `probe-sdash.ts` in step 0, across several
+  subjects and a spread of years — old papers are the likeliest to be bare.
+  Everything without one is still captured and still counts toward saturation,
+  so a low number delays value rather than destroying it, but it would change
+  how much this integration is worth building out.
 - **Do repeat draws for one filter return distinct questions?** The saturation
   rule terminates correctly either way — if draws happen to be non-random it
   simply terminates sooner — so this is not blocking. `probe-sdash.ts` answers
