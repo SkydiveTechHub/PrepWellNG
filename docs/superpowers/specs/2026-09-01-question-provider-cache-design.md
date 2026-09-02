@@ -37,9 +37,61 @@ quality work happens against our own data.
 - Replacing the admin bulk-import path (`src/lib/admin-import.ts`). It stays;
   this reuses its validation rather than competing with it.
 
+## Probe findings (2026-09-02)
+
+34 live requests against the real API. Everything below is measured, not
+assumed, and the decisions that follow are calibrated against it.
+
+**Yield — 87%.** Across 249 questions from five subject/type/year combinations
+spanning 2005–2022, 217 would promote under the rules in this document.
+`solution` is present on 88% (100% for `english/utme/2012` and
+`biology/wassce/2018`, 94% for `mathematics/utme/2019`, 82% for
+`chemistry/utme/2022`, 62% for `chemistry/utme/2005`). Older papers are barer,
+as expected. **`answer` was a valid option key on 100% of 249 rows** and
+options were `ABCD` on all but a handful of `ABC` maths rows. Decision 5 costs
+roughly 12% of the catalogue, not most of it.
+
+**Their bank is a pool, not a paper.** Four successive draws of 50 for
+`chemistry/utme/2022` yielded 50, 39, 32 and 26 new ids — 147 distinct after
+200 draws, still 52% new on the fourth. Mark-recapture puts that single filter
+at roughly 300–400 questions, far more than a real 40-question UTME paper. This
+invalidates the original stop rule; see decision 4.
+
+**NECO is entitled but sparse.** `type=neco` returns `200` with no year filter
+(seen: 2021, 2023, 2024) but `404` for `biology/2018` and `chemistry/2014`.
+`/v1/years` is a **global** list, not per subject or per type, so the catalogue
+cannot be a cross product — it must be swept.
+
+**`post-utme` and `university` return `403`** — our token is not entitled to
+them. The non-goal of never requesting them is now enforced upstream too.
+
+**The error envelope is consistent** and maps cleanly onto three behaviours:
+
+| HTTP + body `status` | Meaning | Ledger outcome |
+| --- | --- | --- |
+| `404` `"No questions found for those filters."` | Filter is genuinely empty | `SATURATED`, `rawCount: 0` — **never retried** |
+| `403` `"...do not have permission to query the \"x\" exam."` | Not entitled | `FAILED`, terminal, no retry |
+| `401` `"Invalid AccessToken."` | Bad credentials | `FAILED`, terminal, alert |
+| `5xx` / transport | Transient | `FAILED`, retryable |
+
+Treating `404` as an error would be the costly mistake here: the catalogue will
+contain empty combinations, and retrying them forever is exactly the runaway
+this design exists to prevent.
+
+**Other measurements.** `limit=500` silently clamps to 50 rather than erroring.
+No rate-limit headers are exposed at all, so we cannot self-regulate from
+responses. Latency is 316–621ms per call, which makes decision 3's synchronous
+write cheap. `section` is populated on 25% overall but 100% of
+`english/utme/2012` — it looks like comprehension-passage grouping.
+
+**Images are hotlinks to someone else's Cloudinary.** `image` URLs look like
+`https://res.cloudinary.com/aloc-ng/image/upload/v1724006808/ALOC-Questions/Mathematics/2019/MATH_JAMB_2019_Q15_cfctff.jpg`
+— sdashapi is fronting the ALOC question bank. 4% of rows overall carry one,
+16% for maths. See "Known consequences".
+
 ## Decisions
 
-Four decisions were settled during design. The rejected options are recorded
+Five decisions were settled during design. The rejected options are recorded
 because the rationale is the load-bearing part.
 
 ### 1. Coverage is tracked by a ledger, not inferred from question counts
@@ -101,15 +153,29 @@ The provider caps `limit` at 50 and exposes no `offset`, `page` or `total`. We
 can draw batches but cannot walk a paper deterministically or learn its size.
 Completeness is unknowable. Saturation is measurable.
 
-A filter is `SATURATED` when any of three conditions holds:
+The probe showed draws are randomly redrawn from a pool of roughly 300–400 per
+filter, not a 40-question paper. A "zero new ids" stop condition would
+therefore almost never fire inside a sane budget — this is a coupon-collector
+problem, and exhausting a 350-question pool with random draws of 50 takes far
+more calls than the value of the tail justifies.
 
-- a full draw of 50 returns no `data.id` we have not already stored;
-- a draw returns fewer than 50 payloads, which means their bank for that filter
-  is smaller than one batch and we have just seen all of it;
-- `drawCount` reaches a hard cap of 6, so a pathological filter cannot burn
-  calls indefinitely.
+So the rule is **diminishing returns, not exhaustion**. A filter is
+`SATURATED` when any of these holds:
 
-Once saturated we never call out for that filter again.
+- a draw returns fewer than 10 ids we have not already stored (under 20% new) —
+  the pool's useful yield has collapsed;
+- a draw returns fewer than 50 payloads, meaning the pool is smaller than one
+  batch and we have just seen all of it;
+- the API returns `404` — the filter is genuinely empty; recorded with
+  `rawCount: 0` so it is never requested again;
+- `drawCount` reaches a hard cap of **12**.
+
+At 12 draws we expect ~85% of a 350-question pool. The measured decay
+(50/39/32/26 new) crosses the 20% threshold at around draw 8, so most filters
+will stop before the cap.
+
+Once saturated we never call out for that filter again. Both thresholds live in
+`saturation.ts` as named constants, tuned in one place as real numbers arrive.
 
 ### 5. Explanations stay required; explanation-less questions wait in staging
 
@@ -131,9 +197,12 @@ the content is ours permanently; and when an explanation source appears — an
 author, or a generated-then-reviewed pass — those rows promote through the
 normal `MAPPER_VERSION` sweep with no new API calls.
 
-The open risk is **yield**: if most of their bank lacks `solution`, the
-promoted fraction could be small. This is now the primary question the probe
-must answer before step 4 (see "Open questions").
+**Measured cost: about 12%.** The probe found `solution` on 88% of 249 sampled
+rows, and 87% would promote in full. The risk that motivated a possible
+relaxation of the column did not materialise. Coverage is weakest on the oldest
+papers (62% for 2005 against 100% for several 2012–2018 samples), so the
+rejected cohort will skew old — and being concentrated by year makes it easier
+to enrich in bulk later.
 
 ## Provider API (as documented)
 
@@ -186,11 +255,28 @@ Constant on every imported row: `questionType: OBJECTIVE`,
 `difficulty: INTERMEDIATE` (they send none), `questionNumber: null`,
 `topicId: null`.
 
-Subject slugs mostly line up — `prisma/seed.ts:280` sets `slug: slugify(name)`,
-so `chemistry` and `physics` match directly. Multi-word subjects do not
-(`english-language`, `further-mathematics`, `christian-religious-studies`),
-hence the alias table, which is verified against `/v1/subjects` by a sync
-script rather than guessed.
+Subject slugs rarely line up. `prisma/seed.ts:280` sets `slug: slugify(name)`,
+so only the single-word subjects match directly (`chemistry`, `physics`,
+`biology`, `mathematics`, `economics`, `commerce`, `geography`, `government`,
+`history`, `insurance`, `music`, `yoruba`, `igbo`, `hausa`). The rest need the
+alias table, now written from their real `/v1/subjects` response:
+
+| Ours (`Subject.slug`) | Theirs |
+| --- | --- |
+| `english-language` | `english` |
+| `literature-in-english` | `englishlit` |
+| `christian-religious-studies` | `crk` |
+| `islamic-studies` | `irk` |
+| `civic-education` | `civiledu` |
+| `computer-studies` | `computer` |
+| `fine-art` | `fineart` |
+| `agricultural-science` | `agriculture` |
+| `financial-accounting` | `accounting` |
+| `arabic` | `arabic` (their "Arabic Studies") |
+
+The mapping is asserted in `test-provider-alias.mts` and re-verified against a
+live `/v1/subjects` by `sync-provider-catalogue.ts`, which fails loudly if a
+mapped slug disappears from their catalogue.
 
 ### Known consequences
 
@@ -203,7 +289,23 @@ script rather than guessed.
 - **Questions without a `solution` are never served.** `Question.explanation`
   stays required, so a payload with no solution cannot be promoted. It is
   captured, held in staging with a recorded reason, and waits for an
-  explanation. See decision 5.
+  explanation. Measured cost: ~12% of rows. See decision 5.
+- **Images must be mirrored, or independence is a fiction.** `image` URLs point
+  at `res.cloudinary.com/aloc-ng/...` — a third party's Cloudinary account that
+  we neither control nor pay for. If they rotate, rename or remove those
+  assets, every imported question carrying a diagram silently breaks, and no
+  amount of local caching helps because we never held the bytes. On promotion,
+  any payload with an `image` has it uploaded to **our** Cloudinary via the
+  existing `src/lib/cloudinary.ts`, and `questionImageUrl` is set to our copy.
+  It affects only 4% of rows overall (16% for maths), so the added work is
+  small — but skipping it would leave a permanent external dependency in a
+  design whose entire purpose is removing one.
+- **Six of our subjects have no provider coverage.** Their catalogue has 31
+  subjects; matching against `prisma/seed.ts` leaves Further Mathematics,
+  Technical Drawing, Health Education, Marketing, Office Practice and French
+  unmatched. Those subjects simply never appear in `ProviderCatalogue` and are
+  unaffected by this work. They also carry five literature set-texts and
+  Current Affairs that we have no `Subject` row for; those are ignored.
 
 ## Data model
 
@@ -269,8 +371,8 @@ model ProviderQuestion {
   @@index([status, mapperVersion])
 }
 
-/// Papers the provider advertises, so the picker can offer papers we do not
-/// hold yet. Synced from /v1/subjects and /v1/years.
+/// Papers the provider actually holds, so the picker can offer papers we have
+/// not fetched yet. Built by sweep — see "Building the catalogue".
 model ProviderCatalogue {
   id        String           @id @default(cuid())
   provider  QuestionProvider
@@ -332,7 +434,8 @@ src/lib/question-provider/
   alias.ts        — subject-slug and exam-type alias tables (pure)
   cache-key.ts    — filter normalisation → canonical key (pure)
   mapper.ts       — raw payload → Question create input | rejections (pure)
-  saturation.ts   — the stop rule (pure)
+  saturation.ts   — the stop rule and its thresholds (pure)
+  errors.ts       — response classifier: empty / terminal / retryable (pure)
   ingest.ts       — orchestrator: claim, fetch, stage, promote, count
 scripts/
   sync-provider-catalogue.ts
@@ -405,7 +508,7 @@ in that list, so it cannot be selected, so it is never fetched. Cache-on-read
 cannot bootstrap itself.
 
 **Fix:** `listPastPapers` returns the union of papers we hold and papers
-`ProviderCatalogue` advertises. `PastPaper` gains:
+`ProviderCatalogue` records. `PastPaper` gains:
 
 ```ts
 cached: boolean;
@@ -426,6 +529,24 @@ Chemistry year in the bank.
 Our cache key is (subject, examType, year), so this must be fixed regardless.
 `examYear` is added to `generateQuizSchema`, threaded through the picker link,
 and passed into `generateQuiz`.
+
+### Building the catalogue
+
+`/v1/years` returns a single global list (2001–2026), not per-subject or
+per-type coverage, and the probe found `type=neco` empty for `biology/2018`
+and `chemistry/2014` while returning 2021/2023/2024 questions with no year
+filter. A cross product of subjects × years × types would therefore advertise
+thousands of papers that yield nothing, and the picker would offer them.
+
+So `sync-provider-catalogue.ts` **sweeps**: one `limit=1` request per
+(mapped subject × year × exam type), writing a `ProviderCatalogue` row only
+where the response is `200`. At 24 mapped subjects × 26 years × 3 types that is
+~1,870 requests, about 20 minutes with polite spacing — once, offline, run as
+an ops script rather than in a request path. Re-running it is safe and
+idempotent; it is worth repeating annually as new years appear.
+
+A `404` during the sweep is a definitive "nothing here", not a failure, and is
+simply not recorded.
 
 ## The read path
 
@@ -466,12 +587,18 @@ Per staged payload, in one transaction:
 3. **Validate** with a zod schema for their envelope, then
    `checkQuestionInvariants` from `src/lib/admin-question.ts` — the same gate
    the admin bulk import already passes through.
-4. **Promote or reject.** Promote → create the `Question`, set
+4. **Mirror the image, if any.** A payload with an `image` has it uploaded to
+   our own Cloudinary through `src/lib/cloudinary.ts`, and `questionImageUrl`
+   is set to our copy — never to `res.cloudinary.com/aloc-ng/...`. A mirror
+   failure rejects the row rather than promoting a question that points at a
+   third party's asset; it retries on the next `MAPPER_VERSION` sweep. Affects
+   ~4% of rows.
+5. **Promote or reject.** Promote → create the `Question`, set
    `ProviderQuestion.questionId`, `status: PROMOTED`. Reject → `status:
    REJECTED` with `rejectionReasons` in the `{field, message}` shape
    `ImportRowError` already uses, so the admin console can render it with
    existing components.
-5. **Update ledger counts** in the same transaction, so they cannot drift.
+6. **Update ledger counts** in the same transaction, so they cannot drift.
 
 ### Rejects
 
@@ -507,8 +634,15 @@ The interesting logic is pure, so it tests in the existing `node --test` +
   `post-utme` and `university` are refused rather than folded into `CUSTOM`;
   `english-language` and `further-mathematics` resolve.
 - **`test-provider-saturation.mts`** — the stop rule as a pure function of
-  `(drawCount, rawCount, newInLastDraw)`: a full draw with zero new ids
-  saturates; the 6-draw cap saturates; a partial draw saturates.
+  `(drawCount, rawCount, newInLastDraw, returnedCount)`: fewer than 10 new ids
+  saturates; a short draw (under 50 returned) saturates; the 12-draw cap
+  saturates; and the measured decay sequence 50/39/32/26 must *not* saturate at
+  draw 4, guarding the threshold against being tightened by accident.
+- **`test-provider-errors.mts`** — the response classifier, using the real
+  envelopes the probe captured: `404` → saturated-empty (never retried),
+  `403`/`401` → terminal failure, `5xx`/transport → retryable. The `404` case
+  is the one that matters most; misclassifying it as a failure reintroduces
+  unbounded retries.
 
 `sdash.ts` is exercised against canned responses through its injected `fetch`,
 covering the `limit=1` object vs `limit>1` array split, a non-200 `status` in
@@ -558,17 +692,17 @@ once the integration is wired up.
 
 ## Rollout
 
-Six independently shippable steps. Imported-question quality is verified before
-any student sees one.
+Seven steps (step 0 already done), each independently shippable.
+Imported-question quality is verified before any student sees one.
 
-0. `probe-sdash.ts` against a handful of subject/year combinations, to measure
-   `solution` coverage before anything is built. If the promoted fraction would
-   be very low, that is worth knowing while the cost is one afternoon.
+0. ~~Probe~~ **Done 2026-09-02** — see "Probe findings". Yield is 87%; the
+   design is calibrated to the measurements and cleared to proceed.
 1. Migration, schema, regenerated client. Purely additive; nothing references
    it yet.
 2. Pure modules and their tests. No behaviour change.
-3. Adapter plus `sync-provider-catalogue.ts`. Run it; `ProviderCatalogue` fills
-   from `/v1/subjects` and `/v1/years`. Still dark.
+3. Adapter plus `sync-provider-catalogue.ts`. Run the sweep once (~1,600
+   requests, roughly 20 minutes); `ProviderCatalogue` fills with combinations
+   that actually hold questions. Still dark.
 4. `ingest.ts`, reachable **only** from an admin-triggered backfill. Saturate a
    few papers, then review them in the admin console — real data, real
    rejection reasons, nothing at stake if their bank is not good enough.
@@ -579,22 +713,32 @@ any student sees one.
 
 ## Open questions
 
-- **What fraction of their bank has a `solution`?** The most important unknown,
-  because `Question.explanation` is required and this fraction is therefore the
-  promotion ceiling. Measured by `probe-sdash.ts` in step 0, across several
-  subjects and a spread of years — old papers are the likeliest to be bare.
-  Everything without one is still captured and still counts toward saturation,
-  so a low number delays value rather than destroying it, but it would change
-  how much this integration is worth building out.
-- **Do repeat draws for one filter return distinct questions?** The saturation
-  rule terminates correctly either way — if draws happen to be non-random it
-  simply terminates sooner — so this is not blocking. `probe-sdash.ts` answers
-  it before step 4.
-- **Published rate limits are unknown.** `probe-sdash.ts` inspects response
-  headers; the outbound cap in step 4 is set conservatively until we know.
-- **Their error envelope is undocumented.** The adapter treats any non-200
-  `status` in the body, or a body that fails the zod envelope schema, as a
-  terminal `ProviderError`; the shape is confirmed by probe before step 4.
-- **`data.section` is unmapped.** It stays in the raw payload. If it turns out
-  to carry paper-section information worth surfacing, it can be mapped later
-  and back-promoted with a `MAPPER_VERSION` bump — no re-fetching.
+Resolved by the 2026-09-02 probe: `solution` coverage (88%), draw randomness
+(random redraw, ~300–400 per pool), the error envelope, and rate-limit headers
+(none exposed).
+
+Still open:
+
+- **Their licensing terms.** The image URLs show sdashapi is fronting the ALOC
+  question bank. Systematically drawing their entire catalogue into our own
+  database is a different act from per-request lookups, and mirroring their
+  images to our Cloudinary more so. This is a commercial question, not a
+  technical one, and it should be settled with them before the step 3 sweep —
+  it is the one item here that could invalidate the whole approach.
+- **Total cost to full independence.** ~1,870 sweep requests plus roughly 8–12
+  draws for each non-empty combination. If a third of swept combinations hold
+  questions, that is on the order of 5,000–7,000 further requests to saturate
+  everything — hours, not months, but it needs to sit inside whatever their
+  plan allows.
+- **No rate limits are published or exposed in headers.** The outbound cap
+  starts conservative (spacing comparable to the probe's 350ms) and can be
+  raised once we know what they permit.
+- **`data.section` is unmapped.** Populated on 25% of rows overall but 100% of
+  `english/utme/2012`, so it likely groups comprehension passages. Questions
+  sharing a passage arguably should not be served apart. It stays in the raw
+  payload; if it proves to matter, it can be mapped later and back-promoted
+  with a `MAPPER_VERSION` bump — no re-fetching.
+- **Question numbering is partly recoverable.** Image filenames embed it
+  (`MATH_JAMB_2019_Q15_...`), so `questionNumber` could be parsed for the ~4%
+  of rows with images. Not worth doing on its own; noted in case ordering
+  matters later.
