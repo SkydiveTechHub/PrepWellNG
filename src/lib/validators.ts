@@ -333,6 +333,17 @@ export const createFlashcardDeckSchema = z.object({
   topicId: z.string().optional(),
 });
 
+// ─── Provider backfill (admin) ─────────────────────
+
+// The examYear bounds (2001-2026) are the provider's actual measured
+// coverage, not our own 1990-2030 range for hand-authored questions.
+export const providerBackfillSchema = z.object({
+  subjectSlug: z.string().min(1),
+  examType: z.enum(["WAEC", "JAMB", "NECO"]),
+  examYear: z.number().int().min(2001).max(2026),
+});
+export type ProviderBackfillInput = z.infer<typeof providerBackfillSchema>;
+
 // ─── Admin team (owner-only) ───────────────────────
 
 // isOwner is deliberately absent — it is written as a literal false by the

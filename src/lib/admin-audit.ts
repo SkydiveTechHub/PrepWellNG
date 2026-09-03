@@ -14,7 +14,8 @@ export type AuditAction =
   | "student.reactivate"
   | "student.tier"
   | "student.force_signout"
-  | "student.delete";
+  | "student.delete"
+  | "provider.backfill";
 
 export type AuditEntry = {
   actorId: string;

@@ -485,3 +485,29 @@ async function readFromDb(
     take: limit,
   });
 }
+
+/**
+ * Reads a filter's ledger row without touching the provider.
+ *
+ * Exists so callers in `src/app` never reach for `db` themselves — the route
+ * layer is not allowed to query directly. Returns `null` when the filter has
+ * never been fetched.
+ */
+export async function readLedger(
+  filter: ProviderFilter,
+  deps: IngestDeps = defaultDeps,
+): Promise<Pick<
+  ProviderFetchRow,
+  "status" | "rawCount" | "promotedCount" | "rejectedCount"
+> | null> {
+  const row = await deps.db.providerFetch.findUnique({
+    where: { provider_cacheKey: { provider: PROVIDER, cacheKey: cacheKey(filter) } },
+  });
+  if (!row) return null;
+  return {
+    status: row.status,
+    rawCount: row.rawCount,
+    promotedCount: row.promotedCount,
+    rejectedCount: row.rejectedCount,
+  };
+}
