@@ -13,6 +13,7 @@
     "test:path": "node --import tsx --test --test-force-exit scripts/test-learning-path-graph.mts scripts/test-learning-path-state.mts scripts/test-learning-path-recommend.mts scripts/test-learning-path-revision.mts scripts/test-learning-path-plan.mts scripts/test-learning-path-pretest.mts scripts/test-learning-path-evidence.mts scripts/test-learning-path-gaps.mts scripts/test-learning-path-keep-learning.mts scripts/test-evidence-display.mts scripts/test-attempt-abandonment.mts",
     "import-questions": "npx tsx scripts/import-questions.ts",
     "sync-provider-catalogue": "npx tsx scripts/sync-provider-catalogue.ts",
+    "repromote-provider-questions": "npx tsx scripts/repromote-provider-questions.ts",
     "seed-flashcards": "npx tsx scripts/seed-flashcards.ts"
   },
   "dependencies": {
