@@ -1,4 +1,4 @@
-import type { Prisma } from "@prisma/client";
+import type { ExamType, Prisma } from "@prisma/client";
 import { db } from "./db";
 
 export type QuestionFilter = {
@@ -55,7 +55,10 @@ export type PastPaper = {
   subjectSlug: string;
   /** Lets the practice flow show a student their own track's subjects first. */
   trackCategory: string;
-  questionCount: number;
+  /** Null when we have not fetched this paper yet. */
+  questionCount: number | null;
+  /** False for a paper the provider lists but we have never pulled. */
+  cached: boolean;
 };
 
 /** Available past papers, grouped by exam type, year and subject. */
@@ -69,22 +72,62 @@ export async function listPastPapers(
     orderBy: [{ examYear: "desc" }, { examType: "asc" }],
   });
 
+  // Papers the provider lists but we have never pulled. Without them the
+  // picker can only offer what we already hold, so a paper nobody has fetched
+  // can never be selected — and therefore never gets fetched.
+  const catalogue = await db.providerCatalogue.findMany({
+    where: {
+      ...(filter.examType ? { examType: filter.examType as ExamType } : {}),
+      ...(filter.subjectId ? { subjectId: filter.subjectId } : {}),
+    },
+    select: { subjectId: true, examType: true, examYear: true },
+  });
+
+  const key = (subjectId: string, examType: string, examYear: number | null) =>
+    `${subjectId}|${examType}|${examYear}`;
+  const held = new Set(papers.map((p) => key(p.subjectId, p.examType, p.examYear)));
+  const extra = catalogue.filter(
+    (row) => !held.has(key(row.subjectId, row.examType, row.examYear)),
+  );
+
+  // Built from the union of both id sets — a catalogue-only subject would
+  // otherwise render as "Unknown".
   const subjects = await db.subject.findMany({
-    where: { id: { in: [...new Set(papers.map((p) => p.subjectId))] } },
+    where: {
+      id: {
+        in: [
+          ...new Set([
+            ...papers.map((p) => p.subjectId),
+            ...extra.map((row) => row.subjectId),
+          ]),
+        ],
+      },
+    },
     select: { id: true, name: true, slug: true, trackCategory: true },
   });
   const subjectById = new Map(subjects.map((s) => [s.id, s]));
 
-  return papers.map((p) => {
-    const subject = subjectById.get(p.subjectId);
+  const describe = (
+    subjectId: string,
+    examType: string,
+    examYear: number | null,
+    questionCount: number | null,
+  ): PastPaper => {
+    const subject = subjectById.get(subjectId);
     return {
-      examType: p.examType,
-      examYear: p.examYear,
-      subjectId: p.subjectId,
+      examType,
+      examYear,
+      subjectId,
       subjectName: subject?.name ?? "Unknown",
       subjectSlug: subject?.slug ?? "",
       trackCategory: subject?.trackCategory ?? "CORE",
-      questionCount: p._count.id,
+      questionCount,
+      cached: questionCount !== null,
     };
-  });
+  };
+
+  return [
+    ...papers.map((p) => describe(p.subjectId, p.examType, p.examYear, p._count.id)),
+    ...extra.map((row) => describe(row.subjectId, row.examType, row.examYear, null)),
+  ];
 }
