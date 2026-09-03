@@ -11,6 +11,8 @@ export type QuestionPoolFilter = {
   subjectId: string;
   topicIds?: readonly string[];
   examType?: string;
+  /** Restrict to one past paper's year. */
+  examYear?: number;
   difficulty?: string;
   /**
    * Skip questions this student already answered recently, so repeat practice
@@ -44,6 +46,9 @@ function buildConditions(filter: QuestionPoolFilter): Prisma.Sql[] {
   }
   if (filter.examType) {
     conditions.push(Prisma.sql`q."examType" = ${filter.examType}::"ExamType"`);
+  }
+  if (filter.examYear !== undefined) {
+    conditions.push(Prisma.sql`q."examYear" = ${filter.examYear}`);
   }
   if (filter.difficulty) {
     conditions.push(

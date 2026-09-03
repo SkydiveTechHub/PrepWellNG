@@ -40,6 +40,8 @@ export type GenerateQuizInput = {
   topicIds?: string[];
   topicSlug?: string;
   examType?: ExamType;
+  /** One sitting of a past paper. Absent means every year of the subject is eligible. */
+  examYear?: number;
   count: number;
   difficulty?: Difficulty;
   title?: string;
@@ -60,6 +62,7 @@ export async function generateQuiz(studentId: string, input: GenerateQuizInput) 
     topicIds: explicitTopicIds,
     topicSlug,
     examType,
+    examYear,
     count,
     difficulty,
     title,
@@ -96,6 +99,7 @@ export async function generateQuiz(studentId: string, input: GenerateQuizInput) 
     subjectId: subject.id,
     assessmentType,
     examType,
+    examYear,
     totalMarks: count,
     topicIds,
   });
@@ -123,7 +127,7 @@ export async function generateQuiz(studentId: string, input: GenerateQuizInput) 
   let source: "topic" | "subject" = "topic";
   let selectedIds = await pickQuestionsPreferringUnseen(
     db,
-    { subjectId: subject.id, topicIds, examType, difficulty },
+    { subjectId: subject.id, topicIds, examType, examYear, difficulty },
     count,
     studentId,
   );
@@ -131,7 +135,7 @@ export async function generateQuiz(studentId: string, input: GenerateQuizInput) 
   if (selectedIds.length === 0 && topicIds?.length) {
     selectedIds = await pickQuestionsPreferringUnseen(
       db,
-      { subjectId: subject.id, examType, difficulty },
+      { subjectId: subject.id, examType, examYear, difficulty },
       count,
       studentId,
     );
@@ -147,6 +151,8 @@ export async function generateQuiz(studentId: string, input: GenerateQuizInput) 
       assessmentType,
       subjectId: subject.id,
       examType: examType || null,
+      // Persisted so findResumableAttempt can tell a 2022 paper from a 2019 one.
+      examYear: examYear ?? null,
       totalMarks: selectedIds.length,
       // ~1.5 min per question; null for an explicitly untimed quiz such as the
       // classroom quick quiz, so `deadlineFor` never computes one. Which

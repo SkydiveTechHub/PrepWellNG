@@ -66,6 +66,8 @@ export const generateQuizSchema = z
     count: z.number().int().min(5).max(60).default(10),
     difficulty: z.enum(["BASIC", "INTERMEDIATE", "ADVANCED"]).optional(),
     examType: z.enum(["WAEC", "JAMB", "NECO", "CUSTOM"]).optional(),
+    /** Narrows a past paper to one sitting; without it every year of the subject is eligible. */
+    examYear: z.number().int().min(2001).max(2100).optional(),
     title: z.string().min(1).optional(),
     /** Short low-stakes checks, e.g. the classroom topic quiz — no deadline is set. */
     untimed: z.boolean().optional(),
