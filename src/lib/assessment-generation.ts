@@ -1,8 +1,10 @@
+import { after } from "next/server";
 import type { ExamType, Difficulty } from "@prisma/client";
 import { db } from "./db";
 import { pickQuestionsPreferringUnseen } from "./question-pool";
 import { deadlineFor } from "./attempt-timing";
 import { findResumableAttempt, reapStaleAttempts } from "./attempt-lifecycle";
+import { ensureQuestionsCached, saturate, readLedger } from "./question-provider/ingest";
 import {
   describeScopeRange,
   expandScopeRange,
@@ -46,6 +48,15 @@ export type GenerateQuizInput = {
   difficulty?: Difficulty;
   title?: string;
   untimed?: boolean;
+  /**
+   * Whether this call may reach the question provider on a miss.
+   *
+   * The route sets it false once the global outbound budget is spent, so a
+   * burst of misses degrades to a database-only quiz instead of hammering the
+   * provider or failing the student. Absent means "allowed" — the feature flag
+   * still has the final say.
+   */
+  allowProviderFetch?: boolean;
 };
 
 /**
@@ -67,6 +78,7 @@ export async function generateQuiz(studentId: string, input: GenerateQuizInput) 
     difficulty,
     title,
     untimed,
+    allowProviderFetch = true,
   } = input;
 
   // Resolve the subject (and topic) in one query. The client used to fetch
@@ -74,7 +86,7 @@ export async function generateQuiz(studentId: string, input: GenerateQuizInput) 
   // questions — three round-trips before the first question rendered.
   const subject = await db.subject.findFirst({
     where: subjectSlug ? { slug: subjectSlug } : { id: subjectId! },
-    select: { id: true, name: true },
+    select: { id: true, name: true, slug: true },
   });
   if (!subject) return "subject-not-found" as const;
 
@@ -86,6 +98,29 @@ export async function generateQuiz(studentId: string, input: GenerateQuizInput) 
     });
     if (!topic) return "topic-not-found" as const;
     topicIds = [topic.id];
+  }
+
+  // Fetch from the provider the first time we ever see this paper. Gated on
+  // all three of subject/type/year, so topic quizzes, mock exams and the JAMB
+  // CBT never reach it — they read the bank this fills.
+  if (
+    allowProviderFetch &&
+    process.env.QUESTION_PROVIDER_ENABLED === "true" &&
+    examType &&
+    examYear &&
+    (examType === "WAEC" || examType === "JAMB" || examType === "NECO")
+  ) {
+    const filter = { subjectSlug: subject.slug, examType, examYear };
+    const ledger = await readLedger(filter);
+
+    // PENDING is a live claim by another request; ensureQuestionsCached reads
+    // the bank rather than drawing again, so it is safe to enter.
+    if (ledger?.status !== "SATURATED" && ledger?.status !== "FAILED") {
+      // The student waits for exactly one draw; the rest of the paper warms
+      // up after the response has gone out.
+      await ensureQuestionsCached(filter, count);
+      after(() => saturate(filter));
+    }
   }
 
   const assessmentType = examType ? "PAST_PAPER" : "TOPIC_QUIZ";
