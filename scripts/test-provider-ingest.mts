@@ -158,7 +158,7 @@ function makeFakeDb(subjects: Record<string, string>) {
           throw new Error("simulated database failure mid-draw");
         }
         const match = providerQuestions.find((pq) => {
-          if (pq.provider !== where.provider) return false;
+          if (pq.fetchId !== where.fetchId) return false;
           return where.OR.some((cond) =>
             "providerQuestionId" in cond
               ? pq.providerQuestionId === cond.providerQuestionId
@@ -297,11 +297,16 @@ test("a retryable ProviderError leaves the ledger PENDING", async () => {
   assert.equal(result.ledger.status, "PENDING");
 });
 
-test("an already-seen payload is skipped entirely: not counted, not staged", async () => {
+test("a payload already seen in THIS fetch is skipped entirely: not counted, not staged", async () => {
   const db = makeFakeDb({ physics: "subj-1" });
   const payload = validPayload(999);
   const fingerprint = fingerprintPayload(payload);
-  db._seedProviderQuestion({ providerQuestionId: "some-other-id", fingerprint });
+  // fetch-1 is the row ensureQuestionsCached is about to create for FILTER.
+  db._seedProviderQuestion({
+    fetchId: "fetch-1",
+    providerQuestionId: "some-other-id",
+    fingerprint,
+  });
 
   const rowsBefore = db._providerQuestions.length;
   const { adapter } = makeAdapter([async () => [payload]]);
@@ -404,4 +409,22 @@ test("a live lease means a second concurrent caller reads the DB without drawing
 
 test("LEASE_WINDOW_MS is the documented 120 seconds", () => {
   assert.equal(LEASE_WINDOW_MS, 120_000);
+});
+
+test("a payload seen under a DIFFERENT fetch is still staged: boards recycle questions", async () => {
+  const db = makeFakeDb({ physics: "subj-1" });
+  const payload = validPayload(999);
+  const fingerprint = fingerprintPayload(payload);
+  // The same question, already staged for another paper. Scoping the dedupe
+  // to the fetch is what lets the second paper hold it too — globally unique
+  // fingerprints would give it to whichever filter drew first.
+  db._seedProviderQuestion({ fetchId: "fetch-other", fingerprint });
+
+  const rowsBefore = db._providerQuestions.length;
+  const { adapter } = makeAdapter([async () => [payload]]);
+  const result = await ensureQuestionsCached(FILTER, 10, deps(db, adapter));
+
+  assert.equal(db._providerQuestions.length, rowsBefore + 1, "it should stage again");
+  assert.equal(result.ledger.rawCount, 1);
+  assert.equal(result.ledger.promotedCount, 1);
 });

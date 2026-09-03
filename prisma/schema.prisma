@@ -964,8 +964,12 @@ model ProviderQuestion {
   createdAt  DateTime  @default(now())
   promotedAt DateTime?
 
-  @@unique([provider, providerQuestionId])
-  @@unique([provider, fingerprint])
+  // Scoped to the fetch, not the provider: boards recycle questions across
+  // sittings, and a question shared by WAEC 2019 and WAEC 2021 must be able to
+  // stage (and promote) once for each paper. A global constraint would give it
+  // to whichever filter drew first and silently starve the other.
+  @@unique([fetchId, providerQuestionId])
+  @@unique([fetchId, fingerprint])
   @@index([status, mapperVersion])
 }
 

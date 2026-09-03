@@ -84,7 +84,7 @@ export type IngestDb = {
   providerQuestion: {
     findFirst(args: {
       where: {
-        provider: "SDASH";
+        fetchId: string;
         OR: ({ providerQuestionId: string } | { fingerprint: string })[];
       };
       select: { id: true };
@@ -319,10 +319,14 @@ async function drawOnce(
     for (const payload of payloads) {
       const result = mapProviderQuestion(payload);
 
-      // Dedupe on their id first, then on the content fingerprint.
+      // Dedupe on their id first, then on the content fingerprint — but only
+      // within this fetch. A draw redraws the same pool repeatedly, so we must
+      // skip what this filter already holds; we must NOT skip a question
+      // another paper happens to share, or the second paper to contain a
+      // recycled question would silently go without it.
       const seen = await db.providerQuestion.findFirst({
         where: {
-          provider: PROVIDER,
+          fetchId,
           OR: [
             ...(result.providerQuestionId
               ? [{ providerQuestionId: result.providerQuestionId }]

@@ -43,8 +43,8 @@ CREATE TABLE "ProviderQuestion" (
 );
 
 CREATE UNIQUE INDEX "ProviderQuestion_questionId_key" ON "ProviderQuestion"("questionId");
-CREATE UNIQUE INDEX "ProviderQuestion_provider_providerQuestionId_key" ON "ProviderQuestion"("provider", "providerQuestionId");
-CREATE UNIQUE INDEX "ProviderQuestion_provider_fingerprint_key" ON "ProviderQuestion"("provider", "fingerprint");
+CREATE UNIQUE INDEX "ProviderQuestion_fetchId_providerQuestionId_key" ON "ProviderQuestion"("fetchId", "providerQuestionId");
+CREATE UNIQUE INDEX "ProviderQuestion_fetchId_fingerprint_key" ON "ProviderQuestion"("fetchId", "fingerprint");
 CREATE INDEX "ProviderQuestion_status_mapperVersion_idx" ON "ProviderQuestion"("status", "mapperVersion");
 
 ALTER TABLE "ProviderQuestion" ADD CONSTRAINT "ProviderQuestion_fetchId_fkey" FOREIGN KEY ("fetchId") REFERENCES "ProviderFetch"("id") ON DELETE CASCADE ON UPDATE CASCADE;
