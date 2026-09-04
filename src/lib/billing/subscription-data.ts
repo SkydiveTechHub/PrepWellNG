@@ -231,6 +231,16 @@ export async function recordPaystackEvent({
   }
 }
 
+/** Lets a failed apply be retried: without this the redelivery is a duplicate. */
+export async function forgetPaystackEvent(
+  reference: string,
+  type: string,
+): Promise<void> {
+  await db.paystackEvent
+    .delete({ where: { eventKey: `${reference}:${type}` } })
+    .catch(() => {});
+}
+
 export async function grantComp({
   userId,
   tier,
