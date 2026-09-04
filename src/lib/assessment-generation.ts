@@ -5,6 +5,7 @@ import { pickQuestionsPreferringUnseen } from "./question-pool";
 import { deadlineFor } from "./attempt-timing";
 import { findResumableAttempt, reapStaleAttempts } from "./attempt-lifecycle";
 import { ensureQuestionsCached, saturate, readLedger } from "./question-provider/ingest";
+import { rateLimit } from "./rate-limit";
 import {
   describeScopeRange,
   expandScopeRange,
@@ -115,11 +116,26 @@ export async function generateQuiz(studentId: string, input: GenerateQuizInput) 
 
     // PENDING is a live claim by another request; ensureQuestionsCached reads
     // the bank rather than drawing again, so it is safe to enter.
+    //
+    // The budget is spent below, past the status check, and not in the route:
+    // charging every eligible request meant thirty students starting an
+    // already-cached paper could exhaust it, and the next student who actually
+    // needed a new paper would silently get one drawn from the wrong years.
+    // The limit bounds one instance's outbound traffic, so the real ceiling
+    // across a horizontally scaled deployment is 30 x instances.
     if (ledger?.status !== "SATURATED" && ledger?.status !== "FAILED") {
-      // The student waits for exactly one draw; the rest of the paper warms
-      // up after the response has gone out.
-      await ensureQuestionsCached(filter, count);
-      after(() => saturate(filter));
+      const outbound = rateLimit({
+        key: "provider:outbound",
+        limit: 30,
+        windowSeconds: 60,
+      });
+      // Out of budget degrades to a database-only quiz rather than an error.
+      if (outbound.ok) {
+        // The student waits for exactly one draw; the rest of the paper warms
+        // up after the response has gone out.
+        await ensureQuestionsCached(filter, count);
+        after(() => saturate(filter));
+      }
     }
   }
 

@@ -32,27 +32,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // A second, process-wide budget: the per-student limit above bounds one
-    // caller, but a burst of misses across many students would still hammer
-    // the provider. Exhausting it degrades to a database-only quiz rather
-    // than failing the student.
-    //
-    // Only a past paper pinned to one sitting can reach the provider, so only
-    // those requests draw on the budget — otherwise thirty topic quizzes a
-    // minute would spend it without a single outbound call.
-    const couldFetch =
-      parsed.data.examYear !== undefined &&
-      (parsed.data.examType === "WAEC" ||
-        parsed.data.examType === "JAMB" ||
-        parsed.data.examType === "NECO");
-    const outbound = couldFetch
-      ? rateLimit({ key: "provider:outbound", limit: 30, windowSeconds: 60 })
-      : { ok: false };
-
-    const result = await generateQuiz(session.user.id, {
-      ...parsed.data,
-      allowProviderFetch: outbound.ok,
-    });
+    const result = await generateQuiz(session.user.id, parsed.data);
 
     if (result === "subject-not-found") {
       return NextResponse.json({ error: "Subject not found." }, { status: 404 });

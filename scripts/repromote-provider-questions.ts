@@ -23,13 +23,22 @@ import { mapProviderQuestion, MAPPER_VERSION } from "../src/lib/question-provide
 async function main() {
   const stale = await db.providerQuestion.findMany({
     where: {
-      status: { in: ["REJECTED", "PENDING"] },
-      mapperVersion: { lt: MAPPER_VERSION },
+      OR: [
+        // Rejected under an older mapper: the rules may have changed since.
+        { status: "REJECTED", mapperVersion: { lt: MAPPER_VERSION } },
+        // PENDING is retryable whatever the mapper version. The row failed on
+        // our side, not on its own merits, and nothing else will ever look at
+        // it again. Gating these on the version stranded them permanently:
+        // they are written AT the current version, so the check never matched.
+        { status: "PENDING" },
+      ],
     },
-    include: { fetch: { select: { subjectId: true } } },
+    include: {
+      fetch: { select: { subjectId: true, examType: true, examYear: true } },
+    },
   });
 
-  console.log(`${stale.length} unpromoted rows below mapper version ${MAPPER_VERSION}`);
+  console.log(`${stale.length} unpromoted rows to re-examine at mapper version ${MAPPER_VERSION}`);
 
   let promoted = 0;
   let stillRejected = 0;
@@ -39,8 +48,16 @@ async function main() {
     // A PENDING row never was, so promoting one must not decrement it.
     const wasCounted = row.status === "REJECTED";
 
-    const result = mapProviderQuestion(row.payload);
-    const subjectId = row.fetch.subjectId;
+    // Cross-check against the paper the row was drawn for, exactly as the
+    // ingest path does. A fetch predating those columns has neither, in which
+    // case the payload is mapped on its own terms.
+    const { subjectId, examType, examYear } = row.fetch;
+    const result = mapProviderQuestion(
+      row.payload,
+      examType && examYear !== null
+        ? { examType: examType as "WAEC" | "JAMB" | "NECO", examYear }
+        : undefined,
+    );
 
     if (!result.ok || !subjectId) {
       await db.providerQuestion.update({
@@ -53,6 +70,15 @@ async function main() {
             : result.reasons,
         },
       });
+      // A row arriving PENDING was counted in rawCount but never in
+      // rejectedCount. Turning it down here is the moment the ledger has to
+      // learn about it, or the paper's three counters stop reconciling.
+      if (!wasCounted) {
+        await db.providerFetch.update({
+          where: { id: row.fetchId },
+          data: { rejectedCount: { increment: 1 } },
+        });
+      }
       stillRejected += 1;
       continue;
     }
@@ -85,6 +111,14 @@ async function main() {
             ],
           },
         });
+        // Same reconciliation as above, and only when the row actually
+        // crosses into REJECTED — one left PENDING is still just pending.
+        if (blameCaller && !wasCounted) {
+          await db.providerFetch.update({
+            where: { id: row.fetchId },
+            data: { rejectedCount: { increment: 1 } },
+          });
+        }
         stillRejected += 1;
         continue;
       }

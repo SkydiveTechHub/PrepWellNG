@@ -343,6 +343,12 @@ export const providerBackfillSchema = z.object({
   subjectSlug: z.string().min(1),
   examType: z.enum(["WAEC", "JAMB", "NECO"]),
   examYear: z.number().int().min(2001).max(2026),
+  /**
+   * Put a FAILED filter back in play before drawing. FAILED is final by
+   * design, so clearing it is a deliberate admin act rather than something
+   * a retry should quietly do on its own.
+   */
+  reset: z.boolean().optional(),
 });
 export type ProviderBackfillInput = z.infer<typeof providerBackfillSchema>;
 

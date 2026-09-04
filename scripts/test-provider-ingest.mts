@@ -3,10 +3,13 @@ import assert from "node:assert/strict";
 import { Prisma } from "@prisma/client";
 import {
   ensureQuestionsCached,
+  saturate,
+  readLedger,
   LEASE_WINDOW_MS,
   type IngestDb,
   type IngestDeps,
 } from "../src/lib/question-provider/ingest";
+import { MAX_DRAWS } from "../src/lib/question-provider/saturation";
 import { fingerprintPayload } from "../src/lib/question-provider/mapper";
 import { ProviderError, type ProviderFilter, type QuestionProviderAdapter } from "../src/lib/question-provider/types";
 
@@ -96,6 +99,7 @@ function makeFakeDb(subjects: Record<string, string>) {
     _providerQuestions: ProviderQuestionRow[];
     _questions: QuestionRow[];
     _throwOnFindFirstCall: (n: number) => void;
+    _fetchRow: () => FetchRow | null;
   } = {
     subject: {
       async findUnique({ where }) {
@@ -134,6 +138,20 @@ function makeFakeDb(subjects: Record<string, string>) {
         fetchesById.set(row.id, row);
         fetchesByKey.set(key, row.id);
         return row;
+      },
+      // Mirrors the real conditional update: the write lands only if the row
+      // still looks exactly as the caller last saw it.
+      async updateMany({ where, data }) {
+        const row = fetchesById.get(where.id);
+        if (
+          !row ||
+          row.status !== where.status ||
+          row.startedAt.getTime() !== where.startedAt.getTime()
+        ) {
+          return { count: 0 };
+        }
+        row.startedAt = data.startedAt;
+        return { count: 1 };
       },
       async update({ where, data }) {
         const row = fetchesById.get(where.id);
@@ -223,6 +241,9 @@ function makeFakeDb(subjects: Record<string, string>) {
     },
     _providerQuestions: providerQuestions,
     _questions: questions,
+    _fetchRow() {
+      return [...fetchesById.values()][0] ?? null;
+    },
     _throwOnFindFirstCall(n) {
       findFirstThrowsOnCall = n;
     },
@@ -427,4 +448,73 @@ test("a payload seen under a DIFFERENT fetch is still staged: boards recycle que
   assert.equal(db._providerQuestions.length, rowsBefore + 1, "it should stage again");
   assert.equal(result.ledger.rawCount, 1);
   assert.equal(result.ledger.promotedCount, 1);
+});
+
+test("saturate draws under a claim: a second loop on the same filter exits without drawing", async () => {
+  const db = makeFakeDb({ physics: "subj-1" });
+
+  // One full draw of unique payloads, so the filter stays PENDING and both
+  // loops find work to do.
+  let drawn = 0;
+  const { adapter } = makeAdapter([
+    async () => {
+      drawn += 1;
+      return Array.from({ length: 50 }, (_, i) => validPayload(drawn * 1000 + i));
+    },
+  ]);
+
+  await ensureQuestionsCached(FILTER, 10, deps(db, adapter));
+  const afterFirst = drawn;
+
+  // Two background loops pointed at the same paper, exactly as two students
+  // arriving inside the lease window would produce.
+  await Promise.all([
+    saturate(FILTER, deps(db, adapter)),
+    saturate(FILTER, deps(db, adapter)),
+  ]);
+
+  assert.ok(drawn > afterFirst, "one loop should have gone on drawing");
+  const ledger = await readLedger(FILTER, deps(db, adapter));
+  assert.ok(
+    ledger !== null && ledger.rawCount > 0,
+    "the winning loop's work should be recorded",
+  );
+  // Every draw is claimed, so the cap holds however many loops were started.
+  const row = db._fetchRow();
+  assert.ok(
+    row !== null && row.drawCount <= MAX_DRAWS + 1,
+    `drawCount ${row?.drawCount} should not exceed the cap`,
+  );
+});
+
+test("a stale lease is reclaimed by exactly one of two racing callers", async () => {
+  const db = makeFakeDb({ physics: "subj-1" });
+  // A full draw, so the filter stays PENDING rather than saturating on the
+  // spot — a short draw would end the fetch and there would be no lease left
+  // to race for.
+  const { adapter } = makeAdapter([
+    async () => Array.from({ length: 50 }, (_, i) => validPayload(i)),
+  ]);
+  await ensureQuestionsCached(FILTER, 10, deps(db, adapter));
+
+  // Age the lease past the window so both callers see it as reclaimable.
+  const row = db._fetchRow();
+  assert.ok(row);
+  row.startedAt = new Date(Date.now() - LEASE_WINDOW_MS - 1_000);
+  const before = row.drawCount;
+
+  let draws = 0;
+  const { adapter: counting } = makeAdapter([
+    async () => {
+      draws += 1;
+      return [validPayload(900 + draws)];
+    },
+  ]);
+  await Promise.all([
+    ensureQuestionsCached(FILTER, 10, deps(db, counting)),
+    ensureQuestionsCached(FILTER, 10, deps(db, counting)),
+  ]);
+
+  assert.equal(draws, 1, "only one caller should reclaim the stale lease");
+  assert.equal(db._fetchRow()?.drawCount, before + 1);
 });

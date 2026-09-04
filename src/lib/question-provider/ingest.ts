@@ -73,13 +73,17 @@ export type IngestDb = {
         error: string | null;
         completedAt: Date | null;
         startedAt: Date;
-        drawCount: number;
+        drawCount: number | { increment: number };
         newInLastDraw: number;
         rawCount: number | { increment: number };
         promotedCount: number | { increment: number };
         rejectedCount: number | { increment: number };
       }>;
     }): Promise<ProviderFetchRow>;
+    updateMany(args: {
+      where: { id: string; status: FetchStatus; startedAt: Date };
+      data: { startedAt: Date };
+    }): Promise<{ count: number }>;
   };
   providerQuestion: {
     findFirst(args: {
@@ -152,6 +156,27 @@ const defaultDeps: IngestDeps = {
   db: realDb as unknown as IngestDb,
   getAdapter: getSdashAdapter,
 };
+
+/**
+ * Takes the lease for exactly one draw, atomically.
+ *
+ * `startedAt` doubles as an optimistic-concurrency token: the write lands only
+ * if nobody has touched the row since we read it, so of N racing callers
+ * exactly one proceeds and the rest fall out. Winning also *renews* the lease,
+ * which is what stops a long saturation run from going stale underneath itself
+ * and inviting a second drawer in halfway through.
+ */
+async function claimDraw(
+  db: IngestDb,
+  id: string,
+  seenStartedAt: Date,
+): Promise<boolean> {
+  const { count } = await db.providerFetch.updateMany({
+    where: { id, status: "PENDING", startedAt: seenStartedAt },
+    data: { startedAt: new Date() },
+  });
+  return count === 1;
+}
 
 /** Reads from our own bank, calling the provider only the first time we see a filter. */
 export async function ensureQuestionsCached(
@@ -237,13 +262,19 @@ export async function ensureQuestionsCached(
         },
       };
     }
-  } else {
-    // Stale PENDING row (the previous draw crashed or timed out): reclaim the
-    // lease before drawing so a concurrent reader sees it as live again.
-    await db.providerFetch.update({
-      where: { id: ledger.id },
-      data: { startedAt: new Date() },
-    });
+  } else if (!(await claimDraw(db, ledger.id, ledger.startedAt))) {
+    // Stale PENDING row (the previous draw crashed or timed out), but someone
+    // else reclaimed it in the moment between our read and our claim. Theirs
+    // is now the live lease; read what we have rather than drawing alongside.
+    return {
+      questions: await readFromDb(db, subject.id, filter, limit),
+      source: "db" as const,
+      ledger: {
+        status: ledger.status,
+        rawCount: ledger.rawCount,
+        promotedCount: ledger.promotedCount,
+      },
+    };
   }
 
   await drawOnce(ledger.id, subject.id, filter, deps);
@@ -278,6 +309,13 @@ export async function saturate(
       where: { provider_cacheKey: { provider: PROVIDER, cacheKey: key } },
     });
     if (!ledger || ledger.status !== "PENDING") return;
+    // Every request that finds a filter unfinished schedules one of these, so
+    // several loops can be pointed at the same paper at once. The claim is
+    // what keeps exactly one of them drawing: the losers exit here, having
+    // cost a single read apiece. Without it they all draw in parallel —
+    // duplicate provider spend, and unique-constraint collisions that abandon
+    // the rest of a draw's payloads.
+    if (!(await claimDraw(db, ledger.id, ledger.startedAt))) return;
     await drawOnce(ledger.id, subject.id, filter, deps);
   }
 }
@@ -290,11 +328,14 @@ async function drawOnce(
   deps: IngestDeps,
 ) {
   const { db } = deps;
-  const adapter = deps.getAdapter();
 
   let payloads: unknown[];
   try {
-    payloads = await adapter.draw(filter, DRAW_LIMIT);
+    // Inside the try: getAdapter() throws terminally when the access token is
+    // unset, and outside it that escaped all the way to the route's catch-all,
+    // 500ing every past-paper quiz instead of marking the filter FAILED and
+    // falling back to a database-only one.
+    payloads = await deps.getAdapter().draw(filter, DRAW_LIMIT);
   } catch (error) {
     const kind = error instanceof ProviderError ? error.kind : "retryable";
     await db.providerFetch.update({
@@ -317,7 +358,10 @@ async function drawOnce(
 
   try {
     for (const payload of payloads) {
-      const result = mapProviderQuestion(payload);
+      const result = mapProviderQuestion(payload, {
+        examType: filter.examType,
+        examYear: filter.examYear,
+      });
 
       // Dedupe on their id first, then on the content fingerprint — but only
       // within this fetch. A draw redraws the same pool repeatedly, so we must
@@ -455,7 +499,9 @@ async function drawOnce(
   await db.providerFetch.update({
     where: { id: fetchId },
     data: {
-      drawCount,
+      // Incremented rather than written back, so a stray concurrent draw can
+      // never rewind the count and hand the filter unlimited draws.
+      drawCount: { increment: 1 },
       newInLastDraw: newCount,
       rawCount: { increment: newCount },
       promotedCount: { increment: promoted },
@@ -488,6 +534,46 @@ async function readFromDb(
     },
     take: limit,
   });
+}
+
+/**
+ * Puts a `FAILED` filter back in play.
+ *
+ * `FAILED` is otherwise final — both `ensureQuestionsCached` and `saturate`
+ * return on sight of it — which is right for a genuinely terminal cause but
+ * wrong for a transient one that merely looked terminal: a 403 while a plan
+ * lapsed, a token rotated mid-flight. Without this the only remedy is hand-
+ * written SQL, and one bad deploy window can blackhole a large set of papers.
+ *
+ * Counters and staged rows are deliberately preserved; only the status, the
+ * error and the lease are cleared. `drawCount` in particular carries over, so
+ * a filter that failed on its ninth draw does not get twelve fresh ones.
+ *
+ * Returns false when there was no such row, or it was not `FAILED` — resetting
+ * a live or saturated filter is never what the caller meant.
+ */
+export async function resetFailedFetch(
+  filter: ProviderFilter,
+  deps: IngestDeps = defaultDeps,
+): Promise<boolean> {
+  const { db } = deps;
+  const row = await db.providerFetch.findUnique({
+    where: { provider_cacheKey: { provider: PROVIDER, cacheKey: cacheKey(filter) } },
+  });
+  if (!row || row.status !== "FAILED") return false;
+
+  await db.providerFetch.update({
+    where: { id: row.id },
+    data: {
+      status: "PENDING",
+      error: null,
+      completedAt: null,
+      // Backdated past the lease window so the next caller draws immediately
+      // instead of mistaking the reset for an in-flight claim.
+      startedAt: new Date(Date.now() - LEASE_WINDOW_MS),
+    },
+  });
+  return true;
 }
 
 /**

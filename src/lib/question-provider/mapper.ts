@@ -11,7 +11,7 @@ import { toExamType, type SupportedExamType } from "./alias";
  * re-run offline against the stored payload — no new API calls — so improving
  * this function retroactively grows the bank.
  */
-export const MAPPER_VERSION = 1;
+export const MAPPER_VERSION = 2;
 
 export type MappedQuestion = {
   questionText: string;
@@ -73,7 +73,25 @@ export function fingerprintPayload(payload: unknown): string {
   return crypto.createHash("sha256").update(canonical).digest("hex");
 }
 
-export function mapProviderQuestion(payload: unknown): MapResult {
+/**
+ * The paper this payload was drawn for.
+ *
+ * Passed so the mapper can check the provider's echoed `examtype`/`examyear`
+ * against what we actually asked for. Without it, a row echoing the wrong
+ * sitting promotes under that wrong year: it counts toward the requested
+ * paper's ledger but the read path, which filters on examYear, never returns
+ * it. The filter then reads SATURATED and fully promoted while the paper is
+ * quietly short — a state no diagnostic can distinguish from a healthy one.
+ *
+ * Optional: the re-promotion sweep can pass it from the row's fetch, but a
+ * caller with no filter to hand still gets the payload-only mapping.
+ */
+export type ExpectedPaper = { examType: SupportedExamType; examYear: number };
+
+export function mapProviderQuestion(
+  payload: unknown,
+  expected?: ExpectedPaper,
+): MapResult {
   const fingerprint = fingerprintPayload(payload);
   const source = isRecord(payload) ? payload : {};
   const providerQuestionId =
@@ -123,6 +141,23 @@ export function mapProviderQuestion(payload: unknown): MapResult {
     reasons.push({
       field: "examYear",
       message: `Unparseable exam year: "${str(source.examyear) || "(missing)"}".`,
+    });
+  }
+
+  // Reject rather than rewrite. Storing it under the year we asked for would
+  // be falsifying the question's provenance; storing it under the year they
+  // sent silently starves the paper we asked for. A rejection is the only
+  // option that leaves a trace someone can act on.
+  if (expected && examType && examType !== expected.examType) {
+    reasons.push({
+      field: "examType",
+      message: `Drawn for ${expected.examType} but the payload says ${examType}.`,
+    });
+  }
+  if (expected && Number.isInteger(examYear) && examYear !== expected.examYear) {
+    reasons.push({
+      field: "examYear",
+      message: `Drawn for ${expected.examYear} but the payload says ${examYear}.`,
     });
   }
 

@@ -4,7 +4,12 @@ import { requireAdminApi } from "@/lib/admin-session";
 import { recordAudit } from "@/lib/admin-audit";
 import { CATALOGUE_TAG } from "@/lib/catalogue";
 import { providerBackfillSchema } from "@/lib/validators";
-import { ensureQuestionsCached, saturate, readLedger } from "@/lib/question-provider/ingest";
+import {
+  ensureQuestionsCached,
+  saturate,
+  readLedger,
+  resetFailedFetch,
+} from "@/lib/question-provider/ingest";
 
 export const dynamic = "force-dynamic";
 // saturate() runs the remaining draws inline rather than after the response,
@@ -26,7 +31,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const filter = parsed.data;
+    const { reset, ...filter } = parsed.data;
+    const wasReset = reset ? await resetFailedFetch(filter) : false;
+
     await ensureQuestionsCached(filter, 50);
     // Run the remaining draws inline: this is an admin tool, not a student
     // request, so completeness matters more than latency here.
@@ -41,12 +48,13 @@ export async function POST(req: NextRequest) {
       action: "provider.backfill",
       entity: "ProviderFetch",
       summary:
-        `Backfilled ${filter.subjectSlug} ${filter.examType} ${filter.examYear}: ` +
+        `${wasReset ? "Reset and backfilled" : "Backfilled"} ` +
+        `${filter.subjectSlug} ${filter.examType} ${filter.examYear}: ` +
         `${ledger?.rawCount ?? 0} captured, ${ledger?.promotedCount ?? 0} promoted ` +
         `(${ledger?.status ?? "UNKNOWN"}).`,
     });
 
-    return NextResponse.json({ ledger });
+    return NextResponse.json({ ledger, wasReset });
   } catch (error) {
     console.error("Provider backfill failed:", error);
     return NextResponse.json({ error: "Backfill failed" }, { status: 500 });
