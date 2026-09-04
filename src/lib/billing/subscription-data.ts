@@ -164,6 +164,12 @@ export async function applyChargeSuccess(
         endsAt,
       },
     }),
+    // Deliberately unconditional, unlike the updateMany above: this write is
+    // idempotent by construction rather than by a guard. Both a racing
+    // caller and a retried call write the identical `pending.tier` for this
+    // same reference, so there is nothing to lose by not gating it — and
+    // refreshCachedTier right after re-derives from the live rows anyway.
+    // Do not "fix" this into a status-guarded updateMany.
     db.user.update({
       where: { id: pending.userId },
       data: { tier: pending.tier, tierUpdatedAt: now },
@@ -175,6 +181,20 @@ export async function applyChargeSuccess(
   await refreshCachedTier(pending.userId, now);
 
   return "activated";
+}
+
+/**
+ * True for Prisma's unique-constraint violation (P2002), structurally rather
+ * than via `instanceof PrismaClientKnownRequestError` so this file does not
+ * need that class imported just to narrow a catch.
+ */
+function isUniqueConstraintViolation(error: unknown): boolean {
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    "code" in error &&
+    (error as { code: unknown }).code === "P2002"
+  );
 }
 
 /**
@@ -199,11 +219,15 @@ export async function recordPaystackEvent({
       },
     });
     return true;
-  } catch {
-    // A primary-key collision means Paystack redelivered an event we have
-    // already handled. Anything else that throws here would also be safest
-    // treated as "do not apply twice".
-    return false;
+  } catch (error) {
+    // Only a P2002 unique-constraint hit on eventKey means Paystack
+    // redelivered an event we already handled — idempotency working as
+    // intended. Anything else (dropped connection, pool exhaustion, timeout)
+    // must reach the caller: swallowing it here would make the webhook
+    // answer Paystack 200 on a payment we never actually recorded, and
+    // Paystack would stop retrying a delivery that in fact failed.
+    if (isUniqueConstraintViolation(error)) return false;
+    throw error;
   }
 }
 
