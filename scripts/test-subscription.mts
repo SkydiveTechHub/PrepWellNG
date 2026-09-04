@@ -6,6 +6,12 @@ import {
   describeTier,
   hasAtLeast,
   isSubscriptionTier,
+  BILLING_PERIODS,
+  planFor,
+  isPurchasableTier,
+  formatNaira,
+  SUBSCRIPTION_STATUSES,
+  SUBSCRIPTION_SOURCES,
 } from "../src/lib/subscription";
 
 test("the tiers are ordered cheapest to richest", () => {
@@ -55,4 +61,61 @@ test("isSubscriptionTier accepts only the three tiers", () => {
   assert.equal(isSubscriptionTier(""), false);
   assert.equal(isSubscriptionTier(undefined), false);
   assert.equal(isSubscriptionTier(null), false);
+});
+
+test("the billing periods are monthly and yearly", () => {
+  assert.deepEqual(BILLING_PERIODS, ["MONTHLY", "YEARLY"]);
+});
+
+test("every purchasable tier and period has a price", () => {
+  for (const tier of ["STANDARD", "PREMIUM"] as const) {
+    for (const period of BILLING_PERIODS) {
+      assert.ok(planFor(tier, period).amountKobo > 0, `${tier} ${period}`);
+    }
+  }
+});
+
+test("prices match what the landing page sells", () => {
+  assert.equal(planFor("STANDARD", "MONTHLY").amountKobo, 250_000);
+  assert.equal(planFor("STANDARD", "YEARLY").amountKobo, 2_400_000);
+  assert.equal(planFor("PREMIUM", "MONTHLY").amountKobo, 500_000);
+  assert.equal(planFor("PREMIUM", "YEARLY").amountKobo, 5_000_000);
+});
+
+test("yearly is cheaper than twelve months", () => {
+  // The landing page advertises "Save 20%" — if a repricing breaks that, the
+  // claim on the marketing page becomes false.
+  for (const tier of ["STANDARD", "PREMIUM"] as const) {
+    const monthly = planFor(tier, "MONTHLY").amountKobo * 12;
+    assert.ok(planFor(tier, "YEARLY").amountKobo < monthly, tier);
+  }
+});
+
+test("freemium is free and not purchasable", () => {
+  assert.equal(planFor("FREEMIUM", "MONTHLY").amountKobo, 0);
+  assert.equal(isPurchasableTier("FREEMIUM"), false);
+  assert.equal(isPurchasableTier("STANDARD"), true);
+  assert.equal(isPurchasableTier("PREMIUM"), true);
+});
+
+test("the display names are the ones the landing page uses", () => {
+  assert.equal(planFor("STANDARD", "MONTHLY").displayName, "Basic");
+  assert.equal(planFor("PREMIUM", "MONTHLY").displayName, "Premium");
+  assert.equal(planFor("FREEMIUM", "MONTHLY").displayName, "Free");
+});
+
+test("kobo renders as naira", () => {
+  assert.equal(formatNaira(250_000), "₦2,500");
+  assert.equal(formatNaira(0), "₦0");
+});
+
+test("the statuses and sources are the ones the schema will mirror", () => {
+  assert.deepEqual(SUBSCRIPTION_STATUSES, [
+    "PENDING",
+    "ACTIVE",
+    "FAILED",
+    "ABANDONED",
+    "REVOKED",
+  ]);
+  assert.deepEqual(SUBSCRIPTION_SOURCES, ["PAYSTACK", "COMP"]);
 });
