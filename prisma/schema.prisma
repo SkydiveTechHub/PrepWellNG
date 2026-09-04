@@ -40,6 +40,24 @@ enum SubscriptionTier {
   PREMIUM
 }
 
+enum BillingPeriod {
+  MONTHLY
+  YEARLY
+}
+
+enum SubscriptionSource {
+  PAYSTACK
+  COMP
+}
+
+enum SubscriptionStatus {
+  PENDING
+  ACTIVE
+  FAILED
+  ABANDONED
+  REVOKED
+}
+
 enum Term {
   FIRST
   SECOND
@@ -207,6 +225,7 @@ model User {
   // gate written against hasAtLeast() keeps working unchanged.
   tier          SubscriptionTier @default(FREEMIUM)
   tierUpdatedAt DateTime?
+  subscriptions Subscription[]
 
   // Account status. Suspension is reversible; deletion is not.
   isActive        Boolean   @default(true)
@@ -986,4 +1005,54 @@ model ProviderCatalogue {
 
   @@unique([provider, subjectId, examType, examYear])
   @@index([examType, examYear])
+}
+
+// ─── Billing ──────────────────────────────────────────────
+//
+// The source of truth that writes User.tier. See
+// docs/superpowers/specs/2026-09-04-paystack-billing-design.md
+
+model Subscription {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  tier   SubscriptionTier
+  period BillingPeriod
+  source SubscriptionSource
+  status SubscriptionStatus @default(PENDING)
+
+  /// Ours, generated at checkout and handed to Paystack, so any transaction
+  /// traces back to the row that authorised it.
+  reference String @unique
+
+  /// A snapshot of what was actually charged. This is what lets prices live in
+  /// code: repricing a plan never rewrites history.
+  amountKobo Int
+  currency   String @default("NGN")
+  channel    String?
+
+  paidAt   DateTime?
+  startsAt DateTime?
+  endsAt   DateTime?
+
+  /// Set on COMP rows only — the Admin who issued the grant.
+  grantedById String?
+  note        String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, endsAt])
+  @@index([status])
+}
+
+/// Idempotency ledger and raw audit trail for Paystack deliveries. The primary
+/// key is the reference joined with the event type, so a redelivered event
+/// collides instead of being applied twice.
+model PaystackEvent {
+  eventKey   String   @id
+  type       String
+  payload    Json
+  receivedAt DateTime @default(now())
 }
