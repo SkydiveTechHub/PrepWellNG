@@ -6,6 +6,8 @@ import bcrypt from "bcryptjs";
 import { db } from "./db";
 import { z } from "zod";
 import { isSessionRevoked, sessionStartedAt } from "@/lib/account-status";
+import { resolveTier } from "@/lib/billing/entitlement";
+import type { SubscriptionTier } from "@/lib/subscription";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -36,6 +38,11 @@ const PROFILE_SELECT = {
   image: true,
   isActive: true,
   sessionsValidFrom: true,
+  tier: true,
+  subscriptions: {
+    where: { status: "ACTIVE" },
+    select: { tier: true, status: true, startsAt: true, endsAt: true },
+  },
 } as const;
 
 // The session.user shape the callbacks extend — structural so it doesn't rely
@@ -192,6 +199,31 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         if (isSessionRevoked(profile, startedAt)) {
           return null;
+        }
+
+        // User.tier is a cache of what the subscription rows grant. Refresh it
+        // here rather than on a schedule: this read already runs at most once
+        // per PROFILE_TTL_MS, so an expiry converges within that window and an
+        // upgrade is instant because applyChargeSuccess writes it directly.
+        const resolved = resolveTier(
+          profile.subscriptions as {
+            tier: SubscriptionTier;
+            status: "ACTIVE";
+            startsAt: Date | null;
+            endsAt: Date | null;
+          }[],
+          new Date(),
+        );
+        if (resolved.tier !== profile.tier) {
+          await db.user
+            .update({
+              where: { id: token.sub },
+              data: { tier: resolved.tier, tierUpdatedAt: new Date() },
+            })
+            // A failed refresh must never cost the user their session — the
+            // surrounding catch keeps the cached profile on a database blip,
+            // and the next TTL expiry tries again.
+            .catch(() => {});
         }
 
         cache.profile = {
