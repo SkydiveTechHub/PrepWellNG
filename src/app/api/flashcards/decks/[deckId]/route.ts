@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
+import { denyUnlessEntitled } from "@/lib/entitlements";
 import { deleteDeck } from "@/lib/flashcards";
 
 export const dynamic = "force-dynamic";
@@ -18,6 +19,11 @@ export async function DELETE(
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+
+    // Flashcards are a paid feature. Enforced here rather than only in the UI:
+    // the hub being hidden does not stop a direct call to this route.
+    const denied = await denyUnlessEntitled(session, "flashcards");
+    if (denied) return denied;
 
     const { deckId } = await params;
 

@@ -135,3 +135,44 @@ export function isPurchasableTier(tier: SubscriptionTier): boolean {
 export function formatNaira(kobo: number): string {
   return `₦${Math.round(kobo / 100).toLocaleString("en-NG")}`;
 }
+
+/**
+ * What each tier unlocks — PRD open decision #2, "one table in subscription.ts".
+ *
+ * Derived from what `src/components/landing/pricing.tsx` sells, because that is
+ * the promise buyers act on. Change this table and the landing copy together or
+ * the site is advertising something the app will not grant.
+ *
+ * Only yes/no gates live here. The Free tier's numeric caps — 3 subjects, 25
+ * practice questions a day, 1 mock exam — are deliberately absent: they need
+ * usage metering that does not exist yet, and adding them later means adding
+ * rows here, not changing any call site.
+ */
+export const GATED_FEATURES = [
+  "flashcards",
+  "studyPlanner",
+  "premiumLibrary",
+  "advancedAnalytics",
+] as const;
+
+export type GatedFeature = (typeof GATED_FEATURES)[number];
+
+export const ENTITLEMENTS: Record<GatedFeature, SubscriptionTier> = {
+  flashcards: "STANDARD",
+  studyPlanner: "STANDARD",
+  premiumLibrary: "PREMIUM",
+  advancedAnalytics: "PREMIUM",
+};
+
+/**
+ * The one predicate every gate calls. Built on `hasAtLeast`, so it inherits
+ * rank comparison: a richer tier can never lose a feature a poorer one has.
+ */
+export function can(tier: SubscriptionTier, feature: GatedFeature): boolean {
+  return hasAtLeast({ tier }, ENTITLEMENTS[feature]);
+}
+
+/** The cheapest tier that unlocks a feature — for "Upgrade to X" copy. */
+export function requiredTierFor(feature: GatedFeature): SubscriptionTier {
+  return ENTITLEMENTS[feature];
+}

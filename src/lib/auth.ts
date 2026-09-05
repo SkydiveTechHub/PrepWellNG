@@ -24,6 +24,12 @@ type CachedProfile = {
   firstName?: string | null;
   lastName?: string | null;
   image?: string | null;
+  // Unlike the fields above, this one is not decoration: entitlement gates read
+  // it. PROFILE_SELECT already fetched it to refresh the User.tier cache below,
+  // so carrying it costs no extra query. It can lag the database by up to
+  // PROFILE_TTL_MS, which is why a paid upgrade calls session.update() to force
+  // the `trigger: "update"` refresh instead of leaving the buyer locked out.
+  tier?: SubscriptionTier | null;
 };
 
 /** How long a cached profile is served before the JWT callback re-reads it. */
@@ -62,6 +68,7 @@ function applyProfile(sessionUser: SessionUser, profile: CachedProfile) {
   extended.firstName = profile.firstName;
   extended.lastName = profile.lastName;
   extended.image = profile.image;
+  extended.tier = profile.tier;
 }
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
@@ -233,6 +240,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           firstName: profile.firstName,
           lastName: profile.lastName,
           image: profile.image,
+          // `resolved.tier`, not `profile.tier`: the column was read before the
+          // refresh above and may be the value we just corrected. Caching the
+          // stale one would hold a just-upgraded buyer at their old tier for a
+          // further PROFILE_TTL_MS.
+          tier: resolved.tier,
         };
         cache.profileAt = Date.now();
       } catch {

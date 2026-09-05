@@ -12,6 +12,9 @@ import {
   formatNaira,
   SUBSCRIPTION_STATUSES,
   SUBSCRIPTION_SOURCES,
+  ENTITLEMENTS,
+  GATED_FEATURES,
+  can,
 } from "../src/lib/subscription";
 
 test("the tiers are ordered cheapest to richest", () => {
@@ -118,4 +121,56 @@ test("the statuses and sources are the ones the schema will mirror", () => {
     "REVOKED",
   ]);
   assert.deepEqual(SUBSCRIPTION_SOURCES, ["PAYSTACK", "COMP"]);
+});
+
+// --- Entitlements ---------------------------------------------------------
+
+test("every gated feature declares a minimum tier", () => {
+  for (const feature of GATED_FEATURES) {
+    assert.ok(
+      ENTITLEMENTS[feature] !== undefined,
+      `${feature} has no minimum tier`,
+    );
+  }
+});
+
+test("the matrix matches what the landing page sells", () => {
+  // src/components/landing/pricing.tsx is the promise made to buyers; if these
+  // drift apart, the site is selling something the app does not grant.
+  assert.equal(ENTITLEMENTS.flashcards, "STANDARD");
+  assert.equal(ENTITLEMENTS.studyPlanner, "STANDARD");
+  assert.equal(ENTITLEMENTS.premiumLibrary, "PREMIUM");
+  assert.equal(ENTITLEMENTS.advancedAnalytics, "PREMIUM");
+});
+
+test("freemium gets none of the gated features", () => {
+  for (const feature of GATED_FEATURES) {
+    assert.equal(can("FREEMIUM", feature), false, feature);
+  }
+});
+
+test("premium gets all of them", () => {
+  for (const feature of GATED_FEATURES) {
+    assert.equal(can("PREMIUM", feature), true, feature);
+  }
+});
+
+test("standard gets the standard features but not the premium ones", () => {
+  assert.equal(can("STANDARD", "flashcards"), true);
+  assert.equal(can("STANDARD", "studyPlanner"), true);
+  assert.equal(can("STANDARD", "premiumLibrary"), false);
+  assert.equal(can("STANDARD", "advancedAnalytics"), false);
+});
+
+test("can() is rank-based, so a richer tier never loses a feature", () => {
+  // Guards the ordering invariant directly: anything a lower tier can do, every
+  // higher tier can do. A matrix edit that breaks this is a downgrade bug.
+  for (const feature of GATED_FEATURES) {
+    if (can("FREEMIUM", feature)) {
+      assert.equal(can("STANDARD", feature), true, feature);
+    }
+    if (can("STANDARD", feature)) {
+      assert.equal(can("PREMIUM", feature), true, feature);
+    }
+  }
 });

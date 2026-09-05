@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
+import { denyUnlessEntitled } from "@/lib/entitlements";
 import { generateStudyPlanSchema } from "@/lib/validators";
 import { generateStudyPlanFor, getActiveStudyPlan } from "@/lib/study-plan";
 
@@ -12,6 +13,11 @@ export async function GET() {
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+
+    // The study planner is a paid feature. Enforced server-side: hiding the
+    // page does not stop a direct call to this route.
+    const denied = await denyUnlessEntitled(session, "studyPlanner");
+    if (denied) return denied;
 
     return NextResponse.json({ plan: await getActiveStudyPlan(session.user.id) });
   } catch (error) {
@@ -30,6 +36,11 @@ export async function POST(req: NextRequest) {
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+
+    // The study planner is a paid feature. Enforced server-side: hiding the
+    // page does not stop a direct call to this route.
+    const denied = await denyUnlessEntitled(session, "studyPlanner");
+    if (denied) return denied;
 
     const body = await req.json();
     const parsed = generateStudyPlanSchema.safeParse(body);
