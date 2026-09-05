@@ -285,13 +285,14 @@ deliberately undefined. **Not started** — designed or scoped, no code.
 |---|---|---|
 | **Performance analytics phase 1** — subject, exam, and progress lenses over the evidence ledger, with predicted grade bands and an honest "not enough data yet" verdict | Complete on branch, 13 commits, **unmerged** | `feat/performance-analytics-phase-1` |
 | **Admin console structure** — grouped navigation, shared table and detail primitives, subscription-tier seam | 2 commits ahead, **unmerged**, 28 behind `main` | `feat/admin-console-structure` |
+| **Paystack billing + tier gating** — `Subscription` rows as the source of truth with `User.tier` as a derived cache, hosted-checkout payment, signed webhook, admin comps, and the `ENTITLEMENTS` matrix enforced server-side across flashcards, the study planner, the subject breakdown, and premium library resources | `2026-09-04-paystack-billing-design.md`; `billing` migration; **unmerged** | `feat/paystack-billing` |
 | **Question provider cache** — read-through ingestion from sdashapi. Tasks 1–10 committed: schema, alias tables, cache key, response classifier, saturation rule, mapper, adapter, image mirroring, ingestion orchestrator, catalogue sweep script. Task 11 (admin backfill endpoint) is uncommitted in the working tree. Tasks 12–15 open: thread `examYear` through quiz generation, offer uncached papers in the picker, wire the cache into generation, re-promotion sweep | 15 commits, **unmerged** | `ft/try-sdash` |
 
 ### 9.3 Seam only
 
 | Item | What exists | What does not |
 |---|---|---|
-| **Subscription tiers** | `SubscriptionTier` enum (FREEMIUM / STANDARD / PREMIUM), rank comparison via `hasAtLeast`, admin override, tier badges | No feature is gated by tier. No payment provider. What each tier unlocks is undecided — by design, so call sites never change when it is |
+| **Usage-based tier limits** | The `ENTITLEMENTS` table in `subscription.ts` and the `can()` predicate every gate calls. Billing and the boolean gates themselves have shipped — see 9.2 | No usage metering, so the Free tier's advertised caps (3 subjects, 25 questions a day, 1 mock exam) are unenforced. Adding them means adding rows to `ENTITLEMENTS`, not changing call sites |
 | **Teacher role** | `Role.TEACHER` exists in the schema | Offered at registration as "coming soon" and deliberately rejected by the validator. No classroom assignment, no school analytics |
 
 ### 9.4 Known gaps
@@ -315,9 +316,30 @@ deliberately undefined. **Not started** — designed or scoped, no code.
    syllabus topics so they feed the learning path, mastery model, and analytics.
    **This is a new workstream needing its own design pass** — it is currently an
    explicit non-goal of the provider cache design, not a follow-on task.
-3. **Payment integration and tier gating.** Built for v1.0, but **not active
-   during beta** — the closed beta runs free. This means the gating decision
-   (what each tier unlocks) must be made before M5, not before beta.
+3. **Payment integration and tier gating.** Built and **active** as of
+   2026-09-05, ahead of the M5 window this originally sat in. Paystack checkout
+   is live behind `PAYSTACK_SECRET_KEY`, and the boolean half of the
+   entitlement matrix is enforced server-side.
+
+   This supersedes the earlier plan to keep the closed beta free. **The
+   consequence is unresolved:** flashcards, the study planner, and the subject
+   breakdown are now unavailable to FREEMIUM accounts, which is every existing
+   user. Either the beta cohort gets comped to STANDARD or higher through the
+   admin console — the comp path exists for exactly this — or M4 is no longer a
+   free beta and the metrics it was meant to produce change shape. Decide before
+   the cohort is recruited, not after.
+
+   Still open: the Free tier's numeric caps (3 subjects, 25 practice questions a
+   day, 1 mock exam) are advertised on the landing page but not enforced. They
+   need usage metering. Until that ships, the landing page overstates the limits
+   on Free rather than understating them, which is the safe direction but is
+   still inaccurate.
+
+   Separately, the Premium column on the landing page advertises an **AI tutor**
+   and **offline mode**. Neither exists — offline is explicitly deferred beyond
+   v1.0 below — and neither can be gated, because there is nothing to gate. They
+   must come off the pricing page before it takes real money, or move onto the
+   roadmap as v1.0 scope.
 
 ### Deferred beyond v1.0
 - **Teacher / school accounts.** Classroom assignment, cohort analytics, school
@@ -339,8 +361,8 @@ from today (2026-09-03). Roughly seven months of runway to the 2027 exam season.
 | **M1 — Land in flight** | Sep 2026 | Clear the branch backlog and finish the ingestion pipeline | `feat/performance-analytics-phase-1` and `feat/admin-console-structure` merged to `main`; provider cache Tasks 11–15 complete and merged; full test suite green |
 | **M2 — Fill the bank** | Sep–Oct 2026 | Turn the pipeline into content | Catalogue sweep run to saturation across target subject-years; topic-tagging designed, built, and applied to imports; coverage reported per subject and exam |
 | **M3 — Beta hardening** | Oct 2026 | Make it safe to put in front of real students | Content QA pass on ingested questions; rate limiting and abuse review; error monitoring and observability; onboarding flow tested end to end; beta cohort recruited |
-| **M4 — Closed beta (free)** | Nov–Dec 2026 | Learn from real usage | Cohort live on `0.9.0`; activation, engagement, and accuracy-improvement metrics instrumented and reporting; weekly feedback triage |
-| **M5 — Monetise and launch** | Dec 2026 – Q1 2027 | Public v1.0 before the exam season | Payment provider integrated; tier entitlements defined and gated; beta findings addressed; `1.0.0` public ahead of April 2027 JAMB |
+| **M4 — Closed beta** | Nov–Dec 2026 | Learn from real usage | Cohort live on `0.9.0`; activation, engagement, and accuracy-improvement metrics instrumented and reporting; weekly feedback triage. **No longer free by default** — gating shipped early, so the cohort must be comped to a paid tier or the beta runs paywalled; see §10 item 3 |
+| **M5 — Launch** | Dec 2026 – Q1 2027 | Public v1.0 before the exam season | ~~Payment provider integrated; tier entitlements defined and gated~~ — both done 2026-09-05. Remaining: usage metering for the Free numeric caps; beta findings addressed; `1.0.0` public ahead of April 2027 JAMB |
 
 **Critical path: M1 → M2.** Everything else has slack; these do not. M2 depends
 on a third-party API whose behaviour we have measured but do not control, and it
@@ -357,8 +379,8 @@ release state is never ambiguous:
 |---|---|
 | `0.1.0` | **Today.** Feature-rich, content-poor, pre-beta. No external users. |
 | `0.5.0` | M1 and M2 complete — ingestion finished, bank filled, imports tagged. Internal use only. |
-| `0.9.0` | **Closed beta.** Feature-complete for beta scope, monetisation absent by design, free to the cohort. Patch releases `0.9.x` during beta. |
-| `1.0.0` | **Public launch.** Payments live, tier entitlements enforced, beta findings addressed. |
+| `0.9.0` | **Closed beta.** Feature-complete for beta scope. Monetisation is no longer absent — payments and gating shipped 2026-09-05 — so "free to the cohort" now depends on comping the cohort rather than on the code. Patch releases `0.9.x` during beta. |
+| `1.0.0` | **Public launch.** Payments live and tier entitlements enforced (both already true); Free-tier usage caps metered; beta findings addressed. |
 | `1.x` | Post-launch features: teacher/school accounts, PWA/offline, expanded exam coverage. |
 
 `package.json` is the single source of the product version and should be bumped
@@ -386,7 +408,7 @@ free-to-premium conversion; 7-day streak retention; reach per school and state.
 | # | Decision | Options | Needed by |
 |---|---|---|---|
 | 1 | **Payment provider** | Paystack vs. Flutterwave. Weigh settlement terms, card and transfer coverage, subscription/recurring support, and sandbox quality for Nigerian cards | M5 start (Dec 2026) |
-| 2 | **What each tier unlocks** | Currently undefined by design. Candidates: mock-exam volume, full CBT simulations, premium library resources, analytics depth, flashcard deck limits. Needs to be one table in `subscription.ts` | Before M5; can be decided during beta using usage data |
+| 2 | **What each tier unlocks** | **Decided 2026-09-05 for the boolean half**, in `ENTITLEMENTS` in `subscription.ts`, derived from what the landing page already sells: flashcards and the study planner need STANDARD; premium library resources and the subject-level analytics breakdown need PREMIUM. **Still open:** the Free tier's numeric caps — 3 subjects, 25 practice questions a day, 1 mock exam — which need usage metering before they can be enforced | Caps before M5; the beta-comping question above is the more urgent one |
 | 3 | **Beta cohort sourcing** | School partnership vs. direct student recruitment vs. mixed. Determines size, support load, and how representative the metrics are | M3 (Oct 2026) |
 | 4 | **Topic-tagging approach** | Manual curation, heuristic matching against syllabus topics, or model-assisted tagging with review. Cost and accuracy differ sharply; drives M2 duration | M2 start (Sep 2026) |
 | 5 | **Subject breadth for beta** | Full 45-subject curriculum vs. a deliberately narrow set done well. Narrow is likely right for a beta but it constrains cohort composition | M3 (Oct 2026) |
