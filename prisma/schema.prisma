@@ -40,6 +40,24 @@ enum SubscriptionTier {
   PREMIUM
 }
 
+enum BillingPeriod {
+  MONTHLY
+  YEARLY
+}
+
+enum SubscriptionSource {
+  PAYSTACK
+  COMP
+}
+
+enum SubscriptionStatus {
+  PENDING
+  ACTIVE
+  FAILED
+  ABANDONED
+  REVOKED
+}
+
 enum Term {
   FIRST
   SECOND
@@ -63,6 +81,22 @@ enum Difficulty {
   BASIC
   INTERMEDIATE
   ADVANCED
+}
+
+enum QuestionProvider {
+  SDASH
+}
+
+enum ProviderFetchStatus {
+  PENDING
+  SATURATED
+  FAILED
+}
+
+enum ProviderQuestionStatus {
+  PENDING
+  PROMOTED
+  REJECTED
 }
 
 enum AssessmentType {
@@ -191,6 +225,7 @@ model User {
   // gate written against hasAtLeast() keeps working unchanged.
   tier          SubscriptionTier @default(FREEMIUM)
   tierUpdatedAt DateTime?
+  subscriptions Subscription[]
 
   // Account status. Suspension is reversible; deletion is not.
   isActive        Boolean   @default(true)
@@ -296,6 +331,7 @@ model Subject {
   studyPlanItems   StudyPlanItem[]
   resources        SubjectResource[]
   flashcardDecks   FlashcardDeck[]
+  providerCatalogue ProviderCatalogue[]
 
   createdAt DateTime @default(now())
 }
@@ -463,6 +499,7 @@ model Question {
 
   responses           QuestionResponse[]
   assessmentQuestions AssessmentQuestion[]
+  providerQuestion    ProviderQuestion?
 
   createdAt DateTime @default(now())
 
@@ -892,4 +929,130 @@ model AdminAudit {
 
   @@index([entity, entityId])
   @@index([actorId, createdAt])
+}
+
+// ─── Question provider cache ──────────────────────────────
+// See docs/superpowers/specs/2026-09-01-question-provider-cache-design.md
+
+/// The coverage ledger. One row per filter we have ever asked the provider for.
+/// Its existence — not the presence of questions — is what makes a read a hit.
+model ProviderFetch {
+  id       String              @id @default(cuid())
+  provider QuestionProvider
+  cacheKey String
+  status   ProviderFetchStatus @default(PENDING)
+
+  subjectId String?
+  examType  ExamType?
+  examYear  Int?
+
+  drawCount     Int @default(0)
+  rawCount      Int @default(0)
+  newInLastDraw Int @default(0)
+  promotedCount Int @default(0)
+  rejectedCount Int @default(0)
+
+  error       String?  @db.Text
+  questions   ProviderQuestion[]
+  startedAt   DateTime @default(now())
+  completedAt DateTime?
+
+  // Doubles as the in-flight lock: the first request to insert wins.
+  @@unique([provider, cacheKey])
+  @@index([subjectId, examType, examYear])
+}
+
+/// Verbatim capture. Written before any mapping is attempted, and never edited.
+model ProviderQuestion {
+  id      String        @id @default(cuid())
+  fetchId String
+  fetch   ProviderFetch @relation(fields: [fetchId], references: [id], onDelete: Cascade)
+
+  provider           QuestionProvider
+  providerQuestionId String?
+  fingerprint        String
+  payload            Json
+
+  status           ProviderQuestionStatus @default(PENDING)
+  rejectionReasons Json?
+  mapperVersion    Int                    @default(1)
+
+  questionId String?   @unique
+  question   Question? @relation(fields: [questionId], references: [id], onDelete: SetNull)
+
+  createdAt  DateTime  @default(now())
+  promotedAt DateTime?
+
+  // Scoped to the fetch, not the provider: boards recycle questions across
+  // sittings, and a question shared by WAEC 2019 and WAEC 2021 must be able to
+  // stage (and promote) once for each paper. A global constraint would give it
+  // to whichever filter drew first and silently starve the other.
+  @@unique([fetchId, providerQuestionId])
+  @@unique([fetchId, fingerprint])
+  @@index([status, mapperVersion])
+}
+
+/// Papers the provider actually holds, so the picker can offer papers we have
+/// not fetched yet. Built by scripts/sync-provider-catalogue.ts.
+model ProviderCatalogue {
+  id        String           @id @default(cuid())
+  provider  QuestionProvider
+  subjectId String
+  subject   Subject          @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  examType  ExamType
+  examYear  Int
+  syncedAt  DateTime         @updatedAt
+
+  @@unique([provider, subjectId, examType, examYear])
+  @@index([examType, examYear])
+}
+
+// ─── Billing ──────────────────────────────────────────────
+//
+// The source of truth that writes User.tier. See
+// docs/superpowers/specs/2026-09-04-paystack-billing-design.md
+
+model Subscription {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  tier   SubscriptionTier
+  period BillingPeriod
+  source SubscriptionSource
+  status SubscriptionStatus @default(PENDING)
+
+  /// Ours, generated at checkout and handed to Paystack, so any transaction
+  /// traces back to the row that authorised it.
+  reference String @unique
+
+  /// A snapshot of what was actually charged. This is what lets prices live in
+  /// code: repricing a plan never rewrites history.
+  amountKobo Int
+  currency   String @default("NGN")
+  channel    String?
+
+  paidAt   DateTime?
+  startsAt DateTime?
+  endsAt   DateTime?
+
+  /// Set on COMP rows only — the Admin who issued the grant.
+  grantedById String?
+  note        String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, endsAt])
+  @@index([status])
+}
+
+/// Idempotency ledger and raw audit trail for Paystack deliveries. The primary
+/// key is the reference joined with the event type, so a redelivered event
+/// collides instead of being applied twice.
+model PaystackEvent {
+  eventKey   String   @id
+  type       String
+  payload    Json
+  receivedAt DateTime @default(now())
 }

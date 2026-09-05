@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { checkQuestionInvariants } from "@/lib/admin-question";
-import { SUBSCRIPTION_TIERS } from "@/lib/subscription";
+import { BILLING_PERIODS, SUBSCRIPTION_TIERS } from "@/lib/subscription";
 import { CLASS_LEVELS } from "@/lib/curriculum-scope";
 import { MAX_AWAY_EVENTS } from "@/components/assessment/exam-focus";
 
@@ -66,6 +66,8 @@ export const generateQuizSchema = z
     count: z.number().int().min(5).max(60).default(10),
     difficulty: z.enum(["BASIC", "INTERMEDIATE", "ADVANCED"]).optional(),
     examType: z.enum(["WAEC", "JAMB", "NECO", "CUSTOM"]).optional(),
+    /** Narrows a past paper to one sitting; without it every year of the subject is eligible. */
+    examYear: z.number().int().min(2001).max(2100).optional(),
     title: z.string().min(1).optional(),
     /** Short low-stakes checks, e.g. the classroom topic quiz — no deadline is set. */
     untimed: z.boolean().optional(),
@@ -333,6 +335,23 @@ export const createFlashcardDeckSchema = z.object({
   topicId: z.string().optional(),
 });
 
+// ─── Provider backfill (admin) ─────────────────────
+
+// The examYear bounds (2001-2026) are the provider's actual measured
+// coverage, not our own 1990-2030 range for hand-authored questions.
+export const providerBackfillSchema = z.object({
+  subjectSlug: z.string().min(1),
+  examType: z.enum(["WAEC", "JAMB", "NECO"]),
+  examYear: z.number().int().min(2001).max(2026),
+  /**
+   * Put a FAILED filter back in play before drawing. FAILED is final by
+   * design, so clearing it is a deliberate admin act rather than something
+   * a retry should quietly do on its own.
+   */
+  reset: z.boolean().optional(),
+});
+export type ProviderBackfillInput = z.infer<typeof providerBackfillSchema>;
+
 // ─── Admin team (owner-only) ───────────────────────
 
 // isOwner is deliberately absent — it is written as a literal false by the
@@ -375,6 +394,14 @@ export const studentStatusSchema = z
 
 export const studentTierSchema = z.object({
   tier: z.enum(SUBSCRIPTION_TIERS),
+  // Ignored when the tier is FREEMIUM, which revokes rather than grants.
+  period: z.enum(BILLING_PERIODS).default("MONTHLY"),
+  note: z.string().trim().max(280).optional(),
+});
+
+export const checkoutSchema = z.object({
+  tier: z.enum(SUBSCRIPTION_TIERS),
+  period: z.enum(BILLING_PERIODS),
 });
 
 // Type exports
@@ -394,3 +421,4 @@ export type CreateFlashcardDeckInput = z.infer<typeof createFlashcardDeckSchema>
 export type CreateAdminInput = z.infer<typeof createAdminSchema>;
 export type AdminStatusInput = z.infer<typeof adminStatusSchema>;
 export type StudentProfileInput = z.infer<typeof studentProfileSchema>;
+export type CheckoutInput = z.infer<typeof checkoutSchema>;

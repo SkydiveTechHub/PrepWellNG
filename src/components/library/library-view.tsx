@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import Link from "next/link";
 import {
   LuBook,
   LuFileText,
@@ -39,6 +40,8 @@ type SubjectResource = {
   author: string | null;
   isFree: boolean;
   orderIndex: number;
+  /** Set by the server when this resource needs a plan the viewer lacks. */
+  locked?: boolean;
 };
 
 type Subject = {
@@ -66,6 +69,9 @@ function ResourceIcon({ type }: { type: string }) {
 }
 
 function isReadable(resource: SubjectResource) {
+  // A locked resource arrives with its url stripped, so there is nothing to
+  // open and nothing to read.
+  if (resource.locked) return false;
   return resource.url.endsWith(".pdf") || resource.url.startsWith("/resources/");
 }
 
@@ -110,6 +116,20 @@ function ResourceCard({
       </div>
     </>
   );
+
+  // Locked resources keep their place on the shelf — they are the reason to
+  // upgrade — but lead to the billing page rather than to a url they do not have.
+  if (resource.locked) {
+    return (
+      <Link
+        href="/settings/billing"
+        className="card card-interactive group flex items-start gap-4 p-4 opacity-75"
+        title="Upgrade to Premium to open this resource"
+      >
+        {content}
+      </Link>
+    );
+  }
 
   if (readable && onRead) {
     return (

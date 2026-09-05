@@ -2,6 +2,10 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { LuTarget, LuChevronRight } from "react-icons/lu";
 import { auth } from "@/lib/auth";
+import { isEntitled, tierOfSession } from "@/lib/entitlements";
+import { requiredTierFor } from "@/lib/subscription";
+import { PageHeader } from "@/components/ui/page-header";
+import { UpgradePrompt } from "@/components/billing/upgrade-prompt";
 import { getSubjectChoices, getSubjectPerformance } from "@/lib/analytics/subject-view";
 import { EmptyState } from "@/components/ui/empty-state";
 import { buttonClass } from "@/components/ui/button";
@@ -18,6 +22,25 @@ export default async function SubjectPerformancePage({
 }) {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
+
+  // The per-subject topic breakdown is the "full analytics" the landing page
+  // sells on Premium. The headline /performance view stays open to everyone,
+  // which is the "basic progress tracking" Free is promised.
+  if (!(await isEntitled(session.user.id, tierOfSession(session), "advancedAnalytics"))) {
+    return (
+      <div className="space-y-8">
+        <PageHeader
+          title="Subject breakdown"
+          description="Topic-level strengths and weaknesses for every subject you study."
+        />
+        <UpgradePrompt
+          feature="The subject breakdown"
+          requiredTier={requiredTierFor("advancedAnalytics")}
+          description="See which topics inside each subject are costing you marks, not just your overall score."
+        />
+      </div>
+    );
+  }
 
   const { subject: requested } = await searchParams;
   const choices = await getSubjectChoices(session.user.id);

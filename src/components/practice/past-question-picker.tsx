@@ -18,7 +18,9 @@ type PastPaper = {
   subjectName: string;
   subjectSlug: string;
   trackCategory: string;
-  questionCount: number;
+  /** Null for a paper the provider lists but we have never pulled. */
+  questionCount: number | null;
+  cached: boolean;
 };
 
 const EXAM_BADGES: Record<string, "blue" | "green" | "purple"> = {
@@ -50,7 +52,7 @@ export function PastQuestionPicker({ track }: { track: string | null }) {
   const exams = useMemo(() => {
     const counts = new Map<string, number>();
     for (const p of papers) {
-      counts.set(p.examType, (counts.get(p.examType) ?? 0) + p.questionCount);
+      counts.set(p.examType, (counts.get(p.examType) ?? 0) + (p.questionCount ?? 0));
     }
     return [...counts.entries()].sort((a, b) => a[0].localeCompare(b[0]));
   }, [papers]);
@@ -64,10 +66,11 @@ export function PastQuestionPicker({ track }: { track: string | null }) {
       if (p.examType !== exam) continue;
       const found = byId.get(p.subjectId);
       if (found) {
-        found.questionCount += p.questionCount;
+        // An uncached paper adds no questions but is still a year on offer.
+        found.questionCount += p.questionCount ?? 0;
         found.years += 1;
       } else {
-        byId.set(p.subjectId, { ...p, years: 1 });
+        byId.set(p.subjectId, { ...p, questionCount: p.questionCount ?? 0, years: 1 });
       }
     }
     return [...byId.values()].sort((a, b) => a.subjectName.localeCompare(b.subjectName));
@@ -226,7 +229,9 @@ export function PastQuestionPicker({ track }: { track: string | null }) {
               >
                 <div>
                   <p className="text-base font-bold text-foreground">{paper.examYear}</p>
-                  <p className="mt-0.5 text-xs text-muted">{paper.questionCount} questions</p>
+                  <p className="mt-0.5 text-xs text-muted">
+                    {paper.cached ? `${paper.questionCount} questions` : "Not loaded yet"}
+                  </p>
                 </div>
                 <LuChevronRight className="h-4 w-4 text-muted transition-all group-hover:translate-x-0.5 group-hover:text-primary" />
               </Link>

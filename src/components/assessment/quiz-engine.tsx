@@ -8,6 +8,8 @@ type QuizEngineProps = {
   subjectSlug: string;
   topicSlug?: string;
   examType?: string;
+  /** One sitting of a past paper, e.g. 2022. */
+  examYear?: number;
   count?: number;
   backHref?: string;
   title?: string;
@@ -30,6 +32,7 @@ export function QuizEngine({
   subjectSlug,
   topicSlug,
   examType = "",
+  examYear,
   count = 10,
   backHref,
   title: titleOverride,
@@ -39,8 +42,10 @@ export function QuizEngine({
 }: QuizEngineProps) {
   const sessionKey = useMemo(
     () =>
-      ["quiz", subjectSlug, topicSlug ?? "-", examType || "-", count].join(":"),
-    [subjectSlug, topicSlug, examType, count],
+      ["quiz", subjectSlug, topicSlug ?? "-", examType || "-", examYear ?? "-", count].join(
+        ":",
+      ),
+    [subjectSlug, topicSlug, examType, examYear, count],
   );
 
   const generate = useCallback(async (): Promise<GeneratedExam> => {
@@ -51,6 +56,7 @@ export function QuizEngine({
         subjectSlug,
         ...(topicSlug ? { topicSlug } : {}),
         ...(examType ? { examType } : {}),
+        ...(examYear !== undefined ? { examYear } : {}),
         ...(titleOverride ? { title: titleOverride } : {}),
         ...(untimed ? { untimed: true } : {}),
         count,
@@ -62,7 +68,7 @@ export function QuizEngine({
       throw new Error(data.error || "Failed to generate quiz.");
     }
     return res.json();
-  }, [subjectSlug, topicSlug, examType, count, titleOverride, untimed]);
+  }, [subjectSlug, topicSlug, examType, examYear, count, titleOverride, untimed]);
 
   const toResult = useCallback(
     (attemptId: string) =>

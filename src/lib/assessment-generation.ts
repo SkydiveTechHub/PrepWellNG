@@ -1,8 +1,11 @@
+import { after } from "next/server";
 import type { ExamType, Difficulty } from "@prisma/client";
 import { db } from "./db";
 import { pickQuestionsPreferringUnseen } from "./question-pool";
 import { deadlineFor } from "./attempt-timing";
 import { findResumableAttempt, reapStaleAttempts } from "./attempt-lifecycle";
+import { ensureQuestionsCached, saturate, readLedger } from "./question-provider/ingest";
+import { rateLimit } from "./rate-limit";
 import {
   describeScopeRange,
   expandScopeRange,
@@ -40,10 +43,21 @@ export type GenerateQuizInput = {
   topicIds?: string[];
   topicSlug?: string;
   examType?: ExamType;
+  /** One sitting of a past paper. Absent means every year of the subject is eligible. */
+  examYear?: number;
   count: number;
   difficulty?: Difficulty;
   title?: string;
   untimed?: boolean;
+  /**
+   * Whether this call may reach the question provider on a miss.
+   *
+   * The route sets it false once the global outbound budget is spent, so a
+   * burst of misses degrades to a database-only quiz instead of hammering the
+   * provider or failing the student. Absent means "allowed" — the feature flag
+   * still has the final say.
+   */
+  allowProviderFetch?: boolean;
 };
 
 /**
@@ -60,10 +74,12 @@ export async function generateQuiz(studentId: string, input: GenerateQuizInput) 
     topicIds: explicitTopicIds,
     topicSlug,
     examType,
+    examYear,
     count,
     difficulty,
     title,
     untimed,
+    allowProviderFetch = true,
   } = input;
 
   // Resolve the subject (and topic) in one query. The client used to fetch
@@ -71,7 +87,7 @@ export async function generateQuiz(studentId: string, input: GenerateQuizInput) 
   // questions — three round-trips before the first question rendered.
   const subject = await db.subject.findFirst({
     where: subjectSlug ? { slug: subjectSlug } : { id: subjectId! },
-    select: { id: true, name: true },
+    select: { id: true, name: true, slug: true },
   });
   if (!subject) return "subject-not-found" as const;
 
@@ -85,6 +101,44 @@ export async function generateQuiz(studentId: string, input: GenerateQuizInput) 
     topicIds = [topic.id];
   }
 
+  // Fetch from the provider the first time we ever see this paper. Gated on
+  // all three of subject/type/year, so topic quizzes, mock exams and the JAMB
+  // CBT never reach it — they read the bank this fills.
+  if (
+    allowProviderFetch &&
+    process.env.QUESTION_PROVIDER_ENABLED === "true" &&
+    examType &&
+    examYear &&
+    (examType === "WAEC" || examType === "JAMB" || examType === "NECO")
+  ) {
+    const filter = { subjectSlug: subject.slug, examType, examYear };
+    const ledger = await readLedger(filter);
+
+    // PENDING is a live claim by another request; ensureQuestionsCached reads
+    // the bank rather than drawing again, so it is safe to enter.
+    //
+    // The budget is spent below, past the status check, and not in the route:
+    // charging every eligible request meant thirty students starting an
+    // already-cached paper could exhaust it, and the next student who actually
+    // needed a new paper would silently get one drawn from the wrong years.
+    // The limit bounds one instance's outbound traffic, so the real ceiling
+    // across a horizontally scaled deployment is 30 x instances.
+    if (ledger?.status !== "SATURATED" && ledger?.status !== "FAILED") {
+      const outbound = rateLimit({
+        key: "provider:outbound",
+        limit: 30,
+        windowSeconds: 60,
+      });
+      // Out of budget degrades to a database-only quiz rather than an error.
+      if (outbound.ok) {
+        // The student waits for exactly one draw; the rest of the paper warms
+        // up after the response has gone out.
+        await ensureQuestionsCached(filter, count);
+        after(() => saturate(filter));
+      }
+    }
+  }
+
   const assessmentType = examType ? "PAST_PAPER" : "TOPIC_QUIZ";
 
   // Hand back an unfinished paper of the same shape rather than minting a new
@@ -96,6 +150,7 @@ export async function generateQuiz(studentId: string, input: GenerateQuizInput) 
     subjectId: subject.id,
     assessmentType,
     examType,
+    examYear,
     totalMarks: count,
     topicIds,
   });
@@ -123,7 +178,7 @@ export async function generateQuiz(studentId: string, input: GenerateQuizInput) 
   let source: "topic" | "subject" = "topic";
   let selectedIds = await pickQuestionsPreferringUnseen(
     db,
-    { subjectId: subject.id, topicIds, examType, difficulty },
+    { subjectId: subject.id, topicIds, examType, examYear, difficulty },
     count,
     studentId,
   );
@@ -131,7 +186,7 @@ export async function generateQuiz(studentId: string, input: GenerateQuizInput) 
   if (selectedIds.length === 0 && topicIds?.length) {
     selectedIds = await pickQuestionsPreferringUnseen(
       db,
-      { subjectId: subject.id, examType, difficulty },
+      { subjectId: subject.id, examType, examYear, difficulty },
       count,
       studentId,
     );
@@ -147,6 +202,8 @@ export async function generateQuiz(studentId: string, input: GenerateQuizInput) 
       assessmentType,
       subjectId: subject.id,
       examType: examType || null,
+      // Persisted so findResumableAttempt can tell a 2022 paper from a 2019 one.
+      examYear: examYear ?? null,
       totalMarks: selectedIds.length,
       // ~1.5 min per question; null for an explicitly untimed quiz such as the
       // classroom quick quiz, so `deadlineFor` never computes one. Which
