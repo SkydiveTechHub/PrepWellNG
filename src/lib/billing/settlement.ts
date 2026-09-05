@@ -57,7 +57,16 @@ export function settle(
   // a webhook racing on one reference must produce exactly one activation.
   if (pending.status === "ACTIVE") return { kind: "already-applied" };
 
-  if (pending.status !== "PENDING") {
+  // ABANDONED settles too. It is a statement about our checkout UI — a newer
+  // attempt superseded this row — never about the card, and the buyer can
+  // still finish paying in the Paystack tab that row opened. Rejecting there
+  // would take the money and grant nothing, the one outcome billing must never
+  // produce. Nothing is relaxed by allowing it: the reference is server-issued
+  // and the amount and currency are still checked below.
+  //
+  // REVOKED (an admin's decision) and FAILED (Paystack's own verdict) are not
+  // bookkeeping artefacts, so they stay final.
+  if (pending.status !== "PENDING" && pending.status !== "ABANDONED") {
     return { kind: "reject", reason: "not-pending" };
   }
 

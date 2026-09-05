@@ -97,3 +97,62 @@ test("a revoked row does not reactivate on a late webhook", () => {
   if (result.kind !== "reject") return;
   assert.equal(result.reason, "not-pending");
 });
+
+test("an abandoned row still activates when the money actually arrived", () => {
+  // Starting a second checkout marks the first row ABANDONED, but the buyer
+  // can still complete the first Paystack tab. Rejecting that charge would
+  // take the money and grant nothing — the one outcome billing must never
+  // produce. The reference is server-issued and the amount is checked below,
+  // so nothing about the tampering guarantees is relaxed by accepting it.
+  const result = settle(pending({ status: "ABANDONED" }), transaction(), NOW);
+  assert.equal(result.kind, "activate");
+  if (result.kind !== "activate") return;
+  assert.equal(result.channel, "card");
+});
+
+test("an abandoned row is still held to the amount and currency", () => {
+  const underpaid = settle(
+    pending({ status: "ABANDONED" }),
+    transaction({ amountKobo: 10_000 }),
+    NOW,
+  );
+  assert.equal(underpaid.kind, "reject");
+  if (underpaid.kind === "reject") {
+    assert.equal(underpaid.reason, "amount-mismatch");
+  }
+
+  const wrongCurrency = settle(
+    pending({ status: "ABANDONED" }),
+    transaction({ currency: "USD" }),
+    NOW,
+  );
+  assert.equal(wrongCurrency.kind, "reject");
+  if (wrongCurrency.kind === "reject") {
+    assert.equal(wrongCurrency.reason, "currency-mismatch");
+  }
+});
+
+test("an abandoned row that was never paid stays rejected", () => {
+  // The ordinary case: the buyer walked away. Paystack says it was not a
+  // success, so there is no money to honour.
+  const result = settle(
+    pending({ status: "ABANDONED" }),
+    transaction({ status: "abandoned" }),
+    NOW,
+  );
+  assert.equal(result.kind, "reject");
+  if (result.kind !== "reject") return;
+  assert.equal(result.reason, "not-successful");
+});
+
+test("a revoked or failed row never resurrects, even on a successful charge", () => {
+  // REVOKED is an admin decision and FAILED is Paystack's own verdict. Neither
+  // is a bookkeeping artefact of our checkout UI, so neither may be overridden
+  // the way ABANDONED is.
+  for (const status of ["REVOKED", "FAILED"] as const) {
+    const result = settle(pending({ status }), transaction(), NOW);
+    assert.equal(result.kind, "reject", status);
+    if (result.kind !== "reject") continue;
+    assert.equal(result.reason, "not-pending", status);
+  }
+});

@@ -78,6 +78,10 @@ export async function createPendingSubscription({
   // Stale PENDING rows from abandoned checkouts would otherwise pile up on the
   // account forever. They grant nothing either way — resolveTier ignores
   // anything that is not ACTIVE — but they make the billing history unreadable.
+  //
+  // Abandoning here is bookkeeping only, and deliberately does not close the
+  // door on the row: the buyer may still finish paying in the Paystack tab it
+  // opened, and `settle` honours that. See the ABANDONED branch there.
   await db.subscription.updateMany({
     where: { userId, status: "PENDING" },
     data: { status: "ABANDONED" },
@@ -153,9 +157,12 @@ export async function applyChargeSuccess(
 
   await db.$transaction([
     // Guarded on status so two concurrent callers cannot both activate: the
-    // loser updates zero rows.
+    // loser updates zero rows. ABANDONED is included because `settle` accepts
+    // it — a superseded row whose Paystack tab was still paid. Narrowing this
+    // back to PENDING alone would set the user's tier while leaving the row
+    // inactive, so the grant would vanish at the next `refreshCachedTier`.
     db.subscription.updateMany({
-      where: { id: pending.id, status: "PENDING" },
+      where: { id: pending.id, status: { in: ["PENDING", "ABANDONED"] } },
       data: {
         status: "ACTIVE",
         paidAt: decision.paidAt,
