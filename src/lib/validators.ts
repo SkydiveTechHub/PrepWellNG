@@ -394,6 +394,9 @@ export const studentStatusSchema = z
 
 export const studentTierSchema = z.object({
   tier: z.enum(SUBSCRIPTION_TIERS),
+  // Ignored when the tier is FREEMIUM, which revokes rather than grants.
+  period: z.enum(BILLING_PERIODS).default("MONTHLY"),
+  note: z.string().trim().max(280).optional(),
 });
 
 export const checkoutSchema = z.object({
