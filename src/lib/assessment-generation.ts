@@ -131,10 +131,15 @@ export async function generateQuiz(studentId: string, input: GenerateQuizInput) 
       });
       // Out of budget degrades to a database-only quiz rather than an error.
       if (outbound.ok) {
-        // The student waits for exactly one draw; the rest of the paper warms
-        // up after the response has gone out.
-        await ensureQuestionsCached(filter, count);
-        after(() => saturate(filter));
+        // Warm the paper behind the response. Nothing here is awaited: a draw
+        // is a provider round trip plus a 50-payload write loop, and the
+        // student who triggers it gains nothing from waiting — the questions
+        // it fetches are not in the bank until it finishes, by which point
+        // their quiz has already been built from what was there.
+        after(async () => {
+          await ensureQuestionsCached(filter, count);
+          await saturate(filter);
+        });
       }
     }
   }

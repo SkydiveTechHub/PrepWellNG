@@ -98,16 +98,22 @@ export async function ensureJambYearCached(
       });
       if (!outbound.ok) return;
 
-      try {
-        await ensureQuestionsCached(filter, questionsForSubject(subject.code));
-        after(() => saturate(filter));
-      } catch (error) {
-        // One unreachable paper must not sink the other three.
-        console.error(
-          `JAMB ${examYear} ${subject.code}: provider fetch failed`,
-          error,
-        );
-      }
+      // Same reasoning as the past-paper generator: the prepare call reports
+      // what the bank holds now, and schedules the fill behind the response.
+      // Awaiting four subjects' draws here made "pick a year" a multi-second
+      // wait against a five-connection pool.
+      after(async () => {
+        try {
+          await ensureQuestionsCached(filter, questionsForSubject(subject.code));
+          await saturate(filter);
+        } catch (error) {
+          // One unreachable paper must not sink the other three.
+          console.error(
+            `JAMB ${examYear} ${subject.code}: provider fetch failed`,
+            error,
+          );
+        }
+      });
     }),
   );
 }
