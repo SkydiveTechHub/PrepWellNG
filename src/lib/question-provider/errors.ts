@@ -1,3 +1,5 @@
+import type { ProviderFailureKind } from "./types";
+
 export type ResponseClass = "ok" | "empty" | "terminal" | "retryable" | "exhausted";
 
 /**
@@ -38,4 +40,23 @@ export function classifyStatus(
   // toward "retryable" costs one call; erring toward "empty" would brand a
   // real paper as permanently barren.
   return "retryable";
+}
+
+/**
+ * Classify an HTTP error response (status !== 200 and !== 404) into a failure kind.
+ *
+ * When the caller has already ruled out 200 and 404, classifyStatus() can only
+ * return the three failure kinds. If it somehow returns "ok" or "empty" anyway,
+ * map them to "retryable" (one wasted call) rather than "terminal" (permanently
+ * retires the paper).
+ */
+export function classifyStatusAsFailure(
+  httpStatus: number,
+  body?: { message?: string } | null,
+): ProviderFailureKind {
+  const classified = classifyStatus(httpStatus, body);
+  // The two extra members of ResponseClass are unreachable at the call site
+  // (200 and 404 are handled and returned before reaching this line), but map
+  // them anyway to prevent silently ignoring a future leak.
+  return classified === "ok" || classified === "empty" ? "retryable" : classified;
 }

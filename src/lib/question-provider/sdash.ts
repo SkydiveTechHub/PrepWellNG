@@ -1,4 +1,4 @@
-import { classifyStatus } from "./errors";
+import { classifyStatusAsFailure } from "./errors";
 import { DRAW_LIMIT } from "./saturation";
 import { toProviderExamSlug, toProviderSubjectSlug } from "./alias";
 import {
@@ -42,7 +42,7 @@ export function createSdashAdapter(config: SdashConfig): QuestionProviderAdapter
       const body = (await res.json().catch(() => null)) as Envelope | null;
       throw new ProviderError(
         body?.message ?? `Provider returned ${res.status}`,
-        classifyStatus(res.status, body),
+        classifyStatusAsFailure(res.status, body),
         res.status,
       );
     }
