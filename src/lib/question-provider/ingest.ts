@@ -5,7 +5,13 @@ import { cacheKey } from "./cache-key";
 import { mapProviderQuestion, MAPPER_VERSION } from "./mapper";
 import { DRAW_LIMIT, MAX_DRAWS, isSaturated } from "./saturation";
 import { getSdashAdapter } from "./sdash";
-import { ProviderError, type ProviderFilter, type QuestionProviderAdapter } from "./types";
+import { isCircuitOpen, nextCircuit, type CircuitRow } from "./state";
+import {
+  ProviderError,
+  type ProviderFailureKind,
+  type ProviderFilter,
+  type QuestionProviderAdapter,
+} from "./types";
 
 const PROVIDER = "SDASH" as const;
 
@@ -119,6 +125,25 @@ export type IngestDb = {
       take: number;
     }): Promise<Question[]>;
   };
+  providerState: {
+    findUnique(args: {
+      where: { provider: "SDASH" };
+    }): Promise<(CircuitRow & { creditsRemaining: number | null }) | null>;
+    upsert(args: {
+      where: { provider: "SDASH" };
+      create: {
+        provider: "SDASH";
+        state: CircuitRow["state"];
+        cooldownUntil: Date | null;
+        lastError?: string | null;
+      };
+      update: {
+        state: CircuitRow["state"];
+        cooldownUntil: Date | null;
+        lastError?: string | null;
+      };
+    }): Promise<unknown>;
+  };
   $transaction<T>(fn: (tx: TxDb) => Promise<T>): Promise<T>;
 };
 
@@ -150,11 +175,14 @@ function isUniqueConstraintViolation(error: unknown): boolean {
 export type IngestDeps = {
   db: IngestDb;
   getAdapter: () => QuestionProviderAdapter;
+  /** Injected so cooldown arithmetic is testable without waiting. */
+  now: () => number;
 };
 
 const defaultDeps: IngestDeps = {
   db: realDb as unknown as IngestDb,
   getAdapter: getSdashAdapter,
+  now: () => Date.now(),
 };
 
 /**
@@ -277,6 +305,18 @@ export async function ensureQuestionsCached(
     };
   }
 
+  if (await circuitIsOpen(deps)) {
+    return {
+      questions: await readFromDb(db, subject.id, filter, limit),
+      source: "db" as const,
+      ledger: {
+        status: ledger.status,
+        rawCount: ledger.rawCount,
+        promotedCount: ledger.promotedCount,
+      },
+    };
+  }
+
   await drawOnce(ledger.id, subject.id, filter, deps);
 
   const after = await db.providerFetch.findUnique({ where: { id: ledger.id } });
@@ -315,9 +355,36 @@ export async function saturate(
     // cost a single read apiece. Without it they all draw in parallel —
     // duplicate provider spend, and unique-constraint collisions that abandon
     // the rest of a draw's payloads.
+    if (await circuitIsOpen(deps)) return;
     if (!(await claimDraw(db, ledger.id, ledger.startedAt))) return;
     await drawOnce(ledger.id, subject.id, filter, deps);
   }
+}
+
+/** True when we must not spend a request on this provider right now. */
+async function circuitIsOpen(deps: IngestDeps): Promise<boolean> {
+  const row = await deps.db.providerState.findUnique({ where: { provider: PROVIDER } });
+  return isCircuitOpen(row, deps.now());
+}
+
+async function recordCircuit(
+  deps: IngestDeps,
+  kind: ProviderFailureKind | "ok",
+  message: string | null,
+) {
+  const next =
+    kind === "ok"
+      ? { state: "OK" as const, cooldownUntil: null }
+      : nextCircuit(kind, deps.now());
+
+  // Retryable failures leave the breaker untouched.
+  if (!next) return;
+
+  await deps.db.providerState.upsert({
+    where: { provider: PROVIDER },
+    create: { provider: PROVIDER, ...next, lastError: message },
+    update: { ...next, lastError: message },
+  });
 }
 
 /** One draw: fetch, stage, promote, then update the ledger. */
@@ -338,18 +405,23 @@ async function drawOnce(
     payloads = await deps.getAdapter().draw(filter, DRAW_LIMIT);
   } catch (error) {
     const kind = error instanceof ProviderError ? error.kind : "retryable";
+    const message = error instanceof Error ? error.message : String(error);
+    await recordCircuit(deps, kind, message);
     await db.providerFetch.update({
       where: { id: fetchId },
       data: {
-        // Terminal failures are final; retryable ones stay PENDING so a later
-        // request can try again.
+        // Only a genuinely permanent cause is final. An empty wallet leaves
+        // the filter PENDING so that topping up is all the recovery needed.
         status: kind === "terminal" ? "FAILED" : "PENDING",
-        error: error instanceof Error ? error.message : String(error),
+        error: message,
         completedAt: kind === "terminal" ? new Date() : null,
       },
     });
     return;
   }
+
+  // A draw that returned is proof the provider is answering again.
+  await recordCircuit(deps, "ok", null);
 
   let newCount = 0;
   let promoted = 0;

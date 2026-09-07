@@ -12,6 +12,7 @@ import {
 import { MAX_DRAWS } from "../src/lib/question-provider/saturation";
 import { fingerprintPayload } from "../src/lib/question-provider/mapper";
 import { ProviderError, type ProviderFilter, type QuestionProviderAdapter } from "../src/lib/question-provider/types";
+import { EXHAUSTED_COOLDOWN_MS } from "../src/lib/question-provider/state";
 
 // Cloudinary is not part of the injected deps (only db and the provider
 // adapter are, per the task's scope). To exercise the mirror-failure paths
@@ -94,7 +95,38 @@ function makeFakeDb(subjects: Record<string, string>) {
   let findFirstCalls = 0;
   let findFirstThrowsOnCall: number | null = null;
 
+  let circuit: {
+    provider: "SDASH";
+    state: "OK" | "EXHAUSTED" | "BLOCKED";
+    cooldownUntil: Date | null;
+    lastError: string | null;
+    creditsRemaining: number | null;
+  } | null = null;
+
   const db: IngestDb & {
+    providerState: {
+      findUnique(args: { where: { provider: "SDASH" } }): Promise<{
+        provider: "SDASH";
+        state: "OK" | "EXHAUSTED" | "BLOCKED";
+        cooldownUntil: Date | null;
+        lastError: string | null;
+        creditsRemaining: number | null;
+      } | null>;
+      upsert(args: {
+        where: { provider: "SDASH" };
+        create: {
+          provider: "SDASH";
+          state: "OK" | "EXHAUSTED" | "BLOCKED";
+          cooldownUntil: Date | null;
+          lastError?: string | null;
+        };
+        update: {
+          state: "OK" | "EXHAUSTED" | "BLOCKED";
+          cooldownUntil: Date | null;
+          lastError?: string | null;
+        };
+      }): Promise<unknown>;
+    };
     _seedProviderQuestion: (row: Partial<ProviderQuestionRow> & { fingerprint: string }) => void;
     _providerQuestions: ProviderQuestionRow[];
     _questions: QuestionRow[];
@@ -227,6 +259,17 @@ function makeFakeDb(subjects: Record<string, string>) {
         providerQuestion: db.providerQuestion,
       });
     },
+    providerState: {
+      async findUnique({ where }) {
+        return circuit && circuit.provider === where.provider ? { ...circuit } : null;
+      },
+      async upsert({ where, create, update }) {
+        circuit = circuit
+          ? { ...circuit, ...update }
+          : { lastError: null, creditsRemaining: null, ...create, provider: where.provider };
+        return { ...circuit };
+      },
+    },
     _seedProviderQuestion(row) {
       providerQuestions.push({
         id: `pq-seed-${++pqSeq}`,
@@ -274,7 +317,7 @@ function makeAdapter(draws: Array<() => Promise<unknown[]>>) {
 }
 
 function deps(db: IngestDb, adapter: QuestionProviderAdapter): IngestDeps {
-  return { db, getAdapter: () => adapter };
+  return { db, getAdapter: () => adapter, now: () => Date.now() };
 }
 
 // ---------------------------------------------------------------------------
@@ -517,4 +560,104 @@ test("a stale lease is reclaimed by exactly one of two racing callers", async ()
 
   assert.equal(draws, 1, "only one caller should reclaim the stale lease");
   assert.equal(db._fetchRow()?.drawCount, before + 1);
+});
+
+test("an exhausted draw leaves the fetch PENDING and arms the breaker", async () => {
+  const db = makeFakeDb({ physics: "subj-1" });
+  const deps: IngestDeps = {
+    db,
+    now: () => Date.UTC(2026, 8, 7, 12, 0, 0),
+    getAdapter: () => ({
+      name: "SDASH",
+      async draw() {
+        throw new ProviderError("Insufficient credit. Please top up your wallet.", "exhausted", 403);
+      },
+      async listSubjects() { return []; },
+      async listYears() { return []; },
+    }),
+  };
+
+  await ensureQuestionsCached(FILTER, 40, deps);
+
+  // FAILED here is the bug this whole task exists to prevent: it would retire
+  // the paper permanently over a billing lapse.
+  assert.equal(db._fetchRow()?.status, "PENDING");
+  const circuit = await db.providerState.findUnique({ where: { provider: "SDASH" } });
+  assert.equal(circuit?.state, "EXHAUSTED");
+  assert.equal(
+    circuit?.cooldownUntil?.getTime(),
+    Date.UTC(2026, 8, 7, 12, 0, 0) + EXHAUSTED_COOLDOWN_MS,
+  );
+});
+
+test("no provider call is made while the breaker is open", async () => {
+  const db = makeFakeDb({ physics: "subj-1" });
+  const now = Date.UTC(2026, 8, 7, 12, 0, 0);
+  await db.providerState.upsert({
+    where: { provider: "SDASH" },
+    create: { provider: "SDASH", state: "EXHAUSTED", cooldownUntil: new Date(now + 60_000) },
+    update: { state: "EXHAUSTED", cooldownUntil: new Date(now + 60_000) },
+  });
+
+  let calls = 0;
+  const deps: IngestDeps = {
+    db,
+    now: () => now,
+    getAdapter: () => ({
+      name: "SDASH",
+      async draw() { calls += 1; return []; },
+      async listSubjects() { return []; },
+      async listYears() { return []; },
+    }),
+  };
+
+  await ensureQuestionsCached(FILTER, 40, deps);
+  assert.equal(calls, 0);
+});
+
+test("once the cooldown expires exactly one probe is spent", async () => {
+  const db = makeFakeDb({ physics: "subj-1" });
+  const now = Date.UTC(2026, 8, 7, 12, 0, 0);
+  await db.providerState.upsert({
+    where: { provider: "SDASH" },
+    create: { provider: "SDASH", state: "EXHAUSTED", cooldownUntil: new Date(now - 1) },
+    update: { state: "EXHAUSTED", cooldownUntil: new Date(now - 1) },
+  });
+
+  let calls = 0;
+  const deps: IngestDeps = {
+    db,
+    now: () => now,
+    getAdapter: () => ({
+      name: "SDASH",
+      async draw() { calls += 1; return [validPayload(1)]; },
+      async listSubjects() { return []; },
+      async listYears() { return []; },
+    }),
+  };
+
+  await ensureQuestionsCached(FILTER, 40, deps);
+  assert.equal(calls, 1);
+  // A successful probe closes the breaker — this is the auto-recovery.
+  const circuit = await db.providerState.findUnique({ where: { provider: "SDASH" } });
+  assert.equal(circuit?.state, "OK");
+});
+
+test("a terminal failure blocks the provider and still marks the fetch FAILED", async () => {
+  const db = makeFakeDb({ physics: "subj-1" });
+  const deps: IngestDeps = {
+    db,
+    now: () => Date.UTC(2026, 8, 7, 12, 0, 0),
+    getAdapter: () => ({
+      name: "SDASH",
+      async draw() { throw new ProviderError("Invalid AccessToken.", "terminal", 401); },
+      async listSubjects() { return []; },
+      async listYears() { return []; },
+    }),
+  };
+
+  await ensureQuestionsCached(FILTER, 40, deps);
+  assert.equal(db._fetchRow()?.status, "FAILED");
+  const circuit = await db.providerState.findUnique({ where: { provider: "SDASH" } });
+  assert.equal(circuit?.state, "BLOCKED");
 });
