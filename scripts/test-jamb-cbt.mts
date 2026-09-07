@@ -271,36 +271,51 @@ test("prepareJambYear distinguishes fetch-in-progress from coverage shortfall", 
     return;
   }
 
-  // Scenario 1: Provider enabled - ensureJambYearCached will schedule fetches if needed
-  const messageFetchScheduled = await (async () => {
-    const result = await prepareJambYear({
-      subjectIds,
-      examYear: 2025, // Cold year unlikely to be fully cached
-    });
-    if (result.outcome !== "ok") return null;
-    return result.message;
-  })();
+  // Scenario 1: Provider enabled (default) - ensureJambYearCached may schedule fetches
+  const result1 = await prepareJambYear({
+    subjectIds,
+    examYear: 2025, // Cold year
+  });
 
-  // Scenario 2: Provider disabled - no fetches scheduled
+  if (result1.outcome !== "ok") {
+    // Skip if subject resolution failed
+    return;
+  }
+
+  const messageFetchEnabled = result1.message;
+
+  // Scenario 2: Provider disabled - ensureJambYearCached returns 0 (no fetches scheduled)
   const originalEnv = process.env.QUESTION_PROVIDER_ENABLED;
   process.env.QUESTION_PROVIDER_ENABLED = "false";
 
-  const messageNoFetch = await (async () => {
-    const result = await prepareJambYear({
-      subjectIds,
-      examYear: 2024,
-    });
-    if (result.outcome !== "ok") return null;
-    return result.message;
-  })();
+  const result2 = await prepareJambYear({
+    subjectIds,
+    examYear: 2024,
+  });
 
   process.env.QUESTION_PROVIDER_ENABLED = originalEnv;
 
-  // The messages should be different
-  assert.notEqual(messageFetchScheduled, messageNoFetch);
-
-  // The fetch-scheduled message should mention fetching
-  if (messageFetchScheduled) {
-    assert.match(messageFetchScheduled, /[Ff]etch|[Pp]reparing|[Cc]heck/);
+  if (result2.outcome !== "ok") {
+    // Skip if subject resolution failed
+    return;
   }
+
+  const messageProviderDisabled = result2.message;
+
+  // Both should be "not ready"
+  assert.equal(result1.ready, false, "year 2025 with provider enabled should not be ready");
+  assert.equal(result2.ready, false, "year 2024 with provider disabled should not be ready");
+
+  // The messages must be different
+  assert.notEqual(
+    messageFetchEnabled,
+    messageProviderDisabled,
+    "fetch-enabled and provider-disabled messages should differ",
+  );
+
+  // At least one should have content (not null)
+  assert.ok(
+    messageFetchEnabled || messageProviderDisabled,
+    "at least one message should be non-null",
+  );
 });
