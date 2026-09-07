@@ -115,18 +115,27 @@ export async function ensureJambYearCached(
       // Awaiting four subjects' draws here made "pick a year" a multi-second
       // wait against a five-connection pool.
       scheduled.push(true);
-      after(async () => {
-        try {
-          await ensureQuestionsCached(filter, questionsForSubject(subject.code));
-          await saturate(filter);
-        } catch (error) {
-          // One unreachable paper must not sink the other three.
-          console.error(
-            `JAMB ${examYear} ${subject.code}: provider fetch failed`,
-            error,
-          );
-        }
-      });
+      try {
+        after(async () => {
+          try {
+            await ensureQuestionsCached(filter, questionsForSubject(subject.code));
+            await saturate(filter);
+          } catch (error) {
+            // One unreachable paper must not sink the other three.
+            console.error(
+              `JAMB ${examYear} ${subject.code}: provider fetch failed`,
+              error,
+            );
+          }
+        });
+      } catch (error) {
+        // Scheduling background work is best-effort; a failure to schedule
+        // (e.g., no request scope in tests) must not sink the prepare response.
+        console.error(
+          `JAMB ${examYear} ${subject.code}: failed to schedule fetch`,
+          error,
+        );
+      }
     }),
   );
 

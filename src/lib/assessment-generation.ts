@@ -136,10 +136,19 @@ export async function generateQuiz(studentId: string, input: GenerateQuizInput) 
         // student who triggers it gains nothing from waiting — the questions
         // it fetches are not in the bank until it finishes, by which point
         // their quiz has already been built from what was there.
-        after(async () => {
-          await ensureQuestionsCached(filter, count);
-          await saturate(filter);
-        });
+        try {
+          after(async () => {
+            await ensureQuestionsCached(filter, count);
+            await saturate(filter);
+          });
+        } catch (error) {
+          // Scheduling background work is best-effort; a failure to schedule
+          // (e.g., no request scope in tests) must not prevent the quiz response.
+          console.error(
+            `${subject.slug} ${examType} ${examYear}: failed to schedule question fetch`,
+            error,
+          );
+        }
       }
     }
   }
