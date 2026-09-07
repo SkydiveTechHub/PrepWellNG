@@ -5,7 +5,7 @@ import { cacheKey } from "./cache-key";
 import { mapProviderQuestion, MAPPER_VERSION } from "./mapper";
 import { DRAW_LIMIT, MAX_DRAWS, isSaturated } from "./saturation";
 import { getSdashAdapter } from "./sdash";
-import { isCircuitOpen, nextCircuit, type CircuitRow } from "./state";
+import { EXHAUSTED_COOLDOWN_MS, isCircuitOpen, nextCircuit, type CircuitRow } from "./state";
 import {
   ProviderError,
   type ProviderFailureKind,
@@ -143,6 +143,16 @@ export type IngestDb = {
         lastError?: string | null;
       };
     }): Promise<unknown>;
+    /**
+     * A guarded write, in the same spirit as `providerFetch.updateMany`: it
+     * lands only if the row still matches every field named in `where`, so
+     * of several callers racing to act on the same snapshot exactly one
+     * succeeds.
+     */
+    updateMany(args: {
+      where: { provider: "SDASH" } & Partial<Pick<CircuitRow, "state" | "cooldownUntil">>;
+      data: Partial<Pick<CircuitRow, "state" | "cooldownUntil">>;
+    }): Promise<{ count: number }>;
   };
   $transaction<T>(fn: (tx: TxDb) => Promise<T>): Promise<T>;
 };
@@ -361,22 +371,58 @@ export async function saturate(
   }
 }
 
-/** True when we must not spend a request on this provider right now. */
+/**
+ * True when we must not spend a request on this provider right now.
+ *
+ * An `EXHAUSTED` row whose cooldown has just lapsed is the one probe the
+ * breaker owes the provider — but "the cooldown lapsed" is only a read, and
+ * every filter's caller (of ~950 in flight) can observe it before any of
+ * them writes back. Left alone that is N probes against an unfunded
+ * provider, not one. So the lapse itself is claimed with a guarded write,
+ * mirroring `claimDraw`'s optimistic lock: it lands only for the caller who
+ * still sees the exact row we just read, and re-arms the cooldown so the
+ * rest see it as still open and skip. A row that is `OK`, or `EXHAUSTED`
+ * with a live cooldown, or `BLOCKED` needs no claim — there is no probe to
+ * hand out.
+ */
 async function circuitIsOpen(deps: IngestDeps): Promise<boolean> {
   const row = await deps.db.providerState.findUnique({ where: { provider: PROVIDER } });
-  return isCircuitOpen(row, deps.now());
+  const now = deps.now();
+  if (isCircuitOpen(row, now)) return true;
+
+  if (row && row.state === "EXHAUSTED") {
+    const { count } = await deps.db.providerState.updateMany({
+      where: { provider: PROVIDER, cooldownUntil: row.cooldownUntil },
+      data: { cooldownUntil: new Date(now + EXHAUSTED_COOLDOWN_MS) },
+    });
+    // count 0 means another caller already claimed the lapse a moment ago;
+    // their probe is the live one, so we must not draw either.
+    return count === 0;
+  }
+
+  return false;
 }
 
 async function recordCircuit(
   deps: IngestDeps,
   kind: ProviderFailureKind | "ok",
   message: string | null,
+  guard?: (CircuitRow & { creditsRemaining: number | null }) | null,
 ) {
-  const next =
-    kind === "ok"
-      ? { state: "OK" as const, cooldownUntil: null }
-      : nextCircuit(kind, deps.now());
+  if (kind === "ok") {
+    // A late success must not clobber a breaker some other caller armed
+    // after this draw started — guard the write on the exact row `drawOnce`
+    // saw before calling the adapter, the same optimistic-lock idiom as the
+    // claim above. No prior row means there was nothing to close.
+    if (!guard) return;
+    await deps.db.providerState.updateMany({
+      where: { provider: PROVIDER, state: guard.state, cooldownUntil: guard.cooldownUntil },
+      data: { state: "OK", cooldownUntil: null },
+    });
+    return;
+  }
 
+  const next = nextCircuit(kind, deps.now());
   // Retryable failures leave the breaker untouched.
   if (!next) return;
 
@@ -395,6 +441,10 @@ async function drawOnce(
   deps: IngestDeps,
 ) {
   const { db } = deps;
+
+  // Snapshotted before the call so a success below can be guarded against a
+  // breaker armed by someone else while this draw was in flight.
+  const circuitBeforeDraw = await db.providerState.findUnique({ where: { provider: PROVIDER } });
 
   let payloads: unknown[];
   try {
@@ -421,7 +471,7 @@ async function drawOnce(
   }
 
   // A draw that returned is proof the provider is answering again.
-  await recordCircuit(deps, "ok", null);
+  await recordCircuit(deps, "ok", null, circuitBeforeDraw);
 
   let newCount = 0;
   let promoted = 0;

@@ -126,6 +126,17 @@ function makeFakeDb(subjects: Record<string, string>) {
           lastError?: string | null;
         };
       }): Promise<unknown>;
+      updateMany(args: {
+        where: {
+          provider: "SDASH";
+          state?: "OK" | "EXHAUSTED" | "BLOCKED";
+          cooldownUntil?: Date | null;
+        };
+        data: {
+          state?: "OK" | "EXHAUSTED" | "BLOCKED";
+          cooldownUntil?: Date | null;
+        };
+      }): Promise<{ count: number }>;
     };
     _seedProviderQuestion: (row: Partial<ProviderQuestionRow> & { fingerprint: string }) => void;
     _providerQuestions: ProviderQuestionRow[];
@@ -268,6 +279,20 @@ function makeFakeDb(subjects: Record<string, string>) {
           ? { ...circuit, ...update }
           : { lastError: null, creditsRemaining: null, ...create, provider: where.provider };
         return { ...circuit };
+      },
+      // Mirrors providerFetch.updateMany: the write lands only if the row
+      // still matches every field named in `where`.
+      async updateMany({ where, data }) {
+        if (!circuit || circuit.provider !== where.provider) return { count: 0 };
+        if ("state" in where && circuit.state !== where.state) return { count: 0 };
+        if ("cooldownUntil" in where) {
+          const want = where.cooldownUntil;
+          const have = circuit.cooldownUntil;
+          const same = want === null ? have === null : have !== null && have.getTime() === want.getTime();
+          if (!same) return { count: 0 };
+        }
+        circuit = { ...circuit, ...data };
+        return { count: 1 };
       },
     },
     _seedProviderQuestion(row) {
@@ -660,4 +685,66 @@ test("a terminal failure blocks the provider and still marks the fetch FAILED", 
   assert.equal(db._fetchRow()?.status, "FAILED");
   const circuit = await db.providerState.findUnique({ where: { provider: "SDASH" } });
   assert.equal(circuit?.state, "BLOCKED");
+});
+
+test("two callers on an expired cooldown claim the single probe: only one calls the provider", async () => {
+  const db = makeFakeDb({ physics: "subj-1" });
+  const now = Date.UTC(2026, 8, 7, 12, 0, 0);
+  await db.providerState.upsert({
+    where: { provider: "SDASH" },
+    create: { provider: "SDASH", state: "EXHAUSTED", cooldownUntil: new Date(now - 1) },
+    update: { state: "EXHAUSTED", cooldownUntil: new Date(now - 1) },
+  });
+
+  let calls = 0;
+  const adapter: QuestionProviderAdapter = {
+    name: "SDASH",
+    async draw() {
+      calls += 1;
+      return [validPayload(1)];
+    },
+    async listSubjects() { return []; },
+    async listYears() { return []; },
+  };
+  const depsA: IngestDeps = { db, now: () => now, getAdapter: () => adapter };
+  const depsB: IngestDeps = { db, now: () => now, getAdapter: () => adapter };
+
+  // Two distinct filters, exactly as two different past papers scheduling a
+  // background draw off the same expired cooldown would produce.
+  const filterB: ProviderFilter = { subjectSlug: "physics", examType: "JAMB", examYear: 2019 };
+  await Promise.all([
+    ensureQuestionsCached(FILTER, 40, depsA),
+    ensureQuestionsCached(filterB, 40, depsB),
+  ]);
+
+  assert.equal(calls, 1, "the cooldown lapse must be claimed once, not once per filter");
+});
+
+test("a success-close does not clobber a breaker armed after the draw started", async () => {
+  const db = makeFakeDb({ physics: "subj-1" });
+  const now = Date.UTC(2026, 8, 7, 12, 0, 0);
+  const deps: IngestDeps = {
+    db,
+    now: () => now,
+    getAdapter: () => ({
+      name: "SDASH",
+      async draw() {
+        // Stands in for a concurrent caller arming the breaker while this
+        // draw is still in flight — the race the guard exists to survive.
+        await db.providerState.upsert({
+          where: { provider: "SDASH" },
+          create: { provider: "SDASH", state: "EXHAUSTED", cooldownUntil: new Date(now + 60_000) },
+          update: { state: "EXHAUSTED", cooldownUntil: new Date(now + 60_000) },
+        });
+        return [validPayload(1)];
+      },
+      async listSubjects() { return []; },
+      async listYears() { return []; },
+    }),
+  };
+
+  await ensureQuestionsCached(FILTER, 40, deps);
+
+  const circuit = await db.providerState.findUnique({ where: { provider: "SDASH" } });
+  assert.equal(circuit?.state, "EXHAUSTED", "the late arm must win over the stale success");
 });
