@@ -15,7 +15,7 @@ export type ProviderFilter = {
  * returns an empty array, not an error, so the ledger saturates it with
  * rawCount 0 and never asks again.
  */
-export type ProviderFailureKind = "terminal" | "retryable";
+export type ProviderFailureKind = "terminal" | "retryable" | "exhausted";
 
 export class ProviderError extends Error {
   constructor(
