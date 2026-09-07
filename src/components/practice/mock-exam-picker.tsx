@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   LuArrowRight,
@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import { isComingSoonBoard } from "@/lib/constants/exam-types";
+import type { BoardStatus } from "@/lib/board-availability";
 import {
   CLASS_LEVELS,
   TERMS,
@@ -51,6 +51,12 @@ export function MockExamPicker({
   const router = useRouter();
 
   const [board, setBoard] = useState<Board | null>(null);
+  // Null while in flight. Every board is treated as unavailable until the
+  // answer lands, so nobody can click through to a board that turns out to
+  // hold nothing.
+  const [boardStatus, setBoardStatus] = useState<Record<string, BoardStatus> | null>(
+    null,
+  );
   const [subjects, setSubjects] = useState<SubjectAvailability[]>([]);
   const [loadingSubjects, setLoadingSubjects] = useState(false);
   const [subjectId, setSubjectId] = useState<string | null>(null);
@@ -82,6 +88,19 @@ export function MockExamPicker({
     from: ScopePoint | null;
     to: ScopePoint | null;
   } | null>(initialSubjectId ? { subjectId: initialSubjectId, from: initialFrom, to: initialTo } : null);
+
+  // Which boards can be sat at all. This one does belong in an effect — it is
+  // needed to paint the first step, before the student has done anything.
+  useEffect(() => {
+    let live = true;
+    fetch("/api/assessments/mock-exam/boards")
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error("failed"))))
+      .then((data) => live && setBoardStatus(data.boards ?? {}))
+      .catch(() => live && setBoardStatus({}));
+    return () => {
+      live = false;
+    };
+  }, []);
 
   // Driven from the click rather than an effect on `board`: picking a board is
   // a user action, so the fetch belongs in the handler.
@@ -188,18 +207,23 @@ export function MockExamPicker({
         <h2 className="section-label mb-3">1 · Choose the exam</h2>
         <div className="grid grid-cols-3 gap-3">
           {BOARDS.map((b) => {
-            // Held back until the board has a syllabus-tagged bank of its own.
-            const comingSoon = isComingSoonBoard(b);
+            // A board opens itself: it is enterable exactly when its own bank
+            // holds enough syllabus-tagged subjects to scope, and it says why
+            // when it doesn't. Nothing here is on a list to be remembered.
+            const status = boardStatus?.[b] ?? null;
+            const checking = boardStatus === null;
+            const shut = !checking && !status?.ready;
             return (
               <button
                 key={b}
                 type="button"
                 onClick={() => chooseBoard(b)}
-                disabled={comingSoon}
+                disabled={checking || shut}
                 aria-pressed={board === b}
+                title={shut ? status?.reason ?? undefined : undefined}
                 className={cn(
                   "flex flex-col items-center justify-center gap-1.5 rounded-xl border py-4 text-sm font-bold transition-all",
-                  comingSoon
+                  checking || shut
                     ? "cursor-not-allowed border-border bg-muted/40 text-muted"
                     : board === b
                       ? "border-primary bg-primary-soft text-primary ring-4 ring-primary/15"
@@ -207,7 +231,13 @@ export function MockExamPicker({
                 )}
               >
                 {b}
-                {comingSoon && <Badge>Coming soon</Badge>}
+                {shut && (
+                  <Badge className="max-w-full">
+                    <span className="truncate">
+                      {status?.reason ?? "Not available"}
+                    </span>
+                  </Badge>
+                )}
               </button>
             );
           })}
