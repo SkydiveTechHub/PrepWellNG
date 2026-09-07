@@ -15,9 +15,10 @@ import { ProviderError, type ProviderFilter, type QuestionProviderAdapter } from
 import { EXHAUSTED_COOLDOWN_MS } from "../src/lib/question-provider/state";
 
 // Cloudinary is not part of the injected deps (only db and the provider
-// adapter are, per the task's scope). To exercise the mirror-failure paths
-// we configure real (but fake-valued) credentials and stub the global
-// `fetch` that `uploadRemoteImage` calls, then restore both afterwards.
+// adapter are, per the task's scope). The draw loop no longer mirrors images
+// itself (that now happens in a later mirror pass), so these credentials and
+// the `fetch` stubs below are no longer exercised by `drawOnce` — the stubs
+// stay only to prove the draw never reaches Cloudinary at all.
 process.env.CLOUDINARY_CLOUD_NAME = "test-cloud";
 process.env.CLOUDINARY_API_KEY = "test-key";
 process.env.CLOUDINARY_API_SECRET = "test-secret";
@@ -406,14 +407,21 @@ test("a payload already seen in THIS fetch is skipped entirely: not counted, not
   assert.equal(result.ledger.promotedCount, 0);
 });
 
-test("a mirror failure Cloudinary blames on us (blameCaller: false) stages PENDING, not REJECTED", async () => {
+test("an image the mirror pass would later blame on us (blameCaller: false) stages PENDING without ever calling Cloudinary", async () => {
+  // The fetch stub used to control what `uploadRemoteImage` reported back
+  // (a 503, blamed on Cloudinary/us). Now that mirroring has left the draw
+  // loop, this outcome can no longer be produced inline at all — the stub
+  // stays only to prove the draw never reaches it.
   const originalFetch = globalThis.fetch;
-  globalThis.fetch = (async () =>
-    ({
+  let fetchCalls = 0;
+  globalThis.fetch = (async () => {
+    fetchCalls += 1;
+    return {
       ok: false,
       status: 503,
       json: async () => ({ error: { message: "Service unavailable" } }),
-    }) as unknown as Response) as typeof fetch;
+    } as unknown as Response;
+  }) as typeof fetch;
 
   try {
     const db = makeFakeDb({ physics: "subj-1" });
@@ -423,8 +431,10 @@ test("a mirror failure Cloudinary blames on us (blameCaller: false) stages PENDI
     const { adapter } = makeAdapter([async () => [payload]]);
     const result = await ensureQuestionsCached(FILTER, 10, deps(db, adapter));
 
+    assert.equal(fetchCalls, 0, "the draw must not call Cloudinary at all");
     assert.equal(result.ledger.rawCount, 1);
     assert.equal(result.ledger.promotedCount, 0);
+    assert.equal(db._fetchRow()?.rejectedCount, 0);
     const staged = db._providerQuestions.at(-1);
     assert.equal(staged?.status, "PENDING");
   } finally {
@@ -432,14 +442,23 @@ test("a mirror failure Cloudinary blames on us (blameCaller: false) stages PENDI
   }
 });
 
-test("a mirror failure Cloudinary blames on the file (blameCaller: true) is REJECTED", async () => {
+test("an image the mirror pass would later reject (blameCaller: true) still stages PENDING, not REJECTED, until that pass runs", async () => {
+  // This used to be the case where Cloudinary rejected the file itself and
+  // the draw staged it REJECTED on the spot. `drawOnce` no longer attempts
+  // the mirror, so it cannot know yet whether Cloudinary will accept the
+  // file — that verdict, and the REJECTED/PENDING split it drives, belongs
+  // to the mirror pass now, not to the draw. The stub stays to prove the
+  // draw never reaches Cloudinary to find out.
   const originalFetch = globalThis.fetch;
-  globalThis.fetch = (async () =>
-    ({
+  let fetchCalls = 0;
+  globalThis.fetch = (async () => {
+    fetchCalls += 1;
+    return {
       ok: false,
       status: 400,
       json: async () => ({ error: { message: "Invalid image file" } }),
-    }) as unknown as Response) as typeof fetch;
+    } as unknown as Response;
+  }) as typeof fetch;
 
   try {
     const db = makeFakeDb({ physics: "subj-1" });
@@ -449,9 +468,11 @@ test("a mirror failure Cloudinary blames on the file (blameCaller: true) is REJE
     const { adapter } = makeAdapter([async () => [payload]]);
     const result = await ensureQuestionsCached(FILTER, 10, deps(db, adapter));
 
+    assert.equal(fetchCalls, 0, "the draw must not call Cloudinary at all");
     assert.equal(result.ledger.promotedCount, 0);
+    assert.equal(db._fetchRow()?.rejectedCount, 0);
     const staged = db._providerQuestions.at(-1);
-    assert.equal(staged?.status, "REJECTED");
+    assert.equal(staged?.status, "PENDING");
   } finally {
     globalThis.fetch = originalFetch;
   }
@@ -747,4 +768,61 @@ test("a success-close does not clobber a breaker armed after the draw started", 
 
   const circuit = await db.providerState.findUnique({ where: { provider: "SDASH" } });
   assert.equal(circuit?.state, "EXHAUSTED", "the late arm must win over the stale success");
+});
+
+test("an image-bearing question stages for the mirror pass and is not promoted inline", async () => {
+  const db = makeFakeDb({ physics: "subj-1" });
+  const deps: IngestDeps = {
+    db,
+    now: () => Date.now(),
+    getAdapter: () => ({
+      name: "SDASH",
+      async draw() {
+        return [
+          validPayload(1),
+          validPayload(2, { image: "https://provider.test/diagram.png" }),
+        ];
+      },
+      async listSubjects() { return []; },
+      async listYears() { return []; },
+    }),
+  };
+
+  await ensureQuestionsCached(FILTER, 40, deps);
+
+  // The plain question promotes; the image one waits for the mirror pass.
+  assert.equal(db._questions.length, 1);
+  const staged = db._providerQuestions.find((row) => row.providerQuestionId === "2");
+  assert.equal(staged?.status, "PENDING");
+  assert.equal(db._fetchRow()?.promotedCount, 1);
+  // Neither promoted nor rejected — it is pending work, not a failure.
+  assert.equal(db._fetchRow()?.rejectedCount, 0);
+});
+
+test("a draw containing images does not call fetch during the loop", async () => {
+  // The mirror is the slowest thing in ingest and must not sit between a
+  // draw and its ledger write.
+  const originalFetch = globalThis.fetch;
+  let fetchCalls = 0;
+  globalThis.fetch = (async () => {
+    fetchCalls += 1;
+    return new Response("", { status: 200 });
+  }) as typeof fetch;
+
+  try {
+    const db = makeFakeDb({ physics: "subj-1" });
+    await ensureQuestionsCached(FILTER, 40, {
+      db,
+      now: () => Date.now(),
+      getAdapter: () => ({
+        name: "SDASH",
+        async draw() { return [validPayload(1, { image: "https://provider.test/a.png" })]; },
+        async listSubjects() { return []; },
+        async listYears() { return []; },
+      }),
+    });
+    assert.equal(fetchCalls, 0);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
 });

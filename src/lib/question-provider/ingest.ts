@@ -1,6 +1,5 @@
 import { Prisma, type Question } from "@prisma/client";
 import { db as realDb } from "@/lib/db";
-import { uploadRemoteImage, UploadRejectedError } from "@/lib/cloudinary";
 import { cacheKey } from "./cache-key";
 import { mapProviderQuestion, MAPPER_VERSION } from "./mapper";
 import { DRAW_LIMIT, MAX_DRAWS, isSaturated } from "./saturation";
@@ -522,50 +521,34 @@ async function drawOnce(
         continue;
       }
 
-      // Mirror the image before promoting. A question pointing at a third
-      // party's asset is not one we own, so a mirror failure never promotes
-      // a broken dependency; the raw payload is kept either way.
+      // Questions carrying a provider image are staged, not promoted.
       //
-      // Whether it is staged as REJECTED or left PENDING for a retry depends
-      // on who was at fault: `UploadRejectedError.blameCaller` is true only
-      // when Cloudinary rejected the image itself (corrupt, unacceptable) —
-      // that will never succeed on retry. Anything else (a timeout, a 5xx, a
-      // network blip) is our/their infrastructure having a bad moment, and
-      // punishing the question for it would cost it until the next
-      // MAPPER_VERSION sweep for no reason.
-      let imageUrl: string | null = null;
+      // Mirroring is a download plus an upload — the slowest thing in ingest,
+      // and unbounded in the tail. Running it here made every image add
+      // seconds to the draw and let one Cloudinary hiccup abandon the rest of
+      // the payloads. The mirror pass promotes these later from the stored
+      // payload, at no further cost to the provider.
       if (result.question.providerImageUrl) {
-        try {
-          imageUrl = await uploadRemoteImage(
-            result.question.providerImageUrl,
-            `${PROVIDER.toLowerCase()}-${result.providerQuestionId ?? result.fingerprint.slice(0, 16)}`,
-          );
-        } catch (error) {
-          const blameCaller =
-            error instanceof UploadRejectedError ? error.blameCaller : false;
-          await db.providerQuestion.create({
-            data: {
-              fetchId,
-              provider: PROVIDER,
-              providerQuestionId: result.providerQuestionId,
-              fingerprint: result.fingerprint,
-              payload: payload as object,
-              status: blameCaller ? "REJECTED" : "PENDING",
-              rejectionReasons: [
-                {
-                  field: "questionImageUrl",
-                  message: `Could not mirror the image: ${error instanceof Error ? error.message : String(error)}`,
-                },
-              ],
-              mapperVersion: MAPPER_VERSION,
-            },
-          });
-          newCount += 1;
-          // A service-side failure is staged for retry, not counted as
-          // promoted or rejected — it is neither yet.
-          if (blameCaller) rejected += 1;
-          continue;
-        }
+        await db.providerQuestion.create({
+          data: {
+            fetchId,
+            provider: PROVIDER,
+            providerQuestionId: result.providerQuestionId,
+            fingerprint: result.fingerprint,
+            payload: payload as object,
+            status: "PENDING",
+            rejectionReasons: [
+              {
+                field: "questionImageUrl",
+                message: "Awaiting the image mirror pass.",
+              },
+            ],
+            mapperVersion: MAPPER_VERSION,
+          },
+        });
+        newCount += 1;
+        // Neither promoted nor rejected: it is pending work, not a failure.
+        continue;
       }
 
       await db.$transaction(async (tx) => {
@@ -575,7 +558,7 @@ async function drawOnce(
             examType: result.question.examType,
             examYear: result.question.examYear,
             questionText: result.question.questionText,
-            questionImageUrl: imageUrl,
+            questionImageUrl: null,
             questionType: "OBJECTIVE",
             options: result.question.options,
             correctAnswer: result.question.correctAnswer,
