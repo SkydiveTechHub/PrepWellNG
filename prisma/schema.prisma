@@ -987,3 +987,23 @@ model ProviderCatalogue {
   @@unique([provider, subjectId, examType, examYear])
   @@index([examType, examYear])
 }
+
+enum ProviderCircuitState {
+  OK
+  EXHAUSTED // out of credit — retry after the cooldown, no human needed
+  BLOCKED   // 401, revoked key, unentitled — a human must intervene
+}
+
+/// One row per provider: the circuit breaker, and what the provider last told
+/// us about our balance. Keyed by provider so a breaker opened for one source
+/// never stops another.
+model ProviderState {
+  provider      QuestionProvider     @id
+  state         ProviderCircuitState @default(OK)
+  cooldownUntil DateTime?
+  lastError     String?              @db.Text
+  lastCheckedAt DateTime             @updatedAt
+
+  /// As last reported by the provider's own response envelope.
+  creditsRemaining Int?
+}
