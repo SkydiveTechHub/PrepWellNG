@@ -12,8 +12,8 @@
 
 ## Global Constraints
 
-- **Phases 0–1 only.** This plan implements spec Decisions 1, 2, 3 and 4. Decisions 5–10 (provider generalisation, ALOC, backfill ops) are a separate plan written after the wallets are funded and spec Open questions 2 and 3 are resolved. Do not add ALOC here.
-- **`QuestionProvider` stays single-valued.** Adding `ALOC` to the enum belongs to the next plan. Code written here may be provider-parameterised where it falls out naturally, but no task requires it.
+- **SDash is the only provider.** ALOC was declined on 2026-09-07 after costing and probing; spec Decisions 5–10 (provider generalisation, the ALOC adapter, backfill operations) are abandoned, not deferred. There is no follow-on plan. This plan implements spec Decisions 1, 2, 3 and 4, which are all SDash-only and all still live.
+- **`QuestionProvider` stays single-valued.** Do not add members to the enum. The `provider` column and the `(provider, cacheKey)` uniqueness already in the schema stay as they are — they cost nothing and removing them would be a pointless migration.
 - **`Question.explanation` stays required.** The invariant at `src/lib/question-provider/mapper.ts:118` is not touched.
 - **Tests are `node --test`.** New test files live at `scripts/test-*.mts`, import from `../src/...`, use `node:test` + `node:assert/strict`, and must be appended to the `test` script in `package.json`. No new test framework.
 - **Existing test suite must stay green.** `npm test` passes at every commit.
@@ -1400,7 +1400,7 @@ Report the query count and the `ProviderState` row contents. If `FAILED` grew du
 
 ## Self-review notes
 
-**Spec coverage.** Decision 1 → Tasks 1–6. Decision 2 → Task 7. Decision 3 → Task 9. Decision 4 → Task 8. Decisions 5–10 are explicitly out of scope per Global Constraints and carry forward to the next plan.
+**Spec coverage.** Decision 1 → Tasks 1–6. Decision 2 → Task 7. Decision 3 → Task 9. Decision 4 → Task 8. Decisions 5–10 are abandoned per Global Constraints — ALOC was declined, so there is nothing left of the spec that this plan does not cover.
 
 **Dropped after review:** an earlier draft added a read-only `readBank` helper for request handlers, per the spec’s wording in Decision 2. Verified against the code: all three callers of `ensureQuestionsCached` discard its return value and select questions from the bank separately, so `readBank` would have been dead on arrival. Decision 2 is satisfied by Task 7 alone — moving the call behind `after()`.
 

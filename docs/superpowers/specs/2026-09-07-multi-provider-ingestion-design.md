@@ -1,5 +1,21 @@
 # Multi-Provider Question Ingestion — Recovery, Latency, and ALOC
 
+> **Status (2026-09-07, same day): ALOC declined. Decisions 1–4 stand and are
+> being implemented; Decisions 5–10 are abandoned.**
+>
+> After costing and probing ALOC the decision was to stay on sdashapi alone.
+> Everything in this document about the empty SDash wallet, the terminal-403
+> blackhole, the measured ingest latency, and Decisions 1 through 4 remains
+> live and is implemented by
+> `docs/superpowers/plans/2026-09-07-provider-recovery-and-latency.md`.
+>
+> Decisions 5 (adapter generalisation), 6 (provider roles), 7 (bought
+> explanations), 8 (Markdown flattening), 9 (credit budget) and 10
+> (demand-ordered backfill) describe a second provider that will not be
+> added. The ALOC probe findings are retained because they were measured
+> against the live API and would otherwise have to be re-bought at 10 credits
+> an explanation if the question is ever reopened.
+
 Supersedes nothing. Extends `2026-09-01-question-provider-cache-design.md`, whose
 ledger, staging and promotion model all survive intact; what changes is when
 ingestion runs, how failure is classified, and how many providers feed it.
