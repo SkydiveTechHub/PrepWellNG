@@ -33,14 +33,16 @@ export function createSdashAdapter(config: SdashConfig): QuestionProviderAdapter
       throw new ProviderError(`Provider unreachable: ${String(error)}`, "retryable");
     }
 
-    const kind = classifyStatus(res.status);
-    if (kind === "empty") return null;
+    // 404 is "nothing here", and has no body worth reading.
+    if (res.status === 404) return null;
 
-    if (kind !== "ok") {
+    // Read the body before classifying: a 403 means one of two opposite
+    // things, and only the message tells them apart.
+    if (res.status !== 200) {
       const body = (await res.json().catch(() => null)) as Envelope | null;
       throw new ProviderError(
         body?.message ?? `Provider returned ${res.status}`,
-        kind,
+        classifyStatus(res.status, body),
         res.status,
       );
     }
