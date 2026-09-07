@@ -91,10 +91,11 @@ function makeFakeDb(subjects: Record<string, string>) {
   let pqSeq = 0;
   let qSeq = 0;
 
-  // Test hook: make the Nth call to providerQuestion.findFirst throw, to
-  // simulate a mid-draw crash after some payloads have already committed.
-  let findFirstCalls = 0;
-  let findFirstThrowsOnCall: number | null = null;
+  // Test hook: make the Nth call to providerQuestion.findMany throw, to
+  // simulate a DB failure while drawing (findMany is the one read `drawOnce`
+  // now issues per draw, in place of the old per-payload findFirst).
+  let findManyCalls = 0;
+  let findManyThrowsOnCall: number | null = null;
 
   let circuit: {
     provider: "SDASH";
@@ -142,7 +143,7 @@ function makeFakeDb(subjects: Record<string, string>) {
     _seedProviderQuestion: (row: Partial<ProviderQuestionRow> & { fingerprint: string }) => void;
     _providerQuestions: ProviderQuestionRow[];
     _questions: QuestionRow[];
-    _throwOnFindFirstCall: (n: number) => void;
+    _throwOnFindManyCall: (n: number) => void;
     _fetchRow: () => FetchRow | null;
   } = {
     subject: {
@@ -215,10 +216,6 @@ function makeFakeDb(subjects: Record<string, string>) {
     },
     providerQuestion: {
       async findFirst({ where }) {
-        findFirstCalls += 1;
-        if (findFirstThrowsOnCall !== null && findFirstCalls === findFirstThrowsOnCall) {
-          throw new Error("simulated database failure mid-draw");
-        }
         const match = providerQuestions.find((pq) => {
           if (pq.fetchId !== where.fetchId) return false;
           return where.OR.some((cond) =>
@@ -228,6 +225,24 @@ function makeFakeDb(subjects: Record<string, string>) {
           );
         });
         return match ? { id: match.id } : null;
+      },
+      async findMany({ where }) {
+        findManyCalls += 1;
+        if (findManyThrowsOnCall !== null && findManyCalls === findManyThrowsOnCall) {
+          throw new Error("simulated database failure mid-draw");
+        }
+        return providerQuestions
+          .filter((row) => row.fetchId === where.fetchId)
+          .map((row) => ({
+            providerQuestionId: row.providerQuestionId,
+            fingerprint: row.fingerprint,
+          }));
+      },
+      async createMany({ data }) {
+        for (const row of data as ProviderQuestionRow[]) {
+          providerQuestions.push({ ...row, id: `pq-${++pqSeq}` });
+        }
+        return { count: data.length };
       },
       async create({ data }) {
         const row: ProviderQuestionRow = {
@@ -313,8 +328,8 @@ function makeFakeDb(subjects: Record<string, string>) {
     _fetchRow() {
       return [...fetchesById.values()][0] ?? null;
     },
-    _throwOnFindFirstCall(n) {
-      findFirstThrowsOnCall = n;
+    _throwOnFindManyCall(n) {
+      findManyThrowsOnCall = n;
     },
   };
 
@@ -478,19 +493,20 @@ test("an image the mirror pass would later reject (blameCaller: true) still stag
   }
 });
 
-test("a throw mid-draw leaves the ledger counters matching what actually committed", async () => {
+test("a throw on the draw's dedupe read leaves the ledger retryable, not saturated", async () => {
   const db = makeFakeDb({ physics: "subj-1" });
   const payloads = [validPayload(1), validPayload(2)];
-  // The first payload's dedupe check (call 1) succeeds; the second's (call 2)
-  // throws, simulating a DB failure partway through the draw.
-  db._throwOnFindFirstCall(2);
+  // The single findMany read that now stands in for the old per-payload
+  // findFirst dedupe throws, simulating a DB failure during the draw. Nothing
+  // has been staged or promoted yet, so nothing should have committed.
+  db._throwOnFindManyCall(1);
 
   const { adapter } = makeAdapter([async () => payloads]);
   const result = await ensureQuestionsCached(FILTER, 10, deps(db, adapter));
 
-  assert.equal(result.ledger.promotedCount, 1, "the first payload's promotion committed");
+  assert.equal(result.ledger.promotedCount, 0, "nothing committed before the read failed");
   assert.equal(result.ledger.status, "PENDING", "a mid-draw failure is retryable, not saturated");
-  assert.equal(db._questions.length, 1, "only the committed question exists");
+  assert.equal(db._questions.length, 0, "no question was created");
 });
 
 test("a live lease means a second concurrent caller reads the DB without drawing", async () => {

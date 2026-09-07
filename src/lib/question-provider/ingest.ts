@@ -98,6 +98,11 @@ export type IngestDb = {
       };
       select: { id: true };
     }): Promise<{ id: string } | null>;
+    findMany(args: {
+      where: { fetchId: string };
+      select: { providerQuestionId: true; fingerprint: true };
+    }): Promise<{ providerQuestionId: string | null; fingerprint: string }[]>;
+    createMany(args: { data: object[] }): Promise<{ count: number }>;
     create(args: {
       data: {
         fetchId: string;
@@ -476,8 +481,22 @@ async function drawOnce(
   let promoted = 0;
   let rejected = 0;
   let loopError: unknown = null;
+  const staged: object[] = [];
 
   try {
+    // One read for the whole draw. Dedupe then happens in memory against this
+    // set rather than costing a round trip per payload — the difference
+    // between ~200 sequential queries and one, against a five-connection
+    // pool that background ingest shares with live traffic.
+    const existing = await db.providerQuestion.findMany({
+      where: { fetchId },
+      select: { providerQuestionId: true, fingerprint: true },
+    });
+    const seenIds = new Set(
+      existing.map((row) => row.providerQuestionId).filter((id): id is string => id !== null),
+    );
+    const seenFingerprints = new Set(existing.map((row) => row.fingerprint));
+
     for (const payload of payloads) {
       const result = mapProviderQuestion(payload, {
         examType: filter.examType,
@@ -489,32 +508,26 @@ async function drawOnce(
       // skip what this filter already holds; we must NOT skip a question
       // another paper happens to share, or the second paper to contain a
       // recycled question would silently go without it.
-      const seen = await db.providerQuestion.findFirst({
-        where: {
-          fetchId,
-          OR: [
-            ...(result.providerQuestionId
-              ? [{ providerQuestionId: result.providerQuestionId }]
-              : []),
-            { fingerprint: result.fingerprint },
-          ],
-        },
-        select: { id: true },
-      });
-      if (seen) continue;
+      if (
+        (result.providerQuestionId && seenIds.has(result.providerQuestionId)) ||
+        seenFingerprints.has(result.fingerprint)
+      ) {
+        continue;
+      }
+      // Claim it now, so a payload repeated inside this same draw is caught.
+      if (result.providerQuestionId) seenIds.add(result.providerQuestionId);
+      seenFingerprints.add(result.fingerprint);
 
       if (!result.ok) {
-        await db.providerQuestion.create({
-          data: {
-            fetchId,
-            provider: PROVIDER,
-            providerQuestionId: result.providerQuestionId,
-            fingerprint: result.fingerprint,
-            payload: payload as object,
-            status: "REJECTED",
-            rejectionReasons: result.reasons,
-            mapperVersion: MAPPER_VERSION,
-          },
+        staged.push({
+          fetchId,
+          provider: PROVIDER,
+          providerQuestionId: result.providerQuestionId,
+          fingerprint: result.fingerprint,
+          payload: payload as object,
+          status: "REJECTED",
+          rejectionReasons: result.reasons,
+          mapperVersion: MAPPER_VERSION,
         });
         newCount += 1;
         rejected += 1;
@@ -529,22 +542,20 @@ async function drawOnce(
       // the payloads. The mirror pass promotes these later from the stored
       // payload, at no further cost to the provider.
       if (result.question.providerImageUrl) {
-        await db.providerQuestion.create({
-          data: {
-            fetchId,
-            provider: PROVIDER,
-            providerQuestionId: result.providerQuestionId,
-            fingerprint: result.fingerprint,
-            payload: payload as object,
-            status: "PENDING",
-            rejectionReasons: [
-              {
-                field: "questionImageUrl",
-                message: "Awaiting the image mirror pass.",
-              },
-            ],
-            mapperVersion: MAPPER_VERSION,
-          },
+        staged.push({
+          fetchId,
+          provider: PROVIDER,
+          providerQuestionId: result.providerQuestionId,
+          fingerprint: result.fingerprint,
+          payload: payload as object,
+          status: "PENDING",
+          rejectionReasons: [
+            {
+              field: "questionImageUrl",
+              message: "Awaiting the image mirror pass.",
+            },
+          ],
+          mapperVersion: MAPPER_VERSION,
         });
         newCount += 1;
         // Neither promoted nor rejected: it is pending work, not a failure.
@@ -589,6 +600,10 @@ async function drawOnce(
     // above, and the ledger write always happens — this function never lets
     // a mid-draw failure escape past it.
     loopError = error;
+  }
+
+  if (staged.length > 0) {
+    await db.providerQuestion.createMany({ data: staged });
   }
 
   const current = await db.providerFetch.findUnique({ where: { id: fetchId } });
