@@ -59,7 +59,7 @@ export async function resolveJambPaperSubjects(
 }
 
 /**
- * Pulls whatever of a year's four papers we do not already hold.
+ * Schedules fetches for whatever of a year's four papers we do not already hold.
  *
  * The past-paper flow fetches one subject on demand; a sitting needs all four,
  * so this runs the same draw across each of them. Every subject gets exactly
@@ -67,14 +67,20 @@ export async function resolveJambPaperSubjects(
  * all — and the rest of each paper warms up off the response path. A year that
  * is still short after this is worth asking for again; each ask advances it.
  *
+ * Returns the count of subjects for which a fetch was scheduled. This allows
+ * the caller to distinguish a year being fetched (positive count) from one where
+ * nothing further is coming (zero count, e.g., provider saturated or out of budget).
+ *
  * Never throws: a provider that is down or out of budget degrades to whatever
  * the bank already holds, and the caller's coverage check reports the gap.
  */
 export async function ensureJambYearCached(
   subjects: readonly JambPaperSubject[],
   examYear: number,
-): Promise<void> {
-  if (process.env.QUESTION_PROVIDER_ENABLED !== "true") return;
+): Promise<number> {
+  if (process.env.QUESTION_PROVIDER_ENABLED !== "true") return 0;
+
+  const scheduled: boolean[] = [];
 
   await Promise.all(
     subjects.map(async (subject) => {
@@ -87,7 +93,10 @@ export async function ensureJambYearCached(
       // SATURATED means there is nothing left to draw for this paper and
       // FAILED is terminal, so neither is worth spending budget on.
       const ledger = await readLedger(filter);
-      if (ledger?.status === "SATURATED" || ledger?.status === "FAILED") return;
+      if (ledger?.status === "SATURATED" || ledger?.status === "FAILED") {
+        scheduled.push(false);
+        return;
+      }
 
       // Shares the one outbound budget with the past-paper flow, and is spent
       // per paper rather than per request so a saturated subject costs nothing.
@@ -96,12 +105,16 @@ export async function ensureJambYearCached(
         limit: 30,
         windowSeconds: 60,
       });
-      if (!outbound.ok) return;
+      if (!outbound.ok) {
+        scheduled.push(false);
+        return;
+      }
 
       // Same reasoning as the past-paper generator: the prepare call reports
       // what the bank holds now, and schedules the fill behind the response.
       // Awaiting four subjects' draws here made "pick a year" a multi-second
       // wait against a five-connection pool.
+      scheduled.push(true);
       after(async () => {
         try {
           await ensureQuestionsCached(filter, questionsForSubject(subject.code));
@@ -116,6 +129,8 @@ export async function ensureJambYearCached(
       });
     }),
   );
+
+  return scheduled.filter(Boolean).length;
 }
 
 export type JambPreparation =
@@ -133,12 +148,14 @@ export type JambPreparation =
     };
 
 /**
- * Everything the picker needs to decide whether a year can be sat: fetch what
- * is missing, then report the bank's coverage paper by paper.
+ * Everything the picker needs to decide whether a year can be sat: schedule
+ * fetches for what is missing, then report the bank's coverage paper by paper.
  *
- * Called when a student picks a year, so the wait happens while they are still
- * looking at the picker rather than behind a "Start exam" button, and so the
- * shortfall — if any — is shown before they commit.
+ * Called when a student picks a year. Returns instantly whether the year is ready,
+ * and if not ready, why: either a fetch is in progress (message says we're preparing),
+ * or the bank lacks coverage for a structural reason (message lists shortfalls). The
+ * coverage report is computed from the bank's current state, so a cold year starts
+ * "not ready" even though a fetch has just been scheduled.
  */
 export async function prepareJambYear(input: {
   subjectIds: string[];
@@ -147,14 +164,21 @@ export async function prepareJambYear(input: {
   const resolved = await resolveJambPaperSubjects(input.subjectIds);
   if (resolved.outcome !== "ok") return resolved;
 
-  await ensureJambYearCached(resolved.subjects, input.examYear);
+  const scheduledCount = await ensureJambYearCached(resolved.subjects, input.examYear);
 
   const coverage = await coverageForYear(resolved.subjects, input.examYear);
+  const ready = coverage.ok;
+  const message = ready
+    ? null
+    : scheduledCount > 0
+      ? `We're fetching the ${input.examYear} papers. Check back in a moment.`
+      : coverageMessage(coverage, input.examYear);
+
   return {
     outcome: "ok",
     examYear: input.examYear,
-    ready: coverage.ok,
-    message: coverage.ok ? null : coverageMessage(coverage, input.examYear),
+    ready,
+    message,
     coverage: coverage.requirements,
     shortfalls: coverage.shortfalls,
   };

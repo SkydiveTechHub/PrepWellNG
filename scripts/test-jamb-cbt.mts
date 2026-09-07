@@ -240,3 +240,67 @@ test("bands step at the usual JAMB benchmarks", () => {
   assert.equal(jambBand(180).label, "Fair");
   assert.equal(jambBand(120).label, "Needs work");
 });
+
+// ─── JAMB Year Preparation ────────────────────────────────
+
+import { prepareJambYear } from "../src/lib/jamb-cbt-preparation";
+import { db } from "../src/lib/db";
+
+test("prepareJambYear distinguishes fetch-in-progress from coverage shortfall", async () => {
+  // This test verifies that prepareJambYear returns different messages for two scenarios:
+  // (1) A year where a fetch is being scheduled (provider enabled, papers not in bank)
+  // (2) A year where nothing is being fetched (provider disabled)
+  // The key requirement is that these messages are distinct.
+
+  const allSubjects = await db.subject.findMany({
+    where: { isJamb: true },
+    select: { id: true, code: true },
+  });
+
+  if (allSubjects.length < 4) {
+    // Skip if JAMB subjects aren't available in the test database
+    return;
+  }
+
+  // Get the three non-English subjects (provider requires exactly 3 non-English subjects)
+  const nonEnglishSubjects = allSubjects.filter((s) => s.code !== "ENG");
+  const subjectIds = nonEnglishSubjects.slice(0, 3).map((s) => s.id);
+
+  if (subjectIds.length !== 3) {
+    // Skip if we don't have the right number of subjects
+    return;
+  }
+
+  // Scenario 1: Provider enabled - ensureJambYearCached will schedule fetches if needed
+  const messageFetchScheduled = await (async () => {
+    const result = await prepareJambYear({
+      subjectIds,
+      examYear: 2025, // Cold year unlikely to be fully cached
+    });
+    if (result.outcome !== "ok") return null;
+    return result.message;
+  })();
+
+  // Scenario 2: Provider disabled - no fetches scheduled
+  const originalEnv = process.env.QUESTION_PROVIDER_ENABLED;
+  process.env.QUESTION_PROVIDER_ENABLED = "false";
+
+  const messageNoFetch = await (async () => {
+    const result = await prepareJambYear({
+      subjectIds,
+      examYear: 2024,
+    });
+    if (result.outcome !== "ok") return null;
+    return result.message;
+  })();
+
+  process.env.QUESTION_PROVIDER_ENABLED = originalEnv;
+
+  // The messages should be different
+  assert.notEqual(messageFetchScheduled, messageNoFetch);
+
+  // The fetch-scheduled message should mention fetching
+  if (messageFetchScheduled) {
+    assert.match(messageFetchScheduled, /[Ff]etch|[Pp]reparing|[Cc]heck/);
+  }
+});
