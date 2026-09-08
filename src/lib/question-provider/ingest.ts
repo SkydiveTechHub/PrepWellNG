@@ -503,6 +503,11 @@ async function drawOnce(
   let rejected = 0;
   let loopError: unknown = null;
   const staged: object[] = [];
+  // Provisional: a staged row only counts toward newCount/rejected once the
+  // flush below actually commits it. If the flush throws, none of these
+  // rows exist in the database, so they must not be counted as if they did.
+  let stagedNewCount = 0;
+  let stagedRejectedCount = 0;
 
   try {
     // One read for the whole draw. Dedupe then happens in memory against this
@@ -550,8 +555,8 @@ async function drawOnce(
           rejectionReasons: result.reasons,
           mapperVersion: MAPPER_VERSION,
         });
-        newCount += 1;
-        rejected += 1;
+        stagedNewCount += 1;
+        stagedRejectedCount += 1;
         continue;
       }
 
@@ -578,7 +583,7 @@ async function drawOnce(
           ],
           mapperVersion: MAPPER_VERSION,
         });
-        newCount += 1;
+        stagedNewCount += 1;
         // Neither promoted nor rejected: it is pending work, not a failure.
         continue;
       }
@@ -615,16 +620,31 @@ async function drawOnce(
       promoted += 1;
     }
   } catch (error) {
-    // Whatever committed before the throw stays committed (each row and each
-    // promotion is its own statement/transaction); what we must not do is
-    // lose track of it. The counters below only reflect what actually ran
-    // above, and the ledger write always happens — this function never lets
-    // a mid-draw failure escape past it.
+    // Whatever committed before the throw stays committed (each promotion is
+    // its own transaction); what we must not do is lose track of it. The
+    // counters below only reflect what actually ran above, and the ledger
+    // write always happens — this function never lets a mid-draw failure
+    // escape past it.
     loopError = error;
   }
 
-  if (staged.length > 0) {
-    await db.providerQuestion.createMany({ data: staged });
+  // Flushing the staged rows is its own failure boundary, separate from the
+  // loop's: a loop error must not skip the flush (rows staged before the
+  // crash still deserve to be persisted), and a flush error must not escape
+  // `drawOnce` either — it would reach the route's catch-all exactly like an
+  // unguarded loop error would, and it would leave the lease claimed with no
+  // ledger update. If the flush throws, none of the staged rows committed
+  // (`createMany` is one statement), so they must not be counted below.
+  try {
+    if (staged.length > 0) {
+      await db.providerQuestion.createMany({ data: staged });
+    }
+    newCount += stagedNewCount;
+    rejected += stagedRejectedCount;
+  } catch (error) {
+    // A loop error, if there was one, is the more informative root cause;
+    // don't let a subsequent flush failure hide it.
+    if (!loopError) loopError = error;
   }
 
   const current = await db.providerFetch.findUnique({ where: { id: fetchId } });

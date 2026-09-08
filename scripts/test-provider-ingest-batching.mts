@@ -96,6 +96,12 @@ function makeFakeDb(subjects: Record<string, string>) {
   let findFirstCalls = 0;
   let findFirstThrowsOnCall: number | null = null;
   let findManyCalls = 0;
+  // Additional hooks for the flush/mid-loop failure-handling tests: make the
+  // Nth $transaction (promotion) call throw, or make createMany (the staged
+  // rows flush) throw.
+  let transactionCalls = 0;
+  let transactionThrowsOnCall: number | null = null;
+  let createManyThrowsOnce = false;
 
   let circuit: {
     provider: "SDASH";
@@ -147,6 +153,8 @@ function makeFakeDb(subjects: Record<string, string>) {
     _fetchRow: () => FetchRow | null;
     _findManyCalls: () => number;
     _findFirstCalls: () => number;
+    _throwOnTransactionCall: (n: number) => void;
+    _throwOnNextCreateMany: () => void;
   } = {
     subject: {
       async findUnique({ where }) {
@@ -258,6 +266,10 @@ function makeFakeDb(subjects: Record<string, string>) {
           }));
       },
       async createMany({ data }) {
+        if (createManyThrowsOnce) {
+          createManyThrowsOnce = false;
+          throw new Error("simulated database failure flushing staged rows");
+        }
         for (const row of data as ProviderQuestionRow[]) {
           providerQuestions.push({ ...row, id: `pq-${++pqSeq}` });
         }
@@ -278,6 +290,10 @@ function makeFakeDb(subjects: Record<string, string>) {
       },
     },
     async $transaction(fn) {
+      transactionCalls += 1;
+      if (transactionThrowsOnCall !== null && transactionCalls === transactionThrowsOnCall) {
+        throw new Error("simulated database failure mid-promotion");
+      }
       return fn({
         question: {
           async create({ data }) {
@@ -336,6 +352,12 @@ function makeFakeDb(subjects: Record<string, string>) {
     },
     _findManyCalls: () => findManyCalls,
     _findFirstCalls: () => findFirstCalls,
+    _throwOnTransactionCall(n) {
+      transactionThrowsOnCall = n;
+    },
+    _throwOnNextCreateMany() {
+      createManyThrowsOnce = true;
+    },
   };
 
   return db;
@@ -399,4 +421,58 @@ test("a duplicate by fingerprint under a different provider id is still caught",
   });
 
   assert.equal(db._questions.length, 1);
+});
+
+test("a throw part-way through the loop leaves the ledger matching what actually committed", async () => {
+  const db = makeFakeDb({ physics: "subj-1" });
+  const payloads = [validPayload(21), validPayload(22), validPayload(23)];
+  // The first promotion's $transaction (call 1) succeeds; the second's
+  // (call 2) throws, simulating a DB failure partway through the draw. The
+  // third payload is never reached.
+  db._throwOnTransactionCall(2);
+
+  const result = await ensureQuestionsCached(FILTER, 40, {
+    db,
+    now: () => Date.now(),
+    getAdapter: () => ({
+      name: "SDASH",
+      async draw() { return payloads; },
+      async listSubjects() { return []; },
+      async listYears() { return []; },
+    }),
+  });
+
+  assert.equal(result.ledger.promotedCount, 1, "the first payload's promotion committed");
+  assert.equal(result.ledger.status, "PENDING", "a mid-draw failure is retryable, not saturated");
+  assert.equal(db._questions.length, 1, "only the committed question exists");
+});
+
+test("a throw flushing the staged rows does not escape drawOnce, and nothing is counted as committed", async () => {
+  const db = makeFakeDb({ physics: "subj-1" });
+  // An invalid payload (empty question text) is rejected and staged, not
+  // written immediately — the flush that would persist it is made to throw,
+  // simulating the createMany round trip itself failing.
+  const invalid = validPayload(31, { question: "" });
+  db._throwOnNextCreateMany();
+
+  const result = await ensureQuestionsCached(FILTER, 40, {
+    db,
+    now: () => Date.now(),
+    getAdapter: () => ({
+      name: "SDASH",
+      async draw() { return [invalid]; },
+      async listSubjects() { return []; },
+      async listYears() { return []; },
+    }),
+  });
+
+  // drawOnce must not have thrown: ensureQuestionsCached returned normally,
+  // and the ledger was still written.
+  assert.equal(result.ledger.status, "PENDING", "a flush failure is retryable, not saturated");
+  assert.equal(result.ledger.rawCount, 0, "the staged row never committed");
+  assert.equal(
+    db._providerQuestions.filter((row) => row.fetchId !== "seed").length,
+    0,
+    "nothing from the failed flush should be visible",
+  );
 });
