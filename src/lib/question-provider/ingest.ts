@@ -376,6 +376,27 @@ export async function saturate(
 }
 
 /**
+ * Reads the breaker without claiming anything from it.
+ *
+ * `circuitIsOpen` is the drawing caller's question, and asking it has a cost:
+ * a lapsed `EXHAUSTED` cooldown hands out exactly one probe, and whoever asks
+ * first takes it. This is the observer's question — for callers that only want
+ * to know whether a fetch they are about to defer would do any work, so they
+ * can tell a student the truth rather than promise a draw the breaker will
+ * swallow. Because it claims nothing, a cooldown that has just lapsed reads as
+ * closed here: one deferred fetch will get through, which is the honest answer.
+ *
+ * Exists so callers outside `src/lib/question-provider` never reach for `db`
+ * themselves to inspect provider state.
+ */
+export async function isProviderPaused(
+  deps: IngestDeps = defaultDeps,
+): Promise<boolean> {
+  const row = await deps.db.providerState.findUnique({ where: { provider: PROVIDER } });
+  return isCircuitOpen(row, deps.now());
+}
+
+/**
  * True when we must not spend a request on this provider right now.
  *
  * An `EXHAUSTED` row whose cooldown has just lapsed is the one probe the

@@ -246,76 +246,129 @@ test("bands step at the usual JAMB benchmarks", () => {
 import { prepareJambYear } from "../src/lib/jamb-cbt-preparation";
 import { db } from "../src/lib/db";
 
-test("prepareJambYear distinguishes fetch-in-progress from coverage shortfall", async () => {
-  // This test verifies that prepareJambYear returns different messages for two scenarios:
-  // (1) A year where a fetch is being scheduled (provider enabled, papers not in bank)
-  // (2) A year where nothing is being fetched (provider disabled)
-  // The key requirement is that these messages are distinct.
-
-  const allSubjects = await db.subject.findMany({
-    where: { isJamb: true },
-    select: { id: true, code: true },
+/** The three non-English JAMB subjects a sitting is built from, or null. */
+async function jambSubjectIds(): Promise<string[] | null> {
+  const subjects = await db.subject.findMany({
+    where: { isJamb: true, code: { not: "ENG" } },
+    select: { id: true },
+    take: 3,
   });
+  return subjects.length === 3 ? subjects.map((s) => s.id) : null;
+}
 
-  if (allSubjects.length < 4) {
-    // Skip if JAMB subjects aren't available in the test database
-    return;
-  }
+test("prepareJambYear promises a fetch only when one was really scheduled", async () => {
+  const subjectIds = await jambSubjectIds();
+  if (!subjectIds) return; // No JAMB subjects seeded here; nothing to prepare.
 
-  // Get the three non-English subjects (provider requires exactly 3 non-English subjects)
-  const nonEnglishSubjects = allSubjects.filter((s) => s.code !== "ENG");
-  const subjectIds = nonEnglishSubjects.slice(0, 3).map((s) => s.id);
-
-  if (subjectIds.length !== 3) {
-    // Skip if we don't have the right number of subjects
-    return;
-  }
-
-  // Scenario 1: Provider enabled (default) - ensureJambYearCached may schedule fetches
-  const result1 = await prepareJambYear({
-    subjectIds,
-    examYear: 2025, // Cold year
-  });
-
-  if (result1.outcome !== "ok") {
-    // Skip if subject resolution failed
-    return;
-  }
-
-  const messageFetchEnabled = result1.message;
-
-  // Scenario 2: Provider disabled - ensureJambYearCached returns 0 (no fetches scheduled)
   const originalEnv = process.env.QUESTION_PROVIDER_ENABLED;
-  process.env.QUESTION_PROVIDER_ENABLED = "false";
+  process.env.QUESTION_PROVIDER_ENABLED = "true";
 
-  const result2 = await prepareJambYear({
-    subjectIds,
-    examYear: 2024,
-  });
-
-  process.env.QUESTION_PROVIDER_ENABLED = originalEnv;
-
-  if (result2.outcome !== "ok") {
-    // Skip if subject resolution failed
-    return;
-  }
-
-  const messageProviderDisabled = result2.message;
-
-  // Both should be "not ready"
-  assert.equal(result1.ready, false, "year 2025 with provider enabled should not be ready");
-  assert.equal(result2.ready, false, "year 2024 with provider disabled should not be ready");
-
-  // The messages must be different
-  assert.notEqual(
-    messageFetchEnabled,
-    messageProviderDisabled,
-    "fetch-enabled and provider-disabled messages should differ",
+  // ── The provider is live and the breaker closed: work really is queued, so
+  //    the student is told to check back.
+  const queued: Array<() => Promise<void>> = [];
+  const fetching = await prepareJambYear(
+    { subjectIds, examYear: 2025 },
+    {
+      schedule: (task) => {
+        queued.push(task);
+      },
+      providerPaused: async () => false,
+    },
   );
 
-  // At least one should have content (not null)
-  assert.ok(
-    messageFetchEnabled || messageProviderDisabled,
-    "at least one message should be non-null",
+  // ── The breaker is open: every deferred fetch would no-op on arrival, so
+  //    nothing is scheduled and the student hears the shortfall instead.
+  const queuedWhilePaused: Array<() => Promise<void>> = [];
+  const paused = await prepareJambYear(
+    { subjectIds, examYear: 2025 },
+    {
+      schedule: (task) => {
+        queuedWhilePaused.push(task);
+      },
+      providerPaused: async () => true,
+    },
+  );
+
+  // ── The provider is switched off entirely: same shortfall branch.
+  process.env.QUESTION_PROVIDER_ENABLED = "false";
+  const queuedWhileOff: Array<() => Promise<void>> = [];
+  const off = await prepareJambYear(
+    { subjectIds, examYear: 2025 },
+    {
+      schedule: (task) => {
+        queuedWhileOff.push(task);
+      },
+      providerPaused: async () => false,
+    },
+  );
+  process.env.QUESTION_PROVIDER_ENABLED = originalEnv;
+
+  if (fetching.outcome !== "ok" || paused.outcome !== "ok" || off.outcome !== "ok") {
+    throw new Error("expected all three prepare calls to resolve the subjects");
+  }
+  if (fetching.ready) return; // 2025 is fully banked here; there is no message to judge.
+
+  assert.equal(paused.ready, false);
+  assert.equal(off.ready, false);
+
+  // Each branch must say its own thing — swapping the two must fail here.
+  assert.match(
+    fetching.message ?? "",
+    /[Ff]etch|[Pp]reparing|[Cc]heck/,
+    "a scheduled fetch must tell the student to check back",
+  );
+  assert.doesNotMatch(
+    fetching.message ?? "",
+    /not enough questions/,
+    "a scheduled fetch must not report the shortfall as final",
+  );
+  assert.ok(queued.length > 0, "a live provider must actually queue fetches");
+
+  assert.match(
+    paused.message ?? "",
+    /not enough questions/,
+    "an open breaker must report the shortfall, not a fetch",
+  );
+  assert.doesNotMatch(
+    paused.message ?? "",
+    /[Ff]etch|[Cc]heck back/,
+    "an open breaker must not promise a fetch that will never run",
+  );
+  assert.equal(queuedWhilePaused.length, 0, "an open breaker must schedule nothing");
+
+  assert.match(
+    off.message ?? "",
+    /not enough questions/,
+    "a disabled provider must report the shortfall, not a fetch",
+  );
+  assert.doesNotMatch(off.message ?? "", /[Ff]etch|[Cc]heck back/);
+  assert.equal(queuedWhileOff.length, 0, "a disabled provider must schedule nothing");
+
+  assert.notEqual(fetching.message, paused.message);
+});
+
+test("a subject whose scheduling throws is not counted as being fetched", async () => {
+  const subjectIds = await jambSubjectIds();
+  if (!subjectIds) return;
+
+  const originalEnv = process.env.QUESTION_PROVIDER_ENABLED;
+  process.env.QUESTION_PROVIDER_ENABLED = "true";
+  const result = await prepareJambYear(
+    { subjectIds, examYear: 2025 },
+    {
+      // What `after` does outside a request scope.
+      schedule: () => {
+        throw new Error("`after` was called outside a request scope");
+      },
+      providerPaused: async () => false,
+    },
+  );
+  process.env.QUESTION_PROVIDER_ENABLED = originalEnv;
+
+  if (result.outcome !== "ok" || result.ready) return;
+  assert.doesNotMatch(
+    result.message ?? "",
+    /[Ff]etch|[Cc]heck back/,
+    "scheduling that threw must not be reported to the student as a fetch",
   );
 });

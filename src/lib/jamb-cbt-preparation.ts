@@ -1,7 +1,12 @@
 import { after } from "next/server";
 import { db } from "./db";
 import { coverageForYear } from "./jamb-availability";
-import { ensureQuestionsCached, saturate, readLedger } from "./question-provider/ingest";
+import {
+  ensureQuestionsCached,
+  saturate,
+  readLedger,
+  isProviderPaused,
+} from "./question-provider/ingest";
 import { rateLimit } from "./rate-limit";
 import {
   JAMB_SPEC,
@@ -59,6 +64,25 @@ export async function resolveJambPaperSubjects(
 }
 
 /**
+ * How the prepare flow reaches the outside world.
+ *
+ * Injected rather than imported so a test can watch what was scheduled and put
+ * the breaker in either state, neither of which is observable through `after`
+ * (which throws outside a request scope) or a shared provider-state row.
+ */
+export type JambPreparationDeps = {
+  /** Defers work behind the response. Throws outside a request scope. */
+  schedule: (task: () => Promise<void>) => void;
+  /** Whether the provider breaker is open, read without claiming a probe. */
+  providerPaused: () => Promise<boolean>;
+};
+
+const defaultPreparationDeps: JambPreparationDeps = {
+  schedule: after,
+  providerPaused: () => isProviderPaused(),
+};
+
+/**
  * Schedules fetches for whatever of a year's four papers we do not already hold.
  *
  * The past-paper flow fetches one subject on demand; a sitting needs all four,
@@ -67,9 +91,12 @@ export async function resolveJambPaperSubjects(
  * all — and the rest of each paper warms up off the response path. A year that
  * is still short after this is worth asking for again; each ask advances it.
  *
- * Returns the count of subjects for which a fetch was scheduled. This allows
- * the caller to distinguish a year being fetched (positive count) from one where
- * nothing further is coming (zero count, e.g., provider saturated or out of budget).
+ * Returns how many subjects actually had a fetch handed to `after` — a promise
+ * the caller may repeat to the student. Zero means no more questions are coming
+ * on this call, for any of four reasons: the provider is switched off, the
+ * breaker is open, every paper is SATURATED or FAILED, or the outbound budget
+ * is spent. A nonzero count is only a promise that the deferred work was
+ * queued; the draw behind it may still find the year empty.
  *
  * Never throws: a provider that is down or out of budget degrades to whatever
  * the bank already holds, and the caller's coverage check reports the gap.
@@ -77,8 +104,16 @@ export async function resolveJambPaperSubjects(
 export async function ensureJambYearCached(
   subjects: readonly JambPaperSubject[],
   examYear: number,
+  deps: JambPreparationDeps = defaultPreparationDeps,
 ): Promise<number> {
   if (process.env.QUESTION_PROVIDER_ENABLED !== "true") return 0;
+
+  // The breaker is provider-wide, so one read settles all four papers. Asking
+  // here rather than only inside the deferred fetch is the difference between
+  // telling the student "we're fetching it" and meaning it: with the breaker
+  // open every callback below would no-op on arrival, and the promise would be
+  // a lie repeated on every prepare call until the cooldown lapses.
+  if (await deps.providerPaused()) return 0;
 
   const scheduled: boolean[] = [];
 
@@ -114,9 +149,8 @@ export async function ensureJambYearCached(
       // what the bank holds now, and schedules the fill behind the response.
       // Awaiting four subjects' draws here made "pick a year" a multi-second
       // wait against a five-connection pool.
-      scheduled.push(true);
       try {
-        after(async () => {
+        deps.schedule(async () => {
           try {
             await ensureQuestionsCached(filter, questionsForSubject(subject.code));
             await saturate(filter);
@@ -128,9 +162,13 @@ export async function ensureJambYearCached(
             );
           }
         });
+        // Counted only now: a subject whose scheduling threw has nothing
+        // coming, and must not be reported to the student as being fetched.
+        scheduled.push(true);
       } catch (error) {
         // Scheduling background work is best-effort; a failure to schedule
         // (e.g., no request scope in tests) must not sink the prepare response.
+        scheduled.push(false);
         console.error(
           `JAMB ${examYear} ${subject.code}: failed to schedule fetch`,
           error,
@@ -162,18 +200,25 @@ export type JambPreparation =
  *
  * Called when a student picks a year. Returns instantly whether the year is ready,
  * and if not ready, why: either a fetch is in progress (message says we're preparing),
- * or the bank lacks coverage for a structural reason (message lists shortfalls). The
- * coverage report is computed from the bank's current state, so a cold year starts
- * "not ready" even though a fetch has just been scheduled.
+ * or nothing further is coming and the bank's shortfall is all there is (message
+ * lists it). The coverage report is computed from the bank's current state, so a
+ * cold year starts "not ready" even though a fetch has just been scheduled.
  */
-export async function prepareJambYear(input: {
-  subjectIds: string[];
-  examYear: number;
-}): Promise<JambPreparation> {
+export async function prepareJambYear(
+  input: {
+    subjectIds: string[];
+    examYear: number;
+  },
+  deps: JambPreparationDeps = defaultPreparationDeps,
+): Promise<JambPreparation> {
   const resolved = await resolveJambPaperSubjects(input.subjectIds);
   if (resolved.outcome !== "ok") return resolved;
 
-  const scheduledCount = await ensureJambYearCached(resolved.subjects, input.examYear);
+  const scheduledCount = await ensureJambYearCached(
+    resolved.subjects,
+    input.examYear,
+    deps,
+  );
 
   const coverage = await coverageForYear(resolved.subjects, input.examYear);
   const ready = coverage.ok;
