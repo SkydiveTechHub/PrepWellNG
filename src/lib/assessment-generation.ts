@@ -64,8 +64,9 @@ export type GenerateQuizInput = {
  * Generates a quiz from the question bank, or resumes an unfinished paper of
  * the same shape.
  *
- * The `"subject-not-found"` / `"topic-not-found"` / `"no-questions"` outcomes
- * are returned rather than thrown so the caller keeps its distinct statuses.
+ * The `"subject-not-found"` / `"topic-not-found"` / `"no-questions"` /
+ * `"questions-preparing"` outcomes are returned rather than thrown so the
+ * caller keeps its distinct statuses.
  */
 export async function generateQuiz(studentId: string, input: GenerateQuizInput) {
   const {
@@ -100,6 +101,13 @@ export async function generateQuiz(studentId: string, input: GenerateQuizInput) 
     if (!topic) return "topic-not-found" as const;
     topicIds = [topic.id];
   }
+
+  // Whether a fetch was really handed to `after()` on this call. It is the
+  // difference between "this paper does not exist" and "this paper is on its
+  // way", and with the draw deferred the empty-bank branch below is otherwise
+  // indistinguishable between the two. Mirrors `prepareJambYear`, which counts
+  // its scheduled papers for exactly the same reason.
+  let fetchScheduled = false;
 
   // Fetch from the provider the first time we ever see this paper. Gated on
   // all three of subject/type/year, so topic quizzes, mock exams and the JAMB
@@ -138,9 +146,22 @@ export async function generateQuiz(studentId: string, input: GenerateQuizInput) 
         // their quiz has already been built from what was there.
         try {
           after(async () => {
-            await ensureQuestionsCached(filter, count);
-            await saturate(filter);
+            try {
+              await ensureQuestionsCached(filter, count);
+              await saturate(filter);
+            } catch (error) {
+              // The callback runs after the response, so an escaping error has
+              // nobody left to report it; log it against the paper it was for
+              // rather than losing it to the runtime's unhandled-rejection.
+              console.error(
+                `${subject.slug} ${examType} ${examYear}: provider fetch failed`,
+                error,
+              );
+            }
           });
+          // Only now: a call to `after` that threw scheduled nothing, and must
+          // not let the student be told their paper is being prepared.
+          fetchScheduled = true;
         } catch (error) {
           // Scheduling background work is best-effort; a failure to schedule
           // (e.g., no request scope in tests) must not prevent the quiz response.
@@ -207,7 +228,14 @@ export async function generateQuiz(studentId: string, input: GenerateQuizInput) 
     source = "subject";
   }
 
-  if (selectedIds.length === 0) return "no-questions" as const;
+  // An empty bank means one of two very different things now that the draw is
+  // deferred. If a fetch was just scheduled, the paper is cold rather than
+  // absent, and the honest answer is "we're fetching it" — the same answer
+  // `prepareJambYear` gives a cold JAMB year. Only with nothing coming is
+  // "no questions match" true.
+  if (selectedIds.length === 0) {
+    return fetchScheduled ? ("questions-preparing" as const) : ("no-questions" as const);
+  }
 
   const assessment = await db.assessment.create({
     data: {
