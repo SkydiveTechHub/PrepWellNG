@@ -6,6 +6,9 @@ import {
   LuSparkles,
 } from "react-icons/lu";
 import { auth } from "@/lib/auth";
+import { isEntitled, tierOfSession } from "@/lib/entitlements";
+import { requiredTierFor } from "@/lib/subscription";
+import { UpgradePrompt } from "@/components/billing/upgrade-prompt";
 import { getFlashcardsPageData } from "@/lib/flashcards";
 import { PageHeader } from "@/components/ui/page-header";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -19,6 +22,24 @@ export const dynamic = "force-dynamic";
 export default async function FlashcardsPage() {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
+
+  // The API routes enforce this too; this is so the page explains itself
+  // rather than rendering an empty hub.
+  if (!(await isEntitled(session.user.id, tierOfSession(session), "flashcards"))) {
+    return (
+      <div className="space-y-8">
+        <PageHeader
+          title="Flashcards"
+          description="Spaced repetition that adapts to your memory."
+        />
+        <UpgradePrompt
+          feature="Flashcards"
+          requiredTier={requiredTierFor("flashcards")}
+          description="Smart flashcards and spaced repetition help you review a little every day so the forgetting curve stays flat."
+        />
+      </div>
+    );
+  }
 
   const {
     decks,

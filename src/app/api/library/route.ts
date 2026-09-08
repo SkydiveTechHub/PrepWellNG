@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 import { getLibraryShelfTolerant, getSubjectResources } from "@/lib/library";
+import { can } from "@/lib/subscription";
+import { tierOf } from "@/lib/entitlements";
 
 export const dynamic = "force-dynamic";
 
@@ -19,7 +21,17 @@ export async function GET(request: Request) {
 
   if (subjectId) {
     try {
-      return NextResponse.json(await getSubjectResources(subjectId));
+      // Reuse the token decoded above rather than calling getToken a second
+      // time: the tier rides on the JWT, so deciding what to link costs
+      // nothing extra.
+      const tier = tierOf(
+        (token as { profile?: { tier?: unknown } }).profile?.tier,
+      );
+      return NextResponse.json(
+        await getSubjectResources(subjectId, {
+          includePremium: can(tier, "premiumLibrary"),
+        }),
+      );
     } catch (error) {
       console.error("Library resources error:", error);
       return NextResponse.json(

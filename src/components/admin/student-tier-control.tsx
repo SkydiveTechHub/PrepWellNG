@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { StatusBanner } from "@/components/admin/status-banner";
 import { SUBSCRIPTION_TIERS, TIER_LABELS, type SubscriptionTier } from "@/lib/subscription";
+import { BILLING_PERIODS, PERIOD_LABELS, type BillingPeriod } from "@/lib/subscription";
 
 const INPUT_CLS =
   "px-3 py-2 rounded-lg border border-border bg-card text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60";
@@ -27,6 +28,8 @@ export function StudentTierControl({
   const [next, setNext] = useState<SubscriptionTier>(tier);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [period, setPeriod] = useState<BillingPeriod>("MONTHLY");
+  const [note, setNote] = useState("");
 
   async function save() {
     setSaving(true);
@@ -35,7 +38,7 @@ export function StudentTierControl({
       const res = await fetch(`/admin/api/students/${studentId}/tier`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ tier: next }),
+        body: JSON.stringify({ tier: next, period, note: note || undefined }),
       });
       if (!res.ok) {
         const data = await res.json();
@@ -72,12 +75,38 @@ export function StudentTierControl({
               <option key={value} value={value}>{TIER_LABELS[value]}</option>
             ))}
           </select>
+          {next !== "FREEMIUM" && (
+            <>
+              <label htmlFor="period" className="sr-only">Duration</label>
+              <select
+                id="period"
+                value={period}
+                onChange={(e) => setPeriod(e.target.value as BillingPeriod)}
+                className={INPUT_CLS}
+              >
+                {BILLING_PERIODS.map((value) => (
+                  <option key={value} value={value}>{PERIOD_LABELS[value]}</option>
+                ))}
+              </select>
+            </>
+          )}
+
+          <label htmlFor="tier-note" className="sr-only">Note</label>
+          <input
+            id="tier-note"
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+            maxLength={280}
+            placeholder="Why (optional)"
+            className={INPUT_CLS}
+          />
           <Button onClick={save} disabled={saving || next === tier}>
             {saving ? "Saving…" : "Change plan"}
           </Button>
           <p className="w-full text-xs text-muted">
-            Manual override until billing is wired. Every change is recorded in
-            the audit log.
+            {next === "FREEMIUM"
+              ? "This ends every live subscription immediately, including one the student paid for. Refunds are handled in the Paystack dashboard. Recorded in the audit log."
+              : "Grants a comped subscription that expires on its own. If the student already has time left, this is added on top. Recorded in the audit log."}
           </p>
         </div>
       )}

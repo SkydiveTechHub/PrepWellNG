@@ -21,21 +21,9 @@ export type PerformanceSubjectMetric = {
   accuracy: number;
 };
 
-export type PerformanceWeakTopic = {
-  title: string;
-  slug: string;
-  wrongCount: number;
-};
-
-export type PerformanceSubjectWeakTopics = {
-  subject: { id: string; name: string; slug: string; code: string };
-  topics: PerformanceWeakTopic[];
-};
-
 export type PerformanceData = {
   attempts: PerformanceAttempt[];
   subjectMetrics: PerformanceSubjectMetric[];
-  subjectWeakTopics: PerformanceSubjectWeakTopics[];
 };
 
 /** WAEC-style grade boundaries. Domain rule, not presentation. */
@@ -45,69 +33,6 @@ export function getGrade(percentage: number): string {
   if (percentage >= 50) return "C";
   if (percentage >= 40) return "D";
   return "F";
-}
-
-/** The worst five topics per subject, aggregated in the database. */
-async function loadWeakTopics(userId: string): Promise<PerformanceSubjectWeakTopics[]> {
-  // This used to pull every wrong response the student had ever given — two
-  // joins, no bound — and count them in JS. The grouped form returns one row
-  // per (subject, topic) instead.
-  const weakRows = await db.$queryRaw<
-    {
-      subjectId: string;
-      subjectName: string;
-      subjectSlug: string;
-      subjectCode: string;
-      topicTitle: string;
-      topicSlug: string;
-      wrongCount: number;
-    }[]
-  >`
-    SELECT s.id            AS "subjectId",
-           s.name          AS "subjectName",
-           s.slug          AS "subjectSlug",
-           s.code          AS "subjectCode",
-           t.title         AS "topicTitle",
-           t.slug          AS "topicSlug",
-           COUNT(*)::int   AS "wrongCount"
-    FROM "QuestionResponse" qr
-    JOIN "AssessmentAttempt" aa ON aa.id = qr."attemptId"
-    JOIN "Question" q          ON q.id  = qr."questionId"
-    JOIN "Subject" s           ON s.id  = q."subjectId"
-    JOIN "Topic" t             ON t.id  = q."topicId"
-    WHERE aa."studentId" = ${userId}
-      AND qr."isCorrect" = false
-    GROUP BY s.id, s.name, s.slug, s.code, t.id, t.title, t.slug
-    ORDER BY "wrongCount" DESC
-  `;
-
-  const weakBySubject = new Map<string, PerformanceSubjectWeakTopics>();
-
-  // Rows arrive sorted by wrongCount, so the first five per subject are the worst five.
-  for (const row of weakRows) {
-    let entry = weakBySubject.get(row.subjectId);
-    if (!entry) {
-      entry = {
-        subject: {
-          id: row.subjectId,
-          name: row.subjectName,
-          slug: row.subjectSlug,
-          code: row.subjectCode,
-        },
-        topics: [],
-      };
-      weakBySubject.set(row.subjectId, entry);
-    }
-    if (entry.topics.length < 5) {
-      entry.topics.push({
-        title: row.topicTitle,
-        slug: row.topicSlug,
-        wrongCount: row.wrongCount,
-      });
-    }
-  }
-
-  return [...weakBySubject.values()].filter((entry) => entry.topics.length > 0);
 }
 
 export async function getPerformanceData(userId: string): Promise<PerformanceData> {
@@ -184,6 +109,5 @@ export async function getPerformanceData(userId: string): Promise<PerformanceDat
       completedAt: a.completedAt?.toISOString() ?? null,
     })),
     subjectMetrics,
-    subjectWeakTopics: await loadWeakTopics(userId),
   };
 }

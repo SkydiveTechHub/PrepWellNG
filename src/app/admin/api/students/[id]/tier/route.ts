@@ -35,14 +35,25 @@ export async function POST(
     return NextResponse.json({ error: "Student not found" }, { status: 404 });
   }
 
-  await setStudentTier(id, parsed.data.tier);
+  await setStudentTier(id, parsed.data.tier, {
+    period: parsed.data.period,
+    grantedById: guard.actor.id,
+    note: parsed.data.note ?? null,
+  });
+
+  const summary =
+    parsed.data.tier === "FREEMIUM"
+      ? `Revoked ${fullName(before)}'s subscription (was ${TIER_LABELS[before.tier]})`
+      : `Comped ${fullName(before)} ${TIER_LABELS[parsed.data.tier]} for ${
+          parsed.data.period === "YEARLY" ? "a year" : "a month"
+        } (was ${TIER_LABELS[before.tier]})`;
 
   await recordAudit({
     actorId: guard.actor.id,
     action: "student.tier",
     entity: "User",
     entityId: id,
-    summary: `Changed ${fullName(before)} from ${TIER_LABELS[before.tier]} to ${TIER_LABELS[parsed.data.tier]}`,
+    summary,
   });
 
   return NextResponse.json({ ok: true });

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { getSettingsProfile } from "@/lib/settings";
+import { SubscriptionSection } from "@/components/settings/subscription-section";
 import { AvatarUpload } from "@/components/settings/avatar-upload";
 import { ProfileForm } from "@/components/settings/profile-form";
 import { AcademicForm } from "@/components/settings/academic-form";
@@ -29,6 +30,8 @@ export default async function SettingsPage() {
       />
 
       <div className="space-y-5 max-w-2xl">
+        <SubscriptionSection userId={session.user.id} />
+
         <AvatarUpload
           image={user.image}
           firstName={user.firstName}

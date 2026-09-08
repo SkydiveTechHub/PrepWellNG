@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { checkQuestionInvariants } from "@/lib/admin-question";
-import { SUBSCRIPTION_TIERS } from "@/lib/subscription";
+import { BILLING_PERIODS, SUBSCRIPTION_TIERS } from "@/lib/subscription";
 import { CLASS_LEVELS } from "@/lib/curriculum-scope";
 import { MAX_AWAY_EVENTS } from "@/components/assessment/exam-focus";
 
@@ -402,6 +402,14 @@ export const studentStatusSchema = z
 
 export const studentTierSchema = z.object({
   tier: z.enum(SUBSCRIPTION_TIERS),
+  // Ignored when the tier is FREEMIUM, which revokes rather than grants.
+  period: z.enum(BILLING_PERIODS).default("MONTHLY"),
+  note: z.string().trim().max(280).optional(),
+});
+
+export const checkoutSchema = z.object({
+  tier: z.enum(SUBSCRIPTION_TIERS),
+  period: z.enum(BILLING_PERIODS),
 });
 
 // Type exports
@@ -421,3 +429,4 @@ export type CreateFlashcardDeckInput = z.infer<typeof createFlashcardDeckSchema>
 export type CreateAdminInput = z.infer<typeof createAdminSchema>;
 export type AdminStatusInput = z.infer<typeof adminStatusSchema>;
 export type StudentProfileInput = z.infer<typeof studentProfileSchema>;
+export type CheckoutInput = z.infer<typeof checkoutSchema>;

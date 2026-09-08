@@ -36,12 +36,28 @@ export async function getLibraryShelf(userId: string): Promise<LibrarySubject[]>
   });
 }
 
-/** Every resource filed under one subject, in shelf order. */
-export function getSubjectResources(subjectId: string) {
-  return db.subjectResource.findMany({
+/**
+ * Every resource filed under one subject, in shelf order.
+ *
+ * Premium resources are listed to everyone but only *linked* for subscribers:
+ * a caller without the entitlement gets the row with its `url` emptied and
+ * `locked` set. Hiding them outright would make the shelf look thin and give
+ * no reason to upgrade; returning the url would make the gate decorative.
+ */
+export async function getSubjectResources(
+  subjectId: string,
+  { includePremium }: { includePremium: boolean },
+) {
+  const resources = await db.subjectResource.findMany({
     where: { subjectId },
     orderBy: [{ orderIndex: "asc" }, { title: "asc" }],
   });
+
+  return resources.map((resource) =>
+    resource.isFree || includePremium
+      ? { ...resource, locked: false }
+      : { ...resource, url: "", locked: true },
+  );
 }
 
 /**

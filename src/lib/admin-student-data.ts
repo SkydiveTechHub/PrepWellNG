@@ -1,6 +1,7 @@
 import { db } from "@/lib/db";
 import { STUDENT_PAGE_SIZE, type StudentFilter } from "@/lib/admin-student";
-import type { SubscriptionTier } from "@/lib/subscription";
+import type { BillingPeriod, SubscriptionTier } from "@/lib/subscription";
+import { grantComp, revokeSubscriptions } from "@/lib/billing/subscription-data";
 import type { ClassLevel } from "@/lib/curriculum-scope";
 import type { Track } from "@/lib/admin-student";
 import type { StudentProfileInput } from "@/lib/validators";
@@ -211,14 +212,28 @@ export async function updateStudentProfile(
   await db.user.update({ where: { id }, data });
 }
 
+/**
+ * The admin grant path. No longer writes User.tier directly — a comp is a
+ * Subscription row like any other, so one resolver decides every student's
+ * tier and comps expire instead of leaking free access forever.
+ */
 export async function setStudentTier(
   id: string,
   tier: SubscriptionTier,
+  {
+    period,
+    grantedById,
+    note,
+  }: { period: BillingPeriod; grantedById: string; note?: string | null },
 ): Promise<void> {
-  await db.user.update({
-    where: { id },
-    data: { tier, tierUpdatedAt: new Date() },
-  });
+  if (tier === "FREEMIUM") {
+    // Freemium is the absence of a subscription, so setting it means revoke —
+    // including paid terms. The console warns before asking for confirmation.
+    await revokeSubscriptions(id);
+    return;
+  }
+
+  await grantComp({ userId: id, tier, period, grantedById, note });
 }
 
 export async function setStudentActive(

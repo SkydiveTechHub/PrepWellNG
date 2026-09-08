@@ -63,3 +63,116 @@ export function describeTier(account: { tier: SubscriptionTier }): {
 } {
   return { label: TIER_LABELS[account.tier], tone: TIER_TONE[account.tier] };
 }
+
+// ─── Billing ──────────────────────────────────────────────
+//
+// Declared here, not imported from `@prisma/client`, for the same reason the
+// tier union is: it keeps every billing rule unit-testable without a database.
+// The Prisma enums added alongside the Subscription model mirror these exactly.
+
+export const BILLING_PERIODS = ["MONTHLY", "YEARLY"] as const;
+export type BillingPeriod = (typeof BILLING_PERIODS)[number];
+
+export const SUBSCRIPTION_STATUSES = [
+  "PENDING",
+  "ACTIVE",
+  "FAILED",
+  "ABANDONED",
+  "REVOKED",
+] as const;
+export type SubscriptionStatus = (typeof SUBSCRIPTION_STATUSES)[number];
+
+export const SUBSCRIPTION_SOURCES = ["PAYSTACK", "COMP"] as const;
+export type SubscriptionSource = (typeof SUBSCRIPTION_SOURCES)[number];
+
+/**
+ * What the marketing site calls each tier. Deliberately different from
+ * TIER_LABELS: the landing page sells "Basic", the admin console says
+ * "Standard", and both are correct for their audience.
+ */
+export const TIER_DISPLAY_NAMES: Record<SubscriptionTier, string> = {
+  FREEMIUM: "Free",
+  STANDARD: "Basic",
+  PREMIUM: "Premium",
+};
+
+export const PERIOD_LABELS: Record<BillingPeriod, string> = {
+  MONTHLY: "Monthly",
+  YEARLY: "Yearly",
+};
+
+/** Kobo, because that is the unit the Paystack API takes. */
+const PLAN_PRICES_KOBO: Record<
+  SubscriptionTier,
+  Record<BillingPeriod, number>
+> = {
+  FREEMIUM: { MONTHLY: 0, YEARLY: 0 },
+  STANDARD: { MONTHLY: 250_000, YEARLY: 2_400_000 },
+  PREMIUM: { MONTHLY: 500_000, YEARLY: 5_000_000 },
+};
+
+export type Plan = {
+  tier: SubscriptionTier;
+  period: BillingPeriod;
+  amountKobo: number;
+  displayName: string;
+};
+
+export function planFor(tier: SubscriptionTier, period: BillingPeriod): Plan {
+  return {
+    tier,
+    period,
+    amountKobo: PLAN_PRICES_KOBO[tier][period],
+    displayName: TIER_DISPLAY_NAMES[tier],
+  };
+}
+
+/** FREEMIUM is the absence of a subscription, so it can never be bought. */
+export function isPurchasableTier(tier: SubscriptionTier): boolean {
+  return tier !== "FREEMIUM";
+}
+
+export function formatNaira(kobo: number): string {
+  return `₦${Math.round(kobo / 100).toLocaleString("en-NG")}`;
+}
+
+/**
+ * What each tier unlocks — PRD open decision #2, "one table in subscription.ts".
+ *
+ * Derived from what `src/components/landing/pricing.tsx` sells, because that is
+ * the promise buyers act on. Change this table and the landing copy together or
+ * the site is advertising something the app will not grant.
+ *
+ * Only yes/no gates live here. The Free tier's numeric caps — 3 subjects, 25
+ * practice questions a day, 1 mock exam — are deliberately absent: they need
+ * usage metering that does not exist yet, and adding them later means adding
+ * rows here, not changing any call site.
+ */
+export const GATED_FEATURES = [
+  "flashcards",
+  "studyPlanner",
+  "premiumLibrary",
+  "advancedAnalytics",
+] as const;
+
+export type GatedFeature = (typeof GATED_FEATURES)[number];
+
+export const ENTITLEMENTS: Record<GatedFeature, SubscriptionTier> = {
+  flashcards: "STANDARD",
+  studyPlanner: "STANDARD",
+  premiumLibrary: "PREMIUM",
+  advancedAnalytics: "PREMIUM",
+};
+
+/**
+ * The one predicate every gate calls. Built on `hasAtLeast`, so it inherits
+ * rank comparison: a richer tier can never lose a feature a poorer one has.
+ */
+export function can(tier: SubscriptionTier, feature: GatedFeature): boolean {
+  return hasAtLeast({ tier }, ENTITLEMENTS[feature]);
+}
+
+/** The cheapest tier that unlocks a feature — for "Upgrade to X" copy. */
+export function requiredTierFor(feature: GatedFeature): SubscriptionTier {
+  return ENTITLEMENTS[feature];
+}

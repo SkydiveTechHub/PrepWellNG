@@ -86,6 +86,10 @@ export default async function proxy(req: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!api/auth|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
+    // api/billing/webhook is excluded because Paystack is not a signed-in
+    // user: the auth branch below would answer its POST with a 401, which
+    // Paystack reads as a delivery failure and we would never see the charge.
+    // The route authenticates itself by HMAC instead.
+    "/((?!api/auth|api/billing/webhook|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
   ],
 };
