@@ -113,7 +113,24 @@ export async function ensureJambYearCached(
   // telling the student "we're fetching it" and meaning it: with the breaker
   // open every callback below would no-op on arrival, and the promise would be
   // a lie repeated on every prepare call until the cooldown lapses.
-  if (await deps.providerPaused()) return 0;
+  //
+  // Guarded because this is a database read on the synchronous request path
+  // and this function promises never to throw. It reads `ProviderState`, whose
+  // migration is applied by hand, so an unapplied one turns every "pick a
+  // year" click into a 500 via the prepare route's catch-all. A failed read is
+  // treated as NOT paused deliberately: scheduling work the breaker later
+  // declines costs a no-op callback, whereas refusing to schedule on an
+  // infrastructure blip strands a student on a year we could have fetched.
+  let paused = false;
+  try {
+    paused = await deps.providerPaused();
+  } catch (error) {
+    console.error(
+      `JAMB ${examYear}: could not read provider state; assuming the breaker is closed`,
+      error,
+    );
+  }
+  if (paused) return 0;
 
   const scheduled: boolean[] = [];
 
@@ -127,7 +144,21 @@ export async function ensureJambYearCached(
 
       // SATURATED means there is nothing left to draw for this paper and
       // FAILED is terminal, so neither is worth spending budget on.
-      const ledger = await readLedger(filter);
+      //
+      // Guarded for the same reason as the breaker read above: this is a
+      // database round trip on the request path, and `Promise.all` would turn
+      // one paper's failed read into a throw out of a function that promises
+      // not to. An unreadable ledger degrades to "worth trying", which the
+      // deferred fetch re-checks under its lease anyway.
+      let ledger: Awaited<ReturnType<typeof readLedger>> = null;
+      try {
+        ledger = await readLedger(filter);
+      } catch (error) {
+        console.error(
+          `JAMB ${examYear} ${subject.code}: could not read the ledger`,
+          error,
+        );
+      }
       if (ledger?.status === "SATURATED" || ledger?.status === "FAILED") {
         scheduled.push(false);
         return;

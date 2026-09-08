@@ -243,7 +243,7 @@ test("bands step at the usual JAMB benchmarks", () => {
 
 // ─── JAMB Year Preparation ────────────────────────────────
 
-import { prepareJambYear } from "../src/lib/jamb-cbt-preparation";
+import { ensureJambYearCached, prepareJambYear } from "../src/lib/jamb-cbt-preparation";
 import { db } from "../src/lib/db";
 
 /** The three non-English JAMB subjects a sitting is built from, or null. */
@@ -371,4 +371,49 @@ test("a subject whose scheduling throws is not counted as being fetched", async 
     /[Ff]etch|[Cc]heck back/,
     "scheduling that threw must not be reported to the student as a fetch",
   );
+});
+
+test("ensureJambYearCached survives a provider-state read that throws", async () => {
+  // `ProviderState`'s migration is applied by hand, so its table can be absent
+  // while the code that reads it is deployed. That read sits on the
+  // synchronous request path, and this function's contract says it never
+  // throws — an escaping P2021 turned every "pick a year" click into a 500.
+  const originalEnv = process.env.QUESTION_PROVIDER_ENABLED;
+  process.env.QUESTION_PROVIDER_ENABLED = "true";
+
+  const queued: Array<() => Promise<void>> = [];
+  let scheduledCount: number;
+  try {
+    scheduledCount = await ensureJambYearCached(
+      // A slug nothing holds, so the ledger read finds no row and the decision
+      // rests entirely on the breaker check under test.
+      [
+        {
+          id: "probe-eng",
+          code: "ENG",
+          name: "English Language",
+          slug: "provider-state-probe-subject",
+        },
+      ],
+      2025,
+      {
+        schedule: (task) => {
+          queued.push(task);
+        },
+        providerPaused: async () => {
+          throw new Error(
+            "P2021: The table `public.ProviderState` does not exist in the current database.",
+          );
+        },
+      },
+    );
+  } finally {
+    process.env.QUESTION_PROVIDER_ENABLED = originalEnv;
+  }
+
+  // Degrading to "not paused" is the deliberate choice: a callback the breaker
+  // later declines is a no-op, whereas refusing to schedule on a blip strands
+  // a student on a year we could have fetched.
+  assert.equal(queued.length, 1, "a failed breaker read must still schedule the fetch");
+  assert.equal(scheduledCount, 1);
 });
