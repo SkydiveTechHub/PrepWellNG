@@ -1,11 +1,16 @@
 import { Prisma, type Question } from "@prisma/client";
 import { db as realDb } from "@/lib/db";
-import { uploadRemoteImage, UploadRejectedError } from "@/lib/cloudinary";
 import { cacheKey } from "./cache-key";
 import { mapProviderQuestion, MAPPER_VERSION } from "./mapper";
 import { DRAW_LIMIT, MAX_DRAWS, isSaturated } from "./saturation";
 import { getSdashAdapter } from "./sdash";
-import { ProviderError, type ProviderFilter, type QuestionProviderAdapter } from "./types";
+import { EXHAUSTED_COOLDOWN_MS, isCircuitOpen, nextCircuit, type CircuitRow } from "./state";
+import {
+  ProviderError,
+  type ProviderFailureKind,
+  type ProviderFilter,
+  type QuestionProviderAdapter,
+} from "./types";
 
 const PROVIDER = "SDASH" as const;
 
@@ -93,6 +98,14 @@ export type IngestDb = {
       };
       select: { id: true };
     }): Promise<{ id: string } | null>;
+    findMany(args: {
+      where: { fetchId: string };
+      select: { providerQuestionId: true; fingerprint: true };
+    }): Promise<{ providerQuestionId: string | null; fingerprint: string }[]>;
+    createMany(args: {
+      data: object[];
+      skipDuplicates?: boolean;
+    }): Promise<{ count: number }>;
     create(args: {
       data: {
         fetchId: string;
@@ -118,6 +131,35 @@ export type IngestDb = {
       };
       take: number;
     }): Promise<Question[]>;
+  };
+  providerState: {
+    findUnique(args: {
+      where: { provider: "SDASH" };
+    }): Promise<(CircuitRow & { creditsRemaining: number | null }) | null>;
+    upsert(args: {
+      where: { provider: "SDASH" };
+      create: {
+        provider: "SDASH";
+        state: CircuitRow["state"];
+        cooldownUntil: Date | null;
+        lastError?: string | null;
+      };
+      update: {
+        state: CircuitRow["state"];
+        cooldownUntil: Date | null;
+        lastError?: string | null;
+      };
+    }): Promise<unknown>;
+    /**
+     * A guarded write, in the same spirit as `providerFetch.updateMany`: it
+     * lands only if the row still matches every field named in `where`, so
+     * of several callers racing to act on the same snapshot exactly one
+     * succeeds.
+     */
+    updateMany(args: {
+      where: { provider: "SDASH" } & Partial<Pick<CircuitRow, "state" | "cooldownUntil">>;
+      data: Partial<Pick<CircuitRow, "state" | "cooldownUntil">>;
+    }): Promise<{ count: number }>;
   };
   $transaction<T>(fn: (tx: TxDb) => Promise<T>): Promise<T>;
 };
@@ -150,11 +192,14 @@ function isUniqueConstraintViolation(error: unknown): boolean {
 export type IngestDeps = {
   db: IngestDb;
   getAdapter: () => QuestionProviderAdapter;
+  /** Injected so cooldown arithmetic is testable without waiting. */
+  now: () => number;
 };
 
 const defaultDeps: IngestDeps = {
   db: realDb as unknown as IngestDb,
   getAdapter: getSdashAdapter,
+  now: () => Date.now(),
 };
 
 /**
@@ -277,6 +322,18 @@ export async function ensureQuestionsCached(
     };
   }
 
+  if (await claimCircuitProbe(deps)) {
+    return {
+      questions: await readFromDb(db, subject.id, filter, limit),
+      source: "db" as const,
+      ledger: {
+        status: ledger.status,
+        rawCount: ledger.rawCount,
+        promotedCount: ledger.promotedCount,
+      },
+    };
+  }
+
   await drawOnce(ledger.id, subject.id, filter, deps);
 
   const after = await db.providerFetch.findUnique({ where: { id: ledger.id } });
@@ -316,8 +373,101 @@ export async function saturate(
     // duplicate provider spend, and unique-constraint collisions that abandon
     // the rest of a draw's payloads.
     if (!(await claimDraw(db, ledger.id, ledger.startedAt))) return;
+    // Strictly after the claim. `claimCircuitProbe` consumes the breaker's
+    // single post-cooldown probe as a side effect, so asking first and then
+    // losing the lease spent the one recovery attempt without making a single
+    // provider call — and pushed recovery out another full cooldown.
+    if (await claimCircuitProbe(deps)) return;
     await drawOnce(ledger.id, subject.id, filter, deps);
   }
+}
+
+/**
+ * Reads the breaker without claiming anything from it.
+ *
+ * `claimCircuitProbe` is the drawing caller's question, and asking it has a cost:
+ * a lapsed `EXHAUSTED` cooldown hands out exactly one probe, and whoever asks
+ * first takes it. This is the observer's question — for callers that only want
+ * to know whether a fetch they are about to defer would do any work, so they
+ * can tell a student the truth rather than promise a draw the breaker will
+ * swallow. Because it claims nothing, a cooldown that has just lapsed reads as
+ * closed here: one deferred fetch will get through, which is the honest answer.
+ *
+ * Exists so callers outside `src/lib/question-provider` never reach for `db`
+ * themselves to inspect provider state.
+ */
+export async function isProviderPaused(
+  deps: IngestDeps = defaultDeps,
+): Promise<boolean> {
+  const row = await deps.db.providerState.findUnique({ where: { provider: PROVIDER } });
+  return isCircuitOpen(row, deps.now());
+}
+
+/**
+ * True when we must not spend a request on this provider right now.
+ *
+ * MUTATES — this is the half of the pair that writes. Its counterpart is the
+ * pure `isCircuitOpen` imported from `./state`, which only reads a row handed
+ * to it. Call this one only when you are about to draw and already hold the
+ * fetch lease; `isProviderPaused` is the read-only question to ask otherwise.
+ *
+ * An `EXHAUSTED` row whose cooldown has just lapsed is the one probe the
+ * breaker owes the provider — but "the cooldown lapsed" is only a read, and
+ * every filter's caller (of ~950 in flight) can observe it before any of
+ * them writes back. Left alone that is N probes against an unfunded
+ * provider, not one. So the lapse itself is claimed with a guarded write,
+ * mirroring `claimDraw`'s optimistic lock: it lands only for the caller who
+ * still sees the exact row we just read, and re-arms the cooldown so the
+ * rest see it as still open and skip. A row that is `OK`, or `EXHAUSTED`
+ * with a live cooldown, or `BLOCKED` needs no claim — there is no probe to
+ * hand out.
+ */
+async function claimCircuitProbe(deps: IngestDeps): Promise<boolean> {
+  const row = await deps.db.providerState.findUnique({ where: { provider: PROVIDER } });
+  const now = deps.now();
+  if (isCircuitOpen(row, now)) return true;
+
+  if (row && row.state === "EXHAUSTED") {
+    const { count } = await deps.db.providerState.updateMany({
+      where: { provider: PROVIDER, cooldownUntil: row.cooldownUntil },
+      data: { cooldownUntil: new Date(now + EXHAUSTED_COOLDOWN_MS) },
+    });
+    // count 0 means another caller already claimed the lapse a moment ago;
+    // their probe is the live one, so we must not draw either.
+    return count === 0;
+  }
+
+  return false;
+}
+
+async function recordCircuit(
+  deps: IngestDeps,
+  kind: ProviderFailureKind | "ok",
+  message: string | null,
+  guard?: (CircuitRow & { creditsRemaining: number | null }) | null,
+) {
+  if (kind === "ok") {
+    // A late success must not clobber a breaker some other caller armed
+    // after this draw started — guard the write on the exact row `drawOnce`
+    // saw before calling the adapter, the same optimistic-lock idiom as the
+    // claim above. No prior row means there was nothing to close.
+    if (!guard) return;
+    await deps.db.providerState.updateMany({
+      where: { provider: PROVIDER, state: guard.state, cooldownUntil: guard.cooldownUntil },
+      data: { state: "OK", cooldownUntil: null },
+    });
+    return;
+  }
+
+  const next = nextCircuit(kind, deps.now());
+  // Retryable failures leave the breaker untouched.
+  if (!next) return;
+
+  await deps.db.providerState.upsert({
+    where: { provider: PROVIDER },
+    create: { provider: PROVIDER, ...next, lastError: message },
+    update: { ...next, lastError: message },
+  });
 }
 
 /** One draw: fetch, stage, promote, then update the ledger. */
@@ -329,6 +479,10 @@ async function drawOnce(
 ) {
   const { db } = deps;
 
+  // Snapshotted before the call so a success below can be guarded against a
+  // breaker armed by someone else while this draw was in flight.
+  const circuitBeforeDraw = await db.providerState.findUnique({ where: { provider: PROVIDER } });
+
   let payloads: unknown[];
   try {
     // Inside the try: getAdapter() throws terminally when the access token is
@@ -338,25 +492,58 @@ async function drawOnce(
     payloads = await deps.getAdapter().draw(filter, DRAW_LIMIT);
   } catch (error) {
     const kind = error instanceof ProviderError ? error.kind : "retryable";
+    const message = error instanceof Error ? error.message : String(error);
+    // Only a provider-wide cause may move the breaker. A filter-scoped
+    // terminal — a subject sdashapi does not carry, an exam type we cannot
+    // request — still retires *this* filter below, but arming BLOCKED over it
+    // would stop ingest for every other subject with no cooldown to lift it.
+    // An unknown error carries no scope and is treated as provider-wide, which
+    // only ever means "retryable" here and so touches nothing anyway.
+    const scope = error instanceof ProviderError ? error.scope : "provider";
+    if (scope === "provider") {
+      await recordCircuit(deps, kind, message);
+    }
     await db.providerFetch.update({
       where: { id: fetchId },
       data: {
-        // Terminal failures are final; retryable ones stay PENDING so a later
-        // request can try again.
+        // Only a genuinely permanent cause is final. An empty wallet leaves
+        // the filter PENDING so that topping up is all the recovery needed.
         status: kind === "terminal" ? "FAILED" : "PENDING",
-        error: error instanceof Error ? error.message : String(error),
+        error: message,
         completedAt: kind === "terminal" ? new Date() : null,
       },
     });
     return;
   }
 
+  // A draw that returned is proof the provider is answering again.
+  await recordCircuit(deps, "ok", null, circuitBeforeDraw);
+
   let newCount = 0;
   let promoted = 0;
   let rejected = 0;
   let loopError: unknown = null;
+  const staged: object[] = [];
+  // Provisional: a staged row only counts toward newCount/rejected once the
+  // flush below actually commits it. If the flush throws, none of these
+  // rows exist in the database, so they must not be counted as if they did.
+  let stagedNewCount = 0;
+  let stagedRejectedCount = 0;
 
   try {
+    // One read for the whole draw. Dedupe then happens in memory against this
+    // set rather than costing a round trip per payload — the difference
+    // between ~200 sequential queries and one, against a five-connection
+    // pool that background ingest shares with live traffic.
+    const existing = await db.providerQuestion.findMany({
+      where: { fetchId },
+      select: { providerQuestionId: true, fingerprint: true },
+    });
+    const seenIds = new Set(
+      existing.map((row) => row.providerQuestionId).filter((id): id is string => id !== null),
+    );
+    const seenFingerprints = new Set(existing.map((row) => row.fingerprint));
+
     for (const payload of payloads) {
       const result = mapProviderQuestion(payload, {
         examType: filter.examType,
@@ -368,82 +555,58 @@ async function drawOnce(
       // skip what this filter already holds; we must NOT skip a question
       // another paper happens to share, or the second paper to contain a
       // recycled question would silently go without it.
-      const seen = await db.providerQuestion.findFirst({
-        where: {
-          fetchId,
-          OR: [
-            ...(result.providerQuestionId
-              ? [{ providerQuestionId: result.providerQuestionId }]
-              : []),
-            { fingerprint: result.fingerprint },
-          ],
-        },
-        select: { id: true },
-      });
-      if (seen) continue;
+      if (
+        (result.providerQuestionId && seenIds.has(result.providerQuestionId)) ||
+        seenFingerprints.has(result.fingerprint)
+      ) {
+        continue;
+      }
+      // Claim it now, so a payload repeated inside this same draw is caught.
+      if (result.providerQuestionId) seenIds.add(result.providerQuestionId);
+      seenFingerprints.add(result.fingerprint);
 
       if (!result.ok) {
-        await db.providerQuestion.create({
-          data: {
-            fetchId,
-            provider: PROVIDER,
-            providerQuestionId: result.providerQuestionId,
-            fingerprint: result.fingerprint,
-            payload: payload as object,
-            status: "REJECTED",
-            rejectionReasons: result.reasons,
-            mapperVersion: MAPPER_VERSION,
-          },
+        staged.push({
+          fetchId,
+          provider: PROVIDER,
+          providerQuestionId: result.providerQuestionId,
+          fingerprint: result.fingerprint,
+          payload: payload as object,
+          status: "REJECTED",
+          rejectionReasons: result.reasons,
+          mapperVersion: MAPPER_VERSION,
         });
-        newCount += 1;
-        rejected += 1;
+        stagedNewCount += 1;
+        stagedRejectedCount += 1;
         continue;
       }
 
-      // Mirror the image before promoting. A question pointing at a third
-      // party's asset is not one we own, so a mirror failure never promotes
-      // a broken dependency; the raw payload is kept either way.
+      // Questions carrying a provider image are staged, not promoted.
       //
-      // Whether it is staged as REJECTED or left PENDING for a retry depends
-      // on who was at fault: `UploadRejectedError.blameCaller` is true only
-      // when Cloudinary rejected the image itself (corrupt, unacceptable) —
-      // that will never succeed on retry. Anything else (a timeout, a 5xx, a
-      // network blip) is our/their infrastructure having a bad moment, and
-      // punishing the question for it would cost it until the next
-      // MAPPER_VERSION sweep for no reason.
-      let imageUrl: string | null = null;
+      // Mirroring is a download plus an upload — the slowest thing in ingest,
+      // and unbounded in the tail. Running it here made every image add
+      // seconds to the draw and let one Cloudinary hiccup abandon the rest of
+      // the payloads. The mirror pass promotes these later from the stored
+      // payload, at no further cost to the provider.
       if (result.question.providerImageUrl) {
-        try {
-          imageUrl = await uploadRemoteImage(
-            result.question.providerImageUrl,
-            `${PROVIDER.toLowerCase()}-${result.providerQuestionId ?? result.fingerprint.slice(0, 16)}`,
-          );
-        } catch (error) {
-          const blameCaller =
-            error instanceof UploadRejectedError ? error.blameCaller : false;
-          await db.providerQuestion.create({
-            data: {
-              fetchId,
-              provider: PROVIDER,
-              providerQuestionId: result.providerQuestionId,
-              fingerprint: result.fingerprint,
-              payload: payload as object,
-              status: blameCaller ? "REJECTED" : "PENDING",
-              rejectionReasons: [
-                {
-                  field: "questionImageUrl",
-                  message: `Could not mirror the image: ${error instanceof Error ? error.message : String(error)}`,
-                },
-              ],
-              mapperVersion: MAPPER_VERSION,
+        staged.push({
+          fetchId,
+          provider: PROVIDER,
+          providerQuestionId: result.providerQuestionId,
+          fingerprint: result.fingerprint,
+          payload: payload as object,
+          status: "PENDING",
+          rejectionReasons: [
+            {
+              field: "questionImageUrl",
+              message: "Awaiting the image mirror pass.",
             },
-          });
-          newCount += 1;
-          // A service-side failure is staged for retry, not counted as
-          // promoted or rejected — it is neither yet.
-          if (blameCaller) rejected += 1;
-          continue;
-        }
+          ],
+          mapperVersion: MAPPER_VERSION,
+        });
+        stagedNewCount += 1;
+        // Neither promoted nor rejected: it is pending work, not a failure.
+        continue;
       }
 
       await db.$transaction(async (tx) => {
@@ -453,7 +616,7 @@ async function drawOnce(
             examType: result.question.examType,
             examYear: result.question.examYear,
             questionText: result.question.questionText,
-            questionImageUrl: imageUrl,
+            questionImageUrl: null,
             questionType: "OBJECTIVE",
             options: result.question.options,
             correctAnswer: result.question.correctAnswer,
@@ -478,12 +641,34 @@ async function drawOnce(
       promoted += 1;
     }
   } catch (error) {
-    // Whatever committed before the throw stays committed (each row and each
-    // promotion is its own statement/transaction); what we must not do is
-    // lose track of it. The counters below only reflect what actually ran
-    // above, and the ledger write always happens — this function never lets
-    // a mid-draw failure escape past it.
+    // Whatever committed before the throw stays committed (each promotion is
+    // its own transaction); what we must not do is lose track of it. The
+    // counters below only reflect what actually ran above, and the ledger
+    // write always happens — this function never lets a mid-draw failure
+    // escape past it.
     loopError = error;
+  }
+
+  // Flushing the staged rows is its own failure boundary, separate from the
+  // loop's: a loop error must not skip the flush (rows staged before the
+  // crash still deserve to be persisted), and a flush error must not escape
+  // `drawOnce` either — it would reach the route's catch-all exactly like an
+  // unguarded loop error would, and it would leave the lease claimed with no
+  // ledger update. If the flush throws, none of the staged rows committed
+  // (`createMany` is one statement), so they must not be counted below.
+  try {
+    if (staged.length > 0) {
+      // skipDuplicates: a single payload colliding with a row another draw
+      // already wrote must cost that row, not the batch. `createMany` is one
+      // statement, so an unguarded P2002 discards every staged row of the draw.
+      await db.providerQuestion.createMany({ data: staged, skipDuplicates: true });
+    }
+    newCount += stagedNewCount;
+    rejected += stagedRejectedCount;
+  } catch (error) {
+    // A loop error, if there was one, is the more informative root cause;
+    // don't let a subsequent flush failure hide it.
+    if (!loopError) loopError = error;
   }
 
   const current = await db.providerFetch.findUnique({ where: { id: fetchId } });
@@ -574,6 +759,35 @@ export async function resetFailedFetch(
     },
   });
   return true;
+}
+
+/**
+ * Closes the provider-wide breaker by hand.
+ *
+ * `BLOCKED` is the one breaker state with no cooldown: `isCircuitOpen` reports
+ * it open forever, so unlike `EXHAUSTED` it cannot lapse into a probe and no
+ * successful draw can ever close it — nothing draws while it is set. That is
+ * correct for its cause (a revoked token, a missing one, an unentitled plan),
+ * all of which need a human anyway; it is unusable without a way back, which
+ * is this. `resetFailedFetch` is its per-filter sibling and deliberately
+ * separate: one puts a paper back in play, this one puts the provider back in
+ * play, and an admin often wants exactly one of the two.
+ *
+ * Returns false when there was no row, or it was not `BLOCKED` — clearing an
+ * `EXHAUSTED` row would skip a cooldown that is doing its job, and clearing an
+ * `OK` one is a no-op worth reporting as such.
+ */
+export async function clearProviderBlock(
+  deps: IngestDeps = defaultDeps,
+): Promise<boolean> {
+  const { count } = await deps.db.providerState.updateMany({
+    // Guarded on BLOCKED, in the same optimistic-lock idiom as the claims
+    // above: an `EXHAUSTED` row armed between our read and our write keeps its
+    // cooldown rather than being silently reopened.
+    where: { provider: PROVIDER, state: "BLOCKED" },
+    data: { state: "OK", cooldownUntil: null },
+  });
+  return count === 1;
 }
 
 /**

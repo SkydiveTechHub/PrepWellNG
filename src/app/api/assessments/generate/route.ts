@@ -46,6 +46,20 @@ export async function POST(req: NextRequest) {
         { status: 404 },
       );
     }
+    // A cold paper, not a missing one: the fetch for it was scheduled a
+    // moment ago and is running behind this response. 503 rather than 404
+    // because the paper is real and the condition is temporary — and rather
+    // than a 2xx because there is no quiz to hand back yet, and the client
+    // reads `error` only on a non-OK response.
+    if (result === "questions-preparing") {
+      return NextResponse.json(
+        {
+          error: "We're fetching this paper. Check back in a moment.",
+          preparing: true,
+        },
+        { status: 503 },
+      );
+    }
 
     return NextResponse.json(result);
   } catch (error) {

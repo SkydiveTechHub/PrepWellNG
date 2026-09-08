@@ -1,4 +1,4 @@
-import { classifyStatus } from "./errors";
+import { classifyStatusAsFailure } from "./errors";
 import { DRAW_LIMIT } from "./saturation";
 import { toProviderExamSlug, toProviderSubjectSlug } from "./alias";
 import {
@@ -33,14 +33,16 @@ export function createSdashAdapter(config: SdashConfig): QuestionProviderAdapter
       throw new ProviderError(`Provider unreachable: ${String(error)}`, "retryable");
     }
 
-    const kind = classifyStatus(res.status);
-    if (kind === "empty") return null;
+    // 404 is "nothing here", and has no body worth reading.
+    if (res.status === 404) return null;
 
-    if (kind !== "ok") {
+    // Read the body before classifying: a 403 means one of two opposite
+    // things, and only the message tells them apart.
+    if (res.status !== 200) {
       const body = (await res.json().catch(() => null)) as Envelope | null;
       throw new ProviderError(
         body?.message ?? `Provider returned ${res.status}`,
-        kind,
+        classifyStatusAsFailure(res.status, body),
         res.status,
       );
     }
@@ -61,14 +63,25 @@ export function createSdashAdapter(config: SdashConfig): QuestionProviderAdapter
 
       // Refuse before spending a request. A subject they do not carry, or an
       // exam we are not entitled to, can never succeed.
+      //
+      // Both are scoped to the filter: they are permanent for this paper and
+      // say nothing at all about the provider's health, so they must retire
+      // the filter without arming the provider-wide breaker.
       if (!subject) {
         throw new ProviderError(
           `The provider does not carry "${filter.subjectSlug}".`,
           "terminal",
+          null,
+          "filter",
         );
       }
       if (!type) {
-        throw new ProviderError(`Exam type "${filter.examType}" is not requestable.`, "terminal");
+        throw new ProviderError(
+          `Exam type "${filter.examType}" is not requestable.`,
+          "terminal",
+          null,
+          "filter",
+        );
       }
 
       const data = await call("/v1/q", {
@@ -98,6 +111,8 @@ export function createSdashAdapter(config: SdashConfig): QuestionProviderAdapter
 /** The configured adapter, from env. Throws when the token is missing. */
 export function getSdashAdapter(): QuestionProviderAdapter {
   const token = process.env.SDASH_ACCESS_TOKEN;
+  // Provider-scoped by design: with no token nothing can be drawn for any
+  // filter, so pausing the whole provider is the honest state.
   if (!token) throw new ProviderError("SDASH_ACCESS_TOKEN is not set", "terminal");
   return createSdashAdapter({
     baseUrl: process.env.SDASH_BASE_URL ?? "https://sdashapi.com/api",

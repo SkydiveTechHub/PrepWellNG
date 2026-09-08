@@ -132,3 +132,46 @@ test("listSubjects and listYears unwrap the envelope", async () => {
   const years = adapter([{ status: 200, body: { status: 200, data: [2026, 2025] } }]);
   assert.deepEqual(await years.subject.listYears(), [2026, 2025]);
 });
+
+test("an insufficient-credit 403 surfaces as an exhausted ProviderError", async () => {
+  const adapter_obj = {
+    baseUrl: "https://example.test/api",
+    token: "t",
+    fetchImpl: async () =>
+      new Response(
+        JSON.stringify({ status: 403, message: "Insufficient credit. Please top up your wallet." }),
+        { status: 403, headers: { "content-type": "application/json" } },
+      ),
+  };
+
+  await assert.rejects(
+    () => createSdashAdapter(adapter_obj).draw({ subjectSlug: "physics", examType: "JAMB", examYear: 2020 }, 50),
+    (error: unknown) => {
+      assert.ok(error instanceof ProviderError);
+      assert.equal(error.kind, "exhausted");
+      assert.equal(error.httpStatus, 403);
+      return true;
+    },
+  );
+});
+
+test("an entitlement 403 still surfaces as terminal", async () => {
+  const adapter_obj = {
+    baseUrl: "https://example.test/api",
+    token: "t",
+    fetchImpl: async () =>
+      new Response(
+        JSON.stringify({ status: 403, message: 'You have no permission to query the "post-utme" exam.' }),
+        { status: 403, headers: { "content-type": "application/json" } },
+      ),
+  };
+
+  await assert.rejects(
+    () => createSdashAdapter(adapter_obj).draw({ subjectSlug: "physics", examType: "JAMB", examYear: 2020 }, 50),
+    (error: unknown) => {
+      assert.ok(error instanceof ProviderError);
+      assert.equal(error.kind, "terminal");
+      return true;
+    },
+  );
+});

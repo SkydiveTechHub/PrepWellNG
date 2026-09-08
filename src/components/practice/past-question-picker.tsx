@@ -2,10 +2,17 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { LuCheck, LuPencil, LuChevronRight, LuInbox } from "react-icons/lu";
+import {
+  LuCheck,
+  LuPencil,
+  LuChevronRight,
+  LuInbox,
+  LuDownload,
+} from "react-icons/lu";
 import { isRelevantSubject, relevantTrackCategories } from "@/lib/subjects";
+import { examYearRange } from "@/lib/exam-years";
 import { TRACK_CATEGORIES } from "@/lib/subjects";
-import { isComingSoonBoard } from "@/lib/constants/exam-types";
+import { assessBoards } from "@/lib/board-availability";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -57,6 +64,28 @@ export function PastQuestionPicker({ track }: { track: string | null }) {
     return [...counts.entries()].sort((a, b) => a[0].localeCompare(b[0]));
   }, [papers]);
 
+  // Which of those exams are open, decided from the papers themselves rather
+  // than a hard-coded list. The unit is papers per subject, not questions: a
+  // paper we have never pulled is fetched on the way into the quiz, so it
+  // counts as coverage the moment the provider lists it.
+  const boardStatus = useMemo(() => {
+    const perBoard = new Map<string, Map<string, number>>();
+    for (const p of papers) {
+      const subjects = perBoard.get(p.examType) ?? new Map<string, number>();
+      subjects.set(p.subjectId, (subjects.get(p.subjectId) ?? 0) + 1);
+      perBoard.set(p.examType, subjects);
+    }
+    return assessBoards(
+      "PAST_QUESTIONS",
+      Object.fromEntries(
+        [...perBoard.entries()].map(([board, subjects]) => [
+          board,
+          [...subjects.values()],
+        ]),
+      ),
+    );
+  }, [papers]);
+
   // ② Subjects available for the chosen exam.
   const subjects = useMemo(() => {
     if (!exam) return [];
@@ -88,14 +117,36 @@ export function PastQuestionPicker({ track }: { track: string | null }) {
   const visibleSubjects = showAllSubjects || !narrows ? subjects : relevantSubjects;
 
   // ③ Years for the chosen exam + subject.
+  //
+  // Every year in the modern record is offered, not just the ones we hold. A
+  // paper we have never pulled is fetched from the provider on the way into
+  // the quiz, so listing only what is cached kept those papers permanently out
+  // of reach — nobody could select them, so nobody ever fetched them. Held
+  // years are annotated, not filtered.
   const years = useMemo(() => {
     if (!exam || !subjectId) return [];
-    return papers
-      .filter((p) => p.examType === exam && p.subjectId === subjectId)
-      .sort((a, b) => b.examYear - a.examYear);
+
+    const held = new Map<number, PastPaper>();
+    for (const p of papers) {
+      if (p.examType === exam && p.subjectId === subjectId) held.set(p.examYear, p);
+    }
+    return examYearRange([...held.keys()]).map((year) => ({
+      year,
+      paper: held.get(year) ?? null,
+    }));
   }, [papers, exam, subjectId]);
 
+  const readyYears = useMemo(
+    () => years.filter((y) => y.paper?.cached),
+    [years],
+  );
+
   const chosenSubject = subjects.find((s) => s.subjectId === subjectId);
+
+  // Built from the chosen subject rather than a paper row: most years on offer
+  // have no row to read a slug off.
+  const yearHref = (year: number) =>
+    `/practice/past-questions/${chosenSubject?.subjectSlug}?exam=${exam}&year=${year}`;
 
   if (loading) {
     return <Spinner label="Loading past papers..." />;
@@ -133,10 +184,12 @@ export function PastQuestionPicker({ track }: { track: string | null }) {
         <Step number={1} title="Choose an exam">
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             {exams.map(([type, questionCount]) => {
-              // Papers may already be imported for a board we aren't opening
-              // up yet — list it so students can see it's on the way, but
-              // don't let them walk into it.
-              const comingSoon = isComingSoonBoard(type);
+              // A board too thin to be worth entering is still listed — a
+              // student should be able to see it is on the way — but it names
+              // what it is waiting for instead of an open-ended "coming soon",
+              // and it opens itself the moment the bank clears the bar.
+              const status = boardStatus[type];
+              const comingSoon = !status?.ready;
               return (
                 <button
                   key={type}
@@ -152,11 +205,11 @@ export function PastQuestionPicker({ track }: { track: string | null }) {
                 >
                   <div className="flex flex-wrap items-center gap-2">
                     <Badge variant={EXAM_BADGES[type] ?? "neutral"}>{type}</Badge>
-                    {comingSoon && <Badge>Coming soon</Badge>}
+                    {comingSoon && <Badge>Not ready yet</Badge>}
                   </div>
                   <p className="mt-2 text-sm text-muted">
                     {comingSoon
-                      ? "Not open for practice yet"
+                      ? status?.reason ?? "Not open for practice yet"
                       : `${questionCount} question${questionCount === 1 ? "" : "s"}`}
                   </p>
                 </button>
@@ -208,7 +261,7 @@ export function PastQuestionPicker({ track }: { track: string | null }) {
                     <p className="text-sm font-semibold text-foreground">{s.subjectName}</p>
                     <p className="mt-1 text-xs text-muted">
                       {s.questionCount} questions &middot; {s.years} year
-                      {s.years === 1 ? "" : "s"}
+                      {s.years === 1 ? "" : "s"} loaded
                     </p>
                   </button>
                 ))}
@@ -220,23 +273,56 @@ export function PastQuestionPicker({ track }: { track: string | null }) {
       {/* ③ Year */}
       {exam && subjectId && (
         <Step number={3} title="Choose a year">
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {years.map((paper) => (
-              <Link
-                key={`${paper.examType}-${paper.examYear}`}
-                href={`/practice/past-questions/${paper.subjectSlug}?exam=${paper.examType}&year=${paper.examYear}`}
-                className="card card-interactive group flex items-center justify-between gap-3 p-4"
-              >
-                <div>
-                  <p className="text-base font-bold text-foreground">{paper.examYear}</p>
-                  <p className="mt-0.5 text-xs text-muted">
-                    {paper.cached ? `${paper.questionCount} questions` : "Not loaded yet"}
-                  </p>
+          <>
+            {/* Papers already in the bank start instantly, so they lead. */}
+            {readyYears.length > 0 && (
+              <div className="mb-5">
+                <p className="section-label mb-2.5">Ready to start</p>
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                  {readyYears.map(({ year, paper }) => (
+                    <Link
+                      key={year}
+                      href={yearHref(year)}
+                      className="card card-interactive group flex items-center justify-between gap-3 border-success/30 p-4"
+                    >
+                      <div>
+                        <p className="text-base font-bold text-foreground">{year}</p>
+                        <p className="mt-0.5 text-xs text-success">
+                          {paper?.questionCount} questions ready
+                        </p>
+                      </div>
+                      <LuChevronRight className="h-4 w-4 text-muted transition-all group-hover:translate-x-0.5 group-hover:text-primary" />
+                    </Link>
+                  ))}
                 </div>
-                <LuChevronRight className="h-4 w-4 text-muted transition-all group-hover:translate-x-0.5 group-hover:text-primary" />
-              </Link>
-            ))}
-          </div>
+              </div>
+            )}
+
+            <p className="section-label mb-2.5">
+              {readyYears.length > 0 ? "Every year" : "Pick any year"}
+            </p>
+            <div className="grid grid-cols-3 gap-2 sm:grid-cols-5 lg:grid-cols-6">
+              {years.map(({ year, paper }) => (
+                <Link
+                  key={year}
+                  href={yearHref(year)}
+                  className={cn(
+                    "rounded-xl border px-3 py-2.5 text-center text-sm font-bold transition-all",
+                    paper?.cached
+                      ? "border-success/40 bg-success-soft text-success"
+                      : "border-border bg-card text-foreground hover:border-primary/40 hover:text-primary",
+                  )}
+                >
+                  {year}
+                </Link>
+              ))}
+            </div>
+            <p className="mt-3 flex items-start gap-1.5 text-xs text-muted">
+              <LuDownload className="mt-0.5 h-3.5 w-3.5 flex-shrink-0" />
+              Years without a tick are pulled from the question bank when you
+              start them — it takes a moment longer the first time.
+            </p>
+          </>
         </Step>
       )}
     </div>

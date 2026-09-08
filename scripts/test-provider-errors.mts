@@ -34,3 +34,36 @@ test("unexpected 4xx codes are retryable rather than silently empty", () => {
   // permanently marks a real paper as having nothing in it.
   assert.equal(classifyStatus(418), "retryable");
 });
+
+test("403 with an insufficient-credit body is exhausted, not terminal", () => {
+  // Measured 2026-09-07 against sdashapi:
+  // {"status":403,"message":"Insufficient credit. Please top up your wallet."}
+  // Terminal here is what permanently retires a paper over a billing lapse.
+  assert.equal(
+    classifyStatus(403, { message: "Insufficient credit. Please top up your wallet." }),
+    "exhausted",
+  );
+});
+
+test("403 with an entitlement body stays terminal", () => {
+  assert.equal(
+    classifyStatus(403, { message: 'You have no permission to query the "post-utme" exam.' }),
+    "terminal",
+  );
+});
+
+test("403 with no body stays terminal", () => {
+  // Unreadable body: assume the permanent cause. An exhausted misread would
+  // retry a revoked key every 15 minutes forever.
+  assert.equal(classifyStatus(403, null), "terminal");
+  assert.equal(classifyStatus(403), "terminal");
+});
+
+test("402 Payment Required is exhausted without needing a body", () => {
+  assert.equal(classifyStatus(402), "exhausted");
+});
+
+test("401 stays terminal even if the body mentions credit", () => {
+  // A bad token is a bad token; the wording must not override the status.
+  assert.equal(classifyStatus(401, { message: "Insufficient credit." }), "terminal");
+});

@@ -3,13 +3,11 @@ import { pickRandomQuestionIds } from "./question-pool";
 import { deadlineFor } from "./attempt-timing";
 import { findResumableAttempt, reapStaleAttempts } from "./attempt-lifecycle";
 import { coverageForYear } from "./jamb-availability";
+import { JAMB_SPEC, coverageMessage, questionsForSubject } from "./jamb-cbt";
 import {
-  JAMB_SPEC,
-  coverageMessage,
-  questionsForSubject,
-  selectionErrorMessage,
-  validateSubjectChoice,
-} from "./jamb-cbt";
+  ensureJambYearCached,
+  resolveJambPaperSubjects,
+} from "./jamb-cbt-preparation";
 
 type PaperSource = {
   attemptId: string;
@@ -94,27 +92,15 @@ export async function generateJambCbtPaper(
 ): Promise<JambCbtResult> {
   const { subjectIds: chosenIds, examYear } = input;
 
-  const english = await db.subject.findUnique({
-    where: { code: JAMB_SPEC.englishCode },
-    select: { id: true, code: true, name: true },
-  });
-  if (!english) return { outcome: "english-missing" };
+  const resolved = await resolveJambPaperSubjects(chosenIds);
+  if (resolved.outcome !== "ok") return resolved;
+  const paperSubjects = resolved.subjects;
 
-  const selectionError = validateSubjectChoice(chosenIds, english.id);
-  if (selectionError) {
-    return { outcome: "bad-selection", message: selectionErrorMessage(selectionError) };
-  }
-
-  const chosen = await db.subject.findMany({
-    where: { id: { in: chosenIds }, isJamb: true },
-    select: { id: true, code: true, name: true },
-  });
-  if (chosen.length !== chosenIds.length) {
-    return { outcome: "subjects-unavailable" };
-  }
-
-  // English first so it leads the paper, as in the real CBT.
-  const paperSubjects = [english, ...chosen];
+  // The picker prepares a year the moment it is chosen, so this is normally a
+  // no-op on already-saturated ledgers. It stays here because the year list is
+  // no longer restricted to years we hold: a request that skipped prepare must
+  // still get its papers pulled rather than a bare 422.
+  await ensureJambYearCached(paperSubjects, examYear);
 
   // All-or-nothing: a short paper still marked out of 400 would not be a JAMB
   // simulation, and its score would not compare with a real sitting.

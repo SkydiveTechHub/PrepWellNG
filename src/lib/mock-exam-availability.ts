@@ -119,3 +119,33 @@ export async function countForRange({
   `;
   return rows[0]?.n ?? 0;
 }
+
+/**
+ * Per-subject tagged-question counts for every board, for the board step.
+ *
+ * The picker has to know which boards are enterable before one is chosen, and
+ * `getMockExamAvailability` answers for a single board only. Sweeping all
+ * three in one grouped query keeps that first paint to a single round-trip.
+ */
+export async function getMockExamBoardCoverage(): Promise<
+  Record<string, number[]>
+> {
+  const rows = await db.$queryRaw<
+    { examType: string; subjectId: string; n: number }[]
+  >`
+    SELECT q."examType"::text AS "examType",
+           q."subjectId"      AS "subjectId",
+           COUNT(*)::int      AS n
+    FROM "Question" q
+    JOIN "Topic" t            ON t.id = q."topicId"
+    JOIN "CurriculumLevel" cl ON cl.id = t."curriculumLevelId"
+    WHERE q."questionType" = 'OBJECTIVE'::"QuestionType"
+    GROUP BY q."examType", q."subjectId"
+  `;
+
+  const byBoard: Record<string, number[]> = {};
+  for (const row of rows) {
+    (byBoard[row.examType] ??= []).push(row.n);
+  }
+  return byBoard;
+}

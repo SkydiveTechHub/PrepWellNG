@@ -240,3 +240,180 @@ test("bands step at the usual JAMB benchmarks", () => {
   assert.equal(jambBand(180).label, "Fair");
   assert.equal(jambBand(120).label, "Needs work");
 });
+
+// ─── JAMB Year Preparation ────────────────────────────────
+
+import { ensureJambYearCached, prepareJambYear } from "../src/lib/jamb-cbt-preparation";
+import { db } from "../src/lib/db";
+
+/** The three non-English JAMB subjects a sitting is built from, or null. */
+async function jambSubjectIds(): Promise<string[] | null> {
+  const subjects = await db.subject.findMany({
+    where: { isJamb: true, code: { not: "ENG" } },
+    select: { id: true },
+    take: 3,
+  });
+  return subjects.length === 3 ? subjects.map((s) => s.id) : null;
+}
+
+test("prepareJambYear promises a fetch only when one was really scheduled", async () => {
+  const subjectIds = await jambSubjectIds();
+  if (!subjectIds) return; // No JAMB subjects seeded here; nothing to prepare.
+
+  const originalEnv = process.env.QUESTION_PROVIDER_ENABLED;
+  process.env.QUESTION_PROVIDER_ENABLED = "true";
+
+  // ── The provider is live and the breaker closed: work really is queued, so
+  //    the student is told to check back.
+  const queued: Array<() => Promise<void>> = [];
+  const fetching = await prepareJambYear(
+    { subjectIds, examYear: 2025 },
+    {
+      schedule: (task) => {
+        queued.push(task);
+      },
+      providerPaused: async () => false,
+    },
+  );
+
+  // ── The breaker is open: every deferred fetch would no-op on arrival, so
+  //    nothing is scheduled and the student hears the shortfall instead.
+  const queuedWhilePaused: Array<() => Promise<void>> = [];
+  const paused = await prepareJambYear(
+    { subjectIds, examYear: 2025 },
+    {
+      schedule: (task) => {
+        queuedWhilePaused.push(task);
+      },
+      providerPaused: async () => true,
+    },
+  );
+
+  // ── The provider is switched off entirely: same shortfall branch.
+  process.env.QUESTION_PROVIDER_ENABLED = "false";
+  const queuedWhileOff: Array<() => Promise<void>> = [];
+  const off = await prepareJambYear(
+    { subjectIds, examYear: 2025 },
+    {
+      schedule: (task) => {
+        queuedWhileOff.push(task);
+      },
+      providerPaused: async () => false,
+    },
+  );
+  process.env.QUESTION_PROVIDER_ENABLED = originalEnv;
+
+  if (fetching.outcome !== "ok" || paused.outcome !== "ok" || off.outcome !== "ok") {
+    throw new Error("expected all three prepare calls to resolve the subjects");
+  }
+  if (fetching.ready) return; // 2025 is fully banked here; there is no message to judge.
+
+  assert.equal(paused.ready, false);
+  assert.equal(off.ready, false);
+
+  // Each branch must say its own thing — swapping the two must fail here.
+  assert.match(
+    fetching.message ?? "",
+    /[Ff]etch|[Pp]reparing|[Cc]heck/,
+    "a scheduled fetch must tell the student to check back",
+  );
+  assert.doesNotMatch(
+    fetching.message ?? "",
+    /not enough questions/,
+    "a scheduled fetch must not report the shortfall as final",
+  );
+  assert.ok(queued.length > 0, "a live provider must actually queue fetches");
+
+  assert.match(
+    paused.message ?? "",
+    /not enough questions/,
+    "an open breaker must report the shortfall, not a fetch",
+  );
+  assert.doesNotMatch(
+    paused.message ?? "",
+    /[Ff]etch|[Cc]heck back/,
+    "an open breaker must not promise a fetch that will never run",
+  );
+  assert.equal(queuedWhilePaused.length, 0, "an open breaker must schedule nothing");
+
+  assert.match(
+    off.message ?? "",
+    /not enough questions/,
+    "a disabled provider must report the shortfall, not a fetch",
+  );
+  assert.doesNotMatch(off.message ?? "", /[Ff]etch|[Cc]heck back/);
+  assert.equal(queuedWhileOff.length, 0, "a disabled provider must schedule nothing");
+
+  assert.notEqual(fetching.message, paused.message);
+});
+
+test("a subject whose scheduling throws is not counted as being fetched", async () => {
+  const subjectIds = await jambSubjectIds();
+  if (!subjectIds) return;
+
+  const originalEnv = process.env.QUESTION_PROVIDER_ENABLED;
+  process.env.QUESTION_PROVIDER_ENABLED = "true";
+  const result = await prepareJambYear(
+    { subjectIds, examYear: 2025 },
+    {
+      // What `after` does outside a request scope.
+      schedule: () => {
+        throw new Error("`after` was called outside a request scope");
+      },
+      providerPaused: async () => false,
+    },
+  );
+  process.env.QUESTION_PROVIDER_ENABLED = originalEnv;
+
+  if (result.outcome !== "ok" || result.ready) return;
+  assert.doesNotMatch(
+    result.message ?? "",
+    /[Ff]etch|[Cc]heck back/,
+    "scheduling that threw must not be reported to the student as a fetch",
+  );
+});
+
+test("ensureJambYearCached survives a provider-state read that throws", async () => {
+  // `ProviderState`'s migration is applied by hand, so its table can be absent
+  // while the code that reads it is deployed. That read sits on the
+  // synchronous request path, and this function's contract says it never
+  // throws — an escaping P2021 turned every "pick a year" click into a 500.
+  const originalEnv = process.env.QUESTION_PROVIDER_ENABLED;
+  process.env.QUESTION_PROVIDER_ENABLED = "true";
+
+  const queued: Array<() => Promise<void>> = [];
+  let scheduledCount: number;
+  try {
+    scheduledCount = await ensureJambYearCached(
+      // A slug nothing holds, so the ledger read finds no row and the decision
+      // rests entirely on the breaker check under test.
+      [
+        {
+          id: "probe-eng",
+          code: "ENG",
+          name: "English Language",
+          slug: "provider-state-probe-subject",
+        },
+      ],
+      2025,
+      {
+        schedule: (task) => {
+          queued.push(task);
+        },
+        providerPaused: async () => {
+          throw new Error(
+            "P2021: The table `public.ProviderState` does not exist in the current database.",
+          );
+        },
+      },
+    );
+  } finally {
+    process.env.QUESTION_PROVIDER_ENABLED = originalEnv;
+  }
+
+  // Degrading to "not paused" is the deliberate choice: a callback the breaker
+  // later declines is a no-op, whereas refusing to schedule on a blip strands
+  // a student on a year we could have fetched.
+  assert.equal(queued.length, 1, "a failed breaker read must still schedule the fetch");
+  assert.equal(scheduledCount, 1);
+});
