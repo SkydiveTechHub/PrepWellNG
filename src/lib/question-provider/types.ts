@@ -17,11 +17,32 @@ export type ProviderFilter = {
  */
 export type ProviderFailureKind = "terminal" | "retryable" | "exhausted";
 
+/**
+ * How far a failure reaches.
+ *
+ * "provider" is the default because that is the safe reading of an unknown
+ * failure: a revoked token or an unentitled plan says nothing about the filter
+ * that happened to be asked for, and pausing everything is the correct,
+ * recoverable response.
+ *
+ * "filter" is the narrower claim, and the one the breaker must never act on: a
+ * subject sdashapi does not carry and an exam type we cannot request are
+ * permanent facts about *that filter alone*. Marking the filter FAILED is
+ * right; arming the provider-wide breaker over it would let one student
+ * choosing Further Mathematics silently stop ingest for every subject — with no
+ * way back, since BLOCKED has no cooldown.
+ *
+ * Carried on the error rather than inferred from its message, so the
+ * distinction survives rewording and is checked by the compiler.
+ */
+export type ProviderErrorScope = "provider" | "filter";
+
 export class ProviderError extends Error {
   constructor(
     message: string,
     readonly kind: ProviderFailureKind,
     readonly httpStatus: number | null = null,
+    readonly scope: ProviderErrorScope = "provider",
   ) {
     super(message);
     this.name = "ProviderError";

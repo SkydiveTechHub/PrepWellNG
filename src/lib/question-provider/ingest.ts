@@ -102,7 +102,10 @@ export type IngestDb = {
       where: { fetchId: string };
       select: { providerQuestionId: true; fingerprint: true };
     }): Promise<{ providerQuestionId: string | null; fingerprint: string }[]>;
-    createMany(args: { data: object[] }): Promise<{ count: number }>;
+    createMany(args: {
+      data: object[];
+      skipDuplicates?: boolean;
+    }): Promise<{ count: number }>;
     create(args: {
       data: {
         fetchId: string;
@@ -319,7 +322,7 @@ export async function ensureQuestionsCached(
     };
   }
 
-  if (await circuitIsOpen(deps)) {
+  if (await claimCircuitProbe(deps)) {
     return {
       questions: await readFromDb(db, subject.id, filter, limit),
       source: "db" as const,
@@ -369,8 +372,12 @@ export async function saturate(
     // cost a single read apiece. Without it they all draw in parallel —
     // duplicate provider spend, and unique-constraint collisions that abandon
     // the rest of a draw's payloads.
-    if (await circuitIsOpen(deps)) return;
     if (!(await claimDraw(db, ledger.id, ledger.startedAt))) return;
+    // Strictly after the claim. `claimCircuitProbe` consumes the breaker's
+    // single post-cooldown probe as a side effect, so asking first and then
+    // losing the lease spent the one recovery attempt without making a single
+    // provider call — and pushed recovery out another full cooldown.
+    if (await claimCircuitProbe(deps)) return;
     await drawOnce(ledger.id, subject.id, filter, deps);
   }
 }
@@ -378,7 +385,7 @@ export async function saturate(
 /**
  * Reads the breaker without claiming anything from it.
  *
- * `circuitIsOpen` is the drawing caller's question, and asking it has a cost:
+ * `claimCircuitProbe` is the drawing caller's question, and asking it has a cost:
  * a lapsed `EXHAUSTED` cooldown hands out exactly one probe, and whoever asks
  * first takes it. This is the observer's question — for callers that only want
  * to know whether a fetch they are about to defer would do any work, so they
@@ -399,6 +406,11 @@ export async function isProviderPaused(
 /**
  * True when we must not spend a request on this provider right now.
  *
+ * MUTATES — this is the half of the pair that writes. Its counterpart is the
+ * pure `isCircuitOpen` imported from `./state`, which only reads a row handed
+ * to it. Call this one only when you are about to draw and already hold the
+ * fetch lease; `isProviderPaused` is the read-only question to ask otherwise.
+ *
  * An `EXHAUSTED` row whose cooldown has just lapsed is the one probe the
  * breaker owes the provider — but "the cooldown lapsed" is only a read, and
  * every filter's caller (of ~950 in flight) can observe it before any of
@@ -410,7 +422,7 @@ export async function isProviderPaused(
  * with a live cooldown, or `BLOCKED` needs no claim — there is no probe to
  * hand out.
  */
-async function circuitIsOpen(deps: IngestDeps): Promise<boolean> {
+async function claimCircuitProbe(deps: IngestDeps): Promise<boolean> {
   const row = await deps.db.providerState.findUnique({ where: { provider: PROVIDER } });
   const now = deps.now();
   if (isCircuitOpen(row, now)) return true;
@@ -481,7 +493,16 @@ async function drawOnce(
   } catch (error) {
     const kind = error instanceof ProviderError ? error.kind : "retryable";
     const message = error instanceof Error ? error.message : String(error);
-    await recordCircuit(deps, kind, message);
+    // Only a provider-wide cause may move the breaker. A filter-scoped
+    // terminal — a subject sdashapi does not carry, an exam type we cannot
+    // request — still retires *this* filter below, but arming BLOCKED over it
+    // would stop ingest for every other subject with no cooldown to lift it.
+    // An unknown error carries no scope and is treated as provider-wide, which
+    // only ever means "retryable" here and so touches nothing anyway.
+    const scope = error instanceof ProviderError ? error.scope : "provider";
+    if (scope === "provider") {
+      await recordCircuit(deps, kind, message);
+    }
     await db.providerFetch.update({
       where: { id: fetchId },
       data: {
@@ -637,7 +658,10 @@ async function drawOnce(
   // (`createMany` is one statement), so they must not be counted below.
   try {
     if (staged.length > 0) {
-      await db.providerQuestion.createMany({ data: staged });
+      // skipDuplicates: a single payload colliding with a row another draw
+      // already wrote must cost that row, not the batch. `createMany` is one
+      // statement, so an unguarded P2002 discards every staged row of the draw.
+      await db.providerQuestion.createMany({ data: staged, skipDuplicates: true });
     }
     newCount += stagedNewCount;
     rejected += stagedRejectedCount;
@@ -735,6 +759,35 @@ export async function resetFailedFetch(
     },
   });
   return true;
+}
+
+/**
+ * Closes the provider-wide breaker by hand.
+ *
+ * `BLOCKED` is the one breaker state with no cooldown: `isCircuitOpen` reports
+ * it open forever, so unlike `EXHAUSTED` it cannot lapse into a probe and no
+ * successful draw can ever close it — nothing draws while it is set. That is
+ * correct for its cause (a revoked token, a missing one, an unentitled plan),
+ * all of which need a human anyway; it is unusable without a way back, which
+ * is this. `resetFailedFetch` is its per-filter sibling and deliberately
+ * separate: one puts a paper back in play, this one puts the provider back in
+ * play, and an admin often wants exactly one of the two.
+ *
+ * Returns false when there was no row, or it was not `BLOCKED` — clearing an
+ * `EXHAUSTED` row would skip a cooldown that is doing its job, and clearing an
+ * `OK` one is a no-op worth reporting as such.
+ */
+export async function clearProviderBlock(
+  deps: IngestDeps = defaultDeps,
+): Promise<boolean> {
+  const { count } = await deps.db.providerState.updateMany({
+    // Guarded on BLOCKED, in the same optimistic-lock idiom as the claims
+    // above: an `EXHAUSTED` row armed between our read and our write keeps its
+    // cooldown rather than being silently reopened.
+    where: { provider: PROVIDER, state: "BLOCKED" },
+    data: { state: "OK", cooldownUntil: null },
+  });
+  return count === 1;
 }
 
 /**

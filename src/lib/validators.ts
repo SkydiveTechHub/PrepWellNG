@@ -349,6 +349,14 @@ export const providerBackfillSchema = z.object({
    * a retry should quietly do on its own.
    */
   reset: z.boolean().optional(),
+  /**
+   * Close the provider-wide circuit breaker before drawing. BLOCKED has no
+   * cooldown, so nothing draws for any filter until a human clears it — and
+   * whatever caused it (a revoked or missing token, a lapsed plan) has to be
+   * repaired outside the app first. Separate from `reset`, which only puts one
+   * FAILED paper back in play.
+   */
+  clearBlock: z.boolean().optional(),
 });
 export type ProviderBackfillInput = z.infer<typeof providerBackfillSchema>;
 

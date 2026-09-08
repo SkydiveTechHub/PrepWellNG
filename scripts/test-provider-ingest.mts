@@ -5,12 +5,14 @@ import {
   ensureQuestionsCached,
   saturate,
   readLedger,
+  clearProviderBlock,
   LEASE_WINDOW_MS,
   type IngestDb,
   type IngestDeps,
 } from "../src/lib/question-provider/ingest";
 import { MAX_DRAWS } from "../src/lib/question-provider/saturation";
 import { fingerprintPayload } from "../src/lib/question-provider/mapper";
+import { cacheKey } from "../src/lib/question-provider/cache-key";
 import { ProviderError, type ProviderFilter, type QuestionProviderAdapter } from "../src/lib/question-provider/types";
 import { EXHAUSTED_COOLDOWN_MS } from "../src/lib/question-provider/state";
 
@@ -841,4 +843,192 @@ test("a draw containing images does not call fetch during the loop", async () =>
   } finally {
     globalThis.fetch = originalFetch;
   }
+});
+
+// ─── Breaker scope ────────────────────────────────────────
+//
+// BLOCKED is the one breaker state with no cooldown, so arming it wrongly is
+// not a delay — it is a permanent, provider-wide stop. These three pin down
+// exactly which causes are allowed to reach it.
+
+test("a filter-local terminal fails only that filter and leaves the breaker alone", async () => {
+  const db = makeFakeDb({ physics: "subj-1", "further-mathematics": "subj-2" });
+  const now = Date.UTC(2026, 8, 7, 12, 0, 0);
+  const unsupported: ProviderFilter = {
+    subjectSlug: "further-mathematics",
+    examType: "WAEC",
+    examYear: 2022,
+  };
+
+  let drawn: string[] = [];
+  const d: IngestDeps = {
+    db,
+    now: () => now,
+    getAdapter: () => ({
+      name: "SDASH",
+      async draw(filter) {
+        drawn.push(filter.subjectSlug);
+        // What sdash.ts raises for a subject the provider does not carry.
+        if (filter.subjectSlug === "further-mathematics") {
+          throw new ProviderError(
+            'The provider does not carry "further-mathematics".',
+            "terminal",
+            null,
+            "filter",
+          );
+        }
+        return [validPayload(1)];
+      },
+      async listSubjects() { return []; },
+      async listYears() { return []; },
+    }),
+  };
+
+  const refused = await ensureQuestionsCached(unsupported, 40, d);
+  // The filter itself is still retired — that behaviour is correct.
+  assert.equal(refused.ledger.status, "FAILED");
+
+  // But the provider must be untouched: no row at all, since nothing
+  // provider-wide has gone wrong.
+  const circuit = await db.providerState.findUnique({ where: { provider: "SDASH" } });
+  assert.equal(
+    circuit,
+    null,
+    "one unsupported subject must not arm the provider-wide breaker",
+  );
+
+  // And the proof that matters to a student: every other subject still draws.
+  const other = await ensureQuestionsCached(FILTER, 40, d);
+  assert.deepEqual(drawn, ["further-mathematics", "physics"]);
+  assert.equal(other.ledger.status, "SATURATED");
+  assert.equal(db._questions.length, 1, "an unrelated subject must still promote");
+});
+
+test("a missing access token is provider-wide and does arm BLOCKED", async () => {
+  const db = makeFakeDb({ physics: "subj-1" });
+  const d: IngestDeps = {
+    db,
+    now: () => Date.UTC(2026, 8, 7, 12, 0, 0),
+    // What getSdashAdapter() throws when SDASH_ACCESS_TOKEN is unset: no
+    // filter can ever succeed, so pausing everything is the honest state.
+    getAdapter: () => {
+      throw new ProviderError("SDASH_ACCESS_TOKEN is not set", "terminal");
+    },
+  };
+
+  await ensureQuestionsCached(FILTER, 40, d);
+
+  assert.equal(db._fetchRow()?.status, "FAILED");
+  const circuit = await db.providerState.findUnique({ where: { provider: "SDASH" } });
+  assert.equal(circuit?.state, "BLOCKED");
+  assert.equal(circuit?.cooldownUntil, null);
+});
+
+test("clearProviderBlock reopens a BLOCKED provider and only a BLOCKED one", async () => {
+  const db = makeFakeDb({ physics: "subj-1" });
+  const now = Date.UTC(2026, 8, 7, 12, 0, 0);
+  let calls = 0;
+  const d: IngestDeps = {
+    db,
+    now: () => now,
+    getAdapter: () => ({
+      name: "SDASH",
+      async draw() { calls += 1; return [validPayload(1)]; },
+      async listSubjects() { return []; },
+      async listYears() { return []; },
+    }),
+  };
+
+  // Nothing to clear yet.
+  assert.equal(await clearProviderBlock(d), false, "no row is not a clear");
+
+  await db.providerState.upsert({
+    where: { provider: "SDASH" },
+    create: { provider: "SDASH", state: "BLOCKED", cooldownUntil: null },
+    update: { state: "BLOCKED", cooldownUntil: null },
+  });
+
+  // Nothing draws while it is set — the state that has no way out on its own.
+  await ensureQuestionsCached(FILTER, 40, d);
+  assert.equal(calls, 0, "a BLOCKED provider must not be drawn from");
+
+  assert.equal(await clearProviderBlock(d), true);
+  assert.equal(
+    (await db.providerState.findUnique({ where: { provider: "SDASH" } }))?.state,
+    "OK",
+  );
+
+  // Recovered: the very next draw goes through.
+  await ensureQuestionsCached(
+    { subjectSlug: "physics", examType: "JAMB", examYear: 2019 },
+    40,
+    d,
+  );
+  assert.equal(calls, 1, "clearing the block must put the provider back in play");
+
+  // An EXHAUSTED cooldown is doing its job and must not be swept away by this.
+  await db.providerState.upsert({
+    where: { provider: "SDASH" },
+    create: { provider: "SDASH", state: "EXHAUSTED", cooldownUntil: new Date(now + 60_000) },
+    update: { state: "EXHAUSTED", cooldownUntil: new Date(now + 60_000) },
+  });
+  assert.equal(await clearProviderBlock(d), false);
+  const still = await db.providerState.findUnique({ where: { provider: "SDASH" } });
+  assert.equal(still?.state, "EXHAUSTED");
+  assert.equal(still?.cooldownUntil?.getTime(), now + 60_000);
+});
+
+test("saturate claims the lease before the breaker's probe", async () => {
+  const db = makeFakeDb({ physics: "subj-1" });
+  const now = Date.UTC(2026, 8, 7, 12, 0, 0);
+  const lapsed = new Date(now - 1);
+
+  // An EXHAUSTED cooldown that has just lapsed: the breaker owes the provider
+  // exactly one probe, and asking for it re-arms the cooldown as a side effect.
+  await db.providerState.upsert({
+    where: { provider: "SDASH" },
+    create: { provider: "SDASH", state: "EXHAUSTED", cooldownUntil: lapsed },
+    update: { state: "EXHAUSTED", cooldownUntil: lapsed },
+  });
+  await db.providerFetch.create({
+    data: {
+      provider: "SDASH",
+      cacheKey: cacheKey(FILTER),
+      subjectId: "subj-1",
+      examType: FILTER.examType,
+      examYear: FILTER.examYear,
+    },
+  });
+
+  let calls = 0;
+  const losingDb: IngestDb = {
+    ...db,
+    providerFetch: {
+      ...db.providerFetch,
+      // Someone else renewed the lease between our read and our claim.
+      async updateMany() {
+        return { count: 0 };
+      },
+    },
+  };
+
+  await saturate(FILTER, {
+    db: losingDb,
+    now: () => now,
+    getAdapter: () => ({
+      name: "SDASH",
+      async draw() { calls += 1; return [validPayload(1)]; },
+      async listSubjects() { return []; },
+      async listYears() { return []; },
+    }),
+  });
+
+  assert.equal(calls, 0, "the lease was lost, so nothing should have been drawn");
+  const circuit = await db.providerState.findUnique({ where: { provider: "SDASH" } });
+  assert.equal(
+    circuit?.cooldownUntil?.getTime(),
+    lapsed.getTime(),
+    "losing the lease must not burn the probe: the cooldown must still be lapsed, " +
+      "leaving the next caller free to recover immediately",
+  );
 });

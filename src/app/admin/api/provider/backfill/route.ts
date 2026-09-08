@@ -9,6 +9,7 @@ import {
   saturate,
   readLedger,
   resetFailedFetch,
+  clearProviderBlock,
 } from "@/lib/question-provider/ingest";
 
 export const dynamic = "force-dynamic";
@@ -31,7 +32,11 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { reset, ...filter } = parsed.data;
+    const { reset, clearBlock, ...filter } = parsed.data;
+    // Before the reset and the draw: while the breaker is BLOCKED every draw
+    // below silently no-ops, so clearing it is what makes the rest of this
+    // request mean anything.
+    const blockCleared = clearBlock ? await clearProviderBlock() : false;
     const wasReset = reset ? await resetFailedFetch(filter) : false;
 
     await ensureQuestionsCached(filter, 50);
@@ -51,10 +56,13 @@ export async function POST(req: NextRequest) {
         `${wasReset ? "Reset and backfilled" : "Backfilled"} ` +
         `${filter.subjectSlug} ${filter.examType} ${filter.examYear}: ` +
         `${ledger?.rawCount ?? 0} captured, ${ledger?.promotedCount ?? 0} promoted ` +
-        `(${ledger?.status ?? "UNKNOWN"}).`,
+        `(${ledger?.status ?? "UNKNOWN"})` +
+        // Recorded separately from the paper's own outcome: unblocking the
+        // provider affects every subject, not just this one.
+        `${blockCleared ? ", provider breaker cleared" : ""}.`,
     });
 
-    return NextResponse.json({ ledger, wasReset });
+    return NextResponse.json({ ledger, wasReset, blockCleared });
   } catch (error) {
     console.error("Provider backfill failed:", error);
     return NextResponse.json({ error: "Backfill failed" }, { status: 500 });
