@@ -1025,6 +1025,8 @@ model ProviderState {
 
   /// As last reported by the provider's own response envelope.
   creditsRemaining Int?
+}
+
 // ─── Billing ──────────────────────────────────────────────
 //
 // The source of truth that writes User.tier. See
