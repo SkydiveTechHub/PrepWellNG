@@ -30,6 +30,22 @@ export const loadPublicSubjects = cache(async (): Promise<PublicSubject[]> => {
   return subjects;
 });
 
+/**
+ * Subjects worth publishing a hub page for: those with at least one eligible
+ * topic. Derived from loadEligibleTopicParams() rather than a second,
+ * independently-drifting eligibility rule — of the 44 subjects in the
+ * database, most have zero eligible topics and would otherwise publish as
+ * hub pages that link nowhere.
+ */
+export const loadPublishableSubjects = cache(async (): Promise<PublicSubject[]> => {
+  const [subjects, eligibleTopics] = await Promise.all([
+    loadPublicSubjects(),
+    loadEligibleTopicParams(),
+  ]);
+  const publishableSlugs = new Set(eligibleTopics.map((t) => t.subjectSlug));
+  return subjects.filter((subject) => publishableSlugs.has(subject.slug));
+});
+
 export type PublicSubjectDetail = PublicSubject & {
   topics: { slug: string; title: string; description: string | null }[];
 };
