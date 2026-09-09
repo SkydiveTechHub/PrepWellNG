@@ -1,4 +1,3 @@
-import { Nav } from "@/components/landing/nav";
 import { Hero } from "@/components/landing/hero";
 import { TrustedBy } from "@/components/landing/trusted-by";
 import { WhyUs } from "@/components/landing/why-us";
@@ -11,35 +10,32 @@ import { StatsBand } from "@/components/landing/stats";
 import { Pricing } from "@/components/landing/pricing";
 import { Faq } from "@/components/landing/faq";
 import { FinalCta } from "@/components/landing/final-cta";
-import { Footer } from "@/components/landing/footer";
+import { buildMetadata } from "@/lib/seo/metadata";
 
-export const metadata = {
+export const metadata = buildMetadata({
   title: "PrepWell NG — Learn Smarter. Score Higher. Build Your Future.",
   description:
     "Nigeria's learning platform for WAEC, JAMB and NECO. Interactive lessons, an AI tutor, smart flashcards, quizzes, CBT practice and a study plan that adapts to you.",
-};
+  path: "/",
+});
 
 export default function LandingPage() {
   return (
-    <div className="landing min-h-screen">
-      <Nav />
-      <main>
-        <Hero />
-        <TrustedBy />
-        <WhyUs />
-        <Showcase />
-        <Journey />
-        <Subjects />
-        <DeepDive />
-        {/* <Users /> */}
-        <Testimonials />
-        <StatsBand />
-        <Pricing />
-        {/* <MobileApp /> */}
-        <Faq />
-        <FinalCta />
-      </main>
-      <Footer />
-    </div>
+    <>
+      <Hero />
+      <TrustedBy />
+      <WhyUs />
+      <Showcase />
+      <Journey />
+      <Subjects />
+      <DeepDive />
+      {/* <Users /> */}
+      <Testimonials />
+      <StatsBand />
+      <Pricing />
+      {/* <MobileApp /> */}
+      <Faq />
+      <FinalCta />
+    </>
   );
 }

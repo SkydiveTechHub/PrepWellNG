@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { LuApple, LuArrowRight, LuDownload, LuPlay, LuSparkles } from "react-icons/lu";
 import { SectionHeader } from "./section";
 import { Reveal } from "./reveal";
@@ -162,8 +163,8 @@ function AnalyticsPhone() {
 
 function StoreBadge({ kind }: { kind: "apple" | "google" }) {
   return (
-    <a
-      href="#top"
+    <Link
+      href="/"
       className="flex items-center gap-2.5 rounded-xl border hairline bg-[#0f172a] px-4 py-2.5 transition-transform duration-200 hover:scale-[1.03]"
     >
       {kind === "apple" ? (
@@ -179,7 +180,7 @@ function StoreBadge({ kind }: { kind: "apple" | "google" }) {
           {kind === "apple" ? "App Store" : "Google Play"}
         </span>
       </span>
-    </a>
+    </Link>
   );
 }
 

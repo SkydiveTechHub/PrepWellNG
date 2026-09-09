@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   LuArrowRight,
   LuBuilding2,
@@ -181,13 +182,13 @@ export function Users() {
                 Talk to us about a pilot programme and a School Plan that fits
                 your budget.
               </p>
-              <a
-                href="#pricing"
+              <Link
+                href="/#pricing"
                 className="mt-4 inline-flex items-center gap-1.5 text-sm font-extrabold text-primary hover:text-primary-hover"
               >
                 Book a school demo
                 <LuArrowRight className="h-4 w-4" />
-              </a>
+              </Link>
             </div>
           </Reveal>
         </div>
