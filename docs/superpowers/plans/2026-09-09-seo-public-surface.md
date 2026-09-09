@@ -390,7 +390,9 @@ git commit -m "feat(seo): set metadata defaults and noindex every gated route"
 
 **Interfaces:**
 - Consumes: `absoluteUrl` from `@/lib/seo/site`.
-- Produces: `GATED_PATH_PREFIXES: readonly string[]`, `isGatedPath(path: string): boolean`.
+- Produces: `GATED_PATH_PREFIXES: readonly string[]`, `isGatedPath(path: string): boolean`, `SITEMAP_SHARDS: readonly ["static", "learn", "past-questions"]`, `type SitemapShard`.
+
+**Ruling carried in (R2):** `SITEMAP_SHARDS` lives here, not in `sitemap-shape.ts`, so `robots.ts` can name the shard URLs without depending on Task 19.
 
 - [ ] **Step 1: Write the failing test**
 
@@ -399,7 +401,7 @@ Create `scripts/test-seo-paths.mts`:
 ```ts
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { GATED_PATH_PREFIXES, isGatedPath } from "../src/lib/seo/paths";
+import { GATED_PATH_PREFIXES, SITEMAP_SHARDS, isGatedPath } from "../src/lib/seo/paths";
 
 test("every gated segment and its descendants are gated", () => {
   for (const prefix of GATED_PATH_PREFIXES) {
@@ -428,6 +430,12 @@ test("a public path is not gated by a prefix it merely resembles", () => {
   assert.equal(isGatedPath("/practice-tips"), false);
   assert.equal(isGatedPath("/librarian"), false);
   assert.equal(isGatedPath("/settings-guide"), false);
+});
+
+test("the sitemap shard names are fixed", () => {
+  // robots.ts names one sitemap URL per shard, so the list has to live beside
+  // the gated paths rather than in the sitemap module Task 19 adds later.
+  assert.deepEqual(SITEMAP_SHARDS, ["static", "learn", "past-questions"]);
 });
 
 test("the list covers the routes that actually exist behind auth", () => {
@@ -476,6 +484,14 @@ export const GATED_PATH_PREFIXES: readonly string[] = [
   "/register",
 ];
 
+/**
+ * Sitemap shards. Defined here rather than in sitemap-shape.ts because
+ * robots.ts must name one sitemap URL per shard, and robots.ts is built before
+ * the sitemap module exists.
+ */
+export const SITEMAP_SHARDS = ["static", "learn", "past-questions"] as const;
+export type SitemapShard = (typeof SITEMAP_SHARDS)[number];
+
 /** Segment-aware: "/librarian" is not inside "/library". */
 export function isGatedPath(path: string): boolean {
   const normalised = path.replace(/\/+$/, "") || "/";
@@ -489,7 +505,7 @@ Create `src/app/robots.ts`:
 
 ```ts
 import type { MetadataRoute } from "next";
-import { GATED_PATH_PREFIXES } from "@/lib/seo/paths";
+import { GATED_PATH_PREFIXES, SITEMAP_SHARDS } from "@/lib/seo/paths";
 import { absoluteUrl } from "@/lib/seo/site";
 
 export default function robots(): MetadataRoute.Robots {
@@ -497,12 +513,16 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      // Trailing slash so each entry covers the subtree. Disallow only stops
-      // crawling — the noindex directives on the gated layouts are what keep
-      // these out of the index.
-      disallow: GATED_PATH_PREFIXES.map((prefix) => `${prefix}/`),
+      // Bare prefixes, no trailing slash: robots.txt matching is prefix-based,
+      // so "/login/" would leave "/login" itself crawlable while "/login"
+      // covers both it and its subtree. Disallow only stops crawling — the
+      // noindex directives on the gated layouts are what keep these out of
+      // the index.
+      disallow: [...GATED_PATH_PREFIXES],
     },
-    sitemap: absoluteUrl("/sitemap.xml"),
+    // generateSitemaps emits /sitemap/<id>.xml per shard and no index file, so
+    // every shard is named here. The field accepts string[].
+    sitemap: SITEMAP_SHARDS.map((shard) => absoluteUrl(`/sitemap/${shard}.xml`)),
   };
 }
 ```
@@ -510,12 +530,12 @@ export default function robots(): MetadataRoute.Robots {
 - [ ] **Step 4: Run the test to verify it passes**
 
 Run: `npx tsx --test scripts/test-seo-paths.mts`
-Expected: PASS, 4 tests.
+Expected: PASS, 5 tests.
 
 - [ ] **Step 5: Verify the generated file**
 
 With the dev server running: `curl -s http://localhost:3000/robots.txt`
-Expected: `User-Agent: *`, `Allow: /`, 13 `Disallow:` lines, and a `Sitemap:` line.
+Expected: `User-Agent: *`, `Allow: /`, 13 `Disallow:` lines with **no** trailing slashes, and three `Sitemap:` lines (`/sitemap/static.xml`, `/sitemap/learn.xml`, `/sitemap/past-questions.xml`).
 
 - [ ] **Step 6: Register, typecheck and commit**
 
@@ -3286,10 +3306,8 @@ git commit -m "feat(seo): emit Organization, FAQPage, Course, Quiz and breadcrum
 - Modify: `package.json`
 
 **Interfaces:**
-- Consumes: `isGatedPath` from `./paths`; `absoluteUrl`; `loadEligibleTopicParams`; `loadEligiblePaperParams`; `loadPublicSubjects`.
+- Consumes: `isGatedPath`, `SITEMAP_SHARDS`, `SitemapShard` from `./paths` (Task 3 defines them — do NOT redefine here); `absoluteUrl`; `loadEligibleTopicParams`; `loadEligiblePaperParams`; `loadPublicSubjects`.
 - Produces:
-  - `SITEMAP_SHARDS: readonly ["static", "learn", "past-questions"]`
-  - `type SitemapShard`
   - `type SitemapRecord = { path: string; lastModified?: Date | null; changeFrequency?: "daily" | "weekly" | "monthly" | "yearly"; priority?: number }`
   - `buildSitemap(records: readonly SitemapRecord[]): MetadataRoute.Sitemap`
   - `shardFor(path: string): SitemapShard`
@@ -3380,11 +3398,8 @@ Create `src/lib/seo/sitemap-shape.ts`:
 
 ```ts
 import type { MetadataRoute } from "next";
-import { isGatedPath } from "./paths";
+import { type SitemapShard, isGatedPath } from "./paths";
 import { absoluteUrl } from "./site";
-
-export const SITEMAP_SHARDS = ["static", "learn", "past-questions"] as const;
-export type SitemapShard = (typeof SITEMAP_SHARDS)[number];
 
 export type SitemapRecord = {
   path: string;
@@ -3449,14 +3464,11 @@ Create `src/app/sitemap.ts`:
 
 ```ts
 import type { MetadataRoute } from "next";
+import { notFound } from "next/navigation";
 import { loadEligibleTopicParams, loadPublicSubjects } from "@/lib/seo/learn-data";
 import { loadEligiblePaperParams } from "@/lib/seo/paper-data";
-import {
-  SITEMAP_SHARDS,
-  buildSitemap,
-  type SitemapRecord,
-  type SitemapShard,
-} from "@/lib/seo/sitemap-shape";
+import { SITEMAP_SHARDS, type SitemapShard } from "@/lib/seo/paths";
+import { buildSitemap, type SitemapRecord } from "@/lib/seo/sitemap-shape";
 
 export const revalidate = 86400;
 
@@ -3515,11 +3527,24 @@ async function recordsFor(shard: SitemapShard): Promise<SitemapRecord[]> {
   ];
 }
 
-export default async function sitemap({
-  id,
-}: {
-  id: SitemapShard;
+function isShard(value: string): value is SitemapShard {
+  return (SITEMAP_SHARDS as readonly string[]).includes(value);
+}
+
+/**
+ * As of Next.js 16 the id from generateSitemaps arrives as a promise resolving
+ * to a string — see
+ * node_modules/next/dist/docs/01-app/03-api-reference/04-functions/generate-sitemaps.md
+ * ("v16.0.0: The id values returned from generateSitemaps are now passed as a
+ * promise that resolves to a string"). Destructuring it as a plain value, or
+ * casting it to the shard union without checking, is wrong.
+ */
+export default async function sitemap(props: {
+  id: Promise<string>;
 }): Promise<MetadataRoute.Sitemap> {
+  const id = await props.id;
+  if (!isShard(id)) notFound();
+
   return buildSitemap(await recordsFor(id));
 }
 ```
