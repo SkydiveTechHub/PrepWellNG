@@ -138,7 +138,8 @@ debugging rankings.
 - `src/lib/seo/site.ts` — `siteUrl` derived from `NEXT_PUBLIC_APP_URL`
   (already consumed by `src/lib/billing/paystack.ts`) with the production
   fallback `https://prepwell.ng`, trailing slash stripped. Also `siteName`
-  and default description. `NEXT_PUBLIC_APP_URL` is added to `.env.example`.
+  and default description. `NEXT_PUBLIC_APP_URL` is already documented in
+  `.env.example`, so no new environment variable is introduced.
 - `src/lib/seo/metadata.ts` — `buildMetadata({ title, description, path,
   image?, noindex? })` returning a Next `Metadata` object with canonical,
   Open Graph, and Twitter fields derived from one input, so the three can
