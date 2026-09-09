@@ -20,7 +20,14 @@
 - Canonical host: `process.env.NEXT_PUBLIC_APP_URL`, falling back to `https://prepwell.ng`.
 - Prisma client is imported as `import { db } from "@/lib/db"`.
 - Tests are `scripts/test-*.mts` using `node:test` + `node:assert/strict`, and each new file is appended to the `test` script in `package.json`.
-- Run `npx tsc -p tsconfig.json --noEmit` before each commit. If it errors on the Prisma query engine DLL, stop the dev server first — a stale client surfaces as bogus type errors.
+- **Two typecheck commands, both required before each commit.** The root `tsconfig.json` has `"exclude": ["node_modules", "scripts"]`, so the app typecheck never sees the new test files:
+  ```bash
+  rm -f .next/dev/types/validator.ts   # see below
+  npx tsc -p tsconfig.json --noEmit    # app + src
+  npm run typecheck:tests              # the .mts test files
+  ```
+- `npm run typecheck:tests` has **5 pre-existing errors** in three unrelated files (`test-analytics-insight.mts`, `test-provider-ingest.mts`, `test-provider-ingest-batching.mts`). The gate is "no errors in `scripts/test-seo-*.mts`", not a clean exit. Do not fix that inherited debt — it is out of scope.
+- The root tsconfig includes `.next/dev/types/**/*.ts`. A live dev server regenerates that validator and can leave it torn mid-write, producing a syntax error in a file nobody wrote. `rm -f .next/dev/types/validator.ts` before typechecking; the dev server regenerates it. If the Prisma query engine DLL throws EPERM instead, a dev server is holding it — report that rather than working around it.
 
 ---
 
