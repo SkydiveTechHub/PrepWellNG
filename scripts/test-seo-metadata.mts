@@ -21,6 +21,25 @@ test("path, trailing slash and query are stripped from the host", () => {
   assert.equal(normaliseSiteUrl("https://prepwell.ng/app?x=1"), "https://prepwell.ng");
 });
 
+test("non-http(s) schemes fall back to production instead of becoming the canonical host", () => {
+  // These are parseable by URL, just not valid as a site origin: a canonical
+  // built on javascript:/file:/data: is worse than one that fell back.
+  assert.equal(normaliseSiteUrl("javascript:alert(1)"), "https://prepwell.ng");
+  assert.equal(normaliseSiteUrl("file:///etc/passwd"), "https://prepwell.ng");
+  assert.equal(normaliseSiteUrl("data:text/html,hi"), "https://prepwell.ng");
+});
+
+test("protocol-relative input has no base to resolve against, so it falls back", () => {
+  assert.equal(normaliseSiteUrl("//evil.com"), "https://prepwell.ng");
+});
+
+test("credentials are stripped and the port is retained", () => {
+  assert.equal(
+    normaliseSiteUrl("https://user:pass@example.com:8080"),
+    "https://example.com:8080",
+  );
+});
+
 test("absoluteUrl normalises the join from either side", () => {
   assert.equal(absoluteUrl("learn"), `${siteUrl}/learn`);
   assert.equal(absoluteUrl("/learn"), `${siteUrl}/learn`);

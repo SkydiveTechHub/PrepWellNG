@@ -3,16 +3,20 @@
  *
  * Read from NEXT_PUBLIC_APP_URL (already used by the Paystack lib) so preview
  * deployments canonicalise to themselves instead of to production. Anything
- * unparseable falls back rather than throwing: a build that dies because an env
- * var was fat-fingered is worse than one that ships a slightly wrong canonical.
+ * unparseable, or parseable but not http(s), falls back rather than throwing
+ * or propagating: a build that dies — or ships a `javascript:`/`file:`/`data:`
+ * canonical — because an env var was fat-fingered is worse than one that ships
+ * a slightly wrong but valid canonical.
  */
 const FALLBACK_SITE_URL = "https://prepwell.ng";
+const ALLOWED_PROTOCOLS = new Set(["http:", "https:"]);
 
 export function normaliseSiteUrl(raw: string | null | undefined): string {
   const candidate = raw?.trim();
   if (!candidate) return FALLBACK_SITE_URL;
   try {
     const parsed = new URL(candidate);
+    if (!ALLOWED_PROTOCOLS.has(parsed.protocol)) return FALLBACK_SITE_URL;
     return `${parsed.protocol}//${parsed.host}`;
   } catch {
     return FALLBACK_SITE_URL;
