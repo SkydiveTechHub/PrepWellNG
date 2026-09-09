@@ -3,6 +3,11 @@ import { requireAdminPage } from "@/lib/admin-session";
 import { AdminNav } from "@/components/admin/admin-nav";
 import { AdminSignOut } from "@/components/admin/admin-sign-out";
 import { AdminSessionProvider } from "@/components/admin/admin-session-provider";
+import { NOINDEX } from "@/lib/seo/metadata";
+
+// Nothing under here is useful in a search result, and an indexed login wall
+// is a ranking liability. Async layouts can still export static metadata.
+export const metadata = NOINDEX;
 
 export default async function ConsoleLayout({
   children,
