@@ -204,3 +204,15 @@ export const loadEligibleTopicParams = cache(async () => {
       lastModified: topic.questions[0]?.createdAt ?? null,
     }));
 });
+
+/** Slugs whose topic pages actually exist, so hubs never link into a 404. */
+export const loadEligibleTopicSlugs = cache(
+  async (subjectSlug: string): Promise<Set<string>> => {
+    const params = await loadEligibleTopicParams();
+    return new Set(
+      params
+        .filter((param) => param.subjectSlug === subjectSlug)
+        .map((param) => param.topicSlug),
+    );
+  },
+);

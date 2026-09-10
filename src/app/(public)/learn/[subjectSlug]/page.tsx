@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { buildMetadata } from "@/lib/seo/metadata";
 import {
   loadEligibleTopicParams,
+  loadEligibleTopicSlugs,
   loadPublicSubject,
   loadPublishableSubjects,
 } from "@/lib/seo/learn-data";
@@ -42,6 +43,9 @@ export default async function SubjectPage({ params }: Props) {
   );
   if (!hasEligibleTopic) notFound();
 
+  const eligible = await loadEligibleTopicSlugs(subjectSlug);
+  const topics = subject.topics.filter((topic) => eligible.has(topic.slug));
+
   return (
     <div className="landing-container py-16">
       <nav className="text-sm ink-muted">
@@ -55,24 +59,32 @@ export default async function SubjectPage({ params }: Props) {
       <h1 className="mt-4 text-3xl font-bold ink sm:text-4xl">{subject.name}</h1>
       <p className="mt-3 max-w-2xl ink-muted">{subject.description}</p>
 
-      <h2 className="mt-12 text-xl font-semibold ink">Topics</h2>
-      <ul className="mt-4 grid gap-3 sm:grid-cols-2">
-        {subject.topics.map((topic) => (
-          <li key={topic.slug}>
-            <Link
-              href={`/learn/${subject.slug}/${topic.slug}`}
-              className="surface block rounded-xl border border-black/5 p-4 transition hover:border-black/15"
-            >
-              <span className="font-medium ink">{topic.title}</span>
-              {topic.description ? (
-                <span className="mt-1 block line-clamp-2 text-sm ink-muted">
-                  {topic.description}
-                </span>
-              ) : null}
-            </Link>
-          </li>
-        ))}
-      </ul>
+      {topics.length > 0 ? (
+        <>
+          <h2 className="mt-12 text-xl font-semibold ink">Topics</h2>
+          <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+            {topics.map((topic) => (
+              <li key={topic.slug}>
+                <Link
+                  href={`/learn/${subject.slug}/${topic.slug}`}
+                  className="surface block rounded-xl border border-black/5 p-4 transition hover:border-black/15"
+                >
+                  <span className="font-medium ink">{topic.title}</span>
+                  {topic.description ? (
+                    <span className="mt-1 block line-clamp-2 text-sm ink-muted">
+                      {topic.description}
+                    </span>
+                  ) : null}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : (
+        <Link href="/past-questions" className="mt-8 inline-block font-medium ink hover:underline">
+          Browse {subject.name} past questions →
+        </Link>
+      )}
     </div>
   );
 }
