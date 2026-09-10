@@ -5,6 +5,8 @@ import { paperPageDescription, paperPageTitle } from "@/lib/seo/copy";
 import { parseExamSegment, parseYearSegment } from "@/lib/seo/exam-segment";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { loadEligiblePaperParams, loadPaper } from "@/lib/seo/paper-data";
+import { JsonLd } from "@/components/seo/json-ld";
+import { breadcrumbJsonLd, quizJsonLd } from "@/lib/seo/jsonld";
 
 export const revalidate = 86400;
 export const dynamicParams = true;
@@ -66,6 +68,30 @@ export default async function PaperPage(props: Props) {
 
   return (
     <div className="landing-container py-16">
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Past Questions", path: "/past-questions" },
+          { name: parsed.label, path: `/past-questions/${parsed.segment}` },
+          {
+            name: paper.subject.name,
+            path: `/past-questions/${parsed.segment}/${paper.subject.slug}`,
+          },
+          {
+            name: String(paper.year),
+            path: `/past-questions/${parsed.segment}/${paper.subject.slug}/${paper.year}`,
+          },
+        ])}
+      />
+      <JsonLd
+        data={quizJsonLd({
+          name: `${parsed.label} ${paper.year} ${paper.subject.name}`,
+          path: `/past-questions/${parsed.segment}/${paper.subject.slug}/${paper.year}`,
+          about: paper.subject.name,
+          // Only the samples: marking up the gated questions would claim
+          // content the page does not show.
+          questions: paper.samples,
+        })}
+      />
       <nav className="text-sm ink-muted">
         <Link href="/past-questions" className="hover:underline">Past Questions</Link>
         <span className="mx-2">/</span>

@@ -4,6 +4,8 @@ import { SampleQuestion } from "@/components/seo/sample-question";
 import { topicPageDescription, topicPageTitle } from "@/lib/seo/copy";
 import { loadEligibleTopicParams, loadPublicTopic } from "@/lib/seo/learn-data";
 import { buildMetadata } from "@/lib/seo/metadata";
+import { JsonLd } from "@/components/seo/json-ld";
+import { breadcrumbJsonLd, courseJsonLd } from "@/lib/seo/jsonld";
 
 export const revalidate = 86400;
 export const dynamicParams = true;
@@ -45,6 +47,25 @@ export default async function TopicPage({ params }: Props) {
 
   return (
     <div className="landing-container py-16">
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Subjects", path: "/learn" },
+          { name: topic.subject.name, path: `/learn/${topic.subject.slug}` },
+          { name: topic.title, path: `/learn/${topic.subject.slug}/${topic.slug}` },
+        ])}
+      />
+      <JsonLd
+        data={courseJsonLd({
+          name: `${topic.title} — ${topic.subject.name}`,
+          description: topicPageDescription({
+            topicTitle: topic.title,
+            subjectName: topic.subject.name,
+            description: topic.description,
+            subtopicTitles: topic.subtopics.map((s) => s.title),
+          }),
+          path: `/learn/${topic.subject.slug}/${topic.slug}`,
+        })}
+      />
       <nav className="text-sm ink-muted">
         <Link href="/learn" className="hover:underline">Subjects</Link>
         <span className="mx-2">/</span>

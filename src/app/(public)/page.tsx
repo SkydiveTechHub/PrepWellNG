@@ -11,6 +11,9 @@ import { Pricing } from "@/components/landing/pricing";
 import { Faq } from "@/components/landing/faq";
 import { FinalCta } from "@/components/landing/final-cta";
 import { buildMetadata } from "@/lib/seo/metadata";
+import { JsonLd } from "@/components/seo/json-ld";
+import { FAQS } from "@/components/landing/faq-data";
+import { faqPageJsonLd, organisationJsonLd, websiteJsonLd } from "@/lib/seo/jsonld";
 
 export const metadata = buildMetadata({
   title: "PrepWell NG — Learn Smarter. Score Higher. Build Your Future.",
@@ -22,6 +25,9 @@ export const metadata = buildMetadata({
 export default function LandingPage() {
   return (
     <>
+      <JsonLd data={organisationJsonLd()} />
+      <JsonLd data={websiteJsonLd()} />
+      <JsonLd data={faqPageJsonLd(FAQS)} />
       <Hero />
       <TrustedBy />
       <WhyUs />
