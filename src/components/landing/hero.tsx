@@ -265,7 +265,7 @@ export function Hero() {
                 <LuArrowRight className="h-4 w-4" />
               </Link>
               {/* <a
-                href="#product"
+                href="/#product"
                 className={buttonClass("outline", "lg", "px-7")}
               >
                 <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-white">

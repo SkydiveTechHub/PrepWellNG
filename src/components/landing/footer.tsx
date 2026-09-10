@@ -11,47 +11,49 @@ const COLUMNS: { heading: string; links: { label: string; href: string }[] }[] =
   {
     heading: "Product",
     links: [
-      { label: "Features", href: "#features" },
-      { label: "Product tour", href: "#product" },
-      { label: "Subjects", href: "#subjects" },
-      { label: "Pricing", href: "#pricing" },
+      { label: "Features", href: "/#features" },
+      { label: "Product tour", href: "/#product" },
+      { label: "Subjects", href: "/#subjects" },
+      { label: "Pricing", href: "/#pricing" },
+      { label: "Browse subjects", href: "/learn" },
+      { label: "Past questions", href: "/past-questions" },
     ],
   },
   {
     heading: "Subjects",
     links: [
-      { label: "Mathematics", href: "#subjects" },
-      { label: "English Language", href: "#subjects" },
-      { label: "Physics", href: "#subjects" },
-      { label: "Chemistry", href: "#subjects" },
-      { label: "Biology", href: "#subjects" },
+      { label: "Mathematics", href: "/#subjects" },
+      { label: "English Language", href: "/#subjects" },
+      { label: "Physics", href: "/#subjects" },
+      { label: "Chemistry", href: "/#subjects" },
+      { label: "Biology", href: "/#subjects" },
     ],
   },
   {
     heading: "Resources",
     links: [
-      { label: "Blog", href: "#top" },
-      { label: "Help Center", href: "#faq" },
-      { label: "About us", href: "#top" },
+      { label: "Blog", href: "/" },
+      { label: "Help Center", href: "/#faq" },
+      { label: "About us", href: "/" },
       { label: "Contact", href: "mailto:hello@prepwell.ng" },
     ],
   },
   {
     heading: "Legal",
     links: [
-      { label: "Privacy Policy", href: "#top" },
-      { label: "Terms of Service", href: "#top" },
-      { label: "Cookie Policy", href: "#top" },
+      { label: "Privacy Policy", href: "/" },
+      { label: "Terms of Service", href: "/" },
+      { label: "Cookie Policy", href: "/" },
     ],
   },
 ];
 
 const SOCIALS = [
-  { label: "Twitter", icon: LuTwitter, href: "#top" },
-  { label: "Instagram", icon: LuInstagram, href: "#top" },
-  { label: "Facebook", icon: LuFacebook, href: "#top" },
-  { label: "LinkedIn", icon: LuLinkedin, href: "#top" },
-  { label: "YouTube", icon: LuYoutube, href: "#top" },
+  { label: "Twitter", icon: LuTwitter, href: "/" },
+  { label: "Instagram", icon: LuInstagram, href: "/" },
+  { label: "Facebook", icon: LuFacebook, href: "/" },
+  { label: "LinkedIn", icon: LuLinkedin, href: "/" },
+  { label: "YouTube", icon: LuYoutube, href: "/" },
 ];
 
 export function Footer() {

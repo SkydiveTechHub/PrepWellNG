@@ -157,10 +157,14 @@ export async function getTopicPageData(
 
   // Loading all 43 subject resources to discard them would be waste — only
   // fetch the fallback when the topic actually has no resources of its own.
+  // This bypasses getSubjectResources (src/lib/library.ts), which is the
+  // function that strips premium URLs for non-subscribers, so `isFree: true`
+  // is required here too — otherwise a free student gets working links to
+  // every premium material under the subject via this fallback.
   const subjectResourceRows =
     lessonResources.length === 0
       ? await db.subjectResource.findMany({
-          where: { subjectId: subject.id },
+          where: { subjectId: subject.id, isFree: true },
           orderBy: { orderIndex: "asc" },
         })
       : [];

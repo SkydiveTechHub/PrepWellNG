@@ -5,6 +5,11 @@ import { MobileNav } from "@/components/ui/mobile-nav";
 import { MobileHeader } from "@/components/ui/mobile-header";
 import type { ProfileUser } from "@/components/ui/user-menu";
 import { daysUntilExam, examTargetFor } from "@/lib/exam-target";
+import { NOINDEX } from "@/lib/seo/metadata";
+
+// Nothing under here is useful in a search result, and an indexed login wall
+// is a ranking liability. Async layouts can still export static metadata.
+export const metadata = NOINDEX;
 
 export default async function DashboardLayout({
   children,

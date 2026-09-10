@@ -5,10 +5,9 @@ import Link from "next/link";
 import {
   LuBook,
   LuFileText,
+  LuImage,
   LuVideo,
   LuLink,
-  LuClipboardList,
-  LuScrollText,
   LuFile,
   LuArrowLeft,
   LuExternalLink,
@@ -17,6 +16,7 @@ import {
   LuInbox,
 } from "react-icons/lu";
 import { TRACK_LABELS, TRACK_COLORS, type TrackCategory } from "@/lib/subjects";
+import { MATERIAL_LABELS, type MaterialType } from "@/lib/materials";
 import dynamic from "next/dynamic";
 import { Badge } from "@/components/ui/badge";
 import { PageHeader } from "@/components/ui/page-header";
@@ -35,7 +35,7 @@ type SubjectResource = {
   subjectId: string;
   title: string;
   description: string | null;
-  resourceType: string;
+  resourceType: MaterialType;
   url: string;
   author: string | null;
   isFree: boolean;
@@ -54,17 +54,18 @@ type Subject = {
   _count: { resources: number };
 };
 
+// Keyed by the MaterialType members. Lesson resources use their own lowercase
+// strings, so the lookup lowercases before matching and both kinds land on the
+// same icon language.
 const RESOURCE_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
-  textbook: LuBook,
-  video: LuVideo,
   pdf: LuFileText,
+  image: LuImage,
+  video: LuVideo,
   link: LuLink,
-  worksheet: LuClipboardList,
-  past_paper: LuScrollText,
 };
 
 function ResourceIcon({ type }: { type: string }) {
-  const Icon = RESOURCE_ICONS[type] ?? LuFile;
+  const Icon = RESOURCE_ICONS[type.toLowerCase()] ?? LuFile;
   return <Icon className="h-5 w-5" />;
 }
 
@@ -72,7 +73,9 @@ function isReadable(resource: SubjectResource) {
   // A locked resource arrives with its url stripped, so there is nothing to
   // open and nothing to read.
   if (resource.locked) return false;
-  return resource.url.endsWith(".pdf") || resource.url.startsWith("/resources/");
+  // Keyed off the type, not a `.pdf` suffix: a Cloudinary raw URL does not
+  // necessarily end in `.pdf`, and the old suffix check refused to open one.
+  return resource.resourceType === "PDF";
 }
 
 function ResourceCard({
@@ -100,8 +103,8 @@ function ResourceCard({
           <p className="mt-1 line-clamp-2 text-xs text-muted">{resource.description}</p>
         )}
         <div className="mt-2 flex flex-wrap items-center gap-3">
-          <Badge variant="neutral" className="capitalize">
-            {resource.resourceType.replace("_", " ")}
+          <Badge variant="neutral">
+            {MATERIAL_LABELS[resource.resourceType] ?? resource.resourceType}
           </Badge>
           {resource.author && <span className="text-[11px] text-muted">by {resource.author}</span>}
           {readable ? (

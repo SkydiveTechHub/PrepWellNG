@@ -1,6 +1,11 @@
 import { redirect } from "next/navigation";
 import { LuGraduationCap, LuCheck, LuSparkles, LuClipboardCheck, LuCalendarClock } from "react-icons/lu";
 import { auth } from "@/lib/auth";
+import { NOINDEX } from "@/lib/seo/metadata";
+
+// Nothing under here is useful in a search result, and an indexed login wall
+// is a ranking liability. Async layouts can still export static metadata.
+export const metadata = NOINDEX;
 
 const BENEFITS = [
   {
