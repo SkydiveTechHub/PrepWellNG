@@ -49,3 +49,15 @@ test("the list covers the routes that actually exist behind auth", () => {
     );
   }
 });
+
+test("the gated list is exactly these 13 entries, no more, no fewer", () => {
+  // The membership check above catches a removed entry but not a stray added
+  // one — an entry added here without also being added to the "actually
+  // exist behind auth" list above would slip through unnoticed even though
+  // this list gates a security-relevant surface. Pin the exact set.
+  assert.deepEqual(GATED_PATH_PREFIXES, [
+    "/api", "/admin", "/dashboard", "/classroom", "/practice", "/flashcards",
+    "/performance", "/study-plan", "/achievements", "/library", "/settings",
+    "/login", "/register",
+  ]);
+});
