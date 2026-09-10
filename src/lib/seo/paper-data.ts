@@ -41,20 +41,20 @@ export const loadPaperYears = cache(
     });
     if (!subject) return null;
 
-    const rows = await db.question.groupBy({
-      by: ["examYear"],
-      where: publicQuestionWhere({ examType, subjectId: subject.id, ...withYear }),
-      _count: { _all: true },
-      orderBy: { examYear: "desc" },
-    });
+    // Derived from loadEligiblePaperParams(), not a fresh groupBy — a groupBy
+    // count cannot apply keepRenderable's options-parseability filter, so a
+    // year with >=10 public questions but <10 *renderable* ones would list
+    // here (and 404 when followed) even though loadPaper itself would refuse
+    // to render it. One shared eligible-year source for both.
+    const examSegment = examSegmentFor(examType);
+    const eligibleParams = await loadEligiblePaperParams();
 
     return {
       subject,
-      // Only years that clear the gate — listing a year whose page 404s is a
-      // crawl trap and wastes the crawl budget on this section.
-      years: rows
-        .filter((row) => isPaperPageEligible({ publicQuestionCount: row._count._all }))
-        .map((row) => ({ year: row.examYear as number, questionCount: row._count._all })),
+      years: eligibleParams
+        .filter((p) => p.examSegment === examSegment && p.subjectSlug === subjectSlug)
+        .map((p) => ({ year: p.year, questionCount: p.questionCount }))
+        .sort((a, b) => b.year - a.year),
     };
   },
 );
@@ -120,14 +120,15 @@ export const loadPaper = cache(
       }
     }
 
-    const otherYears = await db.question.groupBy({
-      by: ["examYear"],
-      where: publicQuestionWhere({ examType, subjectId: subject.id, ...withYear }),
-      _count: { _all: true },
-    });
-    const eligibleYears = otherYears
-      .filter((row) => isPaperPageEligible({ publicQuestionCount: row._count._all }))
-      .map((row) => row.examYear as number)
+    // Same shared source as loadPaperYears, and for the same reason: a
+    // groupBy count here previously admitted a neighbour year with >=10
+    // public but <10 renderable questions into the prev/next links, which
+    // then 404'd when followed.
+    const examSegment = examSegmentFor(examType);
+    const eligiblePaperParams = await loadEligiblePaperParams();
+    const eligibleYears = eligiblePaperParams
+      .filter((p) => p.examSegment === examSegment && p.subjectSlug === subjectSlug)
+      .map((p) => p.year)
       .sort((a, b) => a - b);
 
     const index = eligibleYears.indexOf(year);
@@ -165,14 +166,20 @@ type PaperBucket = {
 };
 
 /**
- * One query for both generateStaticParams and the sitemap — and the same
- * predicate loadPaper uses, mirroring how learn-data.ts's loadEligibleTopics
- * is the one query loadPublicTopic's own eligibility check derives from.
+ * The one query every paper-eligibility decision derives from: prerendered by
+ * generateStaticParams, listed in the sitemap, offered as a year link from
+ * `/past-questions/[exam]/[subjectSlug]`, offered as a prev/next link from a
+ * neighbouring paper (loadPaperYears and loadPaper's own adjacentYears both
+ * read this instead of running their own groupBy), and NOT notFound()'d at
+ * request time. Mirrors how learn-data.ts's loadEligibleTopics is the one
+ * query loadPublicTopic's own eligibility check derives from.
  *
  * A Prisma `groupBy` `_count._all` cannot apply the options-parseability
  * filter (that lives in JS, via keepRenderable), so counting with groupBy
  * here previously let a paper with >=10 questions but <10 *renderable* ones
- * get prerendered and sitemapped, then 404 at request time. Fetching the raw
+ * get prerendered and sitemapped, then 404 at request time — and, separately,
+ * let loadPaperYears and loadPaper list and link to that same over-counted
+ * year before both were switched to read this query too. Fetching the raw
  * rows and grouping in JS — one query, not N+1 — keeps this provably the same
  * predicate as loadPaper's `renderable.length`.
  */
@@ -221,6 +228,7 @@ export const loadEligiblePaperParams = cache(async () => {
       examSegment,
       subjectSlug,
       year: bucket.examYear,
+      questionCount: bucket.count,
       lastModified: bucket.lastModified,
     }];
   });
