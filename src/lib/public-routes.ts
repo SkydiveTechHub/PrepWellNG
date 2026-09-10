@@ -31,8 +31,12 @@ const SITEMAP_SHARD = /^\/sitemap\/[a-z0-9-]+\.xml$/;
  * covered by PUBLIC_PATH_PREFIXES, so this pattern is anchored to the root —
  * an unanchored "ends with opengraph-image" rule would make
  * /dashboard/opengraph-image.png public.
+ *
+ * No twitter-image route exists in the app (only opengraph-image.tsx files
+ * are defined), so a "twitter-image" alternative here would be a dead entry
+ * in an auth allowlist — one that 404s rather than one worth keeping.
  */
-const ROOT_OG_IMAGE = /^\/(opengraph-image|twitter-image)(-[A-Za-z0-9]+)?(\.[a-z]+)?$/;
+const ROOT_OG_IMAGE = /^\/opengraph-image(-[A-Za-z0-9]+)?(\.[a-z]+)?$/;
 
 export function isPublicPath(pathname: string): boolean {
   if (!pathname.startsWith("/")) return false;

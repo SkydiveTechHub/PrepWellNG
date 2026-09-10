@@ -38,6 +38,16 @@ test("the root open-graph image is public", () => {
   assert.equal(isPublicPath("/opengraph-image-a1b2c3.png"), true);
 });
 
+test("there is no twitter-image route, so it is not allowlisted", () => {
+  // No twitter-image.tsx exists anywhere in the app (only opengraph-image.tsx
+  // files) — a "twitter-image" entry in this auth allowlist would be dead and
+  // 404 if followed. An auth allowlist should not carry entries pointing at
+  // nothing.
+  assert.equal(isPublicPath("/twitter-image"), false);
+  assert.equal(isPublicPath("/twitter-image.png"), false);
+  assert.equal(isPublicPath("/twitter-image-a1b2c3.png"), false);
+});
+
 test("open-graph images inside the public tree are public", () => {
   assert.equal(
     isPublicPath("/learn/biology/cell-structure/opengraph-image.png"),
