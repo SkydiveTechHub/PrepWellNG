@@ -99,6 +99,7 @@ export type PublicTopic = {
   description: string | null;
   waecWeight: number;
   jambWeight: number;
+  estimatedMinutes: number;
   subtopics: { title: string; description: string | null }[];
   prerequisites: {
     slug: string;
@@ -117,7 +118,7 @@ export const loadPublicTopic = cache(
       where: { slug: topicSlug, subject: { slug: subjectSlug } },
       select: {
         id: true, slug: true, title: true, description: true,
-        waecWeight: true, jambWeight: true,
+        waecWeight: true, jambWeight: true, estimatedMinutes: true,
         subject: { select: { id: true, slug: true, name: true } },
         subtopics: {
           orderBy: { orderIndex: "asc" },
@@ -195,6 +196,7 @@ export const loadPublicTopic = cache(
       description: topic.description,
       waecWeight: topic.waecWeight,
       jambWeight: topic.jambWeight,
+      estimatedMinutes: topic.estimatedMinutes,
       subtopics: topic.subtopics,
       prerequisites,
       siblings,

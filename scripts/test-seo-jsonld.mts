@@ -47,10 +47,54 @@ test("a course points at its own canonical url and names the provider", () => {
     name: "Cell Structure",
     description: "D",
     path: "/learn/biology/cell-structure",
+    estimatedMinutes: 45,
   });
   assert.equal(course["@type"], "Course");
   assert.equal(course.url, `${siteUrl}/learn/biology/cell-structure`);
   assert.equal(course.provider["@type"], "Organization");
+});
+
+test("a course states only what is true: real workload, free offer, no fabricated fields", () => {
+  const course = courseJsonLd({
+    name: "Cell Structure",
+    description: "D",
+    path: "/learn/biology/cell-structure",
+    estimatedMinutes: 45,
+  });
+
+  // hasCourseInstance carries the true, page-level facts: it is online, and
+  // its workload is the topic's own estimatedMinutes as an ISO-8601 duration
+  // — not a made-up constant.
+  assert.ok(course.hasCourseInstance);
+  assert.equal(course.hasCourseInstance["@type"], "CourseInstance");
+  assert.equal(course.hasCourseInstance.courseMode, "online");
+  assert.equal(course.hasCourseInstance.courseWorkload, "PT45M");
+
+  // offers reflects that the sample content is genuinely free to read
+  // without an account.
+  assert.ok(course.offers);
+  assert.equal(course.offers["@type"], "Offer");
+  assert.equal(course.offers.price, "0");
+  assert.equal(course.offers.priceCurrency, "NGN");
+
+  // Nothing fabricated: no dates, location, instructor, non-zero price,
+  // enrolment count, rating, or a third-party provider.
+  const serialised = JSON.stringify(course);
+  for (const forbidden of [
+    "startDate", "endDate", "location", "instructor",
+    "aggregateRating", "totalHistoricalEnrollment", "courseSchedule",
+  ]) {
+    assert.ok(!serialised.includes(forbidden), `unexpectedly found ${forbidden}`);
+  }
+
+  // Workload must actually track the input, not a hardcoded value.
+  const shorter = courseJsonLd({
+    name: "N",
+    description: "D",
+    path: "/x",
+    estimatedMinutes: 20,
+  });
+  assert.equal(shorter.hasCourseInstance.courseWorkload, "PT20M");
 });
 
 test("a quiz marks up every option and the accepted answer", () => {

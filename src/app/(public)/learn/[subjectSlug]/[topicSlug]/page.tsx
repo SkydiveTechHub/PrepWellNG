@@ -64,6 +64,7 @@ export default async function TopicPage({ params }: Props) {
             subtopicTitles: topic.subtopics.map((s) => s.title),
           }),
           path: `/learn/${topic.subject.slug}/${topic.slug}`,
+          estimatedMinutes: topic.estimatedMinutes,
         })}
       />
       <nav className="text-sm ink-muted">

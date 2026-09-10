@@ -65,10 +65,13 @@ export function courseJsonLd({
   name,
   description,
   path,
+  estimatedMinutes,
 }: {
   name: string;
   description: string;
   path: string;
+  /** Topic.estimatedMinutes — real data, formatted below as an ISO-8601 duration. */
+  estimatedMinutes: number;
 }) {
   return {
     "@context": CONTEXT,
@@ -78,6 +81,24 @@ export function courseJsonLd({
     url: absoluteUrl(path),
     inLanguage: "en-NG",
     provider: { "@type": "Organization", name: siteName, url: absoluteUrl("/") },
+    // Google's Course rich-result guidance requires hasCourseInstance or
+    // offers in addition to name/description. Both below state only what is
+    // true of this page: it is read online, its workload is the topic's own
+    // estimatedMinutes (not a made-up constant), and the sample content is
+    // genuinely free to read without an account. No start/end date,
+    // location, instructor, enrolment count, or rating is invented.
+    hasCourseInstance: {
+      "@type": "CourseInstance",
+      courseMode: "online",
+      courseWorkload: `PT${estimatedMinutes}M`,
+    },
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "NGN",
+      availability: "https://schema.org/InStock",
+      category: "free",
+    },
   } as const;
 }
 
