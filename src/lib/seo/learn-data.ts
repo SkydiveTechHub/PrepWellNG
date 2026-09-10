@@ -79,10 +79,10 @@ export type PublicSampleQuestion = {
  * Options is a Json column; a row with no parsed options cannot be rendered
  * as a sample, so it must not count toward eligibility either. This is the
  * one place that rule lives — loadEligibleTopics() and loadPublicTopic() both
- * call it, so the prerendered/sitemapped set and the non-404 set can never
- * drift apart.
+ * call it (as does paper-data.ts's loadPaper/loadEligiblePaperParams), so the
+ * prerendered/sitemapped set and the non-404 set can never drift apart.
  */
-function keepRenderable<T extends { options: unknown }>(
+export function keepRenderable<T extends { options: unknown }>(
   questions: T[],
 ): (T & { options: Record<string, string> })[] {
   return questions.flatMap((q) => {
@@ -100,7 +100,12 @@ export type PublicTopic = {
   waecWeight: number;
   jambWeight: number;
   subtopics: { title: string; description: string | null }[];
-  prerequisites: { slug: string; title: string; rationale: string | null }[];
+  prerequisites: {
+    slug: string;
+    title: string;
+    rationale: string | null;
+    subjectSlug: string;
+  }[];
   siblings: { slug: string; title: string }[];
   questionCount: number;
   samples: PublicSampleQuestion[];
@@ -121,7 +126,14 @@ export const loadPublicTopic = cache(
         prereqEdges: {
           select: {
             rationale: true,
-            prereqTopic: { select: { id: true, slug: true, title: true } },
+            prereqTopic: {
+              select: {
+                id: true,
+                slug: true,
+                title: true,
+                subject: { select: { slug: true } },
+              },
+            },
           },
         },
       },
@@ -169,6 +181,11 @@ export const loadPublicTopic = cache(
         slug: edge.prereqTopic.slug,
         title: edge.prereqTopic.title,
         rationale: edge.rationale,
+        // The prereq's own subject, not the current topic's — prereqEdges may
+        // span subjects (207 TopicEdge rows today are all same-subject, but
+        // that's incidental, not guaranteed), so the href must not assume the
+        // current topic's subject slug.
+        subjectSlug: edge.prereqTopic.subject.slug,
       }));
 
     return {

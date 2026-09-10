@@ -116,7 +116,7 @@ export default async function TopicPage({ params }: Props) {
             {topic.prerequisites.map((prereq) => (
               <li key={prereq.slug}>
                 <Link
-                  href={`/learn/${topic.subject.slug}/${prereq.slug}`}
+                  href={`/learn/${prereq.subjectSlug}/${prereq.slug}`}
                   className="font-medium ink hover:underline"
                 >
                   {prereq.title}

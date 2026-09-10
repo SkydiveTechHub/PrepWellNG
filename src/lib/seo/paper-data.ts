@@ -2,7 +2,7 @@ import { cache } from "react";
 import { db } from "@/lib/db";
 import { PAPER_SAMPLE_COUNT, isPaperPageEligible } from "./eligibility";
 import { examSegmentFor, type PublicExamType } from "./exam-segment";
-import type { PublicSampleQuestion } from "./learn-data";
+import { keepRenderable, loadEligibleTopicIds, type PublicSampleQuestion } from "./learn-data";
 import { publicQuestionWhere } from "./question-scope";
 import { pickSamples } from "./samples";
 
@@ -87,29 +87,37 @@ export const loadPaper = cache(
       select: {
         id: true, questionText: true, options: true, correctAnswer: true,
         explanation: true, createdAt: true,
-        topic: { select: { slug: true, title: true } },
+        topic: { select: { id: true, slug: true, title: true } },
       },
     });
 
-    const renderable = questions.flatMap((q) => {
-      const options = q.options as Record<string, string> | null;
-      if (!options || Object.keys(options).length === 0) return [];
-      return [{ ...q, options }];
-    });
+    const renderable = keepRenderable(questions);
 
     if (!isPaperPageEligible({ publicQuestionCount: renderable.length })) return null;
+
+    // Every row a topic breakdown links out to must itself be a publishable
+    // topic page (loadEligibleTopicIds — the same source /learn filters
+    // against), or the majority of rows across the 47 papers link to a 404.
+    // A row for an ineligible topic still appears, so the counts keep summing
+    // to the paper's real question count; it just renders with slug: null,
+    // i.e. as plain text instead of a link.
+    const eligibleTopicIds = await loadEligibleTopicIds();
 
     const byTopic = new Map<string, { slug: string | null; title: string; questionCount: number }>();
     for (const question of renderable) {
       const title = question.topic?.title ?? "General";
+      const isEligible = question.topic ? eligibleTopicIds.has(question.topic.id) : false;
       const existing = byTopic.get(title);
-      if (existing) existing.questionCount += 1;
-      else
+      if (existing) {
+        existing.questionCount += 1;
+        if (isEligible && !existing.slug) existing.slug = question.topic!.slug;
+      } else {
         byTopic.set(title, {
-          slug: question.topic?.slug ?? null,
+          slug: isEligible ? (question.topic?.slug ?? null) : null,
           title,
           questionCount: 1,
         });
+      }
     }
 
     const otherYears = await db.question.groupBy({
@@ -148,32 +156,72 @@ export const loadPaper = cache(
   },
 );
 
-/** One query for both generateStaticParams and the sitemap. */
+type PaperBucket = {
+  examType: string;
+  subjectId: string;
+  examYear: number;
+  count: number;
+  lastModified: Date | null;
+};
+
+/**
+ * One query for both generateStaticParams and the sitemap — and the same
+ * predicate loadPaper uses, mirroring how learn-data.ts's loadEligibleTopics
+ * is the one query loadPublicTopic's own eligibility check derives from.
+ *
+ * A Prisma `groupBy` `_count._all` cannot apply the options-parseability
+ * filter (that lives in JS, via keepRenderable), so counting with groupBy
+ * here previously let a paper with >=10 questions but <10 *renderable* ones
+ * get prerendered and sitemapped, then 404 at request time. Fetching the raw
+ * rows and grouping in JS — one query, not N+1 — keeps this provably the same
+ * predicate as loadPaper's `renderable.length`.
+ */
 export const loadEligiblePaperParams = cache(async () => {
-  const rows = await db.question.groupBy({
-    by: ["examType", "subjectId", "examYear"],
+  const rows = await db.question.findMany({
     where: publicQuestionWhere(withYear),
-    _count: { _all: true },
-    _max: { createdAt: true },
+    select: { examType: true, subjectId: true, examYear: true, options: true, createdAt: true },
   });
+
+  const renderable = keepRenderable(rows);
+
+  const buckets = new Map<string, PaperBucket>();
+  for (const row of renderable) {
+    if (row.examYear === null) continue;
+    const key = JSON.stringify([row.examType, row.subjectId, row.examYear]);
+    const bucket = buckets.get(key);
+    if (bucket) {
+      bucket.count += 1;
+      if (!bucket.lastModified || row.createdAt > bucket.lastModified) {
+        bucket.lastModified = row.createdAt;
+      }
+    } else {
+      buckets.set(key, {
+        examType: row.examType,
+        subjectId: row.subjectId,
+        examYear: row.examYear,
+        count: 1,
+        lastModified: row.createdAt,
+      });
+    }
+  }
 
   const subjects = await db.subject.findMany({ select: { id: true, slug: true } });
   const slugById = new Map(subjects.map((subject) => [subject.id, subject.slug]));
 
-  return rows.flatMap((row) => {
-    if (!isPaperPageEligible({ publicQuestionCount: row._count._all })) return [];
+  return [...buckets.values()].flatMap((bucket) => {
+    if (!isPaperPageEligible({ publicQuestionCount: bucket.count })) return [];
 
-    const examSegment = examSegmentFor(row.examType);
-    const subjectSlug = slugById.get(row.subjectId);
+    const examSegment = examSegmentFor(bucket.examType);
+    const subjectSlug = slugById.get(bucket.subjectId);
     // CUSTOM has no public route, and a question pointing at a deleted subject
     // has no URL to live at.
-    if (!examSegment || !subjectSlug || row.examYear === null) return [];
+    if (!examSegment || !subjectSlug) return [];
 
     return [{
       examSegment,
       subjectSlug,
-      year: row.examYear,
-      lastModified: row._max.createdAt ?? null,
+      year: bucket.examYear,
+      lastModified: bucket.lastModified,
     }];
   });
 });
