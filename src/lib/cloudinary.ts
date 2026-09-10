@@ -138,3 +138,44 @@ export async function uploadRemoteImage(
   if (!json.secure_url) throw new Error("Cloudinary returned no image URL");
   return json.secure_url;
 }
+
+/**
+ * Sign an upload the browser will perform itself.
+ *
+ * The avatar path posts the file through us, which is fine for a 2MB image but
+ * cannot carry a textbook: a serverless deploy caps request bodies at about
+ * 4.5MB. Signing here and letting the browser send the bytes straight to
+ * Cloudinary removes that ceiling and costs us no bandwidth.
+ *
+ * `params` are the upload parameters being authorised — every one of them is
+ * covered by the signature, so the browser cannot widen the folder or the
+ * format allowlist after the fact. `timestamp` is added here.
+ */
+export function signUpload(params: Record<string, string>) {
+  const creds = credentials();
+  if (!creds) return null;
+
+  const timestamp = Math.floor(Date.now() / 1000);
+  const signed: Record<string, string> = {
+    ...params,
+    timestamp: String(timestamp),
+  };
+
+  // Cloudinary signs the alphabetically sorted, &-joined parameter string.
+  const toSign = Object.keys(signed)
+    .sort()
+    .map((key) => `${key}=${signed[key]}`)
+    .join("&");
+
+  const signature = crypto
+    .createHash("sha1")
+    .update(toSign + creds.apiSecret)
+    .digest("hex");
+
+  return {
+    signature,
+    timestamp,
+    apiKey: creds.apiKey,
+    cloudName: creds.cloudName,
+  };
+}
