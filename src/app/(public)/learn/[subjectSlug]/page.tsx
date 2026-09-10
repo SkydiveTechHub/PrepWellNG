@@ -7,6 +7,8 @@ import {
   loadPublicSubject,
   loadPublishableSubjects,
 } from "@/lib/seo/learn-data";
+import { JsonLd } from "@/components/seo/json-ld";
+import { breadcrumbJsonLd } from "@/lib/seo/jsonld";
 
 export const revalidate = 86400;
 export const dynamicParams = true;
@@ -48,6 +50,12 @@ export default async function SubjectPage({ params }: Props) {
 
   return (
     <div className="landing-container py-16">
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Subjects", path: "/learn" },
+          { name: subject.name, path: `/learn/${subject.slug}` },
+        ])}
+      />
       <nav className="text-sm ink-muted">
         <Link href="/learn" className="hover:underline">
           Subjects

@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { PUBLIC_EXAM_SEGMENTS, parseExamSegment } from "@/lib/seo/exam-segment";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { loadEligiblePaperParams, loadExamSubjects } from "@/lib/seo/paper-data";
+import { JsonLd } from "@/components/seo/json-ld";
+import { breadcrumbJsonLd } from "@/lib/seo/jsonld";
 
 export const revalidate = 86400;
 export const dynamicParams = false;
@@ -57,6 +59,12 @@ export default async function ExamPage({ params }: Props) {
 
   return (
     <div className="landing-container py-16">
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Past Questions", path: "/past-questions" },
+          { name: parsed.label, path: `/past-questions/${parsed.segment}` },
+        ])}
+      />
       <nav className="text-sm ink-muted">
         <Link href="/past-questions" className="hover:underline">Past Questions</Link>
         <span className="mx-2">/</span>
