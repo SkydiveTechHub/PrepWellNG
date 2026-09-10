@@ -113,10 +113,10 @@ export function MaterialForm({ subjectId, material, onSaved, onCancel }: Props) 
     try {
       const payload = {
         title,
-        description: description || undefined,
+        description,
         resourceType: type,
         url,
-        author: author || undefined,
+        author,
         isFree,
       };
 

@@ -53,12 +53,19 @@ export function MaterialManager({
     const swapWith = ordered[index + direction];
     if (!swapWith) return;
 
-    // Swap the two indexes. Sequential, not parallel: two PATCHes racing on
-    // adjacent rows can interleave and leave both holding the same index.
+    // Normally swapping the two indexes reorders them. But if two rows were
+    // created in a race and ended up sharing the same orderIndex, swapping
+    // equal values is a no-op — nudge the moving row's index to the correct
+    // side of its neighbour instead, so the move actually takes effect.
+    const tied = swapWith.orderIndex === material.orderIndex;
+    const materialNewIndex = tied ? swapWith.orderIndex + direction : swapWith.orderIndex;
+
+    // Sequential, not parallel: two PATCHes racing on adjacent rows can
+    // interleave and leave both holding the same index.
     await fetch(`/admin/api/materials/${material.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ orderIndex: swapWith.orderIndex }),
+      body: JSON.stringify({ orderIndex: materialNewIndex }),
     });
     await fetch(`/admin/api/materials/${swapWith.id}`, {
       method: "PATCH",
