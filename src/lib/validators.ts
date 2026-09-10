@@ -4,6 +4,8 @@ import { checkQuestionInvariants } from "@/lib/admin-question";
 import { BILLING_PERIODS, SUBSCRIPTION_TIERS } from "@/lib/subscription";
 import { CLASS_LEVELS } from "@/lib/curriculum-scope";
 import { MAX_AWAY_EVENTS } from "@/components/assessment/exam-focus";
+import { MATERIAL_TYPES, type MaterialType } from "@/lib/materials";
+import { validateMaterialUrl } from "@/lib/admin-material";
 
 // ─── Auth ─────────────────────────────────────────
 
@@ -412,6 +414,50 @@ export const checkoutSchema = z.object({
   period: z.enum(BILLING_PERIODS),
 });
 
+// ─── Library materials ────────────────────────────
+
+const materialUrlRefinement = <T extends { resourceType: MaterialType; url: string }>(
+  value: T,
+  ctx: z.RefinementCtx,
+) => {
+  const check = validateMaterialUrl(value.resourceType, value.url);
+  if (!check.ok) {
+    ctx.addIssue({ code: "custom", message: check.reason, path: ["url"] });
+  }
+};
+
+export const materialCreateSchema = z
+  .object({
+    subjectId: z.string().min(1),
+    title: z.string().trim().min(2, "Title is required").max(200),
+    description: z.string().trim().max(600).optional(),
+    resourceType: z.enum(MATERIAL_TYPES),
+    url: z.string().min(1, "A URL or an uploaded file is required"),
+    author: z.string().trim().max(120).optional(),
+    isFree: z.boolean().default(true),
+  })
+  .superRefine(materialUrlRefinement);
+
+// Every field optional: the form saves the whole record, but reordering sends
+// only `orderIndex`. An absent key means "leave unchanged".
+export const materialUpdateSchema = z
+  .object({
+    title: z.string().trim().min(2).max(200).optional(),
+    description: z.string().trim().max(600).optional(),
+    resourceType: z.enum(MATERIAL_TYPES).optional(),
+    url: z.string().min(1).optional(),
+    author: z.string().trim().max(120).optional(),
+    isFree: z.boolean().optional(),
+    orderIndex: z.number().int().min(0).optional(),
+  })
+  .superRefine((value, ctx) => {
+    // Only checkable when both arrive together; a URL change without a type
+    // change is validated against the stored type in the route.
+    if (value.resourceType && value.url) {
+      materialUrlRefinement({ resourceType: value.resourceType, url: value.url }, ctx);
+    }
+  });
+
 // Type exports
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
@@ -430,3 +476,5 @@ export type CreateAdminInput = z.infer<typeof createAdminSchema>;
 export type AdminStatusInput = z.infer<typeof adminStatusSchema>;
 export type StudentProfileInput = z.infer<typeof studentProfileSchema>;
 export type CheckoutInput = z.infer<typeof checkoutSchema>;
+export type MaterialCreateInput = z.infer<typeof materialCreateSchema>;
+export type MaterialUpdateInput = z.infer<typeof materialUpdateSchema>;
