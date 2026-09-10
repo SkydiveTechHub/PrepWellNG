@@ -2,8 +2,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SampleQuestion } from "@/components/seo/sample-question";
 import { topicPageDescription, topicPageTitle } from "@/lib/seo/copy";
+import { parseExamSegment } from "@/lib/seo/exam-segment";
 import { loadEligibleTopicParams, loadPublicTopic } from "@/lib/seo/learn-data";
 import { buildMetadata } from "@/lib/seo/metadata";
+import { loadEligiblePaperParams } from "@/lib/seo/paper-data";
 import { JsonLd } from "@/components/seo/json-ld";
 import { breadcrumbJsonLd, courseJsonLd } from "@/lib/seo/jsonld";
 
@@ -44,6 +46,19 @@ export default async function TopicPage({ params }: Props) {
   if (!topic) notFound();
 
   const remaining = topic.questionCount - topic.samples.length;
+
+  // Only link to an exam's past-paper years if that subject actually has
+  // eligible papers there — loadEligiblePaperParams is the same source the
+  // /past-questions tree is gated by, so this can never link to a 404. Most
+  // subjects have none, so this section is often absent, which is correct.
+  const eligiblePaperParams = await loadEligiblePaperParams();
+  const paperExamSegments = [
+    ...new Set(
+      eligiblePaperParams
+        .filter((p) => p.subjectSlug === topic.subject.slug)
+        .map((p) => p.examSegment),
+    ),
+  ];
 
   return (
     <div className="landing-container py-16">
@@ -191,6 +206,26 @@ export default async function TopicPage({ params }: Props) {
                   className="surface inline-block rounded-full px-4 py-2 text-sm ink hover:underline"
                 >
                   {sibling.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
+      {paperExamSegments.length > 0 ? (
+        <section className="mt-12">
+          <h2 className="text-xl font-semibold ink">
+            {topic.subject.name} past exam papers
+          </h2>
+          <ul className="mt-4 flex flex-wrap gap-2">
+            {paperExamSegments.map((segment) => (
+              <li key={segment}>
+                <Link
+                  href={`/past-questions/${segment}/${topic.subject.slug}`}
+                  className="surface inline-block rounded-full px-4 py-2 text-sm ink hover:underline"
+                >
+                  {parseExamSegment(segment)?.label ?? segment} past questions by year
                 </Link>
               </li>
             ))}
