@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { parseExamSegment } from "@/lib/seo/exam-segment";
 import { buildMetadata } from "@/lib/seo/metadata";
-import { loadPaperYears } from "@/lib/seo/paper-data";
+import { loadEligiblePaperParams, loadPaperYears } from "@/lib/seo/paper-data";
 import { JsonLd } from "@/components/seo/json-ld";
 import { breadcrumbJsonLd } from "@/lib/seo/jsonld";
 
@@ -10,6 +10,24 @@ export const revalidate = 86400;
 export const dynamicParams = true;
 
 type Props = { params: Promise<{ exam: string; subjectSlug: string }> };
+
+/**
+ * Derived from loadEligiblePaperParams(), like its /learn and paper-page
+ * siblings — this page is sitemapped but was not enumerated, so it built at
+ * request time on first crawl instead of at build time.
+ */
+export async function generateStaticParams() {
+  const params = await loadEligiblePaperParams();
+  const seen = new Set<string>();
+  const result: { exam: string; subjectSlug: string }[] = [];
+  for (const p of params) {
+    const key = `${p.examSegment}/${p.subjectSlug}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    result.push({ exam: p.examSegment, subjectSlug: p.subjectSlug });
+  }
+  return result;
+}
 
 export async function generateMetadata({ params }: Props) {
   const { exam, subjectSlug } = await params;
