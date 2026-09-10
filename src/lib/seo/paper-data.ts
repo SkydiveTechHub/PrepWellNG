@@ -64,7 +64,7 @@ export type PublicPaper = {
   year: number;
   subject: { slug: string; name: string };
   questionCount: number;
-  topics: { slug: string | null; title: string; questionCount: number }[];
+  topics: { slug: string | null; subjectSlug: string | null; title: string; questionCount: number }[];
   samples: PublicSampleQuestion[];
   adjacentYears: { previous: number | null; next: number | null };
   lastModified: Date | null;
@@ -87,7 +87,12 @@ export const loadPaper = cache(
       select: {
         id: true, questionText: true, options: true, correctAnswer: true,
         explanation: true, createdAt: true,
-        topic: { select: { id: true, slug: true, title: true } },
+        // subject.slug, not the paper's own subject.slug: Question.subjectId
+        // and Question.topicId are independent foreign keys (nothing enforces
+        // a question's topic belongs to its subject), so the href must not
+        // assume the paper's subject — same fix as the prereq path in
+        // learn-data.ts's loadPublicTopic.
+        topic: { select: { id: true, slug: true, title: true, subject: { select: { slug: true } } } },
       },
     });
 
@@ -103,17 +108,24 @@ export const loadPaper = cache(
     // i.e. as plain text instead of a link.
     const eligibleTopicIds = await loadEligibleTopicIds();
 
-    const byTopic = new Map<string, { slug: string | null; title: string; questionCount: number }>();
+    const byTopic = new Map<
+      string,
+      { slug: string | null; subjectSlug: string | null; title: string; questionCount: number }
+    >();
     for (const question of renderable) {
       const title = question.topic?.title ?? "General";
       const isEligible = question.topic ? eligibleTopicIds.has(question.topic.id) : false;
       const existing = byTopic.get(title);
       if (existing) {
         existing.questionCount += 1;
-        if (isEligible && !existing.slug) existing.slug = question.topic!.slug;
+        if (isEligible && !existing.slug) {
+          existing.slug = question.topic!.slug;
+          existing.subjectSlug = question.topic!.subject.slug;
+        }
       } else {
         byTopic.set(title, {
           slug: isEligible ? (question.topic?.slug ?? null) : null,
+          subjectSlug: isEligible ? (question.topic?.subject.slug ?? null) : null,
           title,
           questionCount: 1,
         });

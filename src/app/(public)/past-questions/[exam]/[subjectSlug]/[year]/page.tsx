@@ -161,9 +161,9 @@ export default async function PaperPage(props: Props) {
               {paper.topics.map((topic) => (
                 <tr key={topic.title} className="border-t border-black/5">
                   <td className="py-2">
-                    {topic.slug ? (
+                    {topic.slug && topic.subjectSlug ? (
                       <Link
-                        href={`/learn/${paper.subject.slug}/${topic.slug}`}
+                        href={`/learn/${topic.subjectSlug}/${topic.slug}`}
                         className="ink hover:underline"
                       >
                         {topic.title}
