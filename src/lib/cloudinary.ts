@@ -147,9 +147,11 @@ export async function uploadRemoteImage(
  * 4.5MB. Signing here and letting the browser send the bytes straight to
  * Cloudinary removes that ceiling and costs us no bandwidth.
  *
- * `params` are the upload parameters being authorised — every one of them is
- * covered by the signature, so the browser cannot widen the folder or the
- * format allowlist after the fact. `timestamp` is added here.
+ * The signature covers `folder` and `allowed_formats` — the browser cannot
+ * widen either after we have signed them. The caller may receive additional
+ * parameters like `maxBytes` from the route, but these are not signed and not
+ * enforceable by Cloudinary; they are advisory only and require browser-side
+ * validation. `timestamp` is added here.
  */
 export function signUpload(params: Record<string, string>) {
   const creds = credentials();

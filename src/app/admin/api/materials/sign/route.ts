@@ -11,11 +11,20 @@ export const dynamic = "force-dynamic";
 // The signature covers the folder and the format allowlist, so a caller cannot
 // widen either after we have signed them.
 export async function POST(req: NextRequest) {
-  try {
-    const guard = await requireAdminApi();
-    if (!guard.ok) return guard.response;
+  const guard = await requireAdminApi();
+  if (!guard.ok) return guard.response;
 
-    const body = (await req.json()) as { type?: unknown };
+  let body: { type?: unknown };
+  try {
+    body = (await req.json()) as { type?: unknown };
+  } catch (_error) {
+    return NextResponse.json(
+      { error: "Invalid JSON in request body" },
+      { status: 400 },
+    );
+  }
+
+  try {
     const type = typeof body.type === "string" ? body.type : "";
 
     if (!isMaterialType(type)) {
@@ -52,6 +61,7 @@ export async function POST(req: NextRequest) {
       signature: signed.signature,
       folder: params.folder,
       allowedFormats: params.allowedFormats,
+      // maxBytes is advisory; it is not signed and not enforced by Cloudinary.
       maxBytes: params.maxBytes,
       resourceType: params.resourceType,
     });
