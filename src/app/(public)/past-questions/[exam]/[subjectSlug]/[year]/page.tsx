@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SampleQuestion } from "@/components/seo/sample-question";
-import { paperPageDescription, paperPageTitle } from "@/lib/seo/copy";
+import { paperPageDescription, paperPageIntro, paperPageTitle } from "@/lib/seo/copy";
 import { parseExamSegment, parseYearSegment } from "@/lib/seo/exam-segment";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { loadEligiblePaperParams, loadPaper } from "@/lib/seo/paper-data";
@@ -114,12 +114,13 @@ export default async function PaperPage(props: Props) {
       </h1>
 
       <p className="mt-4 max-w-2xl leading-relaxed ink-muted">
-        {paperPageDescription({
+        {paperPageIntro({
           exam: parsed.label,
           year: paper.year,
           subjectName: paper.subject.name,
           questionCount: paper.questionCount,
           topicCount: paper.topics.length,
+          sampleCount: paper.samples.length,
         })}
       </p>
 

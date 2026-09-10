@@ -77,3 +77,34 @@ export function paperPageDescription({
     `${plural(questionCount, "question")} from the ${exam} ${year} ${subjectName} paper across ${plural(topicCount, "topic")}, each with the correct answer and a worked explanation.`,
   );
 }
+
+/**
+ * The visible intro paragraph, distinct from paperPageDescription.
+ *
+ * paperPageDescription is defensible as a <meta> snippet (a summary of what
+ * the paper is), but it is false as the page's own opening sentence: it says
+ * "each with the correct answer and a worked explanation" while the page
+ * renders only `sampleCount` worked questions. A reader who lands, counts the
+ * samples, and leaves is the exact outcome this page exists to avoid. This
+ * function states the paper's real size but claims worked answers only for
+ * the samples actually shown.
+ */
+export function paperPageIntro({
+  exam,
+  year,
+  subjectName,
+  questionCount,
+  topicCount,
+  sampleCount,
+}: {
+  exam: string;
+  year: number;
+  subjectName: string;
+  questionCount: number;
+  topicCount: number;
+  sampleCount: number;
+}): string {
+  return clamp(
+    `The ${exam} ${year} ${subjectName} paper has ${plural(questionCount, "question")} across ${plural(topicCount, "topic")}. See ${plural(sampleCount, "sample question")} below, each with the correct answer and a worked explanation.`,
+  );
+}

@@ -2,6 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
   paperPageDescription,
+  paperPageIntro,
   paperPageTitle,
   topicPageDescription,
   topicPageTitle,
@@ -91,4 +92,39 @@ test("a single topic is not described in the plural", () => {
   });
   assert.ok(!/1 topics/.test(built), built);
   assert.ok(!/1 questions/.test(built), built);
+});
+
+test("the visible paper intro does not claim every question is shown", () => {
+  // paperPageDescription is fine as a <meta> snippet, but as the page's own
+  // opening sentence "each with the correct answer and a worked explanation"
+  // is false when only 5 of 42 are rendered. paperPageIntro must state the
+  // real paper size without claiming every question got a worked answer.
+  const built = paperPageIntro({
+    exam: "WAEC",
+    year: 2019,
+    subjectName: "Biology",
+    questionCount: 42,
+    topicCount: 7,
+    sampleCount: 5,
+  });
+  assert.match(built, /42/);
+  assert.match(built, /5/);
+  // The clause promising a worked answer for "each" question must be scoped
+  // to the 5 samples, not to the paper's real size of 42.
+  const workedClause = built.split(/(?<=[.?!])\s+/).find((s) => /each with/.test(s));
+  assert.ok(workedClause, `expected a sentence containing "each with": ${built}`);
+  assert.match(workedClause!, /\b5\b/);
+  assert.ok(!/\b42\b/.test(workedClause!), `worked-answer clause must not claim all 42: ${built}`);
+});
+
+test("the paper intro states real counts and stays inside the render budget", () => {
+  const built = paperPageIntro({
+    exam: "JAMB",
+    year: 2021,
+    subjectName: "Physics",
+    questionCount: 10,
+    topicCount: 3,
+    sampleCount: 5,
+  });
+  assert.ok(built.length <= 160, `got ${built.length} characters`);
 });
