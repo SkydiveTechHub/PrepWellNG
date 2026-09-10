@@ -75,6 +75,23 @@ export type PublicSampleQuestion = {
   explanation: string;
 };
 
+/**
+ * Options is a Json column; a row with no parsed options cannot be rendered
+ * as a sample, so it must not count toward eligibility either. This is the
+ * one place that rule lives — loadEligibleTopics() and loadPublicTopic() both
+ * call it, so the prerendered/sitemapped set and the non-404 set can never
+ * drift apart.
+ */
+function keepRenderable<T extends { options: unknown }>(
+  questions: T[],
+): (T & { options: Record<string, string> })[] {
+  return questions.flatMap((q) => {
+    const options = q.options as Record<string, string> | null;
+    if (!options || Object.keys(options).length === 0) return [];
+    return [{ ...q, options }];
+  });
+}
+
 export type PublicTopic = {
   subject: { slug: string; name: string };
   slug: string;
@@ -104,7 +121,7 @@ export const loadPublicTopic = cache(
         prereqEdges: {
           select: {
             rationale: true,
-            prereqTopic: { select: { slug: true, title: true } },
+            prereqTopic: { select: { id: true, slug: true, title: true } },
           },
         },
       },
@@ -119,13 +136,7 @@ export const loadPublicTopic = cache(
       },
     });
 
-    // Options is a Json column; a row with no parsed options cannot be
-    // rendered as a sample, so it must not count toward eligibility either.
-    const renderable = questions.flatMap((q) => {
-      const options = q.options as Record<string, string> | null;
-      if (!options || Object.keys(options).length === 0) return [];
-      return [{ ...q, options }];
-    });
+    const renderable = keepRenderable(questions);
 
     if (
       !isTopicPageEligible({
@@ -137,12 +148,28 @@ export const loadPublicTopic = cache(
       return null;
     }
 
-    const siblings = await db.topic.findMany({
+    // Prerequisites and siblings must be filtered to the same eligible set
+    // the hub filters against, or a page that survived the gate would still
+    // link out to one that 404s.
+    const eligibleIds = await loadEligibleTopicIds();
+
+    const siblingCandidates = await db.topic.findMany({
       where: { subjectId: topic.subject.id, id: { not: topic.id } },
       orderBy: { orderIndex: "asc" },
-      take: 8,
-      select: { slug: true, title: true },
+      select: { id: true, slug: true, title: true },
     });
+    const siblings = siblingCandidates
+      .filter((sibling) => eligibleIds.has(sibling.id))
+      .slice(0, 8)
+      .map(({ slug, title }) => ({ slug, title }));
+
+    const prerequisites = topic.prereqEdges
+      .filter((edge) => eligibleIds.has(edge.prereqTopic.id))
+      .map((edge) => ({
+        slug: edge.prereqTopic.slug,
+        title: edge.prereqTopic.title,
+        rationale: edge.rationale,
+      }));
 
     return {
       subject: { slug: topic.subject.slug, name: topic.subject.name },
@@ -152,11 +179,7 @@ export const loadPublicTopic = cache(
       waecWeight: topic.waecWeight,
       jambWeight: topic.jambWeight,
       subtopics: topic.subtopics,
-      prerequisites: topic.prereqEdges.map((edge) => ({
-        slug: edge.prereqTopic.slug,
-        title: edge.prereqTopic.title,
-        rationale: edge.rationale,
-      })),
+      prerequisites,
       siblings,
       questionCount: renderable.length,
       samples: pickSamples(renderable, TOPIC_SAMPLE_COUNT, topic.id),
@@ -164,16 +187,33 @@ export const loadPublicTopic = cache(
   },
 );
 
+type EligibleTopic = {
+  id: string;
+  subjectSlug: string;
+  topicSlug: string;
+  lastModified: Date | null;
+};
+
 /**
- * Params for generateStaticParams and for the sitemap, from one query, so a
- * prerendered page and a sitemapped URL are always the same set.
+ * The one query that decides which topics get a page at all: prerendered by
+ * generateStaticParams, listed in the sitemap, linkable from a hub or
+ * another topic's siblings/prerequisites, and NOT notFound()'d at request
+ * time. Every other loader in this module that needs "is this topic
+ * eligible" derives from this one, so those four things can never drift
+ * apart from each other.
  *
- * lastModified is the newest question in the topic. Topic has no updatedAt
- * column, so when a topic has no dated question the field stays null and the
- * sitemap omits it — `new Date()` would claim every page changed on every
- * build, which teaches crawlers to ignore the signal.
+ * Eligibility requires the same options-parseability check loadPublicTopic
+ * applies to its own questions (via keepRenderable) — a topic whose public
+ * questions all have empty/unparseable `options` has nothing renderable and
+ * must not count as eligible here either, or generateStaticParams would
+ * prerender (and the sitemap would list) a page that then 404s.
+ *
+ * lastModified is the newest *renderable* question in the topic. Topic has
+ * no updatedAt column, so when a topic has no dated renderable question the
+ * field stays null and the sitemap omits it — `new Date()` would claim every
+ * page changed on every build, which teaches crawlers to ignore the signal.
  */
-export const loadEligibleTopicParams = cache(async () => {
+const loadEligibleTopics = cache(async (): Promise<EligibleTopic[]> => {
   const topics = await db.topic.findMany({
     orderBy: [{ subject: { slug: "asc" } }, { orderIndex: "asc" }],
     select: {
@@ -185,34 +225,56 @@ export const loadEligibleTopicParams = cache(async () => {
       questions: {
         where: publicQuestionWhere(),
         orderBy: { createdAt: "desc" },
-        select: { createdAt: true },
+        select: { createdAt: true, options: true },
       },
     },
   });
 
   return topics
-    .filter((topic) =>
+    .map((topic) => ({ topic, renderable: keepRenderable(topic.questions) }))
+    .filter(({ topic, renderable }) =>
       isTopicPageEligible({
         description: topic.description,
         subtopicCount: topic._count.subtopics,
-        publicQuestionCount: topic.questions.length,
+        publicQuestionCount: renderable.length,
       }),
     )
-    .map((topic) => ({
+    .map(({ topic, renderable }) => ({
+      id: topic.id,
       subjectSlug: topic.subject.slug,
       topicSlug: topic.slug,
-      lastModified: topic.questions[0]?.createdAt ?? null,
+      lastModified: renderable[0]?.createdAt ?? null,
     }));
+});
+
+/** Params for generateStaticParams and for the sitemap. */
+export const loadEligibleTopicParams = cache(async () => {
+  const topics = await loadEligibleTopics();
+  return topics.map(({ subjectSlug, topicSlug, lastModified }) => ({
+    subjectSlug,
+    topicSlug,
+    lastModified,
+  }));
 });
 
 /** Slugs whose topic pages actually exist, so hubs never link into a 404. */
 export const loadEligibleTopicSlugs = cache(
   async (subjectSlug: string): Promise<Set<string>> => {
-    const params = await loadEligibleTopicParams();
+    const topics = await loadEligibleTopics();
     return new Set(
-      params
-        .filter((param) => param.subjectSlug === subjectSlug)
-        .map((param) => param.topicSlug),
+      topics
+        .filter((topic) => topic.subjectSlug === subjectSlug)
+        .map((topic) => topic.topicSlug),
     );
   },
 );
+
+/**
+ * Ids whose topic pages actually exist, for filtering a topic's own
+ * siblings and prerequisites (which may span subjects) so a page that
+ * survived the gate never links to one that didn't.
+ */
+export const loadEligibleTopicIds = cache(async (): Promise<Set<string>> => {
+  const topics = await loadEligibleTopics();
+  return new Set(topics.map((topic) => topic.id));
+});
