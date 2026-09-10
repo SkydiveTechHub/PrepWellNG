@@ -10,7 +10,18 @@ function clamp(text: string): string {
   const trimmed = text.trim().replace(/\s+/g, " ");
   if (trimmed.length <= MAX_DESCRIPTION) return trimmed;
 
-  const cut = trimmed.slice(0, MAX_DESCRIPTION - 1);
+  let cutIndex = MAX_DESCRIPTION - 1;
+  // Slicing by UTF-16 code unit can land inside a surrogate pair (e.g. a
+  // multi-byte emoji), leaving a lone high surrogate — an invalid character
+  // inside <meta name="description">. Back the cut point up to the nearest
+  // whole code point boundary.
+  const before = trimmed.charCodeAt(cutIndex - 1);
+  const at = trimmed.charCodeAt(cutIndex);
+  if (before >= 0xd800 && before <= 0xdbff && at >= 0xdc00 && at <= 0xdfff) {
+    cutIndex -= 1;
+  }
+
+  const cut = trimmed.slice(0, cutIndex);
   const lastSpace = cut.lastIndexOf(" ");
   return `${(lastSpace > 40 ? cut.slice(0, lastSpace) : cut).trimEnd()}…`;
 }

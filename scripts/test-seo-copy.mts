@@ -52,6 +52,25 @@ test("descriptions stay inside the length search engines will render", () => {
   assert.ok(built.endsWith("…"), "a truncated description should be marked as such");
 });
 
+test("truncation never splits a surrogate pair (emoji-dense input)", () => {
+  // Slicing by UTF-16 code unit can land the cut point inside a surrogate
+  // pair, leaving a lone high surrogate right before the ellipsis — an
+  // invalid character inside <meta name="description">.
+  // No spaces before the cut point, so clamp() falls back to its raw index
+  // cut (lastIndexOf(" ") === -1) instead of backing up to a word boundary —
+  // exactly the path that can land mid-surrogate-pair. 81 emoji is 162
+  // UTF-16 code units, just past MAX_DESCRIPTION (160), with the cut at
+  // index 159 landing on the high surrogate of the 80th emoji.
+  const emojiDense = "😀".repeat(81);
+  const built = topicPageDescription({
+    topicTitle: "T",
+    subjectName: "S",
+    description: emojiDense,
+    subtopicTitles: [],
+  });
+  assert.ok(built.isWellFormed(), `truncated string is not well-formed UTF-16: ${JSON.stringify(built)}`);
+});
+
 test("truncation happens at a word boundary", () => {
   const built = topicPageDescription({
     topicTitle: "T",
