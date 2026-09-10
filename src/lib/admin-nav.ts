@@ -3,6 +3,7 @@ import {
   LuDatabase,
   LuGraduationCap,
   LuLayoutDashboard,
+  LuLibrary,
   LuScrollText,
   LuUsers,
 } from "react-icons/lu";
@@ -37,6 +38,7 @@ export const ADMIN_NAV_GROUPS: readonly AdminNavGroup[] = [
     items: [
       { name: "Questions", href: "/admin/questions", icon: LuDatabase },
       { name: "Lessons", href: "/admin/lessons", icon: LuBookOpen },
+      { name: "Library", href: "/admin/library", icon: LuLibrary },
     ],
   },
   {
