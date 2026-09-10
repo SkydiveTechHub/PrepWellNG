@@ -2,8 +2,8 @@ import { cache } from "react";
 import { db } from "@/lib/db";
 import { PAPER_SAMPLE_COUNT, isPaperPageEligible } from "./eligibility";
 import { examSegmentFor, type PublicExamType } from "./exam-segment";
-import { keepRenderable, loadEligibleTopicIds, type PublicSampleQuestion } from "./learn-data";
-import { publicQuestionWhere } from "./question-scope";
+import { loadEligibleTopicIds, type PublicSampleQuestion } from "./learn-data";
+import { keepRenderable, publicQuestionWhere } from "./question-scope";
 import { pickSamples } from "./samples";
 
 /**

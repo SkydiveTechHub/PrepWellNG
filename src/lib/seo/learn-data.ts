@@ -1,7 +1,7 @@
 import { cache } from "react";
 import { db } from "@/lib/db";
 import { TOPIC_SAMPLE_COUNT, isTopicPageEligible } from "./eligibility";
-import { publicQuestionWhere } from "./question-scope";
+import { keepRenderable, publicQuestionWhere } from "./question-scope";
 import { pickSamples } from "./samples";
 
 /**
@@ -74,23 +74,6 @@ export type PublicSampleQuestion = {
   correctAnswer: string;
   explanation: string;
 };
-
-/**
- * Options is a Json column; a row with no parsed options cannot be rendered
- * as a sample, so it must not count toward eligibility either. This is the
- * one place that rule lives — loadEligibleTopics() and loadPublicTopic() both
- * call it (as does paper-data.ts's loadPaper/loadEligiblePaperParams), so the
- * prerendered/sitemapped set and the non-404 set can never drift apart.
- */
-export function keepRenderable<T extends { options: unknown }>(
-  questions: T[],
-): (T & { options: Record<string, string> })[] {
-  return questions.flatMap((q) => {
-    const options = q.options as Record<string, string> | null;
-    if (!options || Object.keys(options).length === 0) return [];
-    return [{ ...q, options }];
-  });
-}
 
 export type PublicTopic = {
   subject: { slug: string; name: string };
