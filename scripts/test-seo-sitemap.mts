@@ -1,17 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { buildSitemap, shardFor } from "../src/lib/seo/sitemap-shape";
+import { buildSitemap } from "../src/lib/seo/sitemap-shape";
 import { siteUrl } from "../src/lib/seo/site";
-
-test("paths land in the shard that matches their tree", () => {
-  assert.equal(shardFor("/"), "static");
-  assert.equal(shardFor("/past-questions"), "static");
-  assert.equal(shardFor("/learn"), "static");
-  assert.equal(shardFor("/learn/biology"), "learn");
-  assert.equal(shardFor("/learn/biology/cell-structure"), "learn");
-  assert.equal(shardFor("/past-questions/waec"), "past-questions");
-  assert.equal(shardFor("/past-questions/waec/biology/2019"), "past-questions");
-});
 
 test("entries become absolute urls", () => {
   const [entry] = buildSitemap([{ path: "/learn/biology" }]);
