@@ -61,6 +61,73 @@ export function breadcrumbJsonLd(
   } as const;
 }
 
+/**
+ * AboutPage and ContactPage both describe the publisher rather than a lesson,
+ * so each carries the Organization as its `about` — that is the edge Google
+ * follows to connect a knowledge-panel entity to the pages that describe it.
+ */
+export function aboutPageJsonLd({
+  name,
+  description,
+  path,
+}: {
+  name: string;
+  description: string;
+  path: string;
+}) {
+  return {
+    "@context": CONTEXT,
+    "@type": "AboutPage",
+    name,
+    description,
+    url: absoluteUrl(path),
+    inLanguage: "en-NG",
+    about: {
+      "@type": "Organization",
+      name: siteName,
+      url: absoluteUrl("/"),
+    },
+  } as const;
+}
+
+export function contactPageJsonLd({
+  name,
+  description,
+  path,
+  email,
+}: {
+  name: string;
+  description: string;
+  path: string;
+  /** Omitted from the output when absent — never emitted empty. */
+  email?: string;
+}) {
+  return {
+    "@context": CONTEXT,
+    "@type": "ContactPage",
+    name,
+    description,
+    url: absoluteUrl(path),
+    inLanguage: "en-NG",
+    about: {
+      "@type": "Organization",
+      name: siteName,
+      url: absoluteUrl("/"),
+      ...(email
+        ? {
+            contactPoint: {
+              "@type": "ContactPoint",
+              contactType: "customer support",
+              email,
+              areaServed: "NG",
+              availableLanguage: "English",
+            },
+          }
+        : {}),
+    },
+  } as const;
+}
+
 export function courseJsonLd({
   name,
   description,

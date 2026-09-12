@@ -608,3 +608,32 @@
     animation: ticker 38s linear infinite;
   }
 }
+
+/* ── Theme-scoped visibility ───────────────────────────────
+ *
+ * For flat artwork that cannot be recoloured with a token — the PNG brand
+ * lockups. Both are rendered and one is hidden, using the same OS-plus-
+ * `data-theme` conditions as the palette above so a future in-app toggle
+ * switches them along with everything else.
+ */
+.theme-dark-only {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-light-only {
+    display: none;
+  }
+
+  :root:not([data-theme="light"]) .theme-dark-only {
+    display: block;
+  }
+}
+
+:root[data-theme="dark"] .theme-light-only {
+  display: none;
+}
+
+:root[data-theme="dark"] .theme-dark-only {
+  display: block;
+}

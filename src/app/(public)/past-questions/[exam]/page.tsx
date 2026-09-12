@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: Props) {
 
   return buildMetadata({
     title: `${parsed.label} Past Questions by Subject`,
-    description: `Every subject with ${parsed.label} past questions on PrepWell, with correct answers and worked explanations for each paper.`,
+    description: `Every subject with ${parsed.label} past questions on ScholarsCrib, with correct answers and worked explanations for each paper.`,
     path: `/past-questions/${parsed.segment}`,
   });
 }

@@ -22,9 +22,21 @@ export type PerformanceSubjectMetric = {
 };
 
 export type PerformanceData = {
+  /** One page of completed attempts, newest first. */
   attempts: PerformanceAttempt[];
+  /** Completed attempts in total, for the pager and the attempt counter. */
+  attemptTotal: number;
+  /**
+   * Score of the newest completed attempt. Carried separately because the
+   * stat row must keep showing the latest grade while the reader is on page 3
+   * of the history.
+   */
+  latestPercentage: number | null;
   subjectMetrics: PerformanceSubjectMetric[];
 };
+
+/** Attempts per page in the performance history. */
+export const PERFORMANCE_ATTEMPTS_PAGE_SIZE = 10;
 
 /** WAEC-style grade boundaries. Domain rule, not presentation. */
 export function getGrade(percentage: number): string {
@@ -35,11 +47,23 @@ export function getGrade(percentage: number): string {
   return "F";
 }
 
-export async function getPerformanceData(userId: string): Promise<PerformanceData> {
+export async function getPerformanceData(
+  userId: string,
+  /**
+   * One-indexed page of the attempt history. Trusted only as a hint: it comes
+   * from `?page=`, so it is floored at 1 here and clamped against the real
+   * total by `pageWindow` at render time.
+   */
+  attemptPage = 1,
+): Promise<PerformanceData> {
+  const page = Math.max(1, Math.floor(attemptPage));
+  const attemptWhere = { studentId: userId, status: "COMPLETED" } as const;
+
   const attemptsQuery = db.assessmentAttempt.findMany({
-    where: { studentId: userId, status: "COMPLETED" },
+    where: attemptWhere,
     orderBy: { completedAt: "desc" },
-    take: 20,
+    skip: (page - 1) * PERFORMANCE_ATTEMPTS_PAGE_SIZE,
+    take: PERFORMANCE_ATTEMPTS_PAGE_SIZE,
     select: {
       id: true,
       percentage: true,
@@ -54,6 +78,12 @@ export async function getPerformanceData(userId: string): Promise<PerformanceDat
       },
     },
   });
+  const attemptTotalQuery = db.assessmentAttempt.count({ where: attemptWhere });
+  const latestAttemptQuery = db.assessmentAttempt.findFirst({
+    where: attemptWhere,
+    orderBy: { completedAt: "desc" },
+    select: { percentage: true },
+  });
   const attemptedQuery = db.learningEvent.groupBy({
     by: ["subjectId"],
     where: { studentId: userId, kind: "QUESTION_ANSWERED" },
@@ -65,11 +95,14 @@ export async function getPerformanceData(userId: string): Promise<PerformanceDat
     _count: { _all: true },
   });
 
-  const [attempts, attemptedRows, correctRows] = await db.$transaction([
-    attemptsQuery,
-    attemptedQuery,
-    correctQuery,
-  ]);
+  const [attempts, attemptTotal, latestAttempt, attemptedRows, correctRows] =
+    await db.$transaction([
+      attemptsQuery,
+      attemptTotalQuery,
+      latestAttemptQuery,
+      attemptedQuery,
+      correctQuery,
+    ]);
 
   const correctBySubject = new Map(
     correctRows.map((row) => [row.subjectId, row._count._all]),
@@ -108,6 +141,8 @@ export async function getPerformanceData(userId: string): Promise<PerformanceDat
       totalMarks: a.totalMarks,
       completedAt: a.completedAt?.toISOString() ?? null,
     })),
+    attemptTotal,
+    latestPercentage: latestAttempt?.percentage ?? null,
     subjectMetrics,
   };
 }

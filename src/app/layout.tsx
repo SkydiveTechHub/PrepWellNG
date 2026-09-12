@@ -17,8 +17,8 @@ const nunito = Nunito({
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "PrepWell NG — Ace Your WAEC, JAMB & NECO",
-    template: "%s | PrepWell NG",
+    default: "ScholarsCrib — Ace Your WAEC, JAMB & NECO",
+    template: "%s | ScholarsCrib",
   },
   description: siteDescription,
   applicationName: siteName,

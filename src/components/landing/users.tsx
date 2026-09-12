@@ -43,7 +43,7 @@ export function Users() {
               </span>
             </>
           }
-          description="Students, teachers, parents, schools and publishers — PrepWell fits the way each of you works."
+          description="Students, teachers, parents, schools and publishers — ScholarsCrib fits the way each of you works."
         />
 
         <div className="mt-14 grid gap-5 lg:grid-cols-3">
@@ -138,14 +138,14 @@ export function Users() {
             {
               icon: LuBuilding2,
               tag: "For schools",
-              title: "Roll out PrepWell school-wide",
+              title: "Roll out ScholarsCrib school-wide",
               text: "One dashboard for your whole school, class-based assignments and analytics that principals actually love.",
             },
             {
               icon: LuLayers,
               tag: "For publishers",
               title: "Put your content to work",
-              text: "Bring your question banks and notes into PrepWell and reach students preparing for the big exams.",
+              text: "Bring your question banks and notes into ScholarsCrib and reach students preparing for the big exams.",
             },
           ].map((card) => (
             <Reveal key={card.tag}>
@@ -176,7 +176,7 @@ export function Users() {
                 <LuCalendarCheck className="h-5 w-5" />
               </span>
               <h3 className="mt-3 text-base font-extrabold tracking-tight ink">
-                Want PrepWell in your school or class?
+                Want ScholarsCrib in your school or class?
               </h3>
               <p className="mt-2 text-sm leading-relaxed ink-muted">
                 Talk to us about a pilot programme and a School Plan that fits

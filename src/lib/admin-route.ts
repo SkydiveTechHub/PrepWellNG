@@ -5,7 +5,7 @@
  * which cannot run them.
  */
 
-export const ADMIN_SESSION_COOKIE = "prepwell.admin-session";
+export const ADMIN_SESSION_COOKIE = "scholarscrib.admin-session";
 export const ADMIN_AUTH_BASE_PATH = "/admin/api/auth";
 
 /**

@@ -25,7 +25,7 @@ account deletion, school selection UI.
 Desktop: a user block pinned to the sidebar footer, above the exam countdown,
 opening a dropdown with Settings and Sign out.
 
-Mobile: a new sticky top bar — PrepWell mark on the left, avatar on the right.
+Mobile: a new sticky top bar — ScholarsCrib mark on the left, avatar on the right.
 The app currently has no mobile header at all, so this also gives mobile screens
 the app name they lack. The existing bottom tab bar is untouched.
 

@@ -117,6 +117,24 @@ test("empty and malformed input is not public", () => {
   assert.equal(isPublicPath("//evil.com"), false);
 });
 
+test("the about and contact pages are public", () => {
+  // Both are linked from the footer of every page and listed in the sitemap.
+  // Left off this allowlist they 307 to /login, which reads to a crawler as
+  // the pages not existing — and to a student with a billing problem as a
+  // support route that does not work.
+  assert.equal(isPublicPath("/about"), true);
+  assert.equal(isPublicPath("/contact"), true);
+});
+
+test("a path that merely starts with about or contact stays gated", () => {
+  // These are exact entries, not prefixes: nothing should be able to hide a
+  // gated tree behind "/contacts/..." or "/about-us/...".
+  assert.equal(isPublicPath("/aboutus"), false);
+  assert.equal(isPublicPath("/about/team"), false);
+  assert.equal(isPublicPath("/contacts"), false);
+  assert.equal(isPublicPath("/contact/admin"), false);
+});
+
 test("the PWA runtime files are public", () => {
   // The service worker registration is an anonymous fetch — the browser does
   // not attach the session to it in a way the proxy honours. A 307 to /login

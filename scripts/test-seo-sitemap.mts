@@ -56,3 +56,14 @@ test("the newer of two duplicate timestamps wins", () => {
   assert.equal(entries.length, 1);
   assert.equal(entries[0].lastModified, newer);
 });
+
+test("the about and contact pages survive the gate filter", () => {
+  // They sit in the static shard alongside "/". If either were ever added to
+  // GATED_PATH_PREFIXES they would vanish from the sitemap silently, so this
+  // pins the two together.
+  const entries = buildSitemap([{ path: "/about" }, { path: "/contact" }]);
+  assert.deepEqual(
+    entries.map((entry) => entry.url),
+    [`${siteUrl}/about`, `${siteUrl}/contact`],
+  );
+});

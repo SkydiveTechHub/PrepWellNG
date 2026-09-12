@@ -16,7 +16,8 @@ import {
   LuRotateCcw,
 } from "react-icons/lu";
 import { auth } from "@/lib/auth";
-import { getDashboardData } from "@/lib/dashboard";
+import { DASHBOARD_ATTEMPTS_PAGE_SIZE, getDashboardData } from "@/lib/dashboard";
+import { Pagination, pageWindow } from "@/components/ui/pagination";
 import { Greeting } from "@/components/ui/greeting";
 import { Progress } from "@/components/ui/progress";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -98,9 +99,18 @@ const QUICK_LINKS = [
   },
 ];
 
-export default async function DashboardPage() {
+export default async function DashboardPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ activity?: string }>;
+}) {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
+
+  // Its own key rather than `page`, so the activity pager cannot collide with
+  // anything else the dashboard grows later.
+  const parsedActivity = Number.parseInt((await searchParams).activity ?? "1", 10);
+  const activityPage = Number.isNaN(parsedActivity) ? 1 : parsedActivity;
 
   const {
     totalResponses,
@@ -113,11 +123,27 @@ export default async function DashboardPage() {
     hasStudyPlan,
     bestScore,
     recentAttempts,
+    attemptTotal,
     subjects,
     learningPicks,
     gaps,
     revision,
-  } = await getDashboardData(session.user.id);
+  } = await getDashboardData(session.user.id, activityPage);
+
+  const activityWindow = pageWindow({
+    page: activityPage,
+    pageSize: DASHBOARD_ATTEMPTS_PAGE_SIZE,
+    total: attemptTotal,
+  });
+  // A hand-edited `?activity=` past the end skipped every row. Bounce to the
+  // last real page rather than render the section empty.
+  if (attemptTotal > 0 && recentAttempts.length === 0) {
+    redirect(
+      activityWindow.page > 1
+        ? `/dashboard?activity=${activityWindow.page}#recent-activity`
+        : "/dashboard",
+    );
+  }
 
   const firstName = session.user.name?.split(" ")[0];
 
@@ -332,10 +358,10 @@ export default async function DashboardPage() {
       </section>
 
       {/* Recent activity */}
-      <section>
+      <section id="recent-activity">
         <div className="mb-3 flex items-center justify-between">
           <h2 className="section-label">Recent activity</h2>
-          {recentAttempts.length > 0 && (
+          {attemptTotal > 0 && (
             <Link
               href="/performance"
               className="text-xs font-bold text-primary hover:underline"
@@ -344,43 +370,53 @@ export default async function DashboardPage() {
             </Link>
           )}
         </div>
-        {recentAttempts.length > 0 ? (
-          <div className="space-y-3">
-            {recentAttempts.map((attempt) => (
-              <Link
-                key={attempt.id}
-                href={`/practice/results/${attempt.id}`}
-                className="card card-interactive group flex items-center justify-between gap-4 p-4"
-              >
-                <div className="min-w-0">
-                  <p className="truncate text-sm font-semibold text-foreground">
-                    {attempt.title}
-                  </p>
-                  <p className="mt-0.5 text-xs text-muted">
-                    {attempt.completedAt
-                      ? new Date(attempt.completedAt).toLocaleDateString("en-NG", {
-                          day: "numeric",
-                          month: "short",
-                          year: "numeric",
-                        })
-                      : "In progress"}
-                  </p>
-                </div>
-                {attempt.percentage !== null && (
-                  <span
-                    className={cn(
-                      "flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full border-2 text-sm font-bold",
-                      attempt.percentage >= 50
-                        ? "border-success/30 bg-success-soft text-success"
-                        : "border-tone-red-line bg-tone-red-soft text-danger",
-                    )}
-                  >
-                    {Math.round(attempt.percentage)}%
-                  </span>
-                )}
-              </Link>
-            ))}
-          </div>
+        {attemptTotal > 0 ? (
+          <>
+            <div className="space-y-3">
+              {recentAttempts.map((attempt) => (
+                <Link
+                  key={attempt.id}
+                  href={`/practice/results/${attempt.id}`}
+                  className="card card-interactive group flex items-center justify-between gap-4 p-4"
+                >
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-semibold text-foreground">
+                      {attempt.title}
+                    </p>
+                    <p className="mt-0.5 text-xs text-muted">
+                      {attempt.completedAt
+                        ? new Date(attempt.completedAt).toLocaleDateString("en-NG", {
+                            day: "numeric",
+                            month: "short",
+                            year: "numeric",
+                          })
+                        : "In progress"}
+                    </p>
+                  </div>
+                  {attempt.percentage !== null && (
+                    <span
+                      className={cn(
+                        "flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full border-2 text-sm font-bold",
+                        attempt.percentage >= 50
+                          ? "border-success/30 bg-success-soft text-success"
+                          : "border-tone-red-line bg-tone-red-soft text-danger",
+                      )}
+                    >
+                      {Math.round(attempt.percentage)}%
+                    </span>
+                  )}
+                </Link>
+              ))}
+            </div>
+            <Pagination
+              window={activityWindow}
+              basePath="/dashboard"
+              params={{}}
+              pageParam="activity"
+              label="Recent activity pagination"
+              hash="recent-activity"
+            />
+          </>
         ) : (
           <EmptyState
             icon={<LuTarget className="h-6 w-6" />}

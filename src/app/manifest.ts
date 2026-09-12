@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     id: "/",
     name: siteName,
-    short_name: "PrepWell",
+    short_name: "ScholarsCrib",
     description: siteDescription,
     scope: "/",
     // An installed student should land in the app, not on the marketing page.

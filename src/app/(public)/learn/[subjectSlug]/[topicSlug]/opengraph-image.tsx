@@ -29,7 +29,7 @@ export default async function Image({
         }}
       >
         <div style={{ fontSize: 34, opacity: 0.85, letterSpacing: 3 }}>
-          {topic?.subject.name.toUpperCase() ?? "PREPWELL"}
+          {topic?.subject.name.toUpperCase() ?? "SCHOLARSCRIB"}
         </div>
         <div style={{ fontSize: 72, fontWeight: 800, marginTop: 20, lineHeight: 1.1 }}>
           {topic?.title ?? siteName}

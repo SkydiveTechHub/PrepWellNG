@@ -7,7 +7,7 @@ export const revalidate = 86400;
 export const metadata = buildMetadata({
   title: "Subjects — WAEC, JAMB & NECO syllabus topics",
   description:
-    "Every subject PrepWell covers, from Mathematics to Economics, with the topics each WAEC, JAMB and NECO syllabus expects you to know.",
+    "Every subject ScholarsCrib covers, from Mathematics to Economics, with the topics each WAEC, JAMB and NECO syllabus expects you to know.",
   path: "/learn",
 });
 

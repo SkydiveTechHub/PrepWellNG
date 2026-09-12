@@ -16,7 +16,7 @@ import { FAQS } from "@/components/landing/faq-data";
 import { faqPageJsonLd, organisationJsonLd, websiteJsonLd } from "@/lib/seo/jsonld";
 
 export const metadata = buildMetadata({
-  title: "PrepWell NG — Learn Smarter. Score Higher. Build Your Future.",
+  title: "ScholarsCrib — Learn Smarter. Score Higher. Build Your Future.",
   description:
     "Nigeria's learning platform for WAEC, JAMB and NECO. Interactive lessons, an AI tutor, smart flashcards, quizzes, CBT practice and a study plan that adapts to you.",
   path: "/",

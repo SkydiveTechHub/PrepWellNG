@@ -65,7 +65,7 @@ export type StoredSession = SessionData & {
   awayEvents: number;
 };
 
-export const STORAGE_PREFIX = "prepwell:exam:";
+export const STORAGE_PREFIX = "scholarscrib:exam:";
 export const STORAGE_VERSION = 3;
 
 export function storageKeyFor(sessionKey: string): string {

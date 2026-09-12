@@ -7,7 +7,6 @@ import {
   LuChartBar,
   LuAward,
   LuSettings,
-  LuGraduationCap,
   LuSparkles,
 } from "react-icons/lu";
 
@@ -41,12 +40,6 @@ export const SETTINGS_ITEM = {
   name: "Settings",
   href: "/settings",
   icon: LuSettings,
-} as const;
-
-export const BRAND = {
-  name: "PrepWell",
-  tagline: "WAEC · JAMB · NECO",
-  icon: LuGraduationCap,
 } as const;
 
 /**

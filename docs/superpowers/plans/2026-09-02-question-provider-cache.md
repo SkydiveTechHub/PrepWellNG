@@ -1625,7 +1625,7 @@ export async function uploadRemoteImage(
   if (!creds) throw new Error("Image uploads aren't configured");
 
   const timestamp = Math.floor(Date.now() / 1000);
-  const fullPublicId = `prepwell/questions/${publicId}`;
+  const fullPublicId = `scholarscrib/questions/${publicId}`;
 
   const toSign = `overwrite=true&public_id=${fullPublicId}&timestamp=${timestamp}`;
   const signature = crypto
@@ -2220,7 +2220,7 @@ Start the dev server, log into the admin console, then:
 ```bash
 curl -X POST http://localhost:3000/admin/api/provider/backfill \
   -H 'Content-Type: application/json' \
-  -b 'prepwell.admin-session=<your session cookie>' \
+  -b 'scholarscrib.admin-session=<your session cookie>' \
   -d '{"subjectSlug":"chemistry","examType":"JAMB","examYear":2022}'
 ```
 

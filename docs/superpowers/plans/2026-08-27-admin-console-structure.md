@@ -4162,7 +4162,7 @@ Together these show the refusal is enforced server-side regardless of what the U
 
 ```bash
 curl -i -X DELETE http://localhost:3000/admin/api/students/<id> \
-  -H "Cookie: prepwell.admin-session=<non-owner session cookie>"
+  -H "Cookie: scholarscrib.admin-session=<non-owner session cookie>"
 # Expected: 403
 ```
 

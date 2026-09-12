@@ -16,7 +16,7 @@
 - **Never trust a JWT for authorization.** Admin status is re-read from the database on every request. The token carries presentation data only. This matches the existing discipline in `src/lib/auth.ts`.
 - **`prisma migrate` cannot reach the database from this machine.** `DIRECT_URL` does not resolve. Migration SQL is hand-applied through the Supabase SQL Editor, then reconciled.
 - **Migration files must keep LF line endings.** `core.autocrlf=true` silently drifts Prisma migration checksums.
-- **Cookie name and salt must match exactly** wherever the admin token is read: `prepwell.admin-session` for both.
+- **Cookie name and salt must match exactly** wherever the admin token is read: `scholarscrib.admin-session` for both.
 - **`isOwner` is never read from a request body.** Only `scripts/create-admin.ts` writes `true`.
 - **bcrypt cost factor is 12**, matching `BCRYPT_ROUNDS` in `src/lib/user-account.ts`.
 - **Identifiers are stored trimmed and lowercased**, matching student email handling.
@@ -551,7 +551,7 @@ Create `src/lib/admin-route.ts`:
  * which cannot run them.
  */
 
-export const ADMIN_SESSION_COOKIE = "prepwell.admin-session";
+export const ADMIN_SESSION_COOKIE = "scholarscrib.admin-session";
 export const ADMIN_AUTH_BASE_PATH = "/admin/api/auth";
 ```
 
@@ -605,11 +605,11 @@ export const {
   cookies: {
     sessionToken: { name: ADMIN_SESSION_COOKIE, options: cookieOptions },
     callbackUrl: {
-      name: "prepwell.admin-callback-url",
+      name: "scholarscrib.admin-callback-url",
       options: cookieOptions,
     },
     csrfToken: {
-      name: "prepwell.admin-csrf-token",
+      name: "scholarscrib.admin-csrf-token",
       options: cookieOptions,
     },
   },
@@ -694,7 +694,7 @@ Then:
 curl -s -i http://localhost:3000/admin/api/auth/csrf
 ```
 
-Expected: `200`, a JSON body containing `csrfToken`, and a `Set-Cookie` header for `prepwell.admin-csrf-token` with `Path=/admin`. If `Path` is `/`, the cookie options did not apply — fix before continuing, because Task 7 depends on this scope.
+Expected: `200`, a JSON body containing `csrfToken`, and a `Set-Cookie` header for `scholarscrib.admin-csrf-token` with `Path=/admin`. If `Path` is `/`, the cookie options did not apply — fix before continuing, because Task 7 depends on this scope.
 
 - [ ] **Step 7: Document and commit**
 
@@ -1196,7 +1196,7 @@ npm run dev
 - Visit `/admin` signed out — you are redirected to `/admin/login`.
 - Sign in with the Task 3 credentials — you land on `/admin` with the sidebar. In the network tab, confirm the sign-in POST went to **`/admin/api/auth/callback/admin-credentials`**. If it went to `/api/auth/...`, the `SessionProvider` basePath is not applied — fix it before continuing, since nothing downstream will work.
 - Click through `/admin/questions` → `/admin/lessons` — both render.
-- In DevTools → Application → Cookies, confirm `prepwell.admin-session` has `Path=/admin`.
+- In DevTools → Application → Cookies, confirm `scholarscrib.admin-session` has `Path=/admin`.
 - Sign in as a student in the same browser, then reload `/admin` — both sessions are live at once.
 
 - [ ] **Step 8: Commit**
@@ -1921,7 +1921,7 @@ Back as owner, deactivate the new admin. In the private window, reload `/admin` 
 ```bash
 curl -s -X PATCH http://localhost:3000/admin/api/admins/<owner-id>/status \
   -H 'Content-Type: application/json' -d '{"isActive":false}' \
-  -H 'Cookie: prepwell.admin-session=<owner cookie>'
+  -H 'Cookie: scholarscrib.admin-session=<owner cookie>'
 ```
 
 Expected: `403`, and the owner row unchanged.

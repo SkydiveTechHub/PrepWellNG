@@ -1,7 +1,9 @@
+import Image from "next/image";
 import { redirect } from "next/navigation";
-import { LuGraduationCap, LuCheck, LuSparkles, LuClipboardCheck, LuCalendarClock } from "react-icons/lu";
+import { LuCheck, LuSparkles, LuClipboardCheck, LuCalendarClock } from "react-icons/lu";
 import { auth } from "@/lib/auth";
 import { NOINDEX } from "@/lib/seo/metadata";
+import { siteName } from "@/lib/seo/site";
 
 // Nothing under here is useful in a search result, and an indexed login wall
 // is a ranking liability. Async layouts can still export static metadata.
@@ -44,18 +46,17 @@ export default async function AuthLayout({
         <div className="absolute bottom-40 left-12 h-10 w-10 rounded-full bg-white/10" />
 
         <div className="relative max-w-md">
-          <div className="mb-10 flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/15 backdrop-blur">
-              <LuGraduationCap className="h-7 w-7 text-white" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold tracking-tight text-white">
-                PrepWell
-              </h1>
-              <p className="text-xs font-semibold uppercase tracking-widest text-hero-ink">
-                WAEC · JAMB · NECO
-              </p>
-            </div>
+          {/* The panel is a fixed dark gradient in either theme, so the
+              reversed lockup is hardcoded rather than theme-switched. */}
+          <div className="mb-10">
+            <Image
+              src="/logo-on-dark.png"
+              alt={siteName}
+              width={236}
+              height={64}
+              priority
+              className="h-16 w-auto"
+            />
           </div>
 
           <h2 className="text-3xl font-bold leading-tight text-white">

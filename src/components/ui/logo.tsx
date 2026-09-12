@@ -40,7 +40,7 @@ export function Logo({
   className?: string;
   imageClassName?: string;
 }) {
-  const imageClasses = cn("h-12 w-auto", imageClassName);
+  const imageClasses = cn("h-18 w-auto", imageClassName);
   const wrapperClasses = cn("flex items-center", className);
 
   // Both images are decorative and the name lives on the wrapper: whichever

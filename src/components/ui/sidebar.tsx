@@ -4,11 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { UserMenu, type ProfileUser } from "./user-menu";
-import {
-  NAV_GROUPS,
-  SETTINGS_ITEM,
-  BRAND,
-} from "@/lib/navigation";
+import { NAV_GROUPS, SETTINGS_ITEM } from "@/lib/navigation";
+import { Logo } from "@/components/ui/logo";
 import { LuCalendarDays } from "react-icons/lu";
 import { useExamActive } from "@/components/assessment/exam-active";
 
@@ -37,23 +34,12 @@ export function Sidebar({
   return (
     <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-border bg-card lg:flex">
       {/* Brand */}
-      <Link
+      <Logo
         href="/dashboard"
         prefetch={prefetch}
-        className="flex items-center gap-2.5 border-b border-border px-6 py-5"
-      >
-        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-brand shadow-soft">
-          <BRAND.icon className="h-5 w-5 text-white" />
-        </div>
-        <div>
-          <p className="text-lg font-bold leading-tight tracking-tight text-foreground">
-            {BRAND.name}
-          </p>
-          <p className="text-[10px] font-semibold uppercase tracking-widest text-muted">
-            {BRAND.tagline}
-          </p>
-        </div>
-      </Link>
+        className="border-b border-border px-2 py-1"
+        imageClassName="h-20"
+      />
 
       {/* Navigation */}
       <nav className="flex-1 overflow-y-auto px-3 py-4">

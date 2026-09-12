@@ -10,7 +10,7 @@ import { PasswordForm } from "@/components/settings/password-form";
 import { PageHeader } from "@/components/ui/page-header";
 
 export const metadata: Metadata = {
-  title: "Settings — PrepWell NG",
+  title: "Settings — ScholarsCrib",
 };
 
 export default async function SettingsPage() {

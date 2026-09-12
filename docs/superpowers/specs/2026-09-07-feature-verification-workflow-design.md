@@ -69,12 +69,12 @@ that *describes* end-to-end testing does not *provide* end-to-end testing. See
 (downloaded outside the repo).
 
 **Prerequisite (user action):** PostgreSQL 16 for Windows, installed as a
-service, with a `prepwell-test` database and the credentials already recorded in
+service, with a `scholarscrib-test` database and the credentials already recorded in
 `.env.test`:
 
 ```
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/prepwell-test
-DIRECT_URL=postgresql://postgres:postgres@localhost:5432/prepwell-test
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/scholarscrib-test
+DIRECT_URL=postgresql://postgres:postgres@localhost:5432/scholarscrib-test
 ```
 
 That file already exists and points here; nothing is currently listening. Note

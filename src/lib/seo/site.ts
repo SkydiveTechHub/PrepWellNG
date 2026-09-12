@@ -8,7 +8,7 @@
  * canonical — because an env var was fat-fingered is worse than one that ships
  * a slightly wrong but valid canonical.
  */
-const FALLBACK_SITE_URL = "https://prepwell.ng";
+const FALLBACK_SITE_URL = "https://scholarscrib.com";
 const ALLOWED_PROTOCOLS = new Set(["http:", "https:"]);
 
 export function normaliseSiteUrl(raw: string | null | undefined): string {
@@ -24,7 +24,7 @@ export function normaliseSiteUrl(raw: string | null | undefined): string {
 }
 
 export const siteUrl = normaliseSiteUrl(process.env.NEXT_PUBLIC_APP_URL);
-export const siteName = "PrepWell NG";
+export const siteName = "ScholarsCrib";
 export const siteDescription =
   "Nigeria's learning platform for WAEC, JAMB and NECO. Structured lessons, past questions with worked answers, mock exams and a study plan that adapts to you.";
 

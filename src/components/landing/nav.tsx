@@ -5,7 +5,7 @@ import Link from "next/link";
 import { LuArrowRight, LuMenu, LuX } from "react-icons/lu";
 import { cn } from "@/lib/utils";
 import { buttonClass } from "@/components/ui/button";
-import { Logo } from "./logo";
+import { Logo } from "@/components/ui/logo";
 
 const NAV_LINKS = [
   { name: "Features", href: "/#features" },
