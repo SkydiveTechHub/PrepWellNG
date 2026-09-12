@@ -26,14 +26,23 @@ var PRECACHE_URLS = [OFFLINE_URL, "/icon-192.png", "/icon-512.png"];
 self.addEventListener("install", function (event) {
   event.waitUntil(
     caches.open(SHELL_CACHE).then(function (cache) {
-      // addAll is all-or-nothing: one 404 aborts the install and leaves the
-      // old worker in place. Adding individually means a missing icon costs
-      // that icon, not the whole offline fallback.
+      // addAll/cache.add are all-or-nothing and can't be inspected before
+      // they store, so a URL that currently redirects (e.g. /offline, until
+      // Task 3 adds it to the auth allowlist) would get the redirect target
+      // — the login page — precached under the original key. Fetching and
+      // checking first keeps that out of the shell. Adding individually
+      // also means a missing icon costs that icon, not the whole offline
+      // fallback.
       return Promise.all(
         PRECACHE_URLS.map(function (url) {
-          return cache.add(new Request(url, { cache: "reload" })).catch(function () {
-            return undefined;
-          });
+          return fetch(new Request(url, { cache: "reload" }))
+            .then(function (response) {
+              if (!response.ok || response.redirected) return undefined;
+              return cache.put(url, response);
+            })
+            .catch(function () {
+              return undefined;
+            });
         }),
       );
     }),
@@ -68,7 +77,14 @@ function trimCache(cacheName, maxEntries) {
 }
 
 function putInRuntime(request, response) {
-  if (!response || !response.ok || response.type === "opaque") return response;
+  // A followed redirect stored under the original request's URL would serve
+  // the wrong page to whoever asks for that URL next, and a browser refuses
+  // to fulfil a navigation from a cached response whose redirect chain isn't
+  // "manual" — so redirected responses are left uncached, same as failed or
+  // opaque ones.
+  if (!response || !response.ok || response.type === "opaque" || response.redirected) {
+    return response;
+  }
   var copy = response.clone();
   caches
     .open(RUNTIME_CACHE)
@@ -84,8 +100,27 @@ function putInRuntime(request, response) {
   return response;
 }
 
+// A cache read must never turn into a hard network-error page: if the
+// cache itself is corrupt or unavailable, treat it the same as a miss and
+// keep going, rather than letting the rejection reach event.respondWith.
+function safeMatch(request) {
+  return caches.match(request).catch(function () {
+    return undefined;
+  });
+}
+
+// The last resort when both the network and the cache have failed —
+// factored out so networkFirst and networkOnly don't each build their own
+// copy of the same plain-text fallback.
+function offlineResponse() {
+  return new Response("You are offline.", {
+    status: 503,
+    headers: { "Content-Type": "text/plain; charset=utf-8" },
+  });
+}
+
 function cacheFirst(request) {
-  return caches.match(request).then(function (cached) {
+  return safeMatch(request).then(function (cached) {
     if (cached) return cached;
     return fetch(request).then(function (response) {
       return putInRuntime(request, response);
@@ -94,7 +129,7 @@ function cacheFirst(request) {
 }
 
 function staleWhileRevalidate(request) {
-  return caches.match(request).then(function (cached) {
+  return safeMatch(request).then(function (cached) {
     var network = fetch(request)
       .then(function (response) {
         return putInRuntime(request, response);
@@ -112,25 +147,30 @@ function networkFirst(request) {
       return putInRuntime(request, response);
     })
     .catch(function () {
-      return caches.match(request).then(function (cached) {
-        return cached || caches.match(OFFLINE_URL);
-      });
+      // The network already failed, so a broken cache read here has nowhere
+      // left to fall through to but the plain offline response.
+      return caches
+        .match(request)
+        .then(function (cached) {
+          return cached || caches.match(OFFLINE_URL);
+        })
+        .catch(function () {
+          return offlineResponse();
+        });
     });
 }
 
 function networkOnly(request, isNavigation) {
   if (!isNavigation) return fetch(request);
-  return fetch(request).catch(function () {
-    return caches.match(OFFLINE_URL).then(function (offline) {
-      return (
-        offline ||
-        new Response("You are offline.", {
-          status: 503,
-          headers: { "Content-Type": "text/plain; charset=utf-8" },
-        })
-      );
+  return fetch(request)
+    .catch(function () {
+      return caches.match(OFFLINE_URL).then(function (offline) {
+        return offline || offlineResponse();
+      });
+    })
+    .catch(function () {
+      return offlineResponse();
     });
-  });
 }
 
 self.addEventListener("fetch", function (event) {
