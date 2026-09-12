@@ -66,6 +66,31 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+
+  // A stale, browser-cached service worker is the single most common way a
+  // PWA becomes unfixable in production: the fix ships, and no client ever
+  // fetches it. These two files must always be revalidated.
+  async headers() {
+    return [
+      {
+        source: "/:file(sw.js|sw-policy.js)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-cache, no-store, must-revalidate",
+          },
+          {
+            key: "Content-Type",
+            value: "application/javascript; charset=utf-8",
+          },
+          {
+            key: "Content-Security-Policy",
+            value: "default-src 'self'; script-src 'self'",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;
