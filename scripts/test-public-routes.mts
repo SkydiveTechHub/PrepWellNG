@@ -116,3 +116,28 @@ test("empty and malformed input is not public", () => {
   assert.equal(isPublicPath("learn"), false);
   assert.equal(isPublicPath("//evil.com"), false);
 });
+
+test("the PWA runtime files are public", () => {
+  // The service worker registration is an anonymous fetch — the browser does
+  // not attach the session to it in a way the proxy honours. A 307 to /login
+  // here means the worker never installs and the failure is silent.
+  assert.equal(isPublicPath("/sw.js"), true);
+  assert.equal(isPublicPath("/sw-policy.js"), true);
+});
+
+test("the offline fallback is public", () => {
+  // It is precached and shown precisely when the app cannot reach the server,
+  // so it can never be behind a redirect that needs the server.
+  assert.equal(isPublicPath("/offline"), true);
+});
+
+test("opening the PWA surface did not open anything else", () => {
+  assert.equal(isPublicPath("/dashboard"), false);
+  assert.equal(isPublicPath("/practice"), false);
+  assert.equal(isPublicPath("/admin"), false);
+  assert.equal(isPublicPath("/api/questions"), false);
+  // Not an "/offline" prefix — only the exact path is public.
+  assert.equal(isPublicPath("/offline-report"), false);
+  // Not a ".js" rule — only these two files.
+  assert.equal(isPublicPath("/admin/sw.js"), false);
+});
