@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Nunito } from "next/font/google";
 import { siteDescription, siteName, siteUrl } from "@/lib/seo/site";
+import { ServiceWorkerRegistrar } from "@/components/pwa/service-worker-registrar";
 import "./globals.css";
 // KaTeX markup is unreadable without its stylesheet -- fractions collapse onto
 // one line and radicals lose their bar. The dependency was already installed
@@ -59,7 +60,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${nunito.variable} h-full`}>
-      <body className="h-full">{children}</body>
+      <body className="h-full">
+        {children}
+        <ServiceWorkerRegistrar />
+      </body>
     </html>
   );
 }
