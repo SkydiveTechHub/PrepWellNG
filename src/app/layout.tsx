@@ -36,11 +36,19 @@ export const metadata: Metadata = {
 
 // themeColor must live here, not in `metadata` — the metadata key has been
 // deprecated since Next.js 14 and is ignored.
+//
+// The media-array form, because globals.css defines a full dark palette keyed
+// on data-theme: a single #ffffff paints a white status bar and title bar
+// around a #070d1f app on every dark-mode device. Values are the light and
+// dark --app-background tokens verbatim.
 export function generateViewport(): Viewport {
   return {
     width: "device-width",
     initialScale: 1,
-    themeColor: "#ffffff",
+    themeColor: [
+      { media: "(prefers-color-scheme: light)", color: "#f8fafc" },
+      { media: "(prefers-color-scheme: dark)", color: "#070d1f" },
+    ],
   };
 }
 
