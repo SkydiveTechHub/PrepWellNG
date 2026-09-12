@@ -51,9 +51,14 @@ export function InstallBanner() {
     if (readDismissed()) return;
     // Only knowable on the client (localStorage, matchMedia, navigator), so
     // this has to be set from the effect rather than during render.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setDismissed(false);
 
-    const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    // iPadOS 13+ Safari reports a desktop Mac user agent, so a touch-capable
+    // "Mac" is treated as iOS too; a real desktop Mac reports 0 touch points.
+    const isIos =
+      /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+      (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
     if (isIos) {
       // Safari never fires beforeinstallprompt, so instructions are the only
       // option on the platform where a home-screen icon matters most.
@@ -80,9 +85,12 @@ export function InstallBanner() {
   const install = useCallback(async () => {
     if (!promptEvent) return;
     await promptEvent.prompt();
-    const { outcome } = await promptEvent.userChoice;
+    await promptEvent.userChoice;
     setPromptEvent(null);
-    if (outcome === "accepted") dismiss();
+    // The student has answered the browser's own dialog either way. Re-inviting
+    // someone who just said no is exactly the nagging the dismissal key exists
+    // to prevent, so both outcomes persist it.
+    dismiss();
   }, [promptEvent, dismiss]);
 
   if (dismissed) return null;
