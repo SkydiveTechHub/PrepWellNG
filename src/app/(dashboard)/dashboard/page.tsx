@@ -24,6 +24,7 @@ import { cn } from "@/lib/utils";
 import { NextTopics } from "@/components/path/next-topics";
 import { GapList } from "@/components/path/gap-list";
 import { RevisionQueue } from "@/components/path/revision-queue";
+import { InstallBanner } from "@/components/pwa/install-banner";
 
 const STAT_CARDS = [
   {
@@ -129,6 +130,7 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-8">
+      <InstallBanner />
       {/* Hero */}
       <section className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-hero-from via-hero-via to-hero-to p-6 shadow-lift md:p-8">
         <div className="absolute -right-16 -top-24 h-64 w-64 rounded-full bg-white/10" />
