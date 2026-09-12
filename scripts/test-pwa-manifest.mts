@@ -3,8 +3,11 @@ import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
 import * as mod from "../src/app/manifest";
 
-// A probe showed tsx's dynamic import of this module can hand back a doubly
-// nested default (m.default.default) instead of the function itself. Resolve
+// A probe showed this module's default export arrives doubly nested
+// (m.default.default) instead of as the function itself when run the way
+// `npm test` actually runs it — `node --import tsx --test`. (Invoking the tsx
+// CLI binary directly does not wrap it, which is why a plain default import
+// looks fine there and only breaks under CI's real invocation.) Resolve
 // whichever shape we actually got rather than bending src/app/manifest.ts to
 // suit the test harness.
 type ManifestFn = () => import("next").MetadataRoute.Manifest;
