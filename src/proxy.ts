@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 import { classifyAdminPath, ADMIN_SESSION_COOKIE } from "@/lib/admin-route";
 import { isPublicPath } from "@/lib/public-routes";
+import { getSessionToken } from "@/lib/session-token";
 
 const AUTH_ROUTES = ["/login", "/register"];
 
@@ -49,10 +50,9 @@ export default async function proxy(req: NextRequest) {
     return NextResponse.redirect(adminLogin);
   }
 
-  const token = await getToken({
-    req,
-    secret: process.env.AUTH_SECRET,
-  });
+  // Not a bare getToken: see session-token.ts for the cookie-name trap that
+  // had /login and /dashboard redirecting into each other in production.
+  const token = await getSessionToken(req);
 
   // Signed-in users belong in the app, not on the marketing page.
   if (pathname === "/" && token) {
