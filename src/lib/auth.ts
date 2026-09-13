@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+import NextAuth, { CredentialsSignin } from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
@@ -8,6 +8,12 @@ import { z } from "zod";
 import { isSessionRevoked, sessionStartedAt } from "@/lib/account-status";
 import { resolveTier } from "@/lib/billing/entitlement";
 import type { SubscriptionTier } from "@/lib/subscription";
+import { checkLoginRateLimit } from "@/lib/login-rate-limit";
+
+/** Surfaces to the client as `result.code === "rate_limited"`. */
+class LoginRateLimited extends CredentialsSignin {
+  code = "rate_limited";
+}
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -101,11 +107,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials) {
+      async authorize(credentials, request) {
         const parsed = loginSchema.safeParse(credentials);
         if (!parsed.success) return null;
 
         const { email, password } = parsed.data;
+
+        // Before the lookup and bcrypt: see login-rate-limit.ts.
+        const limit = await checkLoginRateLimit(email, request);
+        if (!limit.ok) throw new LoginRateLimited();
 
         // Emails are stored lowercase/trimmed at registration; match the same
         // normalization here so casing differences never lock an account out.

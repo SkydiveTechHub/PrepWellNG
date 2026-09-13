@@ -77,14 +77,19 @@ function buildConditions(filter: QuestionPoolFilter): Prisma.Sql[] {
       Date.now() -
         (filter.seenWithinDays ?? DEFAULT_SEEN_WINDOW_DAYS) * 86_400_000,
     );
+    // Driven from the student's attempts, not from the question. A correlated
+    // `NOT EXISTS ... WHERE qr."questionId" = q.id` probes every response to
+    // each candidate question — from every student — before narrowing to this
+    // one, so its cost grows with the user base. This uncorrelated `NOT IN`
+    // is planned as a hashed subplan: the student's (small) seen set is built
+    // once, and each candidate is a hash lookup. `questionId` is NOT NULL, so
+    // NOT IN's null trap does not apply.
     conditions.push(Prisma.sql`
-      NOT EXISTS (
-        SELECT 1
-        FROM "QuestionResponse" qr
-        JOIN "AssessmentAttempt" aa ON aa.id = qr."attemptId"
-        WHERE qr."questionId" = q.id
-          AND aa."studentId" = ${filter.excludeSeenByStudentId}
-          AND aa."completedAt" IS NOT NULL
+      q.id NOT IN (
+        SELECT qr."questionId"
+        FROM "AssessmentAttempt" aa
+        JOIN "QuestionResponse" qr ON qr."attemptId" = aa.id
+        WHERE aa."studentId" = ${filter.excludeSeenByStudentId}
           AND aa."completedAt" >= ${cutoff}
       )
     `);

@@ -129,10 +129,10 @@ export async function generateQuiz(studentId: string, input: GenerateQuizInput) 
     // charging every eligible request meant thirty students starting an
     // already-cached paper could exhaust it, and the next student who actually
     // needed a new paper would silently get one drawn from the wrong years.
-    // The limit bounds one instance's outbound traffic, so the real ceiling
-    // across a horizontally scaled deployment is 30 x instances.
+    // With Redis configured the budget is shared by every instance; without it
+    // (or during a Redis outage) each instance enforces its own 30.
     if (ledger?.status !== "SATURATED" && ledger?.status !== "FAILED") {
-      const outbound = rateLimit({
+      const outbound = await rateLimit({
         key: "provider:outbound",
         limit: 30,
         windowSeconds: 60,

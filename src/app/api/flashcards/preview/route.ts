@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
 
     // Parses a lesson's blocks and reads its whole card set on every call, and
     // it is trivially loopable from the client.
-    const limit = rateLimit({
+    const limit = await rateLimit({
       key: `flashcard-preview:${session.user.id}`,
       limit: 40,
       windowSeconds: 60,

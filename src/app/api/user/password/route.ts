@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
 
   // Verifies the current password, so it is a guessing oracle against a
   // borrowed or unattended session.
-  const limit = rateLimit({
+  const limit = await rateLimit({
     key: `password:${session.user.id}`,
     limit: 5,
     windowSeconds: 900,

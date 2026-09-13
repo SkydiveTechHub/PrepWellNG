@@ -43,7 +43,11 @@ function LoginForm() {
       });
 
       if (result?.error) {
-        setError("Invalid email or password. Please try again.");
+        setError(
+          result.code === "rate_limited"
+            ? "Too many sign-in attempts. Please wait a while before trying again."
+            : "Invalid email or password. Please try again.",
+        );
         setLoading(false);
       } else {
         // A full navigation, not router.push + router.refresh. The refresh

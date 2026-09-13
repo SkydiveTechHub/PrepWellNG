@@ -598,8 +598,10 @@ model QuestionResponse {
 
   @@unique([attemptId, questionId])
   @@index([attemptId])
-  // The "questions this student has already seen" subquery in question-pool
-  // probes by questionId before joining back to the attempt.
+  // Admin question deletion counts dependent responses by questionId, and the
+  // foreign key check on deleting a Question needs it too.
+  // question-pool's "already seen" check deliberately does NOT use this: it
+  // starts from the student's attempts so its cost doesn't scale with users.
   @@index([questionId])
   // The performance page groups wrong answers by subject and topic.
   @@index([isCorrect])

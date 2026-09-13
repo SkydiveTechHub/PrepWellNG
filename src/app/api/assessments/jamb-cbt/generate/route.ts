@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     const studentId = session.user.id;
 
     // The heaviest generator in the app: 180 questions and 180 join rows.
-    const limit = rateLimit({
+    const limit = await rateLimit({
       key: `jamb-cbt:${studentId}`,
       limit: 6,
       windowSeconds: 60,
