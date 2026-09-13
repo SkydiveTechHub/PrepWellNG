@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
 
     // Generation writes an Assessment plus a row per question, so an unbounded
     // caller can inflate the database quickly.
-    const limit = rateLimit({
+    const limit = await rateLimit({
       key: `generate:${session.user.id}`,
       limit: 20,
       windowSeconds: 60,

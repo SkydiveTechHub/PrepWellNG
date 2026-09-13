@@ -25,7 +25,7 @@ export async function POST(req: Request) {
 
   // Keyed by user, not IP: initializing transactions is cheap for us and noisy
   // in the Paystack dashboard, and a signed-in user is the right unit here.
-  const limit = rateLimit({
+  const limit = await rateLimit({
     key: `billing-checkout:${userId}`,
     limit: 10,
     windowSeconds: 60,

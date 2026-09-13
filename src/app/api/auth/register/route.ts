@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
   try {
     // Unauthenticated and it runs bcrypt, so it is both the account-creation
     // spam surface and a cheap way to burn server CPU.
-    const limit = rateLimit({
+    const limit = await rateLimit({
       key: clientKey(req, "register"),
       limit: 5,
       windowSeconds: 600,

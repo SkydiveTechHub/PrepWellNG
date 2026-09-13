@@ -166,7 +166,7 @@ export async function ensureJambYearCached(
 
       // Shares the one outbound budget with the past-paper flow, and is spent
       // per paper rather than per request so a saturated subject costs nothing.
-      const outbound = rateLimit({
+      const outbound = await rateLimit({
         key: "provider:outbound",
         limit: 30,
         windowSeconds: 60,

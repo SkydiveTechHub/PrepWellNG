@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
     }
     const studentId = session.user.id;
 
-    const limit = rateLimit({
+    const limit = await rateLimit({
       key: `scoped-mock:${studentId}`,
       limit: 12,
       windowSeconds: 60,

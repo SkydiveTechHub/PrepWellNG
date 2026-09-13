@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
 
     // Looser than the generator's: preparing is how a student advances a
     // half-drawn year, so repeated asks are the intended use.
-    const limit = rateLimit({
+    const limit = await rateLimit({
       key: `jamb-cbt-prepare:${session.user.id}`,
       limit: 20,
       windowSeconds: 60,

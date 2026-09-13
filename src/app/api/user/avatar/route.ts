@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
   }
 
   // Every accepted upload costs a Cloudinary transformation.
-  const limit = rateLimit({
+  const limit = await rateLimit({
     key: `avatar:${session.user.id}`,
     limit: 10,
     windowSeconds: 3600,
