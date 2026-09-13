@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { LuMenu, LuX, LuCalendarDays } from "react-icons/lu";
 import { UserMenu, type ProfileUser } from "./user-menu";
@@ -32,34 +32,56 @@ export function MobileHeader({
   // and opening the drawer would otherwise prefetch every one of them.
   const prefetch = useExamActive() ? false : undefined;
 
+  // Keep the page behind the drawer from scrolling, and let Escape close it.
+  useEffect(() => {
+    if (!open) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = previous;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-card/90 backdrop-blur-md lg:hidden">
-      <div className="flex h-14 items-center justify-between px-4">
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => setOpen(true)}
-            aria-label="Open menu"
-            className="flex h-9 w-9 items-center justify-center rounded-lg text-foreground transition-colors hover:bg-secondary"
-          >
-            <LuMenu className="h-5 w-5" />
-          </button>
-          {/* The bar is only h-14, and the hamburger and user menu book-end
+    <>
+      <header className="sticky top-0 z-40 border-b border-border bg-card/90 backdrop-blur-md lg:hidden">
+        <div className="flex h-14 items-center justify-between px-4">
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setOpen(true)}
+              aria-label="Open menu"
+              className="flex h-9 w-9 items-center justify-center rounded-lg text-foreground transition-colors hover:bg-secondary"
+            >
+              <LuMenu className="h-5 w-5" />
+            </button>
+            {/* The bar is only h-14, and the hamburger and user menu book-end
               it, so the lockup runs smaller here than anywhere else. */}
-          <Logo href="/dashboard" prefetch={prefetch} imageClassName="h-7" />
+            <Logo href="/dashboard" prefetch={prefetch} imageClassName="h-7" />
+          </div>
+
+          <UserMenu user={user} align="right" />
         </div>
+      </header>
 
-        <UserMenu user={user} align="right" />
-      </div>
-
-      {/* Drawer */}
+      {/* Drawer — deliberately outside the header: its backdrop-blur makes it
+          the containing block for `fixed` children, which would clip the
+          drawer to the 56px bar instead of the viewport. */}
       {open && (
-        <div className="fixed inset-0 z-50 lg:hidden">
+        <div
+          className="fixed inset-0 z-50 lg:hidden"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Menu"
+        >
           <div
             className="absolute inset-0 bg-black/50 animate-fade-in"
             onClick={() => setOpen(false)}
           />
-          <div className="absolute inset-y-0 left-0 flex w-[280px] max-w-[85vw] flex-col bg-card shadow-lift animate-slide-up">
+          <div className="absolute inset-y-0 left-0 flex w-[280px] max-w-[85vw] flex-col bg-card shadow-lift animate-slide-in-left">
             <div className="flex items-center justify-between border-b border-border px-5 py-4">
               {/* Not a link — the drawer is already open on the dashboard. */}
               <Logo href={null} imageClassName="h-14" />
@@ -142,6 +164,6 @@ export function MobileHeader({
           </div>
         </div>
       )}
-    </header>
+    </>
   );
 }
