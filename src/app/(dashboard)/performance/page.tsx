@@ -2,7 +2,12 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { LuTarget, LuChevronRight, LuGauge, LuLayers, LuFileCheck } from "react-icons/lu";
 import { auth } from "@/lib/auth";
-import { getGrade, getPerformanceData } from "@/lib/performance";
+import {
+  PERFORMANCE_ATTEMPTS_PAGE_SIZE,
+  getGrade,
+  getPerformanceData,
+} from "@/lib/performance";
+import { Pagination, pageWindow } from "@/components/ui/pagination";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -18,13 +23,30 @@ function getGradeVariant(grade: string): "green" | "blue" | "amber" | "orange" |
   }
 }
 
-export default async function PerformancePage() {
+export default async function PerformancePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
 
-  const data = await getPerformanceData(session.user.id);
+  const requestedPage = Number.parseInt((await searchParams).page ?? "1", 10);
+  const data = await getPerformanceData(
+    session.user.id,
+    Number.isNaN(requestedPage) ? 1 : requestedPage,
+  );
+  const attemptWindow = pageWindow({
+    page: Number.isNaN(requestedPage) ? 1 : requestedPage,
+    pageSize: PERFORMANCE_ATTEMPTS_PAGE_SIZE,
+    total: data.attemptTotal,
+  });
+  // A hand-edited `?page=` past the end skipped every row. Bounce to the last
+  // real page rather than render a history with nothing in it.
+  if (data.attemptTotal > 0 && data.attempts.length === 0) {
+    redirect(attemptWindow.page > 1 ? `/performance?page=${attemptWindow.page}` : "/performance");
+  }
 
-  const latestAttempt = data.attempts[0];
   const overallAccuracy = data.subjectMetrics.length > 0
     ? Math.round(
         data.subjectMetrics.reduce((sum, m) => sum + m.accuracy, 0) /
@@ -35,7 +57,7 @@ export default async function PerformancePage() {
   const stats = [
     {
       label: "Attempts",
-      value: String(data.attempts.length),
+      value: String(data.attemptTotal),
       icon: <LuFileCheck className="h-5 w-5" />,
       iconClass: "bg-primary-soft text-primary",
     },
@@ -47,10 +69,7 @@ export default async function PerformancePage() {
     },
     {
       label: "Latest Grade",
-      value:
-        latestAttempt?.percentage !== null && latestAttempt?.percentage !== undefined
-          ? getGrade(latestAttempt.percentage)
-          : "\u2014",
+      value: data.latestPercentage !== null ? getGrade(data.latestPercentage) : "\u2014",
       icon: <LuTarget className="h-5 w-5" />,
       iconClass: "bg-warning-soft text-warning",
     },
@@ -64,7 +83,7 @@ export default async function PerformancePage() {
 
   return (
     <>
-      {data.attempts.length > 0 ? (
+      {data.attemptTotal > 0 ? (
         <>
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
             {stats.map((stat) => (
@@ -124,10 +143,10 @@ export default async function PerformancePage() {
             </div>
           </div>
 
-          <div className="mt-8">
+          <div className="mt-8" id="recent-attempts">
             <h2 className="section-label mb-4">Recent Attempts</h2>
             <div className="space-y-2.5">
-              {data.attempts.slice(0, 10).map((attempt) => {
+              {data.attempts.map((attempt) => {
                 const grade = attempt.percentage !== null ? getGrade(attempt.percentage) : null;
                 return (
                   <Link
@@ -163,6 +182,13 @@ export default async function PerformancePage() {
                 );
               })}
             </div>
+            <Pagination
+              window={attemptWindow}
+              basePath="/performance"
+              params={{}}
+              label="Attempt history pagination"
+              hash="recent-attempts"
+            />
           </div>
         </>
       ) : (

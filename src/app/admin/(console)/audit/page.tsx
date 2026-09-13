@@ -2,7 +2,7 @@ import { requireAdminPage } from "@/lib/admin-session";
 import { PageHeader } from "@/components/ui/page-header";
 import { AdminTable, AdminTd, AdminTh, AdminTr } from "@/components/admin/admin-table";
 import { EmptyState } from "@/components/admin/empty-state";
-import { Pagination, pageWindow } from "@/components/admin/pagination";
+import { Pagination, pageWindow } from "@/components/ui/pagination";
 import { AuditFilterBar } from "@/components/admin/audit-filter-bar";
 import {
   AUDIT_PAGE_SIZE,

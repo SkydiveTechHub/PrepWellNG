@@ -230,7 +230,7 @@ const DEEP_DIVES = [
   // {
   //   eyebrow: "AI Tutor",
   //   title: "Your personal tutor, available 24/7",
-  //   text: "Stuck on a question at midnight? Ask PrepWell’s AI tutor in plain English and get a patient, step-by-step explanation — instantly, with zero judgement.",
+  //   text: "Stuck on a question at midnight? Ask ScholarsCrib’s AI tutor in plain English and get a patient, step-by-step explanation — instantly, with zero judgement.",
   //   bullets: [
   //     "Explains any topic in the way you understand",
   //     "Always patient, never tired, always available",

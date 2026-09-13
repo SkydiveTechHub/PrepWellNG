@@ -5,11 +5,11 @@ import {
   type NavigationIntent,
 } from "../src/components/assessment/exam-guard";
 
-const EXAM_URL = "https://prepwell.ng/practice/mock-exam/session";
+const EXAM_URL = "https://scholarscrib.com/practice/mock-exam/session";
 
 function intent(overrides: Partial<NavigationIntent> = {}): NavigationIntent {
   return {
-    href: "https://prepwell.ng/dashboard",
+    href: "https://scholarscrib.com/dashboard",
     currentUrl: EXAM_URL,
     target: null,
     download: false,
@@ -24,7 +24,7 @@ test("guards an in-app link to another route", () => {
 });
 
 test("keeps the query and hash of the destination", () => {
-  const href = "https://prepwell.ng/classroom/physics?tab=lessons#waves";
+  const href = "https://scholarscrib.com/classroom/physics?tab=lessons#waves";
   assert.equal(
     guardedDestination(intent({ href })),
     "/classroom/physics?tab=lessons#waves",
@@ -86,7 +86,7 @@ test("guards a link to the same path with a different query", () => {
 
 test("ignores a mailto link, which never leaves the page", () => {
   assert.equal(
-    guardedDestination(intent({ href: "mailto:help@prepwell.ng" })),
+    guardedDestination(intent({ href: "mailto:help@scholarscrib.com" })),
     null,
   );
 });

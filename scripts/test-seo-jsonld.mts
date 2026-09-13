@@ -1,7 +1,9 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
+  aboutPageJsonLd,
   breadcrumbJsonLd,
+  contactPageJsonLd,
   courseJsonLd,
   faqPageJsonLd,
   organisationJsonLd,
@@ -151,4 +153,43 @@ test("a closing script tag in the content cannot break out of the script block",
 test("serialised output round-trips back to the same data", () => {
   const data = { a: 1, b: "two <three>" };
   assert.deepEqual(JSON.parse(serialiseJsonLd(data)), data);
+});
+
+test("the about page points back at the organisation it describes", () => {
+  const about = aboutPageJsonLd({
+    name: "About ScholarsCrib",
+    description: "Why we build for Nigerian students.",
+    path: "/about",
+  });
+  assert.equal(about["@type"], "AboutPage");
+  assert.equal(about.url, `${siteUrl}/about`);
+  assert.equal(about.about["@type"], "Organization");
+  assert.equal(about.about.url, `${siteUrl}/`);
+});
+
+test("the contact page carries a support contact point when there is an address", () => {
+  const contact = contactPageJsonLd({
+    name: "Contact ScholarsCrib",
+    description: "Support for students and schools.",
+    path: "/contact",
+    email: "hello@scholarscrib.com",
+  });
+  assert.equal(contact["@type"], "ContactPage");
+  assert.equal(contact.url, `${siteUrl}/contact`);
+  assert.equal(
+    contact.about.contactPoint?.email,
+    "hello@scholarscrib.com",
+  );
+  assert.equal(contact.about.contactPoint?.contactType, "customer support");
+});
+
+test("an absent email emits no contactPoint rather than an empty one", () => {
+  // A ContactPoint with no way to reach anyone is worse than no markup: it
+  // advertises a support channel that does not exist.
+  const contact = contactPageJsonLd({
+    name: "Contact ScholarsCrib",
+    description: "Support for students and schools.",
+    path: "/contact",
+  });
+  assert.ok(!("contactPoint" in contact.about), JSON.stringify(contact.about));
 });

@@ -169,7 +169,7 @@ A second NextAuth instance exporting `adminAuth`, `adminHandlers`,
   `AUTH_SECRET`. Sharing one would let a leaked student secret forge admin
   tokens and make the whole separation cosmetic.
 - `session: { strategy: "jwt", maxAge: 60 * 60 * 8 }`
-- `cookies`: `sessionToken` named `prepwell.admin-session` with
+- `cookies`: `sessionToken` named `scholarscrib.admin-session` with
   `path: "/admin"`, `httpOnly`, `sameSite: "lax"`, `secure` in production. The
   `callbackUrl` and `csrfToken` cookies need the same distinct naming and path,
   or the CSRF check fails.
@@ -235,8 +235,8 @@ The admin token is read with:
 getToken({
   req,
   secret: process.env.ADMIN_AUTH_SECRET,
-  cookieName: "prepwell.admin-session",
-  salt: "prepwell.admin-session",
+  cookieName: "scholarscrib.admin-session",
+  salt: "scholarscrib.admin-session",
 })
 ```
 

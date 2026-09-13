@@ -1,5 +1,5 @@
 /**
- * PrepWell NG — Learning Ledger Backfill
+ * ScholarsCrib — Learning Ledger Backfill
  *
  * The Learning Evidence Layer (see
  * docs/superpowers/specs/2026-08-11-learning-evidence-layer-design.md) reads

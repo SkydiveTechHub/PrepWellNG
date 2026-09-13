@@ -13,9 +13,19 @@
  */
 export const PUBLIC_EXACT_PATHS: readonly string[] = [
   "/",
+  "/about",
+  "/contact",
   "/robots.txt",
   "/sitemap.xml",
   "/manifest.webmanifest",
+  // PWA runtime. The service worker registration and its policy script are
+  // fetched without a session the proxy recognises, and /offline is rendered
+  // exactly when the server is unreachable — a redirect here would make the
+  // whole PWA silently inert. The generated icons need no entry: proxy.ts's
+  // matcher already excludes .png and .svg.
+  "/sw.js",
+  "/sw-policy.js",
+  "/offline",
 ];
 
 export const PUBLIC_PATH_PREFIXES: readonly string[] = [

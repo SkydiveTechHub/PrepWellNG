@@ -1,4 +1,4 @@
-// PrepWell NG — Flashcard Seed
+// ScholarsCrib — Flashcard Seed
 // Run: npx tsx scripts/seed-flashcards.ts
 // Seeds a few authored decks that exercise every card type (definition, formula,
 // fill-in-the-blank, true/false, compare & contrast, scenario, process, diagram).

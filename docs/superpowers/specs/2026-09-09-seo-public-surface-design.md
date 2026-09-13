@@ -5,7 +5,7 @@
 
 ## Problem
 
-PrepWell's entire content library sits behind authentication. The public
+ScholarsCrib's entire content library sits behind authentication. The public
 surface is three pages: `/` (landing), `/login`, `/register`. There is no
 `metadataBase`, no canonical URLs, no Open Graph or Twitter tags, no OG
 images, no `robots.txt`, no sitemap, and no structured data. The gated tree
@@ -13,7 +13,7 @@ is not marked `noindex`, so login walls are eligible for indexing.
 
 The consequence is that the queries this product exists to answer — "WAEC
 2019 Biology past questions and answers", "JAMB Chemistry mole concept" —
-land on competitors, because PrepWell has no page to rank. Technical
+land on competitors, because ScholarsCrib has no page to rank. Technical
 hygiene alone will not change that: with three public pages there is
 nothing to rank. The fix requires a public content surface.
 
@@ -137,7 +137,7 @@ debugging rankings.
 
 - `src/lib/seo/site.ts` — `siteUrl` derived from `NEXT_PUBLIC_APP_URL`
   (already consumed by `src/lib/billing/paystack.ts`) with the production
-  fallback `https://prepwell.ng`, trailing slash stripped. Also `siteName`
+  fallback `https://scholarscrib.com`, trailing slash stripped. Also `siteName`
   and default description. `NEXT_PUBLIC_APP_URL` is already documented in
   `.env.example`, so no new environment variable is introduced.
 - `src/lib/seo/metadata.ts` — `buildMetadata({ title, description, path,
@@ -145,7 +145,7 @@ debugging rankings.
   Open Graph, and Twitter fields derived from one input, so the three can
   never disagree. Pure and unit-tested, including URL-join edge cases
   (leading and trailing slashes, empty path).
-- Root layout gains `metadataBase`, `title.template` (`%s | PrepWell NG`),
+- Root layout gains `metadataBase`, `title.template` (`%s | ScholarsCrib`),
   and OG/Twitter defaults.
 - `generateViewport` is used for `themeColor`. The `themeColor`,
   `colorScheme`, and `viewport` keys inside `metadata` have been deprecated

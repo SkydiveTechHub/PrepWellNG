@@ -40,7 +40,7 @@ function AiTutorBubble() {
         </span>
         <div>
           <p className="text-[11px] font-extrabold ink">AI Tutor</p>
-          <p className="text-[10px] font-medium ink-faint">prepwell.ai</p>
+          <p className="text-[10px] font-medium ink-faint">scholarscrib.com</p>
         </div>
       </div>
       <p className="mt-2 rounded-xl bg-primary-soft px-3 py-2 text-[11px] font-semibold leading-relaxed text-primary-soft-foreground">
@@ -116,7 +116,7 @@ function HeroAppWindow() {
             <span className="h-2.5 w-2.5 rounded-full bg-warning/80" />
             <span className="h-2.5 w-2.5 rounded-full bg-success/80" />
             <p className="ml-3 text-xs font-bold ink-faint">
-              PrepWell · Mathematics SS2
+              ScholarsCrib · Mathematics SS2
             </p>
           </div>
 

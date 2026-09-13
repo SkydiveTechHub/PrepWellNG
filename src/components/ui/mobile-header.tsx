@@ -5,11 +5,8 @@ import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { LuMenu, LuX, LuCalendarDays } from "react-icons/lu";
 import { UserMenu, type ProfileUser } from "./user-menu";
-import {
-  NAV_GROUPS,
-  SETTINGS_ITEM,
-  BRAND,
-} from "@/lib/navigation";
+import { NAV_GROUPS, SETTINGS_ITEM } from "@/lib/navigation";
+import { Logo } from "@/components/ui/logo";
 import { cn } from "@/lib/utils";
 import { useExamActive } from "@/components/assessment/exam-active";
 
@@ -47,18 +44,9 @@ export function MobileHeader({
           >
             <LuMenu className="h-5 w-5" />
           </button>
-          <Link
-            href="/dashboard"
-            prefetch={prefetch}
-            className="flex items-center gap-2"
-          >
-            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-brand">
-              <BRAND.icon className="h-4 w-4 text-white" />
-            </div>
-            <span className="text-base font-bold tracking-tight text-foreground">
-              {BRAND.name}
-            </span>
-          </Link>
+          {/* The bar is only h-14, and the hamburger and user menu book-end
+              it, so the lockup runs smaller here than anywhere else. */}
+          <Logo href="/dashboard" prefetch={prefetch} imageClassName="h-7" />
         </div>
 
         <UserMenu user={user} align="right" />
@@ -73,14 +61,8 @@ export function MobileHeader({
           />
           <div className="absolute inset-y-0 left-0 flex w-[280px] max-w-[85vw] flex-col bg-card shadow-lift animate-slide-up">
             <div className="flex items-center justify-between border-b border-border px-5 py-4">
-              <div className="flex items-center gap-2">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-brand">
-                  <BRAND.icon className="h-4.5 w-4.5 text-white" />
-                </div>
-                <span className="text-base font-bold tracking-tight text-foreground">
-                  {BRAND.name}
-                </span>
-              </div>
+              {/* Not a link — the drawer is already open on the dashboard. */}
+              <Logo href={null} imageClassName="h-14" />
               <button
                 type="button"
                 onClick={() => setOpen(false)}

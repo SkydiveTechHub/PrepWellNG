@@ -41,7 +41,7 @@ export function FinalCta() {
                   <LuArrowRight className="h-4 w-4" />
                 </Link>
                 {/* <a
-                  href="mailto:hello@prepwell.ng"
+                  href="mailto:hello@scholarscrib.com"
                   className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-white/25 bg-white/10 px-8 text-sm font-bold text-white backdrop-blur transition-colors hover:bg-white/20"
                 >
                   <LuCalendarCheck className="h-4 w-4" />

@@ -205,7 +205,7 @@ export function MobileApp() {
                   </span>
                 </>
               }
-              description="The full PrepWell experience fits in your pocket — lessons, flashcards, the AI tutor and your analytics, built light enough for the phones Nigerian students actually use."
+              description="The full ScholarsCrib experience fits in your pocket — lessons, flashcards, the AI tutor and your analytics, built light enough for the phones Nigerian students actually use."
             />
             <Reveal delay={140}>
               <ul className="mt-6 space-y-3">
@@ -243,22 +243,22 @@ export function MobileApp() {
                 aria-hidden
               />
               <div className="relative -rotate-6 animate-float">
-                <PhoneFrame label="PrepWell lesson screen">
+                <PhoneFrame label="ScholarsCrib lesson screen">
                   <LessonPhone />
                 </PhoneFrame>
               </div>
               <div className="relative z-10 mt-6 hidden animate-float sm:block" style={{ animationDelay: "0.7s" }}>
-                <PhoneFrame label="PrepWell flashcards screen">
+                <PhoneFrame label="ScholarsCrib flashcards screen">
                   <FlashcardPhone />
                 </PhoneFrame>
               </div>
               <div className="relative -mt-4 rotate-6 animate-float" style={{ animationDelay: "1.3s" }}>
-                <PhoneFrame label="PrepWell AI tutor screen">
+                <PhoneFrame label="ScholarsCrib AI tutor screen">
                   <TutorPhone />
                 </PhoneFrame>
               </div>
               <div className="relative z-10 hidden animate-float lg:block" style={{ animationDelay: "1.9s" }}>
-                <PhoneFrame label="PrepWell analytics screen">
+                <PhoneFrame label="ScholarsCrib analytics screen">
                   <AnalyticsPhone />
                 </PhoneFrame>
               </div>

@@ -1,4 +1,4 @@
-// PrepWell NG — Database Schema
+// ScholarsCrib — Database Schema
 // Run: npx prisma migrate dev --name init
 // Run: npx prisma generate
 

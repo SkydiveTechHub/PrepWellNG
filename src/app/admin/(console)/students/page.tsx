@@ -3,7 +3,7 @@ import { requireAdminPage } from "@/lib/admin-session";
 import { PageHeader } from "@/components/ui/page-header";
 import { AdminTable, AdminTd, AdminTh, AdminTr } from "@/components/admin/admin-table";
 import { EmptyState } from "@/components/admin/empty-state";
-import { Pagination, pageWindow } from "@/components/admin/pagination";
+import { Pagination, pageWindow } from "@/components/ui/pagination";
 import { StudentFilterBar } from "@/components/admin/student-filter-bar";
 import {
   STUDENT_PAGE_SIZE,

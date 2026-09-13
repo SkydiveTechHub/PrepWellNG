@@ -6,7 +6,7 @@ import { Reveal } from "./reveal";
 const TESTIMONIALS = [
   {
     quote:
-      "I failed my mock Physics paper in Term 1. PrepWell’s AI tutor explained the concepts in a way my textbook never did — I scored a B in the real thing.",
+      "I failed my mock Physics paper in Term 1. ScholarsCrib’s AI tutor explained the concepts in a way my textbook never did — I scored a B in the real thing.",
     name: "Adaeze O.",
     role: "SS3 student",
     location: "Enugu",
@@ -30,7 +30,7 @@ const TESTIMONIALS = [
   },
   {
     quote:
-      "Rolling out PrepWell across our school was the best decision we made this session. Results improved across the board — parents are impressed.",
+      "Rolling out ScholarsCrib across our school was the best decision we made this session. Results improved across the board — parents are impressed.",
     name: "Mrs. Halima D.",
     role: "School principal",
     location: "Kano",
@@ -56,7 +56,7 @@ export function Testimonials() {
               </span>
             </>
           }
-          description="From Lagos to Kano, students, teachers and parents are seeing the difference PrepWell makes."
+          description="From Lagos to Kano, students, teachers and parents are seeing the difference ScholarsCrib makes."
         />
 
         <Reveal delay={100}>

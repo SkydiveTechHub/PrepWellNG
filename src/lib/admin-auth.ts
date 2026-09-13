@@ -65,11 +65,11 @@ export const {
   cookies: {
     sessionToken: { name: ADMIN_SESSION_COOKIE, options: cookieOptions },
     callbackUrl: {
-      name: "prepwell.admin-callback-url",
+      name: "scholarscrib.admin-callback-url",
       options: cookieOptions,
     },
     csrfToken: {
-      name: "prepwell.admin-csrf-token",
+      name: "scholarscrib.admin-csrf-token",
       options: cookieOptions,
     },
   },

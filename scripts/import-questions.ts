@@ -1,5 +1,5 @@
 /**
- * PrepWell NG — Bulk Question Import Script
+ * ScholarsCrib — Bulk Question Import Script
  *
  * Question files live at data/questions/<department>/<subject>/<examType>-<year>.json,
  * where <department> is the subject's trackCategory from the seed

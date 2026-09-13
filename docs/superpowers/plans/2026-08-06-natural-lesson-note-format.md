@@ -87,7 +87,7 @@ Pure refactor. Zero behaviour change. The existing suite is the test.
 Before moving anything, record that the suite passes:
 
 ```bash
-cd /c/Users/user/Desktop/prepwell
+cd /c/Users/user/Desktop/scholarscrib
 node --import tsx --test --test-force-exit scripts/test-lesson-markdown.mts 2>&1 | tail -5
 ```
 
@@ -235,7 +235,7 @@ Note the old file imported `EXAM_TYPES` and the block types for fence building â
 - [ ] **Step 7: Delete the old file**
 
 ```bash
-cd /c/Users/user/Desktop/prepwell && rm src/lib/lesson-markdown.ts
+cd /c/Users/user/Desktop/scholarscrib && rm src/lib/lesson-markdown.ts
 ```
 
 This is not optional and cannot wait for a later commit. While both exist, `@/lib/lesson-markdown` resolves to the **old file**, so the suite would be testing code you are about to abandon.
@@ -243,7 +243,7 @@ This is not optional and cannot wait for a later commit. While both exist, `@/li
 - [ ] **Step 8: Run the full suite and the type checker**
 
 ```bash
-cd /c/Users/user/Desktop/prepwell
+cd /c/Users/user/Desktop/scholarscrib
 npx tsc --noEmit
 node --import tsx --test --test-force-exit scripts/test-lesson-markdown.mts scripts/test-admin-lesson.mts 2>&1 | tail -10
 ```
@@ -347,7 +347,7 @@ test("horizontal rules are dropped from card text", () => {
 - [ ] **Step 2: Run the tests to verify they fail**
 
 ```bash
-cd /c/Users/user/Desktop/prepwell
+cd /c/Users/user/Desktop/scholarscrib
 node --import tsx --test --test-force-exit scripts/test-lesson-markdown.mts 2>&1 | grep -E "^not ok|# fail"
 ```
 
@@ -486,7 +486,7 @@ Finally, clear the flag in the `h2` branch so an H2 immediately after the H1 doe
 - [ ] **Step 6: Run the tests to verify they pass**
 
 ```bash
-cd /c/Users/user/Desktop/prepwell
+cd /c/Users/user/Desktop/scholarscrib
 npx tsc --noEmit
 node --import tsx --test --test-force-exit scripts/test-lesson-markdown.mts 2>&1 | tail -8
 ```
@@ -695,7 +695,7 @@ test("a quiz lesson passes the authoring lint", () => {
 - [ ] **Step 2: Run the tests to verify they fail**
 
 ```bash
-cd /c/Users/user/Desktop/prepwell
+cd /c/Users/user/Desktop/scholarscrib
 node --import tsx --test --test-force-exit scripts/test-lesson-markdown.mts 2>&1 | grep -cE "^not ok"
 ```
 
@@ -955,7 +955,7 @@ Replace the `h2` branch written in Task 2 with:
 - [ ] **Step 5: Run the tests to verify they pass**
 
 ```bash
-cd /c/Users/user/Desktop/prepwell
+cd /c/Users/user/Desktop/scholarscrib
 npx tsc --noEmit
 node --import tsx --test --test-force-exit scripts/test-lesson-markdown.mts 2>&1 | tail -8
 ```
@@ -1085,7 +1085,7 @@ test("a worked-examples section ends at the next heading", () => {
 - [ ] **Step 2: Run the tests to verify they fail**
 
 ```bash
-cd /c/Users/user/Desktop/prepwell
+cd /c/Users/user/Desktop/scholarscrib
 node --import tsx --test --test-force-exit scripts/test-lesson-markdown.mts 2>&1 | grep -cE "^not ok"
 ```
 
@@ -1216,7 +1216,7 @@ In `index.ts`, extend the import from `./natural` with `isWorkedExamplesHeading`
 - [ ] **Step 5: Run the tests to verify they pass**
 
 ```bash
-cd /c/Users/user/Desktop/prepwell
+cd /c/Users/user/Desktop/scholarscrib
 npx tsc --noEmit
 node --import tsx --test --test-force-exit scripts/test-lesson-markdown.mts 2>&1 | tail -8
 ```
@@ -1336,7 +1336,7 @@ test("a plain paragraph keeps its internal line breaks as one segment", () => {
 - [ ] **Step 2: Run the tests to verify they fail**
 
 ```bash
-cd /c/Users/user/Desktop/prepwell
+cd /c/Users/user/Desktop/scholarscrib
 node --import tsx --test --test-force-exit scripts/test-markdown-segments.mts 2>&1 | tail -5
 ```
 
@@ -1470,7 +1470,7 @@ export function segmentMarkdown(content: string): Segment[] {
 - [ ] **Step 4: Run the tests to verify they pass**
 
 ```bash
-cd /c/Users/user/Desktop/prepwell
+cd /c/Users/user/Desktop/scholarscrib
 node --import tsx --test --test-force-exit scripts/test-markdown-segments.mts 2>&1 | tail -5
 ```
 
@@ -1612,7 +1612,7 @@ In `package.json`, append `scripts/test-markdown-segments.mts` to the end of the
 - [ ] **Step 7: Run everything**
 
 ```bash
-cd /c/Users/user/Desktop/prepwell
+cd /c/Users/user/Desktop/scholarscrib
 npx tsc --noEmit
 npm test 2>&1 | tail -12
 ```
@@ -1684,7 +1684,7 @@ That closing sentence is load-bearing: `docInfo` is genuinely written nowhere, a
 - [ ] **Step 2: Verify it type-checks and builds**
 
 ```bash
-cd /c/Users/user/Desktop/prepwell
+cd /c/Users/user/Desktop/scholarscrib
 npx tsc --noEmit
 npx next build 2>&1 | tail -15
 ```
@@ -1797,7 +1797,7 @@ test("no horizontal rule survives into the real lesson note's cards", () => {
 - [ ] **Step 2: Run it**
 
 ```bash
-cd /c/Users/user/Desktop/prepwell
+cd /c/Users/user/Desktop/scholarscrib
 node --import tsx --test --test-force-exit scripts/test-lesson-markdown.mts 2>&1 | tail -12
 ```
 
@@ -1806,7 +1806,7 @@ Expected: all pass. If the block-mix test fails, read its message â€” it names t
 - [ ] **Step 3: Run the entire suite and the build**
 
 ```bash
-cd /c/Users/user/Desktop/prepwell
+cd /c/Users/user/Desktop/scholarscrib
 npx tsc --noEmit
 npm test 2>&1 | tail -15
 npx next build 2>&1 | tail -10

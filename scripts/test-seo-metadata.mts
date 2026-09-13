@@ -4,33 +4,33 @@ import { absoluteUrl, normaliseSiteUrl, siteUrl } from "../src/lib/seo/site";
 import { buildMetadata, NOINDEX } from "../src/lib/seo/metadata";
 
 test("an unset or blank app url falls back to production", () => {
-  assert.equal(normaliseSiteUrl(undefined), "https://prepwell.ng");
-  assert.equal(normaliseSiteUrl(""), "https://prepwell.ng");
-  assert.equal(normaliseSiteUrl("   "), "https://prepwell.ng");
+  assert.equal(normaliseSiteUrl(undefined), "https://scholarscrib.com");
+  assert.equal(normaliseSiteUrl(""), "https://scholarscrib.com");
+  assert.equal(normaliseSiteUrl("   "), "https://scholarscrib.com");
 });
 
 test("garbage in the env var does not produce a garbage canonical", () => {
   // A broken canonical is worse than a wrong-but-valid one: crawlers drop the
   // page entirely rather than guessing what was meant.
-  assert.equal(normaliseSiteUrl("not a url"), "https://prepwell.ng");
+  assert.equal(normaliseSiteUrl("not a url"), "https://scholarscrib.com");
 });
 
 test("path, trailing slash and query are stripped from the host", () => {
-  assert.equal(normaliseSiteUrl("https://prepwell.ng/"), "https://prepwell.ng");
+  assert.equal(normaliseSiteUrl("https://scholarscrib.com/"), "https://scholarscrib.com");
   assert.equal(normaliseSiteUrl("http://localhost:3000/"), "http://localhost:3000");
-  assert.equal(normaliseSiteUrl("https://prepwell.ng/app?x=1"), "https://prepwell.ng");
+  assert.equal(normaliseSiteUrl("https://scholarscrib.com/app?x=1"), "https://scholarscrib.com");
 });
 
 test("non-http(s) schemes fall back to production instead of becoming the canonical host", () => {
   // These are parseable by URL, just not valid as a site origin: a canonical
   // built on javascript:/file:/data: is worse than one that fell back.
-  assert.equal(normaliseSiteUrl("javascript:alert(1)"), "https://prepwell.ng");
-  assert.equal(normaliseSiteUrl("file:///etc/passwd"), "https://prepwell.ng");
-  assert.equal(normaliseSiteUrl("data:text/html,hi"), "https://prepwell.ng");
+  assert.equal(normaliseSiteUrl("javascript:alert(1)"), "https://scholarscrib.com");
+  assert.equal(normaliseSiteUrl("file:///etc/passwd"), "https://scholarscrib.com");
+  assert.equal(normaliseSiteUrl("data:text/html,hi"), "https://scholarscrib.com");
 });
 
 test("protocol-relative input has no base to resolve against, so it falls back", () => {
-  assert.equal(normaliseSiteUrl("//evil.com"), "https://prepwell.ng");
+  assert.equal(normaliseSiteUrl("//evil.com"), "https://scholarscrib.com");
 });
 
 test("credentials are stripped and the port is retained", () => {
@@ -81,7 +81,7 @@ test("canonical, open graph and twitter all describe the same url", () => {
 test("open graph carries the Nigerian locale and the site name", () => {
   const meta = buildMetadata({ title: "T", description: "D", path: "/" });
   assert.equal(meta.openGraph?.locale, "en_NG");
-  assert.equal(meta.openGraph?.siteName, "PrepWell NG");
+  assert.equal(meta.openGraph?.siteName, "ScholarsCrib");
 });
 
 test("robots is left alone unless noindex is asked for", () => {

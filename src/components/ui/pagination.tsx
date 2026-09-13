@@ -46,16 +46,18 @@ export function pageWindow({
 const LINK_CLS =
   "inline-flex items-center gap-1 rounded-lg border border-border-strong bg-card px-3 py-1.5 text-sm font-semibold text-foreground transition-colors hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60";
 
-function hrefFor(
+/** Exported for the page-link tests; the component is the only other caller. */
+export function pageHref(
   basePath: string,
   params: Record<string, string>,
   page: number,
+  pageParam: string,
 ): string {
   const next = new URLSearchParams(params);
   // Page 1 is the default, so it stays out of the URL and the canonical link
   // for a filter does not depend on how the user arrived at it.
-  if (page > 1) next.set("page", String(page));
-  else next.delete("page");
+  if (page > 1) next.set(pageParam, String(page));
+  else next.delete(pageParam);
   const query = next.toString();
   return query ? `${basePath}?${query}` : basePath;
 }
@@ -64,19 +66,36 @@ export function Pagination({
   window: win,
   basePath,
   params,
+  pageParam = "page",
+  label = "Pagination",
+  hash,
   className,
 }: {
   window: PageWindow;
   basePath: string;
   /** Current filters, preserved across page changes. */
   params: Record<string, string>;
+  /**
+   * Query key carrying the page number. Defaults to `page`; a route with more
+   * than one paged list gives each list its own key so they page separately.
+   */
+  pageParam?: string;
+  /** Distinguishes the landmarks when a route renders more than one pager. */
+  label?: string;
+  /**
+   * Fragment appended to each link, so a pager partway down a long route
+   * returns the reader to its own list instead of to the top of the page.
+   */
+  hash?: string;
   className?: string;
 }) {
   if (win.totalPages <= 1) return null;
 
+  const suffix = hash ? `#${hash}` : "";
+
   return (
     <nav
-      aria-label="Pagination"
+      aria-label={label}
       className={cn("mt-4 flex items-center justify-between gap-3", className)}
     >
       <p className="text-sm text-muted">
@@ -91,7 +110,10 @@ export function Pagination({
 
       <div className="flex gap-2">
         {win.hasPrev ? (
-          <Link href={hrefFor(basePath, params, win.page - 1)} className={LINK_CLS}>
+          <Link
+            href={`${pageHref(basePath, params, win.page - 1, pageParam)}${suffix}`}
+            className={LINK_CLS}
+          >
             <LuChevronLeft className="h-4 w-4" /> Previous
           </Link>
         ) : (
@@ -100,7 +122,10 @@ export function Pagination({
           </span>
         )}
         {win.hasNext ? (
-          <Link href={hrefFor(basePath, params, win.page + 1)} className={LINK_CLS}>
+          <Link
+            href={`${pageHref(basePath, params, win.page + 1, pageParam)}${suffix}`}
+            className={LINK_CLS}
+          >
             Next <LuChevronRight className="h-4 w-4" />
           </Link>
         ) : (

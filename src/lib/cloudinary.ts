@@ -43,7 +43,7 @@ export async function uploadAvatar(file: File, userId: string) {
   if (!creds) throw new Error("Image uploads aren't configured");
 
   const timestamp = Math.floor(Date.now() / 1000);
-  const folder = "prepwell/avatars";
+  const folder = "scholarscrib/avatars";
   // One asset per user, overwritten on each upload, so old avatars don't
   // accumulate in the account.
   const publicId = `${folder}/${userId}`;
@@ -103,7 +103,7 @@ export async function uploadRemoteImage(
   if (!creds) throw new Error("Image uploads aren't configured");
 
   const timestamp = Math.floor(Date.now() / 1000);
-  const fullPublicId = `prepwell/questions/${publicId}`;
+  const fullPublicId = `scholarscrib/questions/${publicId}`;
 
   const toSign = `overwrite=true&public_id=${fullPublicId}&timestamp=${timestamp}`;
   const signature = crypto

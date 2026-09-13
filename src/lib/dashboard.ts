@@ -45,7 +45,10 @@ export type DashboardData = {
   hasActivity: boolean;
   hasStudyPlan: boolean;
   bestScore: number | null;
+  /** One page of completed attempts, newest first. */
   recentAttempts: DashboardAttempt[];
+  /** Completed attempts in total, for the activity pager. */
+  attemptTotal: number;
   subjects: Record<string, DashboardSubject>;
   learningPicks: NextTopicRecommendation[];
   gaps: TopicGap[];
@@ -64,13 +67,20 @@ const KEEP_LEARNING_K = 3;
  */
 const RECENT_LESSON_SCAN = 12;
 
-/** The eight counters behind the hero and the stat row, in one round trip. */
-async function loadStats(userId: string) {
+/** Attempts per page in the dashboard's "Recent activity" section. */
+export const DASHBOARD_ATTEMPTS_PAGE_SIZE = 5;
+
+/** The counters behind the hero and the stat row, in one round trip. */
+async function loadStats(userId: string, attemptPage: number) {
+  const attemptWhere = { studentId: userId, status: "COMPLETED" } as const;
+
   const [
     totalResponses,
     correctResponses,
     distinctTopics,
     recentAttempts,
+    attemptTotal,
+    bestScoreRows,
     lastWeekActivity,
     lessonActivity,
     reviewCount,
@@ -88,15 +98,26 @@ async function loadStats(userId: string) {
       distinct: ["questionId"],
     }),
     db.assessmentAttempt.findMany({
-      where: { studentId: userId, status: "COMPLETED" },
+      where: attemptWhere,
       orderBy: { completedAt: "desc" },
-      take: 5,
+      skip: (attemptPage - 1) * DASHBOARD_ATTEMPTS_PAGE_SIZE,
+      take: DASHBOARD_ATTEMPTS_PAGE_SIZE,
       select: {
         id: true,
         percentage: true,
         completedAt: true,
         assessment: { select: { title: true } },
       },
+    }),
+    db.assessmentAttempt.count({ where: attemptWhere }),
+    // "Best recent score" means the best of the newest few attempts, so it is
+    // read separately: it must not change as the reader pages back through the
+    // history.
+    db.assessmentAttempt.findMany({
+      where: attemptWhere,
+      orderBy: { completedAt: "desc" },
+      take: DASHBOARD_ATTEMPTS_PAGE_SIZE,
+      select: { percentage: true },
     }),
     db.assessmentAttempt.count({
       where: {
@@ -133,6 +154,10 @@ async function loadStats(userId: string) {
     accuracy,
     topicCount,
     recentAttempts,
+    attemptTotal,
+    bestScore: bestScoreRows.length
+      ? Math.max(...bestScoreRows.map((a) => a.percentage ?? 0))
+      : null,
     lastWeekActivity,
     lessonActivity,
     reviewCount,
@@ -225,8 +250,16 @@ async function loadLearningPath(userId: string) {
   };
 }
 
-export async function getDashboardData(userId: string): Promise<DashboardData> {
-  const stats = await loadStats(userId);
+export async function getDashboardData(
+  userId: string,
+  /**
+   * One-indexed page of "Recent activity". Trusted only as a hint: it comes
+   * from `?activity=`, so it is floored at 1 here and clamped against the real
+   * total by `pageWindow` at render time.
+   */
+  attemptPage = 1,
+): Promise<DashboardData> {
+  const stats = await loadStats(userId, Math.max(1, Math.floor(attemptPage)));
 
   const hasActivity =
     stats.totalResponses > 0 || stats.lessonActivity > 0 || stats.reviewCount > 0;
@@ -235,10 +268,6 @@ export async function getDashboardData(userId: string): Promise<DashboardData> {
     ? await loadLearningPath(userId)
     : { subjects: {}, learningPicks: [], gaps: [], revision: [] };
 
-  const bestScore = stats.recentAttempts.length
-    ? Math.max(...stats.recentAttempts.map((a) => a.percentage ?? 0))
-    : null;
-
   return {
     totalResponses: stats.totalResponses,
     accuracy: stats.accuracy,
@@ -246,13 +275,14 @@ export async function getDashboardData(userId: string): Promise<DashboardData> {
     lastWeekActivity: stats.lastWeekActivity,
     hasActivity,
     hasStudyPlan: stats.hasStudyPlan,
-    bestScore,
+    bestScore: stats.bestScore,
     recentAttempts: stats.recentAttempts.map((a) => ({
       id: a.id,
       title: a.assessment.title,
       percentage: a.percentage,
       completedAt: a.completedAt?.toISOString() ?? null,
     })),
+    attemptTotal: stats.attemptTotal,
     subjects: path.subjects,
     learningPicks: path.learningPicks,
     gaps: path.gaps,

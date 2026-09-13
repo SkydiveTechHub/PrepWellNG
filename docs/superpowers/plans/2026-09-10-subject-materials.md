@@ -289,7 +289,7 @@ export type SigningParams = {
 export function signingParamsFor(type: MaterialType): SigningParams {
   if (type === "PDF") {
     return {
-      folder: "prepwell/materials/pdf",
+      folder: "scholarscrib/materials/pdf",
       allowedFormats: ["pdf"],
       maxBytes: 50 * 1024 * 1024,
       resourceType: "raw",
@@ -297,7 +297,7 @@ export function signingParamsFor(type: MaterialType): SigningParams {
   }
   if (type === "IMAGE") {
     return {
-      folder: "prepwell/materials/image",
+      folder: "scholarscrib/materials/image",
       allowedFormats: ["jpg", "jpeg", "png", "webp"],
       maxBytes: 5 * 1024 * 1024,
       resourceType: "image",

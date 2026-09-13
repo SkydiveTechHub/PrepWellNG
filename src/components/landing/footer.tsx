@@ -5,7 +5,7 @@ import {
   LuTwitter,
   LuYoutube,
 } from "react-icons/lu";
-import { Logo } from "./logo";
+import { Logo } from "@/components/ui/logo";
 
 const COLUMNS: { heading: string; links: { label: string; href: string }[] }[] = [
   {
@@ -34,8 +34,8 @@ const COLUMNS: { heading: string; links: { label: string; href: string }[] }[] =
     links: [
       { label: "Blog", href: "/" },
       { label: "Help Center", href: "/#faq" },
-      { label: "About us", href: "/" },
-      { label: "Contact", href: "mailto:hello@prepwell.ng" },
+      { label: "About us", href: "/about" },
+      { label: "Contact", href: "/contact" },
     ],
   },
   {
@@ -63,7 +63,7 @@ export function Footer() {
         <div className="grid gap-12 lg:grid-cols-[1.4fr_repeat(4,1fr)] lg:gap-8">
           <div>
             <Logo />
-            <p className="mt-5 max-w-xs text-sm leading-relaxed ink-muted">
+            <p className="mt-3 max-w-xs text-sm leading-relaxed ink-muted">
               Nigeria’s learning platform for WAEC, JAMB and NECO. Helping
               students across Nigeria learn with confidence — one question at a
               time.
@@ -111,7 +111,7 @@ export function Footer() {
 
         <div className="mt-14 flex flex-col items-center justify-between gap-3 border-t hairline pt-7 sm:flex-row">
           <p className="text-xs font-semibold ink-faint">
-            © {new Date().getFullYear()} PrepWell NG. All rights reserved.
+            © {new Date().getFullYear()} ScholarsCrib. All rights reserved.
           </p>
           <p className="text-xs font-semibold ink-faint">
             Built for Nigeria’s next generation of achievers.

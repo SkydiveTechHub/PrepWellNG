@@ -1,8 +1,8 @@
-# PrepWell NG — Product Requirements Document
+# ScholarsCrib — Product Requirements Document
 
 | | |
 |---|---|
-| **Product** | PrepWell NG |
+| **Product** | ScholarsCrib |
 | **Category** | Exam preparation / EdTech (Secondary Education) |
 | **Market** | Nigeria (WAEC, JAMB, NECO candidates) |
 | **Target users** | SS1–SS3 students, resitting WASSCE/GCE candidates, private candidates |
@@ -22,7 +22,7 @@
 
 ## 1. Executive Summary
 
-PrepWell NG is an all-in-one digital exam-preparation platform for Nigerian
+ScholarsCrib is an all-in-one digital exam-preparation platform for Nigerian
 secondary-school students preparing for WAEC WASSCE, JAMB UTME, and NECO SSCE.
 It combines a syllabus-aligned curriculum (SS1–SS3), a past-question bank, full
 CBT and mock-exam simulations, spaced-repetition flashcards, a personalized
@@ -215,7 +215,7 @@ evidence rather than recollection.
 ## 8. Competitive Landscape & Advantage
 
 ### 8.1 The Market
-| Competitor | Focus | Gaps PrepWell addresses |
+| Competitor | Focus | Gaps ScholarsCrib addresses |
 |---|---|---|
 | **Pass.ng** | Past questions + mini-lessons | Practice-only; no personalized study plan, no curriculum weighting, limited analytics |
 | **TestDriller** | Offline CBT software (per-device licence) | Paid, device-bound; no web analytics or plan generation |
@@ -224,7 +224,7 @@ evidence rather than recollection.
 | **Local CBT centres (EduTams, etc.)** | Exam-hall mock CBT | Expensive, location-bound, one-off sittings; no continuous learning loop |
 | **International apps (Khan Academy, Quizlet, Anki)** | Generic learning | Not syllabus/exam-aligned to WAEC/JAMB/NECO; wrong grading scale; not Nigeria-specific |
 
-### 8.2 What Makes PrepWell Different
+### 8.2 What Makes ScholarsCrib Different
 1. **Fully Nigerian by design.** A1–F9 grading, JAMB 180q/120min/400-mark
    configuration, cut-off tiers, 36 states plus FCT, and the NERDC subject list
    across Science/Arts/Commercial/Vocational tracks — none of it an afterthought.
@@ -422,6 +422,6 @@ free-to-premium conversion; 7-day streak retention; reach per school and state.
 | **Topic-tagging is undesigned and on the critical path** | High | Decision 4 must be settled at M2 start. If cost proves prohibitive, the fallback is tagging a narrow high-value subject set and shipping the rest untagged for practice-only use — degrading the loop rather than blocking beta. |
 | **Beta window is tight** | Medium | M1 and M2 have no slack. Compress beta scope (cohort size, subject breadth) rather than the M3 hardening pass. |
 | **Data and device access among low-income students** | Medium | Accepted for beta; PWA and low-bandwidth work is deferred to v1.x and should be informed by real beta telemetry rather than assumption. |
-| **Exam-body branding and trust** | Medium | Must be transparent throughout that PrepWell is a practice tool and not affiliated with WAEC, JAMB, or NECO. Review copy before any public launch. |
+| **Exam-body branding and trust** | Medium | Must be transparent throughout that ScholarsCrib is a practice tool and not affiliated with WAEC, JAMB, or NECO. Review copy before any public launch. |
 | **Merge debt** | Low | Three unmerged branches, one significantly behind `main`. M1 exists partly to retire this. |
 | **Single-maintainer bus factor** | Medium | Mitigated in practice by the design-and-plan discipline in `docs/superpowers/`, which records intent rather than just outcome. The unedited README is the weak link in that story. |

@@ -16,7 +16,7 @@ export async function SubscriptionSection({ userId }: { userId: string }) {
   return (
     <Section
       title="Subscription"
-      description="Your plan controls how much of PrepWell you can use."
+      description="Your plan controls how much of ScholarsCrib you can use."
     >
       <div className="flex flex-wrap items-center justify-between gap-4">
         <p className="text-sm text-foreground">

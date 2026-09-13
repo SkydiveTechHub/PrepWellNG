@@ -1,4 +1,4 @@
-// PrepWell NG — Database Seed
+// ScholarsCrib — Database Seed
 // Run: npx prisma db seed
 // Seeds all subjects + curriculum structure for Physics and Mathematics (SS1–SS3)
 
@@ -628,7 +628,7 @@ export function buildCurriculum(code: string, byClass: ClassTopics): TermTopics[
 }
 
 async function main() {
-  console.log("🌱 Starting PrepWell NG database seed...\n");
+  console.log("🌱 Starting ScholarsCrib database seed...\n");
 
   await seedSubjects();
   await seedCurriculum(prisma, "PHY", PHYSICS_CURRICULUM);

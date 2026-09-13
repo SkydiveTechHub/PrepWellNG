@@ -10,7 +10,7 @@ import { StatusBanner } from "@/components/admin/status-banner";
 import { PageHeader } from "@/components/ui/page-header";
 
 export const metadata: Metadata = {
-  title: "Billing — PrepWell NG",
+  title: "Billing — ScholarsCrib",
 };
 
 // The page must reflect a charge that landed seconds ago, so it can never be

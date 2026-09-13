@@ -79,7 +79,7 @@ export function WhyUs() {
     <section id="features" className="scroll-mt-20">
       <div className="landing-container py-20 lg:py-28">
         <SectionHeader
-          eyebrow="Why PrepWell"
+          eyebrow="Why ScholarsCrib"
           title={
             <>
               Everything you need to{" "}

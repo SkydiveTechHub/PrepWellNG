@@ -75,7 +75,7 @@ export function Faq() {
                 Still have a question? Our team replies fast.
               </p>
               <a
-                href="mailto:hello@prepwell.ng"
+                href="mailto:hello@scholarscrib.com"
                 className={buttonClass("outline", "sm")}
               >
                 Contact us

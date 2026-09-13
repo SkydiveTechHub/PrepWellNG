@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import {
-  LuGraduationCap,
   LuMail,
   LuLock,
   LuUser,
@@ -15,6 +14,7 @@ import {
   LuEyeOff,
 } from "react-icons/lu";
 import { NIGERIAN_STATES } from "@/lib/constants/exam-types";
+import { Logo } from "@/components/ui/logo";
 import { cn } from "@/lib/utils";
 
 // Two steps, not three. State was a single optional dropdown on a step of its
@@ -119,15 +119,8 @@ export default function RegisterPage() {
 
   return (
     <div>
-      {/* Mobile logo */}
-      <div className="mb-8 flex items-center gap-2.5 lg:hidden">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-brand">
-          <LuGraduationCap className="h-6 w-6 text-white" />
-        </div>
-        <div>
-          <h1 className="text-xl font-bold tracking-tight">PrepWell</h1>
-        </div>
-      </div>
+      {/* Mobile logo — the left panel that carries it on desktop is hidden. */}
+      <Logo className="mb-8 lg:hidden" />
 
       <h2 className="text-2xl font-bold tracking-tight text-foreground">
         Create your account

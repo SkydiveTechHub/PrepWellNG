@@ -379,7 +379,7 @@ export function Showcase() {
               </span>
             </>
           }
-          description="Explore every corner of PrepWell — from your personal dashboard to the AI tutor that’s with you through every topic."
+          description="Explore every corner of ScholarsCrib — from your personal dashboard to the AI tutor that’s with you through every topic."
         />
 
         <Reveal delay={120}>
@@ -413,7 +413,7 @@ export function Showcase() {
               aria-hidden
             />
             <div key={active} className="relative animate-slide-up">
-              <ScreenFrame title={`PrepWell · ${TABS.find((t) => t.key === active)?.label}`}>
+              <ScreenFrame title={`ScholarsCrib · ${TABS.find((t) => t.key === active)?.label}`}>
                 <Screen />
               </ScreenFrame>
             </div>

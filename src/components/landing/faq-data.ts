@@ -4,7 +4,7 @@
  */
 export const FAQS = [
   {
-    question: "Which exams does PrepWell cover?",
+    question: "Which exams does ScholarsCrib cover?",
     answer:
       "WAEC (WASSCE), JAMB UTME and NECO — the three big examinations Nigerian secondary students sit for. Content follows the national curriculum from SS1 to SS3, and mock exams run under CBT conditions like JAMB's.",
   },
@@ -31,11 +31,11 @@ export const FAQS = [
   {
     question: "I have limited data. Can I still use it?",
     answer:
-      "Yes. PrepWell is built to be light and fast even on slower connections, and everything is designed to load quickly on the phones most students actually use.",
+      "Yes. ScholarsCrib is built to be light and fast even on slower connections, and everything is designed to load quickly on the phones most students actually use.",
   },
   {
-    question: "How is PrepWell different from just reading?",
+    question: "How is ScholarsCrib different from just reading?",
     answer:
-      "Reading tells you what to know; practice shows you what you actually know. PrepWell pairs short lessons with thousands of questions, timed mock exams, flashcards and progress tracking so you always know your next best step.",
+      "Reading tells you what to know; practice shows you what you actually know. ScholarsCrib pairs short lessons with thousands of questions, timed mock exams, flashcards and progress tracking so you always know your next best step.",
   },
 ] as const;

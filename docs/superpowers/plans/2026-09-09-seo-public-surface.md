@@ -17,7 +17,7 @@
 - `export const revalidate` and `export const dynamicParams` are used, and are correct **only because `cacheComponents` is not enabled** in `next.config.ts`. Do not enable Cache Components as part of this work.
 - Public sample questions come **only** from questions with no `ProviderQuestion` row. Every question query on a public page goes through `publicQuestionWhere()` (Task 6).
 - `lastModified` is **omitted** when no honest timestamp exists. Never substitute `new Date()`.
-- Canonical host: `process.env.NEXT_PUBLIC_APP_URL`, falling back to `https://prepwell.ng`.
+- Canonical host: `process.env.NEXT_PUBLIC_APP_URL`, falling back to `https://scholarscrib.com`.
 - Prisma client is imported as `import { db } from "@/lib/db"`.
 - Tests are `scripts/test-*.mts` using `node:test` + `node:assert/strict`, and each new file is appended to the `test` script in `package.json`.
 - **Two typecheck commands, both required before each commit.** The root `tsconfig.json` has `"exclude": ["node_modules", "scripts"]`, so the app typecheck never sees the new test files:
@@ -96,21 +96,21 @@ import { absoluteUrl, normaliseSiteUrl, siteUrl } from "../src/lib/seo/site";
 import { buildMetadata, NOINDEX } from "../src/lib/seo/metadata";
 
 test("an unset or blank app url falls back to production", () => {
-  assert.equal(normaliseSiteUrl(undefined), "https://prepwell.ng");
-  assert.equal(normaliseSiteUrl(""), "https://prepwell.ng");
-  assert.equal(normaliseSiteUrl("   "), "https://prepwell.ng");
+  assert.equal(normaliseSiteUrl(undefined), "https://scholarscrib.com");
+  assert.equal(normaliseSiteUrl(""), "https://scholarscrib.com");
+  assert.equal(normaliseSiteUrl("   "), "https://scholarscrib.com");
 });
 
 test("garbage in the env var does not produce a garbage canonical", () => {
   // A broken canonical is worse than a wrong-but-valid one: crawlers drop the
   // page entirely rather than guessing what was meant.
-  assert.equal(normaliseSiteUrl("not a url"), "https://prepwell.ng");
+  assert.equal(normaliseSiteUrl("not a url"), "https://scholarscrib.com");
 });
 
 test("path, trailing slash and query are stripped from the host", () => {
-  assert.equal(normaliseSiteUrl("https://prepwell.ng/"), "https://prepwell.ng");
+  assert.equal(normaliseSiteUrl("https://scholarscrib.com/"), "https://scholarscrib.com");
   assert.equal(normaliseSiteUrl("http://localhost:3000/"), "http://localhost:3000");
-  assert.equal(normaliseSiteUrl("https://prepwell.ng/app?x=1"), "https://prepwell.ng");
+  assert.equal(normaliseSiteUrl("https://scholarscrib.com/app?x=1"), "https://scholarscrib.com");
 });
 
 test("absoluteUrl normalises the join from either side", () => {
@@ -154,7 +154,7 @@ test("canonical, open graph and twitter all describe the same url", () => {
 test("open graph carries the Nigerian locale and the site name", () => {
   const meta = buildMetadata({ title: "T", description: "D", path: "/" });
   assert.equal(meta.openGraph?.locale, "en_NG");
-  assert.equal(meta.openGraph?.siteName, "PrepWell NG");
+  assert.equal(meta.openGraph?.siteName, "ScholarsCrib");
 });
 
 test("robots is left alone unless noindex is asked for", () => {
@@ -186,7 +186,7 @@ Create `src/lib/seo/site.ts`:
  * unparseable falls back rather than throwing: a build that dies because an env
  * var was fat-fingered is worse than one that ships a slightly wrong canonical.
  */
-const FALLBACK_SITE_URL = "https://prepwell.ng";
+const FALLBACK_SITE_URL = "https://scholarscrib.com";
 
 export function normaliseSiteUrl(raw: string | null | undefined): string {
   const candidate = raw?.trim();
@@ -200,7 +200,7 @@ export function normaliseSiteUrl(raw: string | null | undefined): string {
 }
 
 export const siteUrl = normaliseSiteUrl(process.env.NEXT_PUBLIC_APP_URL);
-export const siteName = "PrepWell NG";
+export const siteName = "ScholarsCrib";
 export const siteDescription =
   "Nigeria's learning platform for WAEC, JAMB and NECO. Structured lessons, past questions with worked answers, mock exams and a study plan that adapts to you.";
 
@@ -316,8 +316,8 @@ In `src/app/layout.tsx`, replace the existing `export const metadata` block with
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "PrepWell NG — Ace Your WAEC, JAMB & NECO",
-    template: "%s | PrepWell NG",
+    default: "ScholarsCrib — Ace Your WAEC, JAMB & NECO",
+    template: "%s | ScholarsCrib",
   },
   description: siteDescription,
   applicationName: siteName,
@@ -632,7 +632,7 @@ Replace its `export const metadata` with:
 
 ```tsx
 export const metadata = buildMetadata({
-  title: "PrepWell NG — Learn Smarter. Score Higher. Build Your Future.",
+  title: "ScholarsCrib — Learn Smarter. Score Higher. Build Your Future.",
   description:
     "Nigeria's learning platform for WAEC, JAMB and NECO. Interactive lessons, an AI tutor, smart flashcards, quizzes, CBT practice and a study plan that adapts to you.",
   path: "/",
@@ -743,7 +743,7 @@ import { siteDescription, siteName } from "@/lib/seo/site";
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: siteName,
-    short_name: "PrepWell",
+    short_name: "ScholarsCrib",
     description: siteDescription,
     start_url: "/",
     display: "standalone",
@@ -1660,7 +1660,7 @@ export const revalidate = 86400;
 export const metadata = buildMetadata({
   title: "Subjects — WAEC, JAMB & NECO syllabus topics",
   description:
-    "Every subject PrepWell covers, from Mathematics to Economics, with the topics each WAEC, JAMB and NECO syllabus expects you to know.",
+    "Every subject ScholarsCrib covers, from Mathematics to Economics, with the topics each WAEC, JAMB and NECO syllabus expects you to know.",
   path: "/learn",
 });
 
@@ -2497,7 +2497,7 @@ export async function generateMetadata({ params }: Props) {
 
   return buildMetadata({
     title: `${parsed.label} Past Questions by Subject`,
-    description: `Every subject with ${parsed.label} past questions on PrepWell, with correct answers and worked explanations for each paper.`,
+    description: `Every subject with ${parsed.label} past questions on ScholarsCrib, with correct answers and worked explanations for each paper.`,
     path: `/past-questions/${parsed.segment}`,
   });
 }
@@ -2566,7 +2566,7 @@ export async function generateMetadata({ params }: Props) {
 
   return buildMetadata({
     title: `${parsed.label} ${data.subject.name} Past Questions by Year`,
-    description: `Every ${parsed.label} ${data.subject.name} paper on PrepWell, year by year, with correct answers and worked explanations.`,
+    description: `Every ${parsed.label} ${data.subject.name} paper on ScholarsCrib, year by year, with correct answers and worked explanations.`,
     path: `/past-questions/${parsed.segment}/${subjectSlug}`,
   });
 }
@@ -2848,7 +2848,7 @@ curl -s -o /dev/null -w "%{http_code}\n" "http://localhost:3000/past-questions/w
 curl -s -o /dev/null -w "%{http_code}\n" "http://localhost:3000/past-questions/waec/<subject>/2019abc"
 ```
 
-Expected: a title of the form `WAEC <year> <Subject> Past Questions and Answers | PrepWell NG`; 5 worked answers; `404` for the unavailable year and `404` for the malformed year.
+Expected: a title of the form `WAEC <year> <Subject> Past Questions and Answers | ScholarsCrib`; 5 worked answers; `404` for the unavailable year and `404` for the malformed year.
 
 - [ ] **Step 3: Typecheck, lint and commit**
 
@@ -3680,7 +3680,7 @@ export default async function Image({
         }}
       >
         <div style={{ fontSize: 34, opacity: 0.85, letterSpacing: 3 }}>
-          {topic?.subject.name.toUpperCase() ?? "PREPWELL"}
+          {topic?.subject.name.toUpperCase() ?? "SCHOLARSCRIB"}
         </div>
         <div style={{ fontSize: 72, fontWeight: 800, marginTop: 20, lineHeight: 1.1 }}>
           {topic?.title ?? siteName}
