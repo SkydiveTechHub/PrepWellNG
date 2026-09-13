@@ -7,7 +7,7 @@
 // REST API with plain `fetch` (no client dependency, works in any runtime).
 //
 // Redis is used when UPSTASH_REDIS_REST_URL/TOKEN (or the KV_REST_API_* names
-// the Vercel marketplace integration sets) are present. Without them — local
+// the Vercel marketplace integration sets, optionally SC_-prefixed) are present. Without them — local
 // development, tests — and whenever Redis errors or is slow, the limiter falls
 // back to the in-memory store. Failing over to a per-instance limit, rather
 // than failing closed, keeps a Redis outage from locking every student out of
@@ -87,10 +87,17 @@ export type RedisConfig = {
 };
 
 function redisConfigFromEnv(): RedisConfig | null {
+  // SC_ is the custom prefix this project's Vercel Upstash integration was
+  // connected with. Never use the read-only token: INCR would be refused and
+  // every check would silently fall back to the in-memory store.
   const url =
-    process.env.UPSTASH_REDIS_REST_URL ?? process.env.KV_REST_API_URL;
+    process.env.UPSTASH_REDIS_REST_URL ??
+    process.env.KV_REST_API_URL ??
+    process.env.SC_KV_REST_API_URL;
   const token =
-    process.env.UPSTASH_REDIS_REST_TOKEN ?? process.env.KV_REST_API_TOKEN;
+    process.env.UPSTASH_REDIS_REST_TOKEN ??
+    process.env.KV_REST_API_TOKEN ??
+    process.env.SC_KV_REST_API_TOKEN;
   return url && token ? { url: url.replace(/\/+$/, ""), token } : null;
 }
 
