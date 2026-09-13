@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useState, Suspense } from "react";
 import {
   LuMail,
@@ -14,7 +14,6 @@ import { Logo } from "@/components/ui/logo";
 import { cn } from "@/lib/utils";
 
 function LoginForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const justRegistered = searchParams.get("registered") === "true";
   // Relative paths only — an absolute URL here is an open redirect.
@@ -45,13 +44,19 @@ function LoginForm() {
 
       if (result?.error) {
         setError("Invalid email or password. Please try again.");
+        setLoading(false);
       } else {
-        router.push(callbackUrl);
-        router.refresh();
+        // A full navigation, not router.push + router.refresh. The refresh
+        // re-fetched /login under the new session cookie, so the (auth)
+        // layout's own redirect raced the push to a slow dashboard render;
+        // when either failed mid-transition the client router unmounted the
+        // tree and left a blank page. A real request also carries the fresh
+        // cookie through the proxy and shows a server error as an error page.
+        // Stays in the loading state: the page is about to be replaced.
+        window.location.assign(callbackUrl);
       }
     } catch {
       setError("Something went wrong. Please try again.");
-    } finally {
       setLoading(false);
     }
   }
