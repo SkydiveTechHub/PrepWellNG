@@ -7,7 +7,7 @@
  */
 
 import { NextResponse } from "next/server";
-import { getToken } from "next-auth/jwt";
+import { getSessionToken } from "@/lib/session-token";
 import { db } from "@/lib/db";
 import {
   can,
@@ -40,7 +40,7 @@ export function tierOfSession(
 export async function requestTier(
   req: Request,
 ): Promise<SubscriptionTier | null> {
-  const token = await getToken({ req, secret: process.env.AUTH_SECRET });
+  const token = await getSessionToken(req);
   if (!token?.sub) return null;
   const profile = (token as { profile?: { tier?: unknown } }).profile;
   return tierOf(profile?.tier);

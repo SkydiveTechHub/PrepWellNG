@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getToken } from "next-auth/jwt";
+import { getSessionToken } from "@/lib/session-token";
 import { getLibraryShelfTolerant, getSubjectResources } from "@/lib/library";
 import { can } from "@/lib/subscription";
 import { tierOf } from "@/lib/entitlements";
@@ -8,10 +8,7 @@ export const dynamic = "force-dynamic";
 
 export async function GET(request: Request) {
   // Fast JWT check — avoids the heavy auth() session enrichment round-trip.
-  const token = await getToken({
-    req: request,
-    secret: process.env.AUTH_SECRET,
-  });
+  const token = await getSessionToken(request);
   if (!token?.sub) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
