@@ -381,118 +381,6 @@ async function seedAchievements() {
   console.log(`  ✓ ${achievements.length} achievements seeded`);
 }
 
-// ─── Subject Resources ────────────────────────────
-
-type ResourceDef = {
-  title: string;
-  description: string;
-  resourceType: string;
-  url: string;
-  author: string;
-  isFree: boolean;
-  orderIndex: number;
-};
-
-const SUBJECT_RESOURCES: Record<string, ResourceDef[]> = {
-  PHY: [
-    { title: "New School Physics for Senior Secondary Schools", description: "Comprehensive physics textbook covering SS1–SS3 syllabus with worked examples and practice questions.", resourceType: "textbook", url: "#", author: "M. W. Anyakoha", isFree: false, orderIndex: 0 },
-    { title: "WAEC Physics Past Questions & Answers", description: "Compilation of past WAEC physics questions with detailed solutions from 2010–2024.", resourceType: "past_paper", url: "#", author: "WAEC", isFree: true, orderIndex: 1 },
-    { title: "JAMB Physics Key Points", description: "Concise revision notes covering high-yield JAMB physics topics with formula summaries.", resourceType: "pdf", url: "#", author: "ScholarsCrib", isFree: true, orderIndex: 2 },
-    { title: "Physics Practical Manual", description: "Step-by-step guide to physics practical experiments with diagrams and expected results.", resourceType: "textbook", url: "#", author: "NECO", isFree: false, orderIndex: 3 },
-    { title: "Physics Formula Sheet", description: "Quick reference sheet of all essential physics formulas for WAEC and JAMB.", resourceType: "pdf", url: "#", author: "ScholarsCrib", isFree: true, orderIndex: 4 },
-  ],
-  MTH: [
-    { title: "New General Mathematics for Senior Secondary Schools", description: "Complete mathematics coursebook aligned with the Nigerian national curriculum.", resourceType: "textbook", url: "#", author: "M. F. Macrae et al.", isFree: false, orderIndex: 0 },
-    { title: "New General Mathematics SS1", description: "Full PDF textbook for Mathematics SS1 — Teacher's Guide.", resourceType: "textbook", url: "/resources/mathematics/new-general-mathematics-ss1.pdf", author: "Pearson Education", isFree: true, orderIndex: 1 },
-    { title: "New General Mathematics SS2", description: "Full PDF textbook for Mathematics SS2 — Teacher's Guide.", resourceType: "textbook", url: "/resources/mathematics/new-general-mathematics-ss2.pdf", author: "Pearson Education", isFree: true, orderIndex: 2 },
-    { title: "New General Mathematics SS3", description: "Full PDF textbook for Mathematics SS3 — Teacher's Guide.", resourceType: "textbook", url: "/resources/mathematics/new-general-mathematics-ss3.pdf", author: "Pearson Education", isFree: true, orderIndex: 3 },
-    { title: "JAMB Mathematics Past Questions", description: "Past JAMB mathematics questions organised by topic with answer explanations.", resourceType: "past_paper", url: "#", author: "JAMB", isFree: true, orderIndex: 4 },
-    { title: "Mathematics Formula Handbook", description: "All key mathematical formulas, theorems, and identities for SS1–SS3.", resourceType: "pdf", url: "#", author: "ScholarsCrib", isFree: true, orderIndex: 5 },
-    { title: "Further Mathematics Textbook", description: "Advanced mathematics topics including calculus, vectors, and statistics.", resourceType: "textbook", url: "#", author: "P. N. Okeke", isFree: false, orderIndex: 6 },
-    { title: "WAEC Mathematics Objective Tests", description: "500+ objective questions covering the entire WAEC mathematics syllabus.", resourceType: "worksheet", url: "#", author: "WAEC", isFree: true, orderIndex: 7 },
-  ],
-  ENG: [
-    { title: "New Oxford English for Senior Secondary Schools", description: "Comprehensive English language textbook covering comprehension, grammar, and summary writing.", resourceType: "textbook", url: "#", author: "Oxford University Press", isFree: false, orderIndex: 0 },
-    { title: "WAEC English Language Past Questions", description: "Past WAEC English Language papers including objective, theory, and oral English sections.", resourceType: "past_paper", url: "#", author: "WAEC", isFree: true, orderIndex: 1 },
-    { title: "Essay Writing Guide", description: "Step-by-step guide to writing excellent essays for WAEC and JAMB English.", resourceType: "pdf", url: "#", author: "ScholarsCrib", isFree: true, orderIndex: 2 },
-    { title: "JAMB Use of English Key Points", description: "Strategic revision notes for JAMB Use of English with comprehension strategies.", resourceType: "pdf", url: "#", author: "ScholarsCrib", isFree: true, orderIndex: 3 },
-    { title: "Oral English Practice Audio", description: "Audio recordings for oral English vowel and consonant sound practice.", resourceType: "video", url: "#", author: "ScholarsCrib", isFree: true, orderIndex: 4 },
-  ],
-  CHM: [
-    { title: "New School Chemistry for Senior Secondary Schools", description: "Complete chemistry textbook with practical experiments and theoretical explanations.", resourceType: "textbook", url: "#", author: "O. Y. Ababio", isFree: false, orderIndex: 0 },
-    { title: "JAMB Chemistry Past Questions", description: "Past JAMB chemistry questions with detailed step-by-step solutions.", resourceType: "past_paper", url: "#", author: "JAMB", isFree: true, orderIndex: 1 },
-    { title: "Chemistry Practical Handbook", description: "Guide to qualitative and quantitative analysis for WAEC chemistry practical.", resourceType: "textbook", url: "#", author: "NECO", isFree: false, orderIndex: 2 },
-    { title: "Organic Chemistry Reaction Summary", description: "Chart of all organic chemistry reactions, functional groups, and mechanisms.", resourceType: "pdf", url: "#", author: "ScholarsCrib", isFree: true, orderIndex: 3 },
-    { title: "Periodic Table & Data Booklet", description: "Printable periodic table with atomic properties and standard electrode potentials.", resourceType: "pdf", url: "#", author: "ScholarsCrib", isFree: true, orderIndex: 4 },
-  ],
-  BIO: [
-    { title: "New School Biology for Senior Secondary Schools", description: "Comprehensive biology textbook covering all SS1–SS3 topics with diagrams.", resourceType: "textbook", url: "#", author: "P. N. Okonkwo", isFree: false, orderIndex: 0 },
-    { title: "WAEC Biology Past Questions & Answers", description: "Past WAEC biology questions with model answers and marking scheme insights.", resourceType: "past_paper", url: "#", author: "WAEC", isFree: true, orderIndex: 1 },
-    { title: "Biology Practical Drawing Guide", description: "Guide to drawing and labelling biological specimens for practical exams.", resourceType: "pdf", url: "#", author: "ScholarsCrib", isFree: true, orderIndex: 2 },
-    { title: "JAMB Biology Key Topics", description: "Topic-by-topic revision notes for JAMB biology with frequently tested concepts.", resourceType: "pdf", url: "#", author: "ScholarsCrib", isFree: true, orderIndex: 3 },
-    { title: "Ecology Field Study Notes", description: "Field study methodology and ecological concepts for practical exams.", resourceType: "textbook", url: "#", author: "N. O. Adedipe", isFree: false, orderIndex: 4 },
-  ],
-  ECO: [
-    { title: "Comprehensive Economics for Senior Secondary Schools", description: "Full economics textbook covering micro and macroeconomics for WAEC and JAMB.", resourceType: "textbook", url: "#", author: "O. A. Lawal", isFree: false, orderIndex: 0 },
-    { title: "WAEC Economics Past Questions", description: "Past WAEC economics questions with answers and examiner comments.", resourceType: "past_paper", url: "#", author: "WAEC", isFree: true, orderIndex: 1 },
-    { title: "Economics Graph & Diagram Guide", description: "Visual guide to all essential economics graphs and their interpretations.", resourceType: "pdf", url: "#", author: "ScholarsCrib", isFree: true, orderIndex: 2 },
-    { title: "JAMB Economics Key Points", description: "Concise revision notes for JAMB economics with key definitions and theories.", resourceType: "pdf", url: "#", author: "ScholarsCrib", isFree: true, orderIndex: 3 },
-  ],
-  CVE: [
-    { title: "Civic Education for Senior Secondary Schools", description: "Textbook covering Nigerian constitution, human rights, and civic responsibilities.", resourceType: "textbook", url: "#", author: "F. A. Adigwe", isFree: false, orderIndex: 0 },
-    { title: "WAEC Civic Education Past Questions", description: "Past WAEC civic education questions with model answers.", resourceType: "past_paper", url: "#", author: "WAEC", isFree: true, orderIndex: 1 },
-  ],
-  GOV: [
-    { title: "Comprehensive Government for Senior Secondary Schools", description: "In-depth coverage of Nigerian government systems, constitutions, and political history.", resourceType: "textbook", url: "#", author: "O. A. Olusola", isFree: false, orderIndex: 0 },
-    { title: "WAEC Government Past Questions", description: "Past WAEC government questions organised by topic with marking scheme.", resourceType: "past_paper", url: "#", author: "WAEC", isFree: true, orderIndex: 1 },
-    { title: "Nigerian Constitution Summary", description: "Simplified summary of the 1999 Nigerian Constitution key provisions.", resourceType: "pdf", url: "#", author: "ScholarsCrib", isFree: true, orderIndex: 2 },
-  ],
-  LIT: [
-    { title: "Exam Focus: Literature in English", description: "Study guide covering all WAEC and JAMB recommended texts with analysis.", resourceType: "textbook", url: "#", author: "O. O. Ogunyemi", isFree: false, orderIndex: 0 },
-    { title: "WAEC Literature Past Questions", description: "Past questions on prose, poetry, and drama with model essay answers.", resourceType: "past_paper", url: "#", author: "WAEC", isFree: true, orderIndex: 1 },
-    { title: "Poetic Devices & Literary Terms Handbook", description: "Complete glossary of literary terms and poetic devices with examples.", resourceType: "pdf", url: "#", author: "ScholarsCrib", isFree: true, orderIndex: 2 },
-  ],
-  ACC: [
-    { title: "Financial Accounting for Senior Secondary Schools", description: "Comprehensive accounting textbook covering principles, ledgers, and final accounts.", resourceType: "textbook", url: "#", author: "F. O. Ogun", isFree: false, orderIndex: 0 },
-    { title: "WAEC Accounting Past Questions", description: "Past WAEC financial accounting questions with detailed solutions.", resourceType: "past_paper", url: "#", author: "WAEC", isFree: true, orderIndex: 1 },
-    { title: "Accounting Equation & Format Guide", description: "Quick reference for all accounting formats, equations, and journal entries.", resourceType: "pdf", url: "#", author: "ScholarsCrib", isFree: true, orderIndex: 2 },
-  ],
-};
-
-async function seedSubjectResources() {
-  console.log("Seeding subject resources...");
-  let count = 0;
-
-  for (const [code, resources] of Object.entries(SUBJECT_RESOURCES)) {
-    const subject = await prisma.subject.findUnique({ where: { code } });
-    if (!subject) {
-      console.warn(`  ⚠ Subject ${code} not found, skipping resources`);
-      continue;
-    }
-
-    for (const r of resources) {
-      await prisma.subjectResource.upsert({
-        where: { id: `${subject.id}-${slugify(r.title)}` },
-        update: {},
-        create: {
-          id: `${subject.id}-${slugify(r.title)}`,
-          subjectId: subject.id,
-          title: r.title,
-          description: r.description,
-          resourceType: r.resourceType,
-          url: r.url,
-          author: r.author,
-          isFree: r.isFree,
-          orderIndex: r.orderIndex,
-        },
-      });
-      count++;
-    }
-  }
-
-  console.log(`  ✓ ${count} resources seeded`);
-}
-
 // ─── Topics for every subject (SS1–SS3) ────────────
 // Topic titles are slugified at seed time; the Commerce titles below are
 // chosen to produce exactly the topicSlug values used in the question files.
@@ -752,7 +640,6 @@ async function main() {
   }
 
   await seedAchievements();
-  await seedSubjectResources();
   await seedLessons(prisma);
 
   console.log("\n✅ Seed completed successfully!");

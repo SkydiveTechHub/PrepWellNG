@@ -1,14 +1,13 @@
 import {
-  LuBook,
-  LuClipboardList,
   LuExternalLink,
   LuFile,
   LuFileText,
+  LuImage,
   LuLink,
-  LuScrollText,
   LuVideo,
 } from "react-icons/lu";
 import { selectResources } from "@/lib/classroom";
+import { MATERIAL_LABELS, type MaterialType } from "@/lib/materials";
 
 /**
  * One shape for a resource card regardless of which table it came from.
@@ -27,16 +26,15 @@ export type ResourceItem = {
 // Same icon language as the Library (`src/components/library/library-view.tsx`)
 // so a student recognises these as the same kind of thing.
 const RESOURCE_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
-  textbook: LuBook,
-  video: LuVideo,
   pdf: LuFileText,
+  image: LuImage,
+  diagram: LuImage,
+  video: LuVideo,
   link: LuLink,
-  worksheet: LuClipboardList,
-  past_paper: LuScrollText,
 };
 
 function ResourceIcon({ type }: { type: string }) {
-  const Icon = RESOURCE_ICONS[type] ?? LuFile;
+  const Icon = RESOURCE_ICONS[type.toLowerCase()] ?? LuFile;
   return <Icon className="h-5 w-5" />;
 }
 
@@ -84,7 +82,7 @@ export function TopicResources({
               )}
               <div className="mt-2 flex items-center gap-2">
                 <span className="chip border border-border bg-card text-[11px] capitalize text-muted">
-                  {item.resourceType.replace("_", " ")}
+                  {MATERIAL_LABELS[item.resourceType as MaterialType] ?? item.resourceType}
                 </span>
                 <LuExternalLink className="ml-auto h-3.5 w-3.5 text-muted opacity-0 transition-opacity group-hover:opacity-100" />
               </div>
