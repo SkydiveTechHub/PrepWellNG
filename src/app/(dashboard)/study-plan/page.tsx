@@ -7,8 +7,9 @@ import { UpgradePrompt } from "@/components/billing/upgrade-prompt";
 import { getStudyPlanPageData } from "@/lib/study-plan";
 import { StudyPlanView } from "@/components/study-plan/study-plan-view";
 
-// Server-rendered. This used to fire two client fetches on mount (the plan and
-// the subject list) behind a full-page spinner.
+const DESCRIPTION =
+  "A realistic weekly schedule that keeps you in step with your class — and gets you exam-ready when it's time.";
+
 export default async function StudyPlanPage() {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
@@ -16,28 +17,15 @@ export default async function StudyPlanPage() {
   if (!(await isEntitled(session.user.id, tierOfSession(session), "studyPlanner"))) {
     return (
       <div className="space-y-8">
-        <PageHeader
-          title="Study plan"
-          description="A schedule built around your exam date and your weakest topics."
-        />
+        <PageHeader title="Study plan" description={DESCRIPTION} />
         <UpgradePrompt
           feature="The study planner"
           requiredTier={requiredTierFor("studyPlanner")}
-          description="Get a day-by-day plan weighted to the topics that carry the most marks, and to the ones you keep getting wrong."
+          description="Get a week-by-week plan that follows your school term, fills the gaps you've missed, and moves missed sessions instead of letting them pile up."
         />
       </div>
     );
   }
 
-  const { plan, subjects, daysRemaining } = await getStudyPlanPageData(
-    session.user.id,
-  );
-
-  return (
-    <StudyPlanView
-      initialPlan={plan}
-      subjects={subjects}
-      initialDaysRemaining={daysRemaining}
-    />
-  );
+  return <StudyPlanView data={await getStudyPlanPageData(session.user.id)} />;
 }
