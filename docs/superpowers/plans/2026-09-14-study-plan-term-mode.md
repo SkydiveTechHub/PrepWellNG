@@ -2259,6 +2259,7 @@ function input(overrides: Partial<PlannerInput> = {}): PlannerInput {
     revisionDue: [],
     carryOver: [],
     fixed: [],
+    mocksTaken: 0,
     ...overrides,
   };
 }
@@ -2439,6 +2440,8 @@ export type PlannerInput = {
   revisionDue: readonly RevisionDue[];
   carryOver: readonly CarryOver[];
   fixed: readonly FixedItem[];
+  /** Mock exams on/after the runway start already completed or skipped. */
+  mocksTaken: number;
 };
 
 export type PlannerOutput = {
@@ -2498,6 +2501,7 @@ export function planWindow(input: PlannerInput): PlannerOutput {
     pretestPassed: input.pretestPassed,
     revisionDue: input.revisionDue,
     fixed: input.fixed,
+    mocksTaken: input.mocksTaken,
   });
 
   const until = examBound
@@ -3606,7 +3610,13 @@ import type { ClassLevel } from "./curriculum-scope";
 import { TERM_LABELS } from "./curriculum-scope";
 import { addDays, dateToDayKey, dayKeyToDate, daysBetween, type DayKey } from "@/engines/planner/days";
 import { manualStatusChange, type ManualStatus } from "@/engines/planner/completion";
-import { DEFAULT_MINUTES, planSettingsProblem, resolvePlanMode, type PlanMode } from "@/engines/planner/mode";
+import {
+  computeRunwayStart,
+  DEFAULT_MINUTES,
+  planSettingsProblem,
+  resolvePlanMode,
+  type PlanMode,
+} from "@/engines/planner/mode";
 import type { Overload } from "@/engines/planner/layout";
 import type { OutlineWeek } from "@/engines/planner/outline";
 import { CARRY_OVER_DAYS, isReplanStale, partitionForReplan } from "@/engines/planner/replan";
@@ -3782,10 +3792,25 @@ export async function replanIfStale(
       where: { studyPlanId: plan.id, status: "PENDING", scheduledDate: { gte: dayKeyToDate(today) } },
     });
 
+    const mode = resolvePlanMode({ classLevel, targetDate, forceExamMode: plan.forceExamMode });
+    const runwayStart =
+      mode !== "TERM" && targetDate ? computeRunwayStart(lagosDayKey(plan.createdAt), targetDate) : null;
+    // Mocks already sat or skipped are not offered again; missed ones are.
+    const mocksTaken = runwayStart
+      ? await tx.studyPlanItem.count({
+          where: {
+            studyPlanId: plan.id,
+            activityType: "MOCK_EXAM",
+            status: { in: ["COMPLETED", "SKIPPED"] },
+            scheduledDate: { gte: dayKeyToDate(runwayStart) },
+          },
+        })
+      : 0;
+
     const output = planWindow({
       today,
       planStart: lagosDayKey(plan.createdAt),
-      mode: resolvePlanMode({ classLevel, targetDate, forceExamMode: plan.forceExamMode }),
+      mode,
       classLevel,
       targetDate,
       termContext: resolveTermContext(today, terms),
@@ -3802,6 +3827,7 @@ export async function replanIfStale(
       revisionDue,
       carryOver: partition.carryOver,
       fixed: partition.fixed,
+      mocksTaken,
     });
 
     if (output.items.length > 0) {
