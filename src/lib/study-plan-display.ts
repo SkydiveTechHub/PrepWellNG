@@ -54,5 +54,7 @@ export function groupWindow<T extends { date: string; status: string }>(
     recentMissed: items.filter((i) => i.date < today && i.status === "MISSED"),
     thisWeek: byDay(items.filter((i) => i.date > today && i.date < nextMonday)),
     nextWeek: byDay(items.filter((i) => i.date >= nextMonday && i.date < followingMonday)),
+    /** The rest of the 14-day window, which runs past next week from Tuesday on. */
+    later: byDay(items.filter((i) => i.date >= followingMonday)),
   };
 }

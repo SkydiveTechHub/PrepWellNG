@@ -88,6 +88,7 @@ export function PlanSchedule({ plan, today, onStatus }: { plan: StudyPlanData; t
 
       <DayList title="This week" days={groups.thisWeek} runwayStart={plan.runwayStart} onStatus={onStatus} />
       <DayList title="Next week" days={groups.nextWeek} runwayStart={plan.runwayStart} onStatus={onStatus} />
+      <DayList title="Later" days={groups.later} runwayStart={plan.runwayStart} onStatus={onStatus} />
 
       {plan.outline.length > 0 && (
         <details className="card p-5">

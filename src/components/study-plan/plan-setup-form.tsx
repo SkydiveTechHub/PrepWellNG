@@ -41,16 +41,18 @@ export function PlanSetupForm({
   onSubmit: (settings: PlanSettings) => Promise<string | null>;
   onCancel?: () => void;
 }) {
+  // A passed exam date is not pre-filled: saving it would only fail validation.
+  const upcomingDate = plan?.targetDate && plan.targetDate > data.today ? plan.targetDate : null;
   const [settings, setSettings] = useState<PlanSettings>(() => ({
     subjectIds: plan?.subjectIds ?? [],
     studyDays: plan?.studyDays ?? [1, 2, 3, 4, 6],
     weekdayMinutes: plan?.weekdayMinutes ?? data.defaults.weekdayMinutes,
     weekendMinutes: plan?.weekendMinutes ?? data.defaults.weekendMinutes,
     targetExam: (plan?.targetExam as PlanSettings["targetExam"]) ?? null,
-    targetDate: plan?.targetDate ?? null,
-    forceExamMode: plan?.forceExamMode ?? false,
+    targetDate: upcomingDate,
+    forceExamMode: upcomingDate ? (plan?.forceExamMode ?? false) : false,
   }));
-  const [preparing, setPreparing] = useState(Boolean(plan?.targetDate));
+  const [preparing, setPreparing] = useState(Boolean(upcomingDate));
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
   const isSS3 = data.classLevel === "SS3";

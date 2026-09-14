@@ -57,8 +57,12 @@ export function StudyPlanView({ data }: { data: StudyPlanPageData }) {
   const description = [
     data.classLevel,
     data.termLabel,
-    plan?.targetExam && data.daysToExam !== null ? `${plan.targetExam} in ${data.daysToExam} days` : null,
+    plan?.targetExam && plan.mode !== "TERM" && data.daysToExam !== null && data.daysToExam > 0
+      ? `${plan.targetExam} in ${data.daysToExam} days`
+      : null,
   ].filter(Boolean).join(" · ");
+  // Only SS3 students can set exam dates, so only they are told to add a new one.
+  const examPassed = data.classLevel === "SS3" && plan?.targetDate != null && plan.targetDate < data.today;
 
   return (
     <div className="animate-fade-in">
@@ -103,6 +107,12 @@ export function StudyPlanView({ data }: { data: StudyPlanPageData }) {
             {plan.mode === "EXAM" && <Badge variant="red">Exam mode</Badge>}
             {data.termSource === "fallback" && <Badge variant="neutral">Term dates are approximate</Badge>}
           </div>
+
+          {examPassed && (
+            <p role="status" className="rounded-xl border border-border bg-card px-4 py-3 text-sm text-muted">
+              Your exam date has passed — your plan is following your school term. Add a new exam date in Change plan.
+            </p>
+          )}
 
           {plan.overload && (
             <div role="status" className="flex items-start gap-3 rounded-xl border border-tone-amber-line bg-tone-amber-soft px-4 py-3 text-sm text-tone-amber-ink">
