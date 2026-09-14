@@ -344,7 +344,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
               label: deviceLabel(await requestUserAgent()),
               limited: isDeviceLimited(resolved.tier),
             });
-          } catch {
+          } catch (error) {
+            console.error("Device registration failed:", error);
             // A failed registration must not fail the sign-in. The token is
             // then untracked, like one minted before this feature, and the
             // next sign-in registers it.

@@ -15,10 +15,25 @@ export async function DevicesSection({
   userId: string;
   currentDeviceId: string | undefined;
 }) {
-  const [{ tier }, devices] = await Promise.all([
-    currentEntitlement(userId),
-    listActiveDevices(userId),
-  ]);
+  let loaded: [
+    Awaited<ReturnType<typeof currentEntitlement>>,
+    Awaited<ReturnType<typeof listActiveDevices>>,
+  ];
+  try {
+    loaded = await Promise.all([currentEntitlement(userId), listActiveDevices(userId)]);
+  } catch (error) {
+    // Degrade this one section rather than taking down all of Settings — e.g.
+    // code deployed before the UserDevice migration has no table to read.
+    console.error("Loading devices failed:", error);
+    return (
+      <Section title="Devices">
+        <p className="text-sm text-muted">
+          Your devices could not be loaded. Please try again later.
+        </p>
+      </Section>
+    );
+  }
+  const [{ tier }, devices] = loaded;
   const now = new Date();
 
   return (
