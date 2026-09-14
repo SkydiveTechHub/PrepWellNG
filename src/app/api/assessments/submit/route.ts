@@ -4,6 +4,7 @@ import { submitAssessmentSchema } from "@/lib/validators";
 import { submitAttempt } from "@/lib/assessment-submit";
 import { awardAchievements } from "@/lib/achievements";
 import { recordTopicPracticeResult } from "@/lib/topic-practice-result";
+import { markPlanFromAttempt, markPlanFromLesson } from "@/lib/study-plan-completion";
 
 export const dynamic = "force-dynamic";
 
@@ -60,6 +61,7 @@ export async function POST(req: NextRequest) {
         } catch (error) {
           console.error("Achievement check failed:", error);
         }
+        await markPlanFromAttempt(studentId, attemptId, Boolean(practiceExit));
       });
     }
 
@@ -81,6 +83,8 @@ export async function POST(req: NextRequest) {
             console.error(
               `Practice exit not recorded (${recorded.status}) for attempt ${attemptId}`,
             );
+          } else if (recorded.result.passed) {
+            await markPlanFromLesson(studentId, practiceExit.subjectSlug, practiceExit.topicSlug);
           }
         } catch (error) {
           console.error("Practice exit recording failed:", error);

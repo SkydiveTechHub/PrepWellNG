@@ -1,8 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse, after } from "next/server";
 import { auth } from "@/lib/auth";
 import { denyUnlessEntitled } from "@/lib/entitlements";
 import { submitFlashcardReviewSchema } from "@/lib/validators";
 import { recordFlashcardReview } from "@/lib/flashcards";
+import { markPlanFromCardReview } from "@/lib/study-plan-completion";
 
 export const dynamic = "force-dynamic";
 
@@ -34,6 +35,11 @@ export async function POST(req: NextRequest) {
     if (result === "flashcard-not-found") {
       return NextResponse.json({ error: "Flashcard not found" }, { status: 404 });
     }
+
+    const studentId = session.user.id;
+    const { flashcardId } = parsed.data;
+    // After the response: plan bookkeeping must not slow down the review loop.
+    after(() => markPlanFromCardReview(studentId, flashcardId));
 
     return NextResponse.json(result);
   } catch (error) {
