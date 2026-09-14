@@ -7,6 +7,7 @@ import {
   devicesToRevoke,
   formatLastActive,
   isDeviceLimited,
+  isDeviceRevokedSession,
   revokedTokenAction,
   shouldTouchLastSeen,
   studentTokenState,
@@ -159,6 +160,21 @@ test("a revoked token on public pages and /register just continues", () => {
   assert.equal(revokedTokenAction({ pathname: "/", reason: null, isPublic: true }), "continue");
   assert.equal(revokedTokenAction({ pathname: "/terms", reason: null, isPublic: true }), "continue");
   assert.equal(revokedTokenAction({ pathname: "/register", reason: null, isPublic: false }), "continue");
+});
+
+test("a session carrying the device-revoked marker is recognised", () => {
+  assert.equal(isDeviceRevokedSession({ user: undefined, deviceRevoked: true }), true);
+});
+
+test("anything else is not a device-revoked session", () => {
+  assert.equal(isDeviceRevokedSession(null), false);
+  assert.equal(isDeviceRevokedSession(undefined), false);
+  assert.equal(isDeviceRevokedSession({}), false);
+  assert.equal(isDeviceRevokedSession({ user: { id: "u1" } }), false);
+  // Only a literal true counts.
+  assert.equal(isDeviceRevokedSession({ deviceRevoked: "true" }), false);
+  assert.equal(isDeviceRevokedSession({ deviceRevoked: 1 }), false);
+  assert.equal(isDeviceRevokedSession("deviceRevoked"), false);
 });
 
 test("last active text", () => {

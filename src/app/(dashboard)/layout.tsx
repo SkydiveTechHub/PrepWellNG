@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
+import { isDeviceRevokedSession } from "@/lib/device-limit";
 import { Sidebar } from "@/components/ui/sidebar";
 import { MobileNav } from "@/components/ui/mobile-nav";
 import { MobileHeader } from "@/components/ui/mobile-header";
@@ -19,6 +20,8 @@ export default async function DashboardLayout({
   // Authoritative guard. The proxy check is optimistic and can be bypassed by
   // a stale or forged cookie surviving long enough to reach the app.
   const session = await auth();
+  // Signed out elsewhere: /signed-out deletes the cookie, which auth() can't.
+  if (isDeviceRevokedSession(session)) redirect("/signed-out");
   if (!session?.user) redirect("/login");
 
   // The session callback already enriches these, so the chrome needs no

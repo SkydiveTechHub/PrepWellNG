@@ -104,6 +104,19 @@ export function studentTokenState(
   return token.deviceRevoked === true ? "revoked" : "active";
 }
 
+/**
+ * Whether an `auth()` session is the marker the session callback returns for a
+ * revoked device. Server components can't clear the cookie themselves (auth()
+ * drops Set-Cookie), so the layouts use this to send the device to /signed-out.
+ */
+export function isDeviceRevokedSession(session: unknown): boolean {
+  return (
+    typeof session === "object" &&
+    session !== null &&
+    (session as { deviceRevoked?: unknown }).deviceRevoked === true
+  );
+}
+
 export type RevokedTokenAction = "unauthorized" | "redirect-with-reason" | "continue";
 
 /** What proxy.ts does with a request carrying a `deviceRevoked` token. */

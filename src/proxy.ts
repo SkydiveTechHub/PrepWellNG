@@ -55,8 +55,11 @@ export default async function proxy(req: NextRequest) {
   // had /login and /dashboard redirecting into each other in production.
   const token = await getSessionToken(req);
 
-  // Signed out elsewhere (device limit, or from Settings). The token still
-  // decodes, so without this branch every check below would call it a session.
+  // A cookie already flagged `deviceRevoked`. In practice this rarely arrives:
+  // server components call auth(), which drops the Set-Cookie carrying the
+  // flagged token, so a displaced device usually keeps its old cookie and is
+  // caught by the layouts instead (they send it to /signed-out). Kept because
+  // it is harmless and correct if a flagged cookie ever does reach here.
   if (studentTokenState(token) === "revoked") {
     const action = revokedTokenAction({
       pathname,
@@ -78,11 +81,12 @@ export default async function proxy(req: NextRequest) {
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
-  if (isAuthRoute(pathname)) {
-    return token
-      ? NextResponse.redirect(new URL("/dashboard", req.url))
-      : NextResponse.next();
-  }
+  // Always let /login and /register through. A token that merely decodes is
+  // not a session: a displaced device or a suspended student still has one,
+  // and redirecting them to /dashboard here looped against the dashboard
+  // layout's redirect to /login. src/app/(auth)/layout.tsx does the
+  // authoritative auth() check and sends real sessions to /dashboard.
+  if (isAuthRoute(pathname)) return NextResponse.next();
 
   if (token) return NextResponse.next();
 

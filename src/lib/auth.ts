@@ -201,8 +201,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       // present, value undefined — keeps that fallback from firing (its
       // `{ user, ...session }` spread overwrites `user` with our `undefined`)
       // so `!session?.user` is true again and the guards redirect.
+      //
+      // `deviceRevoked: true` is the marker the (dashboard) and (auth) layouts
+      // read (isDeviceRevokedSession) to send the device to /signed-out. They
+      // can't rely on the proxy: auth() drops the Set-Cookie that would carry
+      // the flagged token, so the browser keeps its old, unflagged cookie and
+      // only /signed-out can delete it.
       if ((token as { deviceRevoked?: boolean }).deviceRevoked) {
-        return { ...session, user: undefined };
+        return { ...session, user: undefined, deviceRevoked: true };
       }
 
       if (token.sub && session.user) {
@@ -234,8 +240,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       };
       const isSignIn = Boolean(user);
 
-      // Stays revoked until proxy.ts clears the cookie. A fresh sign-in mints
-      // a new token, so it never arrives here carrying the flag.
+      // Stays revoked until /signed-out (or proxy.ts) clears the cookie. A
+      // fresh sign-in mints a new token, so it never arrives here carrying the
+      // flag.
       if (cache.deviceRevoked && !isSignIn) return token;
 
       if (isSignIn && user?.id) token.sub = user.id;
@@ -276,8 +283,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         }
 
         // Signed out from Settings, or displaced by a newer sign-in past the
-        // device limit. Not `null`: the stripped token is how proxy.ts learns
-        // why, so the login page can say so. Suspension above stays `null`.
+        // device limit. Not `null`: the stripped token becomes the session
+        // callback's `deviceRevoked` marker, which the layouts turn into a
+        // redirect via /signed-out, so the login page can say why.
+        // Suspension above stays `null`.
         const device = profile.devices[0];
         const state = deviceState(cache.deviceId, device);
         if (!isSignIn && state === "revoked") {

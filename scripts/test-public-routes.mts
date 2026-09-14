@@ -154,6 +154,15 @@ test("the offline fallback is public", () => {
   assert.equal(isPublicPath("/offline"), true);
 });
 
+test("the signed-out cookie-clearing route is public", () => {
+  // A displaced device's token still decodes, and a missing one doesn't; the
+  // route has to be reachable either way to finish the sign-out.
+  assert.equal(isPublicPath("/signed-out"), true);
+  assert.equal(isPublicPath("/signed-out/"), true);
+  // Exact only.
+  assert.equal(isPublicPath("/signed-out/anything"), false);
+});
+
 test("opening the PWA surface did not open anything else", () => {
   assert.equal(isPublicPath("/dashboard"), false);
   assert.equal(isPublicPath("/practice"), false);
