@@ -258,10 +258,14 @@ export async function setStudentActive(
  * email subsystem, neither of which exists yet.
  */
 export async function revokeStudentSessions(id: string): Promise<void> {
-  await db.user.update({
-    where: { id },
-    data: { sessionsValidFrom: new Date() },
-  });
+  await db.$transaction([
+    db.user.update({
+      where: { id },
+      data: { sessionsValidFrom: new Date() },
+    }),
+    // A signed-out student's phones must stop receiving their reminders too.
+    db.pushSubscription.deleteMany({ where: { userId: id } }),
+  ]);
 }
 
 export async function deleteStudent(id: string): Promise<void> {

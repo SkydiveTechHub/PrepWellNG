@@ -79,7 +79,13 @@ export function UserMenu({
       setArmedSignOut(true);
       return;
     }
-    const { signOut } = await import("next-auth/react");
+    // Before the session ends: the next student on a shared phone must not
+    // receive this student's reminders.
+    const [{ signOut }, { unsubscribeThisDevice }] = await Promise.all([
+      import("next-auth/react"),
+      import("@/lib/push-client"),
+    ]);
+    await unsubscribeThisDevice();
     signOut({ callbackUrl: "/login" });
   }
 

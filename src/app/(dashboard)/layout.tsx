@@ -4,6 +4,7 @@ import { isDeviceRevokedSession } from "@/lib/device-limit";
 import { Sidebar } from "@/components/ui/sidebar";
 import { MobileNav } from "@/components/ui/mobile-nav";
 import { MobileHeader } from "@/components/ui/mobile-header";
+import { PushSync } from "@/components/push/push-sync";
 import type { ProfileUser } from "@/components/ui/user-menu";
 import { daysUntilExam, examTargetFor } from "@/lib/exam-target";
 import { NOINDEX } from "@/lib/seo/metadata";
@@ -37,6 +38,7 @@ export default async function DashboardLayout({
 
   return (
     <div className="min-h-full">
+      <PushSync />
       <Sidebar
         user={user}
         examLabel={examTarget.label}
