@@ -5322,9 +5322,16 @@ Expected: no errors.
 Run: `npm run build`
 Expected: build succeeds. Stop the dev server first if Prisma reports EPERM.
 
-- [ ] **Step 2: Apply the migration to Supabase, one statement at a time**
+- [ ] **Step 2: Apply the migrations to Supabase in three stages: additive → deploy → drop**
 
-This step changes the live database. **Ask the user before running it**, and do it only when they are ready to deploy this branch: the old code reads `dailyStudyHours`, which the migration drops.
+This step changes the live database. **Ask the user before running it**, and do it only when they are ready to deploy this branch.
+
+The change is split into two migrations so there is always a safe order:
+
+- `20260914000000_study_plan_term_mode` is **additive**: new tables, enum values, nullable/defaulted columns, and a copy of `dailyStudyHours` into `weekdayMinutes`/`weekendMinutes`. The old code keeps working against it (it still reads and writes `dailyStudyHours`).
+- `20260914000001_drop_daily_study_hours` only drops `dailyStudyHours`. It must wait until no running instance uses the old code. Until then the column lingers harmlessly: it is `NOT NULL DEFAULT 2`, so inserts from the new client (which has no such field) stay valid.
+
+**Stage A — additive migration (before deploying):**
 
 1. Confirm the file is LF-only: `tr -cd '\r' < prisma/migrations/20260914000000_study_plan_term_mode/migration.sql | wc -c` → `0`.
 2. Compute the checksum: `sha256sum prisma/migrations/20260914000000_study_plan_term_mode/migration.sql`.
@@ -5333,8 +5340,26 @@ This step changes the live database. **Ask the user before running it**, and do 
 
 ```sql
 INSERT INTO "_prisma_migrations" (id, checksum, finished_at, migration_name, logs, rolled_back_at, started_at, applied_steps_count)
-VALUES (gen_random_uuid()::text, '<sha256 from step 2>', now(), '20260914000000_study_plan_term_mode', NULL, NULL, now(), 1);
+VALUES (gen_random_uuid()::text, '<sha256 from step A2>', now(), '20260914000000_study_plan_term_mode', NULL, NULL, now(), 1);
 ```
+
+5. Run the Step 3 catalog checks for the additive migration (at this stage `dailyStudyHours` is **still present**).
+
+**Stage B — deploy the branch.** Wait until every old instance has drained. Plans created by old code between Stage A and Stage B get the column defaults (60/60 minutes) rather than a copy of their hours; if any exist, re-run the `UPDATE "StudyPlan" SET "weekdayMinutes" = …` statement from the additive migration for rows whose `"createdAt"` is after Stage A.
+
+**Stage C — drop migration (after deploying):**
+
+1. Confirm the file is LF-only: `tr -cd '\r' < prisma/migrations/20260914000001_drop_daily_study_hours/migration.sql | wc -c` → `0`.
+2. Compute the checksum: `sha256sum prisma/migrations/20260914000001_drop_daily_study_hours/migration.sql`.
+3. Run its single statement in the SQL Editor.
+4. Record it with its own row:
+
+```sql
+INSERT INTO "_prisma_migrations" (id, checksum, finished_at, migration_name, logs, rolled_back_at, started_at, applied_steps_count)
+VALUES (gen_random_uuid()::text, '<sha256 from step C2>', now(), '20260914000001_drop_daily_study_hours', NULL, NULL, now(), 1);
+```
+
+5. Re-run the `StudyPlan` column check from Step 3: `dailyStudyHours` is now gone.
 
 - [ ] **Step 3: Verify the catalog, not the editor's message**
 
@@ -5347,7 +5372,10 @@ ORDER BY table_name, column_name;
 
 Expected:
 - `AcademicTerm` and `StudyPlanPosition` exist.
-- `StudyPlan` has `forceExamMode`, `studyDays`, `weekdayMinutes`, `weekendMinutes`, `plannedThrough`, `lastReplannedAt`, `outline` and `overload`, and **no** `dailyStudyHours`.
+- `StudyPlan` has `forceExamMode`, `studyDays`, `weekdayMinutes`, `weekendMinutes`, `plannedThrough`, `lastReplannedAt`, `outline` and `overload`.
+- After Stage A: `StudyPlan` **still has** `dailyStudyHours`, and existing plans' `weekdayMinutes`/`weekendMinutes` equal `dailyStudyHours * 60` (capped at 480/600): `SELECT count(*) FROM "StudyPlan" WHERE "weekdayMinutes" <> LEAST(480, ROUND("dailyStudyHours" * 60)::INTEGER);` → `0`.
+- After Stage C: `StudyPlan` has **no** `dailyStudyHours`.
+- Both migrations have a row: `SELECT migration_name, checksum, finished_at FROM "_prisma_migrations" WHERE migration_name LIKE '20260914%' ORDER BY migration_name;` returns `20260914000000_study_plan_term_mode` (after Stage A) and `20260914000001_drop_daily_study_hours` (after Stage C), each with the checksum computed for its own file.
 - `StudyPlan.targetExam` and `targetDate` are nullable.
 - `StudyPlanItem` has `completedAt`, `completionSource` and `carriedFromDate`.
 
@@ -5389,6 +5417,9 @@ Start the app with `npm run dev`. Then, with a STANDARD-tier test account:
 7. **Concurrent re-plans:** in the SQL Editor, run `UPDATE "StudyPlan" SET "lastReplannedAt" = now() - interval '2 days' WHERE id = '<plan id>';`. Open the plan page in two tabs at the same moment. Then check `SELECT "scheduledDate", count(*) FROM "StudyPlanItem" WHERE "studyPlanId" = '<plan id>' AND status = 'PENDING' GROUP BY 1 ORDER BY 1;`: the counts must match what one re-plan produces (compare with a single-tab reload after resetting again), not double.
 8. **Legacy plan:** an existing pre-migration plan opens without errors. Its past pending sessions show as missed, and its window now follows its availability.
 9. **Dashboard:** the hero link reads "Today: X of Y done".
+10. **SS3 plan with a past exam date:** on an existing SS3 plan, set `"targetDate"` to a past date in the SQL Editor and `"lastReplannedAt"` to NULL. The page shows "Your exam date has passed — your plan is following your school term…", no "WAEC in 0 days" countdown and no exam badge, and the window is filled with term sessions. "Change plan" opens with "Preparing for an exam?" unticked and no date, and saving succeeds.
+11. **SS2 plan with recent pending items:** take an existing SS2 plan that has pending sessions from the last few days. After its first re-plan they show as missed, and the new window is **not** flooded with catch-up sessions (a plan whose `plannedThrough` was NULL gets no carry-over). The header has no exam countdown even if the plan kept legacy exam fields.
+12. **Progress survives the daily re-plan:** complete a LESSON session, then run `UPDATE "StudyPlan" SET "lastReplannedAt" = now() - interval '1 day' WHERE id = '<plan id>';` and reload. That topic's next session is PRACTICE, not the lesson again, and its revision passes appear on later days — including when the lesson raised mastery to 70 or more.
 
 - [ ] **Step 5: Report and finish the branch**
 

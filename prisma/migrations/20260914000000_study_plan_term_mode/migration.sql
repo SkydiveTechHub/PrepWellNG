@@ -63,9 +63,6 @@ ADD COLUMN "overload" JSONB;
 UPDATE "StudyPlan" SET "weekdayMinutes" = LEAST(480, ROUND("dailyStudyHours" * 60)::INTEGER), "weekendMinutes" = LEAST(600, ROUND("dailyStudyHours" * 60)::INTEGER);
 
 -- AlterTable
-ALTER TABLE "StudyPlan" DROP COLUMN "dailyStudyHours";
-
--- AlterTable
 ALTER TABLE "StudyPlanItem" ADD COLUMN "completedAt" TIMESTAMP(3),
 ADD COLUMN "completionSource" "PlanCompletionSource",
 ADD COLUMN "carriedFromDate" DATE;
