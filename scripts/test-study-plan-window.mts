@@ -46,6 +46,7 @@ function input(overrides: Partial<PlannerInput> = {}): PlannerInput {
     carryOver: [],
     fixed: [],
     mocksTaken: 0,
+    completedUnits: new Map(),
     ...overrides,
   };
 }
@@ -74,6 +75,8 @@ test("an SS3 plan 10 days from the exam is all runway and ends on the exam day",
   assert.ok(out.items.every((i) => i.date <= "2026-09-23"));
 });
 
+// resolvePlanMode now turns a passed exam date into TERM, so the app never asks
+// for this; planWindow still has to behave if called with it directly.
 test("a passed exam date plans nothing", () => {
   const out = planWindow(input({ classLevel: "SS3", mode: "BLENDED", targetDate: "2026-09-01" }));
   assert.deepEqual(out.items, []);

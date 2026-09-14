@@ -42,6 +42,7 @@ function layout(
   const topics = selections.flatMap((s) => s.candidates.map((c) => c.topic));
   return layoutWindow({
     mode: "TERM",
+    windowStart: start,
     slots: buildSlots(start, days, availability),
     targetDate: null,
     runwayStart: null,
@@ -55,6 +56,7 @@ function layout(
     revisionDue: [],
     fixed: [],
     mocksTaken: 0,
+    completedUnits: new Map(),
     ...rest,
   });
 }

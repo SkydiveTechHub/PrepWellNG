@@ -2,7 +2,11 @@ import type { KnowledgeGraph } from "../learning/graph";
 import type { TopicStateMap } from "../learning/mastery";
 import type { ClassLevel } from "../../lib/curriculum-scope";
 import { addDays, daysBetween, type DayKey } from "./days";
-import { layoutWindow, type FixedItem, type Overload, type RevisionDue, type WindowItemDraft } from "./layout";
+import {
+  inProgressTopics,
+  layoutWindow,
+  type CompletedUnits,
+  type FixedItem, type Overload, type RevisionDue, type WindowItemDraft } from "./layout";
 import { computeRunwayStart, type PlanMode } from "./mode";
 import { projectOutline, type OutlineWeek } from "./outline";
 import { buildSlots, type Availability } from "./slots";
@@ -41,6 +45,8 @@ export type PlannerInput = {
   fixed: readonly FixedItem[];
   /** Mock exams on/after the runway start already completed or skipped. */
   mocksTaken: number;
+  /** topicId → LESSON/PRACTICE sessions already completed or skipped in this plan. */
+  completedUnits: ReadonlyMap<string, CompletedUnits>;
 };
 
 export type PlannerOutput = {
@@ -57,6 +63,7 @@ export function planWindow(input: PlannerInput): PlannerOutput {
     ? Math.max(0, Math.min(WINDOW_DAYS, daysBetween(input.today, input.targetDate as DayKey) + 1))
     : WINDOW_DAYS;
   const plannedThrough = addDays(input.today, Math.max(1, days) - 1);
+  const inProgress = inProgressTopics(input.completedUnits, input.state);
 
   const selections = input.subjects.map((subject) =>
     selectTermTopics({
@@ -70,6 +77,7 @@ export function planWindow(input: PlannerInput): PlannerOutput {
       positionTopicId: input.positions.get(subject.id) ?? null,
       carryOver: input.carryOver,
       carryOverOnly: input.mode === "EXAM",
+      inProgress,
     }),
   );
 
@@ -80,6 +88,7 @@ export function planWindow(input: PlannerInput): PlannerOutput {
           topics: input.subjects.flatMap((s) => s.topics),
           classLevel: input.classLevel,
           state: input.state,
+          inProgress,
         });
 
   const runwayStart = examBound
@@ -88,6 +97,7 @@ export function planWindow(input: PlannerInput): PlannerOutput {
 
   const { items, overload } = layoutWindow({
     mode: input.mode,
+    windowStart: input.today,
     slots: buildSlots(input.today, days, input.availability),
     targetDate: input.targetDate,
     runwayStart,
@@ -101,6 +111,7 @@ export function planWindow(input: PlannerInput): PlannerOutput {
     revisionDue: input.revisionDue,
     fixed: input.fixed,
     mocksTaken: input.mocksTaken,
+    completedUnits: input.completedUnits,
   });
 
   const until = examBound

@@ -1,16 +1,21 @@
 import type { ClassLevel } from "../../lib/curriculum-scope";
 import { addDays, daysBetween, type DayKey } from "./days";
 import { RUNWAY_FRACTION, RUNWAY_MAX_DAYS, RUNWAY_MIN_DAYS } from "./plan";
+import { SESSION_MINUTES } from "./slots";
 
 export type PlanMode = "TERM" | "BLENDED" | "EXAM";
 
-/** Mode is derived, never stored, so a class change can't leave a stale mode behind. */
+/**
+ * Mode is derived, never stored, so a class change can't leave a stale mode
+ * behind. An exam date that has passed counts as no exam: the plan follows the term.
+ */
 export function resolvePlanMode(p: {
   classLevel: ClassLevel | null;
   targetDate: DayKey | null;
   forceExamMode: boolean;
+  today: DayKey;
 }): PlanMode {
-  if (p.classLevel !== "SS3" || !p.targetDate) return "TERM";
+  if (p.classLevel !== "SS3" || !p.targetDate || p.targetDate < p.today) return "TERM";
   return p.forceExamMode ? "EXAM" : "BLENDED";
 }
 
@@ -66,11 +71,13 @@ export function planSettingsProblem(input: PlanSettingsCheck): string | null {
   if (input.targetDate && input.targetDate <= input.today) {
     return "The exam date must be in the future.";
   }
+  // Anything shorter than one full session only ever fits revision, and a
+  // plan with no full session anywhere would stay empty.
   const hasTime = input.studyDays.some((day) =>
-    (day >= 6 ? input.weekendMinutes : input.weekdayMinutes) > 0,
+    (day >= 6 ? input.weekendMinutes : input.weekdayMinutes) >= SESSION_MINUTES,
   );
   if (!hasTime) {
-    return "Choose at least one study day that has study time on it.";
+    return "Choose at least one study day with 30 minutes or more.";
   }
   return null;
 }

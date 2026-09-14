@@ -27,8 +27,34 @@ export type RevisionDue = { topicId: string; subjectId: string; title: string; r
 
 export type Overload = { topicsBehind: number; suggestedExtraMinutesPerWeek: number };
 
+/** A topic's LESSON and PRACTICE sessions already COMPLETED or SKIPPED in this plan. */
+export type CompletedUnits = { lessons: number; practices: number; lastLessonDate: DayKey | null };
+
+/** Practice sessions a term topic needs at this mastery. */
+export function practicesNeeded(mastery: number): number {
+  return mastery < WEAK_MASTERY ? 2 : 1;
+}
+
+/**
+ * Topics whose lessons have begun but whose practice isn't done. They stay in
+ * the plan even once mastery reaches the target, so practice follows the lesson.
+ */
+export function inProgressTopics(
+  completedUnits: ReadonlyMap<string, CompletedUnits>,
+  state: TopicStateMap,
+): Set<string> {
+  const out = new Set<string>();
+  for (const [topicId, done] of completedUnits) {
+    const mastery = state.get(topicId)?.mastery ?? 0;
+    if (done.lessons >= 1 && done.practices < practicesNeeded(mastery)) out.add(topicId);
+  }
+  return out;
+}
+
 export type LayoutInput = {
   mode: PlanMode;
+  /** The first day of the window (today); the first slot may fall later. */
+  windowStart: DayKey;
   slots: readonly Slot[];
   targetDate: DayKey | null;
   runwayStart: DayKey | null;
@@ -43,6 +69,8 @@ export type LayoutInput = {
   fixed: readonly FixedItem[];
   /** Runway mocks already COMPLETED or SKIPPED, in planned order; a re-plan drops that many. */
   mocksTaken: number;
+  /** topicId → work already done, so a re-plan continues a topic instead of restarting it. */
+  completedUnits: ReadonlyMap<string, CompletedUnits>;
 };
 
 export const GAP_FILL_SHARE = 0.2;
@@ -68,6 +96,8 @@ type Queue = {
   /** Date its most recently placed unit landed on — used to gate dependents, including exam queues. */
   placedOn: DayKey | null;
   started: boolean;
+  /** Its spaced revision passes are already in the pool. */
+  revisionsQueued: boolean;
 };
 
 type PoolEntry = { dueOn: DayKey; order: number; topicId: string; subjectId: string; note: string };
@@ -137,6 +167,35 @@ export function layoutWindow(input: LayoutInput): {
     items.push({ date: slot.date, durationMinutes: slot.minutes, ...draft });
   };
 
+  // ── Revision pool ────────────────────────────────────────
+  let poolOrder = 0;
+  const firstDate = input.slots[0]?.date ?? "";
+  const pool: PoolEntry[] = input.revisionDue.map((r) => ({
+    dueOn: firstDate, order: poolOrder++, topicId: r.topicId, subjectId: r.subjectId, note: r.reason,
+  }));
+  const revisedOn = new Set<string>();
+
+  /**
+   * A topic's spaced passes join the pool once its lessons and practice are all
+   * placed or already done, still dated from its last lesson. Passes that fell
+   * before the window are left to the learning engine's revision queue.
+   */
+  const queueRevisions = (queue: Queue) => {
+    const lastLesson = queue.lastLessonDate;
+    if (queue.revisionsQueued || queue.lessonsLeft > 0 || lastLesson === null) return;
+    if (queue.units.includes("PRACTICE")) return;
+    queue.revisionsQueued = true;
+    const t = queue.candidate.topic;
+    for (const offset of REVISION_OFFSETS) {
+      const dueOn = addDays(lastLesson, offset);
+      if (dueOn < input.windowStart) continue;
+      pool.push({
+        dueOn, order: poolOrder++, topicId: t.id, subjectId: t.subjectId,
+        note: `Revision pass — ${t.title} (+${offset}d)`,
+      });
+    }
+  };
+
   // ── Queues ───────────────────────────────────────────────
   const queues = new Map<string, Queue>();
   const behindBy = new Map<string, number>();
@@ -145,17 +204,27 @@ export function layoutWindow(input: LayoutInput): {
     const id = candidate.topic.id;
     if (queues.has(id)) return;
     const mastery = input.state.get(id)?.mastery ?? 0;
-    const lessons = exam || input.pretestPassed.has(id)
+    // Exam practice is meant to repeat across re-plans; term work picks up
+    // where the student left off.
+    const done = exam ? undefined : input.completedUnits.get(id);
+    const fullLessons = exam || input.pretestPassed.has(id)
       ? 0
       : Math.max(1, Math.ceil(candidate.topic.estimatedMinutes / SESSION_MINUTES));
-    const practice = exam ? 1 : mastery < WEAK_MASTERY ? 2 : 1;
+    const lessons = Math.max(0, fullLessons - (done?.lessons ?? 0));
+    const practice = exam ? 1 : Math.max(0, practicesNeeded(mastery) - (done?.practices ?? 0));
     const units: Unit[] = [
       ...Array<Unit>(lessons).fill("LESSON"),
       ...Array<Unit>(practice).fill("PRACTICE"),
     ];
-    queues.set(id, {
-      candidate, exam, rank: rank++, units, lessonsLeft: lessons, lastLessonDate: null, placedOn: null, started: false,
-    });
+    const queue: Queue = {
+      candidate, exam, rank: rank++, units, lessonsLeft: lessons,
+      lastLessonDate: done?.lastLessonDate ?? null,
+      placedOn: null,
+      started: (done?.lessons ?? 0) + (done?.practices ?? 0) > 0,
+      revisionsQueued: false,
+    };
+    queues.set(id, queue);
+    queueRevisions(queue);
   };
   for (const selection of input.selections) {
     behindBy.set(selection.subjectId, selection.behindBy);
@@ -241,14 +310,6 @@ export function layoutWindow(input: LayoutInput): {
     return options[0] ?? null;
   };
 
-  // ── Revision pool ────────────────────────────────────────
-  let poolOrder = 0;
-  const firstDate = input.slots[0]?.date ?? "";
-  const pool: PoolEntry[] = input.revisionDue.map((r) => ({
-    dueOn: firstDate, order: poolOrder++, topicId: r.topicId, subjectId: r.subjectId, note: r.reason,
-  }));
-  const revisedOn = new Set<string>();
-
   const takeRevision = (date: DayKey): PoolEntry | null => {
     const options = pool
       .filter((p) => p.dueOn <= date && !revisedOn.has(`${date}:${p.topicId}`) && allowSubject(date, p.subjectId))
@@ -288,15 +349,8 @@ export function layoutWindow(input: LayoutInput): {
     if (unit === "LESSON") {
       queue.lessonsLeft -= 1;
       queue.lastLessonDate = slot.date;
-      if (queue.lessonsLeft === 0) {
-        for (const offset of REVISION_OFFSETS) {
-          pool.push({
-            dueOn: addDays(slot.date, offset), order: poolOrder++, topicId: t.id, subjectId: t.subjectId,
-            note: `Revision pass — ${t.title} (+${offset}d)`,
-          });
-        }
-      }
     }
+    queueRevisions(queue);
     place(slot, {
       subjectId: t.subjectId, topicId: t.id, activityType: unit,
       notes: noteFor(queue.candidate, unit), carriedFrom: queue.candidate.carriedFrom,

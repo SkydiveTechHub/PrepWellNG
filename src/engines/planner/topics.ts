@@ -54,6 +54,8 @@ export type SelectTermTopicsInput = {
   carryOver: readonly CarryOver[];
   /** EXAM mode pauses new term learning; only missed work carries on. */
   carryOverOnly?: boolean;
+  /** Topics with a lesson done but practice outstanding: kept whatever their mastery. */
+  inProgress?: ReadonlySet<string>;
 };
 
 function mastery(state: TopicStateMap, topicId: string): number {
@@ -125,7 +127,8 @@ function gapsFor(
       visited.add(edge.from);
       const prereq = byId.get(edge.from);
       if (!prereq || termIds.has(prereq.id)) continue;
-      if (mastery(input.state, prereq.id) >= GATE || input.pretestPassed.has(prereq.id)) continue;
+      const weak = mastery(input.state, prereq.id) < GATE || input.inProgress?.has(prereq.id);
+      if (!weak || input.pretestPassed.has(prereq.id)) continue;
       visit(prereq.id);
       out.push(prereq);
     }
@@ -137,7 +140,8 @@ function gapsFor(
 export function selectTermTopics(input: SelectTermTopicsInput): SubjectSelection {
   const allowed = input.topics.filter((t) => atOrBelowClass(t, input.classLevel));
   const byId = new Map(allowed.map((t) => [t.id, t]));
-  const unmastered = (t: PlanTopic) => mastery(input.state, t.id) < TARGET;
+  const unmastered = (t: PlanTopic) =>
+    mastery(input.state, t.id) < TARGET || (input.inProgress?.has(t.id) ?? false);
   const { termTopics, classIndex, preview } = locateClass(input, allowed);
 
   const candidates: TopicCandidate[] = [];
@@ -182,10 +186,15 @@ export function selectExamTopics(input: {
   topics: readonly PlanTopic[];
   classLevel: ClassLevel;
   state: TopicStateMap;
+  inProgress?: ReadonlySet<string>;
 }): TopicCandidate[] {
   const weight = (t: PlanTopic) => t.waecWeight + t.jambWeight;
   return input.topics
-    .filter((t) => atOrBelowClass(t, input.classLevel) && mastery(input.state, t.id) < TARGET)
+    .filter(
+      (t) =>
+        atOrBelowClass(t, input.classLevel) &&
+        (mastery(input.state, t.id) < TARGET || (input.inProgress?.has(t.id) ?? false)),
+    )
     .sort(
       (a, b) =>
         weight(b) - weight(a) ||

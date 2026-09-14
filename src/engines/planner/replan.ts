@@ -1,7 +1,7 @@
 import { lagosDayKey } from "../../lib/streak";
 import type { TrackedItem } from "./completion";
 import { addDays, type DayKey } from "./days";
-import type { FixedItem } from "./layout";
+import type { CompletedUnits, FixedItem } from "./layout";
 import type { CarryOver } from "./topics";
 
 export const CARRY_OVER_DAYS = 14;
@@ -18,6 +18,32 @@ export type ReplanPartition = {
   /** Recently missed topics, one entry per topic, dated its latest miss. */
   carryOver: CarryOver[];
 };
+
+/** A plan's LESSON/PRACTICE sessions that are COMPLETED or SKIPPED, grouped by topic and type. */
+export type CompletedUnitRow = {
+  topicId: string;
+  activityType: "LESSON" | "PRACTICE";
+  count: number;
+  /** The latest scheduled date in the group. */
+  lastDate: DayKey | null;
+};
+
+export function completedUnitsFrom(rows: readonly CompletedUnitRow[]): Map<string, CompletedUnits> {
+  const out = new Map<string, CompletedUnits>();
+  for (const row of rows) {
+    const done = out.get(row.topicId) ?? { lessons: 0, practices: 0, lastLessonDate: null };
+    if (row.activityType === "LESSON") {
+      done.lessons += row.count;
+      if (row.lastDate && (done.lastLessonDate === null || row.lastDate > done.lastLessonDate)) {
+        done.lastLessonDate = row.lastDate;
+      }
+    } else {
+      done.practices += row.count;
+    }
+    out.set(row.topicId, done);
+  }
+  return out;
+}
 
 export function isReplanStale(lastReplannedAt: Date | null, now: Date): boolean {
   return lastReplannedAt === null || lagosDayKey(lastReplannedAt) < lagosDayKey(now);

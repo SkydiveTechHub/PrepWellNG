@@ -19,7 +19,12 @@ import {
 } from "@/engines/planner/mode";
 import type { Overload } from "@/engines/planner/layout";
 import type { OutlineWeek } from "@/engines/planner/outline";
-import { CARRY_OVER_DAYS, isReplanStale, partitionForReplan } from "@/engines/planner/replan";
+import {
+  CARRY_OVER_DAYS,
+  completedUnitsFrom,
+  isReplanStale,
+  partitionForReplan,
+} from "@/engines/planner/replan";
 import { resolveTermContext, termHeaderLabel, type TermSource } from "@/engines/planner/term-context";
 import { planWindow, type PlannerSubject } from "@/engines/planner/term-plan";
 import { atOrBelowClass, calendarTopicId, type PlanTopic } from "@/engines/planner/topics";
@@ -274,11 +279,38 @@ export async function replanIfStale(
       today,
     );
 
+    // All of this plan's finished lesson and practice work, with no date floor:
+    // a topic taught weeks ago is still taught. Aggregated in the database so a
+    // long-lived plan doesn't ship every row.
+    const finished = await tx.studyPlanItem.groupBy({
+      by: ["topicId", "activityType"],
+      where: {
+        studyPlanId: plan.id,
+        topicId: { not: null },
+        activityType: { in: ["LESSON", "PRACTICE"] },
+        status: { in: ["COMPLETED", "SKIPPED"] },
+      },
+      _count: { _all: true },
+      _max: { scheduledDate: true },
+    });
+    const completedUnits = completedUnitsFrom(
+      finished.flatMap((row) =>
+        row.topicId && (row.activityType === "LESSON" || row.activityType === "PRACTICE")
+          ? [{
+              topicId: row.topicId,
+              activityType: row.activityType,
+              count: row._count._all,
+              lastDate: row._max.scheduledDate ? dateToDayKey(row._max.scheduledDate) : null,
+            }]
+          : [],
+      ),
+    );
+
     await tx.studyPlanItem.deleteMany({
       where: { studyPlanId: plan.id, status: "PENDING", scheduledDate: { gte: dayKeyToDate(today) } },
     });
 
-    const mode = resolvePlanMode({ classLevel, targetDate, forceExamMode: plan.forceExamMode });
+    const mode = resolvePlanMode({ classLevel, targetDate, forceExamMode: plan.forceExamMode, today });
     const runwayStart =
       mode !== "TERM" && targetDate ? computeRunwayStart(lagosDayKey(plan.createdAt), targetDate) : null;
     // Mocks already sat or skipped are not offered again; missed ones are.
@@ -311,9 +343,12 @@ export async function replanIfStale(
       pretestPassed,
       positions: new Map(plan.positions.map((p) => [p.subjectId, p.topicId])),
       revisionDue,
-      carryOver: partition.carryOver,
+      // A plan never re-planned in this format holds legacy sessions whose
+      // misses would flood the first window with catch-up; start it clean.
+      carryOver: plan.plannedThrough === null ? [] : partition.carryOver,
       fixed: partition.fixed,
       mocksTaken,
+      completedUnits,
     });
 
     if (output.items.length > 0) {
@@ -349,7 +384,8 @@ async function checkSettings(
 ): Promise<{ ok: true; subjectIds: string[] } | Failure> {
   const user = await db.user.findUnique({ where: { id: userId }, select: { classLevel: true } });
   const problem = planSettingsProblem({
-    classLevel: user?.classLevel ?? null,
+    // Same fallback as planning, so the rules checked match the plan built.
+    classLevel: user?.classLevel ?? UNKNOWN_CLASS_LEVEL,
     targetDate: settings.targetDate ?? null,
     forceExamMode: settings.forceExamMode,
     studyDays: settings.studyDays,
@@ -379,6 +415,20 @@ function settingsData(settings: StudyPlanSettingsInput, subjectIds: string[]) {
   };
 }
 
+/**
+ * Rebuilds the window after a settings or position write that has already
+ * committed. Every caller leaves lastReplannedAt null, so if this fails (say,
+ * a pooler timeout) the next page load re-plans; failing the request instead
+ * would make the client retry a write that succeeded.
+ */
+async function forceReplanAfterWrite(userId: string): Promise<void> {
+  try {
+    await replanIfStale(userId, { force: true });
+  } catch (error) {
+    console.error("Study plan re-plan after save failed:", error);
+  }
+}
+
 /** Retires any active plan and builds a new one. */
 export async function createStudyPlan(
   userId: string,
@@ -395,7 +445,8 @@ export async function createStudyPlan(
     });
   }, REPLAN_TRANSACTION);
 
-  await replanIfStale(userId, { force: true });
+  // The new plan has lastReplannedAt null, so a failure here is retried on the next page load.
+  await forceReplanAfterWrite(userId);
   return { ok: true, planId: plan.id };
 }
 
@@ -421,7 +472,7 @@ export async function updateStudyPlanSettings(
     where: { studyPlan: { studentId: userId, isActive: true }, subjectId: { notIn: checked.subjectIds } },
   });
 
-  await replanIfStale(userId, { force: true });
+  await forceReplanAfterWrite(userId);
   return { ok: true };
 }
 
@@ -474,7 +525,7 @@ export async function setClassPositions(
     db.studyPlan.update({ where: { id: plan.id }, data: { lastReplannedAt: null } }),
   ]);
 
-  await replanIfStale(userId, { force: true });
+  await forceReplanAfterWrite(userId);
   return { ok: true };
 }
 
@@ -587,12 +638,13 @@ export async function getStudyPlanPageData(userId: string): Promise<StudyPlanPag
   }
 
   const targetDate = plan.targetDate ? dateToDayKey(plan.targetDate) : null;
-  const mode = resolvePlanMode({ classLevel: effectiveClass, targetDate, forceExamMode: plan.forceExamMode });
+  const mode = resolvePlanMode({ classLevel: effectiveClass, targetDate, forceExamMode: plan.forceExamMode, today });
   const runwayStart =
     mode !== "TERM" && targetDate ? computeRunwayStart(lagosDayKey(plan.createdAt), targetDate) : null;
   return {
     ...base,
-    daysToExam: targetDate ? Math.max(0, daysBetween(today, targetDate)) : null,
+    // Only an exam the plan is actually preparing for gets a countdown.
+    daysToExam: mode !== "TERM" && targetDate ? Math.max(0, daysBetween(today, targetDate)) : null,
     plan: {
       id: plan.id,
       mode,
