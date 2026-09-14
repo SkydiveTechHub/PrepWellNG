@@ -1,0 +1,143 @@
+import { db } from "@/lib/db";
+import { buildPushPayload, pushTag } from "@/lib/push-payload";
+import {
+  mapWithConcurrency,
+  nextDelivery,
+  subscriptionEffect,
+} from "@/lib/push-send-result";
+import { SUBSCRIPTION_SELECT, applySubscriptionEffect, sendPush } from "@/lib/push-send";
+
+const CLAIM_BATCH = 100;
+const SEND_CONCURRENCY = 20;
+
+type ClaimedRow = {
+  id: string;
+  announcementId: string;
+  subscriptionId: string;
+  attempts: number;
+  title: string;
+  body: string;
+  url: string | null;
+};
+
+type DrainResult = { claimed: number; sent: number; failed: number; gone: number; retrying: number };
+
+/**
+ * Claims up to 100 pending deliveries. SKIP LOCKED means two overlapping
+ * calls (cron + the admin route's after()) never claim the same row. A claim
+ * older than 5 minutes belonged to a call that died, or is a retry waiting
+ * its turn, and may be claimed again.
+ */
+async function claimBatch(): Promise<ClaimedRow[]> {
+  return db.$queryRaw<ClaimedRow[]>`
+    WITH picked AS (
+      SELECT d."id"
+      FROM "AnnouncementDelivery" d
+      JOIN "Announcement" a ON a."id" = d."announcementId"
+      WHERE d."status" = 'PENDING'
+        AND a."status" IN ('QUEUED', 'SENDING')
+        AND (d."claimedAt" IS NULL OR d."claimedAt" < now() - interval '5 minutes')
+      ORDER BY d."id"
+      LIMIT ${CLAIM_BATCH}
+      FOR UPDATE OF d SKIP LOCKED
+    )
+    UPDATE "AnnouncementDelivery" d
+    SET "claimedAt" = now()
+    FROM picked, "Announcement" a
+    WHERE d."id" = picked."id" AND a."id" = d."announcementId"
+    RETURNING d."id", d."announcementId", d."subscriptionId", d."attempts", a."title", a."body", a."url"`;
+}
+
+async function finalize(announcementIds: string[]): Promise<void> {
+  for (const id of announcementIds) {
+    const pending = await db.announcementDelivery.count({
+      where: { announcementId: id, status: "PENDING" },
+    });
+    if (pending > 0) continue;
+    const counts = await db.announcementDelivery.groupBy({
+      by: ["status"],
+      where: { announcementId: id },
+      _count: { _all: true },
+    });
+    const count = (s: string) => counts.find((c) => c.status === s)?._count._all ?? 0;
+    // Guarded on status so a cancel that raced this call keeps CANCELLED.
+    await db.announcement.updateMany({
+      where: { id, status: { in: ["QUEUED", "SENDING"] } },
+      data: {
+        status: "SENT",
+        completedAt: new Date(),
+        sentCount: count("SENT"),
+        failedCount: count("FAILED") + count("GONE"),
+      },
+    });
+  }
+}
+
+export async function drainAnnouncements(options: { deadline: number }): Promise<DrainResult> {
+  const result: DrainResult = { claimed: 0, sent: 0, failed: 0, gone: 0, retrying: 0 };
+  const touched = new Set<string>();
+
+  while (Date.now() < options.deadline) {
+    const batch = await claimBatch();
+    if (batch.length === 0) break;
+    result.claimed += batch.length;
+
+    const announcementIds = [...new Set(batch.map((row) => row.announcementId))];
+    announcementIds.forEach((id) => touched.add(id));
+    await db.announcement.updateMany({
+      where: { id: { in: announcementIds }, status: "QUEUED" },
+      data: { status: "SENDING" },
+    });
+
+    const subscriptions = await db.pushSubscription.findMany({
+      where: { id: { in: batch.map((row) => row.subscriptionId) } },
+      select: SUBSCRIPTION_SELECT,
+    });
+    const byId = new Map(subscriptions.map((s) => [s.id, s]));
+
+    await mapWithConcurrency(batch, SEND_CONCURRENCY, async (row) => {
+      const sub = byId.get(row.subscriptionId);
+      if (!sub) {
+        // Deleted since queueing (sign-out, 410 from another send).
+        await db.announcementDelivery.update({
+          where: { id: row.id },
+          data: { status: "GONE", attempts: row.attempts + 1, error: "subscription removed" },
+        });
+        result.gone += 1;
+        return;
+      }
+
+      const payload = buildPushPayload({
+        title: row.title,
+        body: row.body,
+        url: row.url,
+        tag: pushTag.announcement(row.announcementId),
+      });
+      const outcome = await sendPush(sub, payload);
+      const next = nextDelivery(outcome, row.attempts);
+
+      // A retry keeps its claimedAt, so it waits out the 5-minute stale
+      // window instead of burning all three attempts within seconds.
+      await db.announcementDelivery.update({
+        where: { id: row.id },
+        data: {
+          status: next.status,
+          attempts: next.attempts,
+          error: outcome === "sent" ? null : outcome,
+        },
+      });
+      await applySubscriptionEffect(
+        sub.id,
+        subscriptionEffect(outcome, sub.failureCount, next.status === "FAILED"),
+      );
+
+      if (next.status === "SENT") result.sent += 1;
+      else if (next.status === "GONE") result.gone += 1;
+      else if (next.status === "FAILED") result.failed += 1;
+      else result.retrying += 1;
+    });
+  }
+
+  await finalize([...touched]);
+  return result;
+}
