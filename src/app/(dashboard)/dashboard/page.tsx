@@ -121,6 +121,7 @@ export default async function DashboardPage({
     // engaged somewhere — see getDashboardData for what counts as activity.
     hasActivity,
     hasStudyPlan,
+    todayPlan,
     bestScore,
     recentAttempts,
     attemptTotal,
@@ -186,7 +187,11 @@ export default async function DashboardPage({
                 href="/study-plan"
                 className="inline-flex items-center gap-2 rounded-xl border border-white/30 bg-white/10 px-4 py-2.5 text-sm font-bold text-white backdrop-blur transition-colors hover:bg-white/20"
               >
-                {hasStudyPlan ? "View study plan" : "Create study plan"}
+                {todayPlan
+                  ? `Today: ${todayPlan.done} of ${todayPlan.total} done`
+                  : hasStudyPlan
+                    ? "View study plan"
+                    : "Create study plan"}
                 <LuArrowRight className="h-4 w-4" />
               </Link>
             </div>

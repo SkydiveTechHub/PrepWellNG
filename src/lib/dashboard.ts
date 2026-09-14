@@ -1,5 +1,7 @@
 import { db } from "./db";
 import { computePathState, loadStudentSubjectIds } from "./learning-path";
+import { lagosDayKey } from "./streak";
+import { dayKeyToDate } from "@/engines/planner/days";
 import {
   keepLearning,
   type NextTopicRecommendation,
@@ -44,6 +46,8 @@ export type DashboardData = {
    */
   hasActivity: boolean;
   hasStudyPlan: boolean;
+  /** Today's study plan sessions, when the active plan has any today. */
+  todayPlan: { done: number; total: number } | null;
   bestScore: number | null;
   /** One page of completed attempts, newest first. */
   recentAttempts: DashboardAttempt[];
@@ -74,6 +78,11 @@ export const DASHBOARD_ATTEMPTS_PAGE_SIZE = 5;
 async function loadStats(userId: string, attemptPage: number) {
   const attemptWhere = { studentId: userId, status: "COMPLETED" } as const;
 
+  const todayWhere = {
+    scheduledDate: dayKeyToDate(lagosDayKey(new Date())),
+    studyPlan: { studentId: userId, isActive: true },
+  } as const;
+
   const [
     totalResponses,
     correctResponses,
@@ -85,6 +94,8 @@ async function loadStats(userId: string, attemptPage: number) {
     lessonActivity,
     reviewCount,
     activePlanCount,
+    todayPlanTotal,
+    todayPlanDone,
   ] = await db.$transaction([
     db.questionResponse.count({
       where: { attempt: { studentId: userId } },
@@ -141,6 +152,8 @@ async function loadStats(userId: string, attemptPage: number) {
     // Counted rather than fetched: the hero only needs to know whether a plan
     // exists, and it rides along in the transaction already being run.
     db.studyPlan.count({ where: { studentId: userId, isActive: true } }),
+    db.studyPlanItem.count({ where: todayWhere }),
+    db.studyPlanItem.count({ where: { ...todayWhere, status: "COMPLETED" } }),
   ]);
 
   const topicCount = new Set(
@@ -162,6 +175,7 @@ async function loadStats(userId: string, attemptPage: number) {
     lessonActivity,
     reviewCount,
     hasStudyPlan: activePlanCount > 0,
+    todayPlan: todayPlanTotal > 0 ? { done: todayPlanDone, total: todayPlanTotal } : null,
   };
 }
 
@@ -275,6 +289,7 @@ export async function getDashboardData(
     lastWeekActivity: stats.lastWeekActivity,
     hasActivity,
     hasStudyPlan: stats.hasStudyPlan,
+    todayPlan: stats.todayPlan,
     bestScore: stats.bestScore,
     recentAttempts: stats.recentAttempts.map((a) => ({
       id: a.id,
