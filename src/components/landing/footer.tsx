@@ -42,7 +42,7 @@ const COLUMNS: { heading: string; links: { label: string; href: string }[] }[] =
     heading: "Legal",
     links: [
       { label: "Privacy Policy", href: "/" },
-      { label: "Terms of Service", href: "/" },
+      { label: "Terms of Service", href: "/terms" },
       { label: "Cookie Policy", href: "/" },
     ],
   },

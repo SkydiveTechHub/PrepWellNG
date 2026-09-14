@@ -384,6 +384,14 @@ export default function RegisterPage() {
           Sign in
         </Link>
       </p>
+
+      <p className="mt-3 text-center text-xs text-muted">
+        By creating an account you agree to the{" "}
+        <Link href="/terms" className="font-semibold text-primary hover:underline">
+          Terms of Service
+        </Link>
+        .
+      </p>
     </div>
   );
 }

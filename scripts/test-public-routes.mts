@@ -126,6 +126,11 @@ test("the about and contact pages are public", () => {
   assert.equal(isPublicPath("/contact"), true);
 });
 
+test("the terms page is public", () => {
+  // Linked from the register page, which a signed-out visitor is on.
+  assert.equal(isPublicPath("/terms"), true);
+});
+
 test("a path that merely starts with about or contact stays gated", () => {
   // These are exact entries, not prefixes: nothing should be able to hide a
   // gated tree behind "/contacts/..." or "/about-us/...".

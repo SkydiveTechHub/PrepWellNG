@@ -15,6 +15,7 @@ export const PUBLIC_EXACT_PATHS: readonly string[] = [
   "/",
   "/about",
   "/contact",
+  "/terms",
   "/robots.txt",
   "/sitemap.xml",
   "/manifest.webmanifest",
