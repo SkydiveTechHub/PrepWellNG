@@ -101,6 +101,47 @@ async function loadTermRanges() {
   }));
 }
 
+type SnapshotPosition = { subjectId: string; topicId: string };
+
+type PlanSnapshotInput = {
+  updatedAt: Date;
+  isActive: boolean;
+  lastReplannedAt: Date | null;
+  subjectIds: readonly string[];
+  studyDays: readonly number[];
+  weekdayMinutes: number;
+  weekendMinutes: number;
+  targetExam: string | null;
+  targetDate: Date | null;
+  forceExamMode: boolean;
+  positions: readonly SnapshotPosition[];
+};
+
+/**
+ * A comparable fingerprint of everything a re-plan reads from the plan row and
+ * its positions, order-independent. Used to detect that a concurrent forced
+ * re-plan committed a newer snapshot while this one was still reading —
+ * writing this one's (now stale) plan would silently discard the newer
+ * settings/positions until the next day's staleness check. Pure and
+ * DB-independent, but private: there's no DB test harness to exercise the
+ * transaction it guards, so it isn't unit tested directly.
+ */
+function planSnapshotKey(snapshot: PlanSnapshotInput): string {
+  return JSON.stringify({
+    updatedAt: snapshot.updatedAt.getTime(),
+    isActive: snapshot.isActive,
+    lastReplannedAt: snapshot.lastReplannedAt?.getTime() ?? null,
+    subjectIds: [...snapshot.subjectIds].sort(),
+    studyDays: [...snapshot.studyDays].sort((a, b) => a - b),
+    weekdayMinutes: snapshot.weekdayMinutes,
+    weekendMinutes: snapshot.weekendMinutes,
+    targetExam: snapshot.targetExam,
+    targetDate: snapshot.targetDate?.getTime() ?? null,
+    forceExamMode: snapshot.forceExamMode,
+    positions: snapshot.positions.map((p) => `${p.subjectId}:${p.topicId}`).sort(),
+  });
+}
+
 /** Every topic in the chosen subjects, with the class and term it belongs to. */
 async function loadPlanTopics(subjectIds: readonly string[]): Promise<Map<string, PlanTopic[]>> {
   const rows = await db.topic.findMany({
@@ -162,16 +203,60 @@ export async function replanIfStale(
   const plannerSubjects: PlannerSubject[] = subjects.map((s) => ({
     id: s.id, name: s.name, topics: topicsBySubject.get(s.id) ?? [],
   }));
+  const preLockSnapshot = planSnapshotKey({
+    updatedAt: plan.updatedAt,
+    isActive: plan.isActive,
+    lastReplannedAt: plan.lastReplannedAt,
+    subjectIds,
+    studyDays: plan.studyDays,
+    weekdayMinutes: plan.weekdayMinutes,
+    weekendMinutes: plan.weekendMinutes,
+    targetExam: plan.targetExam,
+    targetDate: plan.targetDate,
+    forceExamMode: plan.forceExamMode,
+    positions: plan.positions,
+  });
 
   await db.$transaction(async (tx) => {
     await tx.$queryRaw`SELECT 1 FROM "StudyPlan" WHERE "id" = ${plan.id} FOR NO KEY UPDATE`;
     const locked = await tx.studyPlan.findUnique({
       where: { id: plan.id },
-      select: { isActive: true, lastReplannedAt: true },
+      select: {
+        isActive: true,
+        lastReplannedAt: true,
+        updatedAt: true,
+        subjectIds: true,
+        studyDays: true,
+        weekdayMinutes: true,
+        weekendMinutes: true,
+        targetExam: true,
+        targetDate: true,
+        forceExamMode: true,
+        positions: { select: { subjectId: true, topicId: true } },
+      },
     });
     // Another request re-planned while we were loading.
     if (!locked?.isActive) return;
     if (!options.force && !isReplanStale(locked.lastReplannedAt, now)) return;
+    // A concurrent forced re-plan (e.g. another "Where is your class?" save)
+    // committed a newer snapshot while this one was still reading. Writing
+    // this stale one would silently discard the newer settings/positions
+    // until tomorrow's staleness check — bail and let the newer writer's own
+    // re-plan stand.
+    const postLockSnapshot = planSnapshotKey({
+      updatedAt: locked.updatedAt,
+      isActive: locked.isActive,
+      lastReplannedAt: locked.lastReplannedAt,
+      subjectIds: asStringArray(locked.subjectIds),
+      studyDays: locked.studyDays,
+      weekdayMinutes: locked.weekdayMinutes,
+      weekendMinutes: locked.weekendMinutes,
+      targetExam: locked.targetExam,
+      targetDate: locked.targetDate,
+      forceExamMode: locked.forceExamMode,
+      positions: locked.positions,
+    });
+    if (postLockSnapshot !== preLockSnapshot) return;
 
     // Legacy plans can hold months of pending sessions; mark every past one.
     await tx.studyPlanItem.updateMany({
@@ -323,7 +408,10 @@ export async function updateStudyPlanSettings(
 
   const { count } = await db.studyPlan.updateMany({
     where: { studentId: userId, isActive: true },
-    data: settingsData(settings, checked.subjectIds),
+    // Clearing lastReplannedAt means a forced re-plan that fails below is
+    // still retried on the student's next page load today, rather than
+    // waiting until tomorrow's staleness check.
+    data: { ...settingsData(settings, checked.subjectIds), lastReplannedAt: null },
   });
   if (count === 0) return { ok: false, status: 404, error: "No active study plan" };
 
@@ -370,8 +458,8 @@ export async function setClassPositions(
     }
   }
 
-  await db.$transaction(
-    positions.map((position) =>
+  await db.$transaction([
+    ...positions.map((position) =>
       position.topicId === null
         ? db.studyPlanPosition.deleteMany({ where: { studyPlanId: plan.id, subjectId: position.subjectId } })
         : db.studyPlanPosition.upsert({
@@ -380,7 +468,10 @@ export async function setClassPositions(
             update: { topicId: position.topicId },
           }),
     ),
-  );
+    // Same reasoning as updateStudyPlanSettings: retry today if the forced
+    // re-plan below fails.
+    db.studyPlan.update({ where: { id: plan.id }, data: { lastReplannedAt: null } }),
+  ]);
 
   await replanIfStale(userId, { force: true });
   return { ok: true };
@@ -406,14 +497,18 @@ export async function setPlanItemStatus(
   if (!change.ok) return { ok: false, status: 400, error: change.error };
 
   const completed = change.status === "COMPLETED";
-  await db.studyPlanItem.update({
-    where: { id: item.id },
+  // updateMany + a re-checked where, not update-by-id: a concurrent re-plan
+  // can delete this pending item between the findFirst above and here, and an
+  // update-by-id on a gone row throws P2025 instead of failing gracefully.
+  const { count } = await db.studyPlanItem.updateMany({
+    where: { id: item.id, studyPlan: { studentId: userId, isActive: true } },
     data: {
       status: change.status,
       completionSource: completed ? "MANUAL" : null,
       completedAt: completed ? new Date() : null,
     },
   });
+  if (count === 0) return { ok: false, status: 404, error: "Session not found" };
   return { ok: true, status: change.status };
 }
 
@@ -463,7 +558,9 @@ export async function getStudyPlanPageData(userId: string): Promise<StudyPlanPag
         studyPlanId: plan.id,
         scheduledDate: {
           gte: dayKeyToDate(addDays(today, -7)),
-          ...(plan.plannedThrough ? { lte: plan.plannedThrough } : {}),
+          // Unbounded when a plan has never had plannedThrough set: fall back
+          // to the same 14-day window a fresh re-plan would produce.
+          lte: plan.plannedThrough ?? dayKeyToDate(addDays(today, 13)),
         },
       },
       orderBy: [{ scheduledDate: "asc" }, { id: "asc" }],
