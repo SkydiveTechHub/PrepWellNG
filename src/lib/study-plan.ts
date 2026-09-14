@@ -69,6 +69,7 @@ export type StudyPlanData = {
   targetDate: DayKey | null;
   forceExamMode: boolean;
   plannedThrough: DayKey | null;
+  runwayStart: DayKey | null;
   outline: OutlineWeek[];
   overload: Overload | null;
   items: StudyPlanItemData[];
@@ -586,12 +587,15 @@ export async function getStudyPlanPageData(userId: string): Promise<StudyPlanPag
   }
 
   const targetDate = plan.targetDate ? dateToDayKey(plan.targetDate) : null;
+  const mode = resolvePlanMode({ classLevel: effectiveClass, targetDate, forceExamMode: plan.forceExamMode });
+  const runwayStart =
+    mode !== "TERM" && targetDate ? computeRunwayStart(lagosDayKey(plan.createdAt), targetDate) : null;
   return {
     ...base,
     daysToExam: targetDate ? Math.max(0, daysBetween(today, targetDate)) : null,
     plan: {
       id: plan.id,
-      mode: resolvePlanMode({ classLevel: effectiveClass, targetDate, forceExamMode: plan.forceExamMode }),
+      mode,
       subjectIds,
       studyDays: plan.studyDays,
       weekdayMinutes: plan.weekdayMinutes,
@@ -600,6 +604,7 @@ export async function getStudyPlanPageData(userId: string): Promise<StudyPlanPag
       targetDate,
       forceExamMode: plan.forceExamMode,
       plannedThrough: plan.plannedThrough ? dateToDayKey(plan.plannedThrough) : null,
+      runwayStart,
       outline: (plan.outline as unknown as OutlineWeek[] | null) ?? [],
       overload: (plan.overload as unknown as Overload | null) ?? null,
       positions: Object.fromEntries(plan.positions.map((p) => [p.subjectId, p.topicId])),

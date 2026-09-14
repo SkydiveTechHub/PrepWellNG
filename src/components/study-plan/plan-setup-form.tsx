@@ -68,9 +68,12 @@ export function PlanSetupForm({
     const payload = preparing && isSS3
       ? settings
       : { ...settings, targetExam: null, targetDate: null, forceExamMode: false };
-    const problem = await onSubmit(payload);
-    setSaving(false);
-    if (problem) setError(problem);
+    try {
+      const problem = await onSubmit(payload);
+      if (problem) setError(problem);
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (

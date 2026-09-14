@@ -13,7 +13,17 @@ function dayTitle(day: string): string {
   });
 }
 
-function DayList({ title, days, onStatus }: { title: string; days: { date: string; items: StudyPlanItemData[] }[]; onStatus: OnStatus }) {
+function DayList({
+  title,
+  days,
+  runwayStart,
+  onStatus,
+}: {
+  title: string;
+  days: { date: string; items: StudyPlanItemData[] }[];
+  runwayStart: string | null;
+  onStatus: OnStatus;
+}) {
   if (days.length === 0) return null;
   return (
     <section className="space-y-3">
@@ -21,11 +31,13 @@ function DayList({ title, days, onStatus }: { title: string; days: { date: strin
       {days.map((day) => {
         const done = day.items.filter((i) => i.status === "COMPLETED").length;
         const catchUp = day.items.some((i) => i.carriedFrom);
+        const runway = runwayStart !== null && day.date >= runwayStart;
         return (
           <div key={day.date} className="card p-4">
             <div className="mb-3 flex items-center justify-between">
               <span className="text-xs font-bold text-foreground">{dayTitle(day.date)}</span>
               <div className="flex gap-2">
+                {runway && <Badge variant="amber">Runway</Badge>}
                 {catchUp && <Badge variant="amber">Catch-up</Badge>}
                 <Badge variant={done === day.items.length ? "green" : "neutral"}>{done}/{day.items.length}</Badge>
               </div>
@@ -43,12 +55,16 @@ function DayList({ title, days, onStatus }: { title: string; days: { date: strin
 export function PlanSchedule({ plan, today, onStatus }: { plan: StudyPlanData; today: string; onStatus: OnStatus }) {
   const groups = groupWindow(plan.items, today);
   const todayDone = groups.today.filter((i) => i.status === "COMPLETED").length;
+  const todayIsRunway = plan.runwayStart !== null && today >= plan.runwayStart;
 
   return (
     <div className="space-y-8">
       <section className="card p-5">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-bold tracking-tight text-foreground">Today</h2>
+          <div className="flex items-center gap-2">
+            <h2 className="text-lg font-bold tracking-tight text-foreground">Today</h2>
+            {todayIsRunway && <Badge variant="amber">Runway</Badge>}
+          </div>
           {groups.today.length > 0 && (
             <span className="text-sm font-semibold text-muted">{todayDone} of {groups.today.length} done</span>
           )}
@@ -70,8 +86,8 @@ export function PlanSchedule({ plan, today, onStatus }: { plan: StudyPlanData; t
         </section>
       )}
 
-      <DayList title="This week" days={groups.thisWeek} onStatus={onStatus} />
-      <DayList title="Next week" days={groups.nextWeek} onStatus={onStatus} />
+      <DayList title="This week" days={groups.thisWeek} runwayStart={plan.runwayStart} onStatus={onStatus} />
+      <DayList title="Next week" days={groups.nextWeek} runwayStart={plan.runwayStart} onStatus={onStatus} />
 
       {plan.outline.length > 0 && (
         <details className="card p-5">

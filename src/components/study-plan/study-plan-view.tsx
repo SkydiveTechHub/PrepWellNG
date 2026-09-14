@@ -23,17 +23,21 @@ export function StudyPlanView({ data }: { data: StudyPlanPageData }) {
   const [error, setError] = useState("");
 
   async function request(url: string, method: string, body: unknown): Promise<string | null> {
-    const res = await fetch(url, {
-      method,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
-    if (!res.ok) {
-      const payload = await res.json().catch(() => ({}));
-      return payload.error ?? "Something went wrong. Please try again.";
+    try {
+      const res = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      if (!res.ok) {
+        const payload = await res.json().catch(() => ({}));
+        return payload.error ?? "Something went wrong. Please try again.";
+      }
+      router.refresh();
+      return null;
+    } catch {
+      return "Network error. Please try again.";
     }
-    router.refresh();
-    return null;
   }
 
   async function saveSettings(settings: PlanSettings) {
