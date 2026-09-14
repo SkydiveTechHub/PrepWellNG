@@ -18,7 +18,10 @@ export type AuditAction =
   | "student.tier"
   | "student.force_signout"
   | "student.delete"
-  | "provider.backfill";
+  | "provider.backfill"
+  | "academic-term.create"
+  | "academic-term.update"
+  | "academic-term.delete";
 
 export type AuditEntry = {
   actorId: string;

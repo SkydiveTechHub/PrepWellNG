@@ -14,6 +14,9 @@ import {
 } from "@/components/admin/admin-table";
 import { cn } from "@/lib/utils";
 import type { StatRow } from "@/lib/admin-stats";
+import { listAcademicTerms } from "@/lib/academic-terms";
+import { hasTermCoverage } from "@/engines/planner/term-context";
+import { lagosDayKey } from "@/lib/streak";
 
 export const dynamic = "force-dynamic";
 
@@ -36,6 +39,7 @@ export default async function AdminOverviewPage() {
   } = await getAdminOverview();
 
   const hasGaps = emptySubjects.length > 0 || unlinkedCount > 0;
+  const termsCovered = hasTermCoverage(await listAcademicTerms(), lagosDayKey(new Date()));
 
   return (
     <div>
@@ -43,6 +47,16 @@ export default async function AdminOverviewPage() {
         title="Overview"
         description={`${total} questions across ${subjectCount} subjects, ${topicCount} topics.`}
       />
+
+      {!termsCovered && (
+        <StatusBanner
+          tone="info"
+          title="No academic term set for today or the next 30 days"
+          message="Study plans are using the approximate national calendar until term dates are added."
+          action={<Link href="/admin/terms" className="font-semibold underline">Set term dates</Link>}
+          className="mb-6"
+        />
+      )}
 
       {total === 0 ? (
         <StatusBanner

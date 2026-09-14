@@ -1,5 +1,6 @@
 import {
   LuBookOpen,
+  LuCalendarDays,
   LuDatabase,
   LuGraduationCap,
   LuLayoutDashboard,
@@ -39,6 +40,7 @@ export const ADMIN_NAV_GROUPS: readonly AdminNavGroup[] = [
       { name: "Questions", href: "/admin/questions", icon: LuDatabase },
       { name: "Lessons", href: "/admin/lessons", icon: LuBookOpen },
       { name: "Library", href: "/admin/library", icon: LuLibrary },
+      { name: "Term dates", href: "/admin/terms", icon: LuCalendarDays },
     ],
   },
   {
