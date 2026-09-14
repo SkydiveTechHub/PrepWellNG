@@ -268,11 +268,39 @@ export type AdminLessonImportInput = z.infer<typeof adminLessonImportSchema>;
 
 // ─── Study Plan ───────────────────────────────────
 
-export const generateStudyPlanSchema = z.object({
-  targetExam: z.enum(["WAEC", "JAMB", "NECO"]),
-  targetDate: z.string().datetime(),
-  subjectIds: z.array(z.string()).min(1),
-  dailyStudyHours: z.number().min(0.5).max(12).default(2),
+/** A calendar day, `YYYY-MM-DD`. Dates travel as days so no timezone can shift them. */
+const dayKeySchema = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Use a date like 2027-05-01");
+
+export const studyPlanSettingsSchema = z
+  .object({
+    subjectIds: z.array(z.string()).min(1).max(20),
+    studyDays: z.array(z.number().int().min(1).max(7)).min(1).max(7),
+    weekdayMinutes: z.number().int().min(0).max(480),
+    weekendMinutes: z.number().int().min(0).max(600),
+    targetExam: z.enum(["WAEC", "JAMB", "NECO"]).nullable().optional(),
+    targetDate: dayKeySchema.nullable().optional(),
+    forceExamMode: z.boolean().default(false),
+  })
+  .refine((v) => (v.targetExam == null) === (v.targetDate == null), {
+    message: "Choose both an exam and its date, or neither.",
+    path: ["targetDate"],
+  });
+
+export const studyPlanPositionsSchema = z.object({
+  positions: z
+    .array(z.object({ subjectId: z.string(), topicId: z.string().nullable() }))
+    .max(20),
+});
+
+export const studyPlanItemStatusSchema = z.object({
+  status: z.enum(["COMPLETED", "SKIPPED", "PENDING"]),
+});
+
+export const academicTermSchema = z.object({
+  session: z.string().regex(/^\d{4}\/\d{4}$/, "Use the form 2026/2027"),
+  term: z.enum(["FIRST", "SECOND", "THIRD"]),
+  startsOn: dayKeySchema,
+  endsOn: dayKeySchema,
 });
 
 // ─── Lesson Engine progress ───────────────────────────
@@ -464,7 +492,8 @@ export type LoginInput = z.infer<typeof loginSchema>;
 export type GenerateQuizInput = z.infer<typeof generateQuizSchema>;
 export type SubmitAssessmentInput = z.infer<typeof submitAssessmentSchema>;
 export type MockExamInput = z.infer<typeof mockExamSchema>;
-export type GenerateStudyPlanInput = z.infer<typeof generateStudyPlanSchema>;
+export type StudyPlanSettingsInput = z.infer<typeof studyPlanSettingsSchema>;
+export type AcademicTermInput = z.infer<typeof academicTermSchema>;
 export type BulkImportQuestionInput = z.infer<typeof bulkImportQuestionSchema>;
 export type BulkImportInput = z.infer<typeof bulkImportSchema>;
 export type SubmitFlashcardReviewInput = z.infer<typeof submitFlashcardReviewSchema>;
