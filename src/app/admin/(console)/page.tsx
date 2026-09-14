@@ -9,7 +9,10 @@ import {
   AdminTh,
   AdminTr,
   TH_CLS,
+  HIDE_BELOW,
+  SHOW_BELOW,
 } from "@/components/admin/admin-table";
+import { cn } from "@/lib/utils";
 import type { StatRow } from "@/lib/admin-stats";
 
 export const dynamic = "force-dynamic";
@@ -181,7 +184,7 @@ function StatTable({
         <thead>
           <tr className="border-b border-border-strong">
             <AdminTh>Name</AdminTh>
-            {extraColumn === "code" && <AdminTh>Code</AdminTh>}
+            {extraColumn === "code" && <AdminTh className={HIDE_BELOW.sm}>Code</AdminTh>}
             <AdminTh align="right">Count</AdminTh>
             <AdminTh align="right">Percent</AdminTh>
           </tr>
@@ -197,9 +200,14 @@ function StatTable({
                 >
                   {row.label}
                 </Link>
+                {extraColumn === "code" && codeByKey?.[row.key] && (
+                  <span className={cn(SHOW_BELOW.sm, "ml-1.5 text-xs text-muted")}>
+                    {codeByKey[row.key]}
+                  </span>
+                )}
               </AdminTd>
               {extraColumn === "code" && (
-                <AdminTd className="text-muted">{codeByKey?.[row.key]}</AdminTd>
+                <AdminTd className={cn(HIDE_BELOW.sm, "text-muted")}>{codeByKey?.[row.key]}</AdminTd>
               )}
               <AdminTd align="right" className="tabular-nums text-foreground">
                 {row.count}
@@ -207,7 +215,7 @@ function StatTable({
               <AdminTd align="right">
                 <div className="flex items-center justify-end gap-2">
                   <div
-                    className="h-1.5 w-16 overflow-hidden rounded-lg bg-secondary"
+                    className="hidden h-1.5 w-16 overflow-hidden rounded-lg bg-secondary sm:block"
                     aria-hidden
                   >
                     <div

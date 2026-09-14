@@ -9,7 +9,7 @@ import { SUBSCRIPTION_TIERS, TIER_LABELS, type SubscriptionTier } from "@/lib/su
 import { BILLING_PERIODS, PERIOD_LABELS, type BillingPeriod } from "@/lib/subscription";
 
 const INPUT_CLS =
-  "px-3 py-2 rounded-lg border border-border bg-card text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60";
+  "w-full min-w-0 sm:w-auto px-3 py-2 rounded-lg border border-border bg-card text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60";
 
 export function StudentTierControl({
   studentId,
@@ -98,9 +98,9 @@ export function StudentTierControl({
             onChange={(e) => setNote(e.target.value)}
             maxLength={280}
             placeholder="Why (optional)"
-            className={INPUT_CLS}
+            className={cn(INPUT_CLS, "sm:min-w-[12rem] sm:flex-1")}
           />
-          <Button onClick={save} disabled={saving || next === tier}>
+          <Button onClick={save} disabled={saving || next === tier} className="w-full sm:w-auto">
             {saving ? "Saving…" : "Change plan"}
           </Button>
           <p className="w-full text-xs text-muted">

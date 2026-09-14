@@ -2,7 +2,15 @@
 
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { AdminTable, AdminTd, AdminTh, AdminTr } from "@/components/admin/admin-table";
+import {
+  AdminTable,
+  AdminTd,
+  AdminTh,
+  AdminTr,
+  HIDE_BELOW,
+  SHOW_BELOW,
+} from "@/components/admin/admin-table";
+import { cn } from "@/lib/utils";
 import { EmptyState } from "@/components/admin/empty-state";
 import { ConfirmDialog } from "@/components/admin/confirm-dialog";
 import { Badge } from "@/components/ui/badge";
@@ -142,8 +150,8 @@ export function MaterialManager({
               <thead>
                 <AdminTr>
                   <AdminTh>Title</AdminTh>
-                  <AdminTh>Type</AdminTh>
-                  <AdminTh>Access</AdminTh>
+                  <AdminTh className={HIDE_BELOW.md}>Type</AdminTh>
+                  <AdminTh className={HIDE_BELOW.sm}>Access</AdminTh>
                   <AdminTh align="right">Order</AdminTh>
                   <AdminTh align="right">Actions</AdminTh>
                 </AdminTr>
@@ -151,9 +159,28 @@ export function MaterialManager({
               <tbody>
                 {ordered.map((material, index) => (
                   <AdminTr key={material.id}>
-                    <AdminTd className="font-medium text-foreground">{material.title}</AdminTd>
-                    <AdminTd className="text-muted">{MATERIAL_LABELS[material.resourceType]}</AdminTd>
-                    <AdminTd>
+                    <AdminTd className="font-medium text-foreground">
+                      <span className="break-words">{material.title}</span>
+                      <div
+                        className={cn(
+                          SHOW_BELOW.md,
+                          "mt-1 flex flex-wrap items-center gap-2 text-xs font-normal text-muted",
+                        )}
+                      >
+                        <span>{MATERIAL_LABELS[material.resourceType]}</span>
+                        <span className={SHOW_BELOW.sm}>
+                          {material.isFree ? (
+                            <Badge variant="neutral">Free</Badge>
+                          ) : (
+                            <Badge variant="amber">Premium</Badge>
+                          )}
+                        </span>
+                      </div>
+                    </AdminTd>
+                    <AdminTd className={cn(HIDE_BELOW.md, "text-muted")}>
+                      {MATERIAL_LABELS[material.resourceType]}
+                    </AdminTd>
+                    <AdminTd className={HIDE_BELOW.sm}>
                       {material.isFree ? (
                         <Badge variant="neutral">Free</Badge>
                       ) : (
@@ -185,7 +212,7 @@ export function MaterialManager({
                       </div>
                     </AdminTd>
                     <AdminTd align="right">
-                      <div className="flex justify-end gap-2">
+                      <div className="flex flex-col items-end gap-2 sm:flex-row sm:justify-end">
                         <Button
                           type="button"
                           variant="outline"

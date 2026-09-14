@@ -1,11 +1,12 @@
 "use client";
 
 import { LuLogOut } from "react-icons/lu";
+import { cn } from "@/lib/utils";
 
 // Signs out of the admin session only. The student cookie has a different name
 // and a different scope, so a student session in another tab survives this.
 // Must be rendered inside AdminSessionProvider.
-export function AdminSignOut() {
+export function AdminSignOut({ className }: { className?: string }) {
   async function handleSignOut() {
     const { signOut } = await import("next-auth/react");
     await signOut({ callbackUrl: "/admin/login" });
@@ -15,7 +16,10 @@ export function AdminSignOut() {
     <button
       type="button"
       onClick={handleSignOut}
-      className="flex w-full items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium text-muted hover:text-foreground transition-colors"
+      className={cn(
+        "flex w-full items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium text-muted hover:text-foreground transition-colors",
+        className,
+      )}
     >
       <LuLogOut className="w-3.5 h-3.5" />
       Sign out

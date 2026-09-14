@@ -96,7 +96,7 @@ export function Pagination({
   return (
     <nav
       aria-label={label}
-      className={cn("mt-4 flex items-center justify-between gap-3", className)}
+      className={cn("mt-4 flex flex-wrap items-center justify-between gap-3", className)}
     >
       <p className="text-sm text-muted">
         Showing{" "}

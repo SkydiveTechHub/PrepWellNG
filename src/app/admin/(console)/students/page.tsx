@@ -1,7 +1,15 @@
 import Link from "next/link";
 import { requireAdminPage } from "@/lib/admin-session";
 import { PageHeader } from "@/components/ui/page-header";
-import { AdminTable, AdminTd, AdminTh, AdminTr } from "@/components/admin/admin-table";
+import {
+  AdminTable,
+  AdminTd,
+  AdminTh,
+  AdminTr,
+  HIDE_BELOW,
+  SHOW_BELOW,
+} from "@/components/admin/admin-table";
+import { cn } from "@/lib/utils";
 import { EmptyState } from "@/components/admin/empty-state";
 import { Pagination, pageWindow } from "@/components/ui/pagination";
 import { StudentFilterBar } from "@/components/admin/student-filter-bar";
@@ -62,13 +70,13 @@ export default async function AdminStudentsPage({
             <thead>
               <tr className="border-b border-border-strong">
                 <AdminTh>Name</AdminTh>
-                <AdminTh>Contact</AdminTh>
-                <AdminTh>Class</AdminTh>
-                <AdminTh>Track</AdminTh>
+                <AdminTh className={HIDE_BELOW.md}>Contact</AdminTh>
+                <AdminTh className={HIDE_BELOW.lg}>Class</AdminTh>
+                <AdminTh className={HIDE_BELOW.lg}>Track</AdminTh>
                 <AdminTh>Plan</AdminTh>
-                <AdminTh>Status</AdminTh>
-                <AdminTh align="right">Joined</AdminTh>
-                <AdminTh align="right">Last active</AdminTh>
+                <AdminTh className={HIDE_BELOW.sm}>Status</AdminTh>
+                <AdminTh align="right" className={HIDE_BELOW.lg}>Joined</AdminTh>
+                <AdminTh align="right" className={HIDE_BELOW.md}>Last active</AdminTh>
               </tr>
             </thead>
             <tbody>
@@ -84,26 +92,36 @@ export default async function AdminStudentsPage({
                       >
                         {fullName(row)}
                       </Link>
+                      <p className={cn(SHOW_BELOW.md, "mt-0.5 break-all text-xs text-muted")}>
+                        {row.email ?? row.phone ?? "—"}
+                      </p>
                     </AdminTd>
-                    <AdminTd className="text-muted">
+                    <AdminTd className={cn(HIDE_BELOW.md, "text-muted")}>
                       {row.email ?? row.phone ?? "—"}
                     </AdminTd>
-                    <AdminTd className="text-muted">{row.classLevel ?? "—"}</AdminTd>
-                    <AdminTd className="text-muted">
+                    <AdminTd className={cn(HIDE_BELOW.lg, "text-muted")}>
+                      {row.classLevel ?? "—"}
+                    </AdminTd>
+                    <AdminTd className={cn(HIDE_BELOW.lg, "text-muted")}>
                       {row.track
                         ? row.track.charAt(0) + row.track.slice(1).toLowerCase()
                         : "—"}
                     </AdminTd>
                     <AdminTd>
-                      <Badge tone={tier.tone}>{tier.label}</Badge>
+                      <div className="flex flex-col items-start gap-1">
+                        <Badge tone={tier.tone}>{tier.label}</Badge>
+                        <span className={SHOW_BELOW.sm}>
+                          <Badge tone={status.tone}>{status.label}</Badge>
+                        </span>
+                      </div>
                     </AdminTd>
-                    <AdminTd>
+                    <AdminTd className={HIDE_BELOW.sm}>
                       <Badge tone={status.tone}>{status.label}</Badge>
                     </AdminTd>
-                    <AdminTd align="right" className="tabular-nums text-muted">
+                    <AdminTd align="right" className={cn(HIDE_BELOW.lg, "tabular-nums text-muted")}>
                       {DATE.format(row.createdAt)}
                     </AdminTd>
-                    <AdminTd align="right" className="tabular-nums text-muted">
+                    <AdminTd align="right" className={cn(HIDE_BELOW.md, "whitespace-nowrap tabular-nums text-muted")}>
                       {row.lastActiveAt ? DATE.format(row.lastActiveAt) : "Never"}
                     </AdminTd>
                   </AdminTr>

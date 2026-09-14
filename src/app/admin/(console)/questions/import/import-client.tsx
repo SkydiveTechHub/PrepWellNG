@@ -231,20 +231,20 @@ export function ImportClient() {
             </div>
           )}
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-start gap-2">
             <input
               id={skipDuplicatesId}
               type="checkbox"
               checked={skipDuplicates}
               onChange={(e) => setSkipDuplicates(e.target.checked)}
-              className="h-4 w-4 rounded border-border focus-visible:ring-2 focus-visible:ring-primary/60"
+              className="mt-0.5 h-4 w-4 flex-shrink-0 rounded border-border focus-visible:ring-2 focus-visible:ring-primary/60"
             />
             <label htmlFor={skipDuplicatesId} className="text-sm text-foreground">
               Skip duplicates (same subject, exam type, exam year, and question text)
             </label>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <Button variant="outline" onClick={() => setPhase("input")}>
               Back
             </Button>
@@ -278,7 +278,7 @@ export function ImportClient() {
                 }
               />
 
-              <dl className="grid grid-cols-3 gap-3">
+              <dl className="grid grid-cols-1 gap-3 sm:grid-cols-3">
                 <div className="rounded-lg border border-border-strong bg-card p-4">
                   <dt className={TH_CLS}>Imported</dt>
                   <dd className="mt-1 text-2xl font-bold tabular-nums text-foreground">{result.imported}</dd>
@@ -322,7 +322,7 @@ export function ImportClient() {
           ) : null}
 
           {!submitting && (
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-3">
               <Button variant="outline" onClick={resetToInput}>
                 Import another file
               </Button>

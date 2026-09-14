@@ -25,16 +25,16 @@ export function AdminNav({
     return (
       <nav
         aria-label="Admin"
-        className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-card lg:hidden"
+        className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-card pb-[env(safe-area-inset-bottom)] lg:hidden"
       >
-        <div className="flex items-center justify-around py-2">
+        <div className="mx-auto flex max-w-md items-stretch px-2 py-1.5">
           {mobileBarItems(isOwner).map((item) => (
             <Link
               key={item.href}
               href={item.href}
               aria-current={isActive(item.href) ? "page" : undefined}
               className={cn(
-                "flex flex-col items-center gap-0.5 rounded-lg px-3 py-1 text-xs font-semibold transition-colors",
+                "flex min-w-0 flex-1 flex-col items-center gap-0.5 rounded-lg px-1 py-1.5 text-xs font-semibold transition-colors",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60",
                 isActive(item.href) ? "text-primary" : "text-muted",
               )}

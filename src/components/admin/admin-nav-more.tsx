@@ -47,7 +47,7 @@ export function AdminNavMore({ isOwner }: { isOwner: boolean }) {
         aria-expanded={open}
         aria-haspopup="dialog"
         className={cn(
-          "flex flex-col items-center gap-0.5 rounded-lg px-3 py-1 text-xs font-semibold transition-colors",
+          "flex min-w-0 flex-1 flex-col items-center gap-0.5 rounded-lg px-1 py-1.5 text-xs font-semibold transition-colors",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60",
           containsCurrent ? "text-primary" : "text-muted",
         )}
@@ -67,7 +67,7 @@ export function AdminNavMore({ isOwner }: { isOwner: boolean }) {
           <div
             role="dialog"
             aria-label="More admin sections"
-            className="absolute inset-x-0 bottom-0 max-h-[70vh] overflow-y-auto rounded-t-2xl border-t border-border bg-card p-4 pb-8"
+            className="absolute inset-x-0 bottom-0 max-h-[70vh] overflow-y-auto rounded-t-2xl border-t border-border bg-card p-4 pb-[calc(2rem+env(safe-area-inset-bottom))]"
           >
             <div className="mb-3 flex items-center justify-between">
               <span className={LABEL_CLS}>More</span>

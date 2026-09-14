@@ -35,22 +35,46 @@ export function AdminTable({
   );
 }
 
+/**
+ * Low-priority columns drop out on narrow screens rather than forcing the
+ * table to scroll sideways. Pass the same class to the column's AdminTh and
+ * every AdminTd, and fold the hidden value into a visible cell below that
+ * breakpoint so nothing is lost.
+ */
+export const HIDE_BELOW = {
+  sm: "hidden sm:table-cell",
+  md: "hidden md:table-cell",
+  lg: "hidden lg:table-cell",
+} as const;
+
+/** Shown only while the matching HIDE_BELOW column is hidden. */
+export const SHOW_BELOW = {
+  sm: "sm:hidden",
+  md: "md:hidden",
+  lg: "lg:hidden",
+} as const;
+
+const CELL_PAD = "px-3 py-2.5 sm:px-4";
+
 export function AdminTh({
   children,
   align = "left",
   scope = "col",
+  className,
 }: {
   children: React.ReactNode;
   align?: "left" | "right";
   scope?: "col" | "row";
+  className?: string;
 }) {
   return (
     <th
       scope={scope}
       className={cn(
-        "px-4 py-2.5",
+        CELL_PAD,
         align === "right" ? "text-right" : "text-left",
         TH_CLS,
+        className,
       )}
     >
       {children}
@@ -76,7 +100,7 @@ export function AdminTd({
   return (
     <td
       className={cn(
-        "px-4 py-2.5",
+        CELL_PAD,
         align === "right" ? "text-right" : "text-left",
         className,
       )}

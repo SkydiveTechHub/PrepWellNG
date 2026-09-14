@@ -3,7 +3,14 @@ import { requireAdminPage } from "@/lib/admin-session";
 import { PageHeader } from "@/components/ui/page-header";
 import { buttonClass } from "@/components/ui/button";
 import { LessonFilterBar } from "@/components/admin/lesson-filter-bar";
-import { AdminTable, AdminTd, AdminTh, AdminTr } from "@/components/admin/admin-table";
+import {
+  AdminTable,
+  AdminTd,
+  AdminTh,
+  AdminTr,
+  HIDE_BELOW,
+  SHOW_BELOW,
+} from "@/components/admin/admin-table";
 import { EmptyState } from "@/components/admin/empty-state";
 import { normaliseFilter, type RawFilterParams } from "@/lib/admin-lesson-browse";
 import { getAdminLessonBrowseData, type LessonTopicRow } from "@/lib/admin-data";
@@ -69,9 +76,9 @@ export default async function AdminLessonsPage({
             <thead>
               <tr className="border-b border-border-strong bg-secondary/50">
                 <AdminTh>Topic</AdminTh>
-                <AdminTh>Term</AdminTh>
-                <AdminTh>Blocks</AdminTh>
-                <AdminTh>Status</AdminTh>
+                <AdminTh className={HIDE_BELOW.sm}>Term</AdminTh>
+                <AdminTh className={HIDE_BELOW.md}>Blocks</AdminTh>
+                <AdminTh className={HIDE_BELOW.sm}>Status</AdminTh>
                 <AdminTh align="right">Action</AdminTh>
               </tr>
             </thead>
@@ -108,20 +115,27 @@ function Section({ classLevel, rows }: { classLevel: ClassLevel; rows: LessonTop
       </tr>
       {rows.map((row) => (
         <AdminTr key={row.topicId}>
-          <AdminTd className="font-medium text-foreground">{row.topicTitle}</AdminTd>
-          <AdminTd className="text-muted">{TERM_LABELS[row.term]}</AdminTd>
-          <AdminTd className="tabular-nums text-muted">{row.blockCount}</AdminTd>
-          <AdminTd>
-            <span
+          <AdminTd className="font-medium text-foreground">
+            {row.topicTitle}
+            <div
               className={cn(
-                "rounded-full px-2.5 py-0.5 text-[11px] font-semibold",
-                row.authored
-                  ? "bg-tone-green-soft text-tone-green-ink"
-                  : "bg-secondary text-muted",
+                SHOW_BELOW.sm,
+                "mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-normal text-muted",
               )}
             >
-              {row.authored ? "Authored" : "Placeholder"}
-            </span>
+              <StatusPill authored={row.authored} />
+              <span>{TERM_LABELS[row.term]}</span>
+              <span className="tabular-nums">
+                {row.blockCount} block{row.blockCount === 1 ? "" : "s"}
+              </span>
+            </div>
+          </AdminTd>
+          <AdminTd className={cn(HIDE_BELOW.sm, "whitespace-nowrap text-muted")}>
+            {TERM_LABELS[row.term]}
+          </AdminTd>
+          <AdminTd className={cn(HIDE_BELOW.md, "tabular-nums text-muted")}>{row.blockCount}</AdminTd>
+          <AdminTd className={HIDE_BELOW.sm}>
+            <StatusPill authored={row.authored} />
           </AdminTd>
           <AdminTd align="right">
             <Link
@@ -134,5 +148,18 @@ function Section({ classLevel, rows }: { classLevel: ClassLevel; rows: LessonTop
         </AdminTr>
       ))}
     </>
+  );
+}
+
+function StatusPill({ authored }: { authored: boolean }) {
+  return (
+    <span
+      className={cn(
+        "whitespace-nowrap rounded-full px-2.5 py-0.5 text-[11px] font-semibold",
+        authored ? "bg-tone-green-soft text-tone-green-ink" : "bg-secondary text-muted",
+      )}
+    >
+      {authored ? "Authored" : "Placeholder"}
+    </span>
   );
 }

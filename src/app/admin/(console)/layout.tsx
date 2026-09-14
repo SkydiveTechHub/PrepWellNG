@@ -27,8 +27,20 @@ export default async function ConsoleLayout({
       >
         Skip to content
       </a>
+      {/* Below lg the sidebar is gone, and with it the only sign-out control —
+          this bar carries both the identity and the way out. */}
+      <header className="sticky top-0 z-40 flex items-center justify-between gap-3 border-b border-border bg-card px-4 py-2.5 lg:hidden">
+        <div className="flex items-center gap-2">
+          <LuShield className="w-5 h-5 text-primary" />
+          <span className="font-bold text-foreground text-sm">Admin</span>
+        </div>
+        <AdminSessionProvider>
+          <AdminSignOut className="w-auto" />
+        </AdminSessionProvider>
+      </header>
+
       <div className="flex min-h-full">
-        <aside className="w-56 border-r border-border bg-card flex-shrink-0 hidden lg:block">
+        <aside className="w-56 border-r border-border bg-card flex-shrink-0 hidden lg:flex lg:flex-col sticky top-0 h-screen overflow-y-auto">
           <div className="flex items-center gap-2 px-4 py-5 border-b border-border">
             <LuShield className="w-5 h-5 text-primary" />
             <span className="font-bold text-foreground text-sm">Admin</span>
@@ -43,7 +55,14 @@ export default async function ConsoleLayout({
           </div>
         </aside>
 
-        <main id="admin-main" tabIndex={-1} className="flex-1 pb-24 lg:pb-0">
+        {/* min-w-0: a flex item's minimum width defaults to its content's, so
+            without it one wide table stretches the whole page sideways on a
+            phone instead of scrolling inside its own container. */}
+        <main
+          id="admin-main"
+          tabIndex={-1}
+          className="flex-1 min-w-0 pb-[calc(5rem+env(safe-area-inset-bottom))] lg:pb-0"
+        >
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
             {children}
           </div>

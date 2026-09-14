@@ -265,8 +265,9 @@ export function MaterialForm({ subjectId, material, onSaved, onCancel }: Props) 
         </div>
       )}
 
-      <label className="flex items-center gap-2 text-sm text-foreground">
+      <label className="flex items-start gap-2 text-sm text-foreground">
         <input
+          className="mt-0.5 flex-shrink-0"
           type="checkbox"
           checked={!isFree}
           onChange={(event) => setIsFree(!event.target.checked)}
@@ -274,7 +275,7 @@ export function MaterialForm({ subjectId, material, onSaved, onCancel }: Props) 
         Premium — listed to everyone, opens only for subscribers
       </label>
 
-      <div className="flex items-center gap-3">
+      <div className="flex flex-wrap items-center gap-3">
         <Button type="submit" variant="primary" disabled={saving || uploading || !url}>
           {saving ? "Saving…" : material ? "Save changes" : "Add material"}
         </Button>

@@ -97,9 +97,9 @@ export function ConfirmDialog({
         aria-modal="true"
         aria-labelledby={titleId}
         aria-describedby={descriptionId}
-        className="w-full max-w-md rounded-lg border border-border-strong bg-card p-5"
+        className="max-h-[calc(100dvh-2rem)] w-full max-w-md overflow-y-auto rounded-lg border border-border-strong bg-card p-5"
       >
-        <h2 id={titleId} className="text-base font-bold text-foreground">
+        <h2 id={titleId} className="break-words text-base font-bold text-foreground">
           {title}
         </h2>
         <p id={descriptionId} className="mt-1.5 text-sm text-muted">

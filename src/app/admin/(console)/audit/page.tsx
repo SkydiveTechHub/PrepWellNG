@@ -1,6 +1,14 @@
 import { requireAdminPage } from "@/lib/admin-session";
 import { PageHeader } from "@/components/ui/page-header";
-import { AdminTable, AdminTd, AdminTh, AdminTr } from "@/components/admin/admin-table";
+import {
+  AdminTable,
+  AdminTd,
+  AdminTh,
+  AdminTr,
+  HIDE_BELOW,
+  SHOW_BELOW,
+} from "@/components/admin/admin-table";
+import { cn } from "@/lib/utils";
 import { EmptyState } from "@/components/admin/empty-state";
 import { Pagination, pageWindow } from "@/components/ui/pagination";
 import { AuditFilterBar } from "@/components/admin/audit-filter-bar";
@@ -57,25 +65,42 @@ export default async function AdminAuditPage({
           <AdminTable caption="Recorded admin actions">
             <thead>
               <tr className="border-b border-border-strong">
-                <AdminTh>When</AdminTh>
-                <AdminTh>Who</AdminTh>
-                <AdminTh>Action</AdminTh>
+                <AdminTh className={HIDE_BELOW.sm}>When</AdminTh>
+                <AdminTh className={HIDE_BELOW.md}>Who</AdminTh>
+                <AdminTh className={HIDE_BELOW.md}>Action</AdminTh>
                 <AdminTh>What</AdminTh>
               </tr>
             </thead>
             <tbody>
               {rows.map((row) => (
                 <AdminTr key={row.id}>
-                  <AdminTd className="whitespace-nowrap tabular-nums text-muted">
+                  <AdminTd className={cn(HIDE_BELOW.sm, "whitespace-nowrap tabular-nums text-muted")}>
                     {STAMP.format(row.createdAt)}
                   </AdminTd>
-                  <AdminTd className="text-muted">{row.actorLabel}</AdminTd>
-                  <AdminTd>
-                    <code className="rounded bg-secondary px-1.5 py-0.5 text-xs text-foreground">
+                  <AdminTd className={cn(HIDE_BELOW.md, "text-muted")}>{row.actorLabel}</AdminTd>
+                  <AdminTd className={HIDE_BELOW.md}>
+                    <code className="break-all rounded bg-secondary px-1.5 py-0.5 text-xs text-foreground">
                       {row.action}
                     </code>
                   </AdminTd>
-                  <AdminTd className="text-foreground">{row.summary}</AdminTd>
+                  <AdminTd className="text-foreground">
+                    <p className="break-words">{row.summary}</p>
+                    {/* The columns this cell stands in for on a narrow screen. */}
+                    <div
+                      className={cn(
+                        SHOW_BELOW.md,
+                        "mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted",
+                      )}
+                    >
+                      <code className="break-all rounded bg-secondary px-1.5 py-0.5 text-foreground">
+                        {row.action}
+                      </code>
+                      <span>{row.actorLabel}</span>
+                      <span className={cn(SHOW_BELOW.sm, "tabular-nums")}>
+                        {STAMP.format(row.createdAt)}
+                      </span>
+                    </div>
+                  </AdminTd>
                 </AdminTr>
               ))}
             </tbody>

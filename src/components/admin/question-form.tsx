@@ -3,6 +3,7 @@
 import { useId, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { LuX } from "react-icons/lu";
 
 import { Button, buttonClass } from "@/components/ui/button";
 import { StatusBanner } from "@/components/admin/status-banner";
@@ -691,8 +692,8 @@ export function QuestionForm(props: {
               const keyId = `option-${row.id}-key`;
               const valueId = `option-${row.id}-value`;
               return (
-                <div key={row.id} className="flex items-start gap-3">
-                  <div className="w-20 flex-shrink-0">
+                <div key={row.id} className="flex items-start gap-2 sm:gap-3">
+                  <div className="w-14 flex-shrink-0 sm:w-20">
                     <label htmlFor={keyId} className="sr-only">
                       Option {i + 1} key
                     </label>
@@ -704,7 +705,7 @@ export function QuestionForm(props: {
                       className={cn(INPUT_CLS, "mt-0 border-border")}
                     />
                   </div>
-                  <div className="flex-1">
+                  <div className="min-w-0 flex-1">
                     <label htmlFor={valueId} className="sr-only">
                       Option {i + 1} text
                     </label>
@@ -720,11 +721,12 @@ export function QuestionForm(props: {
                     type="button"
                     variant="ghost"
                     size="sm"
-                    className="mt-0.5"
+                    className="mt-1.5 px-2 sm:px-3"
                     onClick={() => removeOptionRow(row.id)}
                     aria-label={`Remove option ${i + 1}`}
                   >
-                    Remove
+                    <LuX className="h-4 w-4 sm:hidden" aria-hidden />
+                    <span className="hidden sm:inline">Remove</span>
                   </Button>
                 </div>
               );
@@ -891,7 +893,7 @@ export function QuestionForm(props: {
         </div>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex flex-wrap items-center gap-3">
         <Button type="submit" variant="primary" disabled={submitting}>
           {submitting ? "Saving…" : mode === "create" ? "Create question" : "Save changes"}
         </Button>

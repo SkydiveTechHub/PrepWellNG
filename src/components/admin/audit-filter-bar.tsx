@@ -9,7 +9,7 @@ import {
 } from "@/lib/admin-audit-filter";
 
 const SELECT_CLS =
-  "px-3 py-2 rounded-lg border border-border bg-card text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60";
+  "w-full min-w-0 px-3 py-2 rounded-lg border border-border bg-card text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60";
 const LABEL_CLS = "text-[11px] font-semibold uppercase tracking-wider text-muted";
 
 function toDateInput(value: Date | null): string {
@@ -40,8 +40,8 @@ export function AuditFilterBar({
   }
 
   return (
-    <div className="mb-4 flex flex-wrap items-end gap-3 rounded-lg border border-border-strong bg-card p-4">
-      <div className="flex flex-col gap-1">
+    <div className="mb-4 grid grid-cols-2 items-end gap-3 rounded-lg border border-border-strong bg-card p-4 sm:flex sm:flex-wrap">
+      <div className="flex min-w-0 flex-col gap-1">
         <label htmlFor="audit-actor" className={LABEL_CLS}>
           Actor
         </label>
@@ -60,7 +60,7 @@ export function AuditFilterBar({
         </select>
       </div>
 
-      <div className="flex flex-col gap-1">
+      <div className="flex min-w-0 flex-col gap-1">
         <label htmlFor="audit-action" className={LABEL_CLS}>
           Action
         </label>
@@ -79,7 +79,7 @@ export function AuditFilterBar({
         </select>
       </div>
 
-      <div className="flex flex-col gap-1">
+      <div className="flex min-w-0 flex-col gap-1">
         <label htmlFor="audit-entity" className={LABEL_CLS}>
           Entity
         </label>
@@ -98,7 +98,7 @@ export function AuditFilterBar({
         </select>
       </div>
 
-      <div className="flex flex-col gap-1">
+      <div className="flex min-w-0 flex-col gap-1">
         <label htmlFor="audit-from" className={LABEL_CLS}>
           From
         </label>
@@ -111,7 +111,7 @@ export function AuditFilterBar({
         />
       </div>
 
-      <div className="flex flex-col gap-1">
+      <div className="flex min-w-0 flex-col gap-1">
         <label htmlFor="audit-to" className={LABEL_CLS}>
           To
         </label>

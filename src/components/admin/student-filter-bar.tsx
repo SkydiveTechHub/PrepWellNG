@@ -8,7 +8,7 @@ import { ACCOUNT_STATUSES } from "@/lib/account-status";
 import { TRACKS, studentFilterParams, type StudentFilter } from "@/lib/admin-student";
 
 const SELECT_CLS =
-  "px-3 py-2 rounded-lg border border-border bg-card text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60";
+  "w-full min-w-0 px-3 py-2 rounded-lg border border-border bg-card text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60";
 const LABEL_CLS = "text-[11px] font-semibold uppercase tracking-wider text-muted";
 
 const STATUS_LABELS: Record<string, string> = {
@@ -42,8 +42,8 @@ export function StudentFilterBar({ filter }: { filter: StudentFilter }) {
   }, [search]);
 
   return (
-    <div className="mb-4 flex flex-wrap items-end gap-3 rounded-lg border border-border-strong bg-card p-4">
-      <div className="flex flex-col gap-1">
+    <div className="mb-4 grid grid-cols-2 items-end gap-3 rounded-lg border border-border-strong bg-card p-4 sm:flex sm:flex-wrap">
+      <div className="col-span-2 flex min-w-0 flex-col gap-1 sm:min-w-[220px] sm:flex-1 lg:max-w-xs">
         <label htmlFor="student-search" className={LABEL_CLS}>
           Search
         </label>
@@ -57,7 +57,7 @@ export function StudentFilterBar({ filter }: { filter: StudentFilter }) {
         />
       </div>
 
-      <div className="flex flex-col gap-1">
+      <div className="flex min-w-0 flex-col gap-1">
         <label htmlFor="student-class" className={LABEL_CLS}>
           Class
         </label>
@@ -76,7 +76,7 @@ export function StudentFilterBar({ filter }: { filter: StudentFilter }) {
         </select>
       </div>
 
-      <div className="flex flex-col gap-1">
+      <div className="flex min-w-0 flex-col gap-1">
         <label htmlFor="student-track" className={LABEL_CLS}>
           Track
         </label>
@@ -95,7 +95,7 @@ export function StudentFilterBar({ filter }: { filter: StudentFilter }) {
         </select>
       </div>
 
-      <div className="flex flex-col gap-1">
+      <div className="flex min-w-0 flex-col gap-1">
         <label htmlFor="student-tier" className={LABEL_CLS}>
           Plan
         </label>
@@ -114,7 +114,7 @@ export function StudentFilterBar({ filter }: { filter: StudentFilter }) {
         </select>
       </div>
 
-      <div className="flex flex-col gap-1">
+      <div className="flex min-w-0 flex-col gap-1">
         <label htmlFor="student-status" className={LABEL_CLS}>
           Status
         </label>

@@ -8,6 +8,7 @@ import { StatusBanner } from "@/components/admin/status-banner";
 import { ConfirmDialog } from "@/components/admin/confirm-dialog";
 import { Button, buttonClass } from "@/components/ui/button";
 import { PageHeader } from "@/components/ui/page-header";
+import { HIDE_BELOW, SHOW_BELOW } from "@/components/admin/admin-table";
 import { cn } from "@/lib/utils";
 
 interface Question {
@@ -56,6 +57,23 @@ interface SubjectOption {
 }
 
 const TH_CLS = "text-[11px] font-semibold uppercase tracking-wider text-muted";
+
+function DifficultyPill({ difficulty }: { difficulty: string }) {
+  return (
+    <span
+      className={cn(
+        "whitespace-nowrap text-xs font-medium px-2 py-0.5 rounded",
+        difficulty === "BASIC"
+          ? "bg-tone-green-soft text-tone-green-ink"
+          : difficulty === "INTERMEDIATE"
+            ? "bg-tone-amber-soft text-tone-amber-ink"
+            : "bg-tone-red-soft text-tone-red-ink",
+      )}
+    >
+      {difficulty}
+    </span>
+  );
+}
 
 // `useSearchParams` requires a Suspense boundary around the Client Component
 // that calls it, or a static build fails ("Missing Suspense boundary with
@@ -420,8 +438,8 @@ function AdminQuestionsPageInner() {
       )}
 
       {/* Filters */}
-      <div className="flex flex-wrap items-end gap-3 mb-6">
-        <form onSubmit={handleSearch} className="flex-1 min-w-[200px] max-w-sm">
+      <div className="mb-6 grid grid-cols-2 items-end gap-3 sm:flex sm:flex-wrap">
+        <form onSubmit={handleSearch} className="col-span-2 sm:min-w-[200px] sm:max-w-sm sm:flex-1">
           <label htmlFor="question-search" className="sr-only">
             Search questions
           </label>
@@ -438,7 +456,7 @@ function AdminQuestionsPageInner() {
           </div>
         </form>
 
-        <div className="flex flex-col gap-1">
+        <div className="flex min-w-0 flex-col gap-1">
           <label htmlFor="exam-filter" className="text-[11px] font-semibold uppercase tracking-wider text-muted">
             Exam
           </label>
@@ -449,7 +467,7 @@ function AdminQuestionsPageInner() {
               setExamFilter(e.target.value);
               setPage(1);
             }}
-            className="px-3 py-2 rounded-lg border border-border bg-card text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
+            className="w-full min-w-0 px-3 py-2 rounded-lg border border-border bg-card text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
           >
             <option value="">All exams</option>
             <option value="WAEC">WAEC</option>
@@ -459,7 +477,7 @@ function AdminQuestionsPageInner() {
           </select>
         </div>
 
-        <div className="flex flex-col gap-1">
+        <div className="flex min-w-0 flex-col gap-1">
           <label htmlFor="subject-filter" className="text-[11px] font-semibold uppercase tracking-wider text-muted">
             Subject
           </label>
@@ -470,7 +488,7 @@ function AdminQuestionsPageInner() {
               setSubjectFilter(e.target.value);
               setPage(1);
             }}
-            className="px-3 py-2 rounded-lg border border-border bg-card text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
+            className="w-full min-w-0 px-3 py-2 rounded-lg border border-border bg-card text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
           >
             <option value="">All subjects</option>
             {subjects.map((s) => (
@@ -481,7 +499,7 @@ function AdminQuestionsPageInner() {
           </select>
         </div>
 
-        <div className="flex flex-col gap-1">
+        <div className="flex min-w-0 flex-col gap-1">
           <label htmlFor="difficulty-filter" className="text-[11px] font-semibold uppercase tracking-wider text-muted">
             Difficulty
           </label>
@@ -492,7 +510,7 @@ function AdminQuestionsPageInner() {
               setDifficultyFilter(e.target.value);
               setPage(1);
             }}
-            className="px-3 py-2 rounded-lg border border-border bg-card text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
+            className="w-full min-w-0 px-3 py-2 rounded-lg border border-border bg-card text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
           >
             <option value="">All difficulties</option>
             <option value="BASIC">Basic</option>
@@ -502,7 +520,7 @@ function AdminQuestionsPageInner() {
         </div>
 
         {hasFilters ? (
-          <Button variant="outline" size="md" onClick={handleClear}>
+          <Button variant="outline" size="md" onClick={handleClear} className="w-full sm:w-auto">
             Clear
           </Button>
         ) : null}
@@ -510,7 +528,7 @@ function AdminQuestionsPageInner() {
 
       {/* Bulk action bar */}
       {selected.size > 0 && (
-        <div className="flex items-center justify-between gap-3 mb-3 rounded-lg border border-border-strong bg-secondary/50 px-4 py-2.5">
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-3 rounded-lg border border-border-strong bg-secondary/50 px-4 py-2.5">
           <p role="status" className="text-sm font-medium text-foreground">
             <span className="tabular-nums">{selected.size}</span> selected
           </p>
@@ -562,7 +580,7 @@ function AdminQuestionsPageInner() {
                 </caption>
                 <thead>
                   <tr className="border-b border-border-strong bg-secondary/50">
-                    <th scope="col" className={cn(TH_CLS, "px-4 py-3 w-10")}>
+                    <th scope="col" className={cn(TH_CLS, "w-10 py-3 pl-3 pr-1 sm:px-4")}>
                       <input
                         ref={headerCheckboxRef}
                         type="checkbox"
@@ -572,22 +590,22 @@ function AdminQuestionsPageInner() {
                         className="h-4 w-4 rounded border-border accent-primary"
                       />
                     </th>
-                    <th scope="col" className={cn(TH_CLS, "text-left px-4 py-3")}>
+                    <th scope="col" className={cn(TH_CLS, "text-left px-3 py-3 sm:px-4")}>
                       Question
                     </th>
-                    <th scope="col" className={cn(TH_CLS, "text-left px-4 py-3 w-20")}>
+                    <th scope="col" className={cn(TH_CLS, HIDE_BELOW.md, "text-left px-4 py-3 w-20")}>
                       Subject
                     </th>
-                    <th scope="col" className={cn(TH_CLS, "text-left px-4 py-3 w-20")}>
+                    <th scope="col" className={cn(TH_CLS, HIDE_BELOW.md, "text-left px-4 py-3 w-20")}>
                       Exam
                     </th>
-                    <th scope="col" className={cn(TH_CLS, "text-left px-4 py-3 w-20")}>
+                    <th scope="col" className={cn(TH_CLS, HIDE_BELOW.lg, "text-left px-4 py-3 w-20")}>
                       Year
                     </th>
-                    <th scope="col" className={cn(TH_CLS, "text-left px-4 py-3 w-20")}>
+                    <th scope="col" className={cn(TH_CLS, HIDE_BELOW.sm, "text-left px-4 py-3 w-20")}>
                       Difficulty
                     </th>
-                    <th scope="col" className={cn(TH_CLS, "text-right px-4 py-3 w-24")}>
+                    <th scope="col" className={cn(TH_CLS, "text-right px-3 py-3 w-20 sm:px-4 sm:w-24")}>
                       Action
                     </th>
                   </tr>
@@ -595,7 +613,7 @@ function AdminQuestionsPageInner() {
                 <tbody className="divide-y divide-border-strong">
                   {questions.map((q) => (
                     <tr key={q.id} className="hover:bg-secondary/30">
-                      <td className="px-4 py-3">
+                      <td className="py-3 pl-3 pr-1 align-top sm:px-4 sm:align-middle">
                         <input
                           type="checkbox"
                           checked={selected.has(q.id)}
@@ -604,31 +622,36 @@ function AdminQuestionsPageInner() {
                           className="h-4 w-4 rounded border-border accent-primary"
                         />
                       </td>
-                      <td className="px-4 py-3">
-                        <p className="text-foreground truncate max-w-md">{q.questionText}</p>
+                      <td className="px-3 py-3 sm:px-4">
+                        <p className="text-foreground line-clamp-2 break-words lg:line-clamp-none lg:truncate lg:max-w-md">
+                          {q.questionText}
+                        </p>
                         {q.topic && <p className="text-xs text-muted mt-0.5">{q.topic.title}</p>}
+                        {/* The columns hidden on a narrow screen, folded in here. */}
+                        <div className="mt-1.5 flex flex-wrap items-center gap-1.5 text-xs text-muted lg:hidden">
+                          <span className={cn(SHOW_BELOW.md, "font-medium px-2 py-0.5 rounded bg-primary/10 text-primary")}>
+                            {q.subject.code}
+                          </span>
+                          <span className={SHOW_BELOW.sm}>
+                            <DifficultyPill difficulty={q.difficulty} />
+                          </span>
+                          <span className={SHOW_BELOW.md}>{q.examType}</span>
+                          {q.examYear ? <span className="tabular-nums">{q.examYear}</span> : null}
+                        </div>
                       </td>
-                      <td className="px-4 py-3">
+                      <td className={cn(HIDE_BELOW.md, "px-4 py-3")}>
                         <span className="text-xs font-medium px-2 py-0.5 rounded bg-primary/10 text-primary">
                           {q.subject.code}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-foreground">{q.examType}</td>
-                      <td className="px-4 py-3 text-foreground tabular-nums">{q.examYear || "—"}</td>
-                      <td className="px-4 py-3">
-                        <span
-                          className={`text-xs font-medium px-2 py-0.5 rounded ${
-                            q.difficulty === "BASIC"
-                              ? "bg-tone-green-soft text-tone-green-ink"
-                              : q.difficulty === "INTERMEDIATE"
-                                ? "bg-tone-amber-soft text-tone-amber-ink"
-                                : "bg-tone-red-soft text-tone-red-ink"
-                          }`}
-                        >
-                          {q.difficulty}
-                        </span>
+                      <td className={cn(HIDE_BELOW.md, "px-4 py-3 text-foreground")}>{q.examType}</td>
+                      <td className={cn(HIDE_BELOW.lg, "px-4 py-3 text-foreground tabular-nums")}>
+                        {q.examYear || "—"}
                       </td>
-                      <td className="px-4 py-3 text-right">
+                      <td className={cn(HIDE_BELOW.sm, "px-4 py-3")}>
+                        <DifficultyPill difficulty={q.difficulty} />
+                      </td>
+                      <td className="px-3 py-3 text-right align-top sm:px-4 sm:align-middle">
                         <div className="flex items-center justify-end gap-1">
                           <Link
                             href={`/admin/questions/${q.id}/edit`}

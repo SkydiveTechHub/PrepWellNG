@@ -55,7 +55,7 @@ export default async function AdminStudentDetailPage({
       title={fullName(student)}
       subtitle={student.email ?? student.phone ?? "No contact details"}
       actions={
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <Badge tone={tier.tone}>{tier.label}</Badge>
           <Badge tone={status.tone}>{status.label}</Badge>
         </div>
@@ -134,7 +134,7 @@ function Stat({
   return (
     <div className="rounded-lg border border-border-strong bg-card px-4 py-3">
       <dt className={HEADING_CLS}>{label}</dt>
-      <dd className="mt-1 text-lg font-bold tabular-nums text-foreground">
+      <dd className="mt-1 break-words text-lg font-bold tabular-nums text-foreground">
         {text ?? value}
       </dd>
     </div>

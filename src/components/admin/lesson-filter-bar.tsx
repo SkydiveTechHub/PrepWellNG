@@ -10,7 +10,7 @@ import {
 } from "@/lib/admin-lesson-browse";
 
 const SELECT_CLS =
-  "px-3 py-2 rounded-lg border border-border bg-card text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60";
+  "w-full min-w-0 px-3 py-2 rounded-lg border border-border bg-card text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60";
 const LABEL_CLS = "text-[11px] font-semibold uppercase tracking-wider text-muted";
 
 interface Props {
@@ -40,8 +40,8 @@ export function LessonFilterBar({ subjects, filter, classLevels, terms }: Props)
   const subjectOptions = subjectsForTrack(subjects, filter.track);
 
   return (
-    <div className="mb-4 flex flex-wrap items-end gap-3 rounded-lg border border-border-strong bg-card p-4">
-      <div className="flex flex-col gap-1">
+    <div className="mb-4 grid grid-cols-2 items-end gap-3 rounded-lg border border-border-strong bg-card p-4 sm:flex sm:flex-wrap">
+      <div className="flex min-w-0 flex-col gap-1">
         <label htmlFor="track-filter" className={LABEL_CLS}>
           Track
         </label>
@@ -60,7 +60,7 @@ export function LessonFilterBar({ subjects, filter, classLevels, terms }: Props)
         </select>
       </div>
 
-      <div className="flex flex-col gap-1">
+      <div className="flex min-w-0 flex-col gap-1">
         <label htmlFor="subject-filter" className={LABEL_CLS}>
           Subject
         </label>
@@ -79,7 +79,7 @@ export function LessonFilterBar({ subjects, filter, classLevels, terms }: Props)
         </select>
       </div>
 
-      <div className="flex flex-col gap-1">
+      <div className="flex min-w-0 flex-col gap-1">
         <label htmlFor="class-filter" className={LABEL_CLS}>
           Class
         </label>
@@ -105,7 +105,7 @@ export function LessonFilterBar({ subjects, filter, classLevels, terms }: Props)
         </select>
       </div>
 
-      <div className="flex flex-col gap-1">
+      <div className="flex min-w-0 flex-col gap-1">
         <label htmlFor="term-filter" className={LABEL_CLS}>
           Term
         </label>

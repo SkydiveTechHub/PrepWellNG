@@ -235,8 +235,10 @@ export function LessonUploadForm({
         : `A new lesson with ${parsed?.blocks.length ?? 0} block${(parsed?.blocks.length ?? 0) === 1 ? "" : "s"} will be created.`;
 
   return (
+    // min-w-0 on both columns: grid items default to their content's minimum
+    // width, so a long code line in the preview would push past the screen.
     <div className="grid gap-8 lg:grid-cols-2">
-      <div className="space-y-6">
+      <div className="min-w-0 space-y-6">
         {result && (
           <StatusBanner
             tone={result.ok ? "success" : "error"}
@@ -371,7 +373,7 @@ export function LessonUploadForm({
           />
         )}
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <Button variant="primary" onClick={() => setConfirming(true)} disabled={!canSave}>
             {submitting ? "Saving…" : "Save lesson"}
           </Button>
@@ -381,7 +383,7 @@ export function LessonUploadForm({
         </div>
       </div>
 
-      <div className="space-y-4">
+      <div className="min-w-0 space-y-4">
         {parsed?.meta.docInfo && Object.keys(parsed.meta.docInfo).length > 0 && (
           <div className="rounded-lg border border-border bg-card p-4">
             <p className="text-xs font-semibold uppercase tracking-wide text-muted">
@@ -389,9 +391,9 @@ export function LessonUploadForm({
             </p>
             <dl className="mt-2 space-y-1">
               {Object.entries(parsed.meta.docInfo).map(([key, value]) => (
-                <div key={key} className="flex gap-2 text-sm">
+                <div key={key} className="flex flex-wrap gap-x-2 text-sm">
                   <dt className="font-semibold text-foreground shrink-0">{key}:</dt>
-                  <dd className="text-foreground/90">{value}</dd>
+                  <dd className="min-w-0 break-words text-foreground/90">{value}</dd>
                 </div>
               ))}
             </dl>
@@ -403,7 +405,7 @@ export function LessonUploadForm({
         <p className="text-sm font-semibold text-foreground">
           Preview — exactly what students will read
         </p>
-        <div className="rounded-lg border border-border-strong bg-card p-5">
+        <div className="rounded-lg border border-border-strong bg-card p-4 sm:p-5">
           {parsed && parsed.blocks.length > 0 ? (
             <LessonNotes blocks={parsed.blocks} fallbackContent={null} />
           ) : (

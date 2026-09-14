@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { StatusBanner } from "@/components/admin/status-banner";
+import { HIDE_BELOW, SHOW_BELOW } from "@/components/admin/admin-table";
+import { cn } from "@/lib/utils";
 
 export type TeamAdmin = {
   id: string;
@@ -14,7 +16,7 @@ export type TeamAdmin = {
 };
 
 const label = (a: TeamAdmin) => a.email ?? a.username ?? a.id;
-const CELL = "px-4 py-2.5 text-sm";
+const CELL = "px-3 py-2.5 text-sm sm:px-4";
 
 export function AdminTeamManager({
   initialAdmins,
@@ -109,7 +111,7 @@ export function AdminTeamManager({
         onSubmit={handleCreate}
         className="flex flex-col gap-3 rounded-lg border border-border-strong bg-card p-4 sm:flex-row sm:items-end"
       >
-        <label className="flex-1">
+        <label className="min-w-0 flex-1">
           <span className="mb-1.5 block text-[11px] font-semibold uppercase tracking-wider text-muted">
             Email or username
           </span>
@@ -122,7 +124,7 @@ export function AdminTeamManager({
           />
         </label>
 
-        <label className="flex-1">
+        <label className="min-w-0 flex-1">
           <span className="mb-1.5 block text-[11px] font-semibold uppercase tracking-wider text-muted">
             Password
           </span>
@@ -145,42 +147,54 @@ export function AdminTeamManager({
         </button>
       </form>
 
-      <div className="overflow-hidden rounded-lg border border-border-strong bg-card">
+      <div className="overflow-x-auto rounded-lg border border-border-strong bg-card">
         <table className="w-full">
           <caption className="sr-only">Admin accounts</caption>
           <thead>
             <tr className="border-b border-border-strong text-[11px] font-semibold uppercase tracking-wider text-muted">
-              <th scope="col" className="px-4 py-2.5 text-left">Admin</th>
-              <th scope="col" className="px-4 py-2.5 text-left">Status</th>
-              <th scope="col" className="px-4 py-2.5 text-left">Last login</th>
-              <th scope="col" className="px-4 py-2.5 text-right">Actions</th>
+              <th scope="col" className="px-3 py-2.5 text-left sm:px-4">Admin</th>
+              <th scope="col" className={cn(HIDE_BELOW.sm, "px-4 py-2.5 text-left")}>Status</th>
+              <th scope="col" className={cn(HIDE_BELOW.md, "px-4 py-2.5 text-left")}>Last login</th>
+              <th scope="col" className="px-3 py-2.5 text-right sm:px-4">Actions</th>
             </tr>
           </thead>
           <tbody>
             {admins.map((admin) => (
               <tr key={admin.id} className="border-b border-border-strong last:border-0">
                 <td className={CELL}>
-                  <span className="font-medium text-foreground">{label(admin)}</span>
-                  {admin.isOwner && (
-                    <span className="ml-2 rounded bg-secondary px-1.5 py-0.5 text-[10px] font-semibold uppercase text-muted">
-                      Owner
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                    <span className="break-all font-medium text-foreground">{label(admin)}</span>
+                    {admin.isOwner && (
+                      <span className="rounded bg-secondary px-1.5 py-0.5 text-[10px] font-semibold uppercase text-muted">
+                        Owner
+                      </span>
+                    )}
+                    {admin.id === currentAdminId && (
+                      <span className="text-xs text-muted">(you)</span>
+                    )}
+                  </div>
+                  <p className={cn(SHOW_BELOW.md, "mt-0.5 text-xs text-muted")}>
+                    <span className={cn(SHOW_BELOW.sm, admin.isActive ? "text-success" : "text-muted")}>
+                      {admin.isActive ? "Active" : "Deactivated"}
+                      {" · "}
                     </span>
-                  )}
-                  {admin.id === currentAdminId && (
-                    <span className="ml-2 text-xs text-muted">(you)</span>
-                  )}
+                    Last login{" "}
+                    {admin.lastLoginAt
+                      ? new Date(admin.lastLoginAt).toLocaleDateString()
+                      : "never"}
+                  </p>
                 </td>
-                <td className={CELL}>
+                <td className={cn(HIDE_BELOW.sm, CELL)}>
                   <span className={admin.isActive ? "text-success" : "text-muted"}>
                     {admin.isActive ? "Active" : "Deactivated"}
                   </span>
                 </td>
-                <td className={`${CELL} text-muted`}>
+                <td className={cn(HIDE_BELOW.md, CELL, "text-muted")}>
                   {admin.lastLoginAt
                     ? new Date(admin.lastLoginAt).toLocaleDateString()
                     : "Never"}
                 </td>
-                <td className={`${CELL} text-right`}>
+                <td className={cn(CELL, "text-right align-top sm:align-middle")}>
                   {/* The owner row carries no control. The route refuses it too. */}
                   {admin.isOwner ? (
                     <span className="text-xs text-muted">—</span>
@@ -189,7 +203,7 @@ export function AdminTeamManager({
                       type="button"
                       disabled={busy}
                       onClick={() => toggleActive(admin)}
-                      className="rounded-lg border border-border-strong px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-secondary disabled:opacity-60"
+                      className="whitespace-nowrap rounded-lg border border-border-strong px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-secondary disabled:opacity-60"
                     >
                       {admin.isActive ? "Deactivate" : "Reactivate"}
                     </button>
