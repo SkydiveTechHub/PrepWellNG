@@ -7,6 +7,7 @@ import { AvatarUpload } from "@/components/settings/avatar-upload";
 import { ProfileForm } from "@/components/settings/profile-form";
 import { AcademicForm } from "@/components/settings/academic-form";
 import { PasswordForm } from "@/components/settings/password-form";
+import { DevicesSection } from "@/components/settings/devices-section";
 import { PageHeader } from "@/components/ui/page-header";
 
 export const metadata: Metadata = {
@@ -31,6 +32,11 @@ export default async function SettingsPage() {
 
       <div className="space-y-5 max-w-2xl">
         <SubscriptionSection userId={session.user.id} />
+
+        <DevicesSection
+          userId={session.user.id}
+          currentDeviceId={(session.user as { deviceId?: string }).deviceId}
+        />
 
         <AvatarUpload
           image={user.image}

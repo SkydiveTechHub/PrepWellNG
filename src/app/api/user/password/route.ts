@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import { changeUserPassword } from "@/lib/user-account";
 import { changePasswordSchema } from "@/lib/validators";
 import { rateLimit, tooManyRequests } from "@/lib/rate-limit";
+import { revokeOtherDevices } from "@/lib/devices";
 
 export const dynamic = "force-dynamic";
 
@@ -53,6 +54,13 @@ export async function POST(req: NextRequest) {
         { status: 400 },
       );
     }
+
+    // Whoever else knew the old password should not stay signed in with it.
+    // The password is already changed; a failure here is logged, not reported.
+    await revokeOtherDevices(
+      session.user.id,
+      (session.user as { deviceId?: string }).deviceId,
+    ).catch((error) => console.error("Revoking other devices failed:", error));
 
     return NextResponse.json({ message: "Password changed" });
   } catch (error) {
