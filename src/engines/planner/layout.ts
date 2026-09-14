@@ -41,6 +41,8 @@ export type LayoutInput = {
   pretestPassed: ReadonlySet<string>;
   revisionDue: readonly RevisionDue[];
   fixed: readonly FixedItem[];
+  /** Runway mocks already COMPLETED or SKIPPED, in planned order; a re-plan drops that many. */
+  mocksTaken: number;
 };
 
 export const GAP_FILL_SHARE = 0.2;
@@ -63,6 +65,8 @@ type Queue = {
   units: Unit[];
   lessonsLeft: number;
   lastLessonDate: DayKey | null;
+  /** Date its most recently placed unit landed on — used to gate dependents, including exam queues. */
+  placedOn: DayKey | null;
   started: boolean;
 };
 
@@ -150,7 +154,7 @@ export function layoutWindow(input: LayoutInput): {
       ...Array<Unit>(practice).fill("PRACTICE"),
     ];
     queues.set(id, {
-      candidate, exam, rank: rank++, units, lessonsLeft: lessons, lastLessonDate: null, started: false,
+      candidate, exam, rank: rank++, units, lessonsLeft: lessons, lastLessonDate: null, placedOn: null, started: false,
     });
   };
   for (const selection of input.selections) {
@@ -169,7 +173,11 @@ export function layoutWindow(input: LayoutInput): {
     for (const edge of incomingEdges(input.graph, queue.candidate.topic.id)) {
       if (edge.kind !== "PREREQUISITE") continue;
       const planned = queues.get(edge.from);
-      if (planned && !planned.exam) {
+      if (planned) {
+        if (planned.exam) {
+          if (planned.placedOn === null || planned.placedOn >= date) return false;
+          continue;
+        }
         if (planned.lessonsLeft > 0) return false;
         if (planned.lastLessonDate !== null && planned.lastLessonDate >= date) return false;
         continue;
@@ -195,11 +203,19 @@ export function layoutWindow(input: LayoutInput): {
   const weekUses = new Map<string, number>(); // `${monday}:${subjectId}`
   const usesOf = (date: DayKey, subjectId: string) => weekUses.get(`${mondayOf(date)}:${subjectId}`) ?? 0;
 
-  const catchUpDates = new Set(input.slots.filter((s) => s.catchUp).map((s) => s.date));
-  /** Missed work waits for the week's catch-up slot while one is still coming. */
+  // Computed from the post-fixed-items `days`, so a catch-up slot a fixed
+  // session has consumed no longer holds carry-over hostage all week.
+  const catchUpWeeks = new Set<DayKey>();
+  for (const [date, daySlots] of days) {
+    if (daySlots.some((s) => s.catchUp)) catchUpWeeks.add(mondayOf(date));
+  }
+  /** Weeks whose catch-up slot has already been processed (whatever it did). */
+  const catchUpHandled = new Set<DayKey>();
+  /** Missed work waits for the week's catch-up slot while one is still coming this week. */
   const catchUpAhead = (slot: Slot) =>
     !slot.catchUp &&
-    [...catchUpDates].some((d) => d >= slot.date && mondayOf(d) === mondayOf(slot.date));
+    catchUpWeeks.has(mondayOf(slot.date)) &&
+    !catchUpHandled.has(mondayOf(slot.date));
 
   const pickTopic = (slot: Slot, exam: boolean, only?: TopicCandidate["reason"]): Queue | null => {
     const options = [...queues.values()].filter(
@@ -245,7 +261,13 @@ export function layoutWindow(input: LayoutInput): {
   };
 
   const weekRevisions = new Map<DayKey, number>();
-  const weekSlots = new Map<DayKey, number>();
+  /** Full (non-short) slots per week, from `days` — fixed, not a running count. */
+  const weekFullSlots = new Map<DayKey, number>();
+  for (const [date, daySlots] of days) {
+    const week = mondayOf(date);
+    const full = daySlots.filter((s) => !s.short).length;
+    weekFullSlots.set(week, (weekFullSlots.get(week) ?? 0) + full);
+  }
 
   const placeRevision = (slot: Slot, entry: PoolEntry) => {
     const week = mondayOf(slot.date);
@@ -259,6 +281,7 @@ export function layoutWindow(input: LayoutInput): {
     const unit = queue.units.shift() as Unit;
     const t = queue.candidate.topic;
     queue.started = true;
+    queue.placedOn = slot.date;
     if (queue.candidate.reason === "GAP_FILL") gapMinutesLeft -= slot.minutes;
     const key = `${mondayOf(slot.date)}:${t.subjectId}`;
     weekUses.set(key, (weekUses.get(key) ?? 0) + 1);
@@ -300,7 +323,7 @@ export function layoutWindow(input: LayoutInput): {
   const pendingMocks: DayKey[] = [];
   if (input.mode !== "TERM" && input.runwayStart && input.targetDate) {
     const runwayLength = daysBetween(input.runwayStart, input.targetDate) + 1;
-    for (let i = 0; i < MOCK_COUNT; i++) {
+    for (let i = input.mocksTaken; i < MOCK_COUNT; i++) {
       pendingMocks.push(addDays(input.runwayStart, Math.floor((runwayLength * i) / MOCK_COUNT)));
     }
   }
@@ -331,7 +354,7 @@ export function layoutWindow(input: LayoutInput): {
     }
     const week = mondayOf(slot.date);
     const revisionsSoFar = weekRevisions.get(week) ?? 0;
-    if (revisionsSoFar + 1 <= (weekSlots.get(week) ?? 0) * REVISION_SHARE) {
+    if (revisionsSoFar + 1 <= (weekFullSlots.get(week) ?? 0) * REVISION_SHARE) {
       const entry = takeRevision(slot.date);
       if (entry) {
         placeRevision(slot, entry);
@@ -348,7 +371,8 @@ export function layoutWindow(input: LayoutInput): {
     if (daySlots.length === 0) continue;
 
     if (inRunway(date)) {
-      if (pendingMocks.length > 0 && pendingMocks[0] <= date) {
+      const hasFullSlot = daySlots.some((s) => !s.short);
+      if (pendingMocks.length > 0 && pendingMocks[0] <= date && hasFullSlot) {
         pendingMocks.shift();
         const minutes = Math.min(MOCK_MINUTES_CAP, daySlots.reduce((n, s) => n + s.minutes, 0));
         const subjectId = input.subjectIds[0];
@@ -376,9 +400,11 @@ export function layoutWindow(input: LayoutInput): {
         continue;
       }
       const week = mondayOf(date);
-      weekSlots.set(week, (weekSlots.get(week) ?? 0) + 1);
 
       if (slot.catchUp) {
+        // The week's catch-up slot is "handled" the moment it's reached,
+        // whatever it does with it — carry-over stops being held after this.
+        catchUpHandled.add(week);
         const carried = pickTopic(slot, false, "CARRY_OVER");
         if (carried) {
           placeUnit(slot, carried);

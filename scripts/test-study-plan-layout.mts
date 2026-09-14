@@ -34,13 +34,15 @@ function states(entries: Record<string, number>): TopicStateMap {
   return new Map(Object.entries(entries).map(([id, mastery]) => [id, { topicId: id, mastery } as unknown as TopicState]));
 }
 
-function layout(overrides: Partial<LayoutInput> & { availability?: Availability; days?: number } = {}) {
-  const { availability = EVERY_DAY_30, days = 14, ...rest } = overrides;
+function layout(
+  overrides: Partial<LayoutInput> & { availability?: Availability; days?: number; start?: string } = {},
+) {
+  const { availability = EVERY_DAY_30, days = 14, start = START, ...rest } = overrides;
   const selections = rest.selections ?? [];
   const topics = selections.flatMap((s) => s.candidates.map((c) => c.topic));
   return layoutWindow({
     mode: "TERM",
-    slots: buildSlots(START, days, availability),
+    slots: buildSlots(start, days, availability),
     targetDate: null,
     runwayStart: null,
     selections,
@@ -52,6 +54,7 @@ function layout(overrides: Partial<LayoutInput> & { availability?: Availability;
     pretestPassed: new Set(),
     revisionDue: [],
     fixed: [],
+    mocksTaken: 0,
     ...rest,
   });
 }
@@ -194,4 +197,78 @@ test("too much work for the time reports overload instead of cramming", () => {
 test("preview topics never cause overload", () => {
   const previews = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => cand(topic(`p${n}`, { orderIndex: n, estimatedMinutes: 60 }), "PREVIEW"));
   assert.equal(layout({ selections: [selection("maths", previews)] }).overload, null);
+});
+
+// ── Fix round 1 ──────────────────────────────────────────────
+
+test("carry-over runs beyond its week's catch-up slot, not held all week", () => {
+  const availability: Availability = { studyDays: [1, 2, 3, 4, 5, 6, 7], weekdayMinutes: 60, weekendMinutes: 60 };
+  const missed = topic("missed");
+  const current = topic("current", { orderIndex: 1 });
+  const { items, overload } = layout({
+    availability,
+    selections: [selection("maths", [cand(missed, "CARRY_OVER", "2026-09-10"), cand(current)])],
+  });
+  const missedItems = items.filter((i) => i.topicId === "missed");
+  assert.equal(of(missedItems, "LESSON").length, 1);
+  assert.equal(of(missedItems, "PRACTICE").length, 2);
+  assert.equal(overload, null);
+});
+
+test("mocksTaken drops the already-placed runway mocks on a re-plan", () => {
+  const availability: Availability = { studyDays: [1, 2, 3, 4, 5, 6, 7], weekdayMinutes: 60, weekendMinutes: 60 };
+  const build = (mocksTaken: number) =>
+    layout({
+      mode: "BLENDED",
+      start: "2027-02-13",
+      availability,
+      targetDate: "2027-03-01",
+      runwayStart: "2027-02-10",
+      selections: [selection("maths", [cand(topic("t1"))])],
+      subjectIds: ["maths"],
+      mocksTaken,
+    });
+
+  const one = build(1);
+  const mocksOne = of(one.items, "MOCK_EXAM");
+  assert.equal(mocksOne.length, 1);
+  assert.ok(mocksOne[0].date >= "2027-02-20", mocksOne[0]?.date);
+
+  const two = build(2);
+  assert.equal(of(two.items, "MOCK_EXAM").length, 0);
+});
+
+test("a chained exam prerequisite waits for its dependency's practice", () => {
+  const a = topic("a");
+  const b = topic("b", { orderIndex: 1 });
+  const edge: GraphEdge = { id: "a->b", from: "a", to: "b", kind: "PREREQUISITE", strength: 1, rationale: null };
+  const { items } = layout({
+    mode: "EXAM",
+    targetDate: "2027-03-01",
+    runwayStart: "2027-02-10",
+    examCandidates: [cand(a, "EXAM"), cand(b, "EXAM")],
+    subjectIds: ["maths"],
+    graph: buildGraph([a, b], [edge]),
+  });
+  const placedA = items.find((i) => i.topicId === "a");
+  const placedB = items.find((i) => i.topicId === "b");
+  assert.ok(placedA, "a should be placed");
+  assert.ok(placedB, "b should be placed");
+  assert.ok(placedB!.date > placedA!.date);
+});
+
+test("a runway mock is not placed on a day whose only free slot is short", () => {
+  const availability: Availability = { studyDays: [1, 2, 3, 4, 5, 6, 7], weekdayMinutes: 15, weekendMinutes: 15 };
+  const { items } = layout({
+    mode: "BLENDED",
+    availability,
+    targetDate: "2026-09-27",
+    runwayStart: "2026-09-14",
+    selections: [selection("maths", [cand(topic("t1"))])],
+    subjectIds: ["maths"],
+  });
+  const mocks = of(items, "MOCK_EXAM");
+  // Every day only has a single 15-minute short slot, so no day has a full
+  // slot to host a mock — none should be scheduled at all.
+  assert.equal(mocks.length, 0);
 });
