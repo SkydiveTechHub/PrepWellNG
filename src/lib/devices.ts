@@ -6,7 +6,10 @@ import { DEVICE_LIMIT, devicesToRevoke } from "./device-limit";
  * the least recently used devices past DEVICE_LIMIT.
  *
  * One transaction, with the user row locked, so two simultaneous sign-ins
- * cannot both read "one other device" and both survive. The generous waits are
+ * cannot both read "one other device" and both survive. `FOR NO KEY UPDATE`
+ * still serializes registerDevice per user, but unlike `FOR UPDATE` it doesn't
+ * block the foreign-key checks and unrelated writes that only need
+ * `FOR KEY SHARE` on the User row. The generous waits are
  * for the Supabase pooler, which can take many seconds to hand out a connection.
  */
 export async function registerDevice(args: {
@@ -16,7 +19,7 @@ export async function registerDevice(args: {
 }): Promise<string> {
   return db.$transaction(
     async (tx) => {
-      await tx.$queryRaw`SELECT 1 FROM "User" WHERE "id" = ${args.userId} FOR UPDATE`;
+      await tx.$queryRaw`SELECT 1 FROM "User" WHERE "id" = ${args.userId} FOR NO KEY UPDATE`;
 
       const device = await tx.userDevice.create({
         data: { userId: args.userId, label: args.label },

@@ -1,7 +1,7 @@
 // Checks the device limit against the real database.
 //   npx tsx scripts/verify-device-limit.mts <paidUserId> <freemiumUserId>
-// Revokes every device of both users at the end, which signs them out
-// everywhere. Use test accounts only.
+// Revokes every device of both users at the start and at the end, which signs
+// them out everywhere. Use test accounts only.
 import assert from "node:assert/strict";
 import { db } from "../src/lib/db";
 import { listActiveDevices, registerDevice, revokeOtherDevices } from "../src/lib/devices";
