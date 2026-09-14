@@ -133,6 +133,12 @@ enum PlanItemStatus {
   PENDING
   COMPLETED
   SKIPPED
+  MISSED
+}
+
+enum PlanCompletionSource {
+  AUTO
+  MANUAL
 }
 
 enum TrackCategory {
@@ -345,6 +351,7 @@ model Subject {
   progress         StudentProgress[]
   metrics          PerformanceMetric[]
   studyPlanItems   StudyPlanItem[]
+  studyPlanPositions StudyPlanPosition[]
   resources        SubjectResource[]
   flashcardDecks   FlashcardDeck[]
   providerCatalogue ProviderCatalogue[]
@@ -416,6 +423,7 @@ model Topic {
   progress       StudentProgress[]
   metrics        PerformanceMetric[]
   studyPlanItems StudyPlanItem[]
+  studyPlanPositions StudyPlanPosition[]
   flashcardDecks FlashcardDeck[]
 
   // Learning Path Engine (see docs/superpowers/specs/2026-08-02-learning-path-engine-design.md)
@@ -741,16 +749,27 @@ model TopicMastery {
 // ─── Study Planning ───────────────────────────────────────
 
 model StudyPlan {
-  id              String   @id @default(cuid())
+  id              String    @id @default(cuid())
   studentId       String
-  student         User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  targetExam      ExamType
-  targetDate      DateTime
+  student         User      @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  targetExam      ExamType?
+  targetDate      DateTime?
   subjectIds      Json // String[] of subject IDs
-  dailyStudyHours Float    @default(2)
-  isActive        Boolean  @default(true)
+  forceExamMode   Boolean   @default(false)
+  /// ISO weekdays, 1 = Monday … 7 = Sunday.
+  studyDays       Int[]     @default([1, 2, 3, 4, 5, 6, 7])
+  weekdayMinutes  Int       @default(60)
+  weekendMinutes  Int       @default(60)
+  plannedThrough  DateTime? @db.Date
+  lastReplannedAt DateTime?
+  /// OutlineWeek[] written at re-plan time.
+  outline         Json?
+  /// Overload | null written at re-plan time.
+  overload        Json?
+  isActive        Boolean   @default(true)
 
-  items StudyPlanItem[]
+  items     StudyPlanItem[]
+  positions StudyPlanPosition[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -759,21 +778,52 @@ model StudyPlan {
 }
 
 model StudyPlanItem {
-  id              String           @id @default(cuid())
-  studyPlanId     String
-  studyPlan       StudyPlan        @relation(fields: [studyPlanId], references: [id], onDelete: Cascade)
-  scheduledDate   DateTime         @db.Date
-  subjectId       String
-  subject         Subject          @relation(fields: [subjectId], references: [id])
-  topicId         String?
-  topic           Topic?           @relation(fields: [topicId], references: [id])
-  activityType    PlanItemActivity
-  durationMinutes Int
-  status          PlanItemStatus   @default(PENDING)
-  notes           String?
+  id               String                @id @default(cuid())
+  studyPlanId      String
+  studyPlan        StudyPlan             @relation(fields: [studyPlanId], references: [id], onDelete: Cascade)
+  scheduledDate    DateTime              @db.Date
+  subjectId        String
+  subject          Subject               @relation(fields: [subjectId], references: [id])
+  topicId          String?
+  topic            Topic?                @relation(fields: [topicId], references: [id])
+  activityType     PlanItemActivity
+  durationMinutes  Int
+  status           PlanItemStatus        @default(PENDING)
+  notes            String?
+  completedAt      DateTime?
+  completionSource PlanCompletionSource?
+  carriedFromDate  DateTime?             @db.Date
 
   @@index([studyPlanId, scheduledDate])
   @@index([studyPlanId, status])
+  @@index([studyPlanId, scheduledDate, status])
+}
+
+/// "My class is on topic X" — one row per subject overrides the calendar guess.
+model StudyPlanPosition {
+  id          String    @id @default(cuid())
+  studyPlanId String
+  studyPlan   StudyPlan @relation(fields: [studyPlanId], references: [id], onDelete: Cascade)
+  subjectId   String
+  subject     Subject   @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  topicId     String
+  topic       Topic     @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([studyPlanId, subjectId])
+}
+
+/// The app-wide school calendar, managed by admins.
+model AcademicTerm {
+  id        String   @id @default(cuid())
+  session   String
+  term      Term
+  startsOn  DateTime @db.Date
+  endsOn    DateTime @db.Date
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([session, term])
 }
 
 // ─── Gamification ─────────────────────────────────────────
