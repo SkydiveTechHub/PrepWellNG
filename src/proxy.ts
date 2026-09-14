@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 import { classifyAdminPath, ADMIN_SESSION_COOKIE } from "@/lib/admin-route";
 import { isPublicPath } from "@/lib/public-routes";
-import { getSessionToken, sessionCookieName } from "@/lib/session-token";
+import { getSessionToken, deleteSessionCookies } from "@/lib/session-token";
 import { revokedTokenAction, studentTokenState } from "@/lib/device-limit";
 
 const AUTH_ROUTES = ["/login", "/register"];
@@ -69,17 +69,7 @@ export default async function proxy(req: NextRequest) {
         : action === "redirect-with-reason"
           ? NextResponse.redirect(new URL("/login?reason=device", req.url))
           : NextResponse.next();
-    // Delete the base cookie and any Auth.js chunk cookies
-    // (`<name>.0`, `.1`, ...) it may have split into for a large token —
-    // deleting only the base name would leave a stale chunk to be read back
-    // as a session on the next request. See getToken/SessionStore in
-    // node_modules/@auth/core/lib/utils/cookie.js.
-    const cookieName = sessionCookieName(req.url);
-    for (const cookie of req.cookies.getAll()) {
-      if (cookie.name === cookieName || cookie.name.startsWith(`${cookieName}.`)) {
-        res.cookies.delete(cookie.name);
-      }
-    }
+    deleteSessionCookies(req, res);
     return res;
   }
 
