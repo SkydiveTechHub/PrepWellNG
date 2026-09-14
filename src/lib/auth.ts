@@ -5,10 +5,19 @@ import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { db } from "./db";
 import { z } from "zod";
+import { headers } from "next/headers";
+import type { JWT } from "next-auth/jwt";
 import { isSessionRevoked, sessionStartedAt } from "@/lib/account-status";
 import { resolveTier } from "@/lib/billing/entitlement";
 import type { SubscriptionTier } from "@/lib/subscription";
 import { checkLoginRateLimit } from "@/lib/login-rate-limit";
+import {
+  deviceLabel,
+  deviceState,
+  isDeviceLimited,
+  shouldTouchLastSeen,
+} from "@/lib/device-limit";
+import { registerDevice, touchDevice } from "@/lib/devices";
 
 /** Surfaces to the client as `result.code === "rate_limited"`. */
 class LoginRateLimited extends CredentialsSignin {
@@ -56,6 +65,28 @@ const PROFILE_SELECT = {
     select: { tier: true, status: true, startsAt: true, endsAt: true },
   },
 } as const;
+
+// The token's own device row rides along on the profile read, so checking it
+// costs no extra round trip. An absent deviceId matches no row, and
+// deviceState() treats that token as untracked rather than revoked.
+function profileSelect(deviceId: string | undefined) {
+  return {
+    ...PROFILE_SELECT,
+    devices: {
+      where: { id: deviceId ?? "" },
+      select: { revokedAt: true, lastSeenAt: true },
+    },
+  } as const;
+}
+
+/** The signing-in request's user agent. Outside a request scope there is none. */
+async function requestUserAgent(): Promise<string | null> {
+  try {
+    return (await headers()).get("user-agent");
+  } catch {
+    return null;
+  }
+}
 
 // The session.user shape the callbacks extend — structural so it doesn't rely
 // on next-auth's exact type export surface across beta versions.
@@ -161,6 +192,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         session.user.id = token.sub;
         const cached = (token as { profile?: CachedProfile }).profile;
         if (cached) applyProfile(session.user, cached);
+        (session.user as SessionUser & { deviceId?: string }).deviceId = (
+          token as { deviceId?: string }
+        ).deviceId;
       }
       return session;
     },
@@ -178,8 +212,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         profile?: CachedProfile;
         profileAt?: number;
         sessionStartedAt?: number;
+        deviceId?: string;
+        deviceRevoked?: boolean;
       };
       const isSignIn = Boolean(user);
+
+      // Stays revoked until proxy.ts clears the cookie. A fresh sign-in mints
+      // a new token, so it never arrives here carrying the flag.
+      if (cache.deviceRevoked && !isSignIn) return token;
 
       if (isSignIn && user?.id) token.sub = user.id;
       if (!token.sub) return token;
@@ -192,7 +232,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       try {
         const profile = await db.user.findUnique({
           where: { id: token.sub },
-          select: PROFILE_SELECT,
+          select: profileSelect(cache.deviceId),
         });
         // A user row that no longer exists has no session. `findUnique`
         // returning null is authoritative here: a database outage THROWS and
@@ -216,6 +256,19 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         if (isSessionRevoked(profile, startedAt)) {
           return null;
+        }
+
+        // Signed out from Settings, or displaced by a newer sign-in past the
+        // device limit. Not `null`: the stripped token is how proxy.ts learns
+        // why, so the login page can say so. Suspension above stays `null`.
+        const device = profile.devices[0];
+        const state = deviceState(cache.deviceId, device);
+        if (!isSignIn && state === "revoked") {
+          return { deviceRevoked: true } as JWT;
+        }
+        if (state === "active" && device && shouldTouchLastSeen(device.lastSeenAt, new Date())) {
+          // Fire-and-forget like the tier refresh below.
+          touchDevice(cache.deviceId!).catch(() => {});
         }
 
         // User.tier is a cache of what the subscription rows grant. Refresh it
@@ -257,6 +310,20 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           tier: resolved.tier,
         };
         cache.profileAt = Date.now();
+
+        if (isSignIn) {
+          try {
+            cache.deviceId = await registerDevice({
+              userId: token.sub,
+              label: deviceLabel(await requestUserAgent()),
+              limited: isDeviceLimited(resolved.tier),
+            });
+          } catch {
+            // A failed registration must not fail the sign-in. The token is
+            // then untracked, like one minted before this feature, and the
+            // next sign-in registers it.
+          }
+        }
       } catch {
         // Keep whatever is cached rather than throwing a JWTSessionError, which
         // would take the whole request down. Retried on the next expiry check.
