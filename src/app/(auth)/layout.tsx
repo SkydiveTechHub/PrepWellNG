@@ -2,6 +2,7 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 import { LuCheck, LuSparkles, LuClipboardCheck, LuCalendarClock } from "react-icons/lu";
 import { auth } from "@/lib/auth";
+import { isDeviceRevokedSession } from "@/lib/device-limit";
 import { NOINDEX } from "@/lib/seo/metadata";
 import { siteName } from "@/lib/seo/site";
 
@@ -32,8 +33,12 @@ export default async function AuthLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Signed-in users belong on the dashboard, not the login screen.
+  // Signed-in users belong on the dashboard, not the login screen. This is the
+  // authoritative check: proxy.ts lets /login and /register through.
   const session = await auth();
+  // Signed out elsewhere: /signed-out deletes the cookie and comes back to
+  // /login?reason=device.
+  if (isDeviceRevokedSession(session)) redirect("/signed-out");
   if (session?.user) redirect("/dashboard");
 
   return (

@@ -126,6 +126,11 @@ test("the about and contact pages are public", () => {
   assert.equal(isPublicPath("/contact"), true);
 });
 
+test("the terms page is public", () => {
+  // Linked from the register page, which a signed-out visitor is on.
+  assert.equal(isPublicPath("/terms"), true);
+});
+
 test("a path that merely starts with about or contact stays gated", () => {
   // These are exact entries, not prefixes: nothing should be able to hide a
   // gated tree behind "/contacts/..." or "/about-us/...".
@@ -147,6 +152,15 @@ test("the offline fallback is public", () => {
   // It is precached and shown precisely when the app cannot reach the server,
   // so it can never be behind a redirect that needs the server.
   assert.equal(isPublicPath("/offline"), true);
+});
+
+test("the signed-out cookie-clearing route is public", () => {
+  // A displaced device's token still decodes, and a missing one doesn't; the
+  // route has to be reachable either way to finish the sign-out.
+  assert.equal(isPublicPath("/signed-out"), true);
+  assert.equal(isPublicPath("/signed-out/"), true);
+  // Exact only.
+  assert.equal(isPublicPath("/signed-out/anything"), false);
 });
 
 test("opening the PWA surface did not open anything else", () => {

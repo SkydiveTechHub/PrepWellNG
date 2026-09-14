@@ -205,7 +205,7 @@ export default async function DashboardPage({
 
       {/* Stats */}
       <section>
-        <div className="mb-3 flex items-center justify-between">
+        <div className="mb-1 flex items-center justify-between">
           <h2 className="section-label">Your progress</h2>
           {hasActivity && accuracy !== null && (
             <span className="text-xs font-semibold text-muted">
@@ -213,6 +213,9 @@ export default async function DashboardPage({
             </span>
           )}
         </div>
+        <p className="mb-3 text-xs text-muted">
+          Built from every question answered on this account.
+        </p>
         <div className="grid grid-cols-2 gap-3 md:gap-4 lg:grid-cols-4">
           {STAT_CARDS.map((stat) => (
             <div

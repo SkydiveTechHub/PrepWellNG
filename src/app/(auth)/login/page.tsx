@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils";
 function LoginForm() {
   const searchParams = useSearchParams();
   const justRegistered = searchParams.get("registered") === "true";
+  const signedOutElsewhere = searchParams.get("reason") === "device";
   // Relative paths only — an absolute URL here is an open redirect.
   const requested = searchParams.get("callbackUrl");
   const callbackUrl =
@@ -88,6 +89,16 @@ function LoginForm() {
         <div className="mt-6 flex items-start gap-2 rounded-xl border border-success/25 bg-success-soft p-3.5 text-sm font-medium text-success animate-fade-in">
           <LuArrowRight className="mt-0.5 h-4 w-4 flex-shrink-0" />
           Account created! Sign in to get started.
+        </div>
+      )}
+
+      {signedOutElsewhere && (
+        <div
+          role="status"
+          className="mt-6 rounded-xl border border-primary/25 bg-primary-soft p-3.5 text-sm font-medium text-foreground animate-fade-in"
+        >
+          You were signed out because this account was signed in on another
+          device. If that wasn&apos;t you, change your password.
         </div>
       )}
 

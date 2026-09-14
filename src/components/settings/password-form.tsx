@@ -54,7 +54,7 @@ export function PasswordForm() {
         return;
       }
 
-      setSuccess("Password changed.");
+      setSuccess("Password changed. Your other devices have been signed out.");
       setForm({ currentPassword: "", newPassword: "", confirmPassword: "" });
     } catch {
       setError("Something went wrong. Please try again.");

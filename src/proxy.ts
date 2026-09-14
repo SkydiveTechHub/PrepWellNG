@@ -2,7 +2,8 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 import { classifyAdminPath, ADMIN_SESSION_COOKIE } from "@/lib/admin-route";
 import { isPublicPath } from "@/lib/public-routes";
-import { getSessionToken } from "@/lib/session-token";
+import { getSessionToken, deleteSessionCookies } from "@/lib/session-token";
+import { revokedTokenAction, studentTokenState } from "@/lib/device-limit";
 
 const AUTH_ROUTES = ["/login", "/register"];
 
@@ -54,16 +55,38 @@ export default async function proxy(req: NextRequest) {
   // had /login and /dashboard redirecting into each other in production.
   const token = await getSessionToken(req);
 
+  // A cookie already flagged `deviceRevoked`. In practice this rarely arrives:
+  // server components call auth(), which drops the Set-Cookie carrying the
+  // flagged token, so a displaced device usually keeps its old cookie and is
+  // caught by the layouts instead (they send it to /signed-out). Kept because
+  // it is harmless and correct if a flagged cookie ever does reach here.
+  if (studentTokenState(token) === "revoked") {
+    const action = revokedTokenAction({
+      pathname,
+      reason: req.nextUrl.searchParams.get("reason"),
+      isPublic: isPublicPath(pathname),
+    });
+    const res =
+      action === "unauthorized"
+        ? NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+        : action === "redirect-with-reason"
+          ? NextResponse.redirect(new URL("/login?reason=device", req.url))
+          : NextResponse.next();
+    deleteSessionCookies(req, res);
+    return res;
+  }
+
   // Signed-in users belong in the app, not on the marketing page.
   if (pathname === "/" && token) {
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
-  if (isAuthRoute(pathname)) {
-    return token
-      ? NextResponse.redirect(new URL("/dashboard", req.url))
-      : NextResponse.next();
-  }
+  // Always let /login and /register through. A token that merely decodes is
+  // not a session: a displaced device or a suspended student still has one,
+  // and redirecting them to /dashboard here looped against the dashboard
+  // layout's redirect to /login. src/app/(auth)/layout.tsx does the
+  // authoritative auth() check and sends real sessions to /dashboard.
+  if (isAuthRoute(pathname)) return NextResponse.next();
 
   if (token) return NextResponse.next();
 

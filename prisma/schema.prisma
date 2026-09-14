@@ -233,6 +233,7 @@ model User {
   suspendedReason String?
   /** Tokens issued before this instant are rejected. Powers force sign-out. */
   sessionsValidFrom DateTime?
+  devices         UserDevice[]
 
   // Relations
   progress     StudentProgress[]
@@ -286,6 +287,21 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+/// One signed-in browser. Its id rides on the student JWT as `deviceId`; the
+/// jwt callback's profile refresh rejects a token whose row is revoked. See
+/// src/lib/device-limit.ts.
+model UserDevice {
+  id         String    @id @default(cuid())
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  label      String
+  createdAt  DateTime  @default(now())
+  lastSeenAt DateTime  @default(now())
+  revokedAt  DateTime?
+
+  @@index([userId, revokedAt])
 }
 
 model VerificationToken {

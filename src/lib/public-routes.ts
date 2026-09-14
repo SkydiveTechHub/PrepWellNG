@@ -15,6 +15,7 @@ export const PUBLIC_EXACT_PATHS: readonly string[] = [
   "/",
   "/about",
   "/contact",
+  "/terms",
   "/robots.txt",
   "/sitemap.xml",
   "/manifest.webmanifest",
@@ -26,6 +27,8 @@ export const PUBLIC_EXACT_PATHS: readonly string[] = [
   "/sw.js",
   "/sw-policy.js",
   "/offline",
+  // Only clears the caller's own session cookie, and must be reachable whether or not a token decodes.
+  "/signed-out",
 ];
 
 export const PUBLIC_PATH_PREFIXES: readonly string[] = [
