@@ -188,6 +188,23 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     // — a round-trip in front of every page render and every API call, before
     // the route had run a single query of its own.
     async session({ session, token }) {
+      // A stripped, revoked-device token carries no `sub`, so the block below
+      // is already a no-op for it — but @auth/core still builds a truthy
+      // `{ name: undefined, email: undefined, image: undefined }` session.user
+      // (see node_modules/@auth/core/lib/actions/session.js), which existing
+      // `!session?.user` guards treat as "signed in". Worse, next-auth's
+      // server-side `auth()` wrapper (node_modules/next-auth/lib/index.js,
+      // `getSession`'s `session(...args)`) falls back to
+      // `user: args[0].user ?? args[0].token` whenever our returned session
+      // *omits* the `user` key, which would leak the raw JWT as `session.user`
+      // to those same guards. Setting `user` to `undefined` explicitly — key
+      // present, value undefined — keeps that fallback from firing (its
+      // `{ user, ...session }` spread overwrites `user` with our `undefined`)
+      // so `!session?.user` is true again and the guards redirect.
+      if ((token as { deviceRevoked?: boolean }).deviceRevoked) {
+        return { ...session, user: undefined };
+      }
+
       if (token.sub && session.user) {
         session.user.id = token.sub;
         const cached = (token as { profile?: CachedProfile }).profile;
