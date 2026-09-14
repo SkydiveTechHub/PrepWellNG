@@ -2,7 +2,8 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 import { classifyAdminPath, ADMIN_SESSION_COOKIE } from "@/lib/admin-route";
 import { isPublicPath } from "@/lib/public-routes";
-import { getSessionToken } from "@/lib/session-token";
+import { getSessionToken, sessionCookieName } from "@/lib/session-token";
+import { revokedTokenAction, studentTokenState } from "@/lib/device-limit";
 
 const AUTH_ROUTES = ["/login", "/register"];
 
@@ -53,6 +54,34 @@ export default async function proxy(req: NextRequest) {
   // Not a bare getToken: see session-token.ts for the cookie-name trap that
   // had /login and /dashboard redirecting into each other in production.
   const token = await getSessionToken(req);
+
+  // Signed out elsewhere (device limit, or from Settings). The token still
+  // decodes, so without this branch every check below would call it a session.
+  if (studentTokenState(token) === "revoked") {
+    const action = revokedTokenAction({
+      pathname,
+      reason: req.nextUrl.searchParams.get("reason"),
+      isPublic: isPublicPath(pathname),
+    });
+    const res =
+      action === "unauthorized"
+        ? NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+        : action === "redirect-with-reason"
+          ? NextResponse.redirect(new URL("/login?reason=device", req.url))
+          : NextResponse.next();
+    // Delete the base cookie and any Auth.js chunk cookies
+    // (`<name>.0`, `.1`, ...) it may have split into for a large token —
+    // deleting only the base name would leave a stale chunk to be read back
+    // as a session on the next request. See getToken/SessionStore in
+    // node_modules/@auth/core/lib/utils/cookie.js.
+    const cookieName = sessionCookieName(req.url);
+    for (const cookie of req.cookies.getAll()) {
+      if (cookie.name === cookieName || cookie.name.startsWith(`${cookieName}.`)) {
+        res.cookies.delete(cookie.name);
+      }
+    }
+    return res;
+  }
 
   // Signed-in users belong in the app, not on the marketing page.
   if (pathname === "/" && token) {

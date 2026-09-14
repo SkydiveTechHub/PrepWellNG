@@ -13,6 +13,11 @@ export function usesSecureCookie(requestUrl: string): boolean {
   ).startsWith("https:");
 }
 
+/** The student session cookie's name, by the same rule Auth.js uses. */
+export function sessionCookieName(requestUrl: string): string {
+  return `${usesSecureCookie(requestUrl) ? "__Secure-" : ""}authjs.session-token`;
+}
+
 /**
  * The student JWT, decoded straight off the request without the `auth()`
  * session round-trip.
