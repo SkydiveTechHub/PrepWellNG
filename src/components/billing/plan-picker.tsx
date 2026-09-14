@@ -133,6 +133,11 @@ export function PlanPicker({
         ))}
       </div>
 
+      <p className="mt-4 text-sm text-muted">
+        One student per account. Your study plan, weak areas and unseen
+        questions are built from your answers alone.
+      </p>
+
       <div className="mt-4 grid gap-4 sm:grid-cols-2">
         {BUYABLE.map((tier) => {
           const plan = planFor(tier, period);
