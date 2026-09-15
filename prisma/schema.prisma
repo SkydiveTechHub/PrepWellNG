@@ -266,6 +266,7 @@ model User {
   @@index([classLevel, track])
   @@index([tier])
   @@index([isActive])
+  @@index([state])
 }
 
 model Account {

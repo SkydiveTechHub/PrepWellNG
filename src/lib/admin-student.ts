@@ -1,6 +1,7 @@
 import { CLASS_LEVELS, type ClassLevel } from "@/lib/curriculum-scope";
 import { isSubscriptionTier, type SubscriptionTier } from "@/lib/subscription";
 import { isAccountStatus, type AccountStatus } from "@/lib/account-status";
+import { isNigerianState, type NigerianState } from "@/lib/constants/exam-types";
 
 /**
  * Narrowing the admin student list. Pure — no Prisma, no React — so the
@@ -34,8 +35,12 @@ export interface RawStudentParams {
   track?: string;
   tier?: string;
   status?: string;
+  state?: string;
   page?: string;
 }
+
+/** Filter value for students with no state on record (Google sign-ups, older accounts). */
+export const STATE_NOT_SET = "none";
 
 export interface StudentFilter {
   search: string | null;
@@ -43,6 +48,7 @@ export interface StudentFilter {
   track: Track | null;
   tier: SubscriptionTier | null;
   status: AccountStatus | null;
+  state: NigerianState | typeof STATE_NOT_SET | null;
   page: number;
 }
 
@@ -50,7 +56,8 @@ export interface StudentFilter {
  * Coerce raw query strings into a filter that is safe to hand to Prisma.
  *
  * An unrecognised class level, track, tier or status is dropped rather than
- * passed through as a `where` clause on an enum column, which would throw. The
+ * passed through as a `where` clause on an enum column, which would throw. An
+ * unlisted state is dropped too, so the dropdown never shows a phantom value. The
  * page falls back to 1 rather than to NaN; `pageWindow` clamps the upper end
  * once the total is known.
  */
@@ -64,6 +71,8 @@ export function normaliseStudentFilter(params: RawStudentParams): StudentFilter 
     track: isTrack(params.track) ? params.track : null,
     tier: isSubscriptionTier(params.tier) ? params.tier : null,
     status: isAccountStatus(params.status) ? params.status : null,
+    state:
+      params.state === STATE_NOT_SET || isNigerianState(params.state) ? params.state : null,
     page: Number.isFinite(page) && page >= 1 ? page : 1,
   };
 }
@@ -81,6 +90,7 @@ export function studentFilterParams(filter: StudentFilter): Record<string, strin
   if (filter.track) params.track = filter.track;
   if (filter.tier) params.tier = filter.tier;
   if (filter.status) params.status = filter.status;
+  if (filter.state) params.state = filter.state;
   return params;
 }
 

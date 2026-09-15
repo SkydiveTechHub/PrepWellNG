@@ -5,7 +5,13 @@ import { useEffect, useState } from "react";
 import { CLASS_LEVELS } from "@/lib/curriculum-scope";
 import { SUBSCRIPTION_TIERS, TIER_LABELS } from "@/lib/subscription";
 import { ACCOUNT_STATUSES } from "@/lib/account-status";
-import { TRACKS, studentFilterParams, type StudentFilter } from "@/lib/admin-student";
+import { NIGERIAN_STATES } from "@/lib/constants/exam-types";
+import {
+  STATE_NOT_SET,
+  TRACKS,
+  studentFilterParams,
+  type StudentFilter,
+} from "@/lib/admin-student";
 
 const SELECT_CLS =
   "w-full min-w-0 px-3 py-2 rounded-lg border border-border bg-card text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60";
@@ -22,7 +28,9 @@ export function StudentFilterBar({ filter }: { filter: StudentFilter }) {
 
   // Any change resets to page 1: staying on page 7 of a narrower result set
   // shows an empty table.
-  function go(next: Partial<Record<"q" | "class" | "track" | "tier" | "status", string>>) {
+  function go(
+    next: Partial<Record<"q" | "class" | "track" | "tier" | "status" | "state", string>>,
+  ) {
     const params = new URLSearchParams(studentFilterParams(filter));
     for (const [key, value] of Object.entries(next)) {
       if (value) params.set(key, value);
@@ -128,6 +136,26 @@ export function StudentFilterBar({ filter }: { filter: StudentFilter }) {
           {ACCOUNT_STATUSES.map((status) => (
             <option key={status} value={status}>
               {STATUS_LABELS[status]}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="flex min-w-0 flex-col gap-1">
+        <label htmlFor="student-state" className={LABEL_CLS}>
+          State
+        </label>
+        <select
+          id="student-state"
+          value={filter.state ?? ""}
+          onChange={(e) => go({ state: e.target.value })}
+          className={SELECT_CLS}
+        >
+          <option value="">All states</option>
+          <option value={STATE_NOT_SET}>Not set</option>
+          {NIGERIAN_STATES.map((state) => (
+            <option key={state} value={state}>
+              {state}
             </option>
           ))}
         </select>

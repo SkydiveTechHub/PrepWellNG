@@ -70,6 +70,10 @@ export default function RegisterPage() {
         setError("Please select your track.");
         return false;
       }
+      if (!form.state) {
+        setError("Please select your state.");
+        return false;
+      }
     }
     return true;
   }
@@ -328,12 +332,13 @@ export default function RegisterPage() {
                 htmlFor="state"
                 className="mb-1.5 block text-sm font-semibold text-foreground"
               >
-                State <span className="font-normal text-muted">(optional)</span>
+                Which state do you live in?
               </label>
               <select
                 id="state"
                 value={form.state}
                 onChange={(e) => update("state", e.target.value)}
+                required
                 className="input"
               >
                 <option value="">Select your state</option>

@@ -7,7 +7,13 @@ import {
   normaliseStudentFilter,
   studentFilterParams,
 } from "../src/lib/admin-student";
-import { studentProfileSchema, studentStatusSchema, studentTierSchema } from "../src/lib/validators";
+import {
+  registerSchema,
+  studentProfileSchema,
+  studentStatusSchema,
+  studentTierSchema,
+  updateProfileSchema,
+} from "../src/lib/validators";
 
 test("empty params give an unfiltered first page", () => {
   const f = normaliseStudentFilter({});
@@ -17,8 +23,53 @@ test("empty params give an unfiltered first page", () => {
     track: null,
     tier: null,
     status: null,
+    state: null,
     page: 1,
   });
+});
+
+test("a listed state passes through, including one with a space", () => {
+  assert.equal(normaliseStudentFilter({ state: "Lagos" }).state, "Lagos");
+  assert.equal(normaliseStudentFilter({ state: "FCT Abuja" }).state, "FCT Abuja");
+});
+
+test("state 'none' selects students who never gave one", () => {
+  const f = normaliseStudentFilter({ state: "none" });
+  assert.equal(f.state, "none");
+  assert.deepEqual(studentFilterParams(f), { state: "none" });
+});
+
+test("an unlisted or miscased state is dropped", () => {
+  assert.equal(normaliseStudentFilter({ state: "Atlantis" }).state, null);
+  assert.equal(normaliseStudentFilter({ state: "lagos" }).state, null);
+  assert.equal(normaliseStudentFilter({ state: "" }).state, null);
+});
+
+test("the register schema requires a listed state", () => {
+  const base = {
+    firstName: "Ada",
+    lastName: "Obi",
+    email: "ada@example.com",
+    password: "secret123",
+    classLevel: "SS2",
+    track: "SCIENCE",
+  };
+  assert.equal(registerSchema.safeParse(base).success, false);
+  assert.equal(registerSchema.safeParse({ ...base, state: "Atlantis" }).success, false);
+  assert.equal(registerSchema.safeParse({ ...base, state: "Kano" }).success, true);
+});
+
+test("the settings schema accepts a listed state or a clear, nothing else", () => {
+  assert.equal(updateProfileSchema.safeParse({ state: "Enugu" }).success, true);
+  assert.equal(updateProfileSchema.safeParse({ state: "" }).success, true);
+  assert.equal(updateProfileSchema.safeParse({}).success, true);
+  assert.equal(updateProfileSchema.safeParse({ state: "Enugu State" }).success, false);
+});
+
+test("the admin profile schema rejects an unlisted state", () => {
+  const base = { firstName: "Ada", lastName: "Obi" };
+  assert.equal(studentProfileSchema.safeParse({ ...base, state: "Oyo" }).success, true);
+  assert.equal(studentProfileSchema.safeParse({ ...base, state: "Oyo town" }).success, false);
 });
 
 test("recognised values pass through", () => {
