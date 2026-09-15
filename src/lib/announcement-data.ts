@@ -36,6 +36,8 @@ export async function queueAnnouncement(
   now: Date = new Date(),
 ): Promise<{ id: string; recipientCount: number }> {
   const where = audienceWhereSql(input.audience);
+  // The generous waits are for the Supabase pooler, which can take many
+  // seconds to hand out a connection (see src/lib/devices.ts).
   return db.$transaction(async (tx) => {
     const announcement = await tx.announcement.create({
       data: {
@@ -66,10 +68,11 @@ export async function queueAnnouncement(
           : { recipientCount },
     });
     return { id: announcement.id, recipientCount };
-  });
+  }, { maxWait: 15_000, timeout: 20_000 });
 }
 
 export async function cancelAnnouncement(id: string): Promise<boolean> {
+  // Same generous waits as queueAnnouncement, for the Supabase pooler.
   return db.$transaction(async (tx) => {
     const updated = await tx.announcement.updateMany({
       where: { id, status: { in: ["QUEUED", "SENDING"] } },
@@ -91,7 +94,7 @@ export async function cancelAnnouncement(id: string): Promise<boolean> {
       data: { sentCount: count("SENT"), failedCount: count("FAILED") + count("GONE") },
     });
     return true;
-  });
+  }, { maxWait: 15_000, timeout: 20_000 });
 }
 
 export type AnnouncementRow = {

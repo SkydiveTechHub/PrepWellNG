@@ -22,7 +22,7 @@ test("limits: title 60, body 180, expiry 1-30 days (default 7)", () => {
   assert.equal(announcementInputSchema.safeParse({ ...valid, title: "   " }).success, false);
   assert.equal(announcementInputSchema.safeParse({ ...valid, expiresInDays: 31 }).success, false);
   assert.equal(announcementInputSchema.safeParse({ ...valid, expiresInDays: 0 }).success, false);
-  const { expiresInDays: _omit, ...noExpiry } = valid;
+  const noExpiry = { title: valid.title, body: valid.body, url: valid.url, audience: valid.audience };
   assert.equal(announcementInputSchema.parse(noExpiry).expiresInDays, 7);
 });
 
