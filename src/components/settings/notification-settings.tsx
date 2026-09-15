@@ -6,9 +6,11 @@ import { FormMessage } from "./section";
 import type { PushCapability } from "@/lib/push-capability";
 import type { NotificationPreferences } from "@/lib/push-validators";
 import {
+  checkWorkerReady,
   readPushState,
   subscribeThisDevice,
   unsubscribeThisDevice,
+  type WorkerReadiness,
 } from "@/lib/push-client";
 
 export const PUSH_STATE_COPY: Record<string, string> = {
@@ -28,19 +30,23 @@ const TOGGLES: { key: keyof NotificationPreferences; label: string; hint: string
 
 export function NotificationSettings({ initial }: { initial: NotificationPreferences }) {
   const [state, setState] = useState<PushCapability | null>(null);
+  // Checked on mount so "Turn on" can prompt without spending the click's gesture.
+  const [worker, setWorker] = useState<WorkerReadiness | null>(null);
   const [prefs, setPrefs] = useState(initial);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
     readPushState().then(setState, () => setState("unsupported"));
+    checkWorkerReady().then(setWorker, () => setWorker("needs-reload"));
   }, []);
 
   async function enable() {
     setBusy(true);
     setError("");
     const result = await subscribeThisDevice();
-    if (result !== "subscribed") setError(PUSH_STATE_COPY[result] ?? PUSH_STATE_COPY.failed);
+    if (result === "needs-reload" || result === "unsupported") setWorker(result);
+    else if (result !== "subscribed") setError(PUSH_STATE_COPY[result] ?? PUSH_STATE_COPY.failed);
     setState(await readPushState());
     setBusy(false);
   }
@@ -73,6 +79,8 @@ export function NotificationSettings({ initial }: { initial: NotificationPrefere
 
   if (state === null) return <p className="text-sm text-muted">Checking this device…</p>;
 
+  const workerProblem = state === "default" && worker !== null && worker !== "ready" ? worker : null;
+
   return (
     <div>
       <FormMessage error={error} />
@@ -81,7 +89,13 @@ export function NotificationSettings({ initial }: { initial: NotificationPrefere
         <div className="min-w-0">
           <p className="text-sm font-semibold text-foreground">Notifications on this device</p>
           <p className="text-sm text-muted">
-            {state === "subscribed" ? "On" : state === "default" ? "Off" : PUSH_STATE_COPY[state]}
+            {workerProblem
+              ? PUSH_STATE_COPY[workerProblem]
+              : state === "subscribed"
+                ? "On"
+                : state === "default"
+                  ? "Off"
+                  : PUSH_STATE_COPY[state]}
           </p>
         </div>
         {state === "subscribed" && (
@@ -89,8 +103,8 @@ export function NotificationSettings({ initial }: { initial: NotificationPrefere
             {busy ? "Turning off…" : "Turn off"}
           </button>
         )}
-        {state === "default" && (
-          <button type="button" disabled={busy} onClick={enable} className={buttonClass("primary", "sm")}>
+        {state === "default" && !workerProblem && (
+          <button type="button" disabled={busy || worker === null} onClick={enable} className={buttonClass("primary", "sm")}>
             {busy ? "Turning on…" : "Turn on"}
           </button>
         )}

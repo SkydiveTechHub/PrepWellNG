@@ -73,20 +73,49 @@ async function postSubscription(subscription: PushSubscription): Promise<boolean
   return res.ok;
 }
 
+export type WorkerReadiness = "ready" | "needs-reload" | "unsupported";
+
+const WORKER_READY_TIMEOUT_MS = 10_000;
+
+/**
+ * Is the active service worker one that can show pushes? Call on mount, not
+ * from a click: the awaits here would spend the user gesture that
+ * Notification.requestPermission() needs (WebKit rejects a late prompt).
+ */
+export async function checkWorkerReady(): Promise<WorkerReadiness> {
+  if (!hasPushApis()) return "unsupported";
+  try {
+    // ready never settles when no worker is registered.
+    const registration = await Promise.race([
+      navigator.serviceWorker.ready,
+      new Promise<null>((resolve) => setTimeout(() => resolve(null), WORKER_READY_TIMEOUT_MS)),
+    ]);
+    if (!registration) return "needs-reload";
+    // A v1 worker has no push handler; a subscription it owns would receive
+    // pushes that show nothing.
+    return isPushWorkerVersion(await workerVersion(registration)) ? "ready" : "needs-reload";
+  } catch {
+    return "needs-reload";
+  }
+}
+
 export type SubscribeResult = "subscribed" | "denied" | "needs-reload" | "unsupported" | "failed";
 
-/** Call only from a click handler: the permission prompt needs a user gesture. */
+/**
+ * Call only from a click handler, and only after checkWorkerReady() returned
+ * "ready": the permission prompt is the FIRST await so it keeps the gesture.
+ */
 export async function subscribeThisDevice(): Promise<SubscribeResult> {
   if (!hasPushApis() || !PUBLIC_KEY) return "unsupported";
   try {
-    const registration = await navigator.serviceWorker.ready;
-    // A v1 worker has no push handler; a subscription it owns would receive
-    // pushes that show nothing.
-    if (!isPushWorkerVersion(await workerVersion(registration))) return "needs-reload";
-
     const permission = await Notification.requestPermission();
     if (permission === "denied") return "denied";
     if (permission !== "granted") return "failed";
+
+    // Re-checked after the prompt, so no await precedes it.
+    const readiness = await checkWorkerReady();
+    if (readiness !== "ready") return readiness;
+    const registration = await navigator.serviceWorker.ready;
 
     const subscription =
       (await registration.pushManager.getSubscription()) ??
