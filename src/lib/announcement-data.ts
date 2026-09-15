@@ -1,7 +1,7 @@
 import { Prisma } from "@prisma/client";
 import { db } from "@/lib/db";
 import { audienceWhereSql } from "@/lib/push-audience-sql";
-import type { AudienceFilter } from "@/lib/push-audience";
+import { matchesAudience, parseStoredAudience, type AudienceFilter } from "@/lib/push-audience";
 import { expiresAtFrom, type AnnouncementInput } from "@/lib/announcement";
 import { buildPushPayload, pushTag } from "@/lib/push-payload";
 import { mapWithConcurrency, subscriptionEffect } from "@/lib/push-send-result";
@@ -178,4 +178,67 @@ export async function sendTestPush(
     return outcome;
   });
   return { devices: subscriptions.length, sent: outcomes.filter((o) => o === "sent").length };
+}
+
+/** How many recent live announcements to check against one student. */
+const BANNER_CANDIDATES = 20;
+
+export async function getBannerAnnouncement(
+  userId: string,
+  now: Date = new Date(),
+): Promise<{ id: string; title: string; body: string; url: string | null } | null> {
+  const [user, candidates] = await Promise.all([
+    db.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        role: true,
+        isActive: true,
+        classLevel: true,
+        track: true,
+        tier: true,
+        studyPlans: { where: { isActive: true }, select: { targetExam: true } },
+      },
+    }),
+    db.announcement.findMany({
+      where: {
+        status: { not: "CANCELLED" },
+        expiresAt: { gt: now },
+        dismissals: { none: { userId } },
+      },
+      orderBy: { createdAt: "desc" },
+      take: BANNER_CANDIDATES,
+      select: { id: true, title: true, body: true, url: true, audience: true },
+    }),
+  ]);
+  if (!user) return null;
+
+  const student = {
+    id: user.id,
+    role: user.role,
+    isActive: user.isActive,
+    classLevel: user.classLevel,
+    track: user.track,
+    tier: user.tier,
+    activeExamTargets: user.studyPlans.flatMap((p) => (p.targetExam ? [p.targetExam] : [])),
+  };
+
+  for (const candidate of candidates) {
+    const audience = parseStoredAudience(candidate.audience);
+    if (audience && matchesAudience(student, audience)) {
+      return { id: candidate.id, title: candidate.title, body: candidate.body, url: candidate.url };
+    }
+  }
+  return null;
+}
+
+export async function dismissAnnouncement(userId: string, announcementId: string): Promise<boolean> {
+  const exists = await db.announcement.count({ where: { id: announcementId } });
+  if (exists === 0) return false;
+  await db.announcementDismissal.upsert({
+    where: { announcementId_userId: { announcementId, userId } },
+    create: { announcementId, userId },
+    update: {},
+  });
+  return true;
 }
