@@ -41,7 +41,7 @@ export function AnnouncementComposer({ pushConfigured }: { pushConfigured: boole
     tracks: [],
     tiers: [],
   });
-  const [preview, setPreview] = useState<Preview | null>(null);
+  const [preview, setPreview] = useState<{ key: string; counts: Preview } | null>(null);
   const [contact, setContact] = useState("");
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [typed, setTyped] = useState("");
@@ -57,6 +57,8 @@ export function AnnouncementComposer({ pushConfigured }: { pushConfigured: boole
     return filter as AudienceFilter;
   }, [selected]);
 
+  const audienceKey = JSON.stringify(audience);
+
   useEffect(() => {
     const controller = new AbortController();
     const timer = setTimeout(async () => {
@@ -67,7 +69,7 @@ export function AnnouncementComposer({ pushConfigured }: { pushConfigured: boole
           body: JSON.stringify({ audience }),
           signal: controller.signal,
         });
-        if (res.ok) setPreview(await res.json());
+        if (res.ok) setPreview({ key: audienceKey, counts: await res.json() });
       } catch {
         // Aborted or offline: keep the last count.
       }
@@ -76,7 +78,7 @@ export function AnnouncementComposer({ pushConfigured }: { pushConfigured: boole
       clearTimeout(timer);
       controller.abort();
     };
-  }, [audience]);
+  }, [audience, audienceKey]);
 
   function toggle(group: Group, value: string) {
     setSelected((prev) => ({
@@ -87,9 +89,10 @@ export function AnnouncementComposer({ pushConfigured }: { pushConfigured: boole
     }));
   }
 
+  const currentPreview = preview?.key === audienceKey ? preview.counts : null;
   const message = { title: title.trim(), body: body.trim(), url: url.trim() || null };
   const canSubmit = message.title.length > 0 && message.body.length > 0;
-  const typedRequired = needsTypedConfirm(preview?.devices ?? 0);
+  const typedRequired = needsTypedConfirm(currentPreview?.devices ?? 0);
 
   async function sendTest() {
     setBusy("test");
@@ -199,8 +202,8 @@ export function AnnouncementComposer({ pushConfigured }: { pushConfigured: boole
               </div>
             ))}
             <p className="text-sm text-foreground">
-              {preview
-                ? `${describeAudience(audience)}: reaches ${preview.devices} devices (${preview.subscribedStudents} students). ${preview.students - preview.subscribedStudents} more students will see only the banner.`
+              {currentPreview
+                ? `${describeAudience(audience)}: reaches ${currentPreview.devices} devices (${currentPreview.subscribedStudents} students). ${currentPreview.students - currentPreview.subscribedStudents} more students will see only the banner.`
                 : "Counting…"}
             </p>
           </fieldset>
@@ -228,7 +231,11 @@ export function AnnouncementComposer({ pushConfigured }: { pushConfigured: boole
             </Button>
           </div>
 
-          <Button className="w-full" disabled={!canSubmit || busy !== null} onClick={() => setConfirmOpen(true)}>
+          <Button
+            className="w-full"
+            disabled={!canSubmit || currentPreview === null || busy !== null}
+            onClick={() => setConfirmOpen(true)}
+          >
             Send announcement
           </Button>
         </aside>
@@ -237,7 +244,7 @@ export function AnnouncementComposer({ pushConfigured }: { pushConfigured: boole
       <ConfirmDialog
         open={confirmOpen}
         title="Send this announcement?"
-        description={`"${message.title}" goes to ${preview?.devices ?? 0} devices now and shows on dashboards for ${expiresInDays} days. This can be cancelled while sending, but notifications already delivered stay delivered.`}
+        description={`"${message.title}" goes to ${currentPreview?.devices ?? 0} devices now and shows on dashboards for ${expiresInDays} days. This can be cancelled while sending, but notifications already delivered stay delivered.`}
         confirmLabel="Send"
         busy={busy === "send"}
         disabled={typedRequired && typed !== "SEND"}
