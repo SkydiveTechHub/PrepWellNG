@@ -41,6 +41,7 @@ async function claimBatch(): Promise<ClaimedRow[]> {
       JOIN "Announcement" a ON a."id" = d."announcementId"
       WHERE d."status" = 'PENDING'
         AND a."status" IN ('QUEUED', 'SENDING')
+        AND a."expiresAt" > now()
         AND (d."claimedAt" IS NULL OR d."claimedAt" < now() - interval '5 minutes')
       ORDER BY d."id"
       LIMIT ${CLAIM_BATCH}
@@ -80,7 +81,8 @@ async function finalizeOne(id: string): Promise<void> {
  * Finalizes every announcement this call touched, plus a sweep for any
  * announcement left stuck in SENDING with no PENDING deliveries (e.g. an
  * earlier call settled its last rows but was killed, or threw, before
- * finalizing). The sweep runs even when this call claimed nothing, so an
+ * finalizing), and for any QUEUED/SENDING announcement past its expiry. The
+ * sweeps run even when this call claimed nothing, so an
  * otherwise-empty drain still repairs stuck announcements.
  */
 async function finalize(announcementIds: string[]): Promise<void> {
@@ -92,6 +94,21 @@ async function finalize(announcementIds: string[]): Promise<void> {
     take: 50,
   });
   stuck.forEach((a) => ids.add(a.id));
+
+  // Expired before every delivery went out: never push those now. Fail the
+  // remaining rows so the announcement can finalize.
+  const expired = await db.announcement.findMany({
+    where: { status: { in: ["QUEUED", "SENDING"] }, expiresAt: { lte: new Date() } },
+    select: { id: true },
+    take: 50,
+  });
+  for (const { id } of expired) {
+    await db.announcementDelivery.updateMany({
+      where: { announcementId: id, status: "PENDING" },
+      data: { status: "FAILED", error: "expired" },
+    });
+    ids.add(id);
+  }
 
   for (const id of ids) {
     await finalizeOne(id);
