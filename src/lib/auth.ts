@@ -18,6 +18,7 @@ import {
   shouldTouchLastSeen,
 } from "@/lib/device-limit";
 import { registerDevice, touchDevice } from "@/lib/devices";
+import { googleProfileToUser } from "@/lib/google-profile";
 
 /** Surfaces to the client as `result.code === "rate_limited"`. */
 class LoginRateLimited extends CredentialsSignin {
@@ -127,6 +128,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           Google({
             clientId: process.env.AUTH_GOOGLE_ID,
             clientSecret: process.env.AUTH_GOOGLE_SECRET,
+            // The default profile's `name` has no User column and leaves the
+            // required firstName/lastName unset, failing createUser.
+            profile: (claims) => googleProfileToUser(claims),
           }),
         ]
       : []),
