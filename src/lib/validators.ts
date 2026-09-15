@@ -53,6 +53,16 @@ export const updateProfileSchema = z.object({
   track: z.enum(["SCIENCE", "ARTS", "COMMERCIAL"]).optional(),
 });
 
+// The one-time step before the dashboard (/complete-profile). Unlike the
+// settings schema, nothing is optional: this is how the fields get filled.
+export const completeProfileSchema = z.object({
+  classLevel: z.enum(["SS1", "SS2", "SS3"], { error: "Please select your class level" }),
+  track: z.enum(["SCIENCE", "ARTS", "COMMERCIAL"], { error: "Please select your track" }),
+  state: z.enum(NIGERIAN_STATES, { error: "Please select your state" }),
+});
+
+export type CompleteProfileInput = z.infer<typeof completeProfileSchema>;
+
 export const changePasswordSchema = z.object({
   currentPassword: z.string().min(1, "Enter your current password"),
   newPassword: z.string().min(6, "Password must be at least 6 characters"),
