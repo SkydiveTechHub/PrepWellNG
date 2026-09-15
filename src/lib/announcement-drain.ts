@@ -48,28 +48,48 @@ async function claimBatch(): Promise<ClaimedRow[]> {
     RETURNING d."id", d."announcementId", d."subscriptionId", d."attempts", a."title", a."body", a."url"`;
 }
 
+async function finalizeOne(id: string): Promise<void> {
+  const pending = await db.announcementDelivery.count({
+    where: { announcementId: id, status: "PENDING" },
+  });
+  if (pending > 0) return;
+  const counts = await db.announcementDelivery.groupBy({
+    by: ["status"],
+    where: { announcementId: id },
+    _count: { _all: true },
+  });
+  const count = (s: string) => counts.find((c) => c.status === s)?._count._all ?? 0;
+  // Guarded on status so a cancel that raced this call keeps CANCELLED.
+  await db.announcement.updateMany({
+    where: { id, status: { in: ["QUEUED", "SENDING"] } },
+    data: {
+      status: "SENT",
+      completedAt: new Date(),
+      sentCount: count("SENT"),
+      failedCount: count("FAILED") + count("GONE"),
+    },
+  });
+}
+
+/**
+ * Finalizes every announcement this call touched, plus a sweep for any
+ * announcement left stuck in SENDING with no PENDING deliveries (e.g. an
+ * earlier call settled its last rows but was killed, or threw, before
+ * finalizing). The sweep runs even when this call claimed nothing, so an
+ * otherwise-empty drain still repairs stuck announcements.
+ */
 async function finalize(announcementIds: string[]): Promise<void> {
-  for (const id of announcementIds) {
-    const pending = await db.announcementDelivery.count({
-      where: { announcementId: id, status: "PENDING" },
-    });
-    if (pending > 0) continue;
-    const counts = await db.announcementDelivery.groupBy({
-      by: ["status"],
-      where: { announcementId: id },
-      _count: { _all: true },
-    });
-    const count = (s: string) => counts.find((c) => c.status === s)?._count._all ?? 0;
-    // Guarded on status so a cancel that raced this call keeps CANCELLED.
-    await db.announcement.updateMany({
-      where: { id, status: { in: ["QUEUED", "SENDING"] } },
-      data: {
-        status: "SENT",
-        completedAt: new Date(),
-        sentCount: count("SENT"),
-        failedCount: count("FAILED") + count("GONE"),
-      },
-    });
+  const ids = new Set(announcementIds);
+
+  const stuck = await db.announcement.findMany({
+    where: { status: "SENDING", deliveries: { none: { status: "PENDING" } } },
+    select: { id: true },
+    take: 50,
+  });
+  stuck.forEach((a) => ids.add(a.id));
+
+  for (const id of ids) {
+    await finalizeOne(id);
   }
 }
 
@@ -96,14 +116,20 @@ export async function drainAnnouncements(options: { deadline: number }): Promise
     const byId = new Map(subscriptions.map((s) => [s.id, s]));
 
     await mapWithConcurrency(batch, SEND_CONCURRENCY, async (row) => {
+      // Past the budget: leave the row PENDING with its claimedAt intact.
+      // A later call re-claims it once the 5-minute stale window passes.
+      if (Date.now() >= options.deadline) return;
+
       const sub = byId.get(row.subscriptionId);
       if (!sub) {
-        // Deleted since queueing (sign-out, 410 from another send).
-        await db.announcementDelivery.update({
-          where: { id: row.id },
+        // Deleted since queueing (sign-out, 410 from another send). Only
+        // count/apply this if the row was still PENDING — a cancel may have
+        // moved it to CANCELLED while we were working.
+        const updated = await db.announcementDelivery.updateMany({
+          where: { id: row.id, status: "PENDING" },
           data: { status: "GONE", attempts: row.attempts + 1, error: "subscription removed" },
         });
-        result.gone += 1;
+        if (updated.count === 1) result.gone += 1;
         return;
       }
 
@@ -117,20 +143,26 @@ export async function drainAnnouncements(options: { deadline: number }): Promise
       const next = nextDelivery(outcome, row.attempts);
 
       // A retry keeps its claimedAt, so it waits out the 5-minute stale
-      // window instead of burning all three attempts within seconds.
-      await db.announcementDelivery.update({
-        where: { id: row.id },
+      // window instead of burning all three attempts within seconds. Guard
+      // on PENDING so a cancel that raced this send doesn't get overwritten
+      // by a SENT/FAILED/GONE/PENDING write.
+      const updated = await db.announcementDelivery.updateMany({
+        where: { id: row.id, status: "PENDING" },
         data: {
           status: next.status,
           attempts: next.attempts,
           error: outcome === "sent" ? null : outcome,
         },
       });
+
+      // The push service's answer about the subscription is still true even
+      // if the delivery row itself was cancelled underneath us.
       await applySubscriptionEffect(
         sub.id,
         subscriptionEffect(outcome, sub.failureCount, next.status === "FAILED"),
       );
 
+      if (updated.count !== 1) return;
       if (next.status === "SENT") result.sent += 1;
       else if (next.status === "GONE") result.gone += 1;
       else if (next.status === "FAILED") result.failed += 1;
