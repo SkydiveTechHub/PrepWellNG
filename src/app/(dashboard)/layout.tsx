@@ -10,6 +10,7 @@ import { AnnouncementBanner } from "@/components/announcements/announcement-bann
 import type { ProfileUser } from "@/components/ui/user-menu";
 import { daysUntilExam, examTargetFor } from "@/lib/exam-target";
 import { NOINDEX } from "@/lib/seo/metadata";
+import { needsProfileCompletion } from "@/lib/profile-completion";
 
 // Nothing under here is useful in a search result, and an indexed login wall
 // is a ranking liability. Async layouts can still export static metadata.
@@ -30,6 +31,10 @@ export default async function DashboardLayout({
   // The session callback already enriches these, so the chrome needs no
   // separate query and no SessionProvider.
   const user = session.user as ProfileUser;
+
+  // Class, track and state come before anything else: most pages here assume
+  // the first two, and Google sign-ups arrive with none of them.
+  if (needsProfileCompletion(user)) redirect("/complete-profile");
 
   // Derived from the student's own class level rather than hard-coded, and
   // computed here on the server: deriving it inside the client components ran
