@@ -37,6 +37,10 @@ export async function registerDevice(args: {
             where: { id: { in: revoke } },
             data: { revokedAt: new Date() },
           });
+          // A signed-out device must stop receiving notifications too.
+          await tx.pushSubscription.deleteMany({
+            where: { userId: args.userId, deviceId: { in: revoke } },
+          });
         }
       }
 
@@ -56,10 +60,14 @@ export function listActiveDevices(userId: string) {
 
 /** Scoped by userId, so a student can only ever sign out their own devices. */
 export async function revokeDevice(userId: string, deviceId: string): Promise<boolean> {
-  const { count } = await db.userDevice.updateMany({
-    where: { id: deviceId, userId, revokedAt: null },
-    data: { revokedAt: new Date() },
-  });
+  const [{ count }] = await db.$transaction([
+    db.userDevice.updateMany({
+      where: { id: deviceId, userId, revokedAt: null },
+      data: { revokedAt: new Date() },
+    }),
+    // A signed-out device must stop receiving notifications too.
+    db.pushSubscription.deleteMany({ where: { userId, deviceId } }),
+  ]);
   return count > 0;
 }
 
@@ -72,14 +80,27 @@ export async function revokeOtherDevices(
   userId: string,
   keepDeviceId: string | undefined,
 ): Promise<number> {
-  const { count } = await db.userDevice.updateMany({
-    where: {
-      userId,
-      revokedAt: null,
-      ...(keepDeviceId ? { id: { not: keepDeviceId } } : {}),
-    },
-    data: { revokedAt: new Date() },
-  });
+  const [{ count }] = await db.$transaction([
+    db.userDevice.updateMany({
+      where: {
+        userId,
+        revokedAt: null,
+        ...(keepDeviceId ? { id: { not: keepDeviceId } } : {}),
+      },
+      data: { revokedAt: new Date() },
+    }),
+    // Signed-out devices must stop receiving notifications too. Subscriptions
+    // with no device (old tokens) are not reached, like their sessions.
+    db.pushSubscription.deleteMany({
+      where: {
+        userId,
+        AND: [
+          { deviceId: { not: null } },
+          ...(keepDeviceId ? [{ deviceId: { not: keepDeviceId } }] : []),
+        ],
+      },
+    }),
+  ]);
   return count;
 }
 

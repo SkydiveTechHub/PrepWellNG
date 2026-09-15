@@ -18,9 +18,11 @@ export async function saveSubscription(
   userId: string,
   sub: PushSubscriptionInput,
   userAgent: string | null,
+  deviceId: string | null,
 ): Promise<void> {
   const data = {
     userId,
+    deviceId,
     p256dh: sub.keys.p256dh,
     auth: sub.keys.auth,
     userAgent: userAgent?.slice(0, 300) ?? null,

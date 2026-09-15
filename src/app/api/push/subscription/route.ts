@@ -13,8 +13,11 @@ async function requireStudent() {
 
 // POST /api/push/subscription — store or refresh this device's subscription
 export async function POST(req: NextRequest) {
-  const userId = await requireStudent();
+  const session = await auth();
+  const userId = session?.user?.id;
   if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  // Ties the subscription to this sign-in, so revoking the device removes it.
+  const deviceId = (session.user as { deviceId?: string }).deviceId ?? null;
 
   const limit = await rateLimit({ key: `push-subscribe:${userId}`, limit: 10, windowSeconds: 60 });
   if (!limit.ok) return tooManyRequests(limit.retryAfterSeconds);
@@ -25,7 +28,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    await saveSubscription(userId, parsed.data, req.headers.get("user-agent"));
+    await saveSubscription(userId, parsed.data, req.headers.get("user-agent"), deviceId);
     return NextResponse.json({ ok: true });
   } catch (error) {
     console.error("Saving push subscription failed:", error);

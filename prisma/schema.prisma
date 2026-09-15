@@ -1178,8 +1178,12 @@ model PushSubscription {
   lastSuccessAt DateTime?
   /// Consecutive non-410 failures. Deleted at 5.
   failureCount  Int       @default(0)
+  /// UserDevice.id of the session that subscribed. Not a foreign key: tokens
+  /// minted before device tracking have no row. Revoking the device deletes this.
+  deviceId      String?
 
   @@index([userId])
+  @@index([deviceId])
 }
 
 /// Missing row = every toggle on.

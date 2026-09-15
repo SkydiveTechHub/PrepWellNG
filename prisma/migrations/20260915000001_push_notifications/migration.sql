@@ -15,6 +15,7 @@ CREATE TABLE "PushSubscription" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "lastSuccessAt" TIMESTAMP(3),
     "failureCount" INTEGER NOT NULL DEFAULT 0,
+    "deviceId" TEXT,
 
     CONSTRAINT "PushSubscription_pkey" PRIMARY KEY ("id")
 );
@@ -86,6 +87,9 @@ CREATE UNIQUE INDEX "PushSubscription_endpoint_key" ON "PushSubscription"("endpo
 
 -- CreateIndex
 CREATE INDEX "PushSubscription_userId_idx" ON "PushSubscription"("userId");
+
+-- CreateIndex
+CREATE INDEX "PushSubscription_deviceId_idx" ON "PushSubscription"("deviceId");
 
 -- CreateIndex
 CREATE INDEX "Announcement_status_idx" ON "Announcement"("status");
