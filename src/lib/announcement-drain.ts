@@ -5,7 +5,12 @@ import {
   nextDelivery,
   subscriptionEffect,
 } from "@/lib/push-send-result";
-import { SUBSCRIPTION_SELECT, applySubscriptionEffect, sendPush } from "@/lib/push-send";
+import {
+  SUBSCRIPTION_SELECT,
+  applySubscriptionEffect,
+  sendPush,
+  type StoredSubscription,
+} from "@/lib/push-send";
 
 const CLAIM_BATCH = 100;
 const SEND_CONCURRENCY = 20;
@@ -98,22 +103,31 @@ export async function drainAnnouncements(options: { deadline: number }): Promise
   const touched = new Set<string>();
 
   while (Date.now() < options.deadline) {
-    const batch = await claimBatch();
-    if (batch.length === 0) break;
-    result.claimed += batch.length;
+    let batch: ClaimedRow[];
+    let byId: Map<string, StoredSubscription>;
+    try {
+      batch = await claimBatch();
+      if (batch.length === 0) break;
+      result.claimed += batch.length;
 
-    const announcementIds = [...new Set(batch.map((row) => row.announcementId))];
-    announcementIds.forEach((id) => touched.add(id));
-    await db.announcement.updateMany({
-      where: { id: { in: announcementIds }, status: "QUEUED" },
-      data: { status: "SENDING" },
-    });
+      const announcementIds = [...new Set(batch.map((row) => row.announcementId))];
+      announcementIds.forEach((id) => touched.add(id));
+      await db.announcement.updateMany({
+        where: { id: { in: announcementIds }, status: "QUEUED" },
+        data: { status: "SENDING" },
+      });
 
-    const subscriptions = await db.pushSubscription.findMany({
-      where: { id: { in: batch.map((row) => row.subscriptionId) } },
-      select: SUBSCRIPTION_SELECT,
-    });
-    const byId = new Map(subscriptions.map((s) => [s.id, s]));
+      const subscriptions = await db.pushSubscription.findMany({
+        where: { id: { in: batch.map((row) => row.subscriptionId) } },
+        select: SUBSCRIPTION_SELECT,
+      });
+      byId = new Map(subscriptions.map((s) => [s.id, s]));
+    } catch (error) {
+      // End this call but still finalize what it touched. Claimed rows stay
+      // PENDING and are re-claimed after the 5-minute stale window.
+      console.error("drain: could not claim a batch", error);
+      break;
+    }
 
     await mapWithConcurrency(batch, SEND_CONCURRENCY, async (row) => {
       // Past the budget: leave the row PENDING with its claimedAt intact.
@@ -125,11 +139,15 @@ export async function drainAnnouncements(options: { deadline: number }): Promise
         // Deleted since queueing (sign-out, 410 from another send). Only
         // count/apply this if the row was still PENDING — a cancel may have
         // moved it to CANCELLED while we were working.
-        const updated = await db.announcementDelivery.updateMany({
-          where: { id: row.id, status: "PENDING" },
-          data: { status: "GONE", attempts: row.attempts + 1, error: "subscription removed" },
-        });
-        if (updated.count === 1) result.gone += 1;
+        try {
+          const updated = await db.announcementDelivery.updateMany({
+            where: { id: row.id, status: "PENDING" },
+            data: { status: "GONE", attempts: row.attempts + 1, error: "subscription removed" },
+          });
+          if (updated.count === 1) result.gone += 1;
+        } catch (error) {
+          console.error("drain: could not record delivery", row.id, error);
+        }
         return;
       }
 
@@ -142,31 +160,37 @@ export async function drainAnnouncements(options: { deadline: number }): Promise
       const outcome = await sendPush(sub, payload);
       const next = nextDelivery(outcome, row.attempts);
 
-      // A retry keeps its claimedAt, so it waits out the 5-minute stale
-      // window instead of burning all three attempts within seconds. Guard
-      // on PENDING so a cancel that raced this send doesn't get overwritten
-      // by a SENT/FAILED/GONE/PENDING write.
-      const updated = await db.announcementDelivery.updateMany({
-        where: { id: row.id, status: "PENDING" },
-        data: {
-          status: next.status,
-          attempts: next.attempts,
-          error: outcome === "sent" ? null : outcome,
-        },
-      });
+      // One transient DB error must not reject the whole batch (that would
+      // skip finalize and re-send every row of it 5 minutes later).
+      try {
+        // A retry keeps its claimedAt, so it waits out the 5-minute stale
+        // window instead of burning all three attempts within seconds. Guard
+        // on PENDING so a cancel that raced this send doesn't get overwritten
+        // by a SENT/FAILED/GONE/PENDING write.
+        const updated = await db.announcementDelivery.updateMany({
+          where: { id: row.id, status: "PENDING" },
+          data: {
+            status: next.status,
+            attempts: next.attempts,
+            error: outcome === "sent" ? null : outcome,
+          },
+        });
 
-      // The push service's answer about the subscription is still true even
-      // if the delivery row itself was cancelled underneath us.
-      await applySubscriptionEffect(
-        sub.id,
-        subscriptionEffect(outcome, sub.failureCount, next.status === "FAILED"),
-      );
+        // The push service's answer about the subscription is still true even
+        // if the delivery row itself was cancelled underneath us.
+        await applySubscriptionEffect(
+          sub.id,
+          subscriptionEffect(outcome, sub.failureCount, next.status === "FAILED"),
+        );
 
-      if (updated.count !== 1) return;
-      if (next.status === "SENT") result.sent += 1;
-      else if (next.status === "GONE") result.gone += 1;
-      else if (next.status === "FAILED") result.failed += 1;
-      else result.retrying += 1;
+        if (updated.count !== 1) return;
+        if (next.status === "SENT") result.sent += 1;
+        else if (next.status === "GONE") result.gone += 1;
+        else if (next.status === "FAILED") result.failed += 1;
+        else result.retrying += 1;
+      } catch (error) {
+        console.error("drain: could not record delivery", row.id, error);
+      }
     });
   }
 
