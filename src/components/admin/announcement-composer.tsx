@@ -42,6 +42,8 @@ export function AnnouncementComposer({ pushConfigured }: { pushConfigured: boole
     tiers: [],
   });
   const [preview, setPreview] = useState<{ key: string; counts: Preview } | null>(null);
+  // The audience key whose count request failed; cleared by a newer success.
+  const [previewFailedKey, setPreviewFailedKey] = useState<string | null>(null);
   const [contact, setContact] = useState("");
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [typed, setTyped] = useState("");
@@ -69,9 +71,12 @@ export function AnnouncementComposer({ pushConfigured }: { pushConfigured: boole
           body: JSON.stringify({ audience }),
           signal: controller.signal,
         });
-        if (res.ok) setPreview({ key: audienceKey, counts: await res.json() });
+        if (!res.ok) throw new Error(String(res.status));
+        setPreview({ key: audienceKey, counts: await res.json() });
+        setPreviewFailedKey(null);
       } catch {
-        // Aborted or offline: keep the last count.
+        // An abort means a newer audience replaced this request.
+        if (!controller.signal.aborted) setPreviewFailedKey(audienceKey);
       }
     }, 400);
     return () => {
@@ -90,6 +95,7 @@ export function AnnouncementComposer({ pushConfigured }: { pushConfigured: boole
   }
 
   const currentPreview = preview?.key === audienceKey ? preview.counts : null;
+  const previewFailed = currentPreview === null && previewFailedKey === audienceKey;
   const message = { title: title.trim(), body: body.trim(), url: url.trim() || null };
   const canSubmit = message.title.length > 0 && message.body.length > 0;
   const typedRequired = needsTypedConfirm(currentPreview?.devices ?? 0);
@@ -208,7 +214,9 @@ export function AnnouncementComposer({ pushConfigured }: { pushConfigured: boole
             <p className="text-sm text-foreground">
               {currentPreview
                 ? `${describeAudience(audience)}: reaches ${currentPreview.devices} devices (${currentPreview.subscribedStudents} students). ${currentPreview.students - currentPreview.subscribedStudents} more students will see only the banner.`
-                : "Counting…"}
+                : previewFailed
+                  ? "Couldn't count this audience. Try again."
+                  : "Counting…"}
             </p>
           </fieldset>
         </div>

@@ -20,13 +20,24 @@ export async function saveSubscription(
   userAgent: string | null,
   deviceId: string | null,
 ): Promise<void> {
+  const existing = await db.pushSubscription.findUnique({
+    where: { endpoint: sub.endpoint },
+    select: { userId: true, p256dh: true, auth: true },
+  });
+  // A re-sync on every page load must not wipe the failure count that
+  // eventually deletes a dead subscription; only a new owner or new keys do.
+  const changed =
+    !existing ||
+    existing.userId !== userId ||
+    existing.p256dh !== sub.keys.p256dh ||
+    existing.auth !== sub.keys.auth;
   const data = {
     userId,
     deviceId,
     p256dh: sub.keys.p256dh,
     auth: sub.keys.auth,
     userAgent: userAgent?.slice(0, 300) ?? null,
-    failureCount: 0,
+    ...(changed ? { failureCount: 0 } : {}),
   };
   await db.pushSubscription.upsert({
     where: { endpoint: sub.endpoint },
