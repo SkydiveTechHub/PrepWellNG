@@ -22,7 +22,7 @@ Any missing variable turns the feature off: no opt-in UI, cron routes answer
 ## Database migration
 
 `prisma migrate` cannot reach Supabase from the dev machine. Apply
-`prisma/migrations/20260914000000_push_notifications/migration.sql` in the
+`prisma/migrations/20260915000001_push_notifications/migration.sql` in the
 Supabase SQL Editor inside `BEGIN; … COMMIT;`, followed by its
 `_prisma_migrations` row:
 
@@ -31,10 +31,10 @@ INSERT INTO "_prisma_migrations"
   (id, checksum, finished_at, migration_name, logs, rolled_back_at, started_at, applied_steps_count)
 VALUES
   (gen_random_uuid()::text, '<sha256 of migration.sql bytes>', now(),
-   '20260914000000_push_notifications', NULL, NULL, now(), 1);
+   '20260915000001_push_notifications', NULL, NULL, now(), 1);
 ```
 
-Checksum: `sha256sum prisma/migrations/20260914000000_push_notifications/migration.sql`
+Checksum: `sha256sum prisma/migrations/20260915000001_push_notifications/migration.sql`
 (the file must be LF-only: `tr -cd '\r' < … | wc -c` prints 0).
 
 The SQL Editor can report success on a half-applied batch. Verify:
@@ -49,7 +49,7 @@ order by 1;  -- 6 rows
 select typname from pg_type where typname in ('AnnouncementStatus','DeliveryStatus');  -- 2 rows
 
 select migration_name, finished_at from "_prisma_migrations"
-where migration_name = '20260914000000_push_notifications';  -- 1 row
+where migration_name = '20260915000001_push_notifications';  -- 1 row
 ```
 
 ## Scheduler (pg_cron + pg_net)

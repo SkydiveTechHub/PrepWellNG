@@ -32,7 +32,7 @@
 
 | File | Responsibility |
 |---|---|
-| `prisma/schema.prisma`, `prisma/migrations/20260914000000_push_notifications/migration.sql` | Tables and enums |
+| `prisma/schema.prisma`, `prisma/migrations/20260915000001_push_notifications/migration.sql` | Tables and enums |
 | `src/lib/push-config.ts` | Read VAPID and cron env (pure) |
 | `src/lib/push-payload.ts` | Payload building, internal-path check, tags (pure) |
 | `src/lib/push-send-result.ts` | Status → outcome, delivery/subscription state transitions, `mapWithConcurrency` (pure) |
@@ -67,7 +67,7 @@
 
 **Files:**
 - Modify: `prisma/schema.prisma` (`User` ~213, `Admin` ~979, `AdminAudit` comment ~1002, new models at end)
-- Create: `prisma/migrations/20260914000000_push_notifications/migration.sql`
+- Create: `prisma/migrations/20260915000001_push_notifications/migration.sql`
 - Create: `src/lib/push-config.ts`
 - Modify: `src/lib/admin-audit.ts`, `src/lib/admin-audit-filter.ts`, `package.json`, `.env.example` (create if missing)
 - Test: `scripts/test-push-config.mts`
@@ -299,11 +299,11 @@ model ReminderLog {
 
 Run (Git Bash):
 ```bash
-mkdir -p prisma/migrations/20260914000000_push_notifications
+mkdir -p prisma/migrations/20260915000001_push_notifications
 before="$(mktemp --suffix=.prisma)"
 git show HEAD:prisma/schema.prisma > "$before"
-npx prisma migrate diff --from-schema-datamodel "$before" --to-schema-datamodel prisma/schema.prisma --script > prisma/migrations/20260914000000_push_notifications/migration.sql
-tr -cd '\r' < prisma/migrations/20260914000000_push_notifications/migration.sql | wc -c
+npx prisma migrate diff --from-schema-datamodel "$before" --to-schema-datamodel prisma/schema.prisma --script > prisma/migrations/20260915000001_push_notifications/migration.sql
+tr -cd '\r' < prisma/migrations/20260915000001_push_notifications/migration.sql | wc -c
 ```
 Expected: the SQL contains `CREATE TYPE "AnnouncementStatus"`, `CREATE TYPE "DeliveryStatus"`, six `CREATE TABLE` statements, and foreign keys. The final command prints `0` (no CR bytes). If it is not 0, run `sed -i 's/\r$//'` on the file.
 
@@ -350,7 +350,7 @@ Expected: no type errors; tests PASS.
 - [ ] **Step 11: Commit**
 
 ```bash
-git add prisma/schema.prisma prisma/migrations/20260914000000_push_notifications src/lib/push-config.ts src/lib/admin-audit.ts src/lib/admin-audit-filter.ts scripts/test-push-config.mts package.json package-lock.json .env.example
+git add prisma/schema.prisma prisma/migrations/20260915000001_push_notifications src/lib/push-config.ts src/lib/admin-audit.ts src/lib/admin-audit-filter.ts scripts/test-push-config.mts package.json package-lock.json .env.example
 git commit -m "Add push notification schema and config"
 ```
 
@@ -4338,7 +4338,7 @@ Any missing variable turns the feature off: no opt-in UI, cron routes answer
 ## Database migration
 
 `prisma migrate` cannot reach Supabase from the dev machine. Apply
-`prisma/migrations/20260914000000_push_notifications/migration.sql` in the
+`prisma/migrations/20260915000001_push_notifications/migration.sql` in the
 Supabase SQL Editor inside `BEGIN; … COMMIT;`, followed by its
 `_prisma_migrations` row:
 
@@ -4347,10 +4347,10 @@ INSERT INTO "_prisma_migrations"
   (id, checksum, finished_at, migration_name, logs, rolled_back_at, started_at, applied_steps_count)
 VALUES
   (gen_random_uuid()::text, '<sha256 of migration.sql bytes>', now(),
-   '20260914000000_push_notifications', NULL, NULL, now(), 1);
+   '20260915000001_push_notifications', NULL, NULL, now(), 1);
 ```
 
-Checksum: `sha256sum prisma/migrations/20260914000000_push_notifications/migration.sql`
+Checksum: `sha256sum prisma/migrations/20260915000001_push_notifications/migration.sql`
 (the file must be LF-only: `tr -cd '\r' < … | wc -c` prints 0).
 
 The SQL Editor can report success on a half-applied batch. Verify:
@@ -4365,7 +4365,7 @@ order by 1;  -- 6 rows
 select typname from pg_type where typname in ('AnnouncementStatus','DeliveryStatus');  -- 2 rows
 
 select migration_name, finished_at from "_prisma_migrations"
-where migration_name = '20260914000000_push_notifications';  -- 1 row
+where migration_name = '20260915000001_push_notifications';  -- 1 row
 ```
 
 ## Scheduler (pg_cron + pg_net)
