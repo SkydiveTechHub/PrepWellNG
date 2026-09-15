@@ -67,3 +67,11 @@ export const NIGERIAN_STATES = [
   "Lagos", "Nasarawa", "Niger", "Ogun", "Ondo", "Osun",
   "Oyo", "Plateau", "Rivers", "Sokoto", "Taraba", "Yobe", "Zamfara",
 ] as const;
+
+export type NigerianState = (typeof NIGERIAN_STATES)[number];
+
+export function isNigerianState(value: string | undefined | null): value is NigerianState {
+  return (
+    typeof value === "string" && (NIGERIAN_STATES as readonly string[]).includes(value)
+  );
+}

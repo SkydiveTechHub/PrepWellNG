@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { StatusBanner } from "@/components/admin/status-banner";
 import { CLASS_LEVELS } from "@/lib/curriculum-scope";
 import { TRACKS } from "@/lib/admin-student";
+import { NIGERIAN_STATES } from "@/lib/constants/exam-types";
 
 const LABEL_CLS = "text-[11px] font-semibold uppercase tracking-wider text-muted";
 const INPUT_CLS =
@@ -93,7 +94,19 @@ export function StudentProfileForm({
         <Field name="lastName" label="Last name" defaultValue={student.lastName} required />
         <Field name="email" label="Email" type="email" defaultValue={student.email ?? ""} />
         <Field name="phone" label="Phone" defaultValue={student.phone ?? ""} />
-        <Field name="state" label="State" defaultValue={student.state ?? ""} />
+
+        {/* A select, not free text: the student list filters on exact state names.
+            A legacy value outside the list shows as "Not set" and, being empty, is
+            not sent — so saving other fields leaves it untouched. */}
+        <div className="flex flex-col gap-1">
+          <label htmlFor="state" className={LABEL_CLS}>State</label>
+          <select id="state" name="state" defaultValue={student.state ?? ""} className={INPUT_CLS}>
+            <option value="">Not set</option>
+            {NIGERIAN_STATES.map((state) => (
+              <option key={state} value={state}>{state}</option>
+            ))}
+          </select>
+        </div>
 
         <div className="flex flex-col gap-1">
           <label htmlFor="classLevel" className={LABEL_CLS}>Class</label>

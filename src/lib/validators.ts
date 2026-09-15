@@ -3,6 +3,7 @@ import { z } from "zod";
 import { checkQuestionInvariants } from "@/lib/admin-question";
 import { BILLING_PERIODS, SUBSCRIPTION_TIERS } from "@/lib/subscription";
 import { CLASS_LEVELS } from "@/lib/curriculum-scope";
+import { NIGERIAN_STATES } from "@/lib/constants/exam-types";
 import { MAX_AWAY_EVENTS } from "@/components/assessment/exam-focus";
 import { MATERIAL_TYPES, type MaterialType } from "@/lib/materials";
 import { validateMaterialUrl } from "@/lib/admin-material";
@@ -20,7 +21,9 @@ export const registerSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters"),
   classLevel: z.enum(["SS1", "SS2", "SS3"]),
   track: z.enum(["SCIENCE", "ARTS", "COMMERCIAL"]),
-  state: z.string().optional(),
+  // Required and closed to the list: admins filter students by state, and a
+  // free-text value would split one state across several spellings.
+  state: z.enum(NIGERIAN_STATES, { error: "Please select your state" }),
 });
 
 export const loginSchema = z.object({
@@ -45,7 +48,7 @@ export const updateProfileSchema = z.object({
       z.literal(""),
     ])
     .optional(),
-  state: z.string().optional(),
+  state: z.union([z.enum(NIGERIAN_STATES), z.literal("")]).optional(),
   classLevel: z.enum(["SS1", "SS2", "SS3"]).optional(),
   track: z.enum(["SCIENCE", "ARTS", "COMMERCIAL"]).optional(),
 });
@@ -415,7 +418,7 @@ export const studentProfileSchema = z.object({
   phone: z.string().trim().min(7, "Enter a valid phone number").optional(),
   classLevel: z.enum([...CLASS_LEVELS]).optional(),
   track: z.enum(["SCIENCE", "ARTS", "COMMERCIAL"]).optional(),
-  state: z.string().trim().min(1).optional(),
+  state: z.enum(NIGERIAN_STATES).optional(),
 });
 
 // A reason is required to suspend and meaningless to reactivate. An audit row

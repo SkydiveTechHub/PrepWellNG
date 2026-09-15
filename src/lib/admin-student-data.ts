@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { STUDENT_PAGE_SIZE, type StudentFilter } from "@/lib/admin-student";
+import { STATE_NOT_SET, STUDENT_PAGE_SIZE, type StudentFilter } from "@/lib/admin-student";
 import type { BillingPeriod, SubscriptionTier } from "@/lib/subscription";
 import { grantComp, revokeSubscriptions } from "@/lib/billing/subscription-data";
 import type { ClassLevel } from "@/lib/curriculum-scope";
@@ -33,6 +33,9 @@ function whereFor(filter: StudentFilter) {
     ...(filter.track ? { track: filter.track } : {}),
     ...(filter.tier ? { tier: filter.tier } : {}),
     ...(filter.status ? { isActive: filter.status === "active" } : {}),
+    ...(filter.state
+      ? { state: filter.state === STATE_NOT_SET ? null : filter.state }
+      : {}),
     ...(filter.search
       ? {
           OR: [
