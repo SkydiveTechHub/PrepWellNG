@@ -2,7 +2,7 @@ import { requireAdminPage } from "@/lib/admin-session";
 import { PageHeader } from "@/components/ui/page-header";
 import { StatusBanner } from "@/components/admin/status-banner";
 import { listAnnouncements } from "@/lib/announcement-data";
-import { readPushConfig } from "@/lib/push-config";
+import { isPushEnabled } from "@/lib/push-config";
 import { AnnouncementComposer } from "@/components/admin/announcement-composer";
 import { AnnouncementList } from "@/components/admin/announcement-list";
 
@@ -12,7 +12,7 @@ export default async function AdminAnnouncementsPage() {
   // The layout's check does not re-run on client-side navigation.
   await requireAdminPage();
 
-  const pushConfigured = readPushConfig() !== null;
+  const pushConfigured = isPushEnabled();
   const rows = await listAnnouncements();
 
   return (

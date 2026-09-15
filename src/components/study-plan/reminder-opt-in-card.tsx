@@ -26,13 +26,15 @@ function writeSnooze(at: number) {
 }
 
 /** Shown on the study plan page. Never prompts on its own: only on "Turn on". */
-export function ReminderOptInCard() {
+export function ReminderOptInCard({ enabled }: { enabled: boolean }) {
   const [visible, setVisible] = useState(false);
   const [iosHint, setIosHint] = useState(false);
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
+    // Server-evaluated: push is off on this deployment.
+    if (!enabled) return;
     if (isOptInSnoozed(readSnooze(), Date.now())) return;
     readPushState().then((state) => {
       if (state === "default") setVisible(true);
@@ -41,9 +43,9 @@ export function ReminderOptInCard() {
         setVisible(true);
       }
     }, () => undefined);
-  }, []);
+  }, [enabled]);
 
-  if (!visible) return null;
+  if (!enabled || !visible) return null;
 
   function notNow() {
     writeSnooze(Date.now());

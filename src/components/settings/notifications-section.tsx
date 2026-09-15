@@ -1,3 +1,4 @@
+import { isPushEnabled } from "@/lib/push-config";
 import { getPreferences } from "@/lib/push-subscription-data";
 import { Section } from "./section";
 import { NotificationSettings } from "./notification-settings";
@@ -5,7 +6,7 @@ import { NotificationSettings } from "./notification-settings";
 export async function NotificationsSection({ userId }: { userId: string }) {
   // Push not configured on this deployment: say nothing rather than offer a
   // switch that cannot work.
-  if (!process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY) return null;
+  if (!isPushEnabled()) return null;
 
   let preferences;
   try {

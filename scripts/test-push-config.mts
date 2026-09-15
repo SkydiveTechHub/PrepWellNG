@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { readCronSecret, readPushConfig } from "../src/lib/push-config";
+import { isPushEnabled, readCronSecret, readPushConfig } from "../src/lib/push-config";
 
 const full = {
   NEXT_PUBLIC_VAPID_PUBLIC_KEY: "pub",
@@ -33,4 +33,11 @@ test("cron secret is trimmed and must be at least 16 characters", () => {
   assert.equal(readCronSecret(full), "s3cret-value-long-enough");
   assert.equal(readCronSecret({ CRON_SECRET: "short" }), null);
   assert.equal(readCronSecret({}), null);
+});
+
+test("push is enabled only when all four variables are present", () => {
+  assert.equal(isPushEnabled(full), true);
+  for (const key of Object.keys(full)) {
+    assert.equal(isPushEnabled({ ...full, [key]: undefined }), false, key);
+  }
 });

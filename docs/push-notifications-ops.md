@@ -105,7 +105,8 @@ from net._http_response order by created desc limit 10;  -- 200s, never 401
 ```
 
 A 401 means the Vault secret and Vercel's `CRON_SECRET` differ. A 204 means
-the deployment is missing env vars.
+the deployment is missing one of `NEXT_PUBLIC_VAPID_PUBLIC_KEY`,
+`VAPID_PRIVATE_KEY`, `VAPID_SUBJECT` or `CRON_SECRET`.
 
 To pause: `select cron.unschedule('push-drain');` (and the others).
 To rotate the cron secret: update Vercel, redeploy, then

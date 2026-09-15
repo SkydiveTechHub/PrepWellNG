@@ -141,7 +141,11 @@ export function AnnouncementComposer({ pushConfigured }: { pushConfigured: boole
       setTitle("");
       setBody("");
       setUrl("");
-      setSuccess(`Queued for ${data.recipientCount} devices. Sending has started.`);
+      setSuccess(
+        pushConfigured
+          ? `Queued for ${data.recipientCount} devices. Sending has started.`
+          : "Saved. It will show as a dashboard banner; push is not configured, so no notifications were sent.",
+      );
       router.refresh();
     } catch {
       setError("Could not reach the server");

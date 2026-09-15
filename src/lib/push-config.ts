@@ -29,3 +29,11 @@ export function readCronSecret(env: Env = process.env): string | null {
   const secret = value(env, "CRON_SECRET");
   return secret && secret.length >= 16 ? secret : null;
 }
+
+/**
+ * The one server-side answer to "is push on": VAPID keys to send and a cron
+ * secret to schedule. Any UI that offers push must check this.
+ */
+export function isPushEnabled(env: Env = process.env): boolean {
+  return readPushConfig(env) !== null && readCronSecret(env) !== null;
+}
