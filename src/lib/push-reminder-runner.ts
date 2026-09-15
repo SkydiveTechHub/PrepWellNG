@@ -20,8 +20,11 @@ import {
 const SEND_CONCURRENCY = 20;
 const STREAK_LOOKBACK_DAYS = 400;
 const DAY_MS = 24 * 60 * 60 * 1000;
+/** A page claims up to REMINDER_PAGE_SIZE students; never start one without this much budget left. */
+const PAGE_START_RESERVE_MS = 15_000;
 
-type RunResult = { processed: number; notified: number; sent: number; done: boolean };
+/** skipped: claimed sends not attempted because the deadline passed (missed today, never duplicated). */
+type RunResult = { processed: number; notified: number; sent: number; skipped: number; done: boolean };
 
 /** Students who could get this reminder and have not been processed today. */
 async function findCandidates(kind: ReminderKind, dayKey: string): Promise<string[]> {
@@ -152,9 +155,9 @@ export async function runReminders(
   options: { now: Date; deadline: number },
 ): Promise<RunResult> {
   const dayKey = lagosDayKey(options.now);
-  const result: RunResult = { processed: 0, notified: 0, sent: 0, done: false };
+  const result: RunResult = { processed: 0, notified: 0, sent: 0, skipped: 0, done: false };
 
-  while (Date.now() < options.deadline) {
+  while (Date.now() < options.deadline - PAGE_START_RESERVE_MS) {
     const candidates = await findCandidates(kind, dayKey);
     if (candidates.length === 0) {
       result.done = true;
@@ -178,6 +181,8 @@ export async function runReminders(
     });
 
     const outcomes = await mapWithConcurrency(subscriptions, SEND_CONCURRENCY, async (sub) => {
+      // Claimed but out of time: a missed reminder beats a duplicate one.
+      if (Date.now() >= options.deadline) return "skipped" as const;
       const message = messages.get(sub.userId)!;
       const payload = buildPushPayload({
         ...message,
@@ -189,6 +194,7 @@ export async function runReminders(
       return outcome;
     });
     result.sent += outcomes.filter((o) => o === "sent").length;
+    result.skipped += outcomes.filter((o) => o === "skipped").length;
   }
 
   return result;
