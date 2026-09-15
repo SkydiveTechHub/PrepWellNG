@@ -5,6 +5,7 @@ import {
   LuGraduationCap,
   LuLayoutDashboard,
   LuLibrary,
+  LuMegaphone,
   LuScrollText,
   LuUsers,
 } from "react-icons/lu";
@@ -47,6 +48,7 @@ export const ADMIN_NAV_GROUPS: readonly AdminNavGroup[] = [
     label: "People",
     items: [
       { name: "Students", href: "/admin/students", icon: LuGraduationCap },
+      { name: "Announcements", href: "/admin/announcements", icon: LuMegaphone },
       { name: "Team", href: "/admin/team", icon: LuUsers, ownerOnly: true },
     ],
   },
