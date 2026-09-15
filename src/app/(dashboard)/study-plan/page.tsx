@@ -6,6 +6,8 @@ import { PageHeader } from "@/components/ui/page-header";
 import { UpgradePrompt } from "@/components/billing/upgrade-prompt";
 import { getStudyPlanPageData } from "@/lib/study-plan";
 import { StudyPlanView } from "@/components/study-plan/study-plan-view";
+import { ReminderOptInCard } from "@/components/study-plan/reminder-opt-in-card";
+import { isPushEnabled } from "@/lib/push-config";
 
 const DESCRIPTION =
   "A realistic weekly schedule that keeps you in step with your class — and gets you exam-ready when it's time.";
@@ -27,5 +29,12 @@ export default async function StudyPlanPage() {
     );
   }
 
-  return <StudyPlanView data={await getStudyPlanPageData(session.user.id)} />;
+  const data = await getStudyPlanPageData(session.user.id);
+
+  return (
+    <>
+      {data.plan && <ReminderOptInCard enabled={isPushEnabled()} />}
+      <StudyPlanView data={data} />
+    </>
+  );
 }

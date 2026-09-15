@@ -15,7 +15,7 @@
  */
 importScripts("/sw-policy.js");
 
-var SHELL_VERSION = "v1";
+var SHELL_VERSION = "v2";
 var SHELL_CACHE = "scholarscrib-shell-" + SHELL_VERSION;
 var RUNTIME_CACHE = "scholarscrib-runtime";
 var RUNTIME_MAX_ENTRIES = 80;
@@ -196,4 +196,87 @@ self.addEventListener("fetch", function (event) {
   }
 
   event.respondWith(networkFirst(request));
+});
+
+// ─── Push notifications ─────────────────────────────────────
+// See docs/superpowers/specs/2026-09-14-push-notifications-design.md.
+
+// The page asks which worker is in control before subscribing: a v1 worker
+// has no push handler, and a subscription it owned would receive pushes that
+// silently show nothing.
+self.addEventListener("message", function (event) {
+  var data = event.data;
+  if (!data || data.type !== "GET_VERSION") return;
+  var port = event.ports && event.ports[0];
+  if (port) port.postMessage({ version: SHELL_VERSION });
+});
+
+self.addEventListener("push", function (event) {
+  var data = {};
+  try {
+    data = event.data ? event.data.json() : {};
+  } catch (error) {
+    data = {};
+  }
+  var title = typeof data.title === "string" && data.title ? data.title : "ScholarsCrib";
+  event.waitUntil(
+    self.registration.showNotification(title, {
+      body: typeof data.body === "string" ? data.body : "",
+      icon: "/icon-192.png",
+      badge: "/icon-192.png",
+      tag: typeof data.tag === "string" && data.tag ? data.tag : undefined,
+      data: { url: self.notificationTarget(data.url, self.location.origin) },
+    }),
+  );
+});
+
+// Opens the target rather than navigating an existing tab: navigating would
+// discard a half-finished quiz in whichever tab happened to be focused. A tab
+// already showing the exact target is focused instead of duplicated.
+self.addEventListener("notificationclick", function (event) {
+  event.notification.close();
+  var stored = event.notification.data && event.notification.data.url;
+  var target =
+    typeof stored === "string" && stored.indexOf(self.location.origin + "/") === 0
+      ? stored
+      : self.notificationTarget(null, self.location.origin);
+
+  event.waitUntil(
+    self.clients
+      .matchAll({ type: "window", includeUncontrolled: true })
+      .then(function (clients) {
+        for (var i = 0; i < clients.length; i += 1) {
+          if (clients[i].url === target && "focus" in clients[i]) {
+            return clients[i].focus();
+          }
+        }
+        return self.clients.openWindow(target);
+      })
+      .catch(function () {
+        return undefined;
+      }),
+  );
+});
+
+// Browsers may rotate a subscription. Re-subscribe with the same key and tell
+// the server; the request carries the session cookie (same-origin).
+self.addEventListener("pushsubscriptionchange", function (event) {
+  var old = event.oldSubscription;
+  var key = old && old.options && old.options.applicationServerKey;
+  if (!key) return;
+  event.waitUntil(
+    self.registration.pushManager
+      .subscribe({ userVisibleOnly: true, applicationServerKey: key })
+      .then(function (subscription) {
+        return fetch("/api/push/subscription", {
+          method: "POST",
+          credentials: "same-origin",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(subscription.toJSON()),
+        });
+      })
+      .catch(function () {
+        // The next app load re-syncs (src/components/push/push-sync.tsx).
+      }),
+  );
 });

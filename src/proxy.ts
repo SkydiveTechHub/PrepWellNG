@@ -110,6 +110,8 @@ export const config = {
     // user: the auth branch below would answer its POST with a 401, which
     // Paystack reads as a delivery failure and we would never see the charge.
     // The route authenticates itself by HMAC instead.
-    "/((?!api/auth|api/billing/webhook|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
+    // api/cron is excluded for the same reason: Supabase pg_cron calls it with
+    // a bearer secret that the route checks itself (src/lib/cron-auth.ts).
+    "/((?!api/auth|api/billing/webhook|api/cron|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
   ],
 };

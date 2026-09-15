@@ -24,9 +24,12 @@ export const AUDIT_ACTIONS: readonly AuditAction[] = [
   "student.tier",
   "student.force_signout",
   "student.delete",
+  "announcement.send",
+  "announcement.cancel",
+  "announcement.test",
 ];
 
-export const AUDIT_ENTITIES = ["Question", "Lesson", "Admin", "User"] as const;
+export const AUDIT_ENTITIES = ["Question", "Lesson", "Admin", "User", "Announcement"] as const;
 
 export interface RawAuditParams {
   actor?: string;

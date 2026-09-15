@@ -1,9 +1,12 @@
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 import { auth } from "@/lib/auth";
 import { isDeviceRevokedSession } from "@/lib/device-limit";
 import { Sidebar } from "@/components/ui/sidebar";
 import { MobileNav } from "@/components/ui/mobile-nav";
 import { MobileHeader } from "@/components/ui/mobile-header";
+import { PushSync } from "@/components/push/push-sync";
+import { AnnouncementBanner } from "@/components/announcements/announcement-banner";
 import type { ProfileUser } from "@/components/ui/user-menu";
 import { daysUntilExam, examTargetFor } from "@/lib/exam-target";
 import { NOINDEX } from "@/lib/seo/metadata";
@@ -22,7 +25,7 @@ export default async function DashboardLayout({
   const session = await auth();
   // Signed out elsewhere: /signed-out deletes the cookie, which auth() can't.
   if (isDeviceRevokedSession(session)) redirect("/signed-out");
-  if (!session?.user) redirect("/login");
+  if (!session?.user?.id) redirect("/login");
 
   // The session callback already enriches these, so the chrome needs no
   // separate query and no SessionProvider.
@@ -37,6 +40,7 @@ export default async function DashboardLayout({
 
   return (
     <div className="min-h-full">
+      <PushSync />
       <Sidebar
         user={user}
         examLabel={examTarget.label}
@@ -52,6 +56,10 @@ export default async function DashboardLayout({
       {/* Main content — offset by sidebar on desktop */}
       <main className="lg:pl-64 pb-20 lg:pb-0">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+          {/* Streams in: a slow pooler connection must not hold up the page. */}
+          <Suspense fallback={null}>
+            <AnnouncementBanner userId={session.user.id} />
+          </Suspense>
           {children}
         </div>
       </main>

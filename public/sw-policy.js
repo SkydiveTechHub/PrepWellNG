@@ -81,5 +81,19 @@
     return "network-only";
   }
 
+  // Where a notification click goes. Mirrors isInternalPath() in
+  // src/lib/push-payload.ts: the server never sends anything else, but the
+  // worker does not trust the payload. "//host" and "/\host" are
+  // protocol-relative to another origin in every browser.
+  var INTERNAL_PATH = /^\/(?![/\\])[^\s\\]*$/;
+
+  function notificationTarget(url, origin) {
+    if (typeof url === "string" && url.length <= 500 && INTERNAL_PATH.test(url)) {
+      return origin + url;
+    }
+    return origin + "/dashboard";
+  }
+
   scope.chooseStrategy = chooseStrategy;
+  scope.notificationTarget = notificationTarget;
 })(typeof self !== "undefined" ? self : globalThis);

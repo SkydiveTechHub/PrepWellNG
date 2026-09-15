@@ -241,6 +241,12 @@ model User {
   sessionsValidFrom DateTime?
   devices         UserDevice[]
 
+  // Push notifications (see docs/superpowers/specs/2026-09-14-push-notifications-design.md)
+  pushSubscriptions      PushSubscription[]
+  notificationPreference NotificationPreference?
+  announcementDismissals AnnouncementDismissal[]
+  reminderLogs           ReminderLog[]
+
   // Relations
   progress     StudentProgress[]
   attempts     AssessmentAttempt[]
@@ -991,6 +997,7 @@ model Admin {
   createdAdmins Admin[] @relation("AdminCreator")
 
   audits AdminAudit[]
+  announcements Announcement[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -1000,7 +1007,7 @@ model AdminAudit {
   id        String   @id @default(cuid())
   actorId   String
   actor     Admin    @relation(fields: [actorId], references: [id], onDelete: Cascade)
-  action    String // "question.create" | "question.update" | "question.delete" | "question.import" | "lesson.import" | "admin.create" | "admin.deactivate" | "admin.reactivate" | "student.update" | "student.suspend" | "student.reactivate" | "student.tier" | "student.force_signout" | "student.delete" | "material.create" | "material.update" | "material.delete"
+  action    String // "question.create" | "question.update" | "question.delete" | "question.import" | "lesson.import" | "admin.create" | "admin.deactivate" | "admin.reactivate" | "student.update" | "student.suspend" | "student.reactivate" | "student.tier" | "student.force_signout" | "student.delete" | "material.create" | "material.update" | "material.delete" | "announcement.send" | "announcement.cancel" | "announcement.test"
   entity    String // "Question"
   entityId  String?
   summary   String   @db.Text
@@ -1154,4 +1161,119 @@ model PaystackEvent {
   type       String
   payload    Json
   receivedAt DateTime @default(now())
+}
+
+// ─── Push notifications ─────────────────────────────────────
+
+/// One row per browser/device a student opted in on.
+model PushSubscription {
+  id            String    @id @default(cuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  /// Unique: the same browser re-subscribing upserts; a shared phone moves to the new user.
+  endpoint      String    @unique
+  p256dh        String
+  auth          String
+  userAgent     String?
+  createdAt     DateTime  @default(now())
+  lastSuccessAt DateTime?
+  /// Consecutive non-410 failures. Deleted at 5.
+  failureCount  Int       @default(0)
+  /// UserDevice.id of the session that subscribed. Not a foreign key: tokens
+  /// minted before device tracking have no row. Revoking the device deletes this.
+  deviceId      String?
+
+  @@index([userId])
+  @@index([deviceId])
+}
+
+/// Missing row = every toggle on.
+model NotificationPreference {
+  userId          String   @id
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  studyReminders  Boolean  @default(true)
+  streakReminders Boolean  @default(true)
+  /// Push only. The dashboard banner shows regardless.
+  announcements   Boolean  @default(true)
+  updatedAt       DateTime @updatedAt
+}
+
+model Announcement {
+  id             String             @id @default(cuid())
+  title          String
+  body           String
+  url            String?
+  /// AudienceFilter (src/lib/push-audience.ts)
+  audience       Json
+  status         AnnouncementStatus @default(QUEUED)
+  expiresAt      DateTime
+  recipientCount Int                @default(0)
+  sentCount      Int                @default(0)
+  failedCount    Int                @default(0)
+  createdById    String
+  createdBy      Admin              @relation(fields: [createdById], references: [id])
+  createdAt      DateTime           @default(now())
+  completedAt    DateTime?
+
+  deliveries AnnouncementDelivery[]
+  dismissals AnnouncementDismissal[]
+
+  @@index([status])
+  @@index([expiresAt])
+}
+
+enum AnnouncementStatus {
+  QUEUED
+  SENDING
+  SENT
+  CANCELLED
+}
+
+/// The send queue: one row per (announcement, subscription).
+model AnnouncementDelivery {
+  id             String         @id @default(cuid())
+  announcementId String
+  announcement   Announcement   @relation(fields: [announcementId], references: [id], onDelete: Cascade)
+  /// Not a foreign key: a subscription can be deleted mid-send.
+  subscriptionId String
+  status         DeliveryStatus @default(PENDING)
+  attempts       Int            @default(0)
+  claimedAt      DateTime?
+  error          String?
+
+  @@unique([announcementId, subscriptionId])
+  @@index([status, claimedAt])
+}
+
+enum DeliveryStatus {
+  PENDING
+  SENT
+  FAILED
+  GONE
+  CANCELLED
+}
+
+model AnnouncementDismissal {
+  announcementId String
+  announcement   Announcement @relation(fields: [announcementId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  dismissedAt    DateTime     @default(now())
+
+  @@id([announcementId, userId])
+  @@index([userId])
+}
+
+/// Makes reminder runs idempotent. A row means "this student was processed for
+/// this reminder today", whether or not a notification went out.
+model ReminderLog {
+  userId String
+  user   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  /// "morning" | "streak"
+  kind   String
+  /// lagosDayKey() from src/lib/streak.ts
+  dayKey String
+  sentAt DateTime @default(now())
+
+  @@id([userId, kind, dayKey])
 }

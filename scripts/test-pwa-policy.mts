@@ -119,3 +119,31 @@ test("the service worker files are never cached by the worker itself", () => {
   assert.equal(strategy("/sw.js"), "network-only");
   assert.equal(strategy("/sw-policy.js"), "network-only");
 });
+
+const notificationTarget = context.notificationTarget as (
+  url: unknown,
+  origin: string,
+) => string;
+
+test("notification clicks open same-origin paths", () => {
+  assert.equal(notificationTarget("/study-plan", ORIGIN), `${ORIGIN}/study-plan`);
+  assert.equal(
+    notificationTarget("/classroom/biology?tab=notes", ORIGIN),
+    `${ORIGIN}/classroom/biology?tab=notes`,
+  );
+});
+
+test("notification clicks never leave the origin", () => {
+  for (const url of [
+    "https://evil.com/x",
+    "//evil.com",
+    "/\\evil.com",
+    "javascript:alert(1)",
+    "",
+    null,
+    undefined,
+    7,
+  ]) {
+    assert.equal(notificationTarget(url, ORIGIN), `${ORIGIN}/dashboard`, String(url));
+  }
+});

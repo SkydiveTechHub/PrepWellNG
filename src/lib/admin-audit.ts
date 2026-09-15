@@ -21,7 +21,10 @@ export type AuditAction =
   | "provider.backfill"
   | "academic-term.create"
   | "academic-term.update"
-  | "academic-term.delete";
+  | "academic-term.delete"
+  | "announcement.send"
+  | "announcement.cancel"
+  | "announcement.test";
 
 export type AuditEntry = {
   actorId: string;
