@@ -13,6 +13,7 @@ export type ProfileUser = {
   image?: string | null;
   classLevel?: string | null;
   track?: string | null;
+  state?: string | null;
 };
 
 const TRACK_LABELS: Record<string, string> = {
