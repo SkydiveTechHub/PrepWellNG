@@ -236,7 +236,8 @@ and `id` are present, and that `start_url` resolves inside `scope`.
 
 **Manual verification**, which the unit tests cannot replace: unit tests
 prove the policy function is correct, not that a worker installs. Before this
-is called done, run `next dev --experimental-https` and confirm in Chrome
+is called done, run `next dev --experimental-https` with `NEXT_PUBLIC_SW_DEV=1`
+(the worker is not registered in dev otherwise) and confirm in Chrome
 DevTools → Application: the worker registers and activates, the manifest
 parses with no installability warnings, an offline navigation to a gated
 route lands on `/offline`, a public page already visited still renders

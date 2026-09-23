@@ -19,6 +19,11 @@ changing it.
 Any missing variable turns the feature off: no opt-in UI, cron routes answer
 204, the admin page says push is not configured.
 
+Under `next dev` the service worker is not registered unless
+`NEXT_PUBLIC_SW_DEV=1` is set in `.env.local` (restart the dev server after
+changing it). Without it, the opt-in UI reports that the page needs a reload.
+Production builds always register the worker.
+
 ## Database migration
 
 `prisma migrate` cannot reach Supabase from the dev machine. Apply
@@ -122,3 +127,22 @@ delete from "ReminderLog" where "sentAt" < now() - interval '30 days';
 delete from "AnnouncementDelivery" d using "Announcement" a
 where a.id = d."announcementId" and a."completedAt" < now() - interval '30 days';
 ```
+
+<!-- | create_secret                        |
+| ------------------------------------ |
+| 79703775-0143-493a-b74c-a985f25aff6b | -->
+
+
+| jobname      | status    | message                                                                                                                     | start_time                    |
+| ------------ | --------- | --------------------------------------------------------------------------------------------------------------------------- | ----------------------------- |
+| push-drain   | succeeded | 1 row                                                                                                                       | 2026-09-15 06:12:00.049308+00 |
+| push-drain   | succeeded | 1 row                                                                                                                       | 2026-09-15 06:11:00.016268+00 |
+| push-drain   | failed    | ERROR:  invalid URL "https://<production-host>/api/cron/push/drain": Bad hostname<br>CONTEXT:  SQL statement "insert into n | 2026-09-15 06:10:00.022868+00 |
+| push-morning | failed    | ERROR:  invalid URL "https://<production-host>/api/cron/push/morning": Bad hostname<br>CONTEXT:  SQL statement "insert into | 2026-09-15 06:10:00.018939+00 |
+| push-drain   | failed    | ERROR:  invalid URL "https://<production-host>/api/cron/push/drain": Bad hostname<br>CONTEXT:  SQL statement "insert into n | 2026-09-15 06:09:00.022468+00 |
+
+| status_code | body | error_msg                  | created                       |
+| ----------- | ---- | -------------------------- | ----------------------------- |
+| null        | null | Couldn't resolve host name | 2026-09-15 06:13:00.028262+00 |
+| null        | null | Couldn't resolve host name | 2026-09-15 06:12:00.08042+00  |
+| null        | null | Couldn't resolve host name | 2026-09-15 06:11:00.035961+00 |

@@ -222,6 +222,28 @@ export function countAnswered(
   return { answeredCount, flaggedCount };
 }
 
+/**
+ * Whether the confirm-submit dialog should offer a way back to the paper.
+ *
+ * Returning only helps when there is something left to answer *and* time to
+ * answer it in. On a full paper or an expired clock the button is a dead end —
+ * it drops the student back on a paper they cannot change, and on an expired
+ * clock the auto-submit is already on its way.
+ *
+ * Takes the ticking `secondsRemaining` rather than reading the clock itself, so
+ * a render stays pure and the answer still refreshes as the deadline passes. A
+ * null `deadlineAt` is an untimed session, which always has time left.
+ */
+export function canKeepGoing(
+  unanswered: number,
+  deadlineAt: number | null,
+  secondsRemaining: number,
+): boolean {
+  if (unanswered <= 0) return false;
+  if (deadlineAt == null) return true;
+  return secondsRemaining > 0;
+}
+
 export function progressPercent(
   questions: readonly ExamQuestion[],
   answers: AnswerMap,

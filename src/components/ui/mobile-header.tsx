@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { LuMenu, LuX, LuCalendarDays } from "react-icons/lu";
+import { LuMenu, LuX } from "react-icons/lu";
 import { UserMenu, type ProfileUser } from "./user-menu";
 import { NAV_GROUPS, SETTINGS_ITEM } from "@/lib/navigation";
 import { Logo } from "@/components/ui/logo";
@@ -12,14 +12,11 @@ import { useExamActive } from "@/components/assessment/exam-active";
 
 export function MobileHeader({
   user,
-  examLabel,
-  daysToExam,
+  countdown,
 }: {
   user: ProfileUser;
-  /** The student's own next sitting, resolved on the server. */
-  examLabel: string;
-  /** Computed on the server so SSR and hydration agree. */
-  daysToExam: number;
+  /** See `Sidebar` — a server-rendered slot, absent when no plan is counting down. */
+  countdown?: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
@@ -148,19 +145,7 @@ export function MobileHeader({
               </Link>
             </nav>
 
-            <div className="border-t border-border p-4">
-              <div className="flex items-center justify-between rounded-xl bg-secondary px-4 py-3">
-                <div className="flex items-center gap-2">
-                  <LuCalendarDays className="h-4 w-4 text-primary" />
-                  <span className="text-sm font-semibold text-foreground">
-                    {examLabel}
-                  </span>
-                </div>
-                <span className="text-sm font-bold text-primary">
-                  {daysToExam} days
-                </span>
-              </div>
-            </div>
+            {countdown}
           </div>
         </div>
       )}

@@ -11,9 +11,38 @@ import { useEffect } from "react";
  * skipWaiting(), so a new version takes over when every tab has closed, rather
  * than swapping itself in under a student mid-exam.
  */
+/**
+ * Off under `next dev` unless NEXT_PUBLIC_SW_DEV=1. The worker serves
+ * /_next/static/ cache-first, which is only safe when chunk names are content
+ * hashed — Turbopack's dev chunks are not, so a cached chunk outlives the code
+ * it was built from and the page dies with "module factory is not available".
+ * Set the flag to exercise the PWA or push notifications locally.
+ */
+const ENABLED =
+  process.env.NODE_ENV === "production" || process.env.NEXT_PUBLIC_SW_DEV === "1";
+
+/** Removes a worker left over from a session that had the flag on. */
+async function removeDevWorker() {
+  const registrations = await navigator.serviceWorker.getRegistrations();
+  await Promise.all(registrations.map((reg) => reg.unregister()));
+  // Unregistering stops the worker, but its caches would still be sitting
+  // there the next time the flag is switched on.
+  const keys = await caches.keys();
+  await Promise.all(
+    keys.filter((key) => key.startsWith("scholarscrib-")).map((key) => caches.delete(key)),
+  );
+}
+
 export function ServiceWorkerRegistrar() {
   useEffect(() => {
     if (!("serviceWorker" in navigator)) return;
+
+    if (!ENABLED) {
+      removeDevWorker().catch(() => {
+        // Nothing registered, or storage is blocked. Either way, nothing to do.
+      });
+      return;
+    }
 
     let registration: ServiceWorkerRegistration | undefined;
 

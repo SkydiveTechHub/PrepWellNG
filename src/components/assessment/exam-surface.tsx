@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { QuestionImage } from "@/components/ui/question-image";
 import { formatExamTime, type ExamSession } from "./use-exam-session";
+import { canKeepGoing } from "./exam-state";
 import { Modal } from "@/components/ui/modal";
 import { useNavigationGuard } from "./use-navigation-guard";
 
@@ -633,10 +634,36 @@ export function ExamSurface({
           unanswered={unanswered}
           flaggedCount={flaggedCount}
           submitting={submitting}
+          // `timeRemaining` ticks every second, so the button disappears the
+          // moment the clock runs out rather than freezing at dialog-open time.
+          canKeepGoing={canKeepGoing(unanswered, deadlineAt, timeRemaining)}
           extra={confirmExtra}
           onCancel={() => setShowConfirmSubmit(false)}
           onConfirm={handleSubmit}
         />
+      )}
+
+      {/*
+        Covers the gap between a successful submit and the results page
+        painting. Without it the confirm dialog closes and the student is
+        dropped back onto the question they just left, which reads as a failed
+        submit. Opaque and above the dialog so it also stands in for the
+        auto-submit path, where no dialog was ever open.
+      */}
+      {submitting && (
+        <div
+          className="fixed inset-0 z-[60] flex flex-col items-center justify-center bg-background p-4 text-center"
+          role="status"
+          aria-live="polite"
+        >
+          <div className="h-10 w-10 animate-spin rounded-full border-[3px] border-primary/25 border-t-primary" />
+          <p className="mt-4 animate-pulse text-sm font-medium text-foreground">
+            Marking your answers…
+          </p>
+          <p className="mt-1 text-sm text-muted">
+            Hang tight, your result is on the way.
+          </p>
+        </div>
       )}
 
       <LeaveExamDialog
@@ -707,6 +734,7 @@ function ConfirmSubmitDialog({
   unanswered,
   flaggedCount,
   submitting,
+  canKeepGoing,
   extra,
   onCancel,
   onConfirm,
@@ -717,6 +745,12 @@ function ConfirmSubmitDialog({
   unanswered: number;
   flaggedCount: number;
   submitting: boolean;
+  /**
+   * Going back only helps while there are questions left to answer and time to
+   * answer them in. With a full paper or an empty clock, submitting is the only
+   * move left, so a second button would just be a dead end.
+   */
+  canKeepGoing: boolean;
   extra?: ReactNode;
   onCancel: () => void;
   onConfirm: () => void;
@@ -799,9 +833,11 @@ function ConfirmSubmitDialog({
           {extra}
         </div>
         <div className="mt-6 flex gap-3">
-          <Button variant="outline" className="flex-1" onClick={onCancel}>
-            Keep going
-          </Button>
+          {canKeepGoing && (
+            <Button variant="outline" className="flex-1" onClick={onCancel}>
+              Keep going
+            </Button>
+          )}
           <Button
             ref={confirmRef}
             variant="success"

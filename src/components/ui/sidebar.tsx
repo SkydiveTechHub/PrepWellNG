@@ -6,19 +6,19 @@ import { cn } from "@/lib/utils";
 import { UserMenu, type ProfileUser } from "./user-menu";
 import { NAV_GROUPS, SETTINGS_ITEM } from "@/lib/navigation";
 import { Logo } from "@/components/ui/logo";
-import { LuCalendarDays } from "react-icons/lu";
 import { useExamActive } from "@/components/assessment/exam-active";
 
 export function Sidebar({
   user,
-  examLabel,
-  daysToExam,
+  countdown,
 }: {
   user: ProfileUser;
-  /** The student's own next sitting, resolved on the server. */
-  examLabel: string;
-  /** Computed on the server so SSR and hydration agree. */
-  daysToExam: number;
+  /**
+   * The exam countdown card, rendered on the server and streamed in — it needs
+   * the student's study plan, which this shell must not wait on. Absent when no
+   * plan is counting down to a sitting.
+   */
+  countdown?: React.ReactNode;
 }) {
   const pathname = usePathname();
 
@@ -104,29 +104,7 @@ export function Sidebar({
       <div className="border-t border-border px-2 pt-2">
         <UserMenu user={user} showDetails />
       </div>
-      <div className="px-4 py-4">
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-hero-from to-hero-to p-4 shadow-lift">
-          <div className="absolute -right-4 -top-6 h-20 w-20 rounded-full bg-white/10" />
-          <div className="absolute -bottom-8 -left-4 h-20 w-20 rounded-full bg-white/10" />
-          <div className="relative">
-            <div className="flex items-center gap-1.5">
-              <LuCalendarDays className="h-3.5 w-3.5 text-white/80" />
-              <p className="text-[11px] font-bold uppercase tracking-wider text-white/80">
-                {examLabel}
-              </p>
-            </div>
-            <p className="mt-1 text-2xl font-bold text-white">
-              {daysToExam}
-              <span className="ml-1 text-sm font-semibold text-white/80">
-                days
-              </span>
-            </p>
-            <p className="text-xs text-white/80">
-              Every question today counts. Keep going!
-            </p>
-          </div>
-        </div>
-      </div>
+      {countdown}
     </aside>
   );
 }

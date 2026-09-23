@@ -8,7 +8,10 @@ import { MobileHeader } from "@/components/ui/mobile-header";
 import { PushSync } from "@/components/push/push-sync";
 import { AnnouncementBanner } from "@/components/announcements/announcement-banner";
 import type { ProfileUser } from "@/components/ui/user-menu";
-import { daysUntilExam, examTargetFor } from "@/lib/exam-target";
+import {
+  ExamCountdownCard,
+  ExamCountdownRow,
+} from "@/components/ui/exam-countdown";
 import { NOINDEX } from "@/lib/seo/metadata";
 
 // Nothing under here is useful in a search result, and an indexed login wall
@@ -31,25 +34,30 @@ export default async function DashboardLayout({
   // separate query and no SessionProvider.
   const user = session.user as ProfileUser;
 
-  // Derived from the student's own class level rather than hard-coded, and
-  // computed here on the server: deriving it inside the client components ran
-  // it against two different clocks — once during SSR, once on hydration.
-  const now = new Date();
-  const examTarget = examTargetFor({ classLevel: user.classLevel, now });
-  const daysToExam = daysUntilExam(examTarget, now);
+  // The countdown comes from the student's study plan, which means a query —
+  // and this layout wraps every page in the dashboard, so it cannot block on
+  // the pooler. Streamed in as a slot instead, the same way the announcement
+  // banner below is, and request-cached so both shells share one query.
+  const countdown = { userId: session.user.id, classLevel: user.classLevel };
 
   return (
     <div className="min-h-full">
       <PushSync />
       <Sidebar
         user={user}
-        examLabel={examTarget.label}
-        daysToExam={daysToExam}
+        countdown={
+          <Suspense fallback={null}>
+            <ExamCountdownCard {...countdown} />
+          </Suspense>
+        }
       />
       <MobileHeader
         user={user}
-        examLabel={examTarget.label}
-        daysToExam={daysToExam}
+        countdown={
+          <Suspense fallback={null}>
+            <ExamCountdownRow {...countdown} />
+          </Suspense>
+        }
       />
       <MobileNav />
 

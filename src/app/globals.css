@@ -16,6 +16,9 @@
  * border, and all three inverse together in dark mode.
  */
 :root {
+  /* Second chart series, beside --app-primary. Validated for colour-blind
+     separation against both card surfaces, so it needs no dark override. */
+  --app-chart-2: #ea580c;
   --app-primary: #2563eb;
   --app-primary-hover: #1d4ed8;
   --app-primary-foreground: #ffffff;
@@ -192,6 +195,7 @@
 
 @theme inline {
   /* ── Brand ───────────────────────────────────────────── */
+  --color-chart-2: var(--app-chart-2);
   --color-primary: var(--app-primary);
   --color-primary-hover: var(--app-primary-hover);
   --color-primary-foreground: var(--app-primary-foreground);

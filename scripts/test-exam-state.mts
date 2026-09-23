@@ -4,6 +4,7 @@ import { UNTIMED_STALE_HOURS } from "../src/lib/attempt-timing";
 import {
   STORAGE_VERSION,
   buildSubmission,
+  canKeepGoing,
   clampIndex,
   countAnswered,
   emptyAnswers,
@@ -428,4 +429,25 @@ test("a session survives persist and restore with answers intact", () => {
     ),
     ["C", null],
   );
+});
+
+// ─── keep going ────────────────────────────────────────────
+
+test("canKeepGoing is true only while blanks and time both remain", () => {
+  assert.equal(canKeepGoing(3, NOW + 600_000, 600), true);
+  assert.equal(canKeepGoing(1, NOW + 1, 1), true);
+});
+
+test("canKeepGoing is false once every question is answered", () => {
+  assert.equal(canKeepGoing(0, NOW + 600_000, 600), false);
+  assert.equal(canKeepGoing(0, null, 0), false);
+});
+
+test("canKeepGoing is false once the clock runs out", () => {
+  assert.equal(canKeepGoing(5, NOW, 0), false);
+  assert.equal(canKeepGoing(5, NOW - 1, 0), false);
+});
+
+test("canKeepGoing treats an untimed session as always having time", () => {
+  assert.equal(canKeepGoing(5, null, 0), true);
 });
