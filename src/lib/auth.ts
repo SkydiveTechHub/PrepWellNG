@@ -37,6 +37,10 @@ type CachedProfile = {
   role?: string | null;
   classLevel?: string | null;
   track?: string | null;
+  // Read by the dashboard layout's /complete-profile gate. A token cached
+  // before this field existed has no key, which needsProfileCompletion treats
+  // as unknown rather than missing.
+  state?: string | null;
   firstName?: string | null;
   lastName?: string | null;
   image?: string | null;
@@ -55,6 +59,7 @@ const PROFILE_SELECT = {
   role: true,
   classLevel: true,
   track: true,
+  state: true,
   firstName: true,
   lastName: true,
   image: true,
@@ -103,19 +108,30 @@ function applyProfile(sessionUser: SessionUser, profile: CachedProfile) {
   extended.role = profile.role;
   extended.classLevel = profile.classLevel;
   extended.track = profile.track;
+  extended.state = profile.state;
   extended.firstName = profile.firstName;
   extended.lastName = profile.lastName;
   extended.image = profile.image;
   extended.tier = profile.tier;
 }
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
+export const {
+  handlers,
+  auth,
+  signIn,
+  signOut,
+  // Forces the jwt callback's `trigger: "update"` profile re-read and rewrites
+  // the session cookie. Server-side only (route handlers, server actions).
+  unstable_update: updateSession,
+} = NextAuth({
   adapter: PrismaAdapter(db),
   session: { strategy: "jwt" },
 
   pages: {
     signIn: "/login",
-    newUser: "/register",
+    // First-time OAuth sign-ins have no class, track or state yet. The
+    // dashboard gate would get them there anyway; this skips the detour.
+    newUser: "/complete-profile",
   },
 
   providers: [
@@ -330,6 +346,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           role: profile.role,
           classLevel: profile.classLevel,
           track: profile.track,
+          state: profile.state,
           firstName: profile.firstName,
           lastName: profile.lastName,
           image: profile.image,

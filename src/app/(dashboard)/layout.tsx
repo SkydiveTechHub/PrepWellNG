@@ -13,6 +13,7 @@ import {
   ExamCountdownRow,
 } from "@/components/ui/exam-countdown";
 import { NOINDEX } from "@/lib/seo/metadata";
+import { needsProfileCompletion } from "@/lib/profile-completion";
 
 // Nothing under here is useful in a search result, and an indexed login wall
 // is a ranking liability. Async layouts can still export static metadata.
@@ -34,11 +35,24 @@ export default async function DashboardLayout({
   // separate query and no SessionProvider.
   const user = session.user as ProfileUser;
 
+<<<<<<< HEAD
   // The countdown comes from the student's study plan, which means a query —
   // and this layout wraps every page in the dashboard, so it cannot block on
   // the pooler. Streamed in as a slot instead, the same way the announcement
   // banner below is, and request-cached so both shells share one query.
   const countdown = { userId: session.user.id, classLevel: user.classLevel };
+=======
+  // Class, track and state come before anything else: most pages here assume
+  // the first two, and Google sign-ups arrive with none of them.
+  if (needsProfileCompletion(user)) redirect("/complete-profile");
+
+  // Derived from the student's own class level rather than hard-coded, and
+  // computed here on the server: deriving it inside the client components ran
+  // it against two different clocks — once during SSR, once on hydration.
+  const now = new Date();
+  const examTarget = examTargetFor({ classLevel: user.classLevel, now });
+  const daysToExam = daysUntilExam(examTarget, now);
+>>>>>>> 4cc20506caabaf44d4fb86734f52b9e672f5384c
 
   return (
     <div className="min-h-full">

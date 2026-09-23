@@ -76,6 +76,14 @@ export async function updateUserProfile(
   }
 }
 
+/** The fields /complete-profile asks for, read fresh from the row. */
+export async function getProfileCompletionFields(userId: string) {
+  return db.user.findUnique({
+    where: { id: userId },
+    select: { firstName: true, classLevel: true, track: true, state: true },
+  });
+}
+
 /**
  * Verifies the current password and replaces it.
  *
